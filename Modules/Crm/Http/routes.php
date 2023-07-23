@@ -11,6 +11,8 @@ Route::group(['middleware' => ['web', 'authh', 'SetSessionData', 'auth', 'langua
     Route::get('contact-get-ledger', 'LedgerController@getLedger');
     Route::resource('bookings', 'ContactBookingController');
     Route::resource('order-request', 'OrderRequestController');
+    Route::get('/property-wanted', 'PropertyWantedController@showPropertyForm');
+    Route::post('/save-property-wanted', 'PropertyWantedController@saveProperty')->name('user.save.property.wanted');
     Route::get('products/list', '\App\Http\Controllers\ProductController@getProducts');
     Route::get('order-request/get_product_row/{variation_id}/{location_id}', 'OrderRequestController@getProductRow');
 });
