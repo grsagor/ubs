@@ -19,6 +19,8 @@ use App\Http\Controllers\DiscountController;
 use App\Http\Controllers\DocumentAndNoteController;
 use App\Http\Controllers\ExpenseCategoryController;
 use App\Http\Controllers\ExpenseController;
+use App\Http\Controllers\Frontend\CategoryController as FrontendCategoryController;
+use App\Http\Controllers\Frontend\HomePageController;
 use App\Http\Controllers\GroupTaxController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ImportOpeningStockController;
@@ -75,11 +77,23 @@ use Illuminate\Support\Facades\Route;
 include_once 'install_r.php';
 
 Route::middleware(['setData'])->group(function () {
-    Route::get('/', function () {
-        return view('welcome');
-    });
+    // Route::get('/', function () {
+    //     return view('welcome');
+    // });
+
+    // Frontend Routes Start //
+
+    Route::get('/', [HomePageController::class, 'index'])->name('homePage');
+    Route::get('/extras', [HomePageController::class, 'extraIndex'])->name('front.extraIndex');
+    Route::get('/category/{category?}/{subcategory?}/{childcategory?}/{kind?}', [FrontendCategoryController::class,'category'])->name('front.category');
+
+    // Frontend Routes End //
+
+
+
 
     Auth::routes();
+
 
     Route::get('/business/register', [BusinessController::class, 'getRegister'])->name('business.getRegister');
     Route::post('/business/register', [BusinessController::class, 'postRegister'])->name('business.postRegister');
@@ -455,7 +469,7 @@ Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 
     Route::resource('warranties', WarrantyController::class);
 
     Route::resource('dashboard-configurator', DashboardConfiguratorController::class)
-    ->only(['edit', 'update']);
+        ->only(['edit', 'update']);
 
     Route::get('view-media/{model_id}', [SellController::class, 'viewMedia']);
 
