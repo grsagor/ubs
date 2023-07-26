@@ -1,67 +1,69 @@
 <?php
 
-use App\Http\Controllers\AccountController;
-use App\Http\Controllers\AccountReportsController;
-use App\Http\Controllers\AccountTypeController;
-// use App\Http\Controllers\Auth;
-use App\Http\Controllers\BackUpController;
-use App\Http\Controllers\BarcodeController;
-use App\Http\Controllers\BrandController;
-use App\Http\Controllers\BusinessController;
-use App\Http\Controllers\BusinessLocationController;
-use App\Http\Controllers\CashRegisterController;
-use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\CombinedPurchaseReturnController;
-use App\Http\Controllers\ContactController;
-use App\Http\Controllers\CustomerGroupController;
-use App\Http\Controllers\DashboardConfiguratorController;
-use App\Http\Controllers\DiscountController;
-use App\Http\Controllers\DocumentAndNoteController;
-use App\Http\Controllers\ExpenseCategoryController;
-use App\Http\Controllers\ExpenseController;
-use App\Http\Controllers\Frontend\CategoryController as FrontendCategoryController;
-use App\Http\Controllers\Frontend\HomePageController;
-use App\Http\Controllers\GroupTaxController;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\ImportOpeningStockController;
-use App\Http\Controllers\ImportProductsController;
-use App\Http\Controllers\ImportSalesController;
 use App\Http\Controllers\Install;
-use App\Http\Controllers\InvoiceLayoutController;
-use App\Http\Controllers\InvoiceSchemeController;
-use App\Http\Controllers\LabelsController;
-use App\Http\Controllers\LedgerDiscountController;
-use App\Http\Controllers\LocationSettingsController;
-use App\Http\Controllers\ManageUserController;
-use App\Http\Controllers\NotificationController;
-use App\Http\Controllers\NotificationTemplateController;
-use App\Http\Controllers\OpeningStockController;
-use App\Http\Controllers\PrinterController;
-use App\Http\Controllers\ProductController;
-use App\Http\Controllers\PurchaseController;
-use App\Http\Controllers\PurchaseOrderController;
-use App\Http\Controllers\PurchaseRequisitionController;
-use App\Http\Controllers\PurchaseReturnController;
-use App\Http\Controllers\ReportController;
 use App\Http\Controllers\Restaurant;
+use Illuminate\Support\Facades\Route;
+// use App\Http\Controllers\Auth;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\RoleController;
-use App\Http\Controllers\SalesCommissionAgentController;
-use App\Http\Controllers\SalesOrderController;
 use App\Http\Controllers\SellController;
-use App\Http\Controllers\SellingPriceGroupController;
-use App\Http\Controllers\SellPosController;
-use App\Http\Controllers\SellReturnController;
-use App\Http\Controllers\StockAdjustmentController;
-use App\Http\Controllers\StockTransferController;
-use App\Http\Controllers\TaxonomyController;
-use App\Http\Controllers\TaxRateController;
-use App\Http\Controllers\TransactionPaymentController;
-use App\Http\Controllers\TypesOfServiceController;
 use App\Http\Controllers\UnitController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\VariationTemplateController;
+use App\Http\Controllers\BrandController;
+use App\Http\Controllers\BackUpController;
+use App\Http\Controllers\LabelsController;
+use App\Http\Controllers\ReportController;
+use App\Http\Controllers\AccountController;
+use App\Http\Controllers\BarcodeController;
+use App\Http\Controllers\ContactController;
+use App\Http\Controllers\ExpenseController;
+use App\Http\Controllers\PrinterController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\SellPosController;
+use App\Http\Controllers\TaxRateController;
+use App\Http\Controllers\BusinessController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\DiscountController;
+use App\Http\Controllers\GroupTaxController;
+use App\Http\Controllers\PurchaseController;
+use App\Http\Controllers\TaxonomyController;
 use App\Http\Controllers\WarrantyController;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ManageUserController;
+use App\Http\Controllers\SalesOrderController;
+use App\Http\Controllers\SellReturnController;
+use App\Http\Controllers\AccountTypeController;
+use App\Http\Controllers\ImportSalesController;
+use App\Http\Controllers\CashRegisterController;
+use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\OpeningStockController;
+use App\Http\Controllers\CustomerGroupController;
+use App\Http\Controllers\InvoiceLayoutController;
+use App\Http\Controllers\InvoiceSchemeController;
+use App\Http\Controllers\PurchaseOrderController;
+use App\Http\Controllers\StockTransferController;
+use App\Http\Controllers\AccountReportsController;
+use App\Http\Controllers\ImportProductsController;
+use App\Http\Controllers\LedgerDiscountController;
+use App\Http\Controllers\PurchaseReturnController;
+use App\Http\Controllers\TypesOfServiceController;
+use App\Http\Controllers\DocumentAndNoteController;
+use App\Http\Controllers\ExpenseCategoryController;
+use App\Http\Controllers\StockAdjustmentController;
+use App\Http\Controllers\BusinessLocationController;
+use App\Http\Controllers\LocationSettingsController;
+use App\Http\Controllers\Frontend\HomePageController;
+use App\Http\Controllers\SellingPriceGroupController;
+use App\Http\Controllers\VariationTemplateController;
+use App\Http\Controllers\ImportOpeningStockController;
+use App\Http\Controllers\TransactionPaymentController;
+use App\Http\Controllers\PurchaseRequisitionController;
+use App\Http\Controllers\NotificationTemplateController;
+use App\Http\Controllers\SalesCommissionAgentController;
+use App\Http\Controllers\DashboardConfiguratorController;
+use App\Http\Controllers\CombinedPurchaseReturnController;
+use Modules\Crm\Http\Controllers\PropertyWantedController;
+use App\Http\Controllers\Backend\Service\ServiceTypeController;
+use App\Http\Controllers\Frontend\CategoryController as FrontendCategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -85,7 +87,7 @@ Route::middleware(['setData'])->group(function () {
 
     Route::get('/', [HomePageController::class, 'index'])->name('homePage');
     Route::get('/extras', [HomePageController::class, 'extraIndex'])->name('front.extraIndex');
-    Route::get('/category/{category?}/{subcategory?}/{childcategory?}/{kind?}', [FrontendCategoryController::class,'category'])->name('front.category');
+    Route::get('/category/{category?}/{subcategory?}/{childcategory?}/{kind?}', [FrontendCategoryController::class, 'category'])->name('front.category');
 
     // Frontend Routes End //
 
@@ -113,6 +115,14 @@ Route::middleware(['setData'])->group(function () {
 
 //Routes for authenticated users only
 Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 'AdminSidebarMenu', 'CheckUserLogin'])->group(function () {
+
+    // Services
+    Route::resource('service-type',                 ServiceTypeController::class);
+    Route::resource('property-wanted',              PropertyWantedController::class);
+
+
+
+
     Route::get('pos/payment/{id}', [SellPosController::class, 'edit'])->name('edit-pos-payment');
     Route::get('service-staff-availability', [SellPosController::class, 'showServiceStaffAvailibility']);
     Route::get('pause-resume-service-staff-timer/{user_id}', [SellPosController::class, 'pauseResumeServiceStaffTimer']);

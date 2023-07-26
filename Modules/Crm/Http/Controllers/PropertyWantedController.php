@@ -1,4 +1,5 @@
 <?php
+
 namespace Modules\Crm\Http\Controllers;
 
 use App\Http\Controllers\Controller;
@@ -7,13 +8,15 @@ use Modules\Crm\Entities\ServicePropertyWanted;
 
 class PropertyWantedController extends Controller
 {
-    public function showPropertyForm(){
+    public function create()
+    {
         // return view('user.property.addProperty');
         return view('crm::property_wanted.list');
     }
 
 
-    public function saveProperty(Request $request){
+    public function store(Request $request)
+    {
         $property = new ServicePropertyWanted();
         $property->user_id = auth()->user()->id;
         $property->who_is_searching = $request->who_is_searching;
