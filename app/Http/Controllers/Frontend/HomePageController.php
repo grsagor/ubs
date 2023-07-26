@@ -6,7 +6,7 @@ use App\ArrivalSection;
 use App\Category;
 use App\Http\Controllers\Controller;
 use App\Product;
-use App\Rating;
+use App\Rating; 
 use App\Slider;
 use App\Star;
 use Illuminate\Http\Request;
