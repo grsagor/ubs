@@ -62,7 +62,6 @@ use App\Http\Controllers\SalesCommissionAgentController;
 use App\Http\Controllers\DashboardConfiguratorController;
 use App\Http\Controllers\CombinedPurchaseReturnController;
 use Modules\Crm\Http\Controllers\PropertyWantedController;
-use App\Http\Controllers\Backend\Service\ServiceTypeController;
 use App\Http\Controllers\Frontend\CategoryController as FrontendCategoryController;
 
 /*
@@ -77,6 +76,13 @@ use App\Http\Controllers\Frontend\CategoryController as FrontendCategoryControll
 */
 
 include_once 'install_r.php';
+
+Route::get('/card', function () {
+    return view('rough.card');
+});
+Route::get('/advertise', function () {
+    return view('rough.advertise');
+});
 
 Route::middleware(['setData'])->group(function () {
     // Route::get('/', function () {
@@ -117,8 +123,8 @@ Route::middleware(['setData'])->group(function () {
 Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 'AdminSidebarMenu', 'CheckUserLogin'])->group(function () {
 
     // Services
-    Route::resource('service-type',                 ServiceTypeController::class);
     Route::resource('property-wanted',              PropertyWantedController::class);
+
 
 
 
