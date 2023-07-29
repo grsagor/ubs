@@ -103,6 +103,8 @@ class Business extends Model
     {
         $business = Business::create($details);
 
+        // dd($business);
+
         return $business;
     }
 
@@ -129,4 +131,8 @@ class Business extends Model
 
         return $address;
     }
+
+
+   
+   
 }

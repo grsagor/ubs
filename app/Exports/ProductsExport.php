@@ -57,7 +57,7 @@ class ProductsExport implements FromArray
                 $product->expiry_period_type,
                 $product->product_tax->name ?? '',
                 $product->tax_type,
-                $product->type,
+                $product->type, 
                 $product_variation_name,
                 $variation_values,
                 $variation_skus,

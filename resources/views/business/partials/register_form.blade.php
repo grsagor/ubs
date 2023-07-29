@@ -1,6 +1,6 @@
 @if(empty($is_admin))
     <h3>@lang('business.business')</h3>
-@endif
+@endif 
 {!! Form::hidden('language', request()->lang); !!}
 
 <fieldset>
@@ -14,9 +14,38 @@
             </span>
             {!! Form::text('name', null, ['class' => 'form-control','placeholder' => __('business.business_name'), 'required']); !!}
         </div>
-    </div>
+    </div> 
 </div>
-        
+<div class="clearfix"></div>
+<div class="col-md-6">
+    <div class="form-group">
+        {{-- {!! Form::label('Category name', __('business.category_name') . ':*' ) !!} --}}
+        <label for="category">Category Name</label>
+        <div class="input-group">
+            <span class="input-group-addon">
+                <i class="fa fa-bars"></i>
+            </span>
+            {{-- {!! Form::text('name', null, ['class' => 'form-control','placeholder' => __('business.category_name'), 'required']); !!}--}}
+            <input type="text" name="category" class="form-control" id="category" placeholder="Category name">
+
+        </div>
+    </div> 
+</div>
+<div class="col-md-6">
+    <div class="form-group">
+        {{-- {!! Form::label('Category name', __('business.category_name') . ':*' ) !!} --}}
+        <label for="subcategory">Subcategory Name</label>
+        <div class="input-group">
+            <span class="input-group-addon">
+                <i class="fa fa-list"></i>
+            </span>
+            {{-- {!! Form::text('name', null, ['class' => 'form-control','placeholder' => __('business.category_name'), 'required']); !!}--}}
+            <input type="text" name="subcategory" class="form-control" id="subcategory"  placeholder="Subcategory name">
+
+        </div>
+    </div> 
+</div>
+<div class="clearfix"></div>
 <div class="col-md-6">
     <div class="form-group">
     {!! Form::label('start_date', __('business.start_date') . ':') !!}
@@ -33,7 +62,7 @@
     {!! Form::label('currency_id', __('business.currency') . ':*') !!}
     <div class="input-group">
         <span class="input-group-addon">
-            <i class="fas fa-money-bill-alt"></i>
+            <i class="fas fa-money-bill-alt"></i>  
         </span>
         {!! Form::select('currency_id', $currencies, '', ['class' => 'form-control select2_register','placeholder' => __('business.currency_placeholder'), 'required']); !!}
     </div>
@@ -153,6 +182,22 @@
         </div>
     </div>
 </div>
+<div class="clearfix"></div>
+<div class="col-md-12">
+    <div class="form-group">
+        {{-- {!! Form::label('time_zone', __('business.time_zone') . ':*') !!} --}}
+    <label for="about_info">Company Details</label>
+        <div class="input-group">
+            <span class="input-group-addon">
+                <i class="fas fa-info"></i>
+            </span>
+            {{-- {!! Form::select('time_zone', $timezone_list, config('app.timezone'), ['class' => 'form-control select2_register','placeholder' => __('business.time_zone'), 'required']); !!} --}}
+            <textarea name="about_info" class="form-control" id="about_info" rows="3"></textarea>
+        </div>
+    </div>
+</div>
+<div class="clearfix"></div>
+
 </fieldset>
 
 <!-- tax details -->
@@ -231,6 +276,7 @@
             </div>
         </div>
     </div>
+    <div class="clearfix"></div>
     </fieldset>
 @endif
 
@@ -300,7 +346,86 @@
         </div>
     </div>
 </div>
+
 <div class="clearfix"></div>
+
+<div class="col-md-6">
+    <div class="form-group">
+        {{-- {!! Form::label('Category name', __('business.category_name') . ':*' ) !!} --}}
+        <label for="facebook">Facebook Link</label>
+        <div class="input-group">
+            <span class="input-group-addon">
+                <i class="fa fa-facebook"></i>
+            </span>
+            {{-- {!! Form::text('name', null, ['class' => 'form-control','placeholder' => __('business.category_name'), 'required']); !!}--}}
+            <input type="text" name="facebook" class="form-control" id="facebook" placeholder="Enter facebook link">
+
+        </div>
+    </div> 
+</div>
+<div class="col-md-6">
+    <div class="form-group">
+        {{-- {!! Form::label('Category name', __('business.category_name') . ':*' ) !!} --}}
+        <label for="instagram">Instagram Link</label>
+        <div class="input-group">
+            <span class="input-group-addon">
+                <i class="fa fa-list"></i>
+            </span>
+            {{-- {!! Form::text('name', null, ['class' => 'form-control','placeholder' => __('business.category_name'), 'required']); !!}--}}
+            <input type="text" name="instagram" class="form-control" id="instagram"  placeholder="Enter instagram link">
+
+        </div>
+    </div> 
+</div>
+<div class="clearfix"></div>
+<div class="col-md-6">
+    <div class="form-group">
+        {{-- {!! Form::label('Category name', __('business.category_name') . ':*' ) !!} --}}
+        <label for="linkedin">Linkedin link</label>
+        <div class="input-group">
+            <span class="input-group-addon">
+                <i class="fa fa-bars"></i>
+            </span>
+            {{-- {!! Form::text('name', null, ['class' => 'form-control','placeholder' => __('business.linkedin_name'), 'required']); !!}--}}
+            <input type="text" name="linkedin" class="form-control" id="linkedin" placeholder="Enter linkedin link">
+
+        </div>
+    </div> 
+</div>
+<div class="col-md-6">
+    <div class="form-group">
+        {{-- {!! Form::label('Category name', __('business.category_name') . ':*' ) !!} --}}
+        <label for="youtube">Youtube Link</label>
+        <div class="input-group">
+            <span class="input-group-addon">
+                <i class="fa fa-list"></i>
+            </span>
+            {{-- {!! Form::text('name', null, ['class' => 'form-control','placeholder' => __('business.category_name'), 'required']); !!}--}}
+            <input type="text" name="youtube" class="form-control" id="youtube"  placeholder="Enter youtube link">
+
+        </div>
+    </div> 
+</div>
+<div class="clearfix"></div>
+<div class="col-md-6">
+    <div class="form-group">
+        {{-- {!! Form::label('Category name', __('business.category_name') . ':*' ) !!} --}}
+        <label for="twitter">Twitter Link</label>
+        <div class="input-group">
+            <span class="input-group-addon">
+                <i class="fa fa-bars"></i>
+            </span>
+            {{-- {!! Form::text('name', null, ['class' => 'form-control','placeholder' => __('business.twitter_name'), 'required']); !!}--}}
+            <input type="text" name="twitter" class="form-control" id="twitter" placeholder="Enter twitter link">
+
+        </div>
+    </div> 
+</div>
+
+
+
+
+{{-- <div class="clearfix"></div> --}}
 <div class="col-md-6">
     <div class="form-group">
         {!! Form::label('password', __('business.password') . ':*') !!}
@@ -312,7 +437,7 @@
         </div>
     </div>
 </div>
-
+<div class="clearfix"></div>
 <div class="col-md-6">
     <div class="form-group">
         {!! Form::label('confirm_password', __('business.confirm_password') . ':*') !!}
@@ -324,7 +449,7 @@
         </div>
     </div>
 </div>
-<div class="clearfix"></div>
+
 <div class="col-md-6">
     @if(!empty($system_settings['superadmin_enable_register_tc']))
         <div class="form-group">

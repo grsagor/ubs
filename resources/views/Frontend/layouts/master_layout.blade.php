@@ -195,8 +195,6 @@
     </script>
 
 
-
-
     {{-- @php
         echo Toastr::message();
     @endphp --}}

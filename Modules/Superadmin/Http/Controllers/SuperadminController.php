@@ -23,7 +23,7 @@ class SuperadminController extends Controller
     {
         if (! auth()->user()->can('superadmin')) {
             abort(403, 'Unauthorized action.');
-        }
+        } 
 
         $date_filters['this_yr'] = ['start' => Carbon::today()->startOfYear()->toDateString(),
             'end' => Carbon::today()->endOfYear()->toDateString(),

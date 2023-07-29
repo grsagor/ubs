@@ -21,6 +21,7 @@ use App\Http\Controllers\ExpenseCategoryController;
 use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\Frontend\CategoryController as FrontendCategoryController;
 use App\Http\Controllers\Frontend\HomePageController;
+use App\Http\Controllers\Frontend\ShopController;
 use App\Http\Controllers\GroupTaxController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ImportOpeningStockController;
@@ -87,10 +88,11 @@ Route::middleware(['setData'])->group(function () {
     Route::get('/extras', [HomePageController::class, 'extraIndex'])->name('front.extraIndex');
     Route::get('/category/{category?}/{subcategory?}/{childcategory?}/{kind?}', [FrontendCategoryController::class,'category'])->name('front.category');
 
+    Route::get('/shop/list/{category?}/{country?}', [ShopController::class, 'shopList'])->name('shop.list');
+    Route::get('/shop/service/{id}', [ShopController::class, 'ShopService'])->name('shop.service');
+
+
     // Frontend Routes End //
-
-
-
 
     Auth::routes();
 

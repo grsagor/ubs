@@ -48,7 +48,6 @@ class HomePageController extends Controller
         $data['service_categories'] = Category::take(12)->get();
         // $data['stars'] = Star::take(8)->get();
 
-
         return view('Frontend.pages.homepage.features', $data);
     }
 }

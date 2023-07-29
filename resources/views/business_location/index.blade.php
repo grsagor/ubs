@@ -1,12 +1,12 @@
 @extends('layouts.app')
-@section('title', __('business.business_locations'))
+@section('title', 'Shop Location')
 
 @section('content')
 
 <!-- Content Header (Page header) -->
 <section class="content-header">
-    <h1>@lang( 'business.business_locations' )
-        <small>@lang( 'business.manage_your_business_locations' )</small>
+    <h1>{{-- <h1>@lang( 'business.Shop_locations' ) --}} Shop Location
+        {{-- <small>@lang( 'business.manage_your_shop_locations' )</small> --}} <small>Manage your shop location</small>
     </h1>
     <!-- <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
@@ -16,7 +16,7 @@
 
 <!-- Main content -->
 <section class="content">
-    @component('components.widget', ['class' => 'box-primary', 'title' => __( 'business.all_your_business_locations' )])
+    @component('components.widget', ['class' => 'box-primary', 'title' => 'All your shop locations'])
         @slot('tool')
             <div class="box-tools">
                 <button type="button" class="btn btn-block btn-primary btn-modal" 
