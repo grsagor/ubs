@@ -8,7 +8,7 @@ use Modules\Crm\Entities\ServicePropertyWanted;
 
 class PropertyWantedController extends Controller
 {
-    public function create()
+    public function index()
     {
         // return view('user.property.addProperty');
         return view('crm::property_wanted.list');

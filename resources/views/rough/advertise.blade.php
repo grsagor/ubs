@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="{{ asset('assets/rough/root.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/rough/stack.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/rough/advertise.css') }}">
+
 </head>
 
 <body>
@@ -21,9 +22,7 @@
             <div>
                 <div class="block block_simple block_offered_listing">
                     <div class="block_header">
-                        <h2>
-                            Step 1 of 6
-                        </h2>
+                        <h2> Step 1 of 6 </h2>
                     </div>
                     <div class="block_content">
                         <form action="" method="GET" class="pl_step1">
@@ -217,14 +216,6 @@
             </div>
         </div>
         <!-- Start Step 1 -->
-
-
-
-
-
-
-
-
 
 
         <!-- Start Step 2 -->

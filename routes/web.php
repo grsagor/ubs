@@ -83,6 +83,13 @@ Route::get('/card', function () {
 Route::get('/advertise', function () {
     return view('rough.advertise');
 });
+Route::get('/more-info', function () {
+    return view('rough.more_info');
+});
+
+Route::get('/room-wanted', function () {
+    return view('rough.room_wanted');
+});
 
 Route::middleware(['setData'])->group(function () {
     // Route::get('/', function () {
