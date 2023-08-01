@@ -2,7 +2,7 @@ html {
     font-family: 'Quicksand', sans-serif;
     -ms-text-size-adjust: 100%;
     -webkit-text-size-adjust: 100%;
-    font-size: 15px;
+    font-size: 16px !important;
     height: 100%
 }
 
@@ -6431,13 +6431,13 @@ li.login_box_logout_link {
     margin: -11px 0 0 -6px
 }
 
-.step {
+/* .step {
     background-image: url(../img/spareroom/v4/other_items/steps.png);
     background-repeat: no-repeat;
     background-position: 0 0;
     text-indent: -10000px;
     display: block
-}
+} */
 
 .step.step_1 {
     background-position: 0 0;

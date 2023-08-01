@@ -399,7 +399,7 @@
                                         <div class="form_inputs">
                                             <span class="form_input form_text">
                                                 <span class="form_currency_symbol">£</span>
-                                                <input type="number" name="roomprice1" value=""
+                                                <input type="number" name="roomprice1[]" value=""
                                                     size="6" step="any">
                                             </span>
                                             <label class="form_input form_radio">
@@ -1139,352 +1139,238 @@
         <!-- Start Step 5 -->
         <div class="grid-12-4" style="display: flex; justify-content: center;">
             <div>
+
                 <div class="block block_simple block_offered_listing">
                     <div class="block_header">
-                        <h2> Step 5 of 6</h2>
+                        <h2>
+                            Step 5 of 6</h2>
                     </div>
 
                     <div class="block_content">
+
                         <div id="deposit_warning_popup"></div>
 
-                        <p class="msg error">
-                            <strong>There was an error with your submission</strong>
-                            <br>
-                            Your minimum preferred age is older than your maximum
-                        </p>
 
-                        <form id="formSteps2" action="" method="POST" class="pl_step2" autocomplete="off"
-                            name="place_room_offered_st_2">
+
+                        <form id="formSteps2" action="/flatshare/offered-advert3.pl" method="POST" class="pl_step2"
+                            name="place_whole_property_offered_st_2">
+
+
 
                             <fieldset>
-                                <legend>The Existing Flatmate</legend>
+                                <legend>Your ad &amp; contact details</legend>
 
-
-                                <div class="form_row form_row_smoking">
-                                    <div class="form_label"> Smoking </div>
-                                    <div class="form_inputs">
-                                        <span class="form_input form_select">
-                                            <select name="smoking_current">
-                                                <option value="N" selected="">No</option>
-                                                <option value="Y">Yes</option>
-                                            </select>
-                                        </span>
-                                    </div>
-                                </div>
-
-                                <div class="form_row form_row_gender ">
-                                    <div class="form_label"> Gender </div>
-                                    <div class="form_inputs">
-                                        <span class="form_input form_select">
-                                            <select name="gender">
-                                                <option value="NULL">Select...
-                                                </option>
-                                                <option value="F" selected="">Female
-                                                </option>
-                                                <option value="M">Male
-                                                </option>
-                                            </select>
-                                        </span>
-                                    </div>
-                                </div>
-                                <div class="form_row form_row_occupation">
-                                    <div class="form_label"> Occupation </div>
-                                    <div class="form_inputs">
-                                        <span class="form_input form_select">
-                                            <select name="share_type">
-                                                <option value="ND">Not disclosed</option>
-                                                <option value="S">Student</option>
-                                                <option value="P" selected="">Professional</option>
-                                                <option value="O">Other</option>
-
-                                            </select>
-                                        </span>
-                                    </div>
-                                </div>
-
-                                <div class="form_row form_row_campus" style="display: none;">
-                                    <div class="form_label"> If student(s), which university?
-                                        <div class="form_hint"> (optional) </div>
-                                    </div>
-                                    <div class="form_inputs">
-                                        <span class="form_input form_select">
-                                            <select name="campus_id">
-                                                <option value="" selected="">Not applicable/not disclosed
-                                                </option>
-                                                <option value="135">London College of Communication (1.98 miles
-                                                    away)</option>
-                                                <option value="9999">Other</option>
-                                            </select>
-                                        </span>
-                                    </div>
-                                </div>
-
-
-                                <div class="form_row form_row_pets">
+                                <div class="form_row form_row_title ">
                                     <div class="form_label">
-                                        Pets
+
+                                        <span>Advert title</span>
+
+                                        <div class="form_hint" id="advertTitleHint">
+                                            (short description – max 50 characters)
+                                        </div>
+
                                     </div>
                                     <div class="form_inputs">
-                                        <span class="form_input form_select">
-                                            <select name="pets">
-                                                <option value="N">no</option>
-                                                <option value="Y" selected="">yes</option>
-                                            </select>
+                                        <span class="form_input form_text">
+                                            <input type="text" name="ad_title"
+                                                value="Aliquam beatae est veniam cupiditate consequatur"
+                                                size="50" maxlength="50">
                                         </span>
+                                    </div>
+                                </div>
+
+                                <div id="descriptionRowOrginal" class="form_row form_row_description ">
+                                    <div class="form_label">
+
+                                        <span id="">Description</span>
+
+                                    </div>
+                                    <div class="form_inputs">
+
+                                        <span class="form_input form_text">
+                                            <textarea id="descOrginalTextArea" name="ad_text" rows="15" cols="50" wrap="virtual">Aperidd fdafs Aperidd fAperidd fdafs Aperidd fdafsAperidd fdafs Aperidd fdafsAperidd fdafs Aperidd fdafsAperidd fdafs Aperidd fdafsAperidd fdafs Aperidd fdafsAperidd fdafs Aperidd fdafsdafsAperidd fdafs Aperidd fdafs</textarea>
+                                        </span>
+                                        <div class="form_hint" id="descriptionHint">
+                                            Tips: Give more detail about the accommodation
+                                            and who you are looking for. You must write at least 25 words and can
+                                            write as much as you like within reason. (No contact details permitted
+                                            within description).
+                                        </div>
+
+
+                                    </div>
+                                </div>
+
+
+                                {{-- <div class="msg warning">
+                                    <span>As the advertiser, it's your responsibility to:</span>
+                                    <ul class="msg-warning__list">
+                                        <li class="msg-warning__list-item"><i class="far fa-check"></i>
+                                            <p class="msg-warning__text">Include <span
+                                                    class="msg-warning__text-bold">EPC energy rating</span>
+                                                (upload as one of your ad's photos)</p>
+                                        </li>
+                                        <li class="msg-warning__list-item"><i class="far fa-check"></i>
+                                            <p class="msg-warning__text">Include <span
+                                                    class="msg-warning__text-bold">council tax band</span>
+                                                (specify in your ad's description) <span id="councilTaxModal"><button
+                                                        class="button button--link" type="button"
+                                                        aria-label="council tax info"><i
+                                                            class="fas fa-info-circle"></i></button></span></p>
+                                        </li>
+
+                                        <li class="msg-warning__list-item"><i class="far fa-check"></i>
+                                            <p class="msg-warning__text">Familiarise yourself with <a
+                                                    href="/content/default/discrimination"
+                                                    target="_blank">discrimination laws</a></p>
+                                        </li>
+                                    </ul>
+                                </div> --}}
+
+
+
+
+
+                                <div class="form_row form_row_photos post-ad__photo-upload">
+                                    <div class="post-ad__photo-upload-label">Upload photos</div>
+                                    <div id="photosHintExperiment"
+                                        class="tips-experiment__message-box tips-experiment__message-box--photos"
+                                        style="display:none">
+                                        <div class="message-box message-box--tips message-box--small">
+                                            <span class="message-box__icon">
+                                                <i class="far fa-lightbulb-on"></i>
+                                            </span>
+                                            <p class="message-box__text">
+                                                <strong>Only upload JPG or PNG files less than 16mb.</strong> <br>
+                                                Photos must not contain any web urls or contact details. Only
+                                                branded advertisers may include a company name or logo.
+
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="form_inputs">
+                                        <div id="photoUploader" data-upload-url="/flatshare/upload-photos.pl"
+                                            data-advert-id="jthnSEZAZOqGIDgnVmoD7g"
+                                            data-draft-advert-id="jthnSEZAZOqGIDgnVmoD7g"
+                                            data-session-id="855B9E9E-2FD6-11EE-A74F-B8E7F7D085E0"
+                                            data-flatshare-type="offered" data-email="abshakib91@gmail.com"
+                                            data-max-file-size="16777216" data-slots-remaining="9">
+                                            <div data-testid="uploader">
+                                                <div class="dropzone-wrapper">
+                                                    <div class="dropzone-button"><button
+                                                            class="button button--wide dz-clickable" id="dzClickable"
+                                                            type="button">
+                                                            <div class="button__content"><span
+                                                                    class="button__icon dropzone-button__icon"><i
+                                                                        class="fas fa-images"></i></span><span
+                                                                    class="button__text">Add up to 9 images</span>
+                                                            </div>
+                                                        </button>
+                                                        <p class="dropzone__file-hint">.jpg or .png only. Up to
+                                                            16mb</p>
+                                                    </div>
+                                                    <div class="filepicker dropzone">
+                                                        <div class="dz-default dz-message"><span>Drop files here
+                                                                to upload</span></div>
+                                                    </div>
+                                                </div>
+                                                <div class="uploader__hint">Photos must not contain any web urls
+                                                    or contact details. Only branded advertisers may include a
+                                                    company name or logo.</div>
+                                                <div class="photo-upload"></div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
 
 
 
-                                <div class="form_row form_row_age">
-                                    <div class="form_label"> Age </div>
-                                    <div class="form_inputs">
-                                        <span class="form_input form_select">
+                                <div class="form_row form_row_name  ">
+                                    <div class="form_label">
 
 
-                                            <select name="min_age">
-                                                <option value="null">-</option>
-                                                <option value="18">18</option>
-                                                <option value="91" selected="">91</option>
-                                                <option value="99">99</option>
-                                            </select>
-                                        </span>
+                                        Your name
+
 
                                     </div>
-                                </div>
-
-
-                                <div class="form_row form_row_language">
-                                    <div class="form_label"> Language </div>
                                     <div class="form_inputs">
-                                        <span class="form_input form_select">
-                                            <select name="lang_id">
-                                                <option value="96">Xhosa
-                                                </option>
-                                                <option value="97">Yoruba
-                                                </option>
-                                                <option value="98">Zulu
-                                                </option>
-                                            </select>
+                                        <span class="form_input form_text">
+                                            <input type="text" name="first_name" value="Amal"
+                                                placeholder="First name" autocomplete="given-name">
                                         </span>
-                                    </div>
-                                </div>
-
-
-                                <div class="form_row form_row_nationality">
-                                    <div class="form_label"> Nationality </div>
-                                    <div class="form_inputs">
-                                        <span class="form_input form_select">
-                                            <span id="nationality-select" data-selected="French"><select
-                                                    name="nationality">
-                                                    <option value="">Not disclosed</option>
-                                                    <option value="Afghan">Afghan</option>
-                                                    <option value="Yemeni">Yemeni</option>
-                                                    <option value="Zimbabwean">Zimbabwean</option>
-                                                </select></span>
-                                        </span>
-                                    </div>
-                                </div>
-
-                                <div class="form_row form_row_orientation">
-                                    <div class="form_label"> Sexual orientation </div>
-                                    <div class="form_inputs">
-                                        <span class="form_input form_select">
-                                            <select name="gay_lesbian">
-                                                <option value="ND">Not disclosed</option>
-                                                <option value="S">Straight</option>
-
-                                                <option value="G" selected="">Gay/Lesbian</option>
-                                                <option value="B">Bisexual</option>
-                                            </select>
+                                        <span class="form_input form_text">
+                                            <input type="text" name="last_name" value="Santos"
+                                                placeholder="Last name" autocomplete="family-name">
                                         </span>
                                         <label class="form_input form_checkbox">
-                                            <input type="checkbox" name="gay_consent" checked="" value="Y">
-                                            Yes, I would like my orientation to form part of my ad's search criteria and
-                                            allow others to search on this field.
+                                            <input type="checkbox" name="display_last_name" value="Y">
+                                            Display last name on advert?
+                                        </label>
+
+                                    </div>
+                                </div>
+
+                                <div class="form_row form_row_tel">
+                                    <div class="form_label">
+                                        Telephone
+                                    </div>
+                                    <div class="form_inputs">
+                                        <span class="form_input form_text">
+                                            <input class="form_input_tel" type="tel" name="tel"
+                                                value="+1 (655) 337-3249" autocomplete="tel" id="form_input--tel-n">
+                                        </span>
+                                        <label class="form_input form_checkbox">
+                                            <input name="display_tel" value="Y" type="checkbox">
+                                            Display with advert?
                                         </label>
                                     </div>
                                 </div>
-
-                                <div class="form_row form_row_interests" style="display: none;">
+                                <div class="form_row form_row_email">
                                     <div class="form_label">
-                                        Interests
+                                        Email
                                     </div>
                                     <div class="form_inputs">
 
-                                        <div id="sharedInterests" data-post-ad-type="offered"
-                                            data-advertiser-role="live out landlord"></div>
 
-                                        <span class="form_input form_text">
-                                            <input type="text" name="interests" value="" size="48"
-                                                maxlength="255">
-                                        </span>
+                                        abshakib91@gmail.com
+                                        <input type="hidden" name="email" value="abshakib91@gmail.com">
+
                                     </div>
                                 </div>
+                                <div id="inputButtonWrapper">
 
 
-                            </fieldset>
-
-                            <fieldset>
-                                <legend> Preferences For New flatmates </legend>
-
-                                <div class="form_row form_row_smoking">
-                                    <div class="form_label"> smoking </div>
-                                    <div class="form_inputs">
-                                        <span class="form_input form_select">
-                                            <select name="smoking">
-                                                <option value="Y" selected="">No preference</option>
-                                                <option value="N">No</option>
-                                            </select>
-                                        </span>
-                                    </div>
-                                </div>
-
-                                <div class="form_row form_row_gender">
-                                    <div class="form_label"> Gender </div>
-                                    <div class="form_inputs">
-                                        <span class="form_input form_select">
-                                            <select name="gender_req">
-                                                <option value="N">No preference</option>
-                                                <option value="M">Male</option>
-                                                <option value="F" selected="">Female</option>
-                                            </select>
-                                        </span>
-                                    </div>
-                                </div>
-
-                                <div class="form_row form_row_occupation">
-                                    <div class="form_label"> Occupation </div>
-                                    <div class="form_inputs">
-                                        <span class="form_input form_select">
-                                            <select name="share_type_req">
-                                                <option value="M">No preference</option>
-                                                <option value="S" selected="">Student</option>
-                                                <option value="P">Professional</option>
-                                            </select>
-                                        </span>
-                                    </div>
-                                </div>
-
-                                <div class="form_row form_row_pets">
-                                    <div class="form_label"> Pets considered </div>
-                                    <div class="form_inputs">
-                                        <span class="form_input form_select">
-                                            <select name="pets_req">
-                                                <option value="N">no</option>
-                                                <option value="Y" selected="">yes</option>
-                                            </select>
-                                        </span>
-                                    </div>
-                                </div>
+                                    <div class="form_row ">
+                                        <div class="form_label"></div>
+                                        <div class="form_inputs">
+                                            <div class="btn-wrapper">
 
 
-                                <div class="form_row form_row_min_age">
-                                    <div class="form_label">
-                                        <div class="form_validation"> Minimum age </div>
-                                    </div>
-                                    <div class="form_inputs">
-                                        <span class="form_input form_select">
-                                            <select name="min_age_req">
-                                                <option value="null">-</option>
-                                                <option value="18">18</option>
-                                                <option value="19">19</option>
-                                                <option value="20">20</option>
-                                                <option value="99">99</option>
-                                            </select>
-                                        </span>
-                                    </div>
-                                </div>
+                                                <div><button class="button" type="submit" name="validate_step"
+                                                        value="Continue to next step">Continue to next
+                                                        step</button> </div>
+                                                <div class="btn-wrapper__back-btn">
+                                                    <input class="button button--link" id="backButton" type="submit"
+                                                        name="prev_step" value="Back">
+                                                </div>
 
-
-                                <div class="form_row form_row_max_age">
-                                    <div class="form_label">
-                                        <div class="form_validation"> Maximum age </div>
-                                    </div>
-                                    <div class="form_inputs">
-                                        <span class="form_input form_select">
-                                            <select name="max_age_req">
-                                                <option value="null">-</option>
-                                                <option value="18">18</option>
-                                                <option value="42" selected="">42</option>
-                                                <option value="43">43</option>
-                                                <option value="99">99</option>
-                                            </select>
-                                        </span>
-                                    </div>
-                                </div>
-
-
-
-                                <div class="form_row form_row_language">
-                                    <div class="form_label"> Language </div>
-                                    <div class="form_inputs">
-                                        <span class="form_input form_select">
-                                            <select name="lang_id_req">
-                                                <option value="96">Xhosa
-                                                </option>
-                                                <option value="97">Yoruba
-                                                </option>
-                                                <option value="98">Zulu
-                                                </option>
-                                            </select>
-                                        </span>
-                                    </div>
-                                </div>
-
-
-                                <div class="form_row form_row_couples">
-                                    <div class="form_label"> Couples welcome? </div>
-                                    <div class="form_inputs">
-                                        <span class="form_input">
-                                            <label><input type="radio" name="couples" checked=""
-                                                    value="N"> no </label>
-                                            <label><input type="radio" name="couples" value="Y"> yes*
-                                            </label>
-                                        </span>
-                                        <div class="form_hint"> *specify any rent adjustments in your ad description
-                                            on next step
-
-                                        </div>
-                                    </div>
-                                </div>
-
-
-                                <div class="form_row form_row_misc">
-                                    <div class="form_label"> Vegetarians preferred? </div>
-                                    <div class="form_inputs">
-                                        <span class="form_input form_select">
-                                            <select name="vegetarians">
-                                                <option>No preference</option>
-                                                <option value="Y" selected="">Yes</option>
-                                            </select>
-                                        </span>
-                                    </div>
-                                </div>
-
-
-
-                                <div class="form_row ">
-                                    <div class="form_label"></div>
-                                    <div class="form_inputs">
-                                        <div class="btn-wrapper">
-                                            <div>
-                                                <button class="button" type="submit" name="validate_step"
-                                                    value="Continue to next step">Continue to next step
-                                                </button>
-                                            </div>
-                                            <div class="btn-wrapper__back-btn">
-                                                <input class="button button--link" id="backButton" type="submit"
-                                                    name="prev_step" value="Back">
                                             </div>
                                         </div>
                                     </div>
+
                                 </div>
 
                             </fieldset>
+
+
                         </form>
+
+
+
                     </div>
+
                 </div>
+
             </div>
         </div>
         <!-- End Step 5 -->
@@ -1499,146 +1385,136 @@
         <!-- Start Step 6 -->
         <div class="grid-12-4" style="display: flex; justify-content: center;">
             <div>
+
                 <div class="block block_simple block_offered_listing">
                     <div class="block_header">
-                        <h2> Step 6 of 6 </h2>
+                        <h2>
+                            Step 6 of 6</h2>
                     </div>
 
                     <div class="block_content">
 
+                        <div id="deposit_warning_popup"></div>
+
+
                         <form id="formSteps2" action="" method="POST" class="pl_step2"
-                            data-cookie-check="self" name="place_room_offered_st_2">
+                            data-cookie-check="self" name="place_whole_property_offered_st_2">
 
-                            <fieldset class="pl_login_reg">
-                                <input type="hidden" name="is_loggedin" value="0">
-                                <legend>Login information</legend>
-                                <div class="clear"></div>
-                                <div class="cols cols2 pl_login__users">
-                                    <div class="col col_first pl_login_reg_existing">
-                                        <h4> Existing User? </h4>
-                                        <div class="pl_login_reg_fields">
-                                            <div class="form_row form_row_email">
-                                                <div class="form_label"> Email
-                                                </div>
-                                                <div class="form_inputs">
-                                                    <span class="form_input form_text">
-                                                        <input type="text" name="login_email"
-                                                            class="pl_login__input" placeholder="Email"
-                                                            autocomplete="email">
-                                                    </span>
-                                                </div>
-                                            </div>
-                                            <div class="form_row form_row_password">
-                                                <div class="form_label"> Password </div>
-                                                <div class="form_inputs">
-                                                    <span class="form_input form_text">
-                                                        <input type="password" name="login_password"
-                                                            class="pl_login__input" value=""
-                                                            placeholder="Password">
-                                                    </span>
-                                                    <a href="/flatshare/passwordreminder.pl" rel="nofollow"
-                                                        target="_password"
-                                                        title="Reset your password (opens in new window so your ad won't be lost)"
-                                                        class="block">Forgot password?
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
+
+
+
+                            <fieldset>
+                                <input type="hidden" name="is_loggedin" value="1">
+                                <legend>Email alerts</legend>
+                                <div class="form_row form_row_emails">
+                                    <div class="form_label">
+                                        Daily email alerts
                                     </div>
-                                    <div class="col col_last pl_login_reg_new">
-                                        <h4> New user? </h4>
-                                        <div class="pl_login_reg_fields">
-                                            <div class="form_row form_row_email">
-                                                <div class="form_label"> Email </div>
-                                                <div class="form_inputs">
-                                                    <span class="form_input form_text">
-                                                        <input type="email" name="email"
-                                                            class="pl_login__input" value="laqoryki@mailinator.com"
-                                                            placeholder="Email" autocomplete="email">
-                                                    </span>
-                                                </div>
-                                            </div>
-                                            <div class="form_row form_row_email">
-                                                <div class="form_label"> Confirm email </div>
-                                                <div class="form_inputs">
-                                                    <span class="form_input form_text">
-                                                        <input type="email" class="pl_login__input"
-                                                            name="email_again" value=""
-                                                            placeholder="Confirm email" autocomplete="email">
-                                                    </span>
-                                                </div>
-                                            </div>
-                                            <div class="form_row form_row_password">
-                                                <div class="form_label"> Choose a password </div>
-                                                <div class="form_inputs">
-                                                    <span class="form_input form_text">
-                                                        <input type="password" class="pl_login__input"
-                                                            name="password" value="" placeholder="Password">
-                                                    </span>
-                                                </div>
-                                            </div>
-                                            <div class="form_row form_row_password">
-                                                <div class="form_label"> Enter password again </div>
-                                                <div class="form_inputs">
-                                                    <span class="form_input form_text">
-                                                        <input type="password" class="pl_login__input"
-                                                            name="password_again" value=""
-                                                            placeholder="Confirm password">
-                                                    </span>
-                                                </div>
-                                            </div>
-                                            <div class="form_row form_row_hear_about">
-                                                <div class="form_label"> Where did you hear about us? </div>
-                                                <div class="form_inputs">
-                                                    <span class="form_input form_text">
-                                                        <input type="text" name="where_heard"
-                                                            class="pl_login__input" value=""
-                                                            placeholder="Where did you hear about us?">
-                                                    </span>
-                                                </div>
-                                            </div>
-                                            <div class="form_row form_row_agreement">
-                                                <div class="form_label"> Your agreement with us </div>
-
-                                                <div class="form_inputs">
-                                                    <div class="form_input form_checkbox">
-                                                        * By clicking Continue to next step you agree to SpareRoom's <a
-                                                            href="/content/padded/terms-uk">terms</a> and <a
-                                                            href="/content/padded/privacy-uk">privacy policy</a>. We
-                                                        will send you emails as part of the services we provide to you.
-                                                        You can unsubscribe at any time via the website or the link in
-                                                        the emails.
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                    <div class="form_inputs">
+                                        <label class="form_input form_checkbox">
+                                            <input type="checkbox" name="emailnotify" checked="" value="Y">
+                                            Yes, please send me daily summary emails of new Rooms Wanted adverts
+                                            matching my requirements
+                                        </label>
+                                        <input type="hidden" name="emailnotify_prev" value="Y">
                                     </div>
-
-
-                                    <div class="form_row form_row_buttons">
-                                        <div class="form_label"></div>
-                                        <div class="form_inputs">
-                                            <div class="btn-wrapper">
-                                                <div>
-                                                    <button class="button" type="submit" name="validate_step"
-                                                        value="Continue to next step">Continue to next step
-                                                    </button>
-                                                </div>
-                                                <div class="btn-wrapper__back-btn">
-                                                    <input class="button button--link" id="backButton"
-                                                        type="submit" name="prev_step" value="Back">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
                                 </div>
+                                <div class="form_row form_row_emails form_row_emails_instant">
+                                    <div class="form_label">
+                                        Instant email alerts
+                                    </div>
+                                    <div class="form_inputs">
+                                        <label class="form_input form_checkbox">
+                                            <input type="checkbox" name="emailnotify_justin" value="Y">
+                                            Yes, please send me emails of new Rooms Wanted adverts matching my
+                                            requirements as soon as they are posted on the website
+                                        </label>
+                                        <input type="hidden" name="emailnotify_justin_prev" value="N">
+                                        (up to a maximum of
+                                        <span class="form_input form_select">
+                                            <select name="emailnotify_justin_max_qty">
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                                <option value="5">5</option>
+                                                <option value="6">6</option>
+                                                <option value="7">7</option>
+                                                <option value="8">8</option>
+                                                <option value="9">9</option>
+                                                <option value="10">10</option>
+                                                <option value="11">11</option>
+                                                <option value="12" selected="">12</option>
+                                                <option value="13">13</option>
+                                                <option value="14">14</option>
+                                                <option value="15">15</option>
+                                                <option value="20">20</option>
+                                                <option value="25">25</option>
+                                                <option value="30">30</option>
+                                                <option value="35">35</option>
+                                                <option value="40">40</option>
+                                                <option value="45">45</option>
+                                                <option value="50">50</option>
+                                            </select>
+                                        </span>
+                                        <input type="hidden" name="emailnotify_justin_max_qty_prev" value="12">
+                                        per day)
+                                    </div>
+                                </div>
+
+
+
+                                <div class="form_row ">
+                                    <div class="form_label"></div>
+                                    <div class="form_inputs">
+                                        <div class="btn-wrapper">
+
+
+                                            <div><button class="button" type="submit" name="validate_step"
+                                                    value="Post your advert">Post your advert</button> </div>
+                                            <div class="btn-wrapper__back-btn">
+                                                <input class="button button--link" id="backButton" type="submit"
+                                                    name="prev_step" value="Back">
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+
                             </fieldset>
+
+
+
+
+
+
+
+                            <input type="hidden" name="usertype" value="haveashare">
+                            <input type="hidden" name="usertype_new" value="haveashare">
+                            <input type="hidden" name="ad_type" value="offered">
+                            <input type="hidden" name="scp" value="Y">
+                            <input type="hidden" name="suitableforsharing" value="Y">
+                            <input type="hidden" name="sale_or_rent" value="rental">
+                            <input type="hidden" name="information" value="full">
+                            <input type="hidden" name="theproperty" value="">
+                            <input type="hidden" name="therooms" value="">
+                            <input type="hidden" name="thehousehold" value="">
+                            <input type="hidden" name="theadvert" value="">
+                            <input type="hidden" name="theaccount" value="yes">
+                            <input type="hidden" name="fees_apply" value="N">
+
+
                         </form>
 
+
+
                     </div>
+
                 </div>
+
             </div>
+
         </div>
         <!-- End Step 6 -->
 
