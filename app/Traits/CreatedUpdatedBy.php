@@ -2,7 +2,7 @@
 
 namespace App\Traits;
 
-use App\Model\User;
+use App\User;
 use Illuminate\Database\Eloquent\Model;
 
 trait CreatedUpdatedBy

@@ -38,12 +38,15 @@ return new class extends Migration
 
             // The rooms
 
-            $table->double('room_cost_of_amount', 10, 2);
-            $table->tinyInteger('room_cost__time')->comment('1=per week, 2=per calendar month');
-            $table->tinyInteger('room_size')->nullable()->comment('1=single , 2=double');
-            $table->tinyInteger('room_amenities')->nullable();
-            $table->tinyInteger('room_furnishings')->nullable()->comment('1=furnished, 2=unfurnished');
-            $table->double('room_security_deposit', 10, 2)->nullable();
+            $table->text('room')->nullable();
+
+
+            // $table->double('room_cost_of_amount', 10, 2)->nullable();
+            // $table->tinyInteger('room_cost_time')->nullable()->comment('1=per week, 2=per calendar month');
+            // $table->tinyInteger('room_size')->nullable()->comment('1=single , 2=double');
+            // $table->tinyInteger('room_amenities')->nullable();
+            // $table->tinyInteger('room_furnishings')->nullable()->comment('1=furnished, 2=unfurnished');
+            // $table->double('room_security_deposit', 10, 2)->nullable();
 
             $table->string('room_available_from_date');
             $table->string('room_available_from_month');
@@ -76,26 +79,27 @@ return new class extends Migration
             $table->integer('new_flatmate_min_age')->nullable();
             $table->integer('new_flatmate_max_age')->nullable();
             $table->integer('new_flatmate_language')->nullable();
-            $table->integer('new_flatmate_couples')->nullable();
+            $table->tinyInteger('new_flatmate_couples')->nullable()->comment('1=yes, 2=no');
             $table->tinyInteger('new_flatmate_vegetarians')->nullable()->comment('1=yes, 2=no');
 
 
             // Your ad & contact details
 
-            $table->string('advert_title');
-            $table->string('advert_description');
+            $table->string('advert_title')->nullable();
+            $table->string('advert_description')->nullable();
             $table->string('advert_photos')->nullable();
             $table->string('advert_first_name');
             $table->string('advert_last_name')->nullable();
             $table->tinyInteger('advert_on_last_name')->nullable()->comment('1=yes, 2=no');
             $table->string('advert_telephone');
+            $table->tinyInteger('advert_on_telephone')->nullable()->comment('1=yes, 2=no');
 
             // Email alerts
             $table->tinyInteger('daily_email_alerts')->nullable()->comment('1=yes, 2=no');
             $table->tinyInteger('instant_email_alerts')->nullable()->comment('1=yes, 2=no');
             $table->integer('instant_email_max_days')->nullable();
 
-            $table->tinyInteger('status')->nullable()->comment('1=active, 2=inactive');
+            $table->tinyInteger('status')->default(1)->comment('1=active, 0=inactive');
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->integer('created_by')->unsigned();

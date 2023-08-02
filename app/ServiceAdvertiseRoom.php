@@ -32,12 +32,15 @@ class ServiceAdvertiseRoom extends Model
         'living_room',
         'property_amenities',
 
-        'room_cost_of_amount',
-        'room_cost__time',
-        'room_size',
-        'room_amenities',
-        'room_furnishings',
-        'room_security_deposit',
+        'room',
+
+        // 'room_cost_of_amount',
+        // 'room_cost_time',
+        // 'room_size',
+        // 'room_amenities',
+        // 'room_furnishings',
+        // 'room_security_deposit',
+
         'room_available_from_date',
         'room_available_from_month',
         'room_available_from_year',
@@ -77,6 +80,7 @@ class ServiceAdvertiseRoom extends Model
         'advert_last_name',
         'advert_on_last_name',
         'advert_telephone',
+        'advert_on_telephone',
 
         'daily_email_alerts',
         'instant_email_alerts',
