@@ -296,11 +296,18 @@
                                                 <div itemscope itemtype="http://schema.org/Person"
                                                     class="advertiser-info">
 
+                                                    @php
+                                                        $imagePath = public_path('uploads/media/' . $user_info->file_name);
+                                                        $imageUrl = File::exists($imagePath) ? asset('uploads/media/' . $user_info->file_name) : 'https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg';
+                                                    @endphp
+
                                                     <div class="profile-photo__wrap profile-photo__show-viewer advert-details__profile-photo-wrap"
-                                                        id=""><img
-                                                            class="profile-photo advert-details__profile-photo"
-                                                            src="{{ asset('assets/frontend/88664173.jpg') }}"
-                                                            alt="" width="100" height="100">
+                                                        id="">
+
+                                                        <img class="profile-photo advert-details__profile-photo"
+                                                            src="{{ $imageUrl }}" alt="" width="100"
+                                                            height="100">
+
                                                         <strong class="profile-photo__name" itemprop="name">
                                                             {{ $data->user->surname ?? '' }}
                                                             {{ $data->user->first_name ?? '' }}
