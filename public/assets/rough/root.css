@@ -3362,11 +3362,11 @@ div.compare_packages span.cross {
 }
 
 .new_today_listing {
-    margin-left: 80px
+    margin-left: 45px
 }
 
 .new_today_listing:before {
-    content: url(../frontend/newtoday.png);
+    content: url(../frontend/new.png);
     position: absolute;
     top: 18px;
     left: -18px;
