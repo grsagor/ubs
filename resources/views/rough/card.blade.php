@@ -9,11 +9,11 @@
 
 <body>
 
-    <main id="spareroom" class="wrap wrap--main">
+    <main id="spareroom" class="wrap wrap--main" style="width: 1200px;">
         <div class="grid-4-8-4" id="mainheader">
             <div>&nbsp;</div>
             <div>
-                <h1>Rooms for Rent in London</h1>
+                {{-- <h1>Rooms for Rent in London</h1> --}}
             </div>
         </div>
 
@@ -21,148 +21,148 @@
             <div id="maincontent" class="cols-8 order-2">
                 <div class="above_search_results">
 
-                    <li class="listing-result">
-                        <span class="featuredHeading">Featured Ad</span>
-                        <article class="panel-listing-result listing-featured">
-                            <header class="desktop">
-                                <a href="#">
-                                    <strong class="listingPrice">&pound;1,495 <abbr>pcm</abbr></strong>
-                                    <h2>Large studio&#47;All bills included&#47;No deposit</h2>
-                                    <div class="pricingInfo">
-                                        <em class="shortDescription">Studio flat
-                                            <span class="listingLocation">Neasden (NW2)</span>
-                                        </em>
-                                        <em class="listingPriceDetails"></em>
-                                    </div>
-                                </a>
-                            </header>
-                            <header class="mobile">
-                                <a href="#">
-                                    <h2>Large studio&#47;All bills included&#47;No deposit</h2>
-                                </a>
-                            </header>
+                    @foreach ($rooms as $item)
+                        <li class="listing-result" style="list-style: none;">
+                            <span class="featuredHeading">Featured Ad</span>
 
-                            <figure><a href="#">
-                                    <img src="../../photos2.spareroom.co.uk/images/flatshare/listings/cw100h100/87/68/87686341.jpg"
-                                        srcset="//photos2.spareroom.co.uk/images/flatshare/listings/cw100h100/87/68/87686341.jpg 1x, //photos2.spareroom.co.uk/images/flatshare/listings/cw200h200/87/68/87686341.jpg 2x"
-                                        width="200" height="200" class="swiper-lazy"
-                                        alt="Large studio&#47;All bills included&#47;No deposit Main Photo">
-                                    <p class="media-details"><span><i class="fas fa-camera"></i> 4 </span><span><i
-                                                class="fas fa-video"></i> 0 </span></p>
-                                </a></figure>
-                            <div class="infoLabels"><mark class="new-today">New Today</mark></div>
-                            <div class="pricingInfo mobile">
-                                <a href="#">
-                                    <em class="shortDescription">Studio flat
-                                        <span class="listingLocation">Neasden (NW2)
+                            @php
+                                $color1 = '#ffdf00';
+                                $color2 = '#14c8f6';
+                                
+                                // Retrieve the current counter value from the session or cache
+                                $counter = session('color_counter', 1);
+                                
+                                // Set the border color based on the counter value
+                                $borderColor = $counter % 2 === 1 ? $color1 : $color2;
+                                
+                                // Increment the counter for the next rendering
+                                $counter++;
+                                
+                                // Store the updated counter back into the session or cache
+                                session(['color_counter' => $counter]);
+                            @endphp
+
+                            <article class="panel-listing-result listing-featured"
+                                style="border-color: {{ $borderColor }};">
+
+
+                                <header class="desktop">
+                                    <a href="{{ route('room_show', $item->id) }}">
+
+                                        @php
+                                            $room_data = json_decode($item->room, true);
+                                            
+                                            $maxValue = null;
+                                            $minValue = null;
+                                            
+                                            for ($i = 1; $i <= 3; $i++) {
+                                                $field = 'room_cost_of_amount' . $i;
+                                                if (isset($room_data[$field])) {
+                                                    $amount = intval($room_data[$field]);
+                                                    if ($maxValue === null || $amount > $maxValue) {
+                                                        $maxValue = $amount;
+                                                    }
+                                                    if ($minValue === null || $amount < $minValue) {
+                                                        $minValue = $amount;
+                                                    }
+                                                }
+                                            }
+                                            if ($minValue == $maxValue) {
+                                                $room_rent = $maxValue;
+                                            } else {
+                                                $room_rent = $minValue . ' - ' . $maxValue;
+                                            }
+                                        @endphp
+
+                                        <strong class="listingPrice">
+                                            &pound;{{ $room_rent }} <abbr>pcm</abbr>
+                                        </strong>
+
+                                        <h2> {{ $item->advert_title }}</h2>
+
+                                        <div class="pricingInfo">
+                                            <em class="shortDescription">{{ $item->property_type }}
+                                                <span class="listingLocation"> {{ $item->property_address }}</span>
+                                            </em>
+                                        </div>
+                                    </a>
+                                </header>
+
+                                @php
+                                    $images = json_decode($item->advert_photos, true);
+                                    $first_image = null;
+                                    $count = null;
+                                    
+                                    if ($images) {
+                                        $first_image = reset($images);
+                                        $imagePath = public_path($first_image);
+                                        $count = count($images);
+                                    }
+                                    
+                                @endphp
+
+                                <figure>
+                                    <a href="#">
+
+                                        @if ($first_image && File::exists($imagePath))
+                                            <img src="{{ asset($first_image) }}" srcset="{{ asset($first_image) }}"
+                                                width="200" height="200" class="swiper-lazy" alt="">
+                                        @else
+                                            <img src="https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg"
+                                                width="200" height="200" class="swiper-lazy" alt="">
+                                        @endif
+
+                                        <p class="media-details">
+
+                                            @if ($count)
+                                                <span> <i class="fas fa-camera"></i> {{ $count }} </span>
+                                            @endif
+
+                                        </p>
+                                    </a>
+                                </figure>
+                                <div class="infoLabels"><mark class="new-today">
+                                        {{ $item->created_at->diffForHumans() }} </mark></div>
+
+                                <div class="listing-results-content desktop">
+                                    <a href="{{ route('room_show', $item->id) }}" class="advertDescription">
+                                        <p class="description">
+                                            {{ Str::limit($item->advert_description, $limit = 165, $end = '...') }}
+                                        </p>
+                                        <strong>
+                                            {{ Carbon\Carbon::createFromDate(null, $item->room_available_from_month, $item->room_available_from_date)->format('M d') }}
+                                        </strong>
+                                    </a>
+                                </div>
+
+
+                                <!-- Footer -->
+                                <footer class="status_container">
+                                    <span class="freeContact status">
+                                        <span> Free to Contact </span>
+                                    </span>
+                                    <span class="tooltip " tabindex="-1">
+                                        <span class="tooltip_item">
+                                            <a class="interaction-status--not-saved" href="#">
+                                                <i class="far fa-heart"></i><span> Save</span>
+                                            </a>
+                                            <span class="tooltip_box"></span>
                                         </span>
-                                    </em>
-                                    <strong class="listingPrice"> &pound;1,495 <abbr>pcm</abbr> </strong>
-                                    <em class="listingPriceDetails">
-                                    </em>
-                                </a>
-                            </div>
+                                        <span class="tooltip_background" tabindex="-1">
+                                        </span></span>
+                                    <a href="{{ route('room_show', $item->id) }}" class="more desktop"> More info</a>
+                                </footer>
 
-                            <div class="listing-results-content desktop">
-                                <a href="#" class="advertDescription">
-                                    <p class="description">
-                                        Large studio available immediately, just 5 minutes walk from Neasden shopping
-                                        parade. Flat comes with good sized bedroom plus separate...
-                                    </p>
-                                    <strong>Available 1 Aug</strong>
-                                </a>
-                            </div>
-
-                            <footer class="status_container"><span class="freeContact status"><span> Free to Contact
-                                    </span></span><span class="tooltip " tabindex="-1">
-                                    <span class="tooltip_item">
-                                        <a class="interaction-status--not-saved" href="">
-                                            <i class="far fa-heart"></i><span> Save</span>
-                                        </a>
-                                        <span class="tooltip_box"></span>
-                                    </span>
-                                    <span class="tooltip_background" tabindex="-1">
-                                    </span></span>
-                                <a href="{{ route('more-info') }}" class="more desktop"> More info</a>
-                            </footer>
-                        </article>
-                    </li>
+                            </article>
+                        </li>
+                    @endforeach
 
 
+                    @include('rough.pagination', [
+                        'data' => $rooms,
+                        'pagination' => paginationInfo($rooms),
+                    ])
 
-                    {{-- Second Card --}}
-                    <li class="listing-result">
-                        <article class="panel-listing-result listing-bold">
-                            <header class="desktop">
-                                <a href="#">
-                                    <strong class="listingPrice">&pound;1,495 <abbr>pcm</abbr></strong>
-                                    <h2>Large studio&#47;All bills included&#47;No deposit</h2>
-                                    <div class="pricingInfo">
-                                        <em class="shortDescription">Studio flat
-                                            <span class="listingLocation">Neasden (NW2)</span>
-                                        </em>
-                                        <em class="listingPriceDetails"></em>
-                                    </div>
-                                </a>
-                            </header>
-                            <header class="mobile">
-                                <a href="#">
-                                    <h2>Large studio&#47;All bills included&#47;No deposit</h2>
-                                </a>
-                            </header>
-
-
-                            <figure>
-                                <a href="#">
-                                    <img src="../../photos2.spareroom.co.uk/images/flatshare/listings/cw100h100/87/68/87686341.jpg"
-                                        srcset="//photos2.spareroom.co.uk/images/flatshare/listings/cw100h100/87/68/87686341.jpg 1x, //photos2.spareroom.co.uk/images/flatshare/listings/cw200h200/87/68/87686341.jpg 2x"
-                                        width="200" height="200" class="swiper-lazy"
-                                        alt="Large studio&#47;All bills included&#47;No deposit Main Photo">
-                                    <p class="media-details">
-                                        <span> <i class="fas fa-camera"></i> 4 </span>
-                                        <span><i class="fas fa-video"></i> 0 </span>
-                                    </p>
-                                </a>
-                            </figure>
-                            <div class="infoLabels"><mark class="new-today">New Today</mark></div>
-                            <div class="pricingInfo mobile">
-                                <a href="#">
-                                    <em class="shortDescription">Studio flat
-                                        <span class="listingLocation">Neasden
-                                            (NW2)</span>
-                                    </em>
-                                    <strong class="listingPrice"> &pound;1,495 <abbr>pcm</abbr> </strong>
-                                    <em class="listingPriceDetails">
-                                    </em>
-                                </a>
-                            </div>
-                            <div class="listing-results-content desktop"><a href="#" class="advertDescription">
-                                    <p class="description">
-                                        Large studio available immediately, just 5 minutes walk from Neasden shopping
-                                        parade. Flat comes with good sized bedroom plus separate...
-                                    </p>
-                                    <strong>Available 1 Aug</strong>
-                                </a></div>
-
-                            <footer class="status_container">
-                                <span class="freeContact status">
-                                    <span> Free to Contact </span>
-                                </span>
-                                <span class="tooltip " tabindex="-1">
-                                    <span class="tooltip_item">
-                                        <a class="interaction-status--not-saved" href="">
-                                            <i class="far fa-heart"></i>
-                                            <span> Save</span>
-                                        </a>
-
-                                    </span>
-                                </span>
-                                <span class="tooltip_background" tabindex="-1"></span></span>
-                                <a href="{{ route('more-info') }}" class="more desktop"> More info
-                                </a>
-                            </footer>
-                        </article>
-                    </li>
                 </div>
             </div>
         </div>

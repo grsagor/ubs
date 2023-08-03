@@ -52,6 +52,7 @@ use App\Http\Controllers\StockAdjustmentController;
 use App\Http\Controllers\BusinessLocationController;
 use App\Http\Controllers\LocationSettingsController;
 use App\Http\Controllers\Frontend\HomePageController;
+use App\Http\Controllers\Frontend\RoomListController;
 use App\Http\Controllers\SellingPriceGroupController;
 use App\Http\Controllers\VariationTemplateController;
 use App\Http\Controllers\ImportOpeningStockController;
@@ -78,9 +79,10 @@ use App\Http\Controllers\Frontend\CategoryController as FrontendCategoryControll
 
 include_once 'install_r.php';
 
-Route::get('/card', function () {
-    return view('rough.card');
-});
+
+Route::get('/room-list',                [RoomListController::class, 'roomList']);
+Route::get('/room-show/{id}',           [RoomListController::class, 'roomShow'])->name('room_show');
+
 Route::get('/advertise', function () {
     return view('rough.advertise');
 });

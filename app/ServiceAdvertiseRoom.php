@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\User;
 use App\Traits\CreatedUpdatedBy;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -93,5 +94,10 @@ class ServiceAdvertiseRoom extends Model
     public function scopeActive($query)
     {
         $query->where('status', 1);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
     }
 }

@@ -237,9 +237,7 @@
                                             </div>
                                             <div class="form_inputs">
                                                 <span class="form_input form_text">
-                                                    <input type="text" name="property_address"
-                                                        value="Unit 1, Nagpal House, 1 Gunthorpe Street, London, E1 7RG"
-                                                        readonly>
+                                                    <input type="text" name="property_address" value="">
                                                 </span>
                                             </div>
                                         </div>

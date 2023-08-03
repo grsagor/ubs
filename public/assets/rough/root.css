@@ -7430,7 +7430,7 @@ a.button-login:focus {
     padding: 0 36px 24px;
     background-color: #FFF;
     position: relative;
-    overflow: auto;
+    /* overflow: auto; */
     border-radius: 0
 }
 
