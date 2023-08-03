@@ -86,7 +86,7 @@ Route::get('/advertise', function () {
 });
 Route::get('/more-info', function () {
     return view('rough.more_info');
-});
+})->name('more-info');
 
 Route::get('/room-wanted', function () {
     return view('rough.room_wanted');

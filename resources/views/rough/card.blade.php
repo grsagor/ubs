@@ -83,7 +83,7 @@
                                     </span>
                                     <span class="tooltip_background" tabindex="-1">
                                     </span></span>
-                                <a href="#" class="more desktop"> More info</a>
+                                <a href="{{ route('more-info') }}" class="more desktop"> More info</a>
                             </footer>
                         </article>
                     </li>
@@ -157,8 +157,8 @@
 
                                     </span>
                                 </span>
-                                <span class="tooltip_background" tabindex="-1"></span></span><a href="#"
-                                    class="more desktop"> More info
+                                <span class="tooltip_background" tabindex="-1"></span></span>
+                                <a href="{{ route('more-info') }}" class="more desktop"> More info
                                 </a>
                             </footer>
                         </article>

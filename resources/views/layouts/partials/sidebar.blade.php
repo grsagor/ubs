@@ -54,7 +54,7 @@
 
                 </ul>
             </li>
-            <li class="treeview active" id="tour_step5">
+            <li class="treeview" id="tour_step5">
                 <a href="#">
                     <i class="fa fas fa-cubes"></i> <span>Products</span>
                     <span class="pull-right-container">
@@ -80,7 +80,7 @@
                             <span>Units</span></a></li>
                     <li><a href="http://127.0.0.1:8000/taxonomies?type=product"><i class="fa fas fa-tags"></i>
                             <span>Categories</span></a></li>
-                    <li class="active"><a href="http://127.0.0.1:8000/brands"><i class="fa fas fa-gem"></i>
+                    <li><a href="http://127.0.0.1:8000/brands"><i class="fa fas fa-gem"></i>
                             <span>Brands</span></a></li>
                     <li><a href="http://127.0.0.1:8000/warranties"><i class="fa fas fa-shield-alt"></i>
                             <span>Warranties</span></a></li>
@@ -275,9 +275,10 @@
                 </a>
                 <ul class="treeview-menu">
                     <li><a href="{{ route('property-wanted.index') }}"><i class="fa fas fa-user-secret"></i>
-                            <span>Property List</span></a></li>
-                    {{-- <li><a href="{{ route('property-wanted.create') }}"><i class="fa fas fa-user-secret"></i>
-                            <span>Property Create</span></a></li> --}}
+                            <span>Property Wanted</span></a></li>
+
+                    <li><a href="{{ route('service-advertise.index') }}"><i class="fa fas fa-user-secret"></i>
+                            <span>Room Advertise</span></a></li>
                 </ul>
             </li>
             <!-- Services End -->
