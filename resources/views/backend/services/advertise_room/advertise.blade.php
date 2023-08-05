@@ -54,9 +54,9 @@
                                             <div class="form_inputs">
                                                 <span class="form_input form_select">
                                                     <select name="property_room_quantity">
-                                                        <option value="1">1 room for rent</option>
-                                                        <option value="2">2 rooms for rent</option>
-                                                        <option value="3">3 rooms for rent</option>
+                                                        @foreach (['1 room for rent', '2 rooms for rent', '3 rooms for rent'] as $key => $item)
+                                                            <option value="{{ $key + 1 }}">{{ $item }}</option>
+                                                        @endforeach
                                                     </select>
                                                 </span>
                                             </div>
@@ -69,16 +69,16 @@
                                             <div class="form_inputs">
                                                 <span class="form_input form_select">
                                                     <select name="property_size">
-                                                        <option value="2">2 bed</option>
-                                                        <option value="3">3 bed</option>
+                                                        @foreach (['1 bed', '2 beds', '3 beds'] as $key => $item)
+                                                            <option value="{{ $key + 1 }}">{{ $item }}</option>
+                                                        @endforeach
                                                     </select>
                                                 </span>
                                                 <span class="form_input form_select form_select_property_type">
                                                     <select name="property_type">
-                                                        <option value="">Select...</option>
-                                                        <option value="Flat" selected>Flat/Apartment</option>
-                                                        <option value="House">house</option>
-                                                        <option value="Property">Property</option>
+                                                        @foreach (['Flat/Apartment', 'House', 'Property'] as $key => $item)
+                                                            <option value="{{ $item }}">{{ $item }}</option>
+                                                        @endforeach
                                                     </select>
                                                 </span>
                                             </div>
@@ -91,9 +91,11 @@
                                             <div class="form_inputs">
                                                 <span class="form_input form_select">
                                                     <select name="property_occupants">
-                                                        <option value="0">0</option>
-                                                        <option value="1" selected>1</option>
-                                                        <option value="2">2</option>
+                                                        @foreach (['0', '1', '2', '3'] as $key => $item)
+                                                            <option value="{{ $key + 1 }}"
+                                                                {{ $item === '1' ? 'selected' : '' }}>{{ $item }}
+                                                            </option>
+                                                        @endforeach
                                                     </select>
                                                 </span>
                                                 occupants in the property
@@ -102,10 +104,7 @@
 
                                         <div id="postcodeWrapper" class="form_row form_row_postcode">
                                             <div class="form_label">
-                                                <span>
-                                                    Postcode of property
-                                                </span>
-
+                                                <span> Postcode of property </span>
                                                 <div class="form_hint" data-test-class="form_hint hidden">
                                                     (e.g. SE15 8PD)
                                                 </div>
@@ -126,46 +125,29 @@
                                         </div>
 
                                         <div class="form_row form_row_role">
-                                            <div class="form_label">
-                                                I am a
-                                            </div>
+                                            <div class="form_label"> I am a </div>
                                             <div class="form_inputs">
-                                                <label class="form_input form_radio">
-                                                    <input type="radio" name="property_user_title" />
-                                                    Live in landlord
-                                                    <span class="form_hint">(I own the property and live there)</span>
-                                                </label>
-                                                <br />
 
-                                                <label class="form_input form_radio">
-                                                    <input type="radio" name="property_user_title" />
-                                                    Live out landlord
-                                                    <span class="form_hint">(I own the property but don't live
-                                                        there)</span>
-                                                </label>
-                                                <br />
+                                                @php
+                                                    $propert_user_title = [
+                                                        'Live in landlord' => 'I own the property and live there',
+                                                        'Live out landlord' => 'I own the property but don\'t live there',
+                                                        'Current tenant/flatmate' => 'I am living in the property',
+                                                        'Agent' => 'I am advertising on a landlord\'s behalf',
+                                                        'Former flatmate' => 'I am moving out and need someone to replace me',
+                                                    ];
+                                                @endphp
 
-                                                <label class="form_input form_radio">
-                                                    <input type="radio" name="property_user_title" />
-                                                    Current tenant/flatmate
-                                                    <span class="form_hint">(I am living in the property)</span>
-                                                </label>
-                                                <br />
 
-                                                <label class="form_input form_radio">
-                                                    <input type="radio" name="property_user_title" />
-                                                    Agent
-                                                    <span class="form_hint">(I am advertising on a landlord's
-                                                        behalf)</span>
-                                                </label>
-                                                <br />
-
-                                                <label class="form_input form_radio">
-                                                    <input type="radio" name="property_user_title" />
-                                                    Former flatmate
-                                                    <span class="form_hint">(I am moving out and need someone to replace
-                                                        me)</span>
-                                                </label>
+                                                @foreach ($propert_user_title as $label => $hint)
+                                                    <label class="form_input form_radio">
+                                                        <input type="radio" name="property_user_title"
+                                                            value="{{ $label }}" />
+                                                        {{ $label }}
+                                                        <span class="form_hint">({{ $hint }})</span>
+                                                    </label>
+                                                    <br />
+                                                @endforeach
                                                 <br />
                                             </div>
                                         </div>
@@ -263,8 +245,9 @@
                                             <div class="form_inputs">
                                                 <select name="transport_minutes">
                                                     <option value="" selected="">Select...</option>
-                                                    <option value="5">0-5</option>
-                                                    <option value="10">5-10</option>
+                                                    @foreach (['0-5', '5-10', '10-15', '15-20'] as $key => $item)
+                                                        <option value="{{ $item }}">{{ $item }}</option>
+                                                    @endforeach
                                                 </select> minutes
 
                                                 <select name="transport_form">
@@ -309,35 +292,25 @@
                                             <div class="form_label"> Amenities </div>
                                             <div class="form_inputs">
                                                 <div class="cols cols2">
-                                                    <div class="col col_first">
-                                                        <label class="form_input form_checkbox">
-                                                            <input type="checkbox" name="property_amenities[]"
-                                                                value="parking">
-                                                            Parking
-                                                        </label>
-                                                        <label class="form_input form_checkbox">
-                                                            <input type="checkbox" name="property_amenities[]"
-                                                                value="garden/roof/terrace">
-                                                            Garden/roof
-                                                            terrace
-                                                        </label>
-                                                        <label class="form_input form_checkbox">
-                                                            <input type="checkbox" name="property_amenities[]"
-                                                                value="garage"> Garage
-                                                        </label>
+
+                                                    <div class="col">
+
+
+                                                        @php
+                                                            $amenities = ['Parking', 'Garden/Roof terrace', 'Garage', 'Balcony/patio', 'Disabled access'];
+                                                        @endphp
+
+                                                        @foreach ($amenities as $amenity)
+                                                            <label class="form_input form_checkbox">
+                                                                <input type="checkbox" name="property_amenities[]"
+                                                                    value="{{ $amenity }}">
+                                                                {{ $amenity }}
+                                                            </label>
+                                                        @endforeach
+
                                                     </div>
-                                                    <div class="col col_last">
-                                                        <label class="form_input form_checkbox">
-                                                            <input type="checkbox" name="property_amenities[]"
-                                                                value="Bblcony/patio">
-                                                            Balcony/patio
-                                                        </label>
-                                                        <label class="form_input form_checkbox">
-                                                            <input type="checkbox" name="property_amenities[]"
-                                                                value="disabled access">
-                                                            Disabled access
-                                                        </label>
-                                                    </div>
+
+
                                                 </div>
                                             </div>
                                         </div>
@@ -643,38 +616,11 @@
                                         </fieldset>
 
 
-
-
                                         <div class="form_row form_row_avail_from ">
                                             <div class="form_label"> Available from </div>
                                             <div class="form_inputs">
-                                                <span class="form_input form_select">
-                                                    <select name="room_available_from_date">
-                                                        <option value="01">01</option>
-                                                        <option value="26">26</option>
-                                                        <option value="27" selected="">27</option>
-                                                        <option value="31">31</option>
-                                                    </select>
-                                                </span>
-                                                <span class="form_input form_select">
-                                                    <select name="room_available_from_month">
-                                                        <option value="01">Jan</option>
-                                                        <option value="02">Feb</option>
-                                                        <option value="07" selected="">Jul</option>
-                                                        <option value="12">Dec</option>
-                                                    </select>
-                                                </span>
-                                                <span class="form_input form_select">
-                                                    <select name="room_available_from_year">
-                                                        <option value="2022">2022
-                                                        </option>
-                                                        <option value="2023" selected="">2023
-                                                        </option>
-                                                        <option value="2024">2024
-                                                        </option>
-                                                    </select>
-
-                                                </span>
+                                                <input type="date" name="room_available_from"
+                                                    id="room_available_from">
                                             </div>
                                         </div>
 
@@ -1486,5 +1432,15 @@
                 $(this).parent().hide().prev().show();
             });
         });
+
+
+        // Get the input element by its ID
+        var roomAvailableFromInput = document.getElementById('room_available_from');
+
+        // Get the current date in the format YYYY-MM-DD
+        var currentDate = new Date().toISOString().split('T')[0];
+
+        // Set the min attribute of the input to the current date
+        roomAvailableFromInput.min = currentDate;
     </script>
 @endsection

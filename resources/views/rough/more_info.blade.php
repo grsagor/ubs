@@ -42,7 +42,7 @@
 
                                         @php
                                             $images = json_decode($data->advert_photos, true);
-                                            $first_image = null;
+                                            $first_image = 'https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg';
                                             
                                             if ($images) {
                                                 $first_image = reset($images);
@@ -54,7 +54,7 @@
                                         <dl class="landscape">
                                             <dt class="mainImage">
 
-                                                <a href="#" title="" data-number="1" target="_blank"
+                                                <a href="#" title="" data-number="1"
                                                     class="photoswipe_me main img">
                                                     <img src="{{ asset($first_image) }}" alt="">
                                                 </a>
@@ -65,14 +65,16 @@
 
                                         <ul id="additional_photo_list" class="additional_photo_list--has-photos">
 
-                                            @foreach ($images as $img)
-                                                <li>
-                                                    <a href="#" title="" data-number="2" target="_blank"
-                                                        class="photoswipe_me img">
-                                                        <img src="{{ asset($img) }}" alt="">
-                                                    </a>
-                                                </li>
-                                            @endforeach
+                                            @if ($images)
+                                                @foreach ($images as $img)
+                                                    <li>
+                                                        <a href="#" title="" data-number="2"
+                                                            class="photoswipe_me img">
+                                                            <img src="{{ asset($img) }}" alt="">
+                                                        </a>
+                                                    </li>
+                                                @endforeach
+                                            @endif
 
                                         </ul>
                                     </div>
@@ -130,10 +132,12 @@
 
                                         <dl class="feature-list">
 
-                                            <dt class="feature-list__key">Available</dt>
-                                            <dd class="feature-list__value">
-                                                {{ Carbon\Carbon::createFromDate(null, $data->room_available_from_month, $data->room_available_from_date)->format('M d') }}
-                                            </dd>
+                                            @if ($data->room_available_from)
+                                                <dt class="feature-list__key">Available</dt>
+                                                <dd class="feature-list__value">
+                                                    {{ Carbon\Carbon::createFromFormat('Y-m-d', $data->room_available_from)->format('M d') }}
+                                                </dd>
+                                            @endif
 
                                             <dt class="feature-list__key">Minimum term</dt>
                                             <dd class="feature-list__value"> {{ $data->room_min_stay ?? '' }} months
@@ -299,14 +303,21 @@
                                                     @php
                                                         $imagePath = public_path('uploads/media/' . $user_info->file_name);
                                                         $imageUrl = File::exists($imagePath) ? asset('uploads/media/' . $user_info->file_name) : 'https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg';
+                                                        
                                                     @endphp
 
                                                     <div class="profile-photo__wrap profile-photo__show-viewer advert-details__profile-photo-wrap"
                                                         id="">
 
-                                                        <img class="profile-photo advert-details__profile-photo"
-                                                            src="{{ $imageUrl }}" alt="" width="100"
-                                                            height="100">
+                                                        @if ($user_info->file_name)
+                                                            <img class="profile-photo advert-details__profile-photo"
+                                                                src="{{ $imageUrl }}" alt=""
+                                                                width="100" height="100">
+                                                        @else
+                                                            <img class="profile-photo advert-details__profile-photo"
+                                                                src="{{ $first_image }}" alt=""
+                                                                width="100" height="100">
+                                                        @endif
 
                                                         <strong class="profile-photo__name" itemprop="name">
                                                             {{ $data->user->surname ?? '' }}

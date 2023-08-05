@@ -48,9 +48,7 @@ return new class extends Migration
             // $table->tinyInteger('room_furnishings')->nullable()->comment('1=furnished, 2=unfurnished');
             // $table->double('room_security_deposit', 10, 2)->nullable();
 
-            $table->string('room_available_from_date');
-            $table->string('room_available_from_month');
-            $table->string('room_available_from_year');
+            $table->date('room_available_from');
             $table->string('room_min_stay')->nullable();
             $table->string('room_max_stay')->nullable();
             $table->tinyInteger('room_short_term_let_consider')->nullable();
@@ -84,7 +82,6 @@ return new class extends Migration
 
 
             // Your ad & contact details
-
             $table->string('advert_title')->nullable();
             $table->string('advert_description')->nullable();
             $table->string('advert_photos')->nullable();
@@ -93,11 +90,14 @@ return new class extends Migration
             $table->tinyInteger('advert_on_last_name')->nullable()->comment('1=yes, 2=no');
             $table->string('advert_telephone');
             $table->tinyInteger('advert_on_telephone')->nullable()->comment('1=yes, 2=no');
+            $table->tinyInteger('advert_type')->default(1)->comment('1=Normal, 2=Feature');
+
 
             // Email alerts
             $table->tinyInteger('daily_email_alerts')->nullable()->comment('1=yes, 2=no');
             $table->tinyInteger('instant_email_alerts')->nullable()->comment('1=yes, 2=no');
             $table->integer('instant_email_max_days')->nullable();
+
 
             $table->tinyInteger('status')->default(1)->comment('1=active, 0=inactive');
             $table->integer('user_id')->unsigned();

@@ -42,9 +42,7 @@ class ServiceAdvertiseRoom extends Model
         // 'room_furnishings',
         // 'room_security_deposit',
 
-        'room_available_from_date',
-        'room_available_from_month',
-        'room_available_from_year',
+        'room_available_from',
         'room_min_stay',
         'room_max_stay',
         'room_short_term_let_consider',
@@ -82,6 +80,7 @@ class ServiceAdvertiseRoom extends Model
         'advert_on_last_name',
         'advert_telephone',
         'advert_on_telephone',
+        'advert_type',
 
         'daily_email_alerts',
         'instant_email_alerts',

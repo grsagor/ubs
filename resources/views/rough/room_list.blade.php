@@ -21,9 +21,12 @@
             <div id="maincontent" class="cols-8 order-2">
                 <div class="above_search_results">
 
-                    @foreach ($rooms as $item)
+                    @forelse ($rooms as $item)
                         <li class="listing-result" style="list-style: none;">
-                            <span class="featuredHeading">Featured Ad</span>
+
+                            @if ($item->advert_type == 2)
+                                <span class="featuredHeading">Featured Ad</span>
+                            @endif
 
                             @php
                                 $color1 = '#ffdf00';
@@ -91,12 +94,12 @@
                                 @php
                                     $images = json_decode($item->advert_photos, true);
                                     $first_image = null;
-                                    $count = null;
+                                    $img_count = null;
                                     
                                     if ($images) {
                                         $first_image = reset($images);
                                         $imagePath = public_path($first_image);
-                                        $count = count($images);
+                                        $img_count = count($images);
                                     }
                                     
                                 @endphp
@@ -114,8 +117,8 @@
 
                                         <p class="media-details">
 
-                                            @if ($count)
-                                                <span> <i class="fas fa-camera"></i> {{ $count }} </span>
+                                            @if ($img_count > 1)
+                                                <span> <i class="fas fa-camera"></i> {{ $img_count }} </span>
                                             @endif
 
                                         </p>
@@ -129,9 +132,13 @@
                                         <p class="description">
                                             {{ Str::limit($item->advert_description, $limit = 165, $end = '...') }}
                                         </p>
-                                        <strong>
-                                            {{ Carbon\Carbon::createFromDate(null, $item->room_available_from_month, $item->room_available_from_date)->format('M d') }}
-                                        </strong>
+
+                                        @if ($item->room_available_from)
+                                            <strong>
+                                                {{ Carbon\Carbon::createFromFormat('Y-m-d', $item->room_available_from)->format('M d') }}
+                                            </strong>
+                                        @endif
+
                                     </a>
                                 </div>
 
@@ -155,13 +162,32 @@
 
                             </article>
                         </li>
-                    @endforeach
+
+                        @php
+                            $no_room = false;
+                        @endphp
+                    @empty
+                        <div class="grid-4-8-4 " id="mainheader">
+                            <div>&nbsp;</div>
+                            <div>
+                                <h1>No Room Available</h1>
+                            </div>
+                            <div>&nbsp;</div>
+                        </div>
+                        @php
+                            $no_room = true;
+                        @endphp
+                    @endforelse
 
 
-                    @include('rough.pagination', [
-                        'data' => $rooms,
-                        'pagination' => paginationInfo($rooms),
-                    ])
+
+                    <!-- Display pagination only when there are no rooms to show or the total number of rooms is fewer than 10 -->
+                    @if ($no_room != true && $rooms->total() > 10)
+                        @include('rough.pagination', [
+                            'data' => $rooms,
+                            'pagination' => paginationInfo($rooms),
+                        ])
+                    @endif
 
                 </div>
             </div>

@@ -5112,7 +5112,7 @@ div.photos a.img.main {
     position: relative;
     text-decoration: none;
     margin: 0;
-    background: url(../img/spareroom/v3/other_items/blue_loader.gif) no-repeat center center;
+    /* background: url(../img/spareroom/v3/other_items/blue_loader.gif) no-repeat center center; */
     display: inline-block;
     float: none
 }
@@ -5722,7 +5722,7 @@ hr.hrz_2,
 }
 
 .block_bubble .block_content::before {
-    content: url(../img/spareroom/v4/quotes/block_bubble.gif);
+    /* content: url(../img/spareroom/v4/quotes/block_bubble.gif); */
     position: absolute;
     top: -5px;
     left: 60%;
