@@ -85,7 +85,7 @@ Route::get('/room-list',                    [RoomListController::class, 'roomLis
 Route::get('/room-show/{id}',               [RoomListController::class, 'roomShow'])->name('room_show');
 
 Route::get('/property-list',                [RoomWantedController::class, 'roomList']);
-Route::get('/property-show/{id}',           [RoomListController::class, 'roomShow'])->name('room_show');
+Route::get('/property-show/{id}',           [RoomWantedController::class, 'roomShow'])->name('property_show');
 
 
 Route::get('/room-wanted', function () {

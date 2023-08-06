@@ -13,7 +13,7 @@
     <main id="spareroom" class="wrap wrap--main">
         <div class="grid-12" id="mainheader">
             <div id="listing_heading">
-                <h1> {{ $info->advert_title }} </h1>
+                <h1> {{ $info->ad_title }} </h1>
             </div>
         </div>
         <div class="listing listing--property layoutrow">
@@ -41,7 +41,7 @@
                                     <div class="photos landscape">
 
                                         @php
-                                            $images = json_decode($info->advert_photos, true);
+                                            $images = json_decode($info->images, true);
                                             $first_image = 'https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg';
                                             
                                             if ($images) {
@@ -79,52 +79,15 @@
                                         </ul>
                                     </div>
 
-                                    <p class="detaildesc"> {{ $info->advert_description }} </p>
+                                    <p class="detaildesc"> {{ $info->ad_text }} </p>
 
                                 </div>
                                 <div class="property-details">
                                     <section class="feature feature--details">
-
                                         <ul class="key-features">
-                                            <li class="key-features__feature"> {{ $info->property_type }} </li>
-                                            <li class="key-features__feature"> {{ $info->property_address }} </li>
-                                            <li class="key-features__feature"> {{ $info->property_postcode }} </li>
-                                        </ul>
-
-                                    </section>
-
-                                    @php
-                                        $room_data = (object) json_decode($info->room, true);
-                                    @endphp
-
-                                    <section class="feature feature--price_room_only">
-                                        <ul class="room-list">
-
-                                            <li class="room-list__room">
-                                                @if ($room_data->room_cost_of_amount1)
-                                                    <strong class="room-list__price">&pound;
-                                                        {{ $room_data->room_cost_of_amount1 }} pcm</strong>
-                                                    <small>(Room 1)</small>
-                                                @endif
-                                            </li>
-                                            <li class="room-list__room">
-                                                @if ($room_data->room_cost_of_amount2)
-                                                    <strong class="room-list__price">&pound;
-                                                        {{ $room_data->room_cost_of_amount2 }} pcm</strong>
-                                                    <small>(Room 2)</small>
-                                                @endif
-                                            </li>
-                                            <li class="room-list__room">
-                                                @if ($room_data->room_cost_of_amount3)
-                                                    <strong class="room-list__price">&pound;
-                                                        {{ $room_data->room_cost_of_amount3 }} pcm</strong>
-                                                    <small>(Room 3)</small>
-                                                @endif
-                                            </li>
-
+                                            <li class="key-features__feature"> {{ $info->room_size }} </li>
                                         </ul>
                                     </section>
-
 
                                     <section class="feature feature--availability">
 
@@ -132,38 +95,27 @@
 
                                         <dl class="feature-list">
 
-                                            @if ($info->room_available_from)
+                                            @if ($info->available_form)
                                                 <dt class="feature-list__key">Available</dt>
                                                 <dd class="feature-list__value">
-                                                    {{ Carbon\Carbon::createFromFormat('Y-m-d', $info->room_available_from)->format('M d') }}
+                                                    {{ Carbon\Carbon::createFromFormat('Y-m-d', $info->available_form)->format('M d') }}
                                                 </dd>
                                             @endif
 
                                             <dt class="feature-list__key">Minimum term</dt>
-                                            <dd class="feature-list__value"> {{ $info->room_min_stay ?? '' }} months
+                                            <dd class="feature-list__value"> {{ $info->min_term ?? '' }} months
                                             </dd>
 
                                             <dt class="feature-list__key">Maximum term</dt>
-                                            <dd class="feature-list__value">{{ $info->room_max_stay ?? '' }} months
+                                            <dd class="feature-list__value">{{ $info->max_term ?? '' }} months
                                             </dd>
                                         </dl>
 
-                                    </section>
-
-                                    <section class="feature feature--extra-cost">
-
-                                        <h3 class="feature__heading">Extra cost</h3>
-                                        <dl class="feature-list">
-                                            <dt class="feature-list__key">Bills included?</dt>
-                                            <dd class="feature-list__value">
-                                                {{ $info->room_bills == 1 ? 'Yes' : 'No' }}
-                                            </dd>
-                                        </dl>
                                     </section>
 
 
                                     @php
-                                        $aminities = json_decode($info->property_amenities, true);
+                                        $aminities = json_decode($info->roomfurnishings, true);
                                         
                                         array_walk($aminities, function (&$amenity) {
                                             $amenity = ucfirst($amenity);
@@ -182,111 +134,59 @@
                                         </dl>
                                     </section>
 
-                                    <section class="feature feature--current-household">
+                                    {{-- <section class="feature feature--current-household">
                                         <h3 class="feature__heading">Current household</h3>
                                         <dl class="feature-list">
 
                                             <dt class="feature-list__key">Total &#35; rooms</dt>
-                                            <dd class="feature-list__value"> {{ $info->property_room_quantity ?? '' }}
+                                            <dd class="feature-list__value"> {{ $data->property_room_quantity ?? '' }}
                                             </dd>
 
                                             <dt class="feature-list__key">Age</dt>
-                                            <dd class="feature-list__value"> {{ $info->exiting_flatmate_age ?? '' }}
+                                            <dd class="feature-list__value"> {{ $data->exiting_flatmate_age ?? '' }}
                                             </dd>
 
                                             <dt class="feature-list__key">Smoker?</dt>
                                             <dd class="feature-list__value">
                                                 <span class="cross">
-                                                    {{ $info->exiting_flatmate_smoking == 1 ? 'Yes' : 'No' }}
+                                                    {{ $data->exiting_flatmate_smoking == 1 ? 'Yes' : 'No' }}
                                                 </span>
                                             </dd>
 
                                             <dt class="feature-list__key">Any pets?</dt>
                                             <dd class="feature-list__value">
                                                 <span class="cross">
-                                                    {{ $info->exiting_flatmate_pets == 1 ? 'Yes' : 'No' }}
+                                                    {{ $data->exiting_flatmate_pets == 1 ? 'Yes' : 'No' }}
                                                 </span>
                                             </dd>
 
                                             <dt class="feature-list__key">Language</dt>
                                             <dd class="feature-list__value">
-                                                {{ $info->exiting_flatmate_language }}
+                                                {{ $data->exiting_flatmate_language }}
                                             </dd>
 
                                             <dt class="feature-list__key">Occupation</dt>
-                                            <dd class="feature-list__value"> {{ $info->exiting_flatmate_occupation }}
+                                            <dd class="feature-list__value"> {{ $data->exiting_flatmate_occupation }}
                                             </dd>
 
                                             <dt class="feature-list__key">Nationality</dt>
-                                            <dd class="feature-list__value">{{ $info->exiting_flatmate_nationality }}
+                                            <dd class="feature-list__value">{{ $data->exiting_flatmate_nationality }}
                                             </dd>
 
 
                                             <dt class="feature-list__key">Gender</dt>
                                             <dd class="feature-list__value">
-                                                {{ $info->exiting_flatmate_gender == 1 ? 'Male' : ($info->exiting_flatmate_gender == 2 ? 'Female' : 'Others') }}
+                                                {{ $data->exiting_flatmate_gender == 1 ? 'Male' : ($data->exiting_flatmate_gender == 2 ? 'Female' : 'Others') }}
                                             </dd>
 
                                         </dl>
-                                    </section>
+                                    </section> --}}
 
 
-                                    <section class="feature feature--household-preferences">
-                                        <h3 class="feature__heading">New flatmate preferences</h3>
-                                        <dl class="feature-list">
-
-                                            <dt class="feature-list__key">Couples OK?</dt>
-                                            <dd class="feature-list__value"> <span class="cross">
-                                                    {{ $info->new_flatmate_couples == 1 ? 'Yes' : 'No' }}
-                                                </span>
-                                            </dd>
-
-                                            <dt class="feature-list__key">Smoking OK?</dt>
-                                            <dd class="feature-list__value"> <span class="cross">
-                                                    {{ $info->new_flatmate_smoking == 1 ? 'Yes' : 'No' }}
-                                                </span>
-                                            </dd>
-
-                                            <dt class="feature-list__key">Pets OK?</dt>
-                                            <dd class="feature-list__value"> <span class="cross">
-                                                    {{ $info->new_flatmate_pets == 1 ? 'Yes' : 'No' }}
-                                                </span>
-                                            </dd>
-
-                                            <dt class="feature-list__key">Occupation</dt>
-                                            <dd class="feature-list__value">
-                                                {{ $info->new_flatmate_occupation ?? '' }}
-                                            </dd>
-
-                                            <dt class="feature-list__key">Min age</dt>
-                                            <dd class="feature-list__value">
-                                                {{ $info->new_flatmate_min_age ?? '' }}
-                                            </dd>
-
-                                            <dt class="feature-list__key">Max age</dt>
-                                            <dd class="feature-list__value">
-                                                {{ $info->new_flatmate_max_age ?? '' }}
-                                            </dd>
-
-                                            <dt class="feature-list__key">Gender</dt>
-                                            <dd class="feature-list__value">
-                                                {{ $info->exiting_flatmate_gender == 1 ? 'Male' : ($info->exiting_flatmate_gender == 2 ? 'Female' : 'Others') }}
-                                            </dd>
-
-                                            <dt class="feature-list__key">Vegetarians</dt>
-                                            <dd class="feature-list__value">
-                                                {{ $info->new_flatmate_vegetarians == 1 ? 'Yes' : 'No' }}
-                                            </dd>
-
-                                            <dt class="feature-list__key">Language</dt>
-                                            <dd class="feature-list__value">
-                                                {{ $info->new_flatmate_language ?? '' }}
-                                            </dd>
-
-                                        </dl>
-                                    </section>
 
                                 </div>
+
+
                                 <aside>
                                     <div class="block block_bubble block_contact contact_the_advertiser">
                                         <div class="block_header">
@@ -311,22 +211,22 @@
 
                                                         @if ($user_info->file_name)
                                                             <img class="profile-photo advert-details__profile-photo"
-                                                                src="{{ $imageUrl }}" alt=""
-                                                                width="100" height="100">
+                                                                src="{{ $imageUrl }}" alt="" width="100"
+                                                                height="100">
                                                         @else
                                                             <img class="profile-photo advert-details__profile-photo"
-                                                                src="{{ $first_image }}" alt=""
-                                                                width="100" height="100">
+                                                                src="{{ $first_image }}" alt="" width="100"
+                                                                height="100">
                                                         @endif
 
                                                         <strong class="profile-photo__name" itemprop="name">
-                                                            {{ $info->user->surname ?? '' }}
-                                                            {{ $info->user->first_name ?? '' }}
-                                                            {{ $info->user->last_name ?? '' }}
+                                                            {{ $data->user->surname ?? '' }}
+                                                            {{ $data->user->first_name ?? '' }}
+                                                            {{ $data->user->last_name ?? '' }}
                                                         </strong>
                                                     </div>
 
-                                                    <em> {{ $info->property_user_title ?? '' }} </em>
+                                                    <em> {{ $data->property_user_title ?? '' }} </em>
 
                                                     {{-- <span class="last-online">Last active:</span>
                                                     <span class="last-online light-grey">8 hours ago</span> --}}

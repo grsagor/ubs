@@ -34,10 +34,10 @@ class RoomListController extends Controller
 
     public function roomShow($id)
     {
-        $data                   = ServiceAdvertiseRoom::findOrFail($id);
-        $user_info              = Media::where('uploaded_by', $data->user_id)
+        $data['info']                   = ServiceAdvertiseRoom::findOrFail($id);
+        $data['user_info']              = Media::where('uploaded_by', $data['info']->user_id)
             ->where('model_type', 'App\\User')->first();
 
-        return view('rough.more_info', compact('data', 'user_info'));
+        return view('rough.more_info', $data);
     }
 }
