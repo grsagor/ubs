@@ -57,12 +57,13 @@ use App\Http\Controllers\SellingPriceGroupController;
 use App\Http\Controllers\VariationTemplateController;
 use App\Http\Controllers\ImportOpeningStockController;
 use App\Http\Controllers\TransactionPaymentController;
+use App\Http\Controllers\Frontend\RoomWantedController;
 use App\Http\Controllers\PurchaseRequisitionController;
 use App\Http\Controllers\NotificationTemplateController;
 use App\Http\Controllers\SalesCommissionAgentController;
 use App\Http\Controllers\DashboardConfiguratorController;
+use App\Http\Controllers\Backend\PropertyWantedController;
 use App\Http\Controllers\CombinedPurchaseReturnController;
-use Modules\Crm\Http\Controllers\PropertyWantedController;
 use App\Http\Controllers\Backend\ServiceAdvertiseRoomController;
 use App\Http\Controllers\Frontend\CategoryController as FrontendCategoryController;
 
@@ -80,15 +81,12 @@ use App\Http\Controllers\Frontend\CategoryController as FrontendCategoryControll
 include_once 'install_r.php';
 
 
-Route::get('/room-list',                [RoomListController::class, 'roomList']);
-Route::get('/room-show/{id}',           [RoomListController::class, 'roomShow'])->name('room_show');
+Route::get('/room-list',                    [RoomListController::class, 'roomList']);
+Route::get('/room-show/{id}',               [RoomListController::class, 'roomShow'])->name('room_show');
 
-Route::get('/advertise', function () {
-    return view('rough.advertise');
-});
-Route::get('/more-info', function () {
-    return view('rough.more_info');
-})->name('more-info');
+Route::get('/property-list',                [RoomWantedController::class, 'roomList']);
+Route::get('/property-show/{id}',           [RoomListController::class, 'roomShow'])->name('room_show');
+
 
 Route::get('/room-wanted', function () {
     return view('rough.room_wanted');

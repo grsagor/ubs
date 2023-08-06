@@ -71,7 +71,7 @@ class ServiceAdvertiseRoomController extends Controller
             ]);
 
 
-            $requestedData['advert_photos']              = $this->image($request->file('advert_photos'), 'uploads/service_property/', 800, 500);
+            $requestedData['advert_photos']              = $this->image($request->file('advert_photos'), 'uploads/service_room/', 800, 500);
 
 
             $serviceAdvertiseRoom->fill($requestedData)->save();
