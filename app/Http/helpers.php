@@ -166,3 +166,58 @@ function paginationInfo(LengthAwarePaginator $paginator)
         'to' => $to,
     ];
 }
+
+
+if (!function_exists('getStatus')) {
+    function getStatus(): array
+    {
+        return [
+            [
+                'label' => 'Active',
+                'value' => 1
+            ],
+            [
+                'label' => 'Inactive',
+                'value' => 0
+            ],
+        ];
+    }
+}
+
+
+if (!function_exists('getSex')) {
+    function getSex(): array
+    {
+        return [
+            [
+                'label' => 'Male',
+                'value' => 1
+            ],
+            [
+                'label' => 'Female',
+                'value' => 2
+            ],
+            [
+                'label' => 'Others',
+                'value' => 3
+            ],
+        ];
+    }
+}
+
+
+if (!function_exists('yesNo')) {
+    function yesNo(): array
+    {
+        return [
+            [
+                'label' => 'Yes',
+                'value' => 1
+            ],
+            [
+                'label' => 'No',
+                'value' => 2
+            ]
+        ];
+    }
+}

@@ -809,15 +809,15 @@
                                             <div class="form_inputs">
                                                 <span class="form_input form_select">
                                                     <select name="exiting_flatmate_gender">
-                                                        <option value="NULL">Select...
-                                                        </option>
-                                                        <option value=1>Male
-                                                        </option>
-                                                        <option value=2>Female
-                                                        </option>
-                                                        <option value=3>Others
-                                                        </option>
+                                                        <option selected="" value="">Select ....</option>
+                                                        @foreach (getSex() as $item)
+                                                            <option value="{{ $item['value'] }}"
+                                                                {{ old('sex') == $item['value'] ? 'selected' : '' }}>
+                                                                {{ $item['label'] }}
+                                                            </option>
+                                                        @endforeach
                                                     </select>
+
                                                 </span>
                                             </div>
                                         </div>
@@ -939,10 +939,13 @@
                                             <div class="form_inputs">
                                                 <span class="form_input form_select">
                                                     <select name="new_flatmate_gender">
-                                                        <option value=>No preference</option>
-                                                        <option value=1>Male</option>
-                                                        <option value=2>Female</option>
-                                                        <option value=3>Others</option>
+                                                        <option selected="" value="">Select ....</option>
+                                                        @foreach (getSex() as $item)
+                                                            <option value="{{ $item['value'] }}"
+                                                                {{ old('sex') == $item['value'] ? 'selected' : '' }}>
+                                                                {{ $item['label'] }}
+                                                            </option>
+                                                        @endforeach
                                                     </select>
                                                 </span>
                                             </div>

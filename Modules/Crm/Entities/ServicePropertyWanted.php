@@ -21,8 +21,10 @@ class ServicePropertyWanted extends Model
         'gender',
         'room_size',
         'buddy_ups',
-        'reason_to_leave',
-        'address',
+        'wanted_living_area',
+
+        // 'address',
+
         'combined_budget',
         'per',
         'available_form',
@@ -30,8 +32,8 @@ class ServicePropertyWanted extends Model
         'max_term',
         'days_of_wk_available',
         'roomfurnishings',
-        'min_age',
-        'share_type',
+        'age',
+        'occupation',
         'pets',
         'smoking_current',
         'gay_lesbian',

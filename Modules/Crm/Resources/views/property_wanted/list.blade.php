@@ -34,17 +34,17 @@
                                                                     <div class="d-flex gap-1">
                                                                         <h4>Who's searching?</h4>
                                                                         <input type="radio" name="who_is_searching"
-                                                                            id="justme">
+                                                                            value="Just Me" id="justme">
                                                                         <label for="justme">Just Me</label>
                                                                     </div>
                                                                     <div class="d-flex gap-1">
                                                                         <input type="radio" name="who_is_searching"
-                                                                            id="meandapartner">
+                                                                            value="Me and a partner" id="meandapartner">
                                                                         <label for="meandapartner">Me and a partner</label>
                                                                     </div>
                                                                     <div class="d-flex gap-1">
                                                                         <input type="radio" name="who_is_searching"
-                                                                            id="meandafriend">
+                                                                            value="Me and a friend" id="meandafriend">
                                                                         <label for="meandafriend">Me and a friend</label>
                                                                     </div>
                                                                 </div>
@@ -70,21 +70,19 @@
                                                                 </div>
                                                                 <div class="col-lg-7 d-flex gap-3">
                                                                     <h4 class="">Your gender(s)</h4>
-                                                                    <div class="d-flex gap-1">
-                                                                        <input type="radio" name="gender"
-                                                                            id="male_gender">
-                                                                        <label for="male_gender">1 male</label>
-                                                                    </div>
-                                                                    <div class="d-flex gap-1">
-                                                                        <input type="radio" name="gender"
-                                                                            id="female_gender">
-                                                                        <label for="female_gender">1 female</label>
-                                                                    </div>
-                                                                    <div class="d-flex gap-1">
-                                                                        <input type="radio" name="gender"
-                                                                            id="other_gender">
-                                                                        <label for="other_gender">Other</label>
-                                                                    </div>
+                                                                    <span class="form_input form_select">
+                                                                        <select name="gender">
+                                                                            <option selected="" value="">Select
+                                                                                ....</option>
+                                                                            @foreach (getSex() as $item)
+                                                                                <option value="{{ $item['value'] }}"
+                                                                                    {{ old('sex') == $item['value'] ? 'selected' : '' }}>
+                                                                                    {{ $item['label'] }}
+                                                                                </option>
+                                                                            @endforeach
+                                                                        </select>
+
+                                                                    </span>
                                                                 </div>
                                                             </div>
                                                             <div class="row align-items-center">
@@ -97,13 +95,13 @@
                                                                     <h4 class="">Room size</h4>
                                                                     <div class="d-flex gap-1">
                                                                         <input type="radio" name="room_size"
-                                                                            id="asingleordouble">
+                                                                            value="A single or double" id="asingleordouble">
                                                                         <label for="asingleordouble">A single or double
                                                                             room</label>
                                                                     </div>
                                                                     <div class="d-flex gap-1">
                                                                         <input type="radio" name="room_size"
-                                                                            id="dobuleroom">
+                                                                            value="A double room" id="dobuleroom">
                                                                         <label for="dobuleroom">A double room</label>
                                                                     </div>
                                                                 </div>
@@ -118,7 +116,7 @@
                                                                     <h4 class="">Room size</h4>
                                                                     <div class="d-flex gap-1">
                                                                         <input type="checkbox" name="buddy_ups"
-                                                                            id="buddy_ups">
+                                                                            value="yes" id="buddy_ups">
                                                                         <span><label for="buddy_ups">A single or double
                                                                                 room</label></span>
                                                                     </div>
@@ -141,7 +139,7 @@
                                                                 </div>
                                                                 <div class="col-lg-7">
                                                                     <h4 class="">Where do you want to live?</h4>
-                                                                    <select name="reason_to_leave">
+                                                                    <select name="wanted_living_area">
                                                                         <option value="" selected="">Select an
                                                                             area...
                                                                         </option>
@@ -196,10 +194,32 @@
                                                                 <div class="col-lg-7 d-flex">
                                                                     <h4 class="">I am available to move in from</h4>
 
-                                                                    <input type="date" name="buddy_ups">
+                                                                    <input type="date" name="available_form">
 
                                                                 </div>
                                                             </div>
+
+                                                            @php
+                                                                $months = [
+                                                                    1 => '1 month',
+                                                                    2 => '2 months',
+                                                                    3 => '3 months',
+                                                                    4 => '4 months',
+                                                                    5 => '5 months',
+                                                                    6 => '6 months',
+                                                                    7 => '7 months',
+                                                                    8 => '8 months',
+                                                                    9 => '9 months',
+                                                                    10 => '10 months',
+                                                                    11 => '11 months',
+                                                                    12 => '1 year',
+                                                                    15 => '1 year 3 months',
+                                                                    18 => '1 year 6 months',
+                                                                    21 => '1 year 9 months',
+                                                                    24 => '2 years',
+                                                                    36 => '3 years',
+                                                                ];
+                                                            @endphp
                                                             <div class="row">
                                                                 <div class="col-lg-4">
                                                                     <div class="left-area">
@@ -209,47 +229,21 @@
                                                                 <div class="col-lg-7 d-flex">
                                                                     <h4 class="">Period accommodation needed for</h4>
                                                                     <select name="min_term">
-                                                                        <option value="0" selected="">No minimum
+                                                                        <option value="0" selected>No maximum
                                                                         </option>
-                                                                        <option value="1">1 month</option>
-                                                                        <option value="2">2 months</option>
-                                                                        <option value="3">3 months</option>
-                                                                        <option value="4">4 months</option>
-                                                                        <option value="5">5 months</option>
-                                                                        <option value="6">6 months</option>
-                                                                        <option value="7">7 months</option>
-                                                                        <option value="8">8 months</option>
-                                                                        <option value="9">9 months</option>
-                                                                        <option value="10">10 months</option>
-                                                                        <option value="11">11 months</option>
-                                                                        <option value="12">1 year</option>
-                                                                        <option value="15">1 year 3 months</option>
-                                                                        <option value="18">1 year 6 months</option>
-                                                                        <option value="21">1 year 9 months</option>
-                                                                        <option value="24">2 years</option>
-                                                                        <option value="36">3 years</option>
+                                                                        @foreach ($months as $value => $label)
+                                                                            <option value="{{ $value }}">
+                                                                                {{ $label }}</option>
+                                                                        @endforeach
                                                                     </select>
                                                                     <span>to</span>
                                                                     <select name="max_term">
-                                                                        <option value="0" selected="">No maximum
+                                                                        <option value="0" selected>No maximum
                                                                         </option>
-                                                                        <option value="1">1 month</option>
-                                                                        <option value="2">2 months</option>
-                                                                        <option value="3">3 months</option>
-                                                                        <option value="4">4 months</option>
-                                                                        <option value="5">5 months</option>
-                                                                        <option value="6">6 months</option>
-                                                                        <option value="7">7 months</option>
-                                                                        <option value="8">8 months</option>
-                                                                        <option value="9">9 months</option>
-                                                                        <option value="10">10 months</option>
-                                                                        <option value="11">11 months</option>
-                                                                        <option value="12">1 year</option>
-                                                                        <option value="15">1 year 3 months</option>
-                                                                        <option value="18">1 year 6 months</option>
-                                                                        <option value="21">1 year 9 months</option>
-                                                                        <option value="24">2 years</option>
-                                                                        <option value="36">3 years</option>
+                                                                        @foreach ($months as $value => $label)
+                                                                            <option value="{{ $value }}">
+                                                                                {{ $label }}</option>
+                                                                        @endforeach
                                                                     </select>
                                                                 </div>
                                                             </div>
@@ -331,90 +325,12 @@
                                                                 </div>
                                                                 <div class="col-lg-7 d-flex">
                                                                     <h4 class="heading">Age</h4>
-                                                                    <select name="min_age">
+                                                                    <select name="age">
                                                                         <option value="">Select...</option>
-                                                                        <option value="18">18</option>
-                                                                        <option value="19">19</option>
-                                                                        <option value="20">20</option>
-                                                                        <option value="21">21</option>
-                                                                        <option value="22">22</option>
-                                                                        <option value="23">23</option>
-                                                                        <option value="24" selected="">24</option>
-                                                                        <option value="25">25</option>
-                                                                        <option value="26">26</option>
-                                                                        <option value="27">27</option>
-                                                                        <option value="28">28</option>
-                                                                        <option value="29">29</option>
-                                                                        <option value="30">30</option>
-                                                                        <option value="31">31</option>
-                                                                        <option value="32">32</option>
-                                                                        <option value="33">33</option>
-                                                                        <option value="34">34</option>
-                                                                        <option value="35">35</option>
-                                                                        <option value="36">36</option>
-                                                                        <option value="37">37</option>
-                                                                        <option value="38">38</option>
-                                                                        <option value="39">39</option>
-                                                                        <option value="40">40</option>
-                                                                        <option value="41">41</option>
-                                                                        <option value="42">42</option>
-                                                                        <option value="43">43</option>
-                                                                        <option value="44">44</option>
-                                                                        <option value="45">45</option>
-                                                                        <option value="46">46</option>
-                                                                        <option value="47">47</option>
-                                                                        <option value="48">48</option>
-                                                                        <option value="49">49</option>
-                                                                        <option value="50">50</option>
-                                                                        <option value="51">51</option>
-                                                                        <option value="52">52</option>
-                                                                        <option value="53">53</option>
-                                                                        <option value="54">54</option>
-                                                                        <option value="55">55</option>
-                                                                        <option value="56">56</option>
-                                                                        <option value="57">57</option>
-                                                                        <option value="58">58</option>
-                                                                        <option value="59">59</option>
-                                                                        <option value="60">60</option>
-                                                                        <option value="61">61</option>
-                                                                        <option value="62">62</option>
-                                                                        <option value="63">63</option>
-                                                                        <option value="64">64</option>
-                                                                        <option value="65">65</option>
-                                                                        <option value="66">66</option>
-                                                                        <option value="67">67</option>
-                                                                        <option value="68">68</option>
-                                                                        <option value="69">69</option>
-                                                                        <option value="70">70</option>
-                                                                        <option value="71">71</option>
-                                                                        <option value="72">72</option>
-                                                                        <option value="73">73</option>
-                                                                        <option value="74">74</option>
-                                                                        <option value="75">75</option>
-                                                                        <option value="76">76</option>
-                                                                        <option value="77">77</option>
-                                                                        <option value="78">78</option>
-                                                                        <option value="79">79</option>
-                                                                        <option value="80">80</option>
-                                                                        <option value="81">81</option>
-                                                                        <option value="82">82</option>
-                                                                        <option value="83">83</option>
-                                                                        <option value="84">84</option>
-                                                                        <option value="85">85</option>
-                                                                        <option value="86">86</option>
-                                                                        <option value="87">87</option>
-                                                                        <option value="88">88</option>
-                                                                        <option value="89">89</option>
-                                                                        <option value="90">90</option>
-                                                                        <option value="91">91</option>
-                                                                        <option value="92">92</option>
-                                                                        <option value="93">93</option>
-                                                                        <option value="94">94</option>
-                                                                        <option value="95">95</option>
-                                                                        <option value="96">96</option>
-                                                                        <option value="97">97</option>
-                                                                        <option value="98">98</option>
-                                                                        <option value="99">99</option>
+                                                                        @foreach (range(18, 99) as $age)
+                                                                            <option value="{{ $age }}">
+                                                                                {{ $age }}</option>
+                                                                        @endforeach
                                                                     </select>
                                                                     <span>Years old</span>
                                                                 </div>
@@ -427,13 +343,13 @@
                                                                 </div>
                                                                 <div class="col-lg-7 d-flex">
                                                                     <h4 class="heading">Occupation</h4>
-                                                                    <select name="share_type">
+                                                                    <select name="occupation">
                                                                         <option value="ND" selected="">Not
                                                                             disclosed
                                                                         </option>
-                                                                        <option value="S">Student</option>
-                                                                        <option value="P">Professional</option>
-                                                                        <option value="O">Other</option>
+                                                                        <option value="Student">Student</option>
+                                                                        <option value="Professional">Professional</option>
+                                                                        <option value="Other">Other</option>
                                                                     </select>
                                                                 </div>
                                                             </div>
@@ -445,9 +361,9 @@
                                                                 </div>
                                                                 <div class="col-lg-7 d-flex">
                                                                     <h4 class="heading">Do you smoke?</h4>
-                                                                    <select name="pets">
-                                                                        <option value="N">no</option>
-                                                                        <option value="Y">yes</option>
+                                                                    <select name="smoking_current">
+                                                                        <option value="2">no</option>
+                                                                        <option value="1">yes</option>
                                                                     </select>
                                                                 </div>
                                                             </div>
@@ -459,9 +375,9 @@
                                                                 </div>
                                                                 <div class="col-lg-7 d-flex">
                                                                     <h4 class="heading">Do you have any pets?</h4>
-                                                                    <select name="smoking_current">
-                                                                        <option value="N" selected="">no</option>
-                                                                        <option value="Y">yes</option>
+                                                                    <select name="pets">
+                                                                        <option value="2" selected="">no</option>
+                                                                        <option value="1">yes</option>
                                                                     </select>
                                                                 </div>
                                                             </div>
@@ -474,15 +390,16 @@
                                                                 <div class="col-lg-7">
                                                                     <h4 class="">Your sexual orientation</h4>
                                                                     <select name="gay_lesbian">
-                                                                        <option value="ND" selected="">Undisclosed
+                                                                        <option value="Undisclosed" selected="">
+                                                                            Undisclosed
                                                                         </option>
-                                                                        <option value="S">Straight</option>
-                                                                        <option value="G">Gay/Lesbian</option>
-                                                                        <option value="B">Bisexual</option>
+                                                                        <option value="Straight">Straight</option>
+                                                                        <option value="Gay/Lesbian">Gay/Lesbian</option>
+                                                                        <option value="Bisexual">Bisexual</option>
                                                                     </select>
                                                                     <label class="form_input form_checkbox">
                                                                         <input type="checkbox" name="gay_consent"
-                                                                            value="Y">
+                                                                            value="1">
                                                                         Yes, I would like my orientation to form part of my
                                                                         ad's
                                                                         search criteria and allow others to search on this
@@ -915,10 +832,16 @@
                                                                 </div>
                                                                 <div class="col-lg-7">
                                                                     <h4 class="heading">Gender</h4>
+
                                                                     <select name="gender_req">
-                                                                        <option value="N">Males or Females</option>
-                                                                        <option value="M">Males</option>
-                                                                        <option value="F">Females</option>
+                                                                        <option selected="" value="">Select
+                                                                            ....</option>
+                                                                        @foreach (getSex() as $item)
+                                                                            <option value="{{ $item['value'] }}"
+                                                                                {{ old('sex') == $item['value'] ? 'selected' : '' }}>
+                                                                                {{ $item['label'] }}
+                                                                            </option>
+                                                                        @endforeach
                                                                     </select>
                                                                 </div>
                                                             </div>
@@ -931,178 +854,21 @@
                                                                 <div class="col-lg-7 d-flex">
                                                                     <h4 class="heading">Age Range</h4>
                                                                     <select name="min_age_req">
-                                                                        <option value="" selected="">Select...
-                                                                        </option>
-                                                                        <option value="18">18</option>
-                                                                        <option value="19">19</option>
-                                                                        <option value="20">20</option>
-                                                                        <option value="21">21</option>
-                                                                        <option value="22">22</option>
-                                                                        <option value="23">23</option>
-                                                                        <option value="24">24</option>
-                                                                        <option value="25">25</option>
-                                                                        <option value="26">26</option>
-                                                                        <option value="27">27</option>
-                                                                        <option value="28">28</option>
-                                                                        <option value="29">29</option>
-                                                                        <option value="30">30</option>
-                                                                        <option value="31">31</option>
-                                                                        <option value="32">32</option>
-                                                                        <option value="33">33</option>
-                                                                        <option value="34">34</option>
-                                                                        <option value="35">35</option>
-                                                                        <option value="36">36</option>
-                                                                        <option value="37">37</option>
-                                                                        <option value="38">38</option>
-                                                                        <option value="39">39</option>
-                                                                        <option value="40">40</option>
-                                                                        <option value="41">41</option>
-                                                                        <option value="42">42</option>
-                                                                        <option value="43">43</option>
-                                                                        <option value="44">44</option>
-                                                                        <option value="45">45</option>
-                                                                        <option value="46">46</option>
-                                                                        <option value="47">47</option>
-                                                                        <option value="48">48</option>
-                                                                        <option value="49">49</option>
-                                                                        <option value="50">50</option>
-                                                                        <option value="51">51</option>
-                                                                        <option value="52">52</option>
-                                                                        <option value="53">53</option>
-                                                                        <option value="54">54</option>
-                                                                        <option value="55">55</option>
-                                                                        <option value="56">56</option>
-                                                                        <option value="57">57</option>
-                                                                        <option value="58">58</option>
-                                                                        <option value="59">59</option>
-                                                                        <option value="60">60</option>
-                                                                        <option value="61">61</option>
-                                                                        <option value="62">62</option>
-                                                                        <option value="63">63</option>
-                                                                        <option value="64">64</option>
-                                                                        <option value="65">65</option>
-                                                                        <option value="66">66</option>
-                                                                        <option value="67">67</option>
-                                                                        <option value="68">68</option>
-                                                                        <option value="69">69</option>
-                                                                        <option value="70">70</option>
-                                                                        <option value="71">71</option>
-                                                                        <option value="72">72</option>
-                                                                        <option value="73">73</option>
-                                                                        <option value="74">74</option>
-                                                                        <option value="75">75</option>
-                                                                        <option value="76">76</option>
-                                                                        <option value="77">77</option>
-                                                                        <option value="78">78</option>
-                                                                        <option value="79">79</option>
-                                                                        <option value="80">80</option>
-                                                                        <option value="81">81</option>
-                                                                        <option value="82">82</option>
-                                                                        <option value="83">83</option>
-                                                                        <option value="84">84</option>
-                                                                        <option value="85">85</option>
-                                                                        <option value="86">86</option>
-                                                                        <option value="87">87</option>
-                                                                        <option value="88">88</option>
-                                                                        <option value="89">89</option>
-                                                                        <option value="90">90</option>
-                                                                        <option value="91">91</option>
-                                                                        <option value="92">92</option>
-                                                                        <option value="93">93</option>
-                                                                        <option value="94">94</option>
-                                                                        <option value="95">95</option>
-                                                                        <option value="96">96</option>
-                                                                        <option value="97">97</option>
-                                                                        <option value="98">98</option>
-                                                                        <option value="99">99</option>
+                                                                        <option value="" selected>Select...</option>
+                                                                        @foreach (range(18, 99) as $age)
+                                                                            <option value="{{ $age }}">
+                                                                                {{ $age }}</option>
+                                                                        @endforeach
                                                                     </select>
                                                                     <span>to</span>
                                                                     <select name="max_age_req">
-                                                                        <option value="" selected="">Select...
-                                                                        </option>
-                                                                        <option value="18">18</option>
-                                                                        <option value="19">19</option>
-                                                                        <option value="20">20</option>
-                                                                        <option value="21">21</option>
-                                                                        <option value="22">22</option>
-                                                                        <option value="23">23</option>
-                                                                        <option value="24">24</option>
-                                                                        <option value="25">25</option>
-                                                                        <option value="26">26</option>
-                                                                        <option value="27">27</option>
-                                                                        <option value="28">28</option>
-                                                                        <option value="29">29</option>
-                                                                        <option value="30">30</option>
-                                                                        <option value="31">31</option>
-                                                                        <option value="32">32</option>
-                                                                        <option value="33">33</option>
-                                                                        <option value="34">34</option>
-                                                                        <option value="35">35</option>
-                                                                        <option value="36">36</option>
-                                                                        <option value="37">37</option>
-                                                                        <option value="38">38</option>
-                                                                        <option value="39">39</option>
-                                                                        <option value="40">40</option>
-                                                                        <option value="41">41</option>
-                                                                        <option value="42">42</option>
-                                                                        <option value="43">43</option>
-                                                                        <option value="44">44</option>
-                                                                        <option value="45">45</option>
-                                                                        <option value="46">46</option>
-                                                                        <option value="47">47</option>
-                                                                        <option value="48">48</option>
-                                                                        <option value="49">49</option>
-                                                                        <option value="50">50</option>
-                                                                        <option value="51">51</option>
-                                                                        <option value="52">52</option>
-                                                                        <option value="53">53</option>
-                                                                        <option value="54">54</option>
-                                                                        <option value="55">55</option>
-                                                                        <option value="56">56</option>
-                                                                        <option value="57">57</option>
-                                                                        <option value="58">58</option>
-                                                                        <option value="59">59</option>
-                                                                        <option value="60">60</option>
-                                                                        <option value="61">61</option>
-                                                                        <option value="62">62</option>
-                                                                        <option value="63">63</option>
-                                                                        <option value="64">64</option>
-                                                                        <option value="65">65</option>
-                                                                        <option value="66">66</option>
-                                                                        <option value="67">67</option>
-                                                                        <option value="68">68</option>
-                                                                        <option value="69">69</option>
-                                                                        <option value="70">70</option>
-                                                                        <option value="71">71</option>
-                                                                        <option value="72">72</option>
-                                                                        <option value="73">73</option>
-                                                                        <option value="74">74</option>
-                                                                        <option value="75">75</option>
-                                                                        <option value="76">76</option>
-                                                                        <option value="77">77</option>
-                                                                        <option value="78">78</option>
-                                                                        <option value="79">79</option>
-                                                                        <option value="80">80</option>
-                                                                        <option value="81">81</option>
-                                                                        <option value="82">82</option>
-                                                                        <option value="83">83</option>
-                                                                        <option value="84">84</option>
-                                                                        <option value="85">85</option>
-                                                                        <option value="86">86</option>
-                                                                        <option value="87">87</option>
-                                                                        <option value="88">88</option>
-                                                                        <option value="89">89</option>
-                                                                        <option value="90">90</option>
-                                                                        <option value="91">91</option>
-                                                                        <option value="92">92</option>
-                                                                        <option value="93">93</option>
-                                                                        <option value="94">94</option>
-                                                                        <option value="95">95</option>
-                                                                        <option value="96">96</option>
-                                                                        <option value="97">97</option>
-                                                                        <option value="98">98</option>
-                                                                        <option value="99">99</option>
+                                                                        <option value="" selected>Select...</option>
+                                                                        @foreach (range(18, 99) as $age)
+                                                                            <option value="{{ $age }}">
+                                                                                {{ $age }}</option>
+                                                                        @endforeach
                                                                     </select>
+
                                                                 </div>
                                                             </div>
                                                             <div class="row">
@@ -1114,8 +880,8 @@
                                                                 <div class="col-lg-7">
                                                                     <h4 class="heading">Smoking</h4>
                                                                     <select name="smoking">
-                                                                        <option value="Y">Don't mind</option>
-                                                                        <option value="N">No thanks</option>
+                                                                        <option value="Don't mind">Don't mind</option>
+                                                                        <option value="No thanks">No thanks</option>
                                                                     </select>
                                                                 </div>
                                                             </div>
@@ -1128,26 +894,12 @@
                                                                 <div class="col-lg-7">
                                                                     <h4 class="">Pets</h4>
                                                                     <select name="pets_req">
-                                                                        <option value="Y">Don't mind</option>
-                                                                        <option value="N">No thanks</option>
+                                                                        <option value="Don't mind">Don't mind</option>
+                                                                        <option value="No thanks">No thanks</option>
                                                                     </select>
                                                                 </div>
                                                             </div>
-                                                            <div class="row">
-                                                                <div class="col-lg-4">
-                                                                    <div class="left-area">
-                                                                        {{-- <h4 class="heading">Occupation</h4> --}}
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-lg-7">
-                                                                    <h4 class="">Occupation</h4>
-                                                                    <select name="share_type_req">
-                                                                        <option value="M">Don't mind</option>
-                                                                        <option value="S">Students</option>
-                                                                        <option value="P">Professionals</option>
-                                                                    </select>
-                                                                </div>
-                                                            </div>
+
                                                             <div class="row">
                                                                 <div class="col-lg-4">
                                                                     <div class="left-area">
@@ -1157,12 +909,12 @@
                                                                 <div class="col-lg-7">
                                                                     <h4 class="">Orientation</h4>
                                                                     <select name="gay_lesbian_req">
-                                                                        <option value="ND" selected="">Not
+                                                                        <option value="Not important" selected="">Not
                                                                             important
                                                                         </option>
-                                                                        <option value="S">Straight</option>
-                                                                        <option value="G">Gay/Lesbian</option>
-                                                                        <option value="B">Bisexual</option>
+                                                                        <option value="Straight">Straight</option>
+                                                                        <option value="Gay/Lesbian">Gay/Lesbian</option>
+                                                                        <option value="Bisexual">Bisexual</option>
                                                                     </select>
                                                                 </div>
                                                             </div>
@@ -1209,7 +961,7 @@
                                                                     <h4 class="">Upload photos</h4>
                                                                     <input class="form-control" type="file"
                                                                         id="imageUpload" name="images[]" multiple>
-                                                                    <div id="previewContainer"></div>
+                                                                    {{-- <div id="previewContainer"></div> --}}
                                                                 </div>
                                                             </div>
                                                             <div class="row align-items-center">
