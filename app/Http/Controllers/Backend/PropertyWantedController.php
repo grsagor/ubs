@@ -18,6 +18,12 @@ class PropertyWantedController extends Controller
         return view('crm::property_wanted.list');
     }
 
+    // public function index()
+    // {
+    //     // return view('user.property.addProperty');
+    //     return view('backend.services.property_wanted.advertise');
+    // }
+
 
     public function store(Request $request)
     {
