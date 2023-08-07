@@ -19,5 +19,5 @@
             window.location = "{{ route('business.getRegister') }}?lang=" + $(this).val();
         });
     })
-</script>
-@endsection
+</script> 
+@endsection 

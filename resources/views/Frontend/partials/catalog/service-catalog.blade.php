@@ -10,7 +10,7 @@
             <h2 class="widget-title">{{ __('Service categories') }}</h2>
             <ul class="product-categories">
                 @php
-                 $segments = Request::segments();
+                 $segments = Request::segments(); 
                 $lastSegment = last($segments);
                 @endphp
                 @foreach (App\Models\ServiceCategory::where('language_id',$langg->id)->where('status',1)->get() as $category)

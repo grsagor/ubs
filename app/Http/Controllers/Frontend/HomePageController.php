@@ -6,7 +6,7 @@ use App\ArrivalSection;
 use App\Category;
 use App\Http\Controllers\Controller;
 use App\Product;
-use App\Rating;
+use App\Rating; 
 use App\Slider;
 use App\Star;
 use Illuminate\Http\Request;
@@ -47,7 +47,6 @@ class HomePageController extends Controller
 
         $data['service_categories'] = Category::take(12)->get();
         // $data['stars'] = Star::take(8)->get();
-
 
         return view('Frontend.pages.homepage.features', $data);
     }

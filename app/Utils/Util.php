@@ -689,7 +689,7 @@ class Util
         $uploaded_file_name = null;
         if ($request->hasFile($file_name) && $request->file($file_name)->isValid()) {
 
-            //Check if mime type is image
+            //Check if mime type is image 
             if ($file_type == 'image') {
                 if (strpos($request->$file_name->getClientMimeType(), 'image/') === false) {
                     throw new \Exception('Invalid image file');

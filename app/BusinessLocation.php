@@ -163,4 +163,23 @@ class BusinessLocation extends Model
 
         return $address;
     }
+
+
+    public function services(){
+        return $this->hasMany('App\UserService','shop_id','id');
+    }
+
+    public function products(){
+        return $this->hasMany('App\Product','shop_id','id');
+    }
+
+    // get 2 products for marketing
+    public function marketingProducts(){
+        return $this->hasMany('App\Product','shop_id','id');
+    }
+
+
+
+    
+    
 }
