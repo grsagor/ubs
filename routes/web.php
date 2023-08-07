@@ -22,6 +22,7 @@ use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\Frontend\CategoryController as FrontendCategoryController;
 use App\Http\Controllers\Frontend\HomePageController;
 use App\Http\Controllers\Frontend\ShopController;
+use App\Http\Controllers\Frontend\CatalogController;
 use App\Http\Controllers\GroupTaxController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ImportOpeningStockController;
@@ -91,6 +92,11 @@ Route::middleware(['setData'])->group(function () {
     Route::get('/shop/list/{category?}/{country?}', [ShopController::class, 'shopList'])->name('shop.list');
     Route::get('/shop/service/{id}', [ShopController::class, 'ShopService'])->name('shop.service');
 
+
+    // CATEGORY SECTION
+
+   Route::get('/categories', [CatalogController::class, 'categories'])->name('front.categories');
+   Route::get('/category/{category?}/{subcategory?}/{childcategory?}/{kind?}', [CatalogController::class, 'category'])->name('front.category');
 
     // Frontend Routes End //
 

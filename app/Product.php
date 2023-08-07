@@ -3,6 +3,10 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Session;
+use App\Generalsetting;
+use App\Currency;
+use DB;
 
 class Product extends Model
 {
@@ -222,4 +226,306 @@ class Product extends Model
     {
         return $this->hasMany(\App\ProductRack::class);
     }
+
+
+
+    public  function setCurrency() {
+        $gs = cache()->remember('generalsettings', now()->addDay(), function () {
+            return DB::table('generalsettings')->first();
+        });
+        $price = $this->price;
+        if (Session::has('currency'))
+        {
+            $curr = cache()->remember('session_currency', now()->addDay(), function () {
+                return Currency::find(Session::get('currency'));
+            });
+        }
+        else
+        {
+            $curr = cache()->remember('default_currency', now()->addDay(), function () {
+                return Currency::where('is_default','=',1)->first();
+            });
+        }
+        $price = $price * $curr->value;
+        $price = \PriceHelper::showPrice($price);
+        if($gs->currency_format == 0){
+            return $curr->sign.$price;
+        }
+        else{
+            return $price.$curr->sign;
+        }
+    }
+
+    public function showPrice() {
+        $gs = cache()->remember('generalsettings', now()->addDay(), function () {
+            return DB::table('generalsettings')->first();
+        });
+        $price = $this->price;
+
+        if($this->user_id != 0){
+        $price = $this->price + $gs->fixed_commission + ($this->price/100) * $gs->percentage_commission;
+        }
+
+        if(!empty($this->size)){
+            $price += $this->size_price[0];
+        }
+
+        // Attribute Section
+
+        $attributes = $this->attributes["attributes"];
+        if(!empty($attributes)) {
+            $attrArr = json_decode($attributes, true);
+        }
+
+        if (!empty($attrArr)) {
+            foreach ($attrArr as $attrKey => $attrVal) {
+                if (is_array($attrVal) && array_key_exists("details_status",$attrVal) && $attrVal['details_status'] == 1) {
+
+                    foreach ($attrVal['values'] as $optionKey => $optionVal) {
+                    $price += $attrVal['prices'][$optionKey];
+                    // only the first price counts
+                    break;
+                    }
+
+                }
+            }
+        }
+
+        // Attribute Section Ends
+
+        if (Session::has('currency'))
+        {
+            $curr = cache()->remember('session_currency', now()->addDay(), function () {
+                return Currency::find(Session::get('currency'));
+            });
+        }
+        else
+        {
+            $curr = cache()->remember('default_currency', now()->addDay(), function () {
+                return Currency::where('is_default','=',1)->first();
+            });
+        }
+
+        $price = $price * $curr->value;
+        $price = \PriceHelper::showPrice($price);
+
+        if($gs->currency_format == 0){
+            return $curr->sign.$price;
+        }
+        else{
+            return $price.$curr->sign;
+        }
+    }
+
+    public function showPreviousPrice() {
+        $gs = cache()->remember('generalsettings', now()->addDay(), function () {
+            return DB::table('generalsettings')->first();
+        });
+        $price = $this->previous_price;
+        if(!$price){
+            return '';
+        }
+        if($this->user_id != 0){
+        $price = $this->previous_price + $gs->fixed_commission + ($this->previous_price/100) * $gs->percentage_commission ;
+        }
+
+        if(!empty($this->size)){
+            $price += $this->size_price[0];
+        }
+
+    // Attribute Section
+
+    $attributes = $this->attributes["attributes"];
+      if(!empty($attributes)) {
+          $attrArr = json_decode($attributes, true);
+      }
+      // dd($attrArr);
+      if (!empty($attrArr)) {
+          foreach ($attrArr as $attrKey => $attrVal) {
+            if (is_array($attrVal) && array_key_exists("details_status",$attrVal) && $attrVal['details_status'] == 1) {
+
+                foreach ($attrVal['values'] as $optionKey => $optionVal) {
+                  $price += $attrVal['prices'][$optionKey];
+                  // only the first price counts
+                  break;
+                }
+
+            }
+          }
+      }
+
+    // Attribute Section Ends
+
+        if (Session::has('currency'))
+        {
+            $curr = cache()->remember('session_currency', now()->addDay(), function () {
+                return Currency::find(Session::get('currency'));
+            });
+        }
+        else
+        {
+            $curr = cache()->remember('default_currency', now()->addDay(), function () {
+                return Currency::where('is_default','=',1)->first();
+            });
+
+        }
+
+        $price = $price * $curr->value;
+        $price = \PriceHelper::showPrice($price);
+
+        if($gs->currency_format == 0){
+            return $curr->sign.$price;
+        }
+        else{
+            return $price.$curr->sign;
+        }
+    }
+
+    public static function convertPrice($price) {
+        $gs = cache()->remember('generalsettings', now()->addDay(), function () {
+            return DB::table('generalsettings')->first();
+        });
+        if (Session::has('currency'))
+        {
+            $curr = cache()->remember('session_currency', now()->addDay(), function () {
+                return Currency::find(Session::get('currency'));
+            });
+        }
+        else
+        {
+            $curr = cache()->remember('default_currency', now()->addDay(), function () {
+                return Currency::where('is_default','=',1)->first();
+            });
+        }
+        $price = $price * $curr->value;
+        $price = \PriceHelper::showPrice($price);
+        if($gs->currency_format == 0){
+            return $curr->sign.$price;
+        }
+        else{
+            return $price.$curr->sign;
+        }
+    }
+
+    public static function vendorConvertPrice($price) {
+        $gs = cache()->remember('generalsettings', now()->addDay(), function () {
+            return DB::table('generalsettings')->first();
+        });
+
+        $curr = Currency::where('is_default','=',1)->first();
+        $price = $price * $curr->value;
+        $price = \PriceHelper::showPrice($price);
+        if($gs->currency_format == 0){
+            return $curr->sign.$price;
+        }
+        else{
+            return $price.$curr->sign;
+        }
+    }
+
+    public function offPercentage(){
+        $gs = cache()->remember('generalsettings', now()->addDay(), function () {
+            return DB::table('generalsettings')->first();
+        });
+        $price = $this->price;
+
+        $preprice = $this->previous_price;
+        if(!$preprice){
+            return '';
+        }
+
+        if($this->user_id != 0){
+        $price = $this->price + $gs->fixed_commission + ($this->price/100) * $gs->percentage_commission;
+
+        $preprice = $this->previous_price + $gs->fixed_commission + ($this->previous_price/100) * $gs->percentage_commission ;
+        }
+
+        if(!empty($this->size)){
+            $price += $this->size_price[0];
+            $preprice += $this->size_price[0];
+        }
+
+        // Attribute Section
+
+        $attributes = $this->attributes["attributes"];
+        if(!empty($attributes)) {
+            $attrArr = json_decode($attributes, true);
+        }
+
+        if (!empty($attrArr)) {
+            foreach ($attrArr as $attrKey => $attrVal) {
+                if (is_array($attrVal) && array_key_exists("details_status",$attrVal) && $attrVal['details_status'] == 1) {
+
+                    foreach ($attrVal['values'] as $optionKey => $optionVal) {
+                    $price += $attrVal['prices'][$optionKey];
+                    // only the first price counts
+                    $preprice += $attrVal['prices'][$optionKey];
+                    break;
+                    }
+
+                }
+            }
+        }
+
+        // Attribute Section Ends
+
+        if (Session::has('currency'))
+        {
+            $curr = cache()->remember('session_currency', now()->addDay(), function () {
+                return Currency::find(Session::get('currency'));
+            });
+        }
+        else
+        {
+            $curr = cache()->remember('default_currency', now()->addDay(), function () {
+                return Currency::where('is_default','=',1)->first();
+            });
+        }
+
+        $price = $price * $curr->value;
+        $preprice = $preprice * $curr->value;
+        $Percentage=(($preprice-$price)*100)/$preprice;
+        return $Percentage;
+
+    }
+
+
+    public function vendorSizePrice() {
+        $gs = cache()->remember('generalsettings', now()->addDay(), function () {
+            return DB::table('generalsettings')->first();
+        });
+        $price = $this->price;
+        if($this->user_id != 0){
+        $price = $this->price + $gs->fixed_commission + ($this->price/100) * $gs->percentage_commission;
+        }
+        if(!empty($this->size)){
+            $price += $this->size_price[0];
+        }
+
+    // Attribute Section
+
+    $attributes = $this->attributes["attributes"];
+      if(!empty($attributes)) {
+          $attrArr = json_decode($attributes, true);
+      }
+
+      if (!empty($attrArr)) {
+          foreach ($attrArr as $attrKey => $attrVal) {
+            if (is_array($attrVal) && array_key_exists("details_status",$attrVal) && $attrVal['details_status'] == 1) {
+
+                foreach ($attrVal['values'] as $optionKey => $optionVal) {
+                  $price += $attrVal['prices'][$optionKey];
+                  // only the first price counts
+                  break;
+                }
+
+            }
+          }
+      }
+
+    // Attribute Section Ends
+        return $price;
+    }
+
+
 }

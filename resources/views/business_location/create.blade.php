@@ -1,7 +1,7 @@
 <div class="modal-dialog modal-lg" role="document">
   <div class="modal-content">
 
-    {!! Form::open(['url' => action([\App\Http\Controllers\BusinessLocationController::class, 'store']), 'method' => 'post', 'enctype' => 'multipart/form-data', 'id' => 'business_location_add_form' ]) !!}
+    {!! Form::open(['url' => action([\App\Http\Controllers\BusinessLocationController::class, 'store']), 'method' => 'post', 'enctype' => 'multipart/form-data']) !!}
 
     <div class="modal-header">
       <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -13,7 +13,7 @@
         <div class="col-sm-12">
           <div class="form-group">
             {!! Form::label('name', __( 'invoice.name' ) . ':*') !!}
-              {!! Form::text('name', null, ['class' => 'form-control', 'required', 'placeholder' => __( 'invoice.name' ) ]); !!}
+              {!! Form::text('name', null, ['class' => 'form-control', 'required', 'placeholder' => __( 'invoice.name' ) ]) !!}
           </div>
         </div>
         <div class="clearfix"></div>
@@ -22,7 +22,7 @@
             {{-- {!! Form::label('location_id', __( 'lang_v1.location_id' ) . ':') !!} --}}
               {{-- {!! Form::text('location_id', null, ['class' => 'form-control', 'placeholder' => __( 'lang_v1.location_id' ) ]); !!} --}}
               <label for="category">Category Name:</label>
-              <input type="text" name="category"  class="form-control" id="category" placeholder="Category name">
+              <input type="text" name="category" class="form-control" id="category" placeholder="Category name">
           </div>
         </div>
         <div class="col-sm-6">
@@ -37,65 +37,65 @@
         <div class="col-sm-6">
           <div class="form-group">
             {!! Form::label('location_id', __( 'lang_v1.location_id' ) . ':') !!}
-              {!! Form::text('location_id', null, ['class' => 'form-control', 'placeholder' => __( 'lang_v1.location_id' ) ]); !!}
+              {!! Form::text('location_id', null, ['class' => 'form-control', 'placeholder' => __( 'lang_v1.location_id' ) ]) !!}
           </div>
         </div>
         <div class="col-sm-6">
           <div class="form-group">
             {!! Form::label('landmark', __( 'business.landmark' ) . ':') !!}
-              {!! Form::text('landmark', null, ['class' => 'form-control', 'placeholder' => __( 'business.landmark' ) ]); !!}
+              {!! Form::text('landmark', null, ['class' => 'form-control', 'placeholder' => __( 'business.landmark' ) ]) !!}
           </div>
         </div>
         <div class="clearfix"></div>
         <div class="col-sm-6">
           <div class="form-group">
             {!! Form::label('city', __( 'business.city' ) . ':*') !!}
-              {!! Form::text('city', null, ['class' => 'form-control', 'placeholder' => __( 'business.city'), 'required' ]); !!}
+              {!! Form::text('city', null, ['class' => 'form-control', 'placeholder' => __( 'business.city'), 'required' ]) !!}
           </div>
         </div>
         <div class="col-sm-6">
           <div class="form-group">
             {!! Form::label('zip_code', __( 'business.zip_code' ) . ':*') !!}
-              {!! Form::text('zip_code', null, ['class' => 'form-control', 'placeholder' => __( 'business.zip_code'), 'required' ]); !!}
+              {!! Form::text('zip_code', null, ['class' => 'form-control', 'placeholder' => __( 'business.zip_code'), 'required' ]) !!}
           </div>
         </div>
         <div class="clearfix"></div>
         <div class="col-sm-6">
           <div class="form-group">
             {!! Form::label('state', __( 'business.state' ) . ':*') !!}
-              {!! Form::text('state', null, ['class' => 'form-control', 'placeholder' => __( 'business.state'), 'required' ]); !!}
+              {!! Form::text('state', null, ['class' => 'form-control', 'placeholder' => __( 'business.state'), 'required' ]) !!}
           </div>
         </div>
         <div class="col-sm-6">
           <div class="form-group">
             {!! Form::label('country', __( 'business.country' ) . ':*') !!}
-              {!! Form::text('country', null, ['class' => 'form-control', 'placeholder' => __( 'business.country'), 'required' ]); !!}
+              {!! Form::text('country', null, ['class' => 'form-control', 'placeholder' => __( 'business.country'), 'required' ]) !!}
           </div>
         </div>
         <div class="clearfix"></div>
         <div class="col-sm-6">
           <div class="form-group">
             {!! Form::label('mobile', __( 'business.mobile' ) . ':') !!}
-            {!! Form::text('mobile', null, ['class' => 'form-control', 'placeholder' => __( 'business.mobile')]); !!}
+            {!! Form::text('mobile', null, ['class' => 'form-control', 'placeholder' => __( 'business.mobile')]) !!}
           </div>
         </div>
         <div class="col-sm-6">
           <div class="form-group">
             {!! Form::label('alternate_number', __( 'business.alternate_number' ) . ':') !!}
-            {!! Form::text('alternate_number', null, ['class' => 'form-control', 'placeholder' => __( 'business.alternate_number')]); !!}
+            {!! Form::text('alternate_number', null, ['class' => 'form-control', 'placeholder' => __( 'business.alternate_number')]) !!}
           </div>
         </div>
         <div class="clearfix"></div>
         <div class="col-sm-6">
           <div class="form-group">
             {!! Form::label('email', __( 'business.email' ) . ':') !!}
-            {!! Form::email('email', null, ['class' => 'form-control', 'placeholder' => __( 'business.email')]); !!}
+            {!! Form::email('email', null, ['class' => 'form-control', 'placeholder' => __( 'business.email')]) !!}
           </div>
         </div>
         <div class="col-sm-6">
           <div class="form-group">
             {!! Form::label('website', __( 'lang_v1.website' ) . ':') !!}
-            {!! Form::text('website', null, ['class' => 'form-control', 'placeholder' => __( 'lang_v1.website')]); !!}
+            {!! Form::text('website', null, ['class' => 'form-control', 'placeholder' => __( 'lang_v1.website')]) !!}
           </div>
         </div>
 
@@ -185,7 +185,7 @@
         <div class="col-md-6">
           <div class="form-group">
               {!! Form::label('logo', __('business.upload_logo') . ':') !!}
-              {!! Form::file('logo', ['accept' => 'image/*']); !!}
+              {!! Form::file('logo', ['accept' => 'image/*']) !!}
           </div>
       </div>
         <div class="clearfix"></div>
@@ -210,28 +210,28 @@
           <div class="form-group">
             {!! Form::label('invoice_scheme_id', __('invoice.invoice_scheme') . ':*') !!} @show_tooltip(__('tooltip.invoice_scheme'))
               {!! Form::select('invoice_scheme_id', $invoice_schemes, null, ['class' => 'form-control', 'required',
-              'placeholder' => __('messages.please_select')]); !!}
+              'placeholder' => __('messages.please_select')]) !!}
           </div>
         </div>
         <div class="col-sm-6">
           <div class="form-group">
             {!! Form::label('invoice_layout_id', __('lang_v1.invoice_layout_for_pos') . ':*') !!} @show_tooltip(__('tooltip.invoice_layout'))
               {!! Form::select('invoice_layout_id', $invoice_layouts, null, ['class' => 'form-control', 'required',
-              'placeholder' => __('messages.please_select')]); !!}
+              'placeholder' => __('messages.please_select')]) !!}
           </div>
         </div>
         <div class="col-sm-6">
           <div class="form-group">
             {!! Form::label('sale_invoice_layout_id', __('lang_v1.invoice_layout_for_sale') . ':*') !!} @show_tooltip(__('lang_v1.invoice_layout_for_sale_tooltip'))
               {!! Form::select('sale_invoice_layout_id', $invoice_layouts, null, ['class' => 'form-control', 'required',
-              'placeholder' => __('messages.please_select')]); !!}
+              'placeholder' => __('messages.please_select')]) !!}
           </div>
         </div>
         <div class="col-sm-6">
           <div class="form-group">
             {!! Form::label('selling_price_group_id', __('lang_v1.default_selling_price_group') . ':') !!} @show_tooltip(__('lang_v1.location_price_group_help'))
               {!! Form::select('selling_price_group_id', $price_groups, null, ['class' => 'form-control',
-              'placeholder' => __('messages.please_select')]); !!}
+              'placeholder' => __('messages.please_select')]) !!}
           </div>
         </div>
         <div class="clearfix"></div>
@@ -246,28 +246,28 @@
         <div class="form-group">
             {!! Form::label('custom_field1', $location_custom_field1 . ':') !!}
             {!! Form::text('custom_field1', null, ['class' => 'form-control', 
-                'placeholder' => $location_custom_field1]); !!}
+                'placeholder' => $location_custom_field1]) !!}
         </div>
       </div>
       <div class="col-sm-3">
         <div class="form-group">
             {!! Form::label('custom_field2', $location_custom_field2 . ':') !!}
             {!! Form::text('custom_field2', null, ['class' => 'form-control', 
-                'placeholder' => $location_custom_field2]); !!}
+                'placeholder' => $location_custom_field2]) !!}
         </div>
       </div>
       <div class="col-sm-3">
         <div class="form-group">
             {!! Form::label('custom_field3', $location_custom_field3 . ':') !!}
             {!! Form::text('custom_field3', null, ['class' => 'form-control', 
-                'placeholder' => $location_custom_field3]); !!}
+                'placeholder' => $location_custom_field3]) !!}
         </div>
       </div>
       <div class="col-sm-3">
         <div class="form-group">
             {!! Form::label('custom_field4', $location_custom_field4 . ':') !!}
             {!! Form::text('custom_field4', null, ['class' => 'form-control', 
-                'placeholder' => $location_custom_field4]); !!}
+                'placeholder' => $location_custom_field4]) !!}
         </div>
       </div>
       <div class="clearfix"></div>
@@ -276,7 +276,7 @@
           <div class="form-group">
             {!! Form::label('featured_products', __('lang_v1.pos_screen_featured_products') . ':') !!} @show_tooltip(__('lang_v1.featured_products_help'))
               {!! Form::select('featured_products[]', [], null, ['class' => 'form-control',
-              'id' => 'featured_products', 'multiple']); !!}
+              'id' => 'featured_products', 'multiple']) !!}
           </div>
         </div>
       <div class="clearfix"></div>
@@ -296,9 +296,9 @@
                 @foreach($payment_types as $key => $value)
                   <tr>
                     <td class="text-center">{{$value}}</td>
-                    <td class="text-center">{!! Form::checkbox('default_payment_accounts[' . $key . '][is_enabled]', 1, true); !!}</td>
+                    <td class="text-center">{!! Form::checkbox('default_payment_accounts[' . $key . '][is_enabled]', 1, true) !!}</td>
                     <td class="text-center @if(empty($accounts)) hide @endif">
-                      {!! Form::select('default_payment_accounts[' . $key . '][account]', $accounts, null, ['class' => 'form-control input-sm']); !!}
+                      {!! Form::select('default_payment_accounts[' . $key . '][account]', $accounts, null, ['class' => 'form-control input-sm']) !!}
                     </td>
                   </tr>
                 @endforeach
@@ -310,7 +310,7 @@
     </div>
 
     <div class="modal-footer">
-      <button type="submit" class="btn btn-primary">@lang( 'messages.save' )</button>
+      <input type="submit" class="btn btn-primary">
       <button type="button" class="btn btn-default" data-dismiss="modal">@lang( 'messages.close' )</button>
     </div>
 

@@ -10,6 +10,7 @@ use App\SellingPriceGroup;
 use App\Utils\ModuleUtil;
 use App\Utils\BusinessUtil;
 use App\Utils\Util;
+use GrahamCampbell\ResultType\Success;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Permission;
 use Yajra\DataTables\Facades\DataTables;
@@ -157,9 +158,7 @@ class BusinessLocationController extends Controller
      */
     public function store(Request $request)
     {
-
-        // dd($request);
-
+        // return $request;
 
         if (! auth()->user()->can('business_settings.access')) {
             abort(403, 'Unauthorized action.');
@@ -180,21 +179,21 @@ class BusinessLocationController extends Controller
 
 
             //  $logo_name = $this->businessUtil->uploadFile($request, 'logo', 'business_logos', 'image');
+            $logo_name = null;
+            if($request->logo){
+                $image = $request->file('logo');
+                $image_name = rand(123456, 999999) . '.' . $image->getClientOriginalExtension();
+                $image_path = public_path('upload');
+                $image->move($image_path, $image_name);
+                $logo_name =  'upload/' . $image_name;
+            }
 
+                $input['logo'] = $logo_name;
 
-
-                // $image = $request->file('image');
-                // $image_name = rand(123456, 999999) . '.' . $image->getClientOriginalExtension();
-                // $image_path = public_path('assets/img/career');
-                // $image->move($image_path, $image_name);
-                // $logo_name =  'assets/img/career/' . $image_name;
-
-                // $input['logo'] = 'kshhhsss';
-
-                $logo_name = $this->uploadFile($request, 'logo', 'business_logos', 'image');
-                if (! empty($logo_name)) {
-                    $input['logo'] = $logo_name;
-                }
+                // $logo_name = $this->uploadFile($request, 'logo', 'business_logos', 'image');
+                // if (! empty($logo_name)) {
+                //     $input['logo'] = $logo_name;
+                // }
 
            
 
@@ -228,7 +227,7 @@ class BusinessLocationController extends Controller
             ];
         }
 
-        return $request;
+        return back()->with('success', $output['success']);
     }
 
     /**

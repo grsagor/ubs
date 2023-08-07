@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="description" content="Unipuller-New - Multivendor Ecommerce system">
     <meta name="author" content="Unipuller">
-
+ 
     @if (isset($page->meta_tag) && isset($page->meta_description))
         <meta name="keywords" content="{{ $page->meta_tag }}">
         <meta name="description" content="{{ $page->meta_description }}">
