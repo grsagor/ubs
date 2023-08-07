@@ -19,8 +19,8 @@ class AddJobSheetIdToTransactionsTable extends Migration
                 ->after('repair_model_id');
 
             $table->foreign('repair_job_sheet_id')
-                    ->references('id')->on('repair_job_sheets')
-                    ->onDelete('cascade');
+                ->references('id')->on('repair_job_sheets')
+                ->onDelete('cascade');
         });
     }
 

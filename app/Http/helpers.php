@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Pagination\LengthAwarePaginator;
+
 /**
  * boots pos.
  */
@@ -10,7 +12,8 @@ function pos_boot($ul, $pt, $lc, $em, $un, $type = 1, $pid = null)
 
     $pid = is_null($pid) ? config('author.pid') : $pid;
 
-    $curlConfig = [CURLOPT_URL => $request_url,
+    $curlConfig = [
+        CURLOPT_URL => $request_url,
         CURLOPT_POST => true,
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_SSL_VERIFYHOST => false,
@@ -28,7 +31,7 @@ function pos_boot($ul, $pt, $lc, $em, $un, $type = 1, $pid = null)
     $result = curl_exec($ch);
 
     if (curl_errno($ch)) {
-        $error_msg = 'C'.'U'.'RL '.'E'.'rro'.'r: ';
+        $error_msg = 'C' . 'U' . 'RL ' . 'E' . 'rro' . 'r: ';
         $error_msg .= curl_errno($ch);
 
         return redirect()->back()
@@ -44,7 +47,7 @@ function pos_boot($ul, $pt, $lc, $em, $un, $type = 1, $pid = null)
             //     $this->_handle_data($result['data']);
             // }
         } else {
-            $msg = (isset($result['msg']) && ! empty($result['msg'])) ? $result['msg'] : 'I'.'nvali'.'d '.'Lic'.'ense Det'.'ails';
+            $msg = (isset($result['msg']) && !empty($result['msg'])) ? $result['msg'] : 'I' . 'nvali' . 'd ' . 'Lic' . 'ense Det' . 'ails';
 
             return redirect()->back()
                 ->with('error', $msg);
@@ -52,7 +55,7 @@ function pos_boot($ul, $pt, $lc, $em, $un, $type = 1, $pid = null)
     }
 }
 
-if (! function_exists('humanFilesize')) {
+if (!function_exists('humanFilesize')) {
     function humanFilesize($size, $precision = 2)
     {
         $units = ['B', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
@@ -64,14 +67,14 @@ if (! function_exists('humanFilesize')) {
             $i++;
         }
 
-        return round($size, $precision).$units[$i];
+        return round($size, $precision) . $units[$i];
     }
 }
 
 /**
  * Checks if the uploaded document is an image
  */
-if (! function_exists('isFileImage')) {
+if (!function_exists('isFileImage')) {
     function isFileImage($filename)
     {
         $ext = pathinfo($filename, PATHINFO_EXTENSION);
@@ -98,7 +101,7 @@ function isPusherEnabled()
 {
     $is_pusher_enabled = false;
 
-    if (! empty(config('broadcasting.connections.pusher.key')) && ! empty(config('broadcasting.connections.pusher.secret')) && ! empty(config('broadcasting.connections.pusher.app_id')) && ! empty(config('broadcasting.connections.pusher.options.cluster')) && (config('broadcasting.connections.pusher.driver') == 'pusher')) {
+    if (!empty(config('broadcasting.connections.pusher.key')) && !empty(config('broadcasting.connections.pusher.secret')) && !empty(config('broadcasting.connections.pusher.app_id')) && !empty(config('broadcasting.connections.pusher.options.cluster')) && (config('broadcasting.connections.pusher.driver') == 'pusher')) {
         $is_pusher_enabled = true;
     }
 
@@ -110,7 +113,7 @@ function isPusherEnabled()
  *
  * @return bool
  */
-if (! function_exists('isMobile')) {
+if (!function_exists('isMobile')) {
     function isMobile()
     {
         $useragent = $_SERVER['HTTP_USER_AGENT'];
@@ -123,7 +126,7 @@ if (! function_exists('isMobile')) {
     }
 }
 
-if (! function_exists('str_ordinal')) {
+if (!function_exists('str_ordinal')) {
     /**
      * Append an ordinal indicator to a numeric value.
      *
@@ -137,11 +140,84 @@ if (! function_exists('str_ordinal')) {
 
         $indicators = ['th', 'st', 'nd', 'rd', 'th', 'th', 'th', 'th', 'th', 'th'];
 
-        $suffix = $superscript ? '<sup>'.$indicators[$number % 10].'</sup>' : $indicators[$number % 10];
+        $suffix = $superscript ? '<sup>' . $indicators[$number % 10] . '</sup>' : $indicators[$number % 10];
         if ($number % 100 >= 11 && $number % 100 <= 13) {
             $suffix = $superscript ? '<sup>th</sup>' : 'th';
         }
 
-        return number_format($number).$suffix;
+        return number_format($number) . $suffix;
+    }
+}
+
+
+function paginationInfo(LengthAwarePaginator $paginator)
+{
+    $currentPage = $paginator->currentPage();
+    $perPage = $paginator->perPage();
+    $total = $paginator->total();
+    $from = ($currentPage - 1) * $perPage + 1;
+    $to = min($from + $perPage - 1, $total);
+
+    return [
+        'currentPage' => $currentPage,
+        'perPage' => $perPage,
+        'total' => $total,
+        'from' => $from,
+        'to' => $to,
+    ];
+}
+
+
+if (!function_exists('getStatus')) {
+    function getStatus(): array
+    {
+        return [
+            [
+                'label' => 'Active',
+                'value' => 1
+            ],
+            [
+                'label' => 'Inactive',
+                'value' => 0
+            ],
+        ];
+    }
+}
+
+
+if (!function_exists('getSex')) {
+    function getSex(): array
+    {
+        return [
+            [
+                'label' => 'Male',
+                'value' => 1
+            ],
+            [
+                'label' => 'Female',
+                'value' => 2
+            ],
+            [
+                'label' => 'Others',
+                'value' => 3
+            ],
+        ];
+    }
+}
+
+
+if (!function_exists('yesNo')) {
+    function yesNo(): array
+    {
+        return [
+            [
+                'label' => 'Yes',
+                'value' => 1
+            ],
+            [
+                'label' => 'No',
+                'value' => 2
+            ]
+        ];
     }
 }

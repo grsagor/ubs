@@ -1,0 +1,340 @@
+.react-autosuggest__suggestions-list {
+    background: #fff;
+    border: 1px solid #d5d5d5;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    background-color: #fff
+}
+
+.react-autosuggest__input {
+    min-width: 250px
+}
+
+.react-autosuggest__input::-webkit-contacts-auto-fill-button,
+.react-autosuggest__input::-webkit-credentials-auto-fill-button {
+    visibility: hidden;
+    position: absolute;
+    right: 0
+}
+
+.react-autosuggest__suggestion {
+    padding: 10px;
+    cursor: pointer
+}
+
+.react-autosuggest__suggestion--highlighted {
+    background-color: #f5f5f5;
+    color: #3480db
+}
+
+.react-autosuggest__suggestion--highlighted:has(.react-autosuggest__suggestion__link) {
+    background-color: #fff;
+    color: #005480
+}
+
+.react-autosuggest__suggestion__link {
+    text-decoration: underline
+}
+
+.react-autosuggest__suggestion__link:hover {
+    color: #005480
+}
+
+.react-autosuggest__suggestion__error {
+    color: #ea321b
+}
+
+.address_manual_action {
+    justify-content: start
+}
+
+.autosuggest__manual-field {
+    margin-bottom: 10px
+}
+
+.autosuggest__manual-label {
+    margin-bottom: 3px;
+    display: block
+}
+
+.autosuggest__manual-button {
+    background: none;
+    border: none;
+    color: #3480db;
+    padding: 0;
+    font-size: 12px;
+    text-decoration: none;
+    font-size: unset;
+    cursor: pointer
+}
+
+.autosuggest__manual-button:hover {
+    text-decoration: underline
+}
+
+.desktop .autosuggest__manual-button {
+    font-size: 13px
+}
+
+.address_postcode__results {
+    padding-top: 20px;
+    width: 100%;
+    max-width: 500px
+}
+
+.address_postcode__results select {
+    width: 100%;
+    max-width: 100%;
+    padding: 10px;
+    border: 1px solid #d5d5d5
+}
+
+.address_postcode__results select option {
+    white-space: normal;
+    padding: 10px 5px;
+    font-size: 13px;
+    height: 20px
+}
+
+.address_postcode__service-error {
+    margin: 3px 0;
+    color: #ea321b
+}
+
+.address_postcode__validation {
+    margin: 5px 0 10px;
+    color: #ea321b;
+    display: none
+}
+
+.desktop .address_postcode__validation {
+    margin-top: 0;
+    margin-bottom: -10px
+}
+
+.validate_box .address_postcode__validation {
+    display: block
+}
+
+.address_postcode__action {
+    display: flex;
+    justify-content: flex-end;
+    padding: 15px 0;
+    max-width: 435px
+}
+
+.address_postcode__action p {
+    margin: 0
+}
+
+.desktop .address_postcode__action {
+    max-width: 435px;
+    justify-content: space-between;
+    align-items: center
+}
+
+.address_postcode__selected {
+    padding-top: 20px;
+    font-style: normal
+}
+
+.address_postcode__selected span {
+    display: block
+}
+
+.address_postcode__selected .button--link {
+    font-size: 13px
+}
+
+.form_input:has(.address_lookup) {
+    display: block;
+    width: 100%
+}
+
+.address_lookup {
+    width: auto;
+    padding-right: 20px;
+    max-width: 370px;
+    display: flex;
+    flex-direction: column
+}
+
+.address_lookup div.form-group--address-lookup {
+    display: flex;
+    margin: unset;
+    order: 0;
+    padding-bottom: 0 !important
+}
+
+.address_lookup input.form-group__input--postcode {
+    margin-right: 10px;
+    text-transform: uppercase;
+    padding: 10px;
+    width: 100%
+}
+
+.address_lookup input.form-group__input--postcode-error {
+    border: 1px solid #ea321b
+}
+
+.address_lookup button.button--postcode {
+    padding: 10px;
+    width: 100%
+}
+
+.form_row_postcode .form_label {
+    display: flex;
+    align-items: center
+}
+
+.form_row_postcode .form_label .form_hint {
+    padding-top: 1px;
+    margin-left: 10px
+}
+
+.desktop .address_lookup {
+    max-width: 90%
+}
+
+.desktop input.form-group__input--postcode {
+    font-size: 13px;
+    padding: 7px 10px;
+    max-width: 124px
+}
+
+.desktop button.button--postcode {
+    font-size: 13px;
+    line-height: 1;
+    max-width: 124px;
+    padding: 9px 10px
+}
+
+.desktop .form_row_postcode .form_label {
+    display: block
+}
+
+.desktop .form_row_postcode .form_label .form_hint {
+    margin: unset
+}
+
+.postcode-service--desktop #postcodeLookup {
+    width: 100%;
+    margin-bottom: 10px
+}
+
+.postcode-service--desktop .postcode-service__select-button--wrapper {
+    width: 30%
+}
+
+.postcode-service--desktop .postcode-service__button--wrapper {
+    width: 30%;
+    display: inline-flex;
+    margin-left: 10px;
+    padding-bottom: 0;
+    margin-bottom: 5px;
+    max-width: 210px;
+    position: absolute;
+    left: 118px
+}
+
+.postcode-service--desktop .postcode-service__search-input--wrapper {
+    display: flex
+}
+
+.postcode-service--desktop .postcode-service__search-input--wrapper .form_validation {
+    min-width: 155px
+}
+
+.postcode-service--desktop #postcode-service__search-input {
+    max-width: 118px;
+    padding: 3px 10px;
+    height: 31px;
+    font-size: 13px
+}
+
+.postcode-service--desktop #postcode-service__postcode-input-validation {
+    display: flex
+}
+
+.postcode-service--desktop #postcode-service__postcode-input-validation .form-group {
+    display: inline-flex;
+    flex-direction: column;
+    padding-bottom: 0
+}
+
+.postcode-service--desktop #postcode-service__postcode-input-validation .form_inputs {
+    margin-left: 15px;
+    position: relative
+}
+
+.postcode-service--desktop .postcode-service__find-button {
+    padding: 3px 0;
+    font-size: 13px;
+    height: 31px;
+    line-height: 12px;
+    max-width: 130px
+}
+
+.postcode-service--desktop .form-group__hint {
+    font-size: 11px;
+    line-height: 20px
+}
+
+.postcode-service--desktop .form-group__validation-icon {
+    font-size: 18px
+}
+
+.postcode-service--desktop .form_label__example {
+    display: none
+}
+
+.postcode-service--desktop #form_inputs__postcode-select--wrapper .form-group__select {
+    width: 100%;
+    padding-bottom: 0
+}
+
+.postcode-service--desktop #form_inputs__postcode-select--wrapper .form-group__select select {
+    padding: 3px 10px;
+    text-align: left;
+    background-color: #fff;
+    -webkit-appearance: none;
+    overflow: auto;
+    width: 92%;
+    font-family: Quicksand, sans-serif;
+    font-size: 13px
+}
+
+.postcode-service--desktop #form_inputs__postcode-select--wrapper .form-group__select select option {
+    white-space: normal;
+    padding: 10px 3px;
+    font-size: 13px
+}
+
+.postcode-service--desktop .form-group--error select {
+    border-color: #ea321b
+}
+
+.postcode-service--desktop .postcode-service__select-address-row {
+    justify-content: space-between;
+    display: flex;
+    width: 92%
+}
+
+.postcode-service--desktop .postcode-address__link--vertical-align {
+    margin-top: auto;
+    margin-bottom: auto
+}
+
+.postcode-service--desktop .postcode-address__link--block-display {
+    display: block
+}
+
+.postcode-service--desktop .postcode-address__data-item {
+    margin-bottom: 0
+}
+
+.postcode-service--desktop .postcode-service__search-postcode-row {
+    display: flex;
+    margin-top: 10px
+}

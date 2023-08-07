@@ -45,10 +45,11 @@
         "srmklive/paypal": "^3.0",
         "stripe/stripe-php": "^7.122",
         "unicodeveloper/laravel-paystack": "^1.0",
-        "yajra/laravel-datatables-oracle": "^9.19"
+        "yajra/laravel-datatables-oracle": "^9.19",
+        "intervention/image": "^2.7"
     },
     "require-dev": {
-        "barryvdh/laravel-debugbar": "^3.6",
+        "barryvdh/laravel-debugbar": "^3.8",
         "fakerphp/faker": "^1.9.1",
         "knuckleswtf/scribe": "^4.14",
         "mockery/mockery": "^1.4.4",

@@ -9,6 +9,9 @@
 Homestead.json
 Homestead.yaml
 npm-debug.log
+.env
+/public/uploads/service_property
+/public/uploads/service_room
 /public/uploads/business_logos
 /public/uploads/documents
 /public/uploads/img

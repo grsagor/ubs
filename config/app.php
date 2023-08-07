@@ -66,7 +66,8 @@ return [
     |
     */
 
-    'timezone' => env('APP_TIMEZONE', 'Europe/London'),
+    'timezone' => 'Asia/Dhaka',
+
 
     /*
     |--------------------------------------------------------------------------
