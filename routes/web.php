@@ -49,6 +49,7 @@ use App\Http\Controllers\SellController;
 use App\Http\Controllers\SellingPriceGroupController;
 use App\Http\Controllers\SellPosController;
 use App\Http\Controllers\SellReturnController;
+use App\Http\Controllers\ShopShareController;
 use App\Http\Controllers\StockAdjustmentController;
 use App\Http\Controllers\StockTransferController;
 use App\Http\Controllers\TaxonomyController;
@@ -73,6 +74,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 include_once 'install_r.php';
+
 
 Route::middleware(['setData'])->group(function () {
     Route::get('/', function () {
@@ -110,6 +112,11 @@ Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 
     Route::get('get-purchase-requisition-lines/{purchase_requisition_id}', [PurchaseRequisitionController::class, 'getPurchaseRequisitionLines']);
 
     Route::get('/sign-in-as-user/{id}', [ManageUserController::class, 'signInAsUser'])->name('sign-in-as-user');
+    
+    /* Route created by GR SAGOR from here */
+    Route::get('/shop-share', [ShopShareController::class, 'index']);
+    Route::post('/shop-sharing', [ShopShareController::class, 'store'])->name('shop.share.store');
+    /* Route created by GR SAGOR to here */
 
     Route::get('/home', [HomeController::class, 'index'])->name('home');
     Route::get('/home/get-totals', [HomeController::class, 'getTotals']);
