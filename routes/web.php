@@ -64,6 +64,7 @@ use App\Http\Controllers\SalesCommissionAgentController;
 use App\Http\Controllers\DashboardConfiguratorController;
 use App\Http\Controllers\Backend\PropertyWantedController;
 use App\Http\Controllers\CombinedPurchaseReturnController;
+use App\Http\Controllers\Backend\ServiceEducationController;
 use App\Http\Controllers\Backend\ServiceAdvertiseRoomController;
 use App\Http\Controllers\Frontend\CategoryController as FrontendCategoryController;
 
@@ -132,7 +133,12 @@ Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 
 
     // Services
     Route::resource('service-advertise',                    ServiceAdvertiseRoomController::class);
+
     Route::resource('property-wanted',                      PropertyWantedController::class);
+
+    Route::resource('service-education',                    ServiceEducationController::class);
+
+
 
 
 

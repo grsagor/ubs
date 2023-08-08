@@ -1,12 +1,10 @@
 @extends('layouts.app')
 @section('title', 'Advertise-Room')
-<link rel="stylesheet" href="{{ asset('assets/rough/root.css') }}">
-<link rel="stylesheet" href="{{ asset('assets/rough/stack.css') }}">
-<link rel="stylesheet" href="{{ asset('assets/rough/advertise.css') }}">
-@section('css')
-    <style>
 
-    </style>
+@section('css')
+    <link rel="stylesheet" href="{{ asset('assets/rough/root.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/rough/stack.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/rough/advertise.css') }}">
 @endsection
 
 @section('content')
