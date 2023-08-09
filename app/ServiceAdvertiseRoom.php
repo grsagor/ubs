@@ -95,6 +95,13 @@ class ServiceAdvertiseRoom extends Model
         $query->where('status', 1);
     }
 
+    public function scopeSearch($query, $request)
+    {
+        return $query->where('advert_title', 'LIKE', '%' . $request->search . '%')
+            ->orWhere('property_type', 'LIKE', '%' . $request->search . '%')
+            ->orWhere('property_address', 'LIKE', '%' . $request->search . '%');
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');

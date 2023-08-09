@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="description" content="Unipuller-New - Multivendor Ecommerce system">
     <meta name="author" content="Unipuller">
- 
+
     @if (isset($page->meta_tag) && isset($page->meta_description))
         <meta name="keywords" content="{{ $page->meta_tag }}">
         <meta name="description" content="{{ $page->meta_description }}">
@@ -65,6 +65,10 @@
     <link rel="stylesheet" href="{{ asset('assets/front/css/toastr.min.css') }}">
     {{-- addde by huma --}}
     <link rel="stylesheet" href="{{ asset('assets/front/css/main.css') }}">
+
+
+
+
 
 
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />

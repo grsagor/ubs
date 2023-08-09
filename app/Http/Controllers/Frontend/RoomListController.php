@@ -2,18 +2,18 @@
 
 namespace App\Http\Controllers\Frontend;
 
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use App\Media;
+use Illuminate\Http\Request;
 use App\ServiceAdvertiseRoom;
+use App\Http\Controllers\Controller;
 
 class RoomListController extends Controller
 {
-    public function roomList()
+    public function roomList(Request $request)
     {
         $data['per_page'] = 10;
 
-        $data['rooms']          = ServiceAdvertiseRoom::active()->select(
+        $data['rooms']         = ServiceAdvertiseRoom::active()->select(
             'id',
             'property_type',
             'property_address',
@@ -24,11 +24,11 @@ class RoomListController extends Controller
             'advert_photos',
             'advert_type',
             'created_at'
-        )->latest()->paginate($data['per_page']);
+        )
+            ->search($request)
+            ->latest()->paginate($data['per_page']);
 
-
-        // dd($data['rooms']);
-        return view('rough.room_list', $data);
+        return view('Frontend.service.room.room_list', $data);
     }
 
 

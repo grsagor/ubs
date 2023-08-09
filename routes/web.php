@@ -67,9 +67,13 @@ use App\Http\Controllers\Frontend\RoomWantedController;
 use App\Http\Controllers\PurchaseRequisitionController;
 use App\Http\Controllers\NotificationTemplateController;
 use App\Http\Controllers\SalesCommissionAgentController;
-use App\Http\Controllers\DashboardConfiguratorController;
+
+// use App\Http\Controllers\DashboardConfiguratorController;    
+
 use App\Http\Controllers\Backend\PropertyWantedController;
-use App\Http\Controllers\CombinedPurchaseReturnController;
+
+// use App\Http\Controllers\CombinedPurchaseReturnController;
+
 use App\Http\Controllers\Backend\ServiceEducationController;
 use App\Http\Controllers\Backend\ServiceAdvertiseRoomController;
 
@@ -87,7 +91,9 @@ use App\Http\Controllers\Backend\ServiceAdvertiseRoomController;
 include_once 'install_r.php';
 
 
-Route::get('/room-list',                    [RoomListController::class, 'roomList']);
+// Services
+
+Route::get('/room-list',                    [RoomListController::class, 'roomList'])->name('room.list');
 Route::get('/room-show/{id}',               [RoomListController::class, 'roomShow'])->name('room_show');
 
 Route::get('/property-list',                [RoomWantedController::class, 'roomList']);

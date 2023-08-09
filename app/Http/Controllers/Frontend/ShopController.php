@@ -41,17 +41,16 @@ class ShopController extends Controller
 
 
     public function ShopService($id)
-	{
-        $shop = BusinessLocation::where('id',$id)
-        ->with([
-            'services',
-            'products',
-            'marketingProducts' => function($query) {
-                $query->take(8);
-            }
-        ])->first();
-        $vendor = Business::where('id',$shop->business_id)->first();
-        return view('frontend.pages.shop.service_shop', compact('shop','vendor'));
-	}
-    
+    {
+        $shop = BusinessLocation::where('id', $id)
+            ->with([
+                'services',
+                'products',
+                'marketingProducts' => function ($query) {
+                    $query->take(8);
+                }
+            ])->first();
+        $vendor = Business::where('id', $shop->business_id)->first();
+        return view('frontend.pages.shop.service_shop', compact('shop', 'vendor'));
+    }
 }
