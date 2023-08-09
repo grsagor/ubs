@@ -27,7 +27,7 @@ class BusinessUtil extends Util
      */
     public function newBusinessDefaultResources($business_id, $user_id)
     {
-        $user = User::find($user_id);
+        $user = User::find($user_id); 
 
         //create Admin role and assign to user
         $role = Role::create(['name' => 'Admin#'.$business_id,
@@ -212,7 +212,7 @@ class BusinessUtil extends Util
 
         $business = Business::create_business($business_details);
 
-        return $business;
+        return $business; 
     }
 
     /**

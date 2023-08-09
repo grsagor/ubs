@@ -169,7 +169,7 @@ class User extends Authenticatable
      * @param $business_id int
      * @param $prepend_none = true (boolean)
      * @param $include_commission_agents = false (boolean)
-     * @return array users
+     * @return array users 
      */
     public static function forDropdown($business_id, $prepend_none = true, $include_commission_agents = false, $prepend_all = false, $check_location_permission = false)
     {

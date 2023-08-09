@@ -15,7 +15,7 @@
         @include('frontend.partials.global.responsive-menubar')
     </header>
 
-    {{-- @if ($ps->slider == 1) --}}
+    {{-- @if ($ps->slider == 1) --}} 
         <div class="position-relative">
             <span class="nextBtn"></span>
             <span class="prevBtn"></span>

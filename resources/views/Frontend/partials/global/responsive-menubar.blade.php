@@ -22,7 +22,7 @@
                                     href="{{ url('/service_category') }}">{{ __('Service') }}</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ url('vendor_list') }}">Shop</a>
+                                <a class="nav-link" href="{{ route('shop.list') }}">Shop</a>
                             </li>
                             <li class="nav-item dropdown mega-dropdown">
                                 <a class="nav-link dropdown-toggle"

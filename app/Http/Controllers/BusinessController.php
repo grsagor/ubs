@@ -39,7 +39,7 @@ class BusinessController extends Controller
     protected $restaurantUtil;
 
     protected $moduleUtil;
-
+ 
     protected $mailDrivers;
 
     /**
@@ -127,6 +127,7 @@ class BusinessController extends Controller
             $validator = $request->validate(
                 [
                     'name' => 'required|max:255',
+                    'category' => 'required|max:255',
                     'currency_id' => 'required|numeric',
                     'country' => 'required|max:255',
                     'state' => 'required|max:255',
@@ -163,20 +164,23 @@ class BusinessController extends Controller
                 ]
             );
 
+            // dd($validator);
             DB::beginTransaction();
 
             //Create owner.
-            $owner_details = $request->only(['surname', 'first_name', 'last_name', 'username', 'email', 'password', 'language']);
+            $owner_details = $request->only(['surname', 'first_name', 'last_name', 'username', 'email', 'password', 'language',]);
+            // dd($owner_details);
+
 
             $owner_details['language'] = empty($owner_details['language']) ? config('app.locale') : $owner_details['language'];
 
             $user = User::create_user($owner_details);
 
-            $business_details = $request->only(['name', 'start_date', 'currency_id', 'time_zone',
-                'fy_start_month', 'accounting_method', 'tax_label_1', 'tax_number_1',
+            $business_details = $request->only(['name','category','subcategory', 'start_date', 'currency_id', 'time_zone','about_info',
+                'fy_start_month', 'accounting_method', 'tax_label_1', 'tax_number_1','facebook','instagram', 'linkedin','youtube','twitter',
                 'tax_label_2', 'tax_number_2', ]);
 
-            $business_location = $request->only(['name', 'country', 'state', 'city', 'zip_code', 'landmark',
+            $business_location = $request->only(['name', 'country', 'state', 'city', 'zip_code', 'landmark','address',
                 'website', 'mobile', 'alternate_number', ]);
 
             //Create the business

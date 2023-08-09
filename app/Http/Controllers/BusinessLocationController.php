@@ -8,7 +8,9 @@ use App\InvoiceLayout;
 use App\InvoiceScheme;
 use App\SellingPriceGroup;
 use App\Utils\ModuleUtil;
+use App\Utils\BusinessUtil;
 use App\Utils\Util;
+use GrahamCampbell\ResultType\Success;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Permission;
 use Yajra\DataTables\Facades\DataTables;
@@ -19,16 +21,21 @@ class BusinessLocationController extends Controller
 
     protected $commonUtil;
 
+    protected $businessUtil;
+
+
     /**
      * Constructor
      *
      * @param  ModuleUtil  $moduleUtil
      * @return void
      */
-    public function __construct(ModuleUtil $moduleUtil, Util $commonUtil)
+    public function __construct(BusinessUtil $businessUtil, ModuleUtil $moduleUtil, Util $commonUtil)
     {
         $this->moduleUtil = $moduleUtil;
         $this->commonUtil = $commonUtil;
+        $this->businessUtil = $businessUtil;
+
     }
 
     /**
@@ -135,7 +142,7 @@ class BusinessLocationController extends Controller
 
         return view('business_location.create')
                     ->with(compact(
-                        'invoice_layouts',
+                        'invoice_layouts', 
                         'invoice_schemes',
                         'price_groups',
                         'payment_types',
@@ -151,6 +158,8 @@ class BusinessLocationController extends Controller
      */
     public function store(Request $request)
     {
+        // return $request;
+
         if (! auth()->user()->can('business_settings.access')) {
             abort(403, 'Unauthorized action.');
         }
@@ -165,8 +174,29 @@ class BusinessLocationController extends Controller
                 return $this->moduleUtil->quotaExpiredResponse('locations', $business_id);
             }
 
-            $input = $request->only(['name', 'landmark', 'city', 'state', 'country', 'zip_code', 'invoice_scheme_id',
-                'invoice_layout_id', 'mobile', 'alternate_number', 'email', 'website', 'custom_field1', 'custom_field2', 'custom_field3', 'custom_field4', 'location_id', 'selling_price_group_id', 'default_payment_accounts', 'featured_products', 'sale_invoice_layout_id', ]);
+            $input = $request->only(['name', 'landmark', 'city', 'state', 'country', 'zip_code', 'invoice_scheme_id','category','subcategory','about_info','facebook','instagram','linkedin','youtube','twitter','invoice_layout_id', 'mobile', 'alternate_number', 'email', 'website', 'custom_field1', 'custom_field2', 'custom_field3', 'custom_field4', 'location_id', 'selling_price_group_id', 'default_payment_accounts', 'featured_products', 'sale_invoice_layout_id', ]);
+
+
+
+            //  $logo_name = $this->businessUtil->uploadFile($request, 'logo', 'business_logos', 'image');
+            $logo_name = null;
+            if($request->logo){
+                $image = $request->file('logo');
+                $image_name = rand(123456, 999999) . '.' . $image->getClientOriginalExtension();
+                $image_path = public_path('upload');
+                $image->move($image_path, $image_name);
+                $logo_name =  'upload/' . $image_name;
+            }
+
+                $input['logo'] = $logo_name;
+
+                // $logo_name = $this->uploadFile($request, 'logo', 'business_logos', 'image');
+                // if (! empty($logo_name)) {
+                //     $input['logo'] = $logo_name;
+                // }
+
+           
+
 
             $input['business_id'] = $business_id;
 
@@ -178,6 +208,8 @@ class BusinessLocationController extends Controller
             if (empty($input['location_id'])) {
                 $input['location_id'] = $this->moduleUtil->generateReferenceNumber('business_location', $ref_count);
             }
+
+            // return $input;
 
             $location = BusinessLocation::create($input);
 
@@ -195,7 +227,7 @@ class BusinessLocationController extends Controller
             ];
         }
 
-        return $output;
+        return back()->with('success', $output['success']);
     }
 
     /**
@@ -268,9 +300,7 @@ class BusinessLocationController extends Controller
         }
 
         try {
-            $input = $request->only(['name', 'landmark', 'city', 'state', 'country',
-                'zip_code', 'invoice_scheme_id',
-                'invoice_layout_id', 'mobile', 'alternate_number', 'email', 'website', 'custom_field1', 'custom_field2', 'custom_field3', 'custom_field4', 'location_id', 'selling_price_group_id', 'default_payment_accounts', 'featured_products', 'sale_invoice_layout_id', ]);
+            $input = $request->only(['name', 'landmark', 'city', 'state', 'country', 'zip_code', 'invoice_scheme_id', 'invoice_layout_id', 'mobile', 'alternate_number', 'email', 'website', 'custom_field1', 'custom_field2', 'custom_field3', 'custom_field4', 'location_id', 'selling_price_group_id', 'default_payment_accounts', 'featured_products', 'sale_invoice_layout_id', ]);
 
             $business_id = $request->session()->get('user.business_id');
 
@@ -372,4 +402,6 @@ class BusinessLocationController extends Controller
 
         return $output;
     }
+
+
 }
