@@ -25,7 +25,7 @@
 
         p.category_text {
             /* min-height: 20px;
-                                                                                                                                                                                        max-height: 20px; */
+                                                                                                                                                                                                                                max-height: 20px; */
         }
 
         h5.product-title {
@@ -120,11 +120,11 @@
                         <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12">
                             <div class="product-search-one">
                                 <form id="searchForm" class="search-form form-inline search-pill-shape bg-white"
-                                    action="{{ route('room.list') }}" method="GET">
+                                    action="{{ route('property.list') }}" method="GET">
 
                                     {{-- Search box Country Name --}}
-                                    {{-- 
-                                    <div class="select-appearance-none categori-container" id="countryForm">
+
+                                    {{-- <div class="select-appearance-none categori-container" id="countryForm">
                                         <select name="country" class="form-control categoris mx-2" id="country_select">
                                             <option selected="" value="">{{ __('Select Country') }}</option>
                                             @foreach (DB::table('countries')->where('status', 1)->orderby('id', 'desc')->get() as $data)
@@ -136,8 +136,7 @@
                                     </div> --}}
 
                                     <input type="text" id="shop_name" class="col form-control search-field"
-                                        name="search" placeholder="Search title or room type or room address"
-                                        value="{{ request()->input('search') }}">
+                                        name="search" placeholder="Search title" value="{{ request()->input('search') }}">
 
                                     <a type="submit" name="submit" class="search-submit"><i
                                             class="flaticon-search flat-mini text-white"></i>
@@ -162,7 +161,7 @@
                                                             class="  col-lg-4 col-md-4 col-sm-12 d-flex align-items-center card-image">
 
                                                             @php
-                                                                $images = json_decode($item->advert_photos, true);
+                                                                $images = json_decode($item->images, true);
                                                                 $first_image = null;
                                                                 $img_count = null;
                                                                 
@@ -195,7 +194,7 @@
                                                                     <a class="text-dark"
                                                                         href="{{ route('shop.service', $item->id) }}">
                                                                         <span class="company-name">
-                                                                            {{ Str::limit($item->advert_title, $limit = 20, $end = '...') }}
+                                                                            {{ Str::limit($item->ad_title, $limit = 20, $end = '...') }}
                                                                         </span>
                                                                     </a>
                                                                 </h5>
@@ -203,52 +202,27 @@
                                                                 <hr class="mt-0">
                                                                 <p class="category_text text-dark"
                                                                     style="margin-bottom: 0rem; margin-top: -10px;">
-                                                                    {{ Str::limit($item->advert_description, $limit = 30, $end = '...') }}
+                                                                    {{ Str::limit($item->ad_text, $limit = 30, $end = '...') }}
                                                                 </p>
 
                                                             </div>
-
-
-                                                            @php
-                                                                $room_data = json_decode($item->room, true);
-                                                                
-                                                                $maxValue = null;
-                                                                $minValue = null;
-                                                                
-                                                                for ($i = 1; $i <= 3; $i++) {
-                                                                    $field = 'room_cost_of_amount' . $i;
-                                                                    if (isset($room_data[$field])) {
-                                                                        $amount = intval($room_data[$field]);
-                                                                        if ($maxValue === null || $amount > $maxValue) {
-                                                                            $maxValue = $amount;
-                                                                        }
-                                                                        if ($minValue === null || $amount < $minValue) {
-                                                                            $minValue = $amount;
-                                                                        }
-                                                                    }
-                                                                }
-                                                                if ($minValue == $maxValue) {
-                                                                    $room_rent = $maxValue;
-                                                                } else {
-                                                                    $room_rent = $minValue . ' - ' . $maxValue;
-                                                            } @endphp
 
                                                             <div class="d-flex text-center"
                                                                 style="background-color: whitesmoke; border-top: 3px solid var(--green);">
 
                                                                 <span class=" flex-fill mb-0 text-white">
                                                                     <p class="lower-section-text mb-0  text-muted">
-                                                                        Rent
+                                                                        Available
                                                                     </p>
                                                                     <p class="mb-0 text-muted">
-                                                                        &pound;{{ $room_rent }} <abbr>pcm</abbr>
+                                                                        {{ $item->available_form }}
                                                                     </p>
                                                                 </span>
                                                                 <span class=" flex-fill mb-0 text-white">
-                                                                    <p class="lower-section-text mb-0  text-muted">Type
+                                                                    <p class="lower-section-text mb-0  text-muted">Room Size
                                                                     </p>
                                                                     <p class="mb-0 text-muted">
-                                                                        {{ $item->property_type }}</p>
+                                                                        {{ $item->room_size }}</p>
                                                                     </p>
                                                                 </span>
 

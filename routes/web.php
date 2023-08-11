@@ -1,72 +1,72 @@
 <?php
 
-use App\Http\Controllers\AccountController;
-use App\Http\Controllers\AccountReportsController;
-use App\Http\Controllers\AccountTypeController;
-// use App\Http\Controllers\Auth;
-use App\Http\Controllers\BackUpController;
-use App\Http\Controllers\BarcodeController;
-use App\Http\Controllers\BrandController;
-use App\Http\Controllers\BusinessController;
-use App\Http\Controllers\BusinessLocationController;
-use App\Http\Controllers\CashRegisterController;
-use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\CombinedPurchaseReturnController;
-use App\Http\Controllers\ContactController;
-use App\Http\Controllers\CustomerGroupController;
-use App\Http\Controllers\DashboardConfiguratorController;
-use App\Http\Controllers\DiscountController;
-use App\Http\Controllers\DocumentAndNoteController;
-use App\Http\Controllers\ExpenseCategoryController;
-use App\Http\Controllers\ExpenseController;
-use App\Http\Controllers\Frontend\CategoryController as FrontendCategoryController;
-use App\Http\Controllers\Frontend\HomePageController;
-use App\Http\Controllers\Frontend\ShopController;
-use App\Http\Controllers\Frontend\CatalogController;
-use App\Http\Controllers\GroupTaxController;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\ImportOpeningStockController;
-use App\Http\Controllers\ImportProductsController;
-use App\Http\Controllers\ImportSalesController;
 use App\Http\Controllers\Install;
 use App\Http\Controllers\Restaurant;
 use Illuminate\Support\Facades\Route;
 // use App\Http\Controllers\Auth;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SellController;
 use App\Http\Controllers\UnitController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\BrandController;
+use App\Http\Controllers\BackUpController;
 use App\Http\Controllers\LabelsController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\AccountController;
+use App\Http\Controllers\BarcodeController;
+use App\Http\Controllers\ContactController;
+use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\PrinterController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SellPosController;
 use App\Http\Controllers\TaxRateController;
+use App\Http\Controllers\BusinessController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\DiscountController;
+use App\Http\Controllers\GroupTaxController;
 use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\TaxonomyController;
 use App\Http\Controllers\WarrantyController;
 use App\Http\Controllers\ManageUserController;
 use App\Http\Controllers\SalesOrderController;
 use App\Http\Controllers\SellReturnController;
+// use App\Http\Controllers\Auth;
+use App\Http\Controllers\AccountTypeController;
+use App\Http\Controllers\ImportSalesController;
+use App\Http\Controllers\CashRegisterController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\OpeningStockController;
+use App\Http\Controllers\CustomerGroupController;
+use App\Http\Controllers\Frontend\ShopController;
 use App\Http\Controllers\InvoiceLayoutController;
 use App\Http\Controllers\InvoiceSchemeController;
 use App\Http\Controllers\PurchaseOrderController;
 use App\Http\Controllers\StockTransferController;
+use App\Http\Controllers\AccountReportsController;
+use App\Http\Controllers\ImportProductsController;
 use App\Http\Controllers\LedgerDiscountController;
 use App\Http\Controllers\PurchaseReturnController;
 use App\Http\Controllers\TypesOfServiceController;
+use App\Http\Controllers\DocumentAndNoteController;
+use App\Http\Controllers\ExpenseCategoryController;
 use App\Http\Controllers\StockAdjustmentController;
+use App\Http\Controllers\BusinessLocationController;
+use App\Http\Controllers\Frontend\CatalogController;
 use App\Http\Controllers\LocationSettingsController;
+use App\Http\Controllers\Frontend\HomePageController;
+use App\Http\Controllers\Frontend\PropertyController;
 use App\Http\Controllers\Frontend\RoomListController;
 use App\Http\Controllers\SellingPriceGroupController;
 use App\Http\Controllers\VariationTemplateController;
+use App\Http\Controllers\Frontend\EducationController;
+use App\Http\Controllers\ImportOpeningStockController;
 use App\Http\Controllers\TransactionPaymentController;
 use App\Http\Controllers\Frontend\RoomWantedController;
 use App\Http\Controllers\PurchaseRequisitionController;
 use App\Http\Controllers\NotificationTemplateController;
 use App\Http\Controllers\SalesCommissionAgentController;
+use App\Http\Controllers\DashboardConfiguratorController;
 
 // use App\Http\Controllers\DashboardConfiguratorController;    
 
@@ -74,8 +74,10 @@ use App\Http\Controllers\Backend\PropertyWantedController;
 
 // use App\Http\Controllers\CombinedPurchaseReturnController;
 
+use App\Http\Controllers\CombinedPurchaseReturnController;
 use App\Http\Controllers\Backend\ServiceEducationController;
 use App\Http\Controllers\Backend\ServiceAdvertiseRoomController;
+use App\Http\Controllers\Frontend\CategoryController as FrontendCategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -96,8 +98,10 @@ include_once 'install_r.php';
 Route::get('/room-list',                    [RoomListController::class, 'roomList'])->name('room.list');
 Route::get('/room-show/{id}',               [RoomListController::class, 'roomShow'])->name('room_show');
 
-Route::get('/property-list',                [RoomWantedController::class, 'roomList']);
+Route::get('/property-list',                [PropertyController::class, 'propertyList'])->name('property.list');
 Route::get('/property-show/{id}',           [RoomWantedController::class, 'roomShow'])->name('property_show');
+
+Route::get('/education-list',               [EducationController::class, 'educationList'])->name('education.list');
 
 
 Route::get('/room-wanted', function () {

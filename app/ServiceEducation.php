@@ -41,6 +41,12 @@ class ServiceEducation extends Model
         $query->where('status', 1);
     }
 
+    public function scopeSearch($query, $request)
+    {
+        return $query->where('course_name', 'LIKE', '%' . $request->search . '%')
+            ->orWhere('institution_name', 'LIKE', '%' . $request->search . '%');
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');

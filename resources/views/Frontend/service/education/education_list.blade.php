@@ -25,7 +25,7 @@
 
         p.category_text {
             /* min-height: 20px;
-                                                                                                                                                                                        max-height: 20px; */
+                                                                                                                                                                                                                                                                        max-height: 20px; */
         }
 
         h5.product-title {
@@ -120,11 +120,11 @@
                         <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12">
                             <div class="product-search-one">
                                 <form id="searchForm" class="search-form form-inline search-pill-shape bg-white"
-                                    action="{{ route('room.list') }}" method="GET">
+                                    action="{{ route('education.list') }}" method="GET">
 
                                     {{-- Search box Country Name --}}
-                                    {{-- 
-                                    <div class="select-appearance-none categori-container" id="countryForm">
+
+                                    {{-- <div class="select-appearance-none categori-container" id="countryForm">
                                         <select name="country" class="form-control categoris mx-2" id="country_select">
                                             <option selected="" value="">{{ __('Select Country') }}</option>
                                             @foreach (DB::table('countries')->where('status', 1)->orderby('id', 'desc')->get() as $data)
@@ -136,7 +136,7 @@
                                     </div> --}}
 
                                     <input type="text" id="shop_name" class="col form-control search-field"
-                                        name="search" placeholder="Search title or room type or room address"
+                                        name="search" placeholder="Search course name or institution name"
                                         value="{{ request()->input('search') }}">
 
                                     <a type="submit" name="submit" class="search-submit"><i
@@ -147,11 +147,11 @@
 
 
                             <div class="showing-products pt-30 pb-50 border-2 border-bottom border-light" id="ajaxContent">
-                                @if (count($rooms) > 0)
+                                @if (count($education) > 0)
                                     <div
                                         class="row row-cols-xxl-2 px-3 row-cols-md-2 mb-4 row-cols-1 g-3 product-style-1 shop-list product-list  e-title-hover-primary e-hover-image-zoom">
 
-                                        @foreach ($rooms as $item)
+                                        @foreach ($education as $item)
                                             <div class="col">
 
                                                 <div class="product type-product rounded ">
@@ -162,7 +162,7 @@
                                                             class="  col-lg-4 col-md-4 col-sm-12 d-flex align-items-center card-image">
 
                                                             @php
-                                                                $images = json_decode($item->advert_photos, true);
+                                                                $images = json_decode($item->images, true);
                                                                 $first_image = null;
                                                                 $img_count = null;
                                                                 
@@ -195,7 +195,7 @@
                                                                     <a class="text-dark"
                                                                         href="{{ route('shop.service', $item->id) }}">
                                                                         <span class="company-name">
-                                                                            {{ Str::limit($item->advert_title, $limit = 20, $end = '...') }}
+                                                                            {{ Str::limit($item->course_name, $limit = 20, $end = '...') }}
                                                                         </span>
                                                                     </a>
                                                                 </h5>
@@ -203,52 +203,32 @@
                                                                 <hr class="mt-0">
                                                                 <p class="category_text text-dark"
                                                                     style="margin-bottom: 0rem; margin-top: -10px;">
-                                                                    {{ Str::limit($item->advert_description, $limit = 30, $end = '...') }}
+                                                                    {{ Str::limit($item->description, $limit = 30, $end = '...') }}
+                                                                </p>
+                                                                <p class="category_text text-dark"
+                                                                    style="margin-bottom: 0rem;">
+                                                                    {{ Str::limit($item->institution_name, $limit = 30, $end = '...') }}
                                                                 </p>
 
                                                             </div>
-
-
-                                                            @php
-                                                                $room_data = json_decode($item->room, true);
-                                                                
-                                                                $maxValue = null;
-                                                                $minValue = null;
-                                                                
-                                                                for ($i = 1; $i <= 3; $i++) {
-                                                                    $field = 'room_cost_of_amount' . $i;
-                                                                    if (isset($room_data[$field])) {
-                                                                        $amount = intval($room_data[$field]);
-                                                                        if ($maxValue === null || $amount > $maxValue) {
-                                                                            $maxValue = $amount;
-                                                                        }
-                                                                        if ($minValue === null || $amount < $minValue) {
-                                                                            $minValue = $amount;
-                                                                        }
-                                                                    }
-                                                                }
-                                                                if ($minValue == $maxValue) {
-                                                                    $room_rent = $maxValue;
-                                                                } else {
-                                                                    $room_rent = $minValue . ' - ' . $maxValue;
-                                                            } @endphp
 
                                                             <div class="d-flex text-center"
                                                                 style="background-color: whitesmoke; border-top: 3px solid var(--green);">
 
                                                                 <span class=" flex-fill mb-0 text-white">
                                                                     <p class="lower-section-text mb-0  text-muted">
-                                                                        Rent
+                                                                        Price
                                                                     </p>
                                                                     <p class="mb-0 text-muted">
-                                                                        &pound;{{ $room_rent }} <abbr>pcm</abbr>
+                                                                        &pound; {{ $item->price }}
                                                                     </p>
                                                                 </span>
                                                                 <span class=" flex-fill mb-0 text-white">
-                                                                    <p class="lower-section-text mb-0  text-muted">Type
+                                                                    <p class="lower-section-text mb-0  text-muted">Start
+                                                                        Date
                                                                     </p>
                                                                     <p class="mb-0 text-muted">
-                                                                        {{ $item->property_type }}</p>
+                                                                        {{ $item->start_date }}</p>
                                                                     </p>
                                                                 </span>
 
@@ -278,7 +258,7 @@
                                     <div class="pagination-style-one">
                                         <nav aria-label="Page navigation example">
                                             <ul class="pagination">
-                                                {{ $rooms->links() }}
+                                                {{ $education->links() }}
                                             </ul>
                                         </nav>
                                     </div>

@@ -13,20 +13,18 @@
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav ms-md-2">
                             <li class="nav-item dropdown {{ request()->path() == '/' ? 'active' : '' }}">
-                                <a class="nav-link dropdown-toggle"
-                                    href="{{ url('/') }}">Home</a>
+                                <a class="nav-link dropdown-toggle" href="{{ url('/') }}">Home</a>
                             </li>
                             <li
                                 class="nav-item dropdown {{ request()->path() == '/service_category' ? 'active' : '' }}">
                                 <a class="nav-link dropdown-toggle"
-                                    href="{{ url('/service_category') }}">{{ __('Service') }}</a>
+                                    href="{{ route('room.list') }}">{{ __('Service') }}</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('shop.list') }}">Shop</a>
                             </li>
                             <li class="nav-item dropdown mega-dropdown">
-                                <a class="nav-link dropdown-toggle"
-                                    href="{{ url('/category') }}">Product</a>
+                                <a class="nav-link dropdown-toggle" href="{{ url('/category') }}">Product</a>
                                 {{-- <ul class="dropdown-menu mega-dropdown-menu">
                                     <li class="mega-container">
                                         <div class="row row-cols-lg-4 row-cols-sm-2 row-cols-1">
@@ -56,12 +54,10 @@
                                 <a class="nav-link" href="https://slippa.unipuller.uk">{{ __('IT Solutions') }}</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link"
-                                    href="https://ubs.unipuller.com/">{{ __('Business Solutions') }}</a>
+                                <a class="nav-link" href="https://ubs.unipuller.com/">{{ __('Business Solutions') }}</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link"
-                                    href="https://slippa.unipuller.uk">{{ __('Digital Marketing') }}</a>
+                                <a class="nav-link" href="https://slippa.unipuller.uk">{{ __('Digital Marketing') }}</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="https://slippa.unipuller.uk">{{ __('Domain & Hosting') }}</a>
@@ -96,8 +92,7 @@
                                 @if (Auth::user())
                                     <div
                                         class="login-signup bg-secondary d-flex justify-content-between py-10 px-20 align-items-center">
-                                        <a href=""
-                                            class="d-flex align-items-center text-white">
+                                        <a href="" class="d-flex align-items-center text-white">
 
                                             <span>{{ __('Dashboard') }}</span>
                                         </a>
@@ -107,8 +102,7 @@
                                 @else
                                     <div
                                         class="login-signup bg-secondary d-flex justify-content-between py-10 px-20 align-items-center">
-                                        <a href="{{ url('user_login') }}"
-                                            class="d-flex align-items-center text-white">
+                                        <a href="{{ url('user_login') }}" class="d-flex align-items-center text-white">
                                             <i class="flaticon-user flat-small me-1"></i>
                                             <span>{{ __('Login') }}</span>
                                         </a>
@@ -142,16 +136,14 @@
                                             <div class="push-navbar">
                                                 <ul class="navbar-nav">
                                                     <li class="nav-item">
-                                                        <a class="nav-link"
-                                                            href="{{ url('/') }}">Home</a>
+                                                        <a class="nav-link" href="{{ url('/') }}">Home</a>
                                                     </li>
                                                     <li class="nav-item">
                                                         <a class="nav-link"
                                                             href="{{ url('front/service_category') }}">{{ __('Service') }}</a>
                                                     </li>
                                                     <li class="nav-item">
-                                                        <a class="nav-link"
-                                                            href="{{ url('vendor_list') }}">Shop</a>
+                                                        <a class="nav-link" href="{{ url('vendor_list') }}">Shop</a>
                                                     </li>
                                                     <li class="nav-item ">
                                                         <a class="nav-link"
@@ -169,13 +161,11 @@
                                                         </ul>
                                                     </li>
                                                     <li class="nav-item">
-                                                        <a class="nav-link"
-                                                            href="{{ url('front_blog') }}">Blog</a>
+                                                        <a class="nav-link" href="{{ url('front_blog') }}">Blog</a>
                                                     </li>
 
                                                     <li class="nav-item">
-                                                        <a class="nav-link"
-                                                            href="{{ url('front_faq') }}">Faq</a>
+                                                        <a class="nav-link" href="{{ url('front_faq') }}">Faq</a>
                                                     </li>
                                                     <li class="nav-item"><a class="nav-link"
                                                             href="{{ url('front_contact') }}">Contact</a>
@@ -247,12 +237,8 @@
                             class="has-dropdown d-flex align-items-center text-white text-decoration-none">
                             <select name="currency" class="currency selectors nice">
                                 @foreach (DB::table('currencies')->get() as $currency)
-                                    <option value="{{ url('/front_currency', $currency->id) }}"
-                                        {{-- {{ Session::has('currency')? (Session::get('currency') == $currency->id? 'selected': ''): (DB::table('currencies')->where('is_default', '=', 1)->first()->id == $currency->id? 'selected': '') }}> --}}
-                                        {{-- <span class="text-dark">{{ Session::has('currency')? DB::table('currencies')->where('id', '=', Session::get('currency'))->first()->sign: DB::table('currencies')->where('is_default', '=', 1)->first()->sign }}</span> --}}
-                                        {{-- {{ $currency->sign }} --}}
-                                        {{-- {{ $currency->name }} --}}
-                                    </option>
+                                    <option value="{{ url('/front_currency', $currency->id) }}" {{-- {{ Session::has('currency')? (Session::get('currency') == $currency->id? 'selected': ''): (DB::table('currencies')->where('is_default', '=', 1)->first()->id == $currency->id? 'selected': '') }}> --}}
+                                        {{-- <span class="text-dark">{{ Session::has('currency')? DB::table('currencies')->where('id', '=', Session::get('currency'))->first()->sign: DB::table('currencies')->where('is_default', '=', 1)->first()->sign }}</span> --}} {{-- {{ $currency->sign }} --}} {{-- {{ $currency->name }} --}} </option>
                                 @endforeach
                             </select>
                         </a>
@@ -271,14 +257,13 @@
                         </a>
                         <ul class="my-account-popup">
                             @if (Auth::check())
+                                <li><a href=""><span class="menu-item-text">{{ 'User Panel' }}</span></a>
+                                </li>
 
-                                <li><a href=""><span
-                                            class="menu-item-text">{{ 'User Panel' }}</span></a></li>
-
-                                <li><a href=""><span
-                                            class="menu-item-text">{{ 'Edit Profile' }}</span></a></li>
-                                <li><a href=""><span
-                                            class="menu-item-text">{{ 'Logout' }}</span></a></li>
+                                <li><a href=""><span class="menu-item-text">{{ 'Edit Profile' }}</span></a>
+                                </li>
+                                <li><a href=""><span class="menu-item-text">{{ 'Logout' }}</span></a>
+                                </li>
                             @else
                                 <li><a href="{{ url('/user/login') }}"><span
                                             class="menu-item-text sign-in">{{ 'Sign in' }}</span></a></li>
@@ -292,8 +277,7 @@
                         @if (Auth::check())
                             <a href="" class="cart " title="View Wishlist">
                                 <div class="cart-icon"><i class="flaticon-like flat-mini mx-auto text-dark"></i> <span
-                                        class="header-cart-count "
-                                        id="wishlist-count1">10</span></div>
+                                        class="header-cart-count " id="wishlist-count1">10</span></div>
                             </a>
                         @else
                             <a href="{{ url('user_login') }}" class="cart " title="View Wishlist">
@@ -344,10 +328,9 @@
                         @php
                             $categoryType = request()->segment(1);
                         @endphp
-                        @if ($categoryType == 'service_category' || $categoryType == 'category' )
+                        @if ($categoryType == 'service_category' || $categoryType == 'category')
                             <input type="text" id="prod_name_1" class="col form-control search-field "
-                                name="search" placeholder="Search For"
-                                value="{{ request()->input('search') }}">
+                                name="search" placeholder="Search For" value="{{ request()->input('search') }}">
                             <div class="autocomplete2">
                                 <div id="myInputautocomplete-list2" class="autocomplete-items"></div>
                             </div>
@@ -366,7 +349,7 @@
                             <div class="select-appearance-none categori-container mx-2 " id="typeSelectFormSticky">
                                 <select name="selectType" id="selectTypeSticky" class="form-control  type_select"
                                     onchange="searchCategorySticky()" required>
-                                    <option value="">  Type </option>
+                                    <option value=""> Type </option>
                                     <option value="2"> Service </option>
                                     <option value="1"> Product </option>
                                 </select>
@@ -379,9 +362,9 @@
                                             // ->where('status', 1)
                                             ->get();
                                         // $collection2 = DB::table('service_categories')
-                                            // ->where('language_id', 1)
-                                            // ->where('status', 1)
-                                            // ->get();
+                                        // ->where('language_id', 1)
+                                        // ->where('status', 1)
+                                        // ->get();
                                         // $cats = $collection1->concat($collection2);
                                         $cats = $collection1;
                                     @endphp
@@ -409,8 +392,7 @@
 
                             </div>
                             <input type="text" id="prod_name2" class="col form-control search-field"
-                                name="search" placeholder="Search For"
-                                value="{{ request()->input('search') }}">
+                                name="search" placeholder="Search For" value="{{ request()->input('search') }}">
                             <input type="hidden" name="searchProduct" value="product">
                             <div class="autocomplete2">
                                 <div id="myInputautocomplete-list2" class="autocomplete-items"></div>
