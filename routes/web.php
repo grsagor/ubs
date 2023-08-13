@@ -43,6 +43,7 @@ use App\Http\Controllers\InvoiceLayoutController;
 use App\Http\Controllers\InvoiceSchemeController;
 use App\Http\Controllers\PurchaseOrderController;
 use App\Http\Controllers\StockTransferController;
+use App\Http\Controllers\StripePaymentController;
 use App\Http\Controllers\AccountReportsController;
 use App\Http\Controllers\ImportProductsController;
 use App\Http\Controllers\LedgerDiscountController;
@@ -66,14 +67,14 @@ use App\Http\Controllers\Frontend\RoomWantedController;
 use App\Http\Controllers\PurchaseRequisitionController;
 use App\Http\Controllers\NotificationTemplateController;
 use App\Http\Controllers\SalesCommissionAgentController;
-use App\Http\Controllers\DashboardConfiguratorController;
 
 // use App\Http\Controllers\DashboardConfiguratorController;    
 
-use App\Http\Controllers\Backend\PropertyWantedController;
+use App\Http\Controllers\DashboardConfiguratorController;
 
 // use App\Http\Controllers\CombinedPurchaseReturnController;
 
+use App\Http\Controllers\Backend\PropertyWantedController;
 use App\Http\Controllers\CombinedPurchaseReturnController;
 use App\Http\Controllers\Backend\ServiceEducationController;
 use App\Http\Controllers\Backend\ServiceAdvertiseRoomController;
@@ -91,6 +92,15 @@ use App\Http\Controllers\Frontend\CategoryController as FrontendCategoryControll
 */
 
 include_once 'install_r.php';
+
+
+
+Route::controller(StripePaymentController::class)->group(function () {
+    Route::get('stripe', 'stripe');
+    Route::post('stripe', 'stripePost')->name('stripe.post');
+});
+
+
 
 
 // Services
