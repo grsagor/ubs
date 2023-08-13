@@ -25,7 +25,7 @@
 
         p.category_text {
             /* min-height: 20px;
-                                                                                                                                                                                        max-height: 20px; */
+                                                                                                                                                                                                max-height: 20px; */
         }
 
         h5.product-title {
@@ -175,7 +175,7 @@
                                                             @endphp
 
                                                             @if ($first_image && File::exists($imagePath))
-                                                                <a href="{{ route('shop.service', $item->id) }}"
+                                                                <a href="{{ route('room_show', $item->id) }}"
                                                                     class="woocommerce-LoopProduct-link">
                                                                     <img class="lazy img-fluid rounded"
                                                                         data-src="{{ asset($first_image) }}"
@@ -193,7 +193,7 @@
                                                             <div class="p-2">
                                                                 <h5 class="product-title mb-1">
                                                                     <a class="text-dark"
-                                                                        href="{{ route('shop.service', $item->id) }}">
+                                                                        href="{{ route('room_show', $item->id) }}">
                                                                         <span class="company-name">
                                                                             {{ Str::limit($item->advert_title, $limit = 20, $end = '...') }}
                                                                         </span>
@@ -291,90 +291,91 @@
                 </div>
             </div>
         </div>
-    @endsection
+    </div>
+@endsection
 
-    @section('script')
-        <script>
-            setTimeout(function() {
-                if ($(window).width() < 1350) {
-                    $(".large_screen").css("display", "none");
-                    $(".small_screen").css("display", "block");
-                } else {
-                    console.log("small");
-                    $(".large_screen").css("display", "block");
-                    $(".small_screen").css("display", "none");
-                }
-            }, 1000);
+@section('script')
+    <script>
+        setTimeout(function() {
+            if ($(window).width() < 1350) {
+                $(".large_screen").css("display", "none");
+                $(".small_screen").css("display", "block");
+            } else {
+                console.log("small");
+                $(".large_screen").css("display", "block");
+                $(".small_screen").css("display", "none");
+            }
+        }, 1000);
 
 
-            document.addEventListener("DOMContentLoaded", function() {
-                function adjustCompanyName() {
-                    var companyNames = document.getElementsByClassName('company-name');
-                    var maxLengths = [60, 30, 25, 40, 20]; // Maximum lengths for different screen widths
+        document.addEventListener("DOMContentLoaded", function() {
+            function adjustCompanyName() {
+                var companyNames = document.getElementsByClassName('company-name');
+                var maxLengths = [60, 30, 25, 40, 20]; // Maximum lengths for different screen widths
 
-                    for (var i = 0; i < companyNames.length; i++) {
-                        var paragraph = companyNames[i];
-                        var maxWidth = window.innerWidth;
-                        var maxLength;
+                for (var i = 0; i < companyNames.length; i++) {
+                    var paragraph = companyNames[i];
+                    var maxWidth = window.innerWidth;
+                    var maxLength;
 
-                        // Determine the maximum length based on the screen width
-                        if (maxWidth < 768) {
-                            maxLength = maxLengths[0];
-                        } else if (maxWidth >= 768 && maxWidth < 992) {
-                            maxLength = maxLengths[2];
-                        } else if (maxWidth >= 992 && maxWidth < 1024) {
-                            maxLength = maxLengths[1];
-                        } else if (maxWidth >= 1024 && maxWidth < 1240) {
-                            maxLength = maxLengths[4];
-                        } else {
-                            maxLength = maxLengths[0];
-                        }
-
-                        var text = paragraph.innerText; // Use innerText to retrieve the visible text
-                        var truncatedText = text.length > maxLength ? text.substring(0, maxLength) + "..." : text;
-                        paragraph.innerText = truncatedText; // Update the content of the paragraph
+                    // Determine the maximum length based on the screen width
+                    if (maxWidth < 768) {
+                        maxLength = maxLengths[0];
+                    } else if (maxWidth >= 768 && maxWidth < 992) {
+                        maxLength = maxLengths[2];
+                    } else if (maxWidth >= 992 && maxWidth < 1024) {
+                        maxLength = maxLengths[1];
+                    } else if (maxWidth >= 1024 && maxWidth < 1240) {
+                        maxLength = maxLengths[4];
+                    } else {
+                        maxLength = maxLengths[0];
                     }
+
+                    var text = paragraph.innerText; // Use innerText to retrieve the visible text
+                    var truncatedText = text.length > maxLength ? text.substring(0, maxLength) + "..." : text;
+                    paragraph.innerText = truncatedText; // Update the content of the paragraph
                 }
+            }
 
-                function adjustCompanyDetail() {
-                    var details = document.getElementsByClassName('about_line');
-                    var maxLen = [90, 60, 80, 110, 50]; // Maximum lengths for different screen widths
+            function adjustCompanyDetail() {
+                var details = document.getElementsByClassName('about_line');
+                var maxLen = [90, 60, 80, 110, 50]; // Maximum lengths for different screen widths
 
-                    for (var i = 0; i < details.length; i++) {
-                        var detail = details[i];
-                        var maxWidth = window.innerWidth;
-                        var max;
+                for (var i = 0; i < details.length; i++) {
+                    var detail = details[i];
+                    var maxWidth = window.innerWidth;
+                    var max;
 
-                        // Determine the maximum length based on the screen width
-                        if (maxWidth < 768) {
-                            max = maxLen[0];
-                        } else if (maxWidth >= 768 && maxWidth < 992) {
-                            max = maxLen[1];
-                        } else if (maxWidth > 992 && maxWidth < 1024) {
-                            max = maxLen[2];
-                        } else if (maxWidth >= 1024 && maxWidth < 1240) {
-                            max = maxLen[4];
-                        } else if (maxWidth >= 1240 && maxWidth < 1440) {
-                            max = maxLen[3];
-                        } else {
-                            max = maxLen[0];
-                        }
-
-                        var text = detail.innerText; // Use innerText to retrieve the visible text
-                        var truncatedText = text.length > max ? text.substring(0, max) + "..." : text;
-                        detail.innerText = truncatedText; // Update the content of the paragraph
+                    // Determine the maximum length based on the screen width
+                    if (maxWidth < 768) {
+                        max = maxLen[0];
+                    } else if (maxWidth >= 768 && maxWidth < 992) {
+                        max = maxLen[1];
+                    } else if (maxWidth > 992 && maxWidth < 1024) {
+                        max = maxLen[2];
+                    } else if (maxWidth >= 1024 && maxWidth < 1240) {
+                        max = maxLen[4];
+                    } else if (maxWidth >= 1240 && maxWidth < 1440) {
+                        max = maxLen[3];
+                    } else {
+                        max = maxLen[0];
                     }
+
+                    var text = detail.innerText; // Use innerText to retrieve the visible text
+                    var truncatedText = text.length > max ? text.substring(0, max) + "..." : text;
+                    detail.innerText = truncatedText; // Update the content of the paragraph
                 }
-                adjustCompanyName(); // Initial adjustment
-                adjustCompanyDetail(); // Initial adjustment
+            }
+            adjustCompanyName(); // Initial adjustment
+            adjustCompanyDetail(); // Initial adjustment
 
-                function resizeEventHandler() {
-                    adjustCompanyDetail();
-                    adjustCompanyName();
-                }
+            function resizeEventHandler() {
+                adjustCompanyDetail();
+                adjustCompanyName();
+            }
 
-                window.addEventListener('resize', resizeEventHandler);
+            window.addEventListener('resize', resizeEventHandler);
 
-            });
-        </script>
-    @endsection
+        });
+    </script>
+@endsection

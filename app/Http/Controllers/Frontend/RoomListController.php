@@ -38,6 +38,6 @@ class RoomListController extends Controller
         $data['user_info']              = Media::where('uploaded_by', $data['info']->user_id)
             ->where('model_type', 'App\\User')->first();
 
-        return view('rough.more_info', $data);
+        return view('Frontend.service.room.details', $data);
     }
 }
