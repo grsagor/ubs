@@ -25,7 +25,7 @@
 
         p.category_text {
             /* min-height: 20px;
-                                                                                                                                                                                        max-height: 20px; */
+                                                                                                                                                                                            max-height: 20px; */
         }
 
         h5.product-title {
