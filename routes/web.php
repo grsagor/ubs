@@ -41,6 +41,7 @@ use App\Http\Controllers\PurchaseOrderController;
 use App\Http\Controllers\PurchaseRequisitionController;
 use App\Http\Controllers\PurchaseReturnController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\ResellController;
 use App\Http\Controllers\Restaurant;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SalesCommissionAgentController;
@@ -114,8 +115,12 @@ Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 
     Route::get('/sign-in-as-user/{id}', [ManageUserController::class, 'signInAsUser'])->name('sign-in-as-user');
     
     /* Route created by GR SAGOR from here */
-    Route::get('/shop-share', [ShopShareController::class, 'index']);
-    Route::post('/shop-sharing', [ShopShareController::class, 'store'])->name('shop.share.store');
+    Route::get('/shop-share', [ShopShareController::class, 'index'])->name('shop.share.page');
+    Route::post('/shop-share', [ShopShareController::class, 'store'])->name('shop.share.store');
+
+    Route::get('/resell-product', [ResellController::class, 'index'])->name('product.resell.page');
+    Route::post('/resell-product', [ResellController::class, 'store'])->name('product.resell.store');
+    Route::get('/resell_product_modal', [ResellController::class, 'modalResellProduct'])->name('product.resell.modal');
     /* Route created by GR SAGOR to here */
 
     Route::get('/home', [HomeController::class, 'index'])->name('home');
