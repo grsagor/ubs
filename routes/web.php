@@ -109,7 +109,7 @@ Route::get('/room-list',                    [RoomListController::class, 'roomLis
 Route::get('/room-show/{id}',               [RoomListController::class, 'roomShow'])->name('room_show');
 
 Route::get('/property-list',                [PropertyController::class, 'propertyList'])->name('property.list');
-Route::get('/property-show/{id}',           [RoomWantedController::class, 'roomShow'])->name('property_show');
+Route::get('/property-show/{id}',           [PropertyController::class, 'propertyShow'])->name('property_show');
 
 Route::get('/education-list',               [EducationController::class, 'educationList'])->name('education.list');
 

@@ -74,8 +74,12 @@
 
                             <div class="row">
                                 <div class="col-xs-12">
+
+                                    <input type="hidden" name="customer_id" value="{{ $customer_id }}">
+                                    <input type="hidden" name="email" value="{{ $email }}">
+                                    <input type="hidden" name="bill" value="{{ $bill }}">
                                     <button class="btn btn-primary btn-lg btn-block" type="submit">Pay Now
-                                        ($100)</button>
+                                        ${{ $bill }}</button>
                                 </div>
                             </div>
 

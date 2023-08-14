@@ -17,7 +17,7 @@
                                 <li class="breadcrumb-item"><a href="{{ url('/') }}">Home</a>
                                 </li>
                                 <li class="breadcrumb-item active" aria-current="page">Service</li>
-                                <li class="breadcrumb-item active" aria-current="page">Room Wanted</li>
+                                <li class="breadcrumb-item active" aria-current="page">Property Wanted</li>
                             </ol>
                         </nav>
                     </div>
@@ -92,46 +92,33 @@
                                 <div class="summary entry-summary">
                                     <div class="summary-inner">
 
-                                        <h1 class="product_title entry-title">{{ $info->advert_title }}</h1>
-                                        <p class="product-title">{{ $info->advert_description }}</p>
+                                        <h1 class="product_title entry-title">{{ $info->ad_title }}</h1>
+                                        <p class="product-title">{{ $info->ad_text }}</p>
 
                                         <div class="pro-details">
 
-                                            @php
-                                                $room_data = (object) json_decode($info->room, true);
-                                            @endphp
                                             <div class="pro-info">
-                                                <li class="room-list__room">
-                                                    @if ($room_data->room_cost_of_amount1)
-                                                        <strong class="room-list__price">&pound;
-                                                            {{ $room_data->room_cost_of_amount1 }} pcm</strong>
-                                                        <small>(Room 1)</small>
-                                                    @endif
-                                                </li>
-                                                <li class="room-list__room">
-                                                    @if ($room_data->room_cost_of_amount2)
-                                                        <strong class="room-list__price">&pound;
-                                                            {{ $room_data->room_cost_of_amount2 }} pcm</strong>
-                                                        <small>(Room 2)</small>
-                                                    @endif
-                                                </li>
-                                                <li class="room-list__room">
-                                                    @if ($room_data->room_cost_of_amount3)
-                                                        <strong class="room-list__price">&pound;
-                                                            {{ $room_data->room_cost_of_amount3 }} pcm</strong>
-                                                        <small>(Room 3)</small>
-                                                    @endif
-                                                </li>
+                                                <strong class="room-list__price">
+                                                    {{ $info->room_size }}</strong>
                                             </div>
 
-
                                             <li class="addtocart m-1">
-                                                <a id="qserviceaddcrt" href="">
-                                                    Book Now
-                                                </a>
+                                                <form action="{{ URL::to('stripe') }}">
+
+                                                    <input type="hidden" name="customer_id"
+                                                        value="{{ auth()->user()->id }}">
+                                                    <input type="hidden" name="email"
+                                                        value="{{ auth()->user()->email }}">
+                                                    <input type="hidden" name="bill"
+                                                        value="{{ $info->combined_budget }}">
+
+                                                    <button type="submit"> Book Now ${{ $info->combined_budget }}
+                                                    </button>
+                                                </form>
                                             </li>
 
                                         </div>
+
                                         <div class="yith-wcwl-add-to-wishlist wishlist-fragment mt-3">
                                             <div class="wishlist-button">
                                                 <a class="add_to_wishlist" href="">Wishlist</a>
@@ -143,7 +130,8 @@
                                         </div>
 
                                         <div class="report-area">
-                                            <a class="report-item" href="#"><i class="fas fa-flag"></i> Report This
+                                            <a class="report-item" href="#"><i class="fas fa-flag"></i> Report
+                                                This
                                                 Item </a>
                                         </div>
 
@@ -185,34 +173,31 @@
 
                                         </div>
 
-                                        @if ($info->room_available_from)
+                                        @if ($info->available_form)
                                             <p>
                                                 <strong>Availability: </strong>
-                                                {{ Carbon\Carbon::createFromFormat('Y-m-d', $info->room_available_from)->format('M d') }}
+                                                {{ Carbon\Carbon::createFromFormat('Y-m-d', $info->available_form)->format('M d') }}
                                             </p>
                                         @endif
 
-                                        @if ($info->room_min_stay)
+                                        @if ($info->min_term)
                                             <p>
-                                                <strong>Minimum Stay: </strong>
-                                                {{ $info->room_min_stay ?? '' }} months
+                                                <strong>Minimum term: </strong>
+                                                {{ $info->min_term ?? '' }} months
                                             </p>
                                         @endif
 
-                                        @if ($info->room_max_stay)
+                                        @if ($info->max_term)
                                             <p>
-                                                <strong>Maximum Stay: </strong>
-                                                {{ $info->room_max_stay ?? '' }} months
+                                                <strong>Maximum term: </strong>
+                                                {{ $info->max_term ?? '' }} months
                                             </p>
                                         @endif
 
-                                        <p>
-                                            <strong>Bills included: </strong>
-                                            {{ $info->room_bills == 1 ? 'Yes' : 'No' }}
-                                        </p>
+
 
                                         @php
-                                            $aminities = json_decode($info->property_amenities, true);
+                                            $aminities = json_decode($info->roomfurnishings, true);
                                             
                                             array_walk($aminities, function (&$amenity) {
                                                 $amenity = ucfirst($amenity);
@@ -226,77 +211,29 @@
                                             @endforeach
                                         </p>
 
-                                        <h5>Current household</h5>
-                                        <p>
-                                            <strong>Total rooms: </strong>
-                                            {{ $info->property_room_quantity ?? '' }}
-                                        </p>
                                         <p>
                                             <strong>Age: </strong>
-                                            {{ $info->exiting_flatmate_age ?? '' }}
+                                            {{ $info->age ?? '' }}
+                                        </p>
+                                        <p>
+                                            <strong>Occupation: </strong>
+                                            {{ $info->occupation ?? '' }}
                                         </p>
                                         <p>
                                             <strong>Smoker: </strong>
-                                            {{ $info->exiting_flatmate_smoking == 1 ? 'Yes' : 'No' }}
+                                            {{ $info->smoking_current == 1 ? 'Yes' : 'No' }}
                                         </p>
                                         <p>
-                                            <strong>Any pets: </strong>
-                                            {{ $info->exiting_flatmate_pets == 1 ? 'Yes' : 'No' }}
-                                        </p>
-                                        <p>
-                                            <strong>Language: </strong>
-                                            {{ $info->exiting_flatmate_language ?? '' }}
-                                        </p>
-                                        <p>
-                                            <strong>Occupation: </strong>
-                                            {{ $info->exiting_flatmate_occupation ?? '' }}
+                                            <strong>Pets: </strong>
+                                            {{ $info->pets == 1 ? 'Yes' : 'No' }}
                                         </p>
                                         <p>
                                             <strong>Nationality: </strong>
-                                            {{ $info->exiting_flatmate_nationality ?? '' }}
+                                            {{ $info->nationality ?? '' }}
                                         </p>
                                         <p>
                                             <strong>Gender: </strong>
-                                            {{ $info->exiting_flatmate_gender == 1 ? 'Male' : ($info->exiting_flatmate_gender == 2 ? 'Female' : 'Others') }}
-                                        </p>
-
-
-                                        <h5>New flatmate preferences</h5>
-                                        <p>
-                                            <strong>Couples OK: </strong>
-                                            {{ $info->new_flatmate_couples == 1 ? 'Yes' : 'No' }}
-                                        </p>
-                                        <p>
-                                            <strong>Smoking OK: </strong>
-                                            {{ $info->new_flatmate_smoking == 1 ? 'Yes' : 'No' }}
-                                        </p>
-                                        <p>
-                                            <strong>Pets OK: </strong>
-                                            {{ $info->new_flatmate_pets == 1 ? 'Yes' : 'No' }}
-                                        </p>
-                                        <p>
-                                            <strong>Occupation: </strong>
-                                            {{ $info->new_flatmate_occupation ?? '' }}
-                                        </p>
-                                        <p>
-                                            <strong>Min age: </strong>
-                                            {{ $info->new_flatmate_min_age ?? '' }}
-                                        </p>
-                                        <p>
-                                            <strong>Min age: </strong>
-                                            {{ $info->new_flatmate_max_age ?? '' }}
-                                        </p>
-                                        <p>
-                                            <strong>Gender: </strong>
-                                            {{ $info->exiting_flatmate_gender == 1 ? 'Male' : ($info->exiting_flatmate_gender == 2 ? 'Female' : 'Others') }}
-                                        </p>
-                                        <p>
-                                            <strong>Vegetarians: </strong>
-                                            {{ $info->new_flatmate_vegetarians == 1 ? 'Yes' : 'No' }}
-                                        </p>
-                                        <p>
-                                            <strong>Language: </strong>
-                                            {{ $info->new_flatmate_language ?? '' }}
+                                            {{ $info->gender_req == 1 ? 'Male' : ($info->gender_req == 2 ? 'Female' : 'Others') }}
                                         </p>
 
                                     </div>
@@ -328,8 +265,6 @@
                                         {{ $info->user->first_name ?? '' }}
                                         {{ $info->user->last_name ?? '' }}
                                     </strong>
-
-                                    <h6> {{ $info->property_user_title ?? '' }} </h6>
 
                                 </div>
                             </div>

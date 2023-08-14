@@ -25,7 +25,7 @@
 
         p.category_text {
             /* min-height: 20px;
-                                                                                                                                                                                                                                max-height: 20px; */
+                                                                                                                                                                                                                                    max-height: 20px; */
         }
 
         h5.product-title {
@@ -174,7 +174,7 @@
                                                             @endphp
 
                                                             @if ($first_image && File::exists($imagePath))
-                                                                <a href="{{ route('shop.service', $item->id) }}"
+                                                                <a href="{{ route('property_show', $item->id) }}"
                                                                     class="woocommerce-LoopProduct-link">
                                                                     <img class="lazy img-fluid rounded"
                                                                         data-src="{{ asset($first_image) }}"
@@ -192,7 +192,7 @@
                                                             <div class="p-2">
                                                                 <h5 class="product-title mb-1">
                                                                     <a class="text-dark"
-                                                                        href="{{ route('shop.service', $item->id) }}">
+                                                                        href="{{ route('property_show', $item->id) }}">
                                                                         <span class="company-name">
                                                                             {{ Str::limit($item->ad_title, $limit = 20, $end = '...') }}
                                                                         </span>

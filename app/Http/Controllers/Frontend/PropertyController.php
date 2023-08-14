@@ -38,6 +38,7 @@ class PropertyController extends Controller
 
         // return $data;
 
-        return view('rough.property_more_info', $data);
+        return view('Frontend.service.property.details', $data);
+        // return view('rough.property_more_info', $data);
     }
 }

@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Session;
 use Stripe;
+use Session;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class StripePaymentController extends Controller
 {
@@ -13,9 +14,14 @@ class StripePaymentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function stripe()
+    public function stripe(Request $request)
     {
-        return view('stripe');
+        $data['customer_id'] = $request->customer_id;
+        $data['email'] = $request->email;
+        $data['bill'] = $request->bill;
+
+
+        return view('stripe', $data);
     }
 
     /**
@@ -27,15 +33,29 @@ class StripePaymentController extends Controller
     {
         Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
 
-        Stripe\Charge::create([
-            "amount" => 100 * 100,
-            "currency" => "usd",
-            "source" => $request->stripeToken,
-            "description" => "Test"
-        ]);
+        $email = Auth::user()->email;
 
-        Session::flash('success', 'Payment successful!');
+        $customer = \Stripe\Customer::create(array(
+            'name' => 'test',
+            'description' => 'test description',
+            'email' => $email,
+            'source' => $request->input('stripeToken'),
+            "address" => ["city" => "San Francisco", "country" => "US", "line1" => "510 Townsend St", "postal_code" => "98140", "state" => "CA"]
 
-        return back();
+        ));
+
+        try {
+            \Stripe\Charge::create(array(
+                "amount" => $request->bill * 100,
+                "currency" => "usd",
+                "customer" =>  $customer["id"],
+                "description" => "Test payment."
+            ));
+            Session::flash('success', 'Payment successful!');
+            return back();
+        } catch (\Stripe\Error\Card $e) {
+            Session::flash('fail-message', $e->get_message());
+            return back();
+        }
     }
 }
