@@ -17,6 +17,7 @@ class ServiceAdvertiseRoom extends Model
     protected $primaryKey = 'id';
 
     protected $fillable = [
+        'reference_id',
         'property_room_quantity',
         'property_size',
         'property_type',

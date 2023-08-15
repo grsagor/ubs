@@ -37,4 +37,16 @@ class PropertyController extends Controller
 
         return view('Frontend.service.property.details', $data);
     }
+
+    public function referenceNumberCheck(Request $request, $id)
+    {
+        $data                           = ServicePropertyWanted::findOrFail($id);
+
+        if ($data->reference_id == $request->reference_number) {
+            return redirect('stripe')
+                ->with('bill', $request->bill);
+        } else {
+            return redirect()->back();
+        }
+    }
 }

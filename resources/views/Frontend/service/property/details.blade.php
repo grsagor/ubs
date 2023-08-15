@@ -17,7 +17,7 @@
                                 <li class="breadcrumb-item"><a href="{{ url('/') }}">Home</a>
                                 </li>
                                 <li class="breadcrumb-item active" aria-current="page">Service</li>
-                                <li class="breadcrumb-item active" aria-current="page">Property Wanted</li>
+                                <li class="breadcrumb-item active" aria-current="page">Room Wanted</li>
                             </ol>
                         </nav>
                     </div>
@@ -103,21 +103,52 @@
                                             </div>
 
                                             <li class="addtocart m-1">
-                                                <form action="{{ URL::to('stripe') }}">
+                                                <form method="POST"
+                                                    action="{{ route('property.referenceNumberCheck', $info->id) }}">
+                                                    @csrf
+                                                    @method('PUT')
 
-                                                    <input type="hidden" name="customer_id"
-                                                        value="{{ auth()->user()->id }}">
-                                                    <input type="hidden" name="email"
-                                                        value="{{ auth()->user()->email }}">
-                                                    <input type="hidden" name="bill"
-                                                        value="{{ $info->combined_budget }}">
-
-                                                    <button type="submit"> Book Now ${{ $info->combined_budget }}
+                                                    <button type="button" data-bs-toggle="modal"
+                                                        data-bs-target="#exampleModal"> Book Now
+                                                        ${{ $info->combined_budget }}
                                                     </button>
+
+                                                    {{-- Modal --}}
+                                                    <div class="modal fade" id="exampleModal" tabindex="-1"
+                                                        aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                        <div class="modal-dialog">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h5 class="modal-title" id="exampleModalLabel">Reference
+                                                                        Number</h5>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <div class="mb-3">
+                                                                        <input type="text" class="form-control"
+                                                                            id="inputName" name="reference_number"
+                                                                            placeholder="Enter reference number"
+                                                                            style="width: 100%;">
+
+                                                                        <input type="hidden" name="bill"
+                                                                            value={{ $info->combined_budget }}>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-secondary"
+                                                                        data-bs-dismiss="modal">Close</button>
+                                                                    <button type="submit" class="btn btn-primary">Save
+                                                                        Changes</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    {{-- Modal --}}
+
                                                 </form>
                                             </li>
 
                                         </div>
+
 
                                         <div class="yith-wcwl-add-to-wishlist wishlist-fragment mt-3">
                                             <div class="wishlist-button">
@@ -146,8 +177,8 @@
                                                     </a>
                                                 </li>
                                                 <li>
-                                                    <a class="twitter a2a_button_twitter" href="/#twitter" target="_blank"
-                                                        rel="nofollow noopener">
+                                                    <a class="twitter a2a_button_twitter" href="/#twitter"
+                                                        target="_blank" rel="nofollow noopener">
                                                         <i class="fab fa-twitter"></i>
                                                     </a>
                                                 </li>

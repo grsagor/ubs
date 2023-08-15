@@ -107,13 +107,15 @@ Route::controller(StripePaymentController::class)->group(function () {
 
 // Services
 
-Route::get('/room-list',                    [RoomListController::class, 'roomList'])->name('room.list');
-Route::get('/room-show/{id}',               [RoomListController::class, 'roomShow'])->name('room_show');
+Route::get('/room-list',                                   [RoomListController::class, 'roomList'])->name('room.list');
+Route::get('/room-show/{id}',                              [RoomListController::class, 'roomShow'])->name('room_show');
+Route::put('/room-reference-number-check/{id}',            [RoomListController::class, 'referenceNumberCheck'])->name('room.referenceNumberCheck');
 
-Route::get('/property-list',                [PropertyController::class, 'propertyList'])->name('property.list');
-Route::get('/property-show/{id}',           [PropertyController::class, 'propertyShow'])->name('property_show');
+Route::get('/property-list',                               [PropertyController::class, 'propertyList'])->name('property.list');
+Route::get('/property-show/{id}',                          [PropertyController::class, 'propertyShow'])->name('property_show');
+Route::put('/property-reference-number-check/{id}',        [PropertyController::class, 'referenceNumberCheck'])->name('property.referenceNumberCheck');
 
-Route::get('/education-list',               [EducationController::class, 'educationList'])->name('education.list');
+Route::get('/education-list',                              [EducationController::class, 'educationList'])->name('education.list');
 
 
 Route::get('/room-wanted', function () {

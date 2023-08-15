@@ -256,10 +256,13 @@
                 </a>
                 <ul class="treeview-menu">
                     <li><a href="{{ route('property-wanted.index') }}"><i class="fa fas fa-user-secret"></i>
-                            <span>Property Wanted</span></a></li>
+                            <span>Room Wanted</span></a></li>
 
                     <li><a href="{{ route('service-advertise.index') }}"><i class="fa fas fa-user-secret"></i>
-                            <span>Room Advertise</span></a></li>
+                            <span>Room To Rent</span></a></li>
+
+                    <li><a href="{{ route('service-education.index') }}"><i class="fa fas fa-user-secret"></i>
+                            <span>Education</span></a></li>
                 </ul>
             </li>
             <!-- Services End -->

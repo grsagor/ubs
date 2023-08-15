@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('service_property_wanted', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('reference_id')->unique();
             $table->string('who_is_searching')->nullable();
             $table->string('why_is_searching')->nullable();
             $table->tinyInteger('gender')->nullable()->nullable()->comment('1=male, 2=female, 3=others');
@@ -54,6 +55,7 @@ return new class extends Migration
             $table->string('tel')->nullable();
             $table->string('selectedSports')->nullable();
             $table->string('images')->nullable();
+
 
 
             $table->tinyInteger('advert_type')->default(1)->comment('1=Normal, 2=Feature');
