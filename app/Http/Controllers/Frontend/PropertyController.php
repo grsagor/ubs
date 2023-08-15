@@ -33,12 +33,8 @@ class PropertyController extends Controller
     public function propertyShow($id)
     {
         $data['info']                   = ServicePropertyWanted::findOrFail($id);
-        $data['user_info']              = Media::where('uploaded_by', $data['info']->user_id)
-            ->where('model_type', 'App\\User')->first();
-
-        // return $data;
+        $data['user_info']              = Media::where('uploaded_by', $data['info']->user_id)->first();
 
         return view('Frontend.service.property.details', $data);
-        // return view('rough.property_more_info', $data);
     }
 }
