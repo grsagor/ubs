@@ -51,7 +51,7 @@
     </style>
 @endpush
 @section('content')
-    @includeIf('frontend.partials.global.common-header')
+    @includeIf('Frontend.partials.global.common-header')
 
     <div class="shop-list-page">
         <div class="full-row bg-light overlay-dark py-5"
