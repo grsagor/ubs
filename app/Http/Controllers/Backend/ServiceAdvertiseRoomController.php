@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Backend;
 
+use Illuminate\Support\Str;
 use App\ServiceAdvertiseRoom;
 use App\Traits\ImageFileUpload;
 use App\Http\Controllers\Controller;
@@ -45,6 +46,9 @@ class ServiceAdvertiseRoomController extends Controller
 
         try {
             $requestedData                               = $request->all();
+
+            $requestedData['reference_id']               = Auth::id() . Str::random(15);;
+
             $requestedData['property_amenities']         = json_encode($request->property_amenities);
 
             $requestedData['room']                       = json_encode([

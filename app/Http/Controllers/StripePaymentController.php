@@ -16,10 +16,9 @@ class StripePaymentController extends Controller
      */
     public function stripe(Request $request)
     {
-        $data['customer_id'] = $request->customer_id;
-        $data['email'] = $request->email;
-        $data['bill'] = $request->bill;
-
+        // $data['customer_id'] = $request->customer_id;
+        // $data['email'] = $request->email;
+        $data['bill'] = session('bill');
 
         return view('stripe', $data);
     }

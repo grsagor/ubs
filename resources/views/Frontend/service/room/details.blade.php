@@ -101,35 +101,84 @@
                                                 $room_data = (object) json_decode($info->room, true);
                                             @endphp
                                             <div class="pro-info">
-                                                <li class="room-list__room">
-                                                    @if ($room_data->room_cost_of_amount1)
-                                                        <strong class="room-list__price">&pound;
-                                                            {{ $room_data->room_cost_of_amount1 }} pcm</strong>
-                                                        <small>(Room 1)</small>
-                                                    @endif
-                                                </li>
-                                                <li class="room-list__room">
-                                                    @if ($room_data->room_cost_of_amount2)
-                                                        <strong class="room-list__price">&pound;
-                                                            {{ $room_data->room_cost_of_amount2 }} pcm</strong>
-                                                        <small>(Room 2)</small>
-                                                    @endif
-                                                </li>
-                                                <li class="room-list__room">
-                                                    @if ($room_data->room_cost_of_amount3)
-                                                        <strong class="room-list__price">&pound;
-                                                            {{ $room_data->room_cost_of_amount3 }} pcm</strong>
-                                                        <small>(Room 3)</small>
-                                                    @endif
-                                                </li>
+
+                                                <form method="POST"
+                                                    action="{{ route('room.referenceNumberCheck', $info->id) }}">
+                                                    @csrf
+                                                    @method('PUT')
+                                                    <ul class="room-list">
+                                                        <li class="room-list__room">
+                                                            @if ($room_data->room_cost_of_amount1)
+                                                                <input type="radio" name="bill" id="room1"
+                                                                    value="{{ $room_data->room_cost_of_amount1 }}">
+                                                                <strong class="room-list__price">&pound;
+                                                                    {{ $room_data->room_cost_of_amount1 }} pcm</strong>
+                                                                <small>(Room 1)</small>
+                                                            @endif
+                                                        </li>
+                                                        <li class="room-list__room">
+                                                            @if ($room_data->room_cost_of_amount2)
+                                                                <input type="radio" name="bill" id="room2"
+                                                                    value="{{ $room_data->room_cost_of_amount2 }}">
+                                                                <strong class="room-list__price">&pound;
+                                                                    {{ $room_data->room_cost_of_amount2 }} pcm</strong>
+                                                                <small>(Room 2)</small>
+                                                            @endif
+                                                        </li>
+                                                        <li class="room-list__room">
+                                                            @if ($room_data->room_cost_of_amount3)
+                                                                <input type="radio" name="bill" id="room3"
+                                                                    value="{{ $room_data->room_cost_of_amount3 }}">
+                                                                <strong class="room-list__price">&pound;
+                                                                    {{ $room_data->room_cost_of_amount3 }} pcm</strong>
+                                                                <small>(Room 3)</small>
+                                                            @endif
+                                                        </li>
+                                                    </ul>
+
+
+
+                                                    <button type="button" class="mt-2" data-bs-toggle="modal"
+                                                        data-bs-target="#exampleModal"> Book Now </button>
+
+
+
+                                                    {{-- Modal --}}
+                                                    <div class="modal fade" id="exampleModal" tabindex="-1"
+                                                        aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                        <div class="modal-dialog">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h5 class="modal-title" id="exampleModalLabel">Reference
+                                                                        Number</h5>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <div class="mb-3">
+                                                                        <input type="text" class="form-control"
+                                                                            id="inputName" name="reference_number"
+                                                                            placeholder="Enter reference number"
+                                                                            style="width: 100%;">
+
+                                                                    </div>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-secondary"
+                                                                        data-bs-dismiss="modal">Close</button>
+                                                                    <button type="submit" class="btn btn-primary">Save
+                                                                        Changes</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    {{-- Modal --}}
+
+
+                                                </form>
+
                                             </div>
 
 
-                                            <li class="addtocart m-1">
-                                                <a id="qserviceaddcrt" href="">
-                                                    Book Now
-                                                </a>
-                                            </li>
+
 
                                         </div>
                                         <div class="yith-wcwl-add-to-wishlist wishlist-fragment mt-3">
@@ -158,8 +207,8 @@
                                                     </a>
                                                 </li>
                                                 <li>
-                                                    <a class="twitter a2a_button_twitter" href="/#twitter" target="_blank"
-                                                        rel="nofollow noopener">
+                                                    <a class="twitter a2a_button_twitter" href="/#twitter"
+                                                        target="_blank" rel="nofollow noopener">
                                                         <i class="fab fa-twitter"></i>
                                                     </a>
                                                 </li>

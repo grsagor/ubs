@@ -16,6 +16,7 @@ class ServicePropertyWanted extends Model
     protected $primaryKey = 'id';
 
     protected $fillable = [
+        'reference_id',
         'who_is_searching',
         'why_is_searching',
         'gender',

@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('service_advertise_rooms', function (Blueprint $table) {
             $table->increments('id');
-
+            $table->string('reference_id')->unique();
             // Get started with your free advert
 
             $table->string('property_room_quantity');

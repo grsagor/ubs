@@ -25,7 +25,7 @@
 
         p.category_text {
             /* min-height: 20px;
-                                                                                                                                                                                                max-height: 20px; */
+                                                                                                                                                                                                        max-height: 20px; */
         }
 
         h5.product-title {
@@ -97,13 +97,13 @@
                                     <ul class="product-categories">
 
                                         <li class="cat-item cat-parent">
-                                            <a href="{{ route('room.list') }}" class="category-link" id="cat">Room
-                                                Wanted <span class="count"></span></a>
+                                            <a href="{{ route('room.list') }}" class="category-link" id="cat">Room To
+                                                Rent <span class="count"></span></a>
                                         </li>
 
                                         <li class="cat-item cat-parent">
-                                            <a href="{{ route('property.list') }}" class="category-link"
-                                                id="cat">Property Wanted <span class="count"></span></a>
+                                            <a href="{{ route('property.list') }}" class="category-link" id="cat">Room
+                                                Wanted <span class="count"></span></a>
                                         </li>
 
                                         <li class="cat-item cat-parent">
