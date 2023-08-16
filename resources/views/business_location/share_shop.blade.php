@@ -8,9 +8,9 @@
             <small>Share any shops from here</small>
         </h1>
         <!-- <ol class="breadcrumb">
-            <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
-            <li class="active">Here</li>
-        </ol> -->
+                    <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
+                    <li class="active">Here</li>
+                </ol> -->
     </section>
 
     <!-- Main content -->
@@ -29,16 +29,6 @@
                     <thead>
                         <tr>
                             <th>Name</th>
-                            {{-- <th>@lang( 'lang_v1.location_id' )</th>
-                            <th>@lang( 'business.landmark' )</th>
-                            <th>@lang( 'business.city' )</th>
-                            <th>@lang( 'business.zip_code' )</th>
-                            <th>@lang( 'business.state' )</th>
-                            <th>@lang( 'business.country' )</th>
-                            <th>@lang( 'lang_v1.price_group' )</th>
-                            <th>@lang( 'invoice.invoice_scheme' )</th>
-                            <th>@lang('lang_v1.invoice_layout_for_pos')</th>
-                            <th>@lang('lang_v1.invoice_layout_for_sale')</th> --}}
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -56,18 +46,19 @@
 
 @endsection
 @section('javascript')
-    <script>
+<script>
+    $(document).ready(function() {
         business_locations = $('#shop_share_table').DataTable({
             processing: true,
             serverSide: true,
             bPaginate: false,
             buttons: [],
             ajax: '/shop-share',
-            columnDefs: [{
-                targets: 1,
-                orderable: false,
-                searchable: false,
-            }, ],
+            columns: [
+                    { data: 'name', name: 'name' },
+                    { data: 'action', name: 'action', orderable: false, searchable: false },
+                ]
         });
-    </script>
+    });
+</script>
 @endsection

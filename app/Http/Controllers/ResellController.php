@@ -16,8 +16,15 @@ class ResellController extends Controller
 
         if (request()->ajax()) {
             $business_id = request()->session()->get('user.business_id');
+            $user_id = request()->session()->get('user.id');
 
-            $products = Product::select('sku','id')->get();
+            $products = Product::select('sku', 'id')
+            ->whereNotIn('id', function ($query) use($user_id) {
+                $query->select('product_id')
+                    ->from('reselling_products')
+                    ->where('reseller_id', $user_id);
+            })
+            ->get();
             foreach ($products as $product) {
                 $product->makeHidden('image_url');
             }

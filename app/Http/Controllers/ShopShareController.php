@@ -17,8 +17,15 @@ class ShopShareController extends Controller
 
         if (request()->ajax()) {
             $business_id = request()->session()->get('user.business_id');
+            $user_id = request()->session()->get('user.id');
 
-            $locations = BusinessLocation::select('name','id')->get();
+            $locations = BusinessLocation::select('name','id')
+            ->whereNotIn('id', function ($query) use($user_id) {
+                $query->select('partnership_shop_id')
+                    ->from('partnership_shop')
+                    ->where('user_id', $user_id);
+            })
+            ->get();
 
             return Datatables::of($locations)
             ->addColumn('action', function ($location) {
@@ -30,10 +37,8 @@ class ShopShareController extends Controller
         
             })
             ->removeColumn('id')
-
-                ->rawColumns([1])
-                ->make(false);
-
+            ->rawColumns(['action'])
+            ->toJson();
         }
         return view('business_location.share_shop');
     }
