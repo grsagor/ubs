@@ -61,10 +61,12 @@ class StripePaymentController extends Controller
 
             $payment_history = new PaymentHistory;
             $payment_history->user_id = Auth::user()->id;
-            $payment_history->amount = $request->bill * 100; // Make sure to adjust the amount if needed
+            $payment_history->amount = $request->bill; // Make sure to adjust the amount if needed
             $payment_history->currency = 'usd';
             $payment_history->description = 'Test payment.';
             $payment_history->transaction_id = $charge->id;
+            $payment_history->foregn_key = $charge->metadata->product_id;
+            $payment_history->table_name = $charge->metadata->table_name;
             $payment_history->save();
 
             Session::flash('success', 'Payment successful!');

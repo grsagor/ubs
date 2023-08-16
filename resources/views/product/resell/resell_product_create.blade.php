@@ -58,11 +58,10 @@
             bPaginate: false,
             buttons: [],
             ajax: '/resell-product',
-            columnDefs: [{
-                targets: 1,
-                orderable: false,
-                searchable: false,
-            }, ],
+            columns: [
+                    { data: 'sku', name: 'sku' },
+                    { data: 'action', name: 'action', orderable: false, searchable: false },
+                ]
         });
 
         $(document).ready(function() {

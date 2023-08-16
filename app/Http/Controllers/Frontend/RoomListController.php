@@ -26,6 +26,11 @@ class RoomListController extends Controller
             'created_at'
         )
             ->search($request)
+            ->whereNotIn('id', function ($query) {
+                $query->select('foregn_key')
+                    ->from('payment_histories')
+                    ->where('table_name', 'service_advertise_rooms');
+            })
             ->latest()->paginate($data['per_page']);
 
         return view('Frontend.service.room.room_list', $data);
@@ -34,7 +39,7 @@ class RoomListController extends Controller
 
     public function roomShow($id)
     {
-        $data['info']                   = ServiceAdvertiseRoom::findOrFail($id);
+        $data['info']                   = ServiceAdvertiseRoom::with('user')->findOrFail($id);
         $data['user_info']              = Media::where('uploaded_by', $data['info']->user_id)
             ->where('model_type', 'App\\User')->first();
         return view('Frontend.service.room.details', $data);

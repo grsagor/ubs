@@ -24,6 +24,11 @@ class PropertyController extends Controller
             'created_at'
         )
             ->search($request)
+            ->whereNotIn('id', function ($query) {
+                $query->select('foregn_key')
+                    ->from('payment_histories')
+                    ->where('table_name', 'service_property_wanted');
+            })
             ->latest()->paginate($data['per_page']);
 
         return view('Frontend.service.property.property_list', $data);
@@ -32,7 +37,7 @@ class PropertyController extends Controller
 
     public function propertyShow($id)
     {
-        $data['info']                   = ServicePropertyWanted::findOrFail($id);
+        $data['info']                   = ServicePropertyWanted::with('user')->findOrFail($id);
         $data['user_info']              = Media::where('uploaded_by', $data['info']->user_id)->first();
 
         return view('Frontend.service.property.details', $data);

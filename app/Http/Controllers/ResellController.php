@@ -36,8 +36,8 @@ class ResellController extends Controller
             ->removeColumn('id')
             ->removeColumn('image_url')
 
-                ->rawColumns([1])
-                ->make(false);
+                ->rawColumns(['action'])
+                ->toJson();
 
         }
         return view('product.resell.resell_product_create');

@@ -47,12 +47,25 @@
             </li>
             <li class="treeview" id="tour_step5">
                 <a href="#">
+                    <i class="fa fas fa-cubes"></i> <span>Shops</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="{{ route('shop.share.page') }}"><i class="fa fas fa-list"></i> <span>Shop Share</span></a></li>
+                </ul>
+            </li>
+            <li class="treeview" id="tour_step5">
+                <a href="#">
                     <i class="fa fas fa-cubes"></i> <span>Products</span>
                     <span class="pull-right-container">
                         <i class="fa fa-angle-left pull-right"></i>
                     </span>
                 </a>
                 <ul class="treeview-menu">
+                    <li><a href="{{ route('product.resell.page') }}"><i class="fa fas fa-list"></i> <span>Resell
+                                Products</span></a></li>
                     <li><a href="{{ route('products.index') }}"><i class="fa fas fa-list"></i> <span>List
                                 Products</span></a></li>
                     <li><a href="{{ route('products.create') }}"><i class="fa fas fa-plus-circle"></i> <span>Add

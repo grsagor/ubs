@@ -123,6 +123,7 @@
                                                                         Number</h5>
                                                                 </div>
                                                                 <div class="modal-body">
+                                                                    <p>Please call <a href="callto:{{ $info->user->contact_no }}">{{ $info->user->contact_no }}</a> to get the reference id.</p>
                                                                     <div class="mb-3">
                                                                         <input type="text" class="form-control"
                                                                             id="inputName" name="reference_number"
@@ -136,8 +137,7 @@
                                                                 <div class="modal-footer">
                                                                     <button type="button" class="btn btn-secondary"
                                                                         data-bs-dismiss="modal">Close</button>
-                                                                    <button type="submit" class="btn btn-primary">Save
-                                                                        Changes</button>
+                                                                    <button type="submit" class="btn btn-primary">Buy</button>
                                                                 </div>
                                                             </div>
                                                         </div>
