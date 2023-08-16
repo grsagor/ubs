@@ -19,8 +19,13 @@ class StripePaymentController extends Controller
     {
         // $data['customer_id'] = $request->customer_id;
         // $data['email'] = $request->email;
-        $data['bill'] = session('bill');
 
+        $data['product_id'] = session('product_id');
+        $data['product_name'] = session('product_name');
+        $data['bill'] = session('bill');
+        $data['table_name'] = session('table_name');
+
+        // return $data;
         return view('stripe', $data);
     }
 
@@ -31,7 +36,6 @@ class StripePaymentController extends Controller
      */
     public function stripePost(Request $request)
     {
-        return $request;
         Stripe\Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
         $email = Auth::user()->email;
         $customer = \Stripe\Customer::create(array(
@@ -46,7 +50,13 @@ class StripePaymentController extends Controller
                 "amount" => $request->bill * 100,
                 "currency" => "usd",
                 "customer" =>  $customer["id"],
-                "description" => "Test payment."
+                "description" => "Test payment.",
+                "metadata" => array(
+                    "bill" => $request->bill,
+                    "product_id" => $request->product_id,
+                    "product_name" => $request->product_name,
+                    "table_name" => $request->table_name,
+                )
             ));
 
             $payment_history = new PaymentHistory;

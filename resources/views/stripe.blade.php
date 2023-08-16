@@ -77,7 +77,10 @@
 
                                     <input type="hidden" name="customer_id" value="{{ auth()->user()->id }}">
                                     <input type="hidden" name="email" value="{{ auth()->user()->email }}">
+                                    <input type="hidden" name="product_id" value="{{ $product_id }}">
+                                    <input type="hidden" name="product_name" value="{{ $product_name }}">
                                     <input type="hidden" name="bill" value="{{ $bill }}">
+                                    <input type="hidden" name="table_name" value="{{ $table_name }}">
                                     <button class="btn btn-primary btn-lg btn-block" type="submit">Pay Now
                                         ${{ $bill }}</button>
                                 </div>
