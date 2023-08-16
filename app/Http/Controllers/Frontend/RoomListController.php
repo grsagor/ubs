@@ -44,10 +44,20 @@ class RoomListController extends Controller
     public function referenceNumberCheck(Request $request, $id)
     {
         $data                           = ServiceAdvertiseRoom::findOrFail($id);
-        // dd($request->toArray());
+
+        $info['product_id']             = $id;
+        $info['product_name']           = $data->advert_title;
+        $info['bill']                   = $request->bill;
+        $info['table_name']             = 'service_advertise_rooms';
+
         if ($data->reference_id == $request->reference_number) {
             return redirect('stripe')
-                ->with('bill', $request->bill);
+                ->with([
+                    'product_id' => $info['product_id'],
+                    'product_name' => $info['product_name'],
+                    'bill' => $info['bill'],
+                    'table_name' => $info['table_name']
+                ]);
         } else {
             return redirect()->back();
         }
