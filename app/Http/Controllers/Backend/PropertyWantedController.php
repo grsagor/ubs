@@ -40,7 +40,12 @@ class PropertyWantedController extends Controller
 
             $property->fill($requestedData)->save();
 
-            return redirect()->back();
+            $output = [
+                'success' => true,
+                'msg' => ('Created Successfully!!!'),
+            ];
+
+            return redirect()->back()->with('status', $output);
         } catch (\Throwable $e) {
 
             dd($e->getmessage());

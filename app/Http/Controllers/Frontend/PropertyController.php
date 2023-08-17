@@ -26,7 +26,7 @@ class PropertyController extends Controller
             ->search($request)
             ->latest()->paginate($data['per_page']);
 
-        return view('Frontend.service.property.property_list', $data);
+        return view('frontend.service.property.property_list', $data);
     }
 
 
@@ -35,7 +35,7 @@ class PropertyController extends Controller
         $data['info']                   = ServicePropertyWanted::findOrFail($id);
         $data['user_info']              = Media::where('uploaded_by', $data['info']->user_id)->first();
 
-        return view('Frontend.service.property.details', $data);
+        return view('frontend.service.property.details', $data);
     }
 
     public function referenceNumberCheck(Request $request, $id)
