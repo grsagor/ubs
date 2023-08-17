@@ -33,7 +33,7 @@ class RoomListController extends Controller
             })
             ->latest()->paginate($data['per_page']);
 
-        return view('Frontend.service.room.room_list', $data);
+        return view('frontend.service.room.room_list', $data);
     }
 
 
@@ -42,7 +42,7 @@ class RoomListController extends Controller
         $data['info']                   = ServiceAdvertiseRoom::with('user')->findOrFail($id);
         $data['user_info']              = Media::where('uploaded_by', $data['info']->user_id)
             ->where('model_type', 'App\\User')->first();
-        return view('Frontend.service.room.details', $data);
+        return view('frontend.service.room.details', $data);
     }
 
 

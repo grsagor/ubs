@@ -15,7 +15,6 @@ class CatalogController extends Controller
     public function categories()
     {
         return view('frontend.pages.product.index');
-
     }
 
     public function category(Request $request, $slug = null, $slug1 = null, $slug2 = null, $slug3 = null, $kind = null)
@@ -36,7 +35,7 @@ class CatalogController extends Controller
         $search = $request->search;
         $pageby = $request->pageby;
         $minprice = $minprice / $this->curr->value;
-        $maxprice = $maxprice / $this->curr->value; 
+        $maxprice = $maxprice / $this->curr->value;
         $country = $request->country_id;
         $city = $request->city_id;
         $type = $request->has('type') ?? '';
@@ -236,5 +235,3 @@ class CatalogController extends Controller
         return view('frontend.pages.product.index', $data);
     }
 }
-
-

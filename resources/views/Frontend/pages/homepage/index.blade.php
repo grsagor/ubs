@@ -15,35 +15,35 @@
         @include('frontend.partials.global.responsive-menubar')
     </header>
 
-    {{-- @if ($ps->slider == 1) --}} 
-        <div class="position-relative">
-            <span class="nextBtn"></span>
-            <span class="prevBtn"></span>
-            <section class="home-slider owl-theme owl-carousel">
-                @foreach ($sliders as $data)
-                    <div class="banner-slide-item"
-                        style="background: url('{{ asset('assets/images/sliders/' . $data->photo) }}') no-repeat center  ;height:400px !important;background-position: center -130px;">
-                        <div class="container">
-                            <div class="banner-wrapper-item text-{{ $data->position }}">
-                                <div class="banner-content text-dark ">
-                                    <h5 class="subtitle text-dark slide-h5">{{ $data->subtitle_text }}</h5>
+    {{-- @if ($ps->slider == 1) --}}
+    <div class="position-relative">
+        <span class="nextBtn"></span>
+        <span class="prevBtn"></span>
+        <section class="home-slider owl-theme owl-carousel">
+            @foreach ($sliders as $data)
+                <div class="banner-slide-item"
+                    style="background: url('{{ asset('assets/images/sliders/' . $data->photo) }}') no-repeat center  ;height:400px !important;background-position: center -130px;">
+                    <div class="container">
+                        <div class="banner-wrapper-item text-{{ $data->position }}">
+                            <div class="banner-content text-dark ">
+                                <h5 class="subtitle text-dark slide-h5">{{ $data->subtitle_text }}</h5>
 
-                                    <h2 class="title text-dark slide-h5">{{ $data->title_text }}</h2>
+                                <h2 class="title text-dark slide-h5">{{ $data->title_text }}</h2>
 
-                                    <p class="slide-h5">{{ $data->details_text }}</p>
+                                <p class="slide-h5">{{ $data->details_text }}</p>
 
-                                    <a href="{{ $data->link }}" class="cmn--btn ">{{ __('SHOP NOW') }}</a>
-                                </div>
+                                <a href="{{ $data->link }}" class="cmn--btn ">{{ __('SHOP NOW') }}</a>
                             </div>
                         </div>
                     </div>
-                @endforeach
-            </section>
-        </div>
+                </div>
+            @endforeach
+        </section>
+    </div>
     {{-- @endif --}}
     {{-- @if ($ps->arrival_section == 1) --}}
-        <!--==================== Fashion Banner Section Start ====================-->
-        {{-- <div class="full-row">
+    <!--==================== Fashion Banner Section Start ====================-->
+    {{-- <div class="full-row">
             <div class="container">
                 <div class="fashion-banner-wrapper">
                     @foreach ($arrivals as $key => $arrival)
@@ -99,27 +99,27 @@
                 </div>
             </div>
         </div> --}}
-        <!--==================== Fashion Banner Section End ====================-->
+    <!--==================== Fashion Banner Section End ====================-->
     {{-- @endif --}}
 
 
-    @include('Frontend.pages.homepage.features')
-    @include('Frontend.pages.homepage.popular_category')
-    @include('Frontend.pages.homepage.stars')
-    @include('Frontend.pages.homepage.recruitments')
-    @include('Frontend.pages.homepage.real_estate')
-    @include('Frontend.pages.homepage.partners')
-    @include('Frontend.pages.homepage.digital_solutions')
+    @include('frontend.pages.homepage.features')
+    @include('frontend.pages.homepage.popular_category')
+    @include('frontend.pages.homepage.stars')
+    @include('frontend.pages.homepage.recruitments')
+    @include('frontend.pages.homepage.real_estate')
+    @include('frontend.pages.homepage.partners')
+    @include('frontend.pages.homepage.digital_solutions')
 
 
-    
+
 
 
     <div id="extraData">
         <div class="text-center">
             {{-- <img src="{{ asset('assets/images/' . $gs->loader) }}"> --}}
-            
-            
+
+
         </div>
     </div>
 

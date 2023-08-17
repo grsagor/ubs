@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
-     //aready type existed thats why kind was used  --added by huma
+    //aready type existed thats why kind was used  --added by huma
     public function category(Request $request, $slug = null, $slug1 = null, $slug2 = null, $slug3 = null, $kind = null)
     {
 
@@ -42,7 +42,7 @@ class CategoryController extends Controller
 
         $data['latest_products'] = Product::get();
 
-        
+
         $data['prods'] = Product::paginate(30);
         $data['countries'] = Country::where('status', 1)
             ->orderby('id', 'asc')
@@ -54,6 +54,6 @@ class CategoryController extends Controller
             return view('frontend.ajax.category', $data);
         }
 
-        return view('Frontend.pages.product.index', $data);
+        return view('frontend.pages.product.index', $data);
     }
 }

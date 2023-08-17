@@ -25,6 +25,6 @@ class EducationController extends Controller
             ->search($request)
             ->latest()->paginate($data['per_page']);
 
-        return view('Frontend.service.education.education_list', $data);
+        return view('frontend.service.education.education_list', $data);
     }
 }
