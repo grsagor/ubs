@@ -95,14 +95,19 @@
                                                                     <h4 class="">Room size</h4>
                                                                     <div class="d-flex gap-1">
                                                                         <input type="radio" name="room_size"
-                                                                            value="A single or double" id="asingleordouble">
-                                                                        <label for="asingleordouble">A single or double
-                                                                            room</label>
+                                                                            value="A single room" id="dobuleroom">
+                                                                        <label for="dobuleroom">A single room</label>
                                                                     </div>
                                                                     <div class="d-flex gap-1">
                                                                         <input type="radio" name="room_size"
                                                                             value="A double room" id="dobuleroom">
                                                                         <label for="dobuleroom">A double room</label>
+                                                                    </div>
+                                                                    <div class="d-flex gap-1">
+                                                                        <input type="radio" name="room_size"
+                                                                            value="A single or double" id="asingleordouble">
+                                                                        <label for="asingleordouble">A single or double
+                                                                            room</label>
                                                                     </div>
                                                                 </div>
                                                             </div>
