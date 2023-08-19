@@ -31,9 +31,6 @@ class ServiceAdvertiseRoomController extends Controller
         }
 
         if (request()->ajax()) {
-            $business_id = request()->session()->get('user.business_id');
-            $user_id = request()->session()->get('user.id');
-
             $services = ServiceAdvertiseRoom::where('user_id',$user->id)->get();
 
             return Datatables::of($services)
@@ -45,7 +42,6 @@ class ServiceAdvertiseRoomController extends Controller
                         </form>';
         
             })
-            ->removeColumn('id')
             ->rawColumns(['action'])
             ->toJson();
         }
