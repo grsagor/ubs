@@ -1,4 +1,5 @@
 <?php
+include 'customer.php';
 
 use App\Http\Controllers\Install;
 use App\Http\Controllers\InvoiceLayoutController;
