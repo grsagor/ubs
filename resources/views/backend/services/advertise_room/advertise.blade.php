@@ -467,8 +467,7 @@
                                                         per week
                                                     </label>
                                                     <label class="form_input form_radio">
-                                                        <input type="radio" name="room_cost_time2" checked=""
-                                                            value=2>
+                                                        <input type="radio" name="room_cost_time2" value=2>
                                                         per calendar month
                                                     </label>
 
@@ -483,7 +482,7 @@
                                                         Single
                                                     </label>
                                                     <label class="form_input form_radio">
-                                                        <input type="radio" name="room_size2" checked="" value=2>
+                                                        <input type="radio" name="room_size2" value=2>
                                                         Double
                                                     </label>
                                                 </div>
@@ -548,8 +547,7 @@
                                                         per week
                                                     </label>
                                                     <label class="form_input form_radio">
-                                                        <input type="radio" name="room_cost_time3" checked=""
-                                                            value=2>
+                                                        <input type="radio" name="room_cost_time3" value=2>
                                                         per calendar month
                                                     </label>
 
@@ -564,7 +562,7 @@
                                                         Single
                                                     </label>
                                                     <label class="form_input form_radio">
-                                                        <input type="radio" name="room_size3" checked="" value=2>
+                                                        <input type="radio" name="room_size3" value=2>
                                                         Double
                                                     </label>
                                                 </div>
