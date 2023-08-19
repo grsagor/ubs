@@ -51,7 +51,7 @@
                                             </div>
                                             <div class="form_inputs">
                                                 <span class="form_input form_select">
-                                                    <select name="property_room_quantity">
+                                                    <select name="property_room_quantity" id="roomQuantitySelect">
                                                         @foreach (['1 room for rent', '2 rooms for rent', '3 rooms for rent'] as $key => $item)
                                                             <option value="{{ $key + 1 }}">{{ $item }}</option>
                                                         @endforeach
@@ -369,7 +369,7 @@
 
                                         <legend>The rooms</legend>
 
-                                        <fieldset class="form_room_fieldset">
+                                        <fieldset class="form_room_fieldset" id="room1">
 
                                             <legend> Room 1 </legend>
 
@@ -450,9 +450,7 @@
                                         </fieldset>
 
 
-
-
-                                        <fieldset class="form_room_fieldset">
+                                        <fieldset class="form_room_fieldset" id="room2" style="display: none;">
 
                                             <legend> Room 2 </legend>
 
@@ -533,7 +531,7 @@
                                         </fieldset>
 
 
-                                        <fieldset class="form_room_fieldset">
+                                        <fieldset class="form_room_fieldset" id="room3" style="display: none;">
 
                                             <legend> Room 3 </legend>
 
@@ -1443,5 +1441,36 @@
 
         // Set the min attribute of the input to the current date
         roomAvailableFromInput.min = currentDate;
+
+
+
+
+
+
+
+
+
+
+
+        $(document).ready(function() {
+            // Show "Room 1" by default
+            $("#room1").show();
+
+            // Hide additional rooms initially
+            $(".form_room_fieldset:not(#room1)").hide();
+
+            // Show the selected number of additional rooms
+            $("#roomQuantitySelect").change(function() {
+                var selectedQuantity = parseInt($(this).val());
+
+                // Hide all additional rooms
+                $(".form_room_fieldset:not(#room1)").hide();
+
+                // Show only the selected number of additional rooms
+                for (var i = 2; i <= selectedQuantity; i++) {
+                    $("#room" + i).show();
+                }
+            });
+        });
     </script>
 @endsection
