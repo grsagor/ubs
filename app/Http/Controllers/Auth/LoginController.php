@@ -87,23 +87,23 @@ class LoginController extends Controller
     {
         $this->businessUtil->activityLog($user, 'login', null, [], false, $user->business_id);
 
-        if (! $user->business->is_active) {
+        if (!$user->business->is_active) {
             \Auth::logout();
 
             return redirect('/login')
-              ->with(
-                  'status',
-                  ['success' => 0, 'msg' => __('lang_v1.business_inactive')]
-              );
+                ->with(
+                    'status',
+                    ['success' => 0, 'msg' => __('lang_v1.business_inactive')]
+                );
         } elseif ($user->status != 'active') {
             \Auth::logout();
 
             return redirect('/login')
-              ->with(
-                  'status',
-                  ['success' => 0, 'msg' => __('lang_v1.user_inactive')]
-              );
-        } elseif (! $user->allow_login) {
+                ->with(
+                    'status',
+                    ['success' => 0, 'msg' => __('lang_v1.user_inactive')]
+                );
+        } elseif (!$user->allow_login) {
             \Auth::logout();
 
             return redirect('/login')
@@ -111,7 +111,7 @@ class LoginController extends Controller
                     'status',
                     ['success' => 0, 'msg' => __('lang_v1.login_not_allowed')]
                 );
-        } elseif (($user->user_type == 'user_customer') && ! $this->moduleUtil->hasThePermissionInSubscription($user->business_id, 'crm_module')) {
+        } elseif ((!$user->user_type == 'user_customer') && !$this->moduleUtil->hasThePermissionInSubscription($user->business_id, 'crm_module')) {
             \Auth::logout();
 
             return redirect('/login')
@@ -125,7 +125,7 @@ class LoginController extends Controller
     protected function redirectTo()
     {
         $user = \Auth::user();
-        if (! $user->can('dashboard.data') && $user->can('sell.create')) {
+        if (!$user->can('dashboard.data') && $user->can('sell.create')) {
             return '/pos/create';
         }
 
