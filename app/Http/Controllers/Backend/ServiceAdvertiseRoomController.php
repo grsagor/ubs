@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StoreServiceAdvertiseRoomRequest;
 use App\Http\Requests\UpdateServiceAdvertiseRoomRequest;
+use Yajra\DataTables\Facades\DataTables;
 
 class ServiceAdvertiseRoomController extends Controller
 {
@@ -22,6 +23,28 @@ class ServiceAdvertiseRoomController extends Controller
      */
     public function index()
     {
+        $user = Auth::user();
+        $services = ServiceAdvertiseRoom::where('user_id',$user->id)->get();
+        // return $services;
+        if (!auth()->user()->can('business_settings.access')) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        if (request()->ajax()) {
+            $services = ServiceAdvertiseRoom::where('user_id',$user->id)->get();
+
+            return Datatables::of($services)
+            ->addColumn('action', function ($service) {
+                return '<form action="' . route("shop.share.store") . '" method="post" enctype="multipart/form-data">
+                ' . csrf_field() . '
+                            <input type="hidden" value="' . $service->id . '" name="shop_id">
+                            <input type="submit" class="btn btn-xs btn-primary" value="Share This Shop">
+                        </form>';
+        
+            })
+            ->rawColumns(['action'])
+            ->toJson();
+        }
         return view('backend.services.advertise_room.advertise');
     }
 
@@ -32,7 +55,7 @@ class ServiceAdvertiseRoomController extends Controller
      */
     public function create()
     {
-        //
+        return view('backend.services.advertise_room.create');
     }
 
     /**

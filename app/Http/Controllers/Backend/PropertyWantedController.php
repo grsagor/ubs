@@ -3,12 +3,14 @@
 namespace App\Http\Controllers\Backend;
 
 
+use App\ServiceAdvertiseRoom;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Traits\ImageFileUpload;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Modules\Crm\Entities\ServicePropertyWanted;
+use Yajra\DataTables\Facades\DataTables;
 
 class PropertyWantedController extends Controller
 {
@@ -16,8 +18,34 @@ class PropertyWantedController extends Controller
 
     public function index()
     {
-        // return view('user.property.addProperty');
+        $user = Auth::user();
+        $services = ServicePropertyWanted::where('user_id',$user->id)->get();
+        // return $services;
+        if (!auth()->user()->can('business_settings.access')) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        if (request()->ajax()) {
+            $services = ServicePropertyWanted::where('user_id',$user->id)->get();
+
+            return Datatables::of($services)
+            ->addColumn('action', function ($service) {
+                return '<form action="' . route("shop.share.store") . '" method="post" enctype="multipart/form-data">
+                ' . csrf_field() . '
+                            <input type="hidden" value="' . $service->id . '" name="shop_id">
+                            <input type="submit" class="btn btn-xs btn-primary" value="Share This Shop">
+                        </form>';
+        
+            })
+            ->rawColumns(['action'])
+            ->toJson();
+        }
         return view('crm::property_wanted.list');
+    }
+
+    public function create()
+    {
+        return view('crm::property_wanted.create');
     }
 
 

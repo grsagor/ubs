@@ -29,7 +29,7 @@ Route::group(['middleware' => ['web', 'authh', 'auth', 'SetSessionData', 'langua
     Route::get('get-followup-groups', 'ScheduleController@getFollowUpGroups');
 
     Route::resource('follow-up-log', 'ScheduleLogController');
-
+    
     Route::get('install', 'InstallController@index');
     Route::post('install', 'InstallController@install');
     Route::get('install/uninstall', 'InstallController@uninstall');
