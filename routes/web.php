@@ -191,7 +191,7 @@ Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 
     Route::get('get-purchase-requisition-lines/{purchase_requisition_id}', [PurchaseRequisitionController::class, 'getPurchaseRequisitionLines']);
 
     Route::get('/sign-in-as-user/{id}', [ManageUserController::class, 'signInAsUser'])->name('sign-in-as-user');
-    
+
     /* Route created by GR SAGOR from here */
     Route::get('/shop-share', [ShopShareController::class, 'index'])->name('shop.share.page');
     Route::post('/shop-share', [ShopShareController::class, 'store'])->name('shop.share.store');

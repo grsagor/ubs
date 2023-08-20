@@ -1,6 +1,15 @@
 <?php
 
+use App\Http\Controllers\PropertyWantedCustomerController;
+
+
+
 // Customer route
+
+
+Route::group(['middleware' => ['web', 'authh', 'SetSessionData', 'auth', 'language', 'timezone', 'ContactSidebarMenu', 'CheckContactLogin'], 'prefix' => 'contact',], function () {
+    Route::resource('/property-wanted', PropertyWantedCustomerController::class);
+});
 
 Route::group(['middleware' => ['web', 'authh', 'SetSessionData', 'auth', 'language', 'timezone', 'ContactSidebarMenu', 'CheckContactLogin'], 'prefix' => 'contact', 'namespace' => 'Modules\Crm\Http\Controllers'], function () {
     Route::resource('contact-dashboard', 'DashboardController');
@@ -13,8 +22,8 @@ Route::group(['middleware' => ['web', 'authh', 'SetSessionData', 'auth', 'langua
     Route::get('contact-get-ledger', 'LedgerController@getLedger');
     Route::resource('bookings', 'ContactBookingController');
     Route::resource('order-request', 'OrderRequestController');
-    Route::get('/property-wanted', 'PropertyWantedController@showPropertyForm');
-    Route::post('/save-property-wanted', 'PropertyWantedController@saveProperty')->name('user.save.property.wanted');
+    // Route::get('/property-wanted', 'PropertyWantedController@showPropertyForm');
+    // Route::post('/save-property-wanted', 'PropertyWantedController@saveProperty')->name('user.save.property.wanted');
     Route::get('products/list', '\App\Http\Controllers\ProductController@getProducts');
     Route::get('order-request/get_product_row/{variation_id}/{location_id}', 'OrderRequestController@getProductRow');
 });
@@ -29,7 +38,7 @@ Route::group(['middleware' => ['web', 'authh', 'auth', 'SetSessionData', 'langua
     Route::get('get-followup-groups', 'ScheduleController@getFollowUpGroups');
 
     Route::resource('follow-up-log', 'ScheduleLogController');
-    
+
     Route::get('install', 'InstallController@index');
     Route::post('install', 'InstallController@install');
     Route::get('install/uninstall', 'InstallController@uninstall');
