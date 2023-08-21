@@ -1,5 +1,6 @@
-@extends('layouts.app')
-@section('title', 'Shop Sharing')
+@extends('crm::layouts.app')
+@section('title', __('restaurant.bookings'))
+
 @section('css')
     <link rel="stylesheet" href="{{ asset('assets/rough/root.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/rough/stack.css') }}">
@@ -12,9 +13,9 @@
             <small>Advertise your room</small>
         </h1>
         <!-- <ol class="breadcrumb">
-                    <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
-                    <li class="active">Here</li>
-                </ol> -->
+                                <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
+                                <li class="active">Here</li>
+                            </ol> -->
     </section>
 
     <!-- Main content -->
@@ -23,7 +24,7 @@
             @slot('tool')
                 <div class="box-tools">
                     <button type="button" class="btn btn-block btn-primary btn-modal"
-                        data-href="{{ action([\App\Http\Controllers\Backend\ServiceAdvertiseRoomController::class, 'create']) }}"
+                        data-href="{{ action([\App\Http\Controllers\RoomToRentController::class, 'create']) }}"
                         data-container=".room_to_rent_add_modal">
                         <i class="fa fa-plus"></i> @lang('messages.add')</button>
                 </div>
@@ -50,19 +51,26 @@
 
 @endsection
 @section('javascript')
-<script>
-    $(document).ready(function() {
-        business_locations = $('#room_to_rent_share_table').DataTable({
-            processing: true,
-            serverSide: true,
-            bPaginate: false,
-            buttons: [],
-            ajax: '/service-advertise',
-            columns: [
-                    { data: 'property_postcode', name: 'property_postcode' },
-                    { data: 'action', name: 'action', orderable: false, searchable: false },
+    <script>
+        $(document).ready(function() {
+            business_locations = $('#room_to_rent_share_table').DataTable({
+                processing: true,
+                serverSide: true,
+                bPaginate: false,
+                buttons: [],
+                ajax: '/service-advertise',
+                columns: [{
+                        data: 'property_postcode',
+                        name: 'property_postcode'
+                    },
+                    {
+                        data: 'action',
+                        name: 'action',
+                        orderable: false,
+                        searchable: false
+                    },
                 ]
+            });
         });
-    });
-</script>
+    </script>
 @endsection
