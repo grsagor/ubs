@@ -5,8 +5,8 @@ namespace App;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class SubCategory extends Model
+class ChildCategory extends Model
 {
     use HasFactory;
-    protected $table = 'sub_categories';
+    protected $table = 'child_categories';
 }
