@@ -1,34 +1,27 @@
 <?php
 
-namespace App\Http\Controllers\Backend;
+namespace App\Http\Controllers;
 
 use Illuminate\Support\Str;
+use Illuminate\Http\Request;
 use App\ServiceAdvertiseRoom;
 use App\Traits\ImageFileUpload;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Requests\StoreServiceAdvertiseRoomRequest;
-use App\Http\Requests\UpdateServiceAdvertiseRoomRequest;
 use Yajra\DataTables\Facades\DataTables;
 
-class ServiceAdvertiseRoomController extends Controller
-{
 
+class RoomToRentController extends Controller
+{
     use ImageFileUpload;
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         $user = Auth::user();
         $services = ServiceAdvertiseRoom::where('user_id', $user->id)->get();
         // return $services;
-        if (!auth()->user()->can('business_settings.access')) {
-            abort(403, 'Unauthorized action.');
-        }
+        // if (!auth()->user()->can('business_settings.access')) {
+        //     abort(403, 'Unauthorized action.');
+        // }
 
         if (request()->ajax()) {
             $services = ServiceAdvertiseRoom::where('user_id', $user->id)->get();
@@ -63,8 +56,9 @@ class ServiceAdvertiseRoomController extends Controller
      * @param  \App\Http\Requests\StoreServiceAdvertiseRoomRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreServiceAdvertiseRoomRequest $request, ServiceAdvertiseRoom $serviceAdvertiseRoom)
+    public function store(Request $request)
     {
+        $serviceAdvertiseRoom = new ServiceAdvertiseRoom;
 
         try {
             $requestedData                               = $request->all();
@@ -114,50 +108,5 @@ class ServiceAdvertiseRoomController extends Controller
 
             return redirect()->back();
         }
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\ServiceAdvertiseRoom  $serviceAdvertiseRoom
-     * @return \Illuminate\Http\Response
-     */
-    public function show(ServiceAdvertiseRoom $serviceAdvertiseRoom)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\ServiceAdvertiseRoom  $serviceAdvertiseRoom
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(ServiceAdvertiseRoom $serviceAdvertiseRoom)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\UpdateServiceAdvertiseRoomRequest  $request
-     * @param  \App\ServiceAdvertiseRoom  $serviceAdvertiseRoom
-     * @return \Illuminate\Http\Response
-     */
-    public function update(UpdateServiceAdvertiseRoomRequest $request, ServiceAdvertiseRoom $serviceAdvertiseRoom)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\ServiceAdvertiseRoom  $serviceAdvertiseRoom
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(ServiceAdvertiseRoom $serviceAdvertiseRoom)
-    {
-        //
     }
 }

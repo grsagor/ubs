@@ -25,6 +25,15 @@
             <li><a href="{{ url('/contact/order-request') }}"><i class="fa fas fa-arrow-circle-up"></i>
                     <span>Order Request</span></a></li>
 
+            <li><a href="{{ url('/contact/property-wanted') }}"><i class="fa fas fa-arrow-circle-up"></i>
+                    <span>Property Wanted</span></a></li>
+
+            <li><a href="{{ url('/contact/room-to-rent') }}"><i class="fa fas fa-arrow-circle-up"></i>
+                    <span>Room to rent</span></a></li>
+
+            <li><a href="{{ url('/contact/education') }}"><i class="fa fas fa-arrow-circle-up"></i>
+                    <span>Education</span></a></li>
+
         </ul>
         <!-- /.sidebar-menu -->
     </section>
