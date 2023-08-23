@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers\Backend;
 
+use App\ChildCategory;
+use App\ServiceCategory;
+use App\ServiceCharge;
+use App\SubCategory;
 use Illuminate\Support\Str;
 use App\ServiceAdvertiseRoom;
 use App\Traits\ImageFileUpload;
@@ -10,6 +14,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StoreServiceAdvertiseRoomRequest;
 use App\Http\Requests\UpdateServiceAdvertiseRoomRequest;
 use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Http\Request;
 
 class ServiceAdvertiseRoomController extends Controller
 {
@@ -23,6 +28,11 @@ class ServiceAdvertiseRoomController extends Controller
      */
     public function index()
     {
+        $categories = ServiceCategory::all();
+        $sub_categories = SubCategory::all();
+        $child_categories = ChildCategory::all();
+        $service_charges = ServiceCharge::where([['category_id',1],['sub_category_id',2],['child_category',1]])->get();
+        // return $child_categories;
         $user = Auth::user();
         $services = ServiceAdvertiseRoom::where('user_id', $user->id)->get();
         // return $services;
@@ -54,7 +64,37 @@ class ServiceAdvertiseRoomController extends Controller
      */
     public function create()
     {
-        return view('backend.services.advertise_room.create');
+        $categories = ServiceCategory::all();
+        return view('backend.services.advertise_room.create', compact('categories'));
+    }
+    public function showSubCategorySelect(Request $request)
+    {
+        $category_id = $request->id;
+        $categories = SubCategory::where('category_id', $category_id)->get();
+        $html = '';
+        foreach ($categories as $category) {
+            $html .= '<option value="' . $category->id . '">' . $category->name . '</option>';
+        }
+        return $html;
+    }
+    public function showChildCategorySelect(Request $request)
+    {
+        $category_id = $request->id;
+        $categories = ChildCategory::where('sub_category_id', $category_id)->get();
+        $html = '';
+        foreach ($categories as $category) {
+            $html .= '<option value="' . $category->id . '">' . $category->name . '</option>';
+        }
+        return $html;
+    }
+    public function showRoomQuantitySelect(Request $request)
+    {
+        $service_charges = ServiceCharge::where([['category_id',$request->service_category_id],['sub_category_id',$request->sub_category_id],['child_category',$request->child_category_id]])->get();
+        $html = '';
+        foreach ($service_charges as $category) {
+            $html .= '<option value="' . $category->size . '">' . $category->size . ' room for rent</option>';
+        }
+        return $html;
     }
 
     /**

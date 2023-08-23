@@ -20,6 +20,7 @@ use App\Http\Controllers\PurchaseReturnController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\ResellController;
 use App\Http\Controllers\Restaurant;
+use App\Http\Controllers\RoomToRentController;
 use Illuminate\Support\Facades\Route;
 // use App\Http\Controllers\Auth;
 use App\Http\Controllers\HomeController;
@@ -108,15 +109,15 @@ Route::controller(StripePaymentController::class)->group(function () {
 
 // Services
 
-Route::get('/room-list',                                   [RoomListController::class, 'roomList'])->name('room.list');
-Route::get('/room-show/{id}',                              [RoomListController::class, 'roomShow'])->name('room_show');
-Route::put('/room-reference-number-check/{id}',            [RoomListController::class, 'referenceNumberCheck'])->name('room.referenceNumberCheck');
+Route::get('/room-list', [RoomListController::class, 'roomList'])->name('room.list');
+Route::get('/room-show/{id}', [RoomListController::class, 'roomShow'])->name('room_show');
+Route::put('/room-reference-number-check/{id}', [RoomListController::class, 'referenceNumberCheck'])->name('room.referenceNumberCheck');
 
-Route::get('/property-list',                               [PropertyController::class, 'propertyList'])->name('property.list');
-Route::get('/property-show/{id}',                          [PropertyController::class, 'propertyShow'])->name('property_show');
-Route::put('/property-reference-number-check/{id}',        [PropertyController::class, 'referenceNumberCheck'])->name('property.referenceNumberCheck');
+Route::get('/property-list', [PropertyController::class, 'propertyList'])->name('property.list');
+Route::get('/property-show/{id}', [PropertyController::class, 'propertyShow'])->name('property_show');
+Route::put('/property-reference-number-check/{id}', [PropertyController::class, 'referenceNumberCheck'])->name('property.referenceNumberCheck');
 
-Route::get('/education-list',                              [EducationController::class, 'educationList'])->name('education.list');
+Route::get('/education-list', [EducationController::class, 'educationList'])->name('education.list');
 
 
 Route::get('/room-wanted', function () {
@@ -168,11 +169,17 @@ Route::middleware(['setData'])->group(function () {
 Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 'AdminSidebarMenu', 'CheckUserLogin'])->group(function () {
 
     // Services
-    Route::resource('service-advertise',                    ServiceAdvertiseRoomController::class);
+    Route::resource('service-advertise', ServiceAdvertiseRoomController::class);
+    Route::get('/room-to-rent-open-add-modal', [ServiceAdvertiseRoomController::class, 'create']);
+    Route::get('/show-subcategory-select', [ServiceAdvertiseRoomController::class, 'showSubCategorySelect']);
+    Route::get('/show-childcategory-select', [ServiceAdvertiseRoomController::class, 'showChildCategorySelect']);
+    Route::get('/show-room-quantity-select', [ServiceAdvertiseRoomController::class, 'showRoomQuantitySelect']);
 
-    Route::resource('property-wanted',                      PropertyWantedController::class);
+    Route::resource('property-wanted', PropertyWantedController::class);
 
-    Route::resource('service-education',                    ServiceEducationController::class);
+    Route::resource('/room-to-rent', RoomToRentController::class);
+    
+    Route::resource('service-education', ServiceEducationController::class);
 
 
 

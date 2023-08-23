@@ -55,72 +55,122 @@
             <form action="{{ route('property-wanted.store') }}" id="property_wanted_form" method="POST"
                 enctype="multipart/form-data">
                 @csrf
-                <div id="showingbtn1" class="row">
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label>Who's searching?:</label>
-                            <div>
-                                <input class="form-check-input" type="radio" name="who_is_searching" value="Just Me"
-                                id="justme">
-                            <label for="justme">Just Me</label>
+                <div id="showingbtn1">
+                    <div class="row align-items-center">
+                        <div class="col-lg-4">
+                            <div class="left-area">
+                                {{-- <h4 class="heading">Who's searching?</h4> --}}
                             </div>
-                            <div>
-                                <input class="form-check-input" type="radio" name="who_is_searching"
-                                    value="Me and a partner" id="meandapartner">
+                        </div>
+                        <div class="col-lg-7 d-flex gap-3">
+                            <div class="d-flex gap-1">
+                                <h4>Who's searching?</h4>
+                                <input type="radio" name="who_is_searching" value="Just Me" id="justme">
+                                <label for="justme">Just Me</label>
+                            </div>
+                            <div class="d-flex gap-1">
+                                <input type="radio" name="who_is_searching" value="Me and a partner"
+                                    id="meandapartner">
                                 <label for="meandapartner">Me and a partner</label>
                             </div>
-                            <div>
-                                <input class="form-check-input" type="radio" name="who_is_searching"
-                                    value="Me and a friend" id="meandafriend">
+                            <div class="d-flex gap-1">
+                                <input type="radio" name="who_is_searching" value="Me and a friend" id="meandafriend">
                                 <label for="meandafriend">Me and a friend</label>
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label>Why is searching?</label>
-                            <textarea name="why_is_searching" class="form-control" type="text"></textarea>
+                    <div class="row align-items-center">
+                        <div class="col-lg-4">
+                            <div class="left-area">
+                                {{-- <h4 class="heading">Why is searching?</h4> --}}
+                            </div>
+                        </div>
+                        <div class="col-lg-7">
+                            <h4 class="">Why is searching?</h4>
+                            <div class="d-flex gap-1">
+                                <textarea name="why_is_searching" class="input-field"></textarea>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label for="invoice_scheme_id">Your gender(s)</label> 
-                            <select class="form-control" required="" id="gender" name="gender">
-                                <option selected="" value="">Select
-                                    ....</option>
-                                @foreach (getSex() as $item)
-                                    <option value="{{ $item['value'] }}"
-                                        {{ old('sex') == $item['value'] ? 'selected' : '' }}>
-                                        {{ $item['label'] }}
-                                    </option>
-                                @endforeach
-                            </select>
+                    <div class="row align-items-center">
+                        <div class="col-lg-4">
+                            <div class="left-area">
+                                {{-- <h4 class="heading">Your gender(s)</h4> --}}
+                            </div>
+                        </div>
+                        <div class="col-lg-7 d-flex gap-3">
+                            <h4 class="">Your gender(s)</h4>
+                            <span class="form_input form_select">
+                                <select name="gender">
+                                    <option selected="" value="">Select
+                                        ....</option>
+                                    @foreach (getSex() as $item)
+                                        <option value="{{ $item['value'] }}"
+                                            {{ old('sex') == $item['value'] ? 'selected' : '' }}>
+                                            {{ $item['label'] }}
+                                        </option>
+                                    @endforeach
+                                </select>
+
+                            </span>
                         </div>
                     </div>
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label>Room size</label>
-                            <div>
-                                <input class="form-check-input" type="radio" name="room_size" value="A single room" id="dobuleroom">
+                    <div class="row align-items-center">
+                        <div class="col-lg-4">
+                            <div class="left-area">
+                                {{-- <h4 class="heading">Room size</h4> --}}
+                            </div>
+                        </div>
+                        <div class="col-lg-7 d-flex gap-3">
+                            <h4 class="">Room size</h4>
+                            <div class="d-flex gap-1">
+                                <input type="radio" name="room_size" value="A single room" id="dobuleroom">
                                 <label for="dobuleroom">A single room</label>
                             </div>
-                            <div>
-                                <input class="form-check-input" type="radio" name="room_size" value="A double room" id="dobuleroom">
+                            <div class="d-flex gap-1">
+                                <input type="radio" name="room_size" value="A double room" id="dobuleroom">
                                 <label for="dobuleroom">A double room</label>
                             </div>
-                            <div>
-                                <input class="form-check-input" type="radio" name="room_size" value="A single or double" id="asingleordouble">
+                            <div class="d-flex gap-1">
+                                <input type="radio" name="room_size" value="A single or double" id="asingleordouble">
                                 <label for="asingleordouble">A single or double
                                     room</label>
                             </div>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div class="left-area">
+                                {{-- <h4 class="heading">Room size</h4> --}}
+                            </div>
+                        </div>
+                        <div class="col-lg-7">
+                            <h4 class="">Room size</h4>
+                            <div class="d-flex gap-1">
+                                <input type="checkbox" name="buddy_ups" value="yes" id="buddy_ups">
+                                <span><label for="buddy_ups">A single or double
+                                        room</label></span>
+                            </div>
+                            <div>
+                                Tick this if you might like to Buddy Up with other
+                                room
+                                seekers to find a whole flat or house together and
+                                start a
+                                brand new flat/house share.
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div id="showingbtn2" class="d-none row" style="display:none;">
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label for="invoice_scheme_id">Where do you want to live?</label> 
-                            <select class="form-control" required="" id="invoice_scheme_id" name="wanted_living_area">
+                <div id="showingbtn2" class="d-none" style="display:none;">
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div class="left-area">
+                                {{-- <h4 class="heading">Where do you want to live?</h4> --}}
+                            </div>
+                        </div>
+                        <div class="col-lg-7">
+                            <h4 class="">Where do you want to live?</h4>
+                            <select name="wanted_living_area">
                                 <option value="" selected="">Select an
                                     area...
                                 </option>
@@ -143,31 +193,39 @@
                             </select>
                         </div>
                     </div>
-
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label for="invoice_scheme_id">Your budget</label> 
-                                <p class="">(total rental amount you can afford)</p>
-                                <div class="row">
-                                    <div class="col-sm-7">
-                                        <input class="form-control" placeholder="4" name="combined_budget" type="number" id="custom_field1">
-                                    </div>
-                                    <div class="col-sm-4">
-                                        <select class="form-control" required="" id="per" name="per">
-                                            <option value="" selected="">Per week or month</option>
-                                            <option value="pw">per week</option>
-                                            <option value="pcm">per month</option>
-                                        </select>
-                                    </div>
-                                </div>
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div class="left-area">
+                                {{-- <h4 class="heading">Your budget</h4>
+                                                         <p class="sub-heading">(total rental amount you can afford) --}}
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-lg-7 d-flex">
+                            <h4 class="">Your budget</h4>
+                            <p class="">(total rental amount you can afford)
+                            </p>
+                            <input type="number" class="input-field" name="combined_budget" placeholder="4">
+                            <select name="per">
+                                <option value="" selected="">Per week or
+                                    month
+                                </option>
+                                <option value="pw">per week</option>
+                                <option value="pcm">per month</option>
+                            </select>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div class="left-area">
+                                {{-- <h4 class="heading">I am available to move in from</h4> --}}
+                            </div>
+                        </div>
+                        <div class="col-lg-7 d-flex">
+                            <h4 class="">I am available to move in from</h4>
 
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label for="custom_field1">I am available to move in from</label>
-                            <input class="form-control" name="available_form" type="date"
-                                id="date">
+                            <input type="date" name="available_form">
+
                         </div>
                     </div>
 
@@ -192,11 +250,24 @@
                             36 => '3 years',
                         ];
                     @endphp
-
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label for="invoice_scheme_id">Period accommodation needed for</label> 
-                            <select class="form-control" required="" id="min_term" name="min_term">
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div class="left-area">
+                                {{-- <h4 class="heading">Period accommodation needed for</h4> --}}
+                            </div>
+                        </div>
+                        <div class="col-lg-7 d-flex">
+                            <h4 class="">Period accommodation needed for</h4>
+                            <select name="min_term">
+                                <option value="0" selected>No maximum
+                                </option>
+                                @foreach ($months as $value => $label)
+                                    <option value="{{ $value }}">
+                                        {{ $label }}</option>
+                                @endforeach
+                            </select>
+                            <span>to</span>
+                            <select name="max_term">
                                 <option value="0" selected>No maximum
                                 </option>
                                 @foreach ($months as $value => $label)
@@ -206,11 +277,17 @@
                             </select>
                         </div>
                     </div>
-
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label for="invoice_scheme_id">I want to stay in the accommodation</label> 
-                            <select class="form-control" required="" id="days_of_wk_available" name="days_of_wk_available">
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div class="left-area">
+                                {{-- <h4 class="heading">I want to stay in the accommodation --}}
+                                </h4>
+                            </div>
+                        </div>
+                        <div class="col-lg-7 d-flex">
+                            <h4 class="heading">I want to stay in the accommodation
+                            </h4>
+                            <select name="days_of_wk_available">
                                 <option value="7 days a week">7 days a week
                                 </option>
                                 <option value="Mon to Fri only">Mon to Fri only
@@ -220,66 +297,69 @@
                             </select>
                         </div>
                     </div>
-
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label>I would prefer these amenities</label>
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <div><label for="furnished"><input type="checkbox" name="roomfurnishings[]" value="furnished"
-                                        id="furnished">Furnished</label></div>
-                                    <div><label for="living_room"><input type="checkbox" name="roomfurnishings[]"
-                                        value="living_room" id="living_room">Shared living room</label></div>
-                                    <div><label for="washing_machine"><input type="checkbox" name="roomfurnishings[]"
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div class="left-area">
+                                {{-- <h4 class="heading">I would prefer these amenities</h4> --}}
+                            </div>
+                        </div>
+                        <div class="col-lg-7 d-flex">
+                            <h4 class="heading">I would prefer these amenities</h4>
+                            <div>
+                                <label for="furnished"><input type="checkbox" name="roomfurnishings[]"
+                                        value="furnished" id="furnished">Furnished</label>
+                                <label for="living_room"><input type="checkbox" name="roomfurnishings[]"
+                                        value="living_room" id="living_room">Shared living room</label>
+                                <label for="washing_machine"><input type="checkbox" name="roomfurnishings[]"
                                         value="washing_machine" id="washing_machine">Washing
-                                    machine</label></div>
-                                    <div><label for="garden"><input type="checkbox" name="roomfurnishings[]" value="garden"
-                                        id="garden">Garden/roof terrace</label></div>
-                                    <div><label for="balcony"><input type="checkbox" name="roomfurnishings[]" value="balcony"
-                                        id="balcony">Balcony/patio</label></div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div><label for="off_street_parking"><input type="checkbox" name="roomfurnishings[]"
-                                        value="off_street_parking" id="off_street_parking">Parking</label></div>
-                                    <div><label for="garage"><input type="checkbox" name="roomfurnishings[]" value="garage"
-                                        id="garage">Garage</label></div>
-                                    <div><label for="disabled_access"><input type="checkbox" name="roomfurnishings[]"
+                                    machine</label>
+                                <label for="garden"><input type="checkbox" name="roomfurnishings[]" value="garden"
+                                        id="garden">Garden/roof terrace</label>
+                                <label for="balcony"><input type="checkbox" name="roomfurnishings[]"
+                                        value="balcony" id="balcony">Balcony/patio</label>
+                            </div>
+                            <div>
+                                <label for="off_street_parking"><input type="checkbox" name="roomfurnishings[]"
+                                        value="off_street_parking" id="off_street_parking">Parking</label>
+                                <label for="garage"><input type="checkbox" name="roomfurnishings[]" value="garage"
+                                        id="garage">Garage</label>
+                                <label for="disabled_access"><input type="checkbox" name="roomfurnishings[]"
                                         value="disabled_access" id="disabled_access">Disabled
-                                    access</label></div>
-                                    <div><label for="broadband"><input type="checkbox" name="roomfurnishings[]" value="broadband"
-                                        id="broadband">Broadband</label></div>
-                                    <div><label for="ensuite"><input type="checkbox" name="roomfurnishings[]" value="ensuite"
-                                        id="ensuite">En-suite</label></div>
-                                </div>
+                                    access</label>
+                                <label for="broadband"><input type="checkbox" name="roomfurnishings[]"
+                                        value="broadband" id="broadband">Broadband</label>
+                                <label for="ensuite"><input type="checkbox" name="roomfurnishings[]"
+                                        value="ensuite" id="ensuite">En-suite</label>
                             </div>
                         </div>
                     </div>
-
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label for="selling_price_group_id">Age</label> <i
-                                class="fa fa-info-circle text-info hover-q no-print " aria-hidden="true" data-container="body"
-                                data-toggle="popover" data-placement="auto bottom"
-                                data-content="This price group will be used as the default price group in this location."
-                                data-html="true" data-trigger="hover"></i> <select class="form-control"
-                                id="age" name="age">
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div class="left-area">
+                                {{-- <h4 class="heading">Age</h4> --}}
+                            </div>
+                        </div>
+                        <div class="col-lg-7 d-flex">
+                            <h4 class="heading">Age</h4>
+                            <select name="age">
                                 <option value="">Select...</option>
                                 @foreach (range(18, 99) as $age)
                                     <option value="{{ $age }}">
                                         {{ $age }}</option>
                                 @endforeach
                             </select>
+                            <span>Years old</span>
                         </div>
                     </div>
-
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label for="selling_price_group_id">Occupation</label> <i
-                                class="fa fa-info-circle text-info hover-q no-print " aria-hidden="true" data-container="body"
-                                data-toggle="popover" data-placement="auto bottom"
-                                data-content="This price group will be used as the default price group in this location."
-                                data-html="true" data-trigger="hover"></i> <select class="form-control"
-                                id="occupation" name="occupation">
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div class="left-area">
+                                {{-- <h4 class="heading">Occupation</h4> --}}
+                            </div>
+                        </div>
+                        <div class="col-lg-7 d-flex">
+                            <h4 class="heading">Occupation</h4>
+                            <select name="occupation">
                                 <option value="ND" selected="">Not
                                     disclosed
                                 </option>
@@ -289,43 +369,43 @@
                             </select>
                         </div>
                     </div>
-
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label for="selling_price_group_id">Do you smoke?</label> <i
-                                class="fa fa-info-circle text-info hover-q no-print " aria-hidden="true" data-container="body"
-                                data-toggle="popover" data-placement="auto bottom"
-                                data-content="This price group will be used as the default price group in this location."
-                                data-html="true" data-trigger="hover"></i> <select class="form-control"
-                                id="smoking_current" name="smoking_current">
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div class="left-area">
+                                {{-- <h4 class="heading">Do you smoke?</h4> --}}
+                            </div>
+                        </div>
+                        <div class="col-lg-7 d-flex">
+                            <h4 class="heading">Do you smoke?</h4>
+                            <select name="smoking_current">
                                 <option value="2">no</option>
                                 <option value="1">yes</option>
                             </select>
                         </div>
                     </div>
-
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label for="selling_price_group_id">Do you have any pets?</label> <i
-                                class="fa fa-info-circle text-info hover-q no-print " aria-hidden="true" data-container="body"
-                                data-toggle="popover" data-placement="auto bottom"
-                                data-content="This price group will be used as the default price group in this location."
-                                data-html="true" data-trigger="hover"></i> <select class="form-control"
-                                id="pets" name="pets">
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div class="left-area">
+                                {{-- <h4 class="heading">Do you have any pets?</h4> --}}
+                            </div>
+                        </div>
+                        <div class="col-lg-7 d-flex">
+                            <h4 class="heading">Do you have any pets?</h4>
+                            <select name="pets">
                                 <option value="2" selected="">no</option>
                                 <option value="1">yes</option>
                             </select>
                         </div>
                     </div>
-
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label for="selling_price_group_id">Your sexual orientation</label> <i
-                                class="fa fa-info-circle text-info hover-q no-print " aria-hidden="true" data-container="body"
-                                data-toggle="popover" data-placement="auto bottom"
-                                data-content="This price group will be used as the default price group in this location."
-                                data-html="true" data-trigger="hover"></i> <select class="form-control"
-                                id="gay_lesbian" name="gay_lesbian">
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div class="left-area">
+                                {{-- <h4 class="heading">Your sexual orientation</h4> --}}
+                            </div>
+                        </div>
+                        <div class="col-lg-7">
+                            <h4 class="">Your sexual orientation</h4>
+                            <select name="gay_lesbian">
                                 <option value="Undisclosed" selected="">
                                     Undisclosed
                                 </option>
@@ -342,15 +422,15 @@
                             </label>
                         </div>
                     </div>
-
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label for="selling_price_group_id">Your preferred language</label> <i
-                                class="fa fa-info-circle text-info hover-q no-print " aria-hidden="true" data-container="body"
-                                data-toggle="popover" data-placement="auto bottom"
-                                data-content="This price group will be used as the default price group in this location."
-                                data-html="true" data-trigger="hover"></i> <select class="form-control"
-                                id="lang_id" name="lang_id">
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div class="left-area">
+                                {{-- <h4 class="heading">Your preferred language</h4> --}}
+                            </div>
+                        </div>
+                        <div class="col-lg-7">
+                            <h4 class="">Your preferred language</h4>
+                            <select name="lang_id">
                                 <option value="26">English</option>
                                 <option value="27">Mixed</option>
                                 <option value="4">Arabic</option>
@@ -453,15 +533,15 @@
                             </select>
                         </div>
                     </div>
-
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label for="selling_price_group_id">Your nationality</label> <i
-                                class="fa fa-info-circle text-info hover-q no-print " aria-hidden="true" data-container="body"
-                                data-toggle="popover" data-placement="auto bottom"
-                                data-content="This price group will be used as the default price group in this location."
-                                data-html="true" data-trigger="hover"></i> <select class="form-control"
-                                id="nationality" name="nationality">
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div class="left-area">
+                                {{-- <h4 class="heading">Your nationality</h4> --}}
+                            </div>
+                        </div>
+                        <div class="col-lg-7">
+                            <h4 class="">Your nationality</h4>
+                            <select name="nationality">
                                 <option value="">Not disclosed</option>
                                 <option value="Afghan">Afghan</option>
                                 <option value="Albanian">Albanian</option>
@@ -727,39 +807,45 @@
                             </select>
                         </div>
                     </div>
-
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label for="custom_field2">Your Interests</label>
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div class="left-area">
+                                {{-- <h4 class="heading">Your Interests</h4> --}}
+                            </div>
+                        </div>
+                        <div class="col-lg-7">
+                            <h4 class="">Your Interests</h4>
                             <button type="button" id="openModal" class="btn btn-primary">Add Interests</button>
-                        <div id="selectedSports"></div>
+                            <div id="selectedSports"></div>
                         </div>
                     </div>
-
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label for="custom_field2">Your name</label>
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <input class="form-control" placeholder="First name" name="first_name" type="text"
-                                    id="first_name">
-                                </div>
-                                <div class="col-sm-6">
-                                    <input class="form-control" placeholder="Last name" name="last_name" type="text"
-                                    id="last_name">
-                                </div>
+                    <div class="row align-items-center mb-3">
+                        <div class="col-lg-4">
+                            <div class="left-area">
+                                {{-- <h4 class="heading">Your name</h4> --}}
+                            </div>
+                        </div>
+                        <div class="col-lg-7 d-flex gap-3">
+                            <h4 class="">Your name</h4>
+                            <div class="d-flex gap-1">
+                                <input type="text" name="first_name" id="first_name">
+                            </div>
+                            <br>
+                            <div class="d-flex gap-1">
+                                <input type="text" name="last_name" id="last_name">
                             </div>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div class="left-area">
+                                {{-- <h4 class="heading">Gender</h4> --}}
+                            </div>
+                        </div>
+                        <div class="col-lg-7">
+                            <h4 class="heading">Gender</h4>
 
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label for="selling_price_group_id">Gender</label> <i
-                                class="fa fa-info-circle text-info hover-q no-print " aria-hidden="true" data-container="body"
-                                data-toggle="popover" data-placement="auto bottom"
-                                data-content="This price group will be used as the default price group in this location."
-                                data-html="true" data-trigger="hover"></i>
-                            <select class="form-control" id="gender_req" name="gender_req">
+                            <select name="gender_req">
                                 <option selected="" value="">Select
                                     ....</option>
                                 @foreach (getSex() as $item)
@@ -771,75 +857,70 @@
                             </select>
                         </div>
                     </div>
-
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label for="selling_price_group_id">Age Range</label> <i
-                                class="fa fa-info-circle text-info hover-q no-print " aria-hidden="true" data-container="body"
-                                data-toggle="popover" data-placement="auto bottom"
-                                data-content="This price group will be used as the default price group in this location."
-                                data-html="true" data-trigger="hover"></i>
-                            <div style="display: flex;">
-                                <div class="">
-                                    <select class="form-control" id="min_age_req" name="min_age_req">
-                                        <option value="" selected>Select...</option>
-                                        @foreach (range(18, 99) as $age)
-                                            <option value="{{ $age }}">
-                                                {{ $age }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div style="display: flex; justify-content: center; align-items: center; flex-direction:column;"><span style="margin-bottom: 15px;">to</span></div>
-                                <div class="">
-                                    <select class="form-control" id="max_age_req" name="max_age_req">
-                                        <option value="" selected>Select...</option>
-                                        @foreach (range(18, 99) as $age)
-                                            <option value="{{ $age }}">
-                                                {{ $age }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div class="left-area">
+                                {{-- <h4 class="heading">Age Range</h4> --}}
                             </div>
                         </div>
-                    </div>
+                        <div class="col-lg-7 d-flex">
+                            <h4 class="heading">Age Range</h4>
+                            <select name="min_age_req">
+                                <option value="" selected>Select...</option>
+                                @foreach (range(18, 99) as $age)
+                                    <option value="{{ $age }}">
+                                        {{ $age }}</option>
+                                @endforeach
+                            </select>
+                            <span>to</span>
+                            <select name="max_age_req">
+                                <option value="" selected>Select...</option>
+                                @foreach (range(18, 99) as $age)
+                                    <option value="{{ $age }}">
+                                        {{ $age }}</option>
+                                @endforeach
+                            </select>
 
-                    
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label for="selling_price_group_id">Smoking</label> <i
-                                class="fa fa-info-circle text-info hover-q no-print " aria-hidden="true" data-container="body"
-                                data-toggle="popover" data-placement="auto bottom"
-                                data-content="This price group will be used as the default price group in this location."
-                                data-html="true" data-trigger="hover"></i>
-                            <select class="form-control" id="smoking" name="smoking">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div class="left-area">
+                                {{-- <h4 class="heading">Smoking</h4> --}}
+                            </div>
+                        </div>
+                        <div class="col-lg-7">
+                            <h4 class="heading">Smoking</h4>
+                            <select name="smoking">
+                                <option value="Don't mind">Don't mind</option>
+                                <option value="No thanks">No thanks</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div class="left-area">
+                                {{-- <h4 class="heading">Pets</h4> --}}
+                            </div>
+                        </div>
+                        <div class="col-lg-7">
+                            <h4 class="">Pets</h4>
+                            <select name="pets_req">
                                 <option value="Don't mind">Don't mind</option>
                                 <option value="No thanks">No thanks</option>
                             </select>
                         </div>
                     </div>
 
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label for="selling_price_group_id">Pets</label> <i
-                                class="fa fa-info-circle text-info hover-q no-print " aria-hidden="true" data-container="body"
-                                data-toggle="popover" data-placement="auto bottom"
-                                data-content="This price group will be used as the default price group in this location."
-                                data-html="true" data-trigger="hover"></i>
-                            <select class="form-control" id="pets_req" name="pets_req">
-                                <option value="Don't mind">Don't mind</option>
-                                <option value="No thanks">No thanks</option>
-                            </select>
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div class="left-area">
+                                {{-- <h4 class="heading">Orientation</h4> --}}
+                            </div>
                         </div>
-                    </div>
-
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label for="selling_price_group_id">Orientation</label> <i
-                                class="fa fa-info-circle text-info hover-q no-print " aria-hidden="true" data-container="body"
-                                data-toggle="popover" data-placement="auto bottom"
-                                data-content="This price group will be used as the default price group in this location."
-                                data-html="true" data-trigger="hover"></i>
-                            <select class="form-control" id="gay_lesbian_req" name="gay_lesbian_req">
+                        <div class="col-lg-7">
+                            <h4 class="">Orientation</h4>
+                            <select name="gay_lesbian_req">
                                 <option value="Not important" selected="">Not
                                     important
                                 </option>
@@ -849,61 +930,84 @@
                             </select>
                         </div>
                     </div>
-
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label for="custom_field1">Advert title</label>
+                    <div class="row align-items-center">
+                        <div class="col-lg-4">
+                            <div class="left-area">
+                                {{-- <h4 class="heading">Advert title</h4>
+                                                         <p class="sub-heading">(Short description)</p> --}}
+                            </div>
+                        </div>
+                        <div class="col-lg-7">
+                            <h4 class="">Advert title</h4>
                             <p class="sub-heading">(Short description)</p>
-                            <input class="form-control" placeholder="Short description" name="ad_title" type="text"
-                                id="ad_title">
+                            <div class="d-flex gap-1">
+                                <input type="text" name="ad_title" class="input-field">
+                            </div>
                         </div>
                     </div>
-
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label for="custom_field1">Description</label>
-                            <p class="sub-heading">(No contact details permitted within description)</p>
-                            <textarea type="text" class="form-control" name="ad_text" class="input-field"></textarea>
+                    <div class="row align-items-center">
+                        <div class="col-lg-4">
+                            <div class="left-area">
+                                {{-- <h4 class="heading">Description</h4>
+                                                         <p class="sub-heading">(No contact details permitted
+                                                             within description)</p> --}}
+                            </div>
+                        </div>
+                        <div class="col-lg-7">
+                            <h4 class="">Description</h4>
+                            <p class="sub-heading">(No contact details permitted
+                                within description)</p>
+                            <div class="d-flex gap-1">
+                                <textarea name="ad_text" class="input-field"></textarea>
+                            </div>
                         </div>
                     </div>
-
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label for="custom_field1">Upload photos</label>
-                            <input class="form-control" name="images[]" type="file" id="imageUpload" multiple>
+                    <div class="row align-items-center">
+                        <div class="col-lg-4">
+                            <div class="left-area">
+                                {{-- <h4 class="heading">Upload photos</h4> --}}
+                            </div>
+                        </div>
+                        <div class="col-lg-7">
+                            <h4 class="">Upload photos</h4>
+                            <input class="form-control" type="file" id="imageUpload" name="images[]" multiple>
+                            {{-- <div id="previewContainer"></div> --}}
                         </div>
                     </div>
-
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label for="custom_field1">Telephone</label>
-                            <input class="form-control" placeholder="Telephone" name="tel" type="text"
-                                id="tel">
+                    <div class="row align-items-center">
+                        <div class="col-lg-4">
+                            <div class="left-area">
+                                {{-- <h4 class="heading">Telephone</h4> --}}
+                            </div>
+                        </div>
+                        <div class="col-lg-7">
+                            <h4 class="">Telephone</h4 class="d-flex gap-1">
+                            <input type="text" name="tel" class="input-field">
                         </div>
                     </div>
                 </div>
-
-
-                <div id="nextprev1">
-                    <button id="next1" type="button"
-                        class="btn btn-primary float-none w-25 rounded-0 submit-btn">Next</button>
-                </div>
-                <div class="d-none" style="display:none;" id="nextprev2">
-                    <button id="prev2" type="button"
-                        class="btn btn-primary float-none w-25 rounded-0 submit-btn ">Previous</button>
-                    <button style="margin-top: 0;" class="addProductSubmit-btn w-25"
-                        type="submit">{{ __('Create Shop') }}</button>
-                </div>
-            </form>
         </div>
 
-        <div class="modal-footer">
-            <input type="submit" class="btn btn-primary">
-            <button type="button" class="btn btn-default" data-dismiss="modal">@lang('messages.close')</button>
+        <div id="nextprev1">
+            <button id="next1" type="button"
+                class="btn btn-primary float-none w-25 rounded-0 submit-btn">Next</button>
         </div>
+        <div class="d-none" style="display:none;" id="nextprev2">
+            <button id="prev2" type="button"
+                class="btn btn-primary float-none w-25 rounded-0 submit-btn ">Previous</button>
+            <button style="margin-top: 0;" class="addProductSubmit-btn w-25"
+                type="submit">{{ __('Create Shop') }}</button>
+        </div>
+        </form>
+    </div>
+
+    <div class="modal-footer">
+        <input type="submit" class="btn btn-primary">
+        <button type="button" class="btn btn-default" data-dismiss="modal">@lang('messages.close')</button>
+    </div>
 
 
-    </div><!-- /.modal-content -->
+</div><!-- /.modal-content -->
 </div><!-- /.modal-dialog -->
 <!-- Modal -->
 <div id="myModal" class="modal fade">

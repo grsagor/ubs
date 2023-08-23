@@ -1,4 +1,4 @@
-@extends('crm::layouts.app')
+@extends('layouts.app')
 @section('title', __('restaurant.bookings'))
 
 @section('css')
@@ -13,9 +13,9 @@
             <small>Advertise your room</small>
         </h1>
         <!-- <ol class="breadcrumb">
-                                <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
-                                <li class="active">Here</li>
-                            </ol> -->
+                                    <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
+                                    <li class="active">Here</li>
+                                </ol> -->
     </section>
 
     <!-- Main content -->
@@ -23,10 +23,8 @@
         @component('components.widget', ['class' => 'box-primary', 'title' => __('business.all_your_business_locations')])
             @slot('tool')
                 <div class="box-tools">
-                    <button type="button" class="btn btn-block btn-primary btn-modal"
-                        data-href="{{ action([\App\Http\Controllers\RoomToRentController::class, 'create']) }}"
-                        data-container=".room_to_rent_add_modal">
-                        <i class="fa fa-plus"></i> @lang('messages.add')</button>
+                    <button type="button" class="btn btn-block btn-primary room-to-rent-add-modal-btn"><i class="fa fa-plus"></i>
+                        @lang('messages.add')</button>
                 </div>
             @endslot
             <div class="table-responsive">
@@ -41,7 +39,8 @@
             </div>
         @endcomponent
 
-        <div class="modal fade room_to_rent_add_modal" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel">
+        <div class="modal fade" id="room_to_rent_add_modal" tabindex="-1" role="dialog"
+            aria-labelledby="gridSystemModalLabel">
         </div>
         <div class="modal fade location_edit_modal" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel">
         </div>
@@ -72,5 +71,40 @@
                 ]
             });
         });
+
+        $(document).ready(function() {
+            $(document).on('click', '.room-to-rent-add-modal-btn', function() {
+                // var value = $(this).data('id');
+                $.ajax({
+                    url: "/room-to-rent-open-add-modal",
+                    type: "get",
+                    // data: {
+                    //     value: value
+                    // },
+                    dataType: "html",
+                    success: function(html) {
+                        $('#room_to_rent_add_modal').empty();
+                        $('#room_to_rent_add_modal').html(html);
+                        $('#room_to_rent_add_modal').modal('show');
+                    }
+                })
+            })
+
+            $(document).on('change', '#service_category_id', function() {
+                var id = $(this).val();
+                $.ajax({
+                    url: "/show-subcategory-select",
+                    type: "get",
+                    data: {
+                        id: id
+                    },
+                    dataType: "html",
+                    success: function(html) {
+                        $('#sub-category-container').empty();
+                        $('#sub-category-container').html(html);
+                    }
+                })
+            })
+        })
     </script>
 @endsection
