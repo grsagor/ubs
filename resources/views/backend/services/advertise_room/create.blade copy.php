@@ -1,101 +1,46 @@
 <script>
     $(document).ready(function() {
-        $(".step:not(:first)").hide(); // Hide all steps except the first one
+            $(".step:not(:first)").hide(); // Hide all steps except the first one
 
-        $(".next-btn").click(function() {
-            $(this).parent().hide().next().show();
+            $(".next-btn").click(function() {
+                $(this).parent().hide().next().show();
+            });
+
+            $(".prev-btn").click(function() {
+                $(this).parent().hide().prev().show();
+            });
         });
 
-        $(".prev-btn").click(function() {
-            $(this).parent().hide().prev().show();
-        });
-    });
 
+        // Get the input element by its ID
+        var roomAvailableFromInput = document.getElementById('room_available_from');
 
-    // Get the input element by its ID
-    var roomAvailableFromInput = document.getElementById('room_available_from');
+        // Get the current date in the format YYYY-MM-DD
+        var currentDate = new Date().toISOString().split('T')[0];
 
-    // Get the current date in the format YYYY-MM-DD
-    var currentDate = new Date().toISOString().split('T')[0];
+        // Set the min attribute of the input to the current date
+        roomAvailableFromInput.min = currentDate;
+        
+        $(document).ready(function() {
+            // Show "Room 1" by default
+            $("#room1").show();
 
-    // Set the min attribute of the input to the current date
-    roomAvailableFromInput.min = currentDate;
-
-    $(document).ready(function() {
-        // Show "Room 1" by default
-        $("#room1").show();
-
-        // Hide additional rooms initially
-        $(".form_room_fieldset:not(#room1)").hide();
-
-        // Show the selected number of additional rooms
-        $("#roomQuantitySelect").change(function() {
-            var selectedQuantity = parseInt($(this).val());
-
-            // Hide all additional rooms
+            // Hide additional rooms initially
             $(".form_room_fieldset:not(#room1)").hide();
 
-            // Show only the selected number of additional rooms
-            for (var i = 2; i <= selectedQuantity; i++) {
-                $("#room" + i).show();
-            }
+            // Show the selected number of additional rooms
+            $("#roomQuantitySelect").change(function() {
+                var selectedQuantity = parseInt($(this).val());
+
+                // Hide all additional rooms
+                $(".form_room_fieldset:not(#room1)").hide();
+
+                // Show only the selected number of additional rooms
+                for (var i = 2; i <= selectedQuantity; i++) {
+                    $("#room" + i).show();
+                }
+            });
         });
-    });
-
-
-    $(document).ready(function() {
-        $(document).on('change', '#service_category_id', function() {
-            var id = $(this).val();
-            $.ajax({
-                url: "/show-subcategory-select",
-                type: "get",
-                data: {
-                    id: id
-                },
-                dataType: "html",
-                success: function(html) {
-                    $('#sub_category_id').empty();
-                    $('#sub_category_id').html(html);
-                }
-            })
-        })
-
-        $(document).on('change', '#sub_category_id', function() {
-            var id = $(this).val();
-            $.ajax({
-                url: "/show-childcategory-select",
-                type: "get",
-                data: {
-                    id: id
-                },
-                dataType: "html",
-                success: function(html) {
-                    $('#child_category_id').empty();
-                    $('#child_category_id').html(html);
-                }
-            })
-        })
-
-        $(document).on('change', '#child_category_id', function() {
-            var child_category_id = $(this).val();
-            var sub_category_id = $('#sub_category_id').val();
-            var service_category_id = $('#service_category_id').val();
-            $.ajax({
-                url: "/show-room-quantity-select",
-                type: "get",
-                data: {
-                    child_category_id: child_category_id,
-                    sub_category_id: sub_category_id,
-                    service_category_id: service_category_id,
-                },
-                dataType: "html",
-                success: function(html) {
-                    $('#property_room_quantity').empty();
-                    $('#property_room_quantity').html(html);
-                }
-            })
-        })
-    })
 </script>
 <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
@@ -133,135 +78,143 @@
                                             Get started with your free advert
                                         </legend>
 
-                                        <div class="col-sm-12">
-                                            <div class="form-group">
-                                                <label for="selling_price_group_id">Categories</label>
-                                                <select class="form-control" id="service_category_id"
-                                                    name="service_category_id">
-                                                    @foreach ($categories as $category)
-                                                        <option value="{{ $category->id }}">{{ $category->name }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
+                                        <div class="form_row form_row_rooms_for_rent">
+                                            <div class="form_label">
+                                                I have
+                                            </div>
+                                            <div class="form_inputs">
+                                                <span class="form_input form_select">
+                                                    <select name="property_room_quantity" id="roomQuantitySelect">
+                                                        @foreach (['1 room for rent', '2 rooms for rent', '3 rooms for rent'] as $key => $item)
+                                                            <option value="{{ $key + 1 }}">{{ $item }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                </span>
                                             </div>
                                         </div>
 
-                                        <div class="col-sm-12">
-                                            <div class="form-group">
-                                                <label for="selling_price_group_id">Sub Categories</label>
-                                                <select class="form-control" id="sub_category_id" name="sub_category_id">
-                                                    <option>Select a category</option>
-                                                </select>
+                                        <div class="form_row form_row_property_type">
+                                            <div class="form_label">
+                                                Size and type of property
+                                            </div>
+                                            <div class="form_inputs">
+                                                <span class="form_input form_select">
+                                                    <select name="property_size">
+                                                        @foreach (['1 bed', '2 beds', '3 beds'] as $key => $item)
+                                                            <option value="{{ $key + 1 }}">{{ $item }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                </span>
+                                                <span class="form_input form_select form_select_property_type">
+                                                    <select name="property_type">
+                                                        @foreach (['Flat/Apartment', 'House', 'Property'] as $key => $item)
+                                                            <option value="{{ $item }}">{{ $item }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                </span>
                                             </div>
                                         </div>
 
-                                        <div class="col-sm-12">
-                                            <div class="form-group">
-                                                <label for="selling_price_group_id">Child Categories</label>
-                                                <select class="form-control" id="child_category_id" name="child_category_id">
-                                                    <option>Select a sub-category</option>
-                                                </select>
+                                        <div class="form_row form_row_occupants">
+                                            <div class="form_label">
+                                                There are already
+                                            </div>
+                                            <div class="form_inputs">
+                                                <span class="form_input form_select">
+                                                    <select name="property_occupants">
+                                                        @foreach (['0', '1', '2', '3'] as $key => $item)
+                                                            <option value="{{ $key + 1 }}"
+                                                                {{ $item === '1' ? 'selected' : '' }}>
+                                                                {{ $item }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                </span>
+                                                occupants in the property
                                             </div>
                                         </div>
 
-                                        <div class="col-sm-12">
-                                            <div class="form-group">
-                                                <label for="selling_price_group_id">I have</label>
-                                                <select class="form-control" id="property_room_quantity"
-                                                    name="property_room_quantity">
-                                                    {{-- @foreach (['1 room for rent', '2 rooms for rent', '3 rooms for rent'] as $key => $item)
-                                                        <option value="{{ $key + 1 }}">{{ $item }}
-                                                        </option>
-                                                    @endforeach --}}
-                                                    <option>Select child category first</option>
-                                                </select>
+                                        <div id="postcodeWrapper" class="form_row form_row_postcode">
+                                            <div class="form_label">
+                                                <span> Postcode of property </span>
+                                                <div class="form_hint" data-test-class="form_hint hidden">
+                                                    (e.g. SE15 8PD)
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="col-sm-12">
-                                            <div class="form-group">
-                                                <label for="selling_price_group_id">Size and type of property</label>
-                                                <div class="row">
-                                                    <div class="col-sm-6">
-                                                        <select class="form-control" id="property_size"
-                                                            name="property_size">
-                                                            @foreach (['1 bed', '2 beds', '3 beds'] as $key => $item)
-                                                                <option value="{{ $key + 1 }}">{{ $item }}
-                                                                </option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                    <div class="col-sm-6">
-                                                        <select class="form-control" id="property_type"
-                                                            name="property_type">
-                                                            @foreach (['Flat/Apartment', 'House', 'Property'] as $key => $item)
-                                                                <option value="{{ $item }}">{{ $item }}
-                                                                </option>
-                                                            @endforeach
-                                                        </select>
+                                            <div class="form_inputs">
+                                                <div class="form_input form_text">
+                                                    <div id="address_lookup" class="address_lookup">
+                                                        <div class="form-group form-group--address-lookup">
+                                                            <input class="form-group__input form-group__input--postcode"
+                                                                type="text" name="property_postcode" />
+                                                            {{-- <button class="button button--secondary button--postcode"
+                                                        type="button"> Find address
+                                                    </button> --}}
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
 
-                                        <div class="col-sm-12">
-                                            <div class="form-group">
-                                                <label for="selling_price_group_id">There are already</label>
-                                                <select class="form-control" id="property_occupants"
-                                                    name="property_occupants">
-                                                    @foreach (['0', '1', '2', '3'] as $key => $item)
-                                                        <option value="{{ $key + 1 }}"
-                                                            {{ $item === '1' ? 'selected' : '' }}>
-                                                            {{ $item }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>occupants in the property
-                                            </div>
-                                        </div>
+                                        <div class="form_row form_row_role">
+                                            <div class="form_label"> I am a </div>
+                                            <div class="form_inputs">
 
-                                        <div class="col-sm-12">
-                                            <div class="form-group">
-                                                <label for="custom_field1">Postcode of property (e.g. SE15 8PD)</label>
-                                                <input class="form-control" name="property_postcode" type="text"
-                                                    id="property_postcode">
-                                            </div>
-                                        </div>
+                                                @php
+                                                    $propert_user_title = [
+                                                        'Live in landlord' => 'I own the property and live there',
+                                                        'Live out landlord' => 'I own the property but don\'t live there',
+                                                        'Current tenant/flatmate' => 'I am living in the property',
+                                                        'Agent' => 'I am advertising on a landlord\'s behalf',
+                                                        'Former flatmate' => 'I am moving out and need someone to replace me',
+                                                    ];
+                                                @endphp
 
-                                        <div class="col-sm-12">
-                                            @php
-                                                $propert_user_title = [
-                                                    'Live in landlord' => 'I own the property and live there',
-                                                    'Live out landlord' => 'I own the property but don\'t live there',
-                                                    'Current tenant/flatmate' => 'I am living in the property',
-                                                    'Agent' => 'I am advertising on a landlord\'s behalf',
-                                                    'Former flatmate' => 'I am moving out and need someone to replace me',
-                                                ];
-                                            @endphp
-                                            <div class="form-group">
-                                                <label>I am a</label>
+
                                                 @foreach ($propert_user_title as $label => $hint)
-                                                    <div>
-                                                        <input class="form-check-input" type="radio"
-                                                            name="property_user_title" value="{{ $label }}">
-                                                        <label for="justme">{{ $label }} <span
-                                                                class="form_hint">({{ $hint }})</span></label>
-                                                    </div>
+                                                    <label class="form_input form_radio">
+                                                        <input type="radio" name="property_user_title"
+                                                            value="{{ $label }}" />
+                                                        {{ $label }}
+                                                        <span class="form_hint">({{ $hint }})</span>
+                                                    </label>
+                                                    <br />
                                                 @endforeach
+                                                <br />
                                             </div>
                                         </div>
 
-                                        <div class="col-sm-12">
-                                            <div class="form-group">
-                                                <label for="custom_field1">My email address is<span
-                                                        class="star">*</span></label>
-                                                <input class="form-control" name="property_email_address" type="text"
-                                                    id="property_email_address">
-                                                <div class="form_hint">
-                                                    (We'll keep this safe and not display it publicly)
+                                        <div class="step1__button-wrapper">
+                                            <div class="form_row form_row_email">
+                                                <div class="form_label">
+                                                    My email address is<span class="star">*</span>
+                                                </div>
+                                                <div class="form_inputs">
+                                                    <span class="form_input form_text">
+                                                        <input class="step-1__email-input" type="email"
+                                                            name="property_email_address" />
+                                                    </span>
+                                                    <div class="form_hint">
+                                                        (We'll keep this safe and not display it publicly)
+                                                    </div>
                                                 </div>
                                             </div>
+
+                                            {{-- <div class="form_row step1__continue-button-wrapper">
+                                        <div class="form_label"></div>
+                                        <div class="form_inputs">
+                                            <div class="form_input form_button">
+                                                <button class="button" id="continueButton" type="submit"
+                                                    name="submit">
+                                                    Continue
+                                                </button>
+                                            </div>
                                         </div>
-
-
+                                    </div> --}}
+                                        </div>
                                     </fieldset>
                                     {{-- </form> --}}
                                 </div>
@@ -295,99 +248,127 @@
                                     <fieldset>
                                         <legend>More about the property</legend>
 
-                                        <div class="col-sm-12">
-                                            <div class="form-group">
-                                                <label for="custom_field1">Address of property</label>
-                                                <input class="form-control" name="property_address" type="text"
-                                                    id="property_address">
+                                        <div class="form_row form_row_address_snippet">
+                                            <div class="form_label">
+                                                Address of property
+                                            </div>
+                                            <div class="form_inputs">
+                                                <span class="form_input form_text">
+                                                    <input type="text" name="property_address" value="">
+                                                </span>
                                             </div>
                                         </div>
 
-                                        <div class="col-sm-12">
-                                            <div class="form-group">
-                                                <label for="selling_price_group_id">Area</label>
-                                                <select class="form-control" id="property_area" name="property_area">
-                                                    <option value="" selected="">Select area...</option>
-                                                    <option value="28747">Aldgate</option>
-                                                    <option value="6888">Whitechapel</option>
+
+                                        <div class="form_row form_row_area_drop">
+                                            <div class="form_label"> Area </div>
+                                            <div class="form_inputs">
+                                                <span class="form_input form_select">
+                                                    <select name="property_area" id="neighbourhood_id">
+                                                        <option value="" selected="">Select area...</option>
+                                                        <option value="28747">Aldgate</option>
+                                                        <option value="6888">Whitechapel</option>
+                                                    </select>
+                                                </span>
+                                            </div>
+                                        </div>
+
+
+
+                                        <div class="form_row form_row_transport">
+                                            <div class="form_label"> Transport </div>
+                                            <div class="form_inputs">
+                                                <select name="transport_minutes">
+                                                    <option value="" selected="">Select...</option>
+                                                    @foreach (['0-5', '5-10', '10-15', '15-20'] as $key => $item)
+                                                        <option value="{{ $item }}">{{ $item }}
+                                                        </option>
+                                                    @endforeach
+                                                </select> minutes
+
+                                                <select name="transport_form">
+                                                    <option value="" selected="">Select...</option>
+                                                    <option value="walk">walk</option>
+                                                    <option value="by tram">by tram</option>
+                                                </select>
+
+                                                from
+
+                                                <select name="transport_to">
+                                                    <option value="" selected="">Select...
+                                                    </option>
+                                                    <option value="BLACKFRIARS">Blackfriars
+                                                    </option>
+                                                    <option value="CITYTHAMESLINK">City Thameslink
+                                                    </option>
+                                                    <option value="FARRINGDON">Farringdon
+                                                    </option>
                                                 </select>
                                             </div>
                                         </div>
 
-                                        <div class="col-sm-12">
-                                            <div class="form-group">
-                                                <label for="selling_price_group_id">Transport</label>
-                                                <div>
-                                                    <div>
-                                                        <select class="form-control" id="transport_minutes"
-                                                            name="transport_minutes">
-                                                            <option value="" selected="">Select...</option>
-                                                            @foreach (['0-5', '5-10', '10-15', '15-20'] as $key => $item)
-                                                                <option value="{{ $item }}">
-                                                                    {{ $item }}
-                                                                </option>
-                                                            @endforeach
-                                                        </select>
+
+
+                                        <div class="form_row form_row_living_room">
+                                            <div class="form_label"> Living room? </div>
+                                            <div class="form_inputs">
+                                                <label class="form_input form_radio">
+                                                    <input type="radio" name="living_room" checked="" value=1>
+                                                    Yes, there is a shared living room
+                                                </label>
+                                                <label class="form_input form_radio">
+                                                    <input type="radio" name="living_room" value=2> No
+                                                </label>
+                                            </div>
+                                        </div>
+
+
+
+                                        <div class="form_row form_row_amenities">
+                                            <div class="form_label"> Amenities </div>
+                                            <div class="form_inputs">
+                                                <div class="cols cols2">
+
+                                                    <div class="col">
+
+
+                                                        @php
+                                                            $amenities = ['Parking', 'Garden/Roof terrace', 'Garage', 'Balcony/patio', 'Disabled access'];
+                                                        @endphp
+
+                                                        @foreach ($amenities as $amenity)
+                                                            <label class="form_input form_checkbox">
+                                                                <input type="checkbox" name="property_amenities[]"
+                                                                    value="{{ $amenity }}">
+                                                                {{ $amenity }}
+                                                            </label>
+                                                        @endforeach
+
                                                     </div>
-                                                    <div>minutes</div>
-                                                    <div>
-                                                        <select class="form-control" id="transport_form"
-                                                            name="transport_form">
-                                                            <option value="" selected="">Select...</option>
-                                                            <option value="walk">walk</option>
-                                                            <option value="by tram">by tram</option>
-                                                        </select>
-                                                    </div>
-                                                    <div>from</div>
-                                                    <div>
-                                                        <select class="form-control" id="transport_to"
-                                                            name="transport_to">
-                                                            <option value="" selected="">Select...
-                                                            </option>
-                                                            <option value="BLACKFRIARS">Blackfriars
-                                                            </option>
-                                                            <option value="CITYTHAMESLINK">City Thameslink
-                                                            </option>
-                                                            <option value="FARRINGDON">Farringdon
-                                                            </option>
-                                                        </select>
-                                                    </div>
+
+
                                                 </div>
                                             </div>
                                         </div>
 
-                                        <div class="col-sm-12">
-                                            <div class="form-group">
-                                                <label>Living room?</label>
-                                                <div>
-                                                    <input class="form-check-input" type="radio" name="living_room"
-                                                        value="1">
-                                                    <label>Yes, there is a shared living room</label>
-                                                </div>
-                                                <div>
-                                                    <input class="form-check-input" type="radio" name="living_room"
-                                                        value="2">
-                                                    <label>No</label>
-                                                </div>
-                                            </div>
-                                        </div>
 
-                                        <div class="col-sm-12">
-                                            @php
-                                                $amenities = ['Parking', 'Garden/Roof terrace', 'Garage', 'Balcony/patio', 'Disabled access'];
-                                            @endphp
-                                            <div class="form-group">
-                                                <label>Amenities</label>
-                                                @foreach ($amenities as $amenity)
-                                                    <div>
-                                                        <input class="form-check-input" type="radio"
-                                                            name="property_amenities[]" value="{{ $amenity }}">
-                                                        <label>{{ $amenity }}</label>
-                                                    </div>
-                                                @endforeach
+
+                                        {{-- <div class="form_row ">
+                                    <div class="form_label"></div>
+                                    <div class="form_inputs">
+                                        <div class="btn-wrapper">
+                                            <div>
+                                                <button class="button" type="submit" name="validate_step"
+                                                    value="Continue to next step">Continue to next step
+                                                </button>
                                             </div>
                                         </div>
+                                    </div>
+                                </div> --}}
+
                                     </fieldset>
+
+
                                 </div>
                             </div>
                         </div>
