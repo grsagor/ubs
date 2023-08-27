@@ -28,11 +28,11 @@ class ServiceAdvertiseRoomController extends Controller
      */
     public function index()
     {
-        $categories = ServiceCategory::all();
-        $sub_categories = SubCategory::all();
-        $child_categories = ChildCategory::all();
-        $service_charges = ServiceCharge::where([['category_id',1],['sub_category_id',2],['child_category',1]])->get();
-        // return $child_categories;
+        $category = ServiceCategory::where('name','Property')->first();
+        $sub_category = SubCategory::where([['category_id',$category->id],['name','rent']])->first();
+        $child_categories = ChildCategory::where([['category_id',$category->id],['sub_category_id',$sub_category->id],])->get();
+        $service_charges = ServiceCharge::where([['category_id',$category->id],['sub_category_id',$sub_category->id],['child_category',1]])->get();
+        // return $service_charges;
         $user = Auth::user();
         $services = ServiceAdvertiseRoom::where('user_id', $user->id)->get();
         // return $services;
@@ -64,8 +64,16 @@ class ServiceAdvertiseRoomController extends Controller
      */
     public function create()
     {
-        $categories = ServiceCategory::all();
-        return view('backend.services.advertise_room.create', compact('categories'));
+        $category = ServiceCategory::where('name','Property')->first();
+        $sub_category = SubCategory::where([['category_id',$category->id],['name','rent']])->first();
+        $child_categories = ChildCategory::where([['category_id',$category->id],['sub_category_id',$sub_category->id],])->get();
+
+        $data = [];
+        $data['category'] = $category;
+        $data['sub_category'] = $sub_category;
+        $data['child_categories'] = $child_categories;
+
+        return view('backend.services.advertise_room.create', $data);
     }
     public function showSubCategorySelect(Request $request)
     {
@@ -89,12 +97,16 @@ class ServiceAdvertiseRoomController extends Controller
     }
     public function showRoomQuantitySelect(Request $request)
     {
+        $child_category = ChildCategory::find($request->child_category_id);
         $service_charges = ServiceCharge::where([['category_id',$request->service_category_id],['sub_category_id',$request->sub_category_id],['child_category',$request->child_category_id]])->get();
         $html = '';
         foreach ($service_charges as $category) {
-            $html .= '<option value="' . $category->size . '">' . $category->size . ' room for rent</option>';
+            $html .= '<option value="' . $category->size . '">' . $category->size . '</option>';
         }
-        return $html;
+        $data = [];
+        $data['name'] = $child_category->name;
+        $data['html'] = $html;
+        return $data;
     }
 
     /**
@@ -105,6 +117,7 @@ class ServiceAdvertiseRoomController extends Controller
      */
     public function store(StoreServiceAdvertiseRoomRequest $request, ServiceAdvertiseRoom $serviceAdvertiseRoom)
     {
+        // return $request;
 
         try {
             $requestedData                               = $request->all();
@@ -112,6 +125,11 @@ class ServiceAdvertiseRoomController extends Controller
             $requestedData['reference_id']               = Auth::id() . Str::random(15);;
 
             $requestedData['property_amenities']         = json_encode($request->property_amenities);
+
+            // $requestedData['service_category_id']         = $request->service_category_id;
+            // $requestedData['sub_category_id']         = $request->sub_category_id;
+            // $requestedData['child_category_id']         = $request->child_category_id;
+            // $requestedData['room_size']         = $request->room_size;
 
             $requestedData['room']                       = json_encode([
                 'room_cost_of_amount1'                   => $request->room_cost_of_amount1 ?? NULL,
@@ -137,8 +155,22 @@ class ServiceAdvertiseRoomController extends Controller
             ]);
 
 
-            $requestedData['advert_photos']              = $this->image($request->file('advert_photos'), 'uploads/service_room/', 800, 500);
+            // $requestedData['advert_photos']              = $this->image($request->file('advert_photos'), 'uploads/service_room/', 800, 500);
 
+            if ($request->hasFile('advert_photos')) {
+                $image_path = public_path('uploads/service_room');
+
+                $images = [];
+            
+                foreach ($request->file('advert_photos') as $image) {
+                    $image_name = rand(123456, 999999) . '.' . $image->getClientOriginalExtension();
+                    $image->move($image_path, $image_name);
+                    $images[] = 'uploads/service_room/' . $image_name;
+                }
+
+                $requestedData['advert_photos'] = json_encode($images);
+            }
+            // return $requestedData;
 
             $serviceAdvertiseRoom->fill($requestedData)->save();
 

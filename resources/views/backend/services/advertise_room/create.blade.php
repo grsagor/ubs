@@ -44,54 +44,27 @@
 
 
     $(document).ready(function() {
-        $(document).on('change', '#service_category_id', function() {
-            var id = $(this).val();
-            $.ajax({
-                url: "/show-subcategory-select",
-                type: "get",
-                data: {
-                    id: id
-                },
-                dataType: "html",
-                success: function(html) {
-                    $('#sub_category_id').empty();
-                    $('#sub_category_id').html(html);
-                }
-            })
-        })
-
-        $(document).on('change', '#sub_category_id', function() {
-            var id = $(this).val();
-            $.ajax({
-                url: "/show-childcategory-select",
-                type: "get",
-                data: {
-                    id: id
-                },
-                dataType: "html",
-                success: function(html) {
-                    $('#child_category_id').empty();
-                    $('#child_category_id').html(html);
-                }
-            })
-        })
-
         $(document).on('change', '#child_category_id', function() {
             var child_category_id = $(this).val();
             var sub_category_id = $('#sub_category_id').val();
             var service_category_id = $('#service_category_id').val();
             $.ajax({
-                url: "/show-room-quantity-select",
+                url: "/show-room-size-select",
                 type: "get",
                 data: {
                     child_category_id: child_category_id,
                     sub_category_id: sub_category_id,
                     service_category_id: service_category_id,
                 },
-                dataType: "html",
-                success: function(html) {
-                    $('#property_room_quantity').empty();
-                    $('#property_room_quantity').html(html);
+                dataType: "json",
+                success: function(data) {
+                    if(data.name == 'room'){
+                        $('#room_size').empty();
+                        $('#room_size').html(data.html);
+                        $('.room_size_container').show();
+                    }else{
+                        $('.room_size_container').hide();
+                    }
                 }
             })
         })
@@ -110,6 +83,8 @@
             <form class="row g-3 mt-2" action="{{ route('service-advertise.store') }}" id="multi-step-form"
                 method="POST" enctype="multipart/form-data">
                 @csrf
+                <input type="hidden" name="service_category_id" value="{{ $category->id }}" id="service_category_id">
+                <input type="hidden" name="sub_category_id" value="{{ $sub_category->id }}" id="sub_category_id">
                 <!-- Step 1 -->
                 <div class="step" id="step-1">
                     <!-- Step 1 form fields go here -->
@@ -135,31 +110,20 @@
 
                                         <div class="col-sm-12">
                                             <div class="form-group">
-                                                <label for="selling_price_group_id">Categories</label>
-                                                <select class="form-control" id="service_category_id"
-                                                    name="service_category_id">
-                                                    @foreach ($categories as $category)
-                                                        <option value="{{ $category->id }}">{{ $category->name }}
-                                                        </option>
+                                                <label for="selling_price_group_id">Child Categories</label>
+                                                <select class="form-control" id="child_category_id" name="child_category_id">
+                                                    @foreach ($child_categories as $item)
+                                                        <option value="{{ $item->id }}">{{ $item->name }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
                                         </div>
 
-                                        <div class="col-sm-12">
+                                        <div class="col-sm-12 room_size_container" style="display: none;">
                                             <div class="form-group">
-                                                <label for="selling_price_group_id">Sub Categories</label>
-                                                <select class="form-control" id="sub_category_id" name="sub_category_id">
-                                                    <option>Select a category</option>
-                                                </select>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-sm-12">
-                                            <div class="form-group">
-                                                <label for="selling_price_group_id">Child Categories</label>
-                                                <select class="form-control" id="child_category_id" name="child_category_id">
-                                                    <option>Select a sub-category</option>
+                                                <label for="room_size">Room size</label>
+                                                <select class="form-control" id="room_size" name="room_size">
+                                                    
                                                 </select>
                                             </div>
                                         </div>
@@ -169,11 +133,11 @@
                                                 <label for="selling_price_group_id">I have</label>
                                                 <select class="form-control" id="property_room_quantity"
                                                     name="property_room_quantity">
-                                                    {{-- @foreach (['1 room for rent', '2 rooms for rent', '3 rooms for rent'] as $key => $item)
+                                                    @foreach (['1 room for rent', '2 rooms for rent', '3 rooms for rent'] as $key => $item)
                                                         <option value="{{ $key + 1 }}">{{ $item }}
                                                         </option>
-                                                    @endforeach --}}
-                                                    <option>Select child category first</option>
+                                                    @endforeach
+                                                    {{-- <option>Select child category first</option> --}}
                                                 </select>
                                             </div>
                                         </div>

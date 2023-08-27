@@ -106,10 +106,12 @@
                                                     action="{{ route('room.referenceNumberCheck', $info->id) }}">
                                                     @csrf
                                                     @method('PUT')
+
+                                                    <input type="hidden" name="bill" value="{{ $service_charge }}">
                                                     <ul class="room-list">
                                                         <li class="room-list__room">
                                                             @if ($room_data->room_cost_of_amount1)
-                                                                <input type="radio" name="bill" id="room1"
+                                                                <input type="radio" id="room1"
                                                                     value="{{ $room_data->room_cost_of_amount1 }}">
                                                                 <strong class="room-list__price">&pound;
                                                                     {{ $room_data->room_cost_of_amount1 }} pcm</strong>
@@ -118,7 +120,7 @@
                                                         </li>
                                                         <li class="room-list__room">
                                                             @if ($room_data->room_cost_of_amount2)
-                                                                <input type="radio" name="bill" id="room2"
+                                                                <input type="radio" id="room2"
                                                                     value="{{ $room_data->room_cost_of_amount2 }}">
                                                                 <strong class="room-list__price">&pound;
                                                                     {{ $room_data->room_cost_of_amount2 }} pcm</strong>
@@ -127,7 +129,7 @@
                                                         </li>
                                                         <li class="room-list__room">
                                                             @if ($room_data->room_cost_of_amount3)
-                                                                <input type="radio" name="bill" id="room3"
+                                                                <input type="radio" id="room3"
                                                                     value="{{ $room_data->room_cost_of_amount3 }}">
                                                                 <strong class="room-list__price">&pound;
                                                                     {{ $room_data->room_cost_of_amount3 }} pcm</strong>

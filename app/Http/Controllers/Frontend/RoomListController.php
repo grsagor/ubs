@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Media;
+use App\ServiceCharge;
 use Illuminate\Http\Request;
 use App\ServiceAdvertiseRoom;
 use App\Http\Controllers\Controller;
@@ -40,6 +41,7 @@ class RoomListController extends Controller
     public function roomShow($id)
     {
         $data['info']                   = ServiceAdvertiseRoom::with('user')->findOrFail($id);
+        $data['service_charge'] = ServiceCharge::where([['category_id',$data['info']->service_category_id],['sub_category_id',$data['info']->sub_category_id],['child_category',$data['info']->child_category_id]])->first()->service_charge;
         $data['user_info']              = Media::where('uploaded_by', $data['info']->user_id)
             ->where('model_type', 'App\\User')->first();
         return view('frontend.service.room.details', $data);

@@ -274,7 +274,7 @@
             <!-- Services Start -->
             <li class="treeview" id="tour_step9">
                 <a href="#">
-                    <i class="fa fas fa-chart-bar"></i> <span>Services</span>
+                    <i class="fa fas fa-chart-bar"></i> <span>Advertise</span>
                     <span class="pull-right-container">
                         <i class="fa fa-angle-left pull-right"></i>
                     </span>

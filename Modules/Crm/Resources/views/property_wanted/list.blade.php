@@ -53,7 +53,7 @@
                 serverSide: true,
                 bPaginate: false,
                 buttons: [],
-                ajax: '/property-wanted',
+                ajax: '/contact/property-wanted',
                 columns: [{
                         data: 'ad_title',
                         name: 'ad_title'

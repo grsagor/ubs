@@ -9,7 +9,7 @@ use App\Http\Controllers\PropertyWantedCustomerController;
 
 
 // Route::group(['middleware' => ['web', 'authh', 'SetSessionData', 'auth', 'language', 'timezone', 'ContactSidebarMenu', 'CheckContactLogin'], 'prefix' => 'contact',], function () {
-Route::group(['middleware' => ['web', 'authh', 'SetSessionData', 'auth', 'language', 'timezone', 'ContactSidebarMenu'], 'prefix' => 'contact',], function () {
+Route::group(['middleware' => ['web', 'authh', 'SetSessionData', 'auth', 'language', 'timezone', 'ContactSidebarMenu', 'CheckContactLogin'], 'prefix' => 'contact',], function () {
     Route::resource('/property-wanted',     PropertyWantedCustomerController::class);
     // Route::resource('/room-to-rent',        RoomToRentController::class);
 });
