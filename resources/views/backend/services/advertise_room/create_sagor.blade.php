@@ -29,7 +29,7 @@
         $(".form_room_fieldset:not(#room1)").hide();
 
         // Show the selected number of additional rooms
-        $("#property_room_quantity").change(function() {
+        $("#roomQuantitySelect").change(function() {
             var selectedQuantity = parseInt($(this).val());
 
             // Hide all additional rooms
@@ -40,24 +40,7 @@
                 $("#room" + i).show();
             }
         });
-
-
-
-        // Show the selected number of additional rooms
-        $("#property_size").change(function() {
-            var selectedQuantity = parseInt($(this).val());
-            //alert(selectedQuantity);
-            // Hide all additional rooms
-            $(".form_room_fieldset:not(#room1)").hide();
-
-            // Show only the selected number of additional rooms
-            for (var i = 2; i <= selectedQuantity; i++) {
-                $("#room" + i).show();
-            }
-        });
-
     });
-
 
 
     $(document).ready(function() {
@@ -65,21 +48,6 @@
             var child_category_id = $(this).val();
             var sub_category_id = $('#sub_category_id').val();
             var service_category_id = $('#service_category_id').val();
-            //alert(child_category_id);
-            var a = document.getElementById('badOption');
-            var b = document.getElementById('showroom');
-
-            if (child_category_id == 2 || child_category_id == 6 || child_category_id == 1) {
-                a.style.display = 'block';
-            } else {
-                a.style.display = 'none';
-            }
-            if (child_category_id == 1) {
-                b.style.display = 'block';
-            } else {
-                b.style.display = 'none';
-            }
-
             $.ajax({
                 url: "/show-room-size-select",
                 type: "get",
@@ -90,33 +58,17 @@
                 },
                 dataType: "json",
                 success: function(data) {
-                    if (data.name == 'room') {
+                    if(data.name == 'room'){
                         $('#room_size').empty();
                         $('#room_size').html(data.html);
                         $('.room_size_container').show();
-
-                    } else {
+                    }else{
                         $('.room_size_container').hide();
-
                     }
                 }
-            });
-        });
-        /*$(document).on('change', '#property_room_quantity', function() {
-          var roomQuantityId = $(this).val();
-          alert(roomQuantityId);
-          for (var i = 0; i <= roomQuantityId; i++) {
-          let html = '<fieldset class="form_room_fieldset" id="room + i"> <legend> Room + i </legend> <div class="form_row form_row_cost "> <div class="form_label"> Cost of room </div> <div class="form_inputs"> <span class="form_input form_text"> <span class="form_currency_symbol">£</span> <input type="number" name="room_cost_of_amount1" value="" size="6" step="any"> </span> <label class="form_input form_radio"> <input type="radio" name="room_cost_time1" value=1> per week </label> <label class="form_input form_radio"> <input type="radio" name="room_cost_time1" checked="" value=2> per calendar month </label> </div> </div> <div class="form_row form_row_room_size"> <div class="form_label"> Size of room </div> <div class="form_inputs"> <label class="form_input form_radio"> <input type="radio" name="room_size1" value=1> Single </label> <label class="form_input form_radio"> <input type="radio" name="room_size1" value=2 checked=""> Double </label> </div> </div> <div class="form_row form_row_amenities"> <div class="form_label"> Amenities </div> <div class="form_inputs"> <label class="form_input form_checkbox"> <input type="checkbox" name="room_amenities1" value="Y"> En-suite <span class="form_hint">(tick if room has own toilet and/or bath/shower)</span> </label> </div> </div> <div class="form_row form_row_amenities"> <div class="form_label"> Furnishings </div> <div class="form_inputs"> <label class="form_input form_radio"> <input type="radio" name="room_furnishings1" value=1> Furnished </label> <label class="form_input form_radio"> <input type="radio" name="room_furnishings1" value=2> Unfurnished </label> </div> </div> <div class="form_row form_row_deposit "> <div class="form_label"> Security deposit </div> <div class="form_inputs"> <span class="form_input form_text"> <span class="form_currency_symbol">£</span> <input type="number" name="room_security_deposit1" value="" step="any" min="0"> </span> </div> </div> </fieldset>';
-          document.getElementById("customRoomQuantity").innerHTML = html;
-        }
-      }); */
-
-        $(document).on('change', '#property_size', function() {
-            var badQuantityId = $(this).val();
-            //alert(badQuantityId);
-
-        });
-    });
+            })
+        })
+    })
 </script>
 <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
@@ -155,27 +107,11 @@
                                         <legend>
                                             Get started with your free advert
                                         </legend>
-                                        {{-- <div class="col-sm-12">
-                                            <div class="form-group">
-                                                <label for="selling_price_group_id">Sub Categories</label>
-                                                <input type="text"  value="{{ $sub_category->name }}" >
-                                            </div>
-                                        </div>
+
                                         <div class="col-sm-12">
                                             <div class="form-group">
-                                                <label for="sub_category_id">Sub Categories</label>
-                                                <select class="form-control" id="sub_category_id" name="sub_category_id">
-                                                    @foreach ($sub_category as $item)
-                                                        <option value="{{ $item->id }}">{{ $item->name }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                        </div> --}}
-                                        <div class="col-sm-12">
-                                            <div class="form-group">
-                                                <label for="selling_price_group_id">Property Type</label>
-                                                <select class="form-control" id="child_category_id"
-                                                    name="child_category_id">
+                                                <label for="selling_price_group_id">Child Categories</label>
+                                                <select class="form-control" id="child_category_id" name="child_category_id">
                                                     @foreach ($child_categories as $item)
                                                         <option value="{{ $item->id }}">{{ $item->name }}</option>
                                                     @endforeach
@@ -187,17 +123,17 @@
                                             <div class="form-group">
                                                 <label for="room_size">Room size</label>
                                                 <select class="form-control" id="room_size" name="room_size">
-
+                                                    
                                                 </select>
                                             </div>
                                         </div>
 
-                                        <div class="col-sm-12" id="showroom">
+                                        <div class="col-sm-12">
                                             <div class="form-group">
                                                 <label for="selling_price_group_id">I have</label>
                                                 <select class="form-control" id="property_room_quantity"
                                                     name="property_room_quantity">
-                                                    @foreach (['1 Room for Rent', '2 Rooms for Rent', '3 Rooms for Rent', '4 Rooms for Rent', '5 Rooms for Rent'] as $key => $item)
+                                                    @foreach (['1 room for rent', '2 rooms for rent', '3 rooms for rent'] as $key => $item)
                                                         <option value="{{ $key + 1 }}">{{ $item }}
                                                         </option>
                                                     @endforeach
@@ -206,23 +142,22 @@
                                             </div>
                                         </div>
                                         <div class="col-sm-12">
-                                            <div class="form-group" id="badOption">
+                                            <div class="form-group">
                                                 <label for="selling_price_group_id">Size and type of property</label>
                                                 <div class="row">
                                                     <div class="col-sm-6">
                                                         <select class="form-control" id="property_size"
                                                             name="property_size">
-                                                            @foreach (['1 Bed Room', '2 Bed Rooms', '3 Bed Rooms', '4 Bed Rooms', '5+ Bed Rooms'] as $key => $item)
+                                                            @foreach (['1 bed', '2 beds', '3 beds'] as $key => $item)
                                                                 <option value="{{ $key + 1 }}">{{ $item }}
                                                                 </option>
                                                             @endforeach
                                                         </select>
                                                     </div>
-
                                                     <div class="col-sm-6">
                                                         <select class="form-control" id="property_type"
                                                             name="property_type">
-                                                            @foreach (['Flat/Apartment', 'House'] as $key => $item)
+                                                            @foreach (['Flat/Apartment', 'House', 'Property'] as $key => $item)
                                                                 <option value="{{ $item }}">{{ $item }}
                                                                 </option>
                                                             @endforeach
@@ -237,7 +172,7 @@
                                                 <label for="selling_price_group_id">There are already</label>
                                                 <select class="form-control" id="property_occupants"
                                                     name="property_occupants">
-                                                    @foreach (['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10'] as $key => $item)
+                                                    @foreach (['0', '1', '2', '3'] as $key => $item)
                                                         <option value="{{ $key + 1 }}"
                                                             {{ $item === '1' ? 'selected' : '' }}>
                                                             {{ $item }}
@@ -306,7 +241,7 @@
 
                 <!-- Step 2 -->
                 <div class="step" id="step-2">
-                    <h3 class="text-center mb-2">Step 2</h3>
+                    <h3>Step 2</h3>
                     <!-- Step 2 form fields go here -->
 
                     <!-- Start Step 2 -->
@@ -424,14 +359,17 @@
 
                     <!-- End Step 2 -->
 
-                    <button type="button" class="btn btn-primary prev-btn">Previous</button>
-                    <button type="button" class="btn btn-primary next-btn">Next</button>
 
+
+                    <button type="button" class="btn btn-primary prev-btn">
+                        Previous
+                    </button>
+                    <button type="button" class="btn btn-primary next-btn">Next</button>
                 </div>
 
                 <!-- Step 3 -->
                 <div class="step" id="step-3">
-                    <h3 class="text-center mb-2">Step 3</h3>
+                    <h3>Step 3</h3>
                     <!-- Step 3 form fields go here -->
 
 
@@ -451,57 +389,88 @@
                                     <fieldset>
 
                                         <legend>The rooms</legend>
-                                        <div id="customRoomQuantity"></div>
 
                                         <fieldset class="form_room_fieldset" id="room1">
+
                                             <legend> Room 1 </legend>
+
                                             <div class="form_row form_row_cost ">
                                                 <div class="form_label"> Cost of room </div>
-                                                <div class="form_inputs"> <span class="form_input form_text"> <span
-                                                            class="form_currency_symbol">£</span> <input
-                                                            type="number" name="room_cost_of_amount1" value=""
-                                                            size="6" step="any"> </span> <label
-                                                        class="form_input form_radio"> <input type="radio"
-                                                            name="room_cost_time1" value=1> per week </label> <label
-                                                        class="form_input form_radio"> <input type="radio"
-                                                            name="room_cost_time1" checked="" value=2> per
-                                                        calendar month </label> </div>
+                                                <div class="form_inputs">
+                                                    <span class="form_input form_text">
+                                                        <span class="form_currency_symbol">£</span>
+                                                        <input type="number" name="room_cost_of_amount1"
+                                                            value="" size="6" step="any">
+                                                    </span>
+                                                    <label class="form_input form_radio">
+                                                        <input type="radio" name="room_cost_time1" value=1>
+                                                        per week
+                                                    </label>
+                                                    <label class="form_input form_radio">
+                                                        <input type="radio" name="room_cost_time1" checked=""
+                                                            value=2>
+                                                        per calendar month
+                                                    </label>
+
+                                                </div>
                                             </div>
+
                                             <div class="form_row form_row_room_size">
                                                 <div class="form_label"> Size of room </div>
                                                 <div class="form_inputs">
-                                                    <label class="form_input form_radio"> <input
-                                                            type="radio" name="room_size1" value=1> Single </label>
-                                                    <label class="form_input form_radio"> <input type="radio"
-                                                            name="room_size1" value=2 checked=""> Double </label>
-                                                    <label class="form_input form_radio"> <input type="radio"
-                                                            name="room_size1" value=3 checked=""> Semi-double </label>
+                                                    <label class="form_input form_radio">
+                                                        <input type="radio" name="room_size1" value=1>
+                                                        Single
+                                                    </label>
+                                                    <label class="form_input form_radio">
+                                                        <input type="radio" name="room_size1" value=2
+                                                            checked="">
+                                                        Double
+                                                    </label>
                                                 </div>
                                             </div>
+
                                             <div class="form_row form_row_amenities">
                                                 <div class="form_label"> Amenities </div>
-                                                <div class="form_inputs"> <label class="form_input form_checkbox">
+                                                <div class="form_inputs">
+                                                    <label class="form_input form_checkbox">
                                                         <input type="checkbox" name="room_amenities1" value="Y">
-                                                        En-suite <span class="form_hint">(tick if room has own toilet
-                                                            and/or bath/shower)</span> </label> </div>
-                                            </div>
-                                            <div class="form_row form_row_amenities">
-                                                <div class="form_label"> Furnishings </div>
-                                                <div class="form_inputs"> <label class="form_input form_radio"> <input
-                                                            type="radio" name="room_furnishings1" value=1> Furnished
-                                                    </label> <label class="form_input form_radio"> <input
-                                                            type="radio" name="room_furnishings1" value=2>
-                                                        Unfurnished </label> </div>
-                                            </div>
-                                            <div class="form_row form_row_deposit ">
-                                                <div class="form_label"> Security deposit </div>
-                                                <div class="form_inputs"> <span class="form_input form_text"> <span
-                                                            class="form_currency_symbol">£</span> <input
-                                                            type="number" name="room_security_deposit1"
-                                                            value="" step="any" min="0"> </span>
+                                                        En-suite
+                                                        <span class="form_hint">(tick if room has own toilet and/or
+                                                            bath/shower)</span>
+                                                    </label>
                                                 </div>
                                             </div>
+
+                                            <div class="form_row form_row_amenities">
+                                                <div class="form_label"> Furnishings </div>
+                                                <div class="form_inputs">
+                                                    <label class="form_input form_radio">
+                                                        <input type="radio" name="room_furnishings1" value=1>
+                                                        Furnished
+                                                    </label>
+                                                    <label class="form_input form_radio">
+                                                        <input type="radio" name="room_furnishings1" value=2>
+                                                        Unfurnished
+                                                    </label>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="form_row form_row_deposit ">
+                                                <div class="form_label"> Security deposit </div>
+                                                <div class="form_inputs">
+                                                    <span class="form_input form_text">
+                                                        <span class="form_currency_symbol">£</span> <input
+                                                            type="number" name="room_security_deposit1"
+                                                            value="" step="any" min="0">
+                                                        {{-- <a class="offered-ad__deposit-limit-link">Check deposit limits</a> --}}
+                                                    </span>
+                                                </div>
+                                            </div>
+
                                         </fieldset>
+
 
                                         <fieldset class="form_room_fieldset" id="room2" style="display: none;">
 
@@ -538,8 +507,6 @@
                                                         <input type="radio" name="room_size2" value=2>
                                                         Double
                                                     </label>
-                                                    <label class="form_input form_radio"> <input type="radio"
-                                                        name="room_size2" value=3 checked=""> Semi-double </label>
                                                 </div>
                                             </div>
 
@@ -620,8 +587,6 @@
                                                         <input type="radio" name="room_size3" value=2>
                                                         Double
                                                     </label>
-                                                    <label class="form_input form_radio"> <input type="radio"
-                                                        name="room_size3 value=3 checked=""> Semi-double </label>
                                                 </div>
                                             </div>
 
@@ -664,172 +629,6 @@
                                                 </div>
                                             </div>
 
-                                        </fieldset>
-                                        <fieldset class="form_room_fieldset" id="room4" style="display: none;">
-
-                                            <legend> Room 4 </legend>
-
-                                            <div class="form_row form_row_cost ">
-                                                <div class="form_label"> Cost of room </div>
-                                                <div class="form_inputs">
-                                                    <span class="form_input form_text">
-                                                        <span class="form_currency_symbol">£</span>
-                                                        <input type="number" name="room_cost_of_amount3"
-                                                            value="" size="6" step="any">
-                                                    </span>
-                                                    <label class="form_input form_radio">
-                                                        <input type="radio" name="room_cost_time4" value=1>
-                                                        per week
-                                                    </label>
-                                                    <label class="form_input form_radio">
-                                                        <input type="radio" name="room_cost_time4" value=2>
-                                                        per calendar month
-                                                    </label>
-
-                                                </div>
-                                            </div>
-
-                                            <div class="form_row form_row_room_size">
-                                                <div class="form_label"> Size of room </div>
-                                                <div class="form_inputs">
-                                                    <label class="form_input form_radio">
-                                                        <input type="radio" name="room_size4" value=1>
-                                                        Single
-                                                    </label>
-                                                    <label class="form_input form_radio">
-                                                        <input type="radio" name="room_size4" value=2>
-                                                        Double
-                                                    </label>
-                                                    <label class="form_input form_radio"> <input type="radio"
-                                                        name="room_size4" value=3 checked=""> Semi-double </label>
-                                                </div>
-                                            </div>
-
-                                            <div class="form_row form_row_amenities">
-                                                <div class="form_label"> Amenities </div>
-                                                <div class="form_inputs">
-                                                    <label class="form_input form_checkbox">
-                                                        <input type="checkbox" name="room_amenities4" value="Y">
-                                                        En-suite
-                                                        <span class="form_hint">(tick if room has own toilet and/or
-                                                            bath/shower)</span>
-                                                    </label>
-                                                </div>
-                                            </div>
-
-                                            <div class="form_row form_row_amenities">
-                                                <div class="form_label"> Furnishings </div>
-                                                <div class="form_inputs">
-                                                    <label class="form_input form_radio">
-                                                        <input type="radio" name="room_furnishings4" value=1>
-                                                        Furnished
-                                                    </label>
-                                                    <label class="form_input form_radio">
-                                                        <input type="radio" name="room_furnishings4" value=2>
-                                                        Unfurnished
-                                                    </label>
-                                                </div>
-                                            </div>
-
-
-                                            <div class="form_row form_row_deposit ">
-                                                <div class="form_label"> Security deposit </div>
-                                                <div class="form_inputs">
-                                                    <span class="form_input form_text">
-                                                        <span class="form_currency_symbol">£</span> <input
-                                                            type="number" name="room_security_deposit4"
-                                                            value="" step="any" min="0">
-                                                        {{-- <a class="offered-ad__deposit-limit-link">Check deposit limits</a> --}}
-                                                    </span>
-                                                </div>
-                                            </div>
-
-                                        </fieldset>
-                                        <fieldset class="form_room_fieldset" id="room5" style="display: none;">
-
-                                            <legend> Room 5 </legend>
-
-                                            <div class="form_row form_row_cost ">
-                                                <div class="form_label"> Cost of room </div>
-                                                <div class="form_inputs">
-                                                    <span class="form_input form_text">
-                                                        <span class="form_currency_symbol">£</span>
-                                                        <input type="number" name="room_cost_of_amount3"
-                                                            value="" size="6" step="any">
-                                                    </span>
-                                                    <label class="form_input form_radio">
-                                                        <input type="radio" name="room_cost_time5" value=1>
-                                                        per week
-                                                    </label>
-                                                    <label class="form_input form_radio">
-                                                        <input type="radio" name="room_cost_time5" value=2>
-                                                        per calendar month
-                                                    </label>
-
-                                                </div>
-                                            </div>
-
-                                            <div class="form_row form_row_room_size">
-                                                <div class="form_label"> Size of room </div>
-                                                <div class="form_inputs">
-                                                    <label class="form_input form_radio">
-                                                        <input type="radio" name="room_size5" value=1>
-                                                        Single
-                                                    </label>
-                                                    <label class="form_input form_radio">
-                                                        <input type="radio" name="room_size5" value=2>
-                                                        Double
-                                                    </label>
-                                                    <label class="form_input form_radio"> <input type="radio"
-                                                        name="room_size5" value=3 checked=""> Semi-double </label>
-                                                </div>
-                                            </div>
-
-                                            <div class="form_row form_row_amenities">
-                                                <div class="form_label"> Amenities </div>
-                                                <div class="form_inputs">
-                                                    <label class="form_input form_checkbox">
-                                                        <input type="checkbox" name="room_amenities5" value="Y">
-                                                        En-suite
-                                                        <span class="form_hint">(tick if room has own toilet and/or
-                                                            bath/shower)</span>
-                                                    </label>
-                                                </div>
-                                            </div>
-
-                                            <div class="form_row form_row_amenities">
-                                                <div class="form_label"> Furnishings </div>
-                                                <div class="form_inputs">
-                                                    <label class="form_input form_radio">
-                                                        <input type="radio" name="room_furnishings5" value=1>
-                                                        Furnished
-                                                    </label>
-                                                    <label class="form_input form_radio">
-                                                        <input type="radio" name="room_furnishings5" value=2>
-                                                        Unfurnished
-                                                    </label>
-                                                </div>
-                                            </div>
-
-
-                                            <div class="form_row form_row_deposit ">
-                                                <div class="form_label"> Security deposit </div>
-                                                <div class="form_inputs">
-                                                    <span class="form_input form_text">
-                                                        <span class="form_currency_symbol">£</span> <input
-                                                            type="number" name="room_security_deposit5"
-                                                            value="" step="any" min="0">
-                                                        {{-- <a class="offered-ad__deposit-limit-link">Check deposit limits</a> --}}
-                                                    </span>
-                                                </div>
-                                            </div>
-                                            <div class="form_row form_row_avail_from ">
-                                                <div class="form_label"> Available from </div>
-                                                <div class="form_inputs">
-                                                    <input type="date" name="room_available_from"
-                                                        id="room_available_from">
-                                                </div>
-                                            </div>
                                         </fieldset>
 
 
@@ -993,7 +792,7 @@
 
                 <!-- Step 4 -->
                 <div class="step" id="step-4">
-                    <h3 class="text-center mb-2">Step 4</h3>
+                    <h3>Step 4</h3>
                     <!-- Step 4 form fields go here -->
 
                     <!-- Start Step 4 -->
@@ -1317,7 +1116,7 @@
 
                 <!-- Step 5 -->
                 <div class="step" id="step-5">
-                    <h3 class="text-center mb-2">Step 5</h3>
+                    <h3>Step 5</h3>
                     <!-- Step 5 form fields go here -->
 
                     <!-- Start Step 5 -->
@@ -1519,7 +1318,7 @@
 
                 <!-- Step 6 -->
                 <div class="step" id="step-6">
-                    <h3 class="text-center mb-2">Step 6</h3>
+                    <h3>Step 6</h3>
                     <!-- Step 6 form fields go here -->
 
 
@@ -1637,6 +1436,8 @@
                         @endphp
                     @endauth
                     <input type="hidden" name="user_id" value="{{ $userId }}">
+
+
                     <button type="submit" class="btn btn-success">Submit</button>
                 </div>
             </form>
@@ -1646,5 +1447,7 @@
             <input type="submit" class="btn btn-primary">
             <button type="button" class="btn btn-default" data-dismiss="modal">@lang('messages.close')</button>
         </div>
+
+
     </div><!-- /.modal-content -->
 </div><!-- /.modal-dialog -->

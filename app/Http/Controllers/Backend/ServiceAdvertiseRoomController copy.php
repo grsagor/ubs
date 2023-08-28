@@ -66,8 +66,6 @@ class ServiceAdvertiseRoomController extends Controller
     {
         $category = ServiceCategory::where('name','Property')->first();
         $sub_category = SubCategory::where([['category_id',$category->id],['name','rent']])->first();
-        //$sub_category = SubCategory::where(['category_id',$category->id])->get();
-
         $child_categories = ChildCategory::where([['category_id',$category->id],['sub_category_id',$sub_category->id],])->get();
 
         $data = [];
@@ -75,7 +73,6 @@ class ServiceAdvertiseRoomController extends Controller
         $data['sub_category'] = $sub_category;
         $data['child_categories'] = $child_categories;
 
-        //dd($data['child_categories']);
         return view('backend.services.advertise_room.create', $data);
     }
     public function showSubCategorySelect(Request $request)
@@ -164,7 +161,7 @@ class ServiceAdvertiseRoomController extends Controller
                 $image_path = public_path('uploads/service_room');
 
                 $images = [];
-
+            
                 foreach ($request->file('advert_photos') as $image) {
                     $image_name = rand(123456, 999999) . '.' . $image->getClientOriginalExtension();
                     $image->move($image_path, $image_name);
