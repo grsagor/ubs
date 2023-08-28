@@ -74,6 +74,14 @@ class ServiceAdvertiseRoomController extends Controller
         $data['category'] = $category;
         $data['sub_category'] = $sub_category;
         $data['child_categories'] = $child_categories;
+        $data['house'] = ServiceCharge::where('sub_category_id',2)->first()->service_charge;
+        $data['Flat'] = ServiceCharge::where('sub_category_id',6)->first()->service_charge;
+        $data['studio_flat'] = ServiceCharge::where('sub_category_id',9)->first()->service_charge;
+        $data['single'] = ServiceCharge::where([['sub_category_id',1],['size',['single']]])->first()->service_charge;
+        $data['double'] = ServiceCharge::where([['sub_category_id',1],['size',['double']]])->first()->service_charge;
+        $data['semi_double'] = ServiceCharge::where([['sub_category_id',1],['size',['semi-double']]])->first()->service_charge;
+        $data['en_suite'] = ServiceCharge::where([['sub_category_id',1],['size',['en-suite']]])->first()->service_charge;
+
 
         //dd($data['child_categories']);
         return view('backend.services.advertise_room.create', $data);
@@ -141,6 +149,8 @@ class ServiceAdvertiseRoomController extends Controller
                 'room_amenities1'                        => $request->room_amenities1 ?? NULL,
                 'room_furnishings1'                      => $request->room_furnishings1 ?? NULL,
                 'room_security_deposit1'                 => $request->room_security_deposit1 ?? NULL,
+                'room_available_from1'                 => $request->room_available_from1 ?? NULL,
+                'service_charge_room1'                 => $request->service_charge_room1 ?? NULL,
 
                 'room_cost_of_amount2'                   => $request->room_cost_of_amount2 ?? NULL,
                 'room_cost_time2'                        => $request->room_cost_time2 ?? NULL,
@@ -148,6 +158,8 @@ class ServiceAdvertiseRoomController extends Controller
                 'room_amenities2'                        => $request->room_amenities2 ?? NULL,
                 'room_furnishings2'                      => $request->room_furnishings2 ?? NULL,
                 'room_security_deposit2'                 => $request->room_security_deposit2 ?? NULL,
+                'room_available_from2'                 => $request->room_available_from2 ?? NULL,
+                'service_charge_room2'                 => $request->service_charge_room2 ?? NULL,
 
                 'room_cost_of_amount3'                   => $request->room_cost_of_amount3 ?? NULL,
                 'room_cost_time3'                        => $request->room_cost_time3 ?? NULL,
@@ -155,6 +167,26 @@ class ServiceAdvertiseRoomController extends Controller
                 'room_amenities3'                        => $request->room_amenities3 ?? NULL,
                 'room_furnishings3'                      => $request->room_furnishings3 ?? NULL,
                 'room_security_deposit3'                 => $request->room_security_deposit3 ?? NULL,
+                'room_available_from3'                 => $request->room_available_from3 ?? NULL,
+                'service_charge_room3'                 => $request->service_charge_room3 ?? NULL,
+
+                'room_cost_of_amount4'                   => $request->room_cost_of_amount4 ?? NULL,
+                'room_cost_time4'                        => $request->room_cost_time4 ?? NULL,
+                'room_size4'                             => $request->room_size4 ?? NULL,
+                'room_amenities4'                        => $request->room_amenities4 ?? NULL,
+                'room_furnishings4'                      => $request->room_furnishings4 ?? NULL,
+                'room_security_deposit4'                 => $request->room_security_deposit4 ?? NULL,
+                'room_available_from4'                 => $request->room_available_from4 ?? NULL,
+                'service_charge_room4'                 => $request->service_charge_room4 ?? NULL,
+
+                'room_cost_of_amount5'                   => $request->room_cost_of_amount5 ?? NULL,
+                'room_cost_time5'                        => $request->room_cost_time5 ?? NULL,
+                'room_size5'                             => $request->room_size5 ?? NULL,
+                'room_amenities5'                        => $request->room_amenities5 ?? NULL,
+                'room_furnishings5'                      => $request->room_furnishings5 ?? NULL,
+                'room_security_deposit5'                 => $request->room_security_deposit5 ?? NULL,
+                'room_available_from5'                 => $request->room_available_from5 ?? NULL,
+                'service_charge_room5'                 => $request->service_charge_room5 ?? NULL,
             ]);
 
 

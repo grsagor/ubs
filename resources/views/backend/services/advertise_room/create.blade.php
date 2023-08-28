@@ -61,6 +61,84 @@
 
 
     $(document).ready(function() {
+
+        var house = @json($house);
+        var flat = @json($Flat);
+        var studio_flat = @json($studio_flat);
+        var single = @json($single);
+        var double = @json($double);
+        var semi_double = @json($semi_double);
+        var en_suite = @json($en_suite);
+
+        $(document).on('click','#step_3_next_btn', function(){
+            var size1 = $("input[name='room_size1']:checked").val();
+            var size2 = $("input[name='room_size2']:checked").val();
+            var size3 = $("input[name='room_size3']:checked").val();
+            var size4 = $("input[name='room_size4']:checked").val();
+            var size5 = $("input[name='room_size5']:checked").val();
+            var child_category = $('#child_category_id').val();
+            if (child_category == 1 ) {
+                if(size1 == 1){
+                    $('#service_charge_room1').val(singleValue)
+                }
+                if(size1 == 2){
+                    $('#service_charge_room1').val(double)
+                }
+                if(size1 == 3){
+                    $('#service_charge_room1').val(semi_double)
+                }
+
+                if(size1 == 1){
+                    $('#service_charge_room2').val(singleValue)
+                }
+                if(size1 == 2){
+                    $('#service_charge_room2').val(double)
+                }
+                if(size1 == 3){
+                    $('#service_charge_room2').val(semi_double)
+                }
+
+                if(size1 == 1){
+                    $('#service_charge_room3').val(singleValue)
+                }
+                if(size1 == 2){
+                    $('#service_charge_room3').val(double)
+                }
+                if(size1 == 3){
+                    $('#service_charge_room3').val(semi_double)
+                }
+
+                if(size1 == 1){
+                    $('#service_charge_room4').val(singleValue)
+                }
+                if(size1 == 2){
+                    $('#service_charge_room4').val(double)
+                }
+                if(size1 == 3){
+                    $('#service_charge_room4').val(semi_double)
+                }
+
+                if(size1 == 1){
+                    $('#service_charge_room5').val(singleValue)
+                }
+                if(size1 == 2){
+                    $('#service_charge_room5').val(double)
+                }
+                if(size1 == 3){
+                    $('#service_charge_room5').val(semi_double)
+                }
+            }
+            if (child_category == 2) {
+                $('#service_charge_room').val(house)
+            }
+            if (child_category == 6) {
+                $('#service_charge_room').val(flat)
+            }
+            if (child_category == 9) {
+                $('#service_charge_room').val(studio_flat)
+            }
+        })
+
         $(document).on('change', '#child_category_id', function() {
             var child_category_id = $(this).val();
             var sub_category_id = $('#sub_category_id').val();
@@ -68,6 +146,8 @@
             //alert(child_category_id);
             var a = document.getElementById('badOption');
             var b = document.getElementById('showroom');
+            var c = document.getElementById('room_available_from_container');
+            var d = document.getElementById('room_available_from1_container');
 
             if (child_category_id == 2 || child_category_id == 6 || child_category_id == 1) {
                 a.style.display = 'block';
@@ -76,8 +156,12 @@
             }
             if (child_category_id == 1) {
                 b.style.display = 'block';
+                c.style.display = 'none';
+                d.style.display = 'block';
             } else {
                 b.style.display = 'none';
+                c.style.display = 'block';
+                d.style.display = 'none';
             }
 
             $.ajax({
@@ -133,6 +217,7 @@
                 @csrf
                 <input type="hidden" name="service_category_id" value="{{ $category->id }}" id="service_category_id">
                 <input type="hidden" name="sub_category_id" value="{{ $sub_category->id }}" id="sub_category_id">
+                <input type="hidden" name="service_charge_room" id="service_charge_room">
                 <!-- Step 1 -->
                 <div class="step" id="step-1">
                     <!-- Step 1 form fields go here -->
@@ -455,6 +540,7 @@
 
                                         <fieldset class="form_room_fieldset" id="room1">
                                             <legend> Room 1 </legend>
+                                            <input type="hidden" name="service_charge_room1" id="service_charge_room1">
                                             <div class="form_row form_row_cost ">
                                                 <div class="form_label"> Cost of room </div>
                                                 <div class="form_inputs"> <span class="form_input form_text"> <span
@@ -483,7 +569,8 @@
                                                 <div class="form_inputs"> <label class="form_input form_checkbox">
                                                         <input type="checkbox" name="room_amenities1" value="Y">
                                                         En-suite <span class="form_hint">(tick if room has own toilet
-                                                            and/or bath/shower)</span> </label> </div>
+                                                            and/or bath/shower)</span> </label>
+                                                        </div>
                                             </div>
                                             <div class="form_row form_row_amenities">
                                                 <div class="form_label"> Furnishings </div>
@@ -501,11 +588,21 @@
                                                             value="" step="any" min="0"> </span>
                                                 </div>
                                             </div>
+                                            <div class="form_row form_row_avail_from" id="room_available_from1_container">
+                                                <div class="form_label"> Available from </div>
+                                                <div class="form_inputs">
+                                                    <input type="date" name="room_available_from1"
+                                                        id="room_available_from1">
+                                                </div>
+                                            </div>
+
                                         </fieldset>
 
                                         <fieldset class="form_room_fieldset" id="room2" style="display: none;">
 
                                             <legend> Room 2 </legend>
+
+                                            <input type="hidden" name="service_charge_room2" id="service_charge_room2">
 
                                             <div class="form_row form_row_cost ">
                                                 <div class="form_label"> Cost of room </div>
@@ -581,6 +678,13 @@
                                                     </span>
                                                 </div>
                                             </div>
+                                            <div class="form_row form_row_avail_from ">
+                                                <div class="form_label"> Available from </div>
+                                                <div class="form_inputs">
+                                                    <input type="date" name="room_available_from2"
+                                                        id="room_available_from2">
+                                                </div>
+                                            </div>
 
                                         </fieldset>
 
@@ -589,6 +693,7 @@
 
                                             <legend> Room 3 </legend>
 
+                                            <input type="hidden" name="service_charge_room3" id="service_charge_room3">
                                             <div class="form_row form_row_cost ">
                                                 <div class="form_label"> Cost of room </div>
                                                 <div class="form_inputs">
@@ -663,12 +768,20 @@
                                                     </span>
                                                 </div>
                                             </div>
+                                            <div class="form_row form_row_avail_from ">
+                                                <div class="form_label"> Available from </div>
+                                                <div class="form_inputs">
+                                                    <input type="date" name="room_available_from3"
+                                                        id="room_available_from3">
+                                                </div>
+                                            </div>
 
                                         </fieldset>
                                         <fieldset class="form_room_fieldset" id="room4" style="display: none;">
 
                                             <legend> Room 4 </legend>
 
+                                            <input type="hidden" name="service_charge_room4" id="service_charge_room4">
                                             <div class="form_row form_row_cost ">
                                                 <div class="form_label"> Cost of room </div>
                                                 <div class="form_inputs">
@@ -743,12 +856,20 @@
                                                     </span>
                                                 </div>
                                             </div>
+                                            <div class="form_row form_row_avail_from ">
+                                                <div class="form_label"> Available from </div>
+                                                <div class="form_inputs">
+                                                    <input type="date" name="room_available_from4"
+                                                        id="room_available_from4">
+                                                </div>
+                                            </div>
 
                                         </fieldset>
                                         <fieldset class="form_room_fieldset" id="room5" style="display: none;">
 
                                             <legend> Room 5 </legend>
 
+                                            <input type="hidden" name="service_charge_room5" id="service_charge_room5">
                                             <div class="form_row form_row_cost ">
                                                 <div class="form_label"> Cost of room </div>
                                                 <div class="form_inputs">
@@ -826,14 +947,14 @@
                                             <div class="form_row form_row_avail_from ">
                                                 <div class="form_label"> Available from </div>
                                                 <div class="form_inputs">
-                                                    <input type="date" name="room_available_from"
-                                                        id="room_available_from">
+                                                    <input type="date" name="room_available_from5"
+                                                        id="room_available_from5">
                                                 </div>
                                             </div>
                                         </fieldset>
 
 
-                                        <div class="form_row form_row_avail_from ">
+                                        <div class="form_row form_row_avail_from" id="room_available_from_container">
                                             <div class="form_label"> Available from </div>
                                             <div class="form_inputs">
                                                 <input type="date" name="room_available_from"
@@ -986,7 +1107,7 @@
                     <button type="button" class="btn btn-primary prev-btn">
                         Previous
                     </button>
-                    <button type="button" class="btn btn-primary next-btn">Next</button>
+                    <button type="button" class="btn btn-primary next-btn" id="step_3_next_btn">Next</button>
                 </div>
 
 

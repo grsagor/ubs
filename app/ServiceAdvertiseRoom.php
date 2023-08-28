@@ -18,6 +18,7 @@ class ServiceAdvertiseRoom extends Model
 
     protected $fillable = [
         'reference_id',
+        'service_charge_room',
         'service_category_id',
         'sub_category_id',
         'child_category_id',
