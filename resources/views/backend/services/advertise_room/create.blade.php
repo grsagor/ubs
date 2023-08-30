@@ -1,13 +1,27 @@
+<style>
+    .next-prev-btn-container {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+    }
+</style>
 <script>
     $(document).ready(function() {
         $(".step:not(:first)").hide(); // Hide all steps except the first one
 
         $(".next-btn").click(function() {
-            $(this).parent().hide().next().show();
+            var parentDiv = $(this).parent();
+            if (parentDiv.hasClass('next-prev-btn-container')) {
+                var a = $(this).parent();
+                a.parent().hide().next().show();
+            } else {
+                $(this).parent().hide().next().show();
+            }
         });
 
         $(".prev-btn").click(function() {
-            $(this).parent().hide().prev().show();
+            var parentDiv = $(this).parent();
+            parentDiv.parent().hide().prev().show();
         });
     });
 
@@ -29,32 +43,35 @@
         $(".form_room_fieldset:not(#room1)").hide();
 
         // Show the selected number of additional rooms
-        $("#property_room_quantity").change(function() {
-            var selectedQuantity = parseInt($(this).val());
+        $("#step_2_next").click(function() {
 
-            // Hide all additional rooms
-            $(".form_room_fieldset:not(#room1)").hide();
-
-            // Show only the selected number of additional rooms
-            for (var i = 2; i <= selectedQuantity; i++) {
-                $("#room" + i).show();
+            var child_category = $('#child_category_id').val();
+            if (child_category == 1) {
+                var selectedQuantity = parseInt($('#property_room_quantity').val());
+                $(".form_room_fieldset:not(#room1)").hide();
+                for (var i = 2; i <= selectedQuantity; i++) {
+                    $("#room" + i).show();
+                }
+            } else {
+                var selectedQuantity = parseInt($('#property_size').val());
+                $(".form_room_fieldset:not(#room1)").hide();
+                for (var i = 2; i <= selectedQuantity; i++) {
+                    $("#room" + i).show();
+                }
             }
+
         });
 
 
 
         // Show the selected number of additional rooms
-        $("#property_size").change(function() {
-            var selectedQuantity = parseInt($(this).val());
-            //alert(selectedQuantity);
-            // Hide all additional rooms
-            $(".form_room_fieldset:not(#room1)").hide();
-
-            // Show only the selected number of additional rooms
-            for (var i = 2; i <= selectedQuantity; i++) {
-                $("#room" + i).show();
-            }
-        });
+        // $("#property_size").change(function() {
+        //     var selectedQuantity = parseInt($(this).val());
+        //     $(".form_room_fieldset:not(#room1)").hide();
+        //     for (var i = 2; i <= selectedQuantity; i++) {
+        //         $("#room" + i).show();
+        //     }
+        // });
 
     });
 
@@ -70,61 +87,61 @@
         var semi_double = @json($semi_double);
         var en_suite = @json($en_suite);
 
-        $(document).on('click','#step_3_next_btn', function(){
+        $(document).on('click', '#step_3_next_btn', function() {
             var size1 = $("input[name='room_size1']:checked").val();
             var size2 = $("input[name='room_size2']:checked").val();
             var size3 = $("input[name='room_size3']:checked").val();
             var size4 = $("input[name='room_size4']:checked").val();
             var size5 = $("input[name='room_size5']:checked").val();
             var child_category = $('#child_category_id').val();
-            if (child_category == 1 ) {
-                if(size1 == 1){
-                    $('#service_charge_room1').val(singleValue)
+            if (child_category == 1) {
+                if (size1 == 1) {
+                    $('#service_charge_room1').val(single)
                 }
-                if(size1 == 2){
+                if (size1 == 2) {
                     $('#service_charge_room1').val(double)
                 }
-                if(size1 == 3){
+                if (size1 == 3) {
                     $('#service_charge_room1').val(semi_double)
                 }
 
-                if(size1 == 1){
-                    $('#service_charge_room2').val(singleValue)
+                if (size2 == 1) {
+                    $('#service_charge_room2').val(single)
                 }
-                if(size1 == 2){
+                if (size2 == 2) {
                     $('#service_charge_room2').val(double)
                 }
-                if(size1 == 3){
+                if (size2 == 3) {
                     $('#service_charge_room2').val(semi_double)
                 }
 
-                if(size1 == 1){
-                    $('#service_charge_room3').val(singleValue)
+                if (size3 == 1) {
+                    $('#service_charge_room3').val(single)
                 }
-                if(size1 == 2){
+                if (size3 == 2) {
                     $('#service_charge_room3').val(double)
                 }
-                if(size1 == 3){
+                if (size3 == 3) {
                     $('#service_charge_room3').val(semi_double)
                 }
 
-                if(size1 == 1){
-                    $('#service_charge_room4').val(singleValue)
+                if (size4 == 1) {
+                    $('#service_charge_room4').val(single)
                 }
-                if(size1 == 2){
+                if (size4 == 2) {
                     $('#service_charge_room4').val(double)
                 }
-                if(size1 == 3){
+                if (size4 == 3) {
                     $('#service_charge_room4').val(semi_double)
                 }
 
-                if(size1 == 1){
-                    $('#service_charge_room5').val(singleValue)
+                if (size5 == 1) {
+                    $('#service_charge_room5').val(single)
                 }
-                if(size1 == 2){
+                if (size5 == 2) {
                     $('#service_charge_room5').val(double)
                 }
-                if(size1 == 3){
+                if (size5 == 3) {
                     $('#service_charge_room5').val(semi_double)
                 }
             }
@@ -367,8 +384,8 @@
                                             <div class="form-group">
                                                 <label for="custom_field1">My email address is<span
                                                         class="star">*</span></label>
-                                                <input class="form-control" name="property_email_address" type="text"
-                                                    id="property_email_address">
+                                                <input class="form-control" name="property_email_address"
+                                                    type="text" id="property_email_address">
                                                 <div class="form_hint">
                                                     (We'll keep this safe and not display it publicly)
                                                 </div>
@@ -509,8 +526,10 @@
 
                     <!-- End Step 2 -->
 
-                    <button type="button" class="btn btn-primary prev-btn">Previous</button>
-                    <button type="button" class="btn btn-primary next-btn">Next</button>
+                    <div class="next-prev-btn-container">
+                        <button type="button" class="btn btn-primary prev-btn">Previous</button>
+                        <button id="step_2_next" type="button" class="btn btn-primary next-btn">Next</button>
+                    </div>
 
                 </div>
 
@@ -540,7 +559,8 @@
 
                                         <fieldset class="form_room_fieldset" id="room1">
                                             <legend> Room 1 </legend>
-                                            <input type="hidden" name="service_charge_room1" id="service_charge_room1">
+                                            <input type="hidden" name="service_charge_room1"
+                                                id="service_charge_room1">
                                             <div class="form_row form_row_cost ">
                                                 <div class="form_label"> Cost of room </div>
                                                 <div class="form_inputs"> <span class="form_input form_text"> <span
@@ -556,12 +576,12 @@
                                             <div class="form_row form_row_room_size">
                                                 <div class="form_label"> Size of room </div>
                                                 <div class="form_inputs">
-                                                    <label class="form_input form_radio"> <input
-                                                            type="radio" name="room_size1" value=1> Single </label>
                                                     <label class="form_input form_radio"> <input type="radio"
-                                                            name="room_size1" value=2 checked=""> Double </label>
+                                                            name="room_size1" value=1> Single </label>
                                                     <label class="form_input form_radio"> <input type="radio"
-                                                            name="room_size1" value=3 checked=""> Semi-double </label>
+                                                            name="room_size1" value=2> Double </label>
+                                                    <label class="form_input form_radio"> <input type="radio"
+                                                            name="room_size1" value=3> Semi-double </label>
                                                 </div>
                                             </div>
                                             <div class="form_row form_row_amenities">
@@ -570,7 +590,7 @@
                                                         <input type="checkbox" name="room_amenities1" value="Y">
                                                         En-suite <span class="form_hint">(tick if room has own toilet
                                                             and/or bath/shower)</span> </label>
-                                                        </div>
+                                                </div>
                                             </div>
                                             <div class="form_row form_row_amenities">
                                                 <div class="form_label"> Furnishings </div>
@@ -588,7 +608,8 @@
                                                             value="" step="any" min="0"> </span>
                                                 </div>
                                             </div>
-                                            <div class="form_row form_row_avail_from" id="room_available_from1_container">
+                                            <div class="form_row form_row_avail_from"
+                                                id="room_available_from1_container">
                                                 <div class="form_label"> Available from </div>
                                                 <div class="form_inputs">
                                                     <input type="date" name="room_available_from1"
@@ -602,7 +623,8 @@
 
                                             <legend> Room 2 </legend>
 
-                                            <input type="hidden" name="service_charge_room2" id="service_charge_room2">
+                                            <input type="hidden" name="service_charge_room2"
+                                                id="service_charge_room2">
 
                                             <div class="form_row form_row_cost ">
                                                 <div class="form_label"> Cost of room </div>
@@ -636,7 +658,7 @@
                                                         Double
                                                     </label>
                                                     <label class="form_input form_radio"> <input type="radio"
-                                                        name="room_size2" value=3 checked=""> Semi-double </label>
+                                                            name="room_size2" value=3> Semi-double </label>
                                                 </div>
                                             </div>
 
@@ -693,7 +715,8 @@
 
                                             <legend> Room 3 </legend>
 
-                                            <input type="hidden" name="service_charge_room3" id="service_charge_room3">
+                                            <input type="hidden" name="service_charge_room3"
+                                                id="service_charge_room3">
                                             <div class="form_row form_row_cost ">
                                                 <div class="form_label"> Cost of room </div>
                                                 <div class="form_inputs">
@@ -726,7 +749,7 @@
                                                         Double
                                                     </label>
                                                     <label class="form_input form_radio"> <input type="radio"
-                                                        name="room_size3 value=3 checked=""> Semi-double </label>
+                                                            name="room_size3" value=3> Semi-double </label>
                                                 </div>
                                             </div>
 
@@ -781,7 +804,8 @@
 
                                             <legend> Room 4 </legend>
 
-                                            <input type="hidden" name="service_charge_room4" id="service_charge_room4">
+                                            <input type="hidden" name="service_charge_room4"
+                                                id="service_charge_room4">
                                             <div class="form_row form_row_cost ">
                                                 <div class="form_label"> Cost of room </div>
                                                 <div class="form_inputs">
@@ -814,7 +838,7 @@
                                                         Double
                                                     </label>
                                                     <label class="form_input form_radio"> <input type="radio"
-                                                        name="room_size4" value=3 checked=""> Semi-double </label>
+                                                            name="room_size4" value=3> Semi-double </label>
                                                 </div>
                                             </div>
 
@@ -869,7 +893,8 @@
 
                                             <legend> Room 5 </legend>
 
-                                            <input type="hidden" name="service_charge_room5" id="service_charge_room5">
+                                            <input type="hidden" name="service_charge_room5"
+                                                id="service_charge_room5">
                                             <div class="form_row form_row_cost ">
                                                 <div class="form_label"> Cost of room </div>
                                                 <div class="form_inputs">
@@ -902,7 +927,7 @@
                                                         Double
                                                     </label>
                                                     <label class="form_input form_radio"> <input type="radio"
-                                                        name="room_size5" value=3 checked=""> Semi-double </label>
+                                                            name="room_size5" value=3> Semi-double </label>
                                                 </div>
                                             </div>
 
@@ -1103,11 +1128,10 @@
                     </div>
                     <!-- End Step 3 -->
 
-
-                    <button type="button" class="btn btn-primary prev-btn">
-                        Previous
-                    </button>
+                    <div class="next-prev-btn-container">
+                    <button type="button" class="btn btn-primary prev-btn">Previous</button>
                     <button type="button" class="btn btn-primary next-btn" id="step_3_next_btn">Next</button>
+                    </div>
                 </div>
 
 
@@ -1430,10 +1454,10 @@
                         </div>
                     </div>
                     <!-- End Step 4 -->
-                    <button type="button" class="btn btn-primary prev-btn">
-                        Previous
-                    </button>
-                    <button type="button" class="btn btn-primary next-btn">Next</button>
+                    <div class="next-prev-btn-container">
+                        <button type="button" class="btn btn-primary prev-btn">Previous</button>
+                        <button type="button" class="btn btn-primary next-btn">Next</button>
+                    </div>
                 </div>
 
                 <!-- Step 5 -->
@@ -1631,11 +1655,10 @@
                     <!-- End Step 5 -->
 
 
-
-                    <button type="button" class="btn btn-primary prev-btn">
-                        Previous
-                    </button>
-                    <button type="button" class="btn btn-primary next-btn">Next</button>
+                    <div class="next-prev-btn-container">
+                        <button type="button" class="btn btn-primary prev-btn">Previous</button>
+                        <button type="button" class="btn btn-primary next-btn">Next</button>
+                    </div>
                 </div>
 
                 <!-- Step 6 -->
@@ -1747,24 +1770,22 @@
 
                     </div>
                     <!-- End Step 6 -->
-                    <button type="button" class="btn btn-primary prev-btn">
-                        Previous
-                    </button>
-
-
-                    @auth
-                        @php
-                            $userId = auth()->id();
-                        @endphp
-                    @endauth
-                    <input type="hidden" name="user_id" value="{{ $userId }}">
-                    <button type="submit" class="btn btn-success">Submit</button>
+                    <div class="next-prev-btn-container">
+                        <button type="button" class="btn btn-primary prev-btn">Previous</button>
+                        @auth
+                            @php
+                                $userId = auth()->id();
+                            @endphp
+                        @endauth
+                        <input type="hidden" name="user_id" value="{{ $userId }}">
+                        <button type="submit" class="btn btn-success">Submit</button>
+                    </div>
                 </div>
             </form>
         </div>
 
         <div class="modal-footer">
-            <input type="submit" class="btn btn-primary">
+            {{-- <input type="submit" class="btn btn-primary"> --}}
             <button type="button" class="btn btn-default" data-dismiss="modal">@lang('messages.close')</button>
         </div>
     </div><!-- /.modal-content -->

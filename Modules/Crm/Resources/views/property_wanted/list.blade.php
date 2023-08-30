@@ -8,9 +8,9 @@
             <small>Tell what you want</small>
         </h1>
         <!-- <ol class="breadcrumb">
-                            <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
-                            <li class="active">Here</li>
-                        </ol> -->
+                                <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
+                                <li class="active">Here</li>
+                            </ol> -->
     </section>
 
     <!-- Main content -->
@@ -36,9 +36,39 @@
             </div>
         @endcomponent
 
-        <div class="modal fade room_to_rent_add_modal" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel">
+        <div class="modal fade room_to_rent_add_modal" role="dialog" aria-labelledby="gridSystemModalLabel">
         </div>
         <div class="modal fade location_edit_modal" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel">
+        </div>
+
+        <!-- Modal -->
+        <div id="myModal" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Select Sports</h5>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="text" id="searchBar" class="form-control" placeholder="Search sports...">
+                        <ul id="sportsList" class="list-group">
+                            <li class="list-group-item">Football</li>
+                            <li class="list-group-item">Basketball</li>
+                            <li class="list-group-item">Tennis</li>
+                            <li class="list-group-item">Cricket</li>
+                            <li class="list-group-item">Baseball</li>
+                            <li class="list-group-item">Hockey</li>
+                            <li class="list-group-item">Soccer</li>
+                            <li class="list-group-item">Golf</li>
+                            <li class="list-group-item">Badminton</li>
+                            <li class="list-group-item">Volleyball</li>
+                        </ul>
+                    </div>
+                    <div class="modal-footer">
+                        <button id="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </div>
+            </div>
         </div>
 
     </section>
@@ -67,5 +97,40 @@
                 ]
             });
         });
+
+
+        $(document).ready(function() {
+            $(document).on('click', '#openModal', function() {
+                $('#myModal').css('display', 'block');
+                $('#myModal').modal('show');
+            });
+
+            // Close the modal
+            $('.close').click(function() {
+                $('#myModal').modal('hide');
+            });
+
+            // Submit button click event
+            $('#submit').click(function() {
+                // Get the selected sports
+                var selectedSports = [];
+                $('#sportsList .list-group-item.active').each(function() {
+                    selectedSports.push($(this).text());
+                });
+                console.log(selectedSports)
+                // Display the selected sports in the UI
+                $('#selectedSports').html('Selected Sports: ' + selectedSports.join(', '));
+                var inputField = $('<input>')
+                    .attr('type', 'hidden')
+                    .attr('name', 'selectedSports')
+                    .val(JSON.stringify(selectedSports));
+                $('#property_wanted_form').append(inputField);
+
+
+                // Hide the modal
+                $('#myModal').css('display', 'none');
+                $('.modal-backdrop.fade.in').eq(1).remove();
+            });
+        })
     </script>
 @endsection

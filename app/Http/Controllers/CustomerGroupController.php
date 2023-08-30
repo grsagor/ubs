@@ -7,6 +7,7 @@ use App\SellingPriceGroup;
 use App\Utils\Util;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
+use App\System;
 
 class CustomerGroupController extends Controller
 {
@@ -60,6 +61,11 @@ class CustomerGroupController extends Controller
         }
 
         return view('customer_group.index');
+    }
+
+    public function getRegister()
+    {
+        return view('customer_group.register');
     }
 
     /**

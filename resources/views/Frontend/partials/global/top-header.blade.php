@@ -260,7 +260,7 @@
                             class="has-dropdown d-flex align-items-center text-white text-decoration-none">
                             <select name="currency" class="currency selectors nice">
                                 @foreach (DB::table('currencies')->get() as $currency)
-                                    <option value="{{ url('/front_currency', $currency->id) }}"
+                                    <option value="{{ url('/front_currency', $currency->id) }}">
                                         {{-- {{ Session::has('currency')? (Session::get('currency') == $currency->id? 'selected': ''): (DB::table('currencies')->where('is_default', '=', 1)->first()->id == $currency->id? 'selected': '') }}> --}}
                                         {{-- <span class="text-dark">{{ Session::has('currency')? DB::table('currencies')->where('id', '=', Session::get('currency'))->first()->sign: DB::table('currencies')->where('is_default', '=', 1)->first()->sign }}</span> --}}
                                         {{-- {{$currency->sign}} --}}
@@ -271,8 +271,8 @@
                         </a>
                     </div>
                     <div class="sign-in my-account-dropdown position-relative">
-                        <a href="my-account.html"
-                            class="has-dropdown d-flex align-items-center text-white text-decoration-none">
+                        <a href="{{ url('login') }}"
+                            class="d-flex align-items-center text-white text-decoration-none">
                             @if (Auth::check())
                                 <img class="img-fluid user lazy"
                                     data-src="{{ asset('assets/images/users/' . Auth::user()->photo) }}"

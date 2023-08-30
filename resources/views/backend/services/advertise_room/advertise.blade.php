@@ -31,8 +31,14 @@
                 <table class="table table-bordered table-striped" id="room_to_rent_share_table">
                     <thead>
                         <tr>
-                            <th>Name</th>
                             <th>Action</th>
+                            <th>Reference No</th>
+                            <th>Shop</th>
+                            <th>Category</th>
+                            <th>Sub-category</th>
+                            <th>Child-category</th>
+                            <th>Status</th>
+                            <th>Booked by</th>
                         </tr>
                     </thead>
                 </table>
@@ -58,16 +64,15 @@
                 bPaginate: false,
                 buttons: [],
                 ajax: '/service-advertise',
-                columns: [{
-                        data: 'property_postcode',
-                        name: 'property_postcode'
-                    },
-                    {
-                        data: 'action',
-                        name: 'action',
-                        orderable: false,
-                        searchable: false
-                    },
+                columns: [
+                    { data: 'action', name: 'action', orderable: false, searchable: false },
+                    { data: 'reference_id', name: 'reference_id' },
+                    { data: 'action', name: 'action' },
+                    { data: 'action', name: 'action' },
+                    { data: 'action', name: 'action' },
+                    { data: 'action', name: 'action' },
+                    { data: 'action', name: 'action' },
+                    { data: 'action', name: 'action' },
                 ]
             });
         });

@@ -905,35 +905,7 @@
 
     </div><!-- /.modal-content -->
 </div><!-- /.modal-dialog -->
-<!-- Modal -->
-<div id="myModal" class="modal fade">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Select Sports</h5>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-            </div>
-            <div class="modal-body">
-                <input type="text" id="searchBar" class="form-control" placeholder="Search sports...">
-                <ul id="sportsList" class="list-group">
-                    <li class="list-group-item">Football</li>
-                    <li class="list-group-item">Basketball</li>
-                    <li class="list-group-item">Tennis</li>
-                    <li class="list-group-item">Cricket</li>
-                    <li class="list-group-item">Baseball</li>
-                    <li class="list-group-item">Hockey</li>
-                    <li class="list-group-item">Soccer</li>
-                    <li class="list-group-item">Golf</li>
-                    <li class="list-group-item">Badminton</li>
-                    <li class="list-group-item">Volleyball</li>
-                </ul>
-            </div>
-            <div class="modal-footer">
-                <button id="submit" class="btn btn-primary">Submit</button>
-            </div>
-        </div>
-    </div>
-</div>
+
 
 <!-- Selected sports will be displayed here -->
 </div>
@@ -1071,26 +1043,7 @@
             $('#myModal').modal('hide');
         });
 
-        // Submit button click event
-        $('#submit').click(function() {
-            // Get the selected sports
-            var selectedSports = [];
-            $('#sportsList .list-group-item.active').each(function() {
-                selectedSports.push($(this).text());
-            });
-            console.log(selectedSports)
-            // Display the selected sports in the UI
-            $('#selectedSports').html('Selected Sports: ' + selectedSports.join(', '));
-            var inputField = $('<input>')
-                .attr('type', 'hidden')
-                .attr('name', 'selectedSports')
-                .val(JSON.stringify(selectedSports));
-            $('#property_wanted_form').append(inputField);
-
-
-            // Hide the modal
-            $('#myModal').modal('hide');
-        });
+        
 
         // Search functionality
         $('#searchBar').keyup(function() {

@@ -244,7 +244,7 @@
                         </a>
                     </div>
                     <div class="sign-in position-relative font-general my-account-dropdown ms-2">
-                        <a href="my-account.html"
+                        <a href="{{ url('login') }}"
                             class="has-dropdown d-flex align-items-center text-dark text-decoration-none"
                             title="My Account">
                             @if (Auth::check())

@@ -110,29 +110,29 @@
                                                     <input type="hidden" name="bill" value="{{ $service_charge }}">
                                                     <ul class="room-list">
                                                         <li class="room-list__room">
-                                                            @if ($room_data->room_cost_of_amount1)
+                                                            @if ($room_data->service_charge_room1)
                                                                 <input type="radio" id="room1"
-                                                                    value="{{ $room_data->room_cost_of_amount1 }}">
+                                                                    value="{{ $room_data->service_charge_room1 }}">
                                                                 <strong class="room-list__price">&pound;
-                                                                    {{ $room_data->room_cost_of_amount1 }} pcm</strong>
+                                                                    {{ $room_data->service_charge_room1 }} pcm</strong>
                                                                 <small>(Room 1)</small>
                                                             @endif
                                                         </li>
                                                         <li class="room-list__room">
-                                                            @if ($room_data->room_cost_of_amount2)
+                                                            @if ($room_data->service_charge_room2)
                                                                 <input type="radio" id="room2"
-                                                                    value="{{ $room_data->room_cost_of_amount2 }}">
+                                                                    value="{{ $room_data->service_charge_room2 }}">
                                                                 <strong class="room-list__price">&pound;
-                                                                    {{ $room_data->room_cost_of_amount2 }} pcm</strong>
+                                                                    {{ $room_data->service_charge_room2 }} pcm</strong>
                                                                 <small>(Room 2)</small>
                                                             @endif
                                                         </li>
                                                         <li class="room-list__room">
-                                                            @if ($room_data->room_cost_of_amount3)
+                                                            @if ($room_data->service_charge_room3)
                                                                 <input type="radio" id="room3"
-                                                                    value="{{ $room_data->room_cost_of_amount3 }}">
+                                                                    value="{{ $room_data->service_charge_room3 }}">
                                                                 <strong class="room-list__price">&pound;
-                                                                    {{ $room_data->room_cost_of_amount3 }} pcm</strong>
+                                                                    {{ $room_data->service_charge_room3 }} pcm</strong>
                                                                 <small>(Room 3)</small>
                                                             @endif
                                                         </li>
