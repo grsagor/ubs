@@ -28,8 +28,11 @@
                 <table class="table table-bordered table-striped" id="room_to_rent_share_table">
                     <thead>
                         <tr>
-                            <th>Name</th>
                             <th>Action</th>
+                            <th>Name</th>
+                            <th>Who</th>
+                            <th>Why</th>
+                            <th>Room size</th>
                         </tr>
                     </thead>
                 </table>
@@ -84,16 +87,12 @@
                 bPaginate: false,
                 buttons: [],
                 ajax: '/contact/property-wanted',
-                columns: [{
-                        data: 'ad_title',
-                        name: 'ad_title'
-                    },
-                    {
-                        data: 'action',
-                        name: 'action',
-                        orderable: false,
-                        searchable: false
-                    },
+                columns: [
+                    { data: 'action', name: 'action', orderable: false, searchable: false },
+                    { data: 'ad_title', name: 'ad_title' },
+                    { data: 'who_is_searching', name: 'who_is_searching' },
+                    { data: 'why_is_searching', name: 'why_is_searching' },
+                    { data: 'room_size', name: 'room_size' },
                 ]
             });
         });

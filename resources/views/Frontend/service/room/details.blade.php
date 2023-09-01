@@ -183,6 +183,23 @@
 
 
                                         </div>
+
+                                        <div>
+                                            @foreach ($roomArray as $i => $item)
+                                                <div>
+                                                    <h4>Details of Room-{{ $i + 1 }}</h4>
+                                                    <p><strong>Cost of roomo: </strong>{{ $item['room_cost_of_amount'] }}</p>
+                                                    <p><strong>Time: </strong>{{ $item['room_cost_time'] }}</p>
+                                                    <p><strong>Size of room: </strong>{{ $item['room_size'] }}</p>
+                                                    <p><strong>Room amenities: </strong>{{ $item['room_amenities'] }}</p>
+                                                    <p><strong>Room furnishings: </strong>{{ $item['room_furnishings'] }}</p>
+                                                    <p><strong>Room security deposit: </strong>{{ $item['room_security_deposit'] }}</p>
+                                                    <p><strong>The room is available from: </strong>{{ $item['room_available_from'] }}</p>
+                                                    <p><strong>Service charge of the room: </strong>{{ $item['service_charge_room'] }}</p>
+                                                </div>
+                                            @endforeach
+                                        </div>
+
                                         <div class="yith-wcwl-add-to-wishlist wishlist-fragment mt-3">
                                             <div class="wishlist-button">
                                                 <a class="add_to_wishlist" href="">Wishlist</a>

@@ -255,21 +255,21 @@
                     </div>
                   
 
-                    <div class="sign-in my-account-dropdown position-relative">
+                    {{-- <div class="sign-in my-account-dropdown position-relative">
                         <a href="my-account.html"
                             class="has-dropdown d-flex align-items-center text-white text-decoration-none">
                             <select name="currency" class="currency selectors nice">
                                 @foreach (DB::table('currencies')->get() as $currency)
-                                    <option value="{{ url('/front_currency', $currency->id) }}">
+                                    <option value="{{ url('/front_currency', $currency->id) }}"> --}}
                                         {{-- {{ Session::has('currency')? (Session::get('currency') == $currency->id? 'selected': ''): (DB::table('currencies')->where('is_default', '=', 1)->first()->id == $currency->id? 'selected': '') }}> --}}
                                         {{-- <span class="text-dark">{{ Session::has('currency')? DB::table('currencies')->where('id', '=', Session::get('currency'))->first()->sign: DB::table('currencies')->where('is_default', '=', 1)->first()->sign }}</span> --}}
                                         {{-- {{$currency->sign}} --}}
                                         {{-- {{ $currency->name }} --}}
-                                    </option>
+                                    {{-- </option>
                                 @endforeach
                             </select>
                         </a>
-                    </div>
+                    </div> --}}
                     <div class="sign-in my-account-dropdown position-relative">
                         <a href="{{ url('login') }}"
                             class="d-flex align-items-center text-white text-decoration-none">
@@ -306,7 +306,7 @@
                                <i class="flaticon-search flat-mini text-dark mx-auto"></i>
                            </a>
                        </div> --}}
-                    <div class="header-cart-1">
+                    {{-- <div class="header-cart-1">
                         @if (Auth::check())
                             <a href="" class="cart " title="View Wishlist">
                                 <div class="cart-icon"><i class="flaticon-like flat-mini mx-auto text-dark"></i> <span
@@ -320,8 +320,8 @@
                                 </div>
                             </a>
                         @endif
-                    </div>
-
+                    </div> --}}
+{{-- 
                     <div class="header-cart-1">
                         <a href="{{ url('product_compare') }}" class="cart " title="Compare">
                             <div class="cart-icon"><i class="flaticon-shuffle flat-mini mx-auto text-dark"></i> <span
@@ -329,9 +329,9 @@
                                     id="compare-count">{{ Session::has('compare') ? count(Session::get('compare')->items) : '0' }}</span>
                             </div>
                         </a>
-                    </div>
+                    </div> --}}
 
-                    <div class="header-cart-1">
+                    {{-- <div class="header-cart-1">
                         <a href="{{ url('front_cart') }}" class="cart has-cart-data" title="View Cart">
                             <div class="cart-icon"><i class="flaticon-shopping-cart flat-mini"></i> <span
                                     class="header-cart-count"
@@ -342,9 +342,9 @@
                                 <span
                                     class="header-cart-count">{{ Session::has('cart') ? count(Session::get('cart')->items) : '0' }}</span>
                             </div>
-                        </a>
+                        </a> --}}
                         {{-- @include('load.cart') --}}
-                    </div>
+                    {{-- </div> --}}
 
                 </div>
             </div>

@@ -20,7 +20,7 @@ class PropertyWantedController extends Controller
     {
         $user = Auth::user();
         $services = ServicePropertyWanted::where('user_id',$user->id)->get();
-        // return $services;
+        return $services;
         if (!auth()->user()->can('business_settings.access')) {
             abort(403, 'Unauthorized action.');
         }

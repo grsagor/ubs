@@ -4,10 +4,15 @@ namespace App\Http\Controllers;
 
 use App\CustomerGroup;
 use App\SellingPriceGroup;
+use App\User;
 use App\Utils\Util;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 use App\System;
+use Illuminate\Auth\Events\Registered;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 class CustomerGroupController extends Controller
 {
@@ -66,6 +71,32 @@ class CustomerGroupController extends Controller
     public function getRegister()
     {
         return view('customer_group.register');
+    }
+
+    public function postRegister(Request $request){
+        $validator = $this->validator($request->all())->validate();
+
+        event(new Registered($user = $this->userCreate($request->all())));
+        // Auth::login($user);
+        return redirect(url('login'))->with('success','Register successfully');
+    }
+
+    protected function validator(array $data){
+        return Validator::make($data, [
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'min:5', 'confirmed'],
+            'contact_number' => ['required', 'string', 'min:1', 'max:20', 'unique:users']
+        ]);
+    }
+
+    protected function userCreate(array $data){
+        return User::create([
+            'user_type' => 'user_customer',
+            'email' => $data['email'],
+            'username' => $data['username'],
+            'contact_no' => $data['contact_number'],
+            'password' => Hash::make($data['password']),
+        ]);
     }
 
     /**

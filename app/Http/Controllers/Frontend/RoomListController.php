@@ -44,6 +44,27 @@ class RoomListController extends Controller
         $data['service_charge'] = ServiceCharge::where([['category_id',$data['info']->service_category_id],['sub_category_id',$data['info']->sub_category_id],['child_category',$data['info']->child_category_id]])->first()->service_charge;
         $data['user_info']              = Media::where('uploaded_by', $data['info']->user_id)
             ->where('model_type', 'App\\User')->first();
+        $room = json_decode($data['info']->room);
+
+        $result = [];
+for ($i = 1; $i <= 5; $i++) {
+    $serviceCharge = $room->{'service_charge_room' . $i};
+    if ($serviceCharge !== null) {
+        $result[] = [
+            'room_cost_of_amount' => $room->{'room_cost_of_amount' . $i},
+            'room_cost_time' => $room->{'room_cost_time' . $i},
+            'room_size' => $room->{'room_size' . $i},
+            'room_amenities' => $room->{'room_amenities' . $i},
+            'room_furnishings' => $room->{'room_furnishings' . $i},
+            'room_security_deposit' => $room->{'room_security_deposit' . $i},
+            'room_available_from' => $room->{'room_available_from' . $i},
+            'service_charge_room' => $room->{'service_charge_room' . $i},
+        ];
+    }
+}
+
+$data['roomArray'] = $result;
+
         return view('frontend.service.room.details', $data);
     }
 

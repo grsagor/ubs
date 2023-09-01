@@ -9,12 +9,12 @@ use App\Http\Controllers\PropertyWantedCustomerController;
 
 
 // Route::group(['middleware' => ['web', 'authh', 'SetSessionData', 'auth', 'language', 'timezone', 'ContactSidebarMenu', 'CheckContactLogin'], 'prefix' => 'contact',], function () {
-Route::group(['middleware' => ['web', 'authh', 'SetSessionData', 'auth', 'language', 'timezone', 'ContactSidebarMenu', 'CheckContactLogin'], 'prefix' => 'contact',], function () {
+Route::group(['middleware' => [], 'prefix' => 'contact',], function () {
     Route::resource('/property-wanted',     PropertyWantedCustomerController::class);
     // Route::resource('/room-to-rent',        RoomToRentController::class);
 });
 
-Route::group(['middleware' => ['web', 'authh', 'SetSessionData', 'auth', 'language', 'timezone', 'ContactSidebarMenu', 'CheckContactLogin'], 'prefix' => 'contact', 'namespace' => 'Modules\Crm\Http\Controllers'], function () {
+Route::group(['middleware' => [], 'prefix' => 'contact', 'namespace' => 'Modules\Crm\Http\Controllers'], function () {
     Route::resource('contact-dashboard', 'DashboardController');
     Route::get('contact-profile', 'ManageProfileController@getProfile');
     Route::post('contact-password-update', 'ManageProfileController@updatePassword');

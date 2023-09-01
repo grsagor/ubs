@@ -153,6 +153,7 @@ Route::middleware(['setData'])->group(function () {
     Route::post('/business/register', [BusinessController::class, 'postRegister'])->name('business.postRegister');
 
     Route::get('/customer/register', [CustomerGroupController::class, 'getRegister'])->name('customer.getRegister');
+    Route::post('/customer/register', [CustomerGroupController::class, 'postRegister'])->name('customer.postRegister');
 
     Route::post('/business/register/check-username', [BusinessController::class, 'postCheckUsername'])->name('business.postCheckUsername');
     Route::post('/business/register/check-email', [BusinessController::class, 'postCheckEmail'])->name('business.postCheckEmail');

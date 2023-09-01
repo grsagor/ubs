@@ -52,7 +52,7 @@
         </div>
 
         <div class="modal-body">
-            <form action="{{ route('property-wanted.store') }}" id="property_wanted_form" method="POST"
+            <form action="{{ url('contact/property-wanted') }}" id="property_wanted_form" method="POST"
                 enctype="multipart/form-data">
                 @csrf
                 <div id="showingbtn1" class="row">

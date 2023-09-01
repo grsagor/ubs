@@ -1442,7 +1442,7 @@ class Util
 
         $business = session()->has('business') ? session('business') : Business::find($business_id);
 
-        date_default_timezone_set($business->time_zone);
+        // date_default_timezone_set($business->time_zone);
 
         $activity = activity()
             ->performedOn($on)
