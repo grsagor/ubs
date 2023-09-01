@@ -84,6 +84,9 @@
                                                 </div>
                                             </figure>
                                         </div>
+                                        <div>
+                                            <p>{!! $info->advert_description !!}</p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -93,7 +96,7 @@
                                     <div class="summary-inner">
 
                                         <h1 class="product_title entry-title">{{ $info->advert_title }}</h1>
-                                        <p class="product-title">{{ $info->advert_description }}</p>
+                                        {{-- <p class="product-title">{{ $info->advert_description }}</p> --}}
 
                                         <div class="pro-details">
 
@@ -155,7 +158,9 @@
                                                                         Number</h5>
                                                                 </div>
                                                                 <div class="modal-body">
-                                                                    <p>Please call <a href="callto:{{ $info->user->contact_no }}">{{ $info->user->contact_no }}</a> to get the reference id.</p>
+                                                                    <p>Please call <a
+                                                                            href="callto:{{ $info->user->contact_no }}">{{ $info->user->contact_no }}</a>
+                                                                        to get the reference id.</p>
                                                                     <div class="mb-3">
                                                                         <input type="text" class="form-control"
                                                                             id="inputName" name="reference_number"
@@ -167,7 +172,8 @@
                                                                 <div class="modal-footer">
                                                                     <button type="button" class="btn btn-secondary"
                                                                         data-bs-dismiss="modal">Close</button>
-                                                                    <button type="submit" class="btn btn-primary">Buy</button>
+                                                                    <button type="submit"
+                                                                        class="btn btn-primary">Buy</button>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -182,37 +188,6 @@
 
 
 
-                                        </div>
-
-                                        <div>
-                                            @foreach ($roomArray as $i => $item)
-                                                <div>
-                                                    <h4>Details of Room-{{ $i + 1 }}</h4>
-                                                    <p><strong>Cost of roomo: </strong>{{ $item['room_cost_of_amount'] }}</p>
-                                                    <p><strong>Time: </strong>{{ $item['room_cost_time'] }}</p>
-                                                    <p><strong>Size of room: </strong>{{ $item['room_size'] }}</p>
-                                                    <p><strong>Room amenities: </strong>{{ $item['room_amenities'] }}</p>
-                                                    <p><strong>Room furnishings: </strong>{{ $item['room_furnishings'] }}</p>
-                                                    <p><strong>Room security deposit: </strong>{{ $item['room_security_deposit'] }}</p>
-                                                    <p><strong>The room is available from: </strong>{{ $item['room_available_from'] }}</p>
-                                                    <p><strong>Service charge of the room: </strong>{{ $item['service_charge_room'] }}</p>
-                                                </div>
-                                            @endforeach
-                                        </div>
-
-                                        <div class="yith-wcwl-add-to-wishlist wishlist-fragment mt-3">
-                                            <div class="wishlist-button">
-                                                <a class="add_to_wishlist" href="">Wishlist</a>
-                                            </div>
-                                            <div class="compare-button">
-                                                <a class="compare button" href="">Compare</a>
-                                            </div>
-
-                                        </div>
-
-                                        <div class="report-area">
-                                            <a class="report-item" href="#"><i class="fas fa-flag"></i> Report This
-                                                Item </a>
                                         </div>
 
                                         <div class="my-4 social-linkss social-sharing a2a_kit a2a_kit_size_32"
@@ -251,6 +226,25 @@
                                                 </li>
                                             </ul>
 
+                                        </div>
+
+                                        <div class="yith-wcwl-add-to-wishlist wishlist-fragment mt-3">
+                                            <div class="wishlist-button">
+                                                <a class="add_to_wishlist" href="">Wishlist</a>
+                                            </div>
+                                            <div class="compare-button">
+                                                <a class="compare button" href="">Compare</a>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="report-area">
+                                            <a class="report-item" href="#"><i class="fas fa-flag"></i> Report This
+                                                Item </a>
+                                        </div>
+
+                                        <div>
+                                            <hr style="width: 100%;">
                                         </div>
 
                                         @if ($info->room_available_from)
@@ -293,8 +287,11 @@
                                                 <span>{{ $item }}, </span>
                                             @endforeach
                                         </p>
-
+<br>
                                         <h5>Current household</h5>
+                                        <div>
+                                            <hr style="width: 100%;">
+                                        </div>
                                         <p>
                                             <strong>Total rooms: </strong>
                                             {{ $info->property_room_quantity ?? '' }}
@@ -328,8 +325,11 @@
                                             {{ $info->exiting_flatmate_gender == 1 ? 'Male' : ($info->exiting_flatmate_gender == 2 ? 'Female' : 'Others') }}
                                         </p>
 
-
+<br>
                                         <h5>New flatmate preferences</h5>
+                                        <div>
+                                            <hr style="width: 100%;">
+                                        </div>
                                         <p>
                                             <strong>Couples OK: </strong>
                                             {{ $info->new_flatmate_couples == 1 ? 'Yes' : 'No' }}
@@ -366,6 +366,49 @@
                                             <strong>Language: </strong>
                                             {{ $info->new_flatmate_language ?? '' }}
                                         </p>
+                                        <br>
+                                        
+                                        <div>
+                                            <hr style="width: 100%;">
+                                        </div>
+                                        <div>
+                                            @foreach ($roomArray as $i => $item)
+                                                <div>
+                                                    <h4>Details of Room-{{ $i + 1 }}</h4>
+                                                    <p><strong>Rent: </strong>{{ $item['room_cost_of_amount'] }}</p>
+                                                    {{-- <p><strong>Time: </strong>{{ $item['room_cost_time'] }}</p> --}}
+                                                    <p><strong>Size of room: </strong>
+                                                        @if ($item['room_amenities'] == 'Y')
+                                                            En-suite
+                                                        @else
+                                                            @if ($item['room_size'] == 1)
+                                                                Single
+                                                            @endif
+                                                            @if ($item['room_size'] == 2)
+                                                                Double
+                                                            @endif
+                                                            @if ($item['room_size'] == 3)
+                                                                Semi-double
+                                                            @endif
+                                                        @endif
+                                                    </p>
+                                                    <p><strong>Room furnishings: </strong>
+                                                        @if ($item['room_furnishings'] == 1)
+                                                            Furnisihed
+                                                        @else
+                                                            Unfurnished
+                                                        @endif
+                                                    </p>
+                                                    <p><strong>Room security deposit:
+                                                        </strong>{{ $item['room_security_deposit'] }}</p>
+                                                    <p><strong>The room is available from:
+                                                        </strong>{{ $item['room_available_from'] }}</p>
+                                                    <p><strong>Service charge of the room:
+                                                        </strong>{{ $item['service_charge_room'] }} (If you want our
+                                                        dedicated rental processing service)</p>
+                                                </div>
+                                            @endforeach
+                                        </div>
 
                                     </div>
                                 </div>

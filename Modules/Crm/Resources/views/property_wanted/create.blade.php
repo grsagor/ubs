@@ -728,10 +728,10 @@
                         </div>
                     </div>
 
-                    <div class="col-sm-12">
+                    <div class="col-sm-12" style="margin-top: 15px;">
                         <div class="form-group">
-                            <label for="custom_field2">Your Interests</label>
-                            <button type="button" id="openModal" class="btn btn-primary">Add Interests</button>
+                            <label for="custom_field2">Your Interests</label><br>
+                            <button type="button" id="openModal" class="btn btn-primary">Select</button>
                         <div id="selectedSports"></div>
                         </div>
                     </div>
@@ -750,6 +750,10 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+
+                    <div class="col-sm-12 input_group_title_container">
+                        <h6>Your flatmate preference</h6>
                     </div>
 
                     <div class="col-sm-12">
@@ -891,14 +895,13 @@
                 <div class="d-none" style="display:none;" id="nextprev2">
                     <button id="prev2" type="button"
                         class="btn btn-primary float-none w-25 rounded-0 submit-btn ">Previous</button>
-                    <button style="margin-top: 0;" class="addProductSubmit-btn w-25"
-                        type="submit">{{ __('Create Shop') }}</button>
+                    <button style="margin-top: 0;" class="addProductSubmit-btn w-25 btn btn-success"
+                        type="submit">Submit</button>
                 </div>
             </form>
         </div>
 
         <div class="modal-footer">
-            <input type="submit" class="btn btn-primary">
             <button type="button" class="btn btn-default" data-dismiss="modal">@lang('messages.close')</button>
         </div>
 
@@ -983,7 +986,7 @@
         background-position: center !important;
     }
 
-    .addProductSubmit-btn {
+    /* .addProductSubmit-btn {
         background: #1f224f;
         width: 160px;
         height: 40px;
@@ -994,10 +997,20 @@
         -webkit-transition: all 0.3s ease-in;
         -o-transition: all 0.3s ease-in;
         transition: all 0.3s ease-in;
-    }
+    } */
 
     .check-container input[type="checkbox"] {
         background-color: black;
+    }
+
+    .input_group_title_container{
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+    }
+    .input_group_title_container h6{
+        font-size: 22px;
+        font-weight: bold;
     }
 </style>
 <script>
