@@ -12,6 +12,7 @@ use App\Http\Controllers\PropertyWantedCustomerController;
 Route::group(['middleware' => [], 'prefix' => 'contact',], function () {
     Route::resource('/property-wanted',     PropertyWantedCustomerController::class);
     Route::get('/show-occupants-details-inputs', [PropertyWantedCustomerController::class, 'showOccupantsDetailsInputs']);
+    Route::get('/show-room-details-inputs', [PropertyWantedCustomerController::class, 'showRoomDetailsInputs']);
 });
 
 Route::group(['middleware' => [], 'prefix' => 'contact', 'namespace' => 'Modules\Crm\Http\Controllers'], function () {

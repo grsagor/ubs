@@ -74,13 +74,13 @@ class ServiceAdvertiseRoomController extends Controller
         $data['category'] = $category;
         $data['sub_category'] = $sub_category;
         $data['child_categories'] = $child_categories;
-        $data['house'] = ServiceCharge::where('sub_category_id',2)->first()->service_charge;
-        $data['Flat'] = ServiceCharge::where('sub_category_id',6)->first()->service_charge;
-        $data['studio_flat'] = ServiceCharge::where('sub_category_id',9)->first()->service_charge;
-        $data['single'] = ServiceCharge::where([['sub_category_id',1],['size',['single']]])->first()->service_charge;
-        $data['double'] = ServiceCharge::where([['sub_category_id',1],['size',['double']]])->first()->service_charge;
-        $data['semi_double'] = ServiceCharge::where([['sub_category_id',1],['size',['semi-double']]])->first()->service_charge;
-        $data['en_suite'] = ServiceCharge::where([['sub_category_id',1],['size',['en-suite']]])->first()->service_charge;
+        $data['house'] = ServiceCharge::where('child_category',2)->first()->service_charge;
+        $data['Flat'] = ServiceCharge::where('child_category',6)->first()->service_charge;
+        $data['studio_flat'] = ServiceCharge::where('child_category',9)->first()->service_charge;
+        $data['single'] = ServiceCharge::where([['child_category',1],['size',['single']]])->first()->service_charge;
+        $data['double'] = ServiceCharge::where([['child_category',1],['size',['double']]])->first()->service_charge;
+        $data['semi_double'] = ServiceCharge::where([['child_category',1],['size',['semi-double']]])->first()->service_charge;
+        $data['en_suite'] = ServiceCharge::where([['child_category',1],['size',['en-suite']]])->first()->service_charge;
 
 
         //dd($data['child_categories']);

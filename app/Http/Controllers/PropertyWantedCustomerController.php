@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\ChildCategory;
+use App\ServiceCategory;
+use App\ServiceCharge;
+use App\SubCategory;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Traits\ImageFileUpload;
@@ -41,12 +45,37 @@ class PropertyWantedCustomerController extends Controller
 
     public function create()
     {
-        return view('crm::property_wanted.create');
+        $category = ServiceCategory::where('name','Property')->first();
+        $sub_category = SubCategory::where([['category_id',$category->id],['name','buy']])->first();
+        //$sub_category = SubCategory::where(['category_id',$category->id])->get();
+
+        $child_categories = ChildCategory::where([['category_id',$category->id],['sub_category_id',$sub_category->id],])->get();
+
+        $data = [];
+        $data['category'] = $category;
+        $data['sub_category'] = $sub_category;
+        $data['child_categories'] = $child_categories;
+        $data['house'] = ServiceCharge::where('child_category',2)->first()->service_charge;
+        $data['Flat'] = ServiceCharge::where('child_category',6)->first()->service_charge;
+        $data['studio_flat'] = ServiceCharge::where('child_category',9)->first()->service_charge;
+        $data['single'] = ServiceCharge::where([['child_category',1],['size',['single']]])->first()->service_charge;
+        $data['double'] = ServiceCharge::where([['child_category',1],['size',['double']]])->first()->service_charge;
+        $data['semi_double'] = ServiceCharge::where([['child_category',1],['size',['semi-double']]])->first()->service_charge;
+        $data['en_suite'] = ServiceCharge::where([['child_category',1],['size',['en-suite']]])->first()->service_charge;
+        return view('crm::property_wanted.create', $data);
     }
 
     public function showOccupantsDetailsInputs(Request $request) {
         $num = $request->num;
         $html = view('crm::property_wanted.show_occupants_details_inputs', compact('num'))->render();
+        $response = [
+            'html' => $html,
+        ];
+        return $response;
+    }
+    public function showRoomDetailsInputs(Request $request) {
+        $num = $request->num;
+        $html = view('crm::property_wanted.show_room_details_inputs', compact('num'))->render();
         $response = [
             'html' => $html,
         ];
@@ -58,7 +87,7 @@ class PropertyWantedCustomerController extends Controller
 
     public function store(Request $request)
     {
-        // return $request;
+        return $request;
         try {
             $property                                 = new ServicePropertyWanted();
 
