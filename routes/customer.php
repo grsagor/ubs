@@ -11,7 +11,7 @@ use App\Http\Controllers\PropertyWantedCustomerController;
 // Route::group(['middleware' => ['web', 'authh', 'SetSessionData', 'auth', 'language', 'timezone', 'ContactSidebarMenu', 'CheckContactLogin'], 'prefix' => 'contact',], function () {
 Route::group(['middleware' => [], 'prefix' => 'contact',], function () {
     Route::resource('/property-wanted',     PropertyWantedCustomerController::class);
-    // Route::resource('/room-to-rent',        RoomToRentController::class);
+    Route::get('/show-occupants-details-inputs', [PropertyWantedCustomerController::class, 'showOccupantsDetailsInputs']);
 });
 
 Route::group(['middleware' => [], 'prefix' => 'contact', 'namespace' => 'Modules\Crm\Http\Controllers'], function () {

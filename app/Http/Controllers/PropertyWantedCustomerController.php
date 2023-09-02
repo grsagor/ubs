@@ -44,11 +44,21 @@ class PropertyWantedCustomerController extends Controller
         return view('crm::property_wanted.create');
     }
 
+    public function showOccupantsDetailsInputs(Request $request) {
+        $num = $request->num;
+        $html = view('crm::property_wanted.show_occupants_details_inputs', compact('num'))->render();
+        $response = [
+            'html' => $html,
+        ];
+        return $response;
+    }
+
 
 
 
     public function store(Request $request)
     {
+        // return $request;
         try {
             $property                                 = new ServicePropertyWanted();
 

@@ -56,7 +56,7 @@
                 enctype="multipart/form-data">
                 @csrf
                 <div id="showingbtn1" class="row">
-                    <div class="col-sm-12">
+                    {{-- <div class="col-sm-12">
                         <div class="form-group">
                             <label>Who's searching?:</label>
                             <div>
@@ -75,7 +75,7 @@
                                 <label for="meandafriend">Me and a friend</label>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                     <div class="col-sm-12">
                         <div class="form-group">
                             <label>Why is searching?</label>
@@ -97,6 +97,30 @@
                             </select>
                         </div>
                     </div>
+
+                    <div class="col-sm-12" id="number_of_shared_people_container">
+                        <div class="form-group">
+                            <label for="invoice_scheme_id">how many people will share the flat/house/room/studio flat?</label> 
+                            <select class="form-control" required="" id="number_of_shared_people" name="number_of_shared_people">
+                                <option selected>Select....</option>
+                                <option value=1>1</option>
+                                <option value=2>2</option>
+                                <option value=3>3</option>
+                                <option value=4>4</option>
+                                <option value=5>5</option>
+                                <option value=6>6</option>
+                                <option value=7>7</option>
+                                <option value=8>8</option>
+                                <option value=9>9</option>
+                                <option value=10>10</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div id="occupants_inputs_container">
+
+                    </div>
+
                     <div class="col-sm-12">
                         <div class="form-group">
                             <label>Room size</label>
@@ -758,11 +782,7 @@
 
                     <div class="col-sm-12">
                         <div class="form-group">
-                            <label for="selling_price_group_id">Gender</label> <i
-                                class="fa fa-info-circle text-info hover-q no-print " aria-hidden="true" data-container="body"
-                                data-toggle="popover" data-placement="auto bottom"
-                                data-content="This price group will be used as the default price group in this location."
-                                data-html="true" data-trigger="hover"></i>
+                            <label for="selling_price_group_id">Gender</label>
                             <select class="form-control" id="gender_req" name="gender_req">
                                 <option selected="" value="">Select
                                     ....</option>
@@ -986,19 +1006,6 @@
         background-position: center !important;
     }
 
-    /* .addProductSubmit-btn {
-        background: #1f224f;
-        width: 160px;
-        height: 40px;
-        color: #fff;
-        font-size: 14px;
-        border: 0px;
-        margin-top: 15px;
-        -webkit-transition: all 0.3s ease-in;
-        -o-transition: all 0.3s ease-in;
-        transition: all 0.3s ease-in;
-    } */
-
     .check-container input[type="checkbox"] {
         background-color: black;
     }
@@ -1056,8 +1063,6 @@
             $('#myModal').modal('hide');
         });
 
-        
-
         // Search functionality
         $('#searchBar').keyup(function() {
             var filter = $(this).val().toLowerCase();
@@ -1070,5 +1075,19 @@
             $(this).toggleClass('active');
             $(this).toggleClass('selected'); // Add 'selected' class to change background color
         });
+
+        $('#number_of_shared_people').change(function() {
+            var num = $(this).val();
+            $.ajax({
+                url: "/contact/show-occupants-details-inputs",
+                type: "get",
+                data: { num: num },
+                dataType: "json",
+                success: function(data) {
+                    $('#occupants_inputs_container').empty()
+                    $('#occupants_inputs_container').html(data.html)
+                }
+            });
+        })
     });
 </script>
