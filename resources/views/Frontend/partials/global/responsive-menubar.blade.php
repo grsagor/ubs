@@ -17,15 +17,14 @@
                             </li>
                             <li
                                 class="nav-item dropdown {{ request()->path() == '/service_category' ? 'active' : '' }}">
-                                <a class="nav-link dropdown-toggle"
-                                    href="{{ route('room.list') }}">Property</a>
+                                <a class="nav-link dropdown-toggle" href="{{ route('room.list') }}">Property</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('shop.list') }}">Shop</a>
                             </li>
-                            <li class="nav-item dropdown mega-dropdown">
+                            {{-- <li class="nav-item dropdown mega-dropdown">
                                 <a class="nav-link dropdown-toggle" href="{{ url('/category') }}">Product</a>
-                                {{-- <ul class="dropdown-menu mega-dropdown-menu">
+                                <ul class="dropdown-menu mega-dropdown-menu">
                                     <li class="mega-container">
                                         <div class="row row-cols-lg-4 row-cols-sm-2 row-cols-1">
 
@@ -48,25 +47,29 @@
 
                                         </div>
                                     </li>
-                                </ul> --}}
+                                </ul> 
+                            </li> --}}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('itSolutions') }}">{{ __('IT Solutions') }}</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="https://slippa.unipuller.uk">{{ __('IT Solutions') }}</a>
+                                <a class="nav-link"
+                                    href="{{ route('businessSolutions') }}">{{ __('Business Solutions') }}</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="https://ubs.unipuller.com/">{{ __('Business Solutions') }}</a>
+                                <a class="nav-link"
+                                    href="{{ route('digitalMarketing') }}">{{ __('Digital Marketing') }}</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="https://slippa.unipuller.uk">{{ __('Digital Marketing') }}</a>
+                                <a class="nav-link" href="https://shop.unipuller.com/"
+                                    target="__blank">{{ __('Domain & Hosting') }}</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="https://slippa.unipuller.uk">{{ __('Domain & Hosting') }}</a>
+                                <a class="nav-link"
+                                    href="{{ route('partnerBoarding') }}">{{ __('Partner Boarding') }}</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="https://slippa.unipuller.uk">{{ __('Partner Boarding') }}</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="https://ubs.unipuller.com/">{{ __('Sales Lead') }}</a>
+                                <a class="nav-link" href="{{ route('education.list') }}">Education</a>
                             </li>
                         </ul>
                     </div>

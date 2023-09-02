@@ -14,7 +14,7 @@
             <h2 class="text-dark text-center">Main Features</h2>
             <hr class="mx-auto">
         </div>
-        <div class="col-12 col-sm-6 col-lg-3 col-xl-3 col-md-6 buy-sell py-2">
+        {{-- <div class="col-12 col-sm-6 col-lg-3 col-xl-3 col-md-6 buy-sell py-2">
             <a href="#">
                 <div class="card">
                     <div class="card-body">
@@ -37,8 +37,8 @@
                 </div>
 
             </a>
-        </div>
-        <div class="col-12 col-sm-6 col-lg-3 col-xl-3 col-md-6 buy-sell py-2">
+        </div> --}}
+        {{-- <div class="col-12 col-sm-6 col-lg-3 col-xl-3 col-md-6 buy-sell py-2">
             <a href="#">
                 <div class="card">
                     <div class="card-body">
@@ -75,7 +75,7 @@
                 </div>
 
             </a>
-        </div>
+        </div> --}}
         <div class="col-12 col-sm-6 col-lg-3 col-xl-3 col-md-6 buy-sell py-2">
 
             <a href="">
@@ -91,13 +91,13 @@
                                 </div>
                             </div>
                         </div>
-                        <a href="" class="card-link mt-2">Show more details</a>
+                        <a href="{{ route('login') }}" class="card-link mt-2">Show more details</a>
                     </div>
                 </div>
             </a>
         </div>
         <div class="col-12 col-sm-6 col-lg-3 col-xl-3 col-md-6 buy-sell py-2">
-            <a href="#">
+            <a href="{{ route('education.list') }}">
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">Study Support</h5>
@@ -151,12 +151,12 @@
                                 </a>
                             </div>
                         </div>
-                        <a href="" class="card-link mt-2">Show more details</a>
+                        <a href="{{ route('education.list') }}" class="card-link mt-2">Show more details</a>
                     </div>
                 </div>
             </a>
         </div>
-        <div class="col-12 col-sm-6 col-lg-3 col-xl-3 col-md-6 buy-sell py-2">
+        {{-- <div class="col-12 col-sm-6 col-lg-3 col-xl-3 col-md-6 buy-sell py-2">
             <a href="#">
                 <div class="card">
                     <div class="card-body">
@@ -220,8 +220,8 @@
                 </div>
 
             </a>
-        </div>
-        <div class="col-12 col-sm-6 col-lg-3 col-xl-3 col-md-6 buy-sell py-2">
+        </div> --}}
+        {{-- <div class="col-12 col-sm-6 col-lg-3 col-xl-3 col-md-6 buy-sell py-2">
             <a href="#">
                 <div class="card">
                     <div class="card-body">
@@ -285,9 +285,9 @@
                 </div>
 
             </a>
-        </div>
+        </div> --}}
         <div class="col-12 col-sm-6 col-lg-3 col-xl-3 col-md-6 buy-sell py-2">
-            <a href="https://slippa.unipuller.uk">
+            <a href="https://shop.unipuller.com/" target="__blank">
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">Domain Hosting</h5>
@@ -300,7 +300,8 @@
                                 </div>
                             </div>
                         </div>
-                        <a href="https://slippa.unipuller.uk" class="card-link mt-2">Show more details</a>
+                        <a href="https://shop.unipuller.com/" target="__blank" class="card-link mt-2">Show more
+                            details</a>
                     </div>
                 </div>
             </a>
@@ -312,24 +313,20 @@
                         <h5 class="card-title">Search local companies</h5>
                         <div class="row">
 
-                            @foreach (range(1, 4) as $index)
+                            @foreach ($vendors as $item)
                                 <div class="col-6">
-                                    <a href="" class="text-decoration-none">
+                                    <a href="{{ route('shop.list') }}" class="text-decoration-none">
                                         <div class="card-item text-center">
                                             <img class="lazy img-fluid"
-                                                data-src="{{ asset('assets/common_img/vendor_profile.jpeg') }}"
+                                                data-src="{{ $item->logo ? asset('assets/images/categories/' . $item->logo) : asset('assets/common_img/vendor_profile.jpeg') }}"
                                                 alt="Product Image">
                                         </div>
                                         <p class="text-secondary card-text mb-2 text-center">
-
-                                            Vendor ShopName
-
+                                            {{ $item->name }}
                                         </p>
                                     </a>
-
                                 </div>
                             @endforeach
-
 
                         </div>
                         <a href="" class="card-link mt-2">Show more details</a>
