@@ -329,7 +329,7 @@
                             @endforeach
 
                         </div>
-                        <a href="" class="card-link mt-2">Show more details</a>
+                        <a href="{{ route('shop.list') }}" class="card-link mt-2">Show more details</a>
                     </div>
                 </div>
 

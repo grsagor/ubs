@@ -143,7 +143,9 @@ Route::middleware(['setData'])->group(function () {
     Route::get('/category/{category?}/{subcategory?}/{childcategory?}/{kind?}', [FrontendCategoryController::class, 'category'])->name('front.category');
 
     Route::get('/shop/list/{category?}/{country?}', [ShopController::class, 'shopList'])->name('shop.list');
-    Route::get('/shop/service/{id}', [ShopController::class, 'ShopService'])->name('shop.service');
+    Route::get('/shop/{id}', [ShopController::class, 'ShopService'])->name('shop.service');
+
+    Route::get('/shop/business/service/{id}', [ShopController::class, 'BusinessShopService'])->name('business.shop.service');
 
 
     // CATEGORY SECTION
