@@ -72,7 +72,20 @@
             <div class="col-sm-12">
                 <div class="form-group">
                     <label for="occupant_job">Do you have job?</label>
-                    <select class="form-control" id="occupant_job" name="occupant_job[]">
+                    <select onchange="showJobInfo({{ $i }})" class="form-control" id="occupant_job_{{ $i }}" name="occupant_job[]">
+                        <option selected="" value="">Select....</option>
+                        <option value="1">Yes</option>
+                        <option value="0">No</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div id="job_info_{{ $i }}" style="display: none">
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <label for="occupant_job_type">Job Type</label>
+                    <select class="form-control" id="occupant_job_type" name="occupant_job_type[]">
                         <option selected="" value="">Select....</option>
                         <option value="1">Part-time</option>
                         <option value="2">Full-time</option>
@@ -80,14 +93,14 @@
                     </select>
                 </div>
             </div>
-        </div>
-
-        <div class="col-sm-12">
-            <div class="form-group">
-                <label for="occupant_miat">Monthly income after tax</label>
-                <input class="form-control" name="occupant_miat[]" type="text" id="occupant_miat">
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <label for="occupant_miat">Monthly income after tax</label>
+                    <input class="form-control" name="occupant_miat[]" type="text" id="occupant_miat">
+                </div>
             </div>
         </div>
+
         <div class="col-sm-12">
             <div class="form-group">
                 <label for="occupant_pay_rent">Will he/she pay the rent?</label>
@@ -121,38 +134,18 @@
     function showStudentInfo(i) {
         var isStudent = $(`#occupant_occupation_${i}`).val();
         if (isStudent == 1) {
-            $(`#student_info_container_${i} input, #student_info_container_${i} select, #student_info_container_${i} textarea`)
-                .prop('disabled', false);
             $(`#student_info_container_${i}`).show();
         } else {
-            $(`#student_info_container_${i} input, #student_info_container_${i} select, #student_info_container_${i} textarea`)
-                .prop('disabled', true);
             $(`#student_info_container_${i}`).hide();
         }
     }
+
+    function showJobInfo(i){
+        var haveJob = $(`#occupant_job_${i}`).val();
+        if(haveJob == 1){
+            $(`#job_info_${i}`).show();
+        } else {
+            $(`#job_info_${i}`).hide();
+        }
+    }
 </script>
-
-{{-- 
-occupant_
-Name:
-Gender:
-Age: 
-Relationship: 1. Family (Family member if relation is Father/Mother/Son/Daughter/Brother/Sister/Husband/Wife)
-2.	Relatives: Uncle/ Aunty/Cousin/ Brother-in-law/ Sister-in-law 
-3.	Friends
-4.	Others 
-Occupation: Student/Employee/others
-University name: (if student)
-Degree name: (if student)
-Do you have job? (if student): Part-time/full-time/self-employed
-Monthly income after tax:
-Will he/she pay the rent? 
-Nationality:
-Visa status: (if nationality is not similar with property country)
-
-
-
-
-Visa expiry date: (if nationality is not similar with property country) (no need)
-
---}}
