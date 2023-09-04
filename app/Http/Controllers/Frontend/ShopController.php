@@ -60,6 +60,7 @@ class ShopController extends Controller
 
     public function BusinessShopService($id)
     {
+        // dd($id);
         $shop = BusinessLocation::where('business_id', $id)->get();
         $vendor = Business::where('id', $id)->first();
         // return $shop;
