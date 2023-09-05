@@ -127,10 +127,7 @@
                                                 aria-selected="true">{{ __('Menu') }}</a>
                                         </li>
                                         <li class="nav-item" role="presentation">
-                                            <a class="nav-link" id="pills-push-categories-tab" data-bs-toggle="pill"
-                                                href="#pills-push-categories" role="tab"
-                                                aria-controls="pills-push-categories"
-                                                aria-selected="true">{{ __('Categories') }}</a>
+                                            <a class="nav-link" href="{{ route('login') }}">Login/ Register</a>
                                         </li>
                                     </ul>
                                     <div class="tab-content" id="menu-and-categoryContent">
@@ -142,28 +139,58 @@
                                                         <a class="nav-link" href="{{ url('/') }}">Home</a>
                                                     </li>
                                                     <li class="nav-item">
-                                                        <a class="nav-link"
-                                                            href="{{ url('front/service_category') }}">{{ __('Service') }}</a>
+                                                        <a class="nav-link" href="{{ url('room-list') }}">Property</a>
                                                     </li>
                                                     <li class="nav-item">
-                                                        <a class="nav-link" href="{{ url('vendor_list') }}">Shop</a>
+                                                        <a class="nav-link" href="{{ url('/shop/list') }}">Shop</a>
                                                     </li>
-                                                    <li class="nav-item ">
+                                                    <li class="nav-item">
+                                                        <a class="nav-link" href="{{ url('/it-solutions') }}">It
+                                                            Solutions</a>
+                                                    </li>
+                                                    <li class="nav-item">
+                                                        <a class="nav-link"
+                                                            href="{{ url('/business-solutions') }}">Business
+                                                            Solutions</a>
+                                                    </li>
+                                                    <li class="nav-item">
+                                                        <a class="nav-link"
+                                                            href="{{ url('/digital-marketing') }}">Digital
+                                                            Marketing</a>
+                                                    </li>
+                                                    <li class="nav-item">
+                                                        <a class="nav-link" href="https://shop.unipuller.com/"
+                                                            target="__blank">Domain
+                                                            & Hosting</a>
+                                                    </li>
+                                                    <li class="nav-item">
+                                                        <a class="nav-link"
+                                                            href="{{ url('/partner-boarding') }}">Partner
+                                                            Boarding</a>
+                                                    </li>
+                                                    <li class="nav-item">
+                                                        <a class="nav-link"
+                                                            href="{{ url('/education-list') }}">Education</a>
+                                                    </li>
+
+
+
+                                                    {{-- <li class="nav-item ">
                                                         <a class="nav-link"
                                                             href="{{ url('front/category') }}">Product</a>
-                                                    </li>
-                                                    <li class="nav-item dropdown">
+                                                    </li> --}}
+                                                    {{-- <li class="nav-item dropdown">
                                                         <a class="nav-link dropdown-toggle"
                                                             href="#">{{ __('Pages') }}</a>
                                                         <ul class="dropdown-menu">
-                                                            {{-- @foreach (DB::table('pages')->where('language_id', 1)->where('header', '=', 1)->get() as $data)
+                                                            @foreach (DB::table('pages')->where('language_id', 1)->where('header', '=', 1)->get() as $data)
                                                                 <li><a class="dropdown-item"
                                                                         href="{{ route('front.vendor', $data->slug) }}">{{ $data->title }}</a>
                                                                 </li>
-                                                            @endforeach --}}
+                                                            @endforeach
                                                         </ul>
-                                                    </li>
-                                                    <li class="nav-item">
+                                                    </li> --}}
+                                                    {{-- <li class="nav-item">
                                                         <a class="nav-link" href="{{ url('front_blog') }}">Blog</a>
                                                     </li>
 
@@ -172,10 +199,9 @@
                                                     </li>
                                                     <li class="nav-item"><a class="nav-link"
                                                             href="{{ url('front_contact') }}">Contact</a>
-                                                    </li>
+                                                    </li> --}}
                                                 </ul>
-                                                <a href="{{ url('front/category') }}"
-                                                    class="p-20 d-block bg-secondary text-white text-uppercase font-600 hover-text-primary text-center">{{ __('Buy now!') }}</a>
+
                                             </div>
                                         </div>
                                         <div class="tab-pane fade" id="pills-push-categories" role="tabpanel"
