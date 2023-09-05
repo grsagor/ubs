@@ -59,6 +59,7 @@ use App\Http\Controllers\StockAdjustmentController;
 use App\Http\Controllers\BusinessLocationController;
 use App\Http\Controllers\Frontend\CatalogController;
 use App\Http\Controllers\LocationSettingsController;
+use App\Http\Controllers\Frontend\FrontendController;
 use App\Http\Controllers\Frontend\HomePageController;
 use App\Http\Controllers\Frontend\PropertyController;
 use App\Http\Controllers\Frontend\RoomListController;
@@ -70,14 +71,14 @@ use App\Http\Controllers\TransactionPaymentController;
 use App\Http\Controllers\Frontend\RoomWantedController;
 use App\Http\Controllers\PurchaseRequisitionController;
 use App\Http\Controllers\NotificationTemplateController;
-use App\Http\Controllers\SalesCommissionAgentController;
 
 // use App\Http\Controllers\DashboardConfiguratorController;    
 
-use App\Http\Controllers\DashboardConfiguratorController;
+use App\Http\Controllers\SalesCommissionAgentController;
 
 // use App\Http\Controllers\CombinedPurchaseReturnController;
 
+use App\Http\Controllers\DashboardConfiguratorController;
 use App\Http\Controllers\Backend\PropertyWantedController;
 use App\Http\Controllers\CombinedPurchaseReturnController;
 use App\Http\Controllers\Frontend\OtherServicesController;
@@ -123,9 +124,9 @@ Route::get('/room-list/category',              [RoomListController::class, 'room
 Route::get('/room-show/{id}',                   [RoomListController::class, 'roomShow'])->name('room_show');
 Route::put('/room-reference-number-check/{id}', [RoomListController::class, 'referenceNumberCheck'])->name('room.referenceNumberCheck');
 
-Route::get('/property-list',                    [PropertyController::class, 'propertyList'])->name('property.list');
-Route::get('/property-show/{id}',               [PropertyController::class, 'propertyShow'])->name('property_show');
-Route::put('/property-reference-number-check/{id}', [PropertyController::class, 'referenceNumberCheck'])->name('property.referenceNumberCheck');
+Route::get('/property-list',                            [PropertyController::class, 'propertyList'])->name('property.list');
+Route::get('/property-show/{id}',                       [PropertyController::class, 'propertyShow'])->name('property_show');
+Route::put('/property-reference-number-check/{id}',     [PropertyController::class, 'referenceNumberCheck'])->name('property.referenceNumberCheck');
 
 Route::get('/education-list', [EducationController::class, 'educationList'])->name('education.list');
 
@@ -133,6 +134,19 @@ Route::get('/education-list', [EducationController::class, 'educationList'])->na
 Route::get('/room-wanted', function () {
     return view('rough.room_wanted');
 });
+
+
+
+// FOOTER LINKS DETAIL SECTION
+Route::get('/about',            [FrontendController::class, 'footerDetails'])->name('footer.details.about');
+Route::get('/make-money',       [FrontendController::class, 'footerDetails'])->name('footer.details.make.money');
+Route::get('/our-services',     [FrontendController::class, 'footerDetails'])->name('footer.details.our.services');
+Route::get('/quick-links',      [FrontendController::class, 'footerDetails'])->name('footer.details.quick.links');
+Route::get('/policies',         [FrontendController::class, 'footerDetails'])->name('footer.details.policies');
+
+
+
+
 
 Route::middleware(['setData'])->group(function () {
     // Route::get('/', function () {
