@@ -1,7 +1,7 @@
 <?php
 include 'customer.php';
 
-use App\Http\Controllers\FrontendController;
+use App\Http\Controllers\FrontendController as PropertyFrontController;
 use App\Http\Controllers\Install;
 use App\Http\Controllers\Restaurant;
 use Illuminate\Support\Facades\Route;
@@ -118,7 +118,7 @@ Route::get('/property-finding-service',     [OtherServicesController::class, 'pr
 
 // Services
 
-Route::get('/property/{sub_category_id?}/{child_category_id?}', [FrontendController::class, 'roomList'])->name('property.list');
+Route::get('/property/{sub_category_id?}/{child_category_id?}', [PropertyFrontController::class, 'roomList'])->name('property.list');
 
 Route::get('/room-list/category',              [RoomListController::class, 'roomListCategory'])->name('room.list.category');
 
