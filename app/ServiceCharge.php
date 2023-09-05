@@ -15,4 +15,9 @@ class ServiceCharge extends Model
     {
         return ucfirst(strtolower($value));
     }
+
+    public function childCategory()
+    {
+        return $this->belongsTo(ChildCategory::class, 'child_category');
+    }
 }

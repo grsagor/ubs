@@ -31,7 +31,7 @@ class OtherServicesController extends Controller
     public function propertyFindingService()
     {
 
-        $data['service_charge'] = ServiceCharge::get();
+        $data['service_charge'] = ServiceCharge::with('childCategory')->get();
         // return  $data['service_charge'];
         return view('frontend.other_services.property_finding_service', $data);
     }

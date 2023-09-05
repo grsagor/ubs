@@ -69,7 +69,7 @@
 
                         @foreach ($service_charge as $item)
                             <tr>
-                                <td>{{ $item->size }}</td>
+                                <td>{{ $item->child_category == 1 ? $item->size : $item->childCategory->name }}</td>
                                 <td>£{{ $item->service_charge * 1.7 }}+VAT</td>
                                 <td>£{{ $item->service_charge }}+VAT</td>
                                 <td style="text-align: center;"> <a href="#" class="button-31">Add</a></td>
