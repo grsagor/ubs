@@ -72,13 +72,14 @@ class BusinessLocation extends Model
                     'account' => null,
                 ];
 
-                return [$item->id => [
-                    'data-receipt_printer_type' => $item->receipt_printer_type,
-                    'data-default_price_group' => ! empty($item->selling_price_group_id) && array_key_exists($item->selling_price_group_id, $price_groups) ? $item->selling_price_group_id : null,
-                    'data-default_payment_accounts' => json_encode($default_payment_accounts),
-                    'data-default_invoice_scheme_id' => $item->invoice_scheme_id,
-                    'data-default_invoice_layout_id' => $item->invoice_layout_id,
-                ],
+                return [
+                    $item->id => [
+                        'data-receipt_printer_type' => $item->receipt_printer_type,
+                        'data-default_price_group' => !empty($item->selling_price_group_id) && array_key_exists($item->selling_price_group_id, $price_groups) ? $item->selling_price_group_id : null,
+                        'data-default_payment_accounts' => json_encode($default_payment_accounts),
+                        'data-default_invoice_scheme_id' => $item->invoice_scheme_id,
+                        'data-default_invoice_layout_id' => $item->invoice_layout_id,
+                    ],
                 ];
             })->all();
 
@@ -115,11 +116,11 @@ class BusinessLocation extends Model
             return [];
         }
         $query = Variation::whereIn('variations.id', $this->featured_products)
-                                    ->join('product_locations as pl', 'pl.product_id', '=', 'variations.product_id')
-                                    ->join('products as p', 'p.id', '=', 'variations.product_id')
-                                    ->where('p.not_for_selling', 0)
-                                    ->with(['product_variation', 'product', 'media'])
-                                    ->select('variations.*');
+            ->join('product_locations as pl', 'pl.product_id', '=', 'variations.product_id')
+            ->join('products as p', 'p.id', '=', 'variations.product_id')
+            ->where('p.not_for_selling', 0)
+            ->with(['product_variation', 'product', 'media'])
+            ->select('variations.*');
 
         if ($check_location) {
             $query->where('pl.location_id', $this->id);
@@ -141,21 +142,21 @@ class BusinessLocation extends Model
     {
         $location = $this;
         $address_line_1 = [];
-        if (! empty($location->landmark)) {
+        if (!empty($location->landmark)) {
             $address_line_1[] = $location->landmark;
         }
-        if (! empty($location->city)) {
+        if (!empty($location->city)) {
             $address_line_1[] = $location->city;
         }
-        if (! empty($location->state)) {
+        if (!empty($location->state)) {
             $address_line_1[] = $location->state;
         }
-        if (! empty($location->zip_code)) {
+        if (!empty($location->zip_code)) {
             $address_line_1[] = $location->zip_code;
         }
         $address = implode(', ', $address_line_1);
         $address_line_2 = [];
-        if (! empty($location->country)) {
+        if (!empty($location->country)) {
             $address_line_2[] = $location->country;
         }
         $address .= '<br>';
@@ -164,22 +165,24 @@ class BusinessLocation extends Model
         return $address;
     }
 
-
-    public function services(){
-        return $this->hasMany('App\UserService','shop_id','id');
+    public function business()
+    {
+        return $this->belongsTo(Business::class, 'business_id');
     }
 
-    public function products(){
-        return $this->hasMany('App\Product','shop_id','id');
+    public function services()
+    {
+        return $this->hasMany('App\UserService', 'shop_id', 'id');
+    }
+
+    public function products()
+    {
+        return $this->hasMany('App\Product', 'shop_id', 'id');
     }
 
     // get 2 products for marketing
-    public function marketingProducts(){
-        return $this->hasMany('App\Product','shop_id','id');
+    public function marketingProducts()
+    {
+        return $this->hasMany('App\Product', 'shop_id', 'id');
     }
-
-
-
-    
-    
 }

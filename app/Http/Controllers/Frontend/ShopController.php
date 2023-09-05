@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Frontend;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Business;
+use App\Category;
 use App\BusinessLocation;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class ShopController extends Controller
 {
@@ -42,6 +43,7 @@ class ShopController extends Controller
 
     public function ShopService($id)
     {
+        // dd($id);
         $shop = BusinessLocation::where('id', $id)
             ->with([
                 'services',
@@ -51,6 +53,17 @@ class ShopController extends Controller
                 }
             ])->first();
         $vendor = Business::where('id', $shop->business_id)->first();
+
+        // return $vendor;
         return view('frontend.pages.shop.service_shop', compact('shop', 'vendor'));
+    }
+
+    public function BusinessShopService($id)
+    {
+        // dd($id);
+        $shop = BusinessLocation::where('business_id', $id)->get();
+        $vendor = Business::where('id', $id)->first();
+        // return $shop;
+        return view('frontend.pages.shop.business_service_shop', compact('shop', 'vendor'));
     }
 }

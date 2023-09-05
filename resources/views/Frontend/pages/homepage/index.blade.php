@@ -105,8 +105,8 @@
 
     @include('frontend.pages.homepage.features')
     @include('frontend.pages.homepage.popular_category')
-    @include('frontend.pages.homepage.stars')
-    @include('frontend.pages.homepage.recruitments')
+    {{-- @include('frontend.pages.homepage.stars') --}}
+    {{-- @include('frontend.pages.homepage.recruitments') --}}
     @include('frontend.pages.homepage.real_estate')
     @include('frontend.pages.homepage.partners')
     @include('frontend.pages.homepage.digital_solutions')

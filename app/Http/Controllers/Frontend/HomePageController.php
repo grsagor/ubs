@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers\Frontend;
 
-use App\ArrivalSection;
-use App\Category;
-use App\Http\Controllers\Controller;
-use App\Product;
+use App\Star;
 use App\Rating;
 use App\Slider;
-use App\Star;
+use App\Product;
+use App\Category;
+use App\ArrivalSection;
+use App\BusinessLocation;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class HomePageController extends Controller
 {
@@ -21,6 +22,7 @@ class HomePageController extends Controller
         $data['ratings'] = Rating::get();
         $data['categories'] = Category::limit(16)->get();
         $data['stars'] = Star::get();
+        $data['vendors'] = BusinessLocation::latest()->limit(4)->get();
 
         return view('frontend.pages.homepage.index', $data);
     }

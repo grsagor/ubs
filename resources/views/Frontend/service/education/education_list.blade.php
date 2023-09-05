@@ -25,7 +25,7 @@
 
         p.category_text {
             /* min-height: 20px;
-                                                                                                                                                                                                                                                                            max-height: 20px; */
+                                                                                                                                                                                                                                                                                    max-height: 20px; */
         }
 
         h5.product-title {
@@ -82,42 +82,10 @@
                 <div class="container">
                     <div class="row mobile-reverse">
 
-                        {{-- Left Side --}}
-                        <div class="col-xl-3 col-lg-3">
-                            <div id="sidebar" class="widget-title-bordered-full">
-                                <div class="dashbaord-sidebar-close d-xl-none d-lg-none">
-                                    <i class="fas fa-times"></i>
-                                </div>
 
-                                <div id="woocommerce_product_categories-4"
-                                    class="widget woocommerce widget_product_categories widget-toggle">
-
-                                    <h2 class="widget-title">Service categories</h2>
-
-                                    <ul class="product-categories">
-
-                                        <li class="cat-item cat-parent">
-                                            <a href="{{ route('room.list') }}" class="category-link" id="cat">Room To
-                                                Rent <span class="count"></span></a>
-                                        </li>
-
-                                        <li class="cat-item cat-parent">
-                                            <a href="{{ route('property.list') }}" class="category-link" id="cat">Room
-                                                Wanted <span class="count"></span></a>
-                                        </li>
-
-                                        <li class="cat-item cat-parent">
-                                            <a href="{{ route('education.list') }}" class="category-link"
-                                                id="cat">Education <span class="count"></span></a>
-                                        </li>
-
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
 
                         {{-- Right Side --}}
-                        <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12">
+                        <div class="col-xl-12 col-lg-9 col-md-12 col-sm-12">
                             <div class="product-search-one">
                                 <form id="searchForm" class="search-form form-inline search-pill-shape bg-white"
                                     action="{{ route('education.list') }}" method="GET">
@@ -175,8 +143,7 @@
                                                             @endphp
 
                                                             @if ($first_image && File::exists($imagePath))
-                                                                <a href="{{ route('shop.service', $item->id) }}"
-                                                                    class="woocommerce-LoopProduct-link">
+                                                                <a href="" class="woocommerce-LoopProduct-link">
                                                                     <img class="lazy img-fluid rounded"
                                                                         data-src="{{ asset($first_image) }}"
                                                                         alt="Product Image">
@@ -192,8 +159,7 @@
 
                                                             <div class="p-2">
                                                                 <h5 class="product-title mb-1">
-                                                                    <a class="text-dark"
-                                                                        href="{{ route('shop.service', $item->id) }}">
+                                                                    <a class="text-dark" href="">
                                                                         <span class="company-name">
                                                                             {{ Str::limit($item->course_name, $limit = 20, $end = '...') }}
                                                                         </span>
