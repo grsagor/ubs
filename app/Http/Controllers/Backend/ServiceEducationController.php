@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Backend;
 
+use App\BusinessLocation;
 use App\ServiceEducation;
 use App\Traits\ImageFileUpload;
 use App\Http\Controllers\Controller;
@@ -19,7 +20,13 @@ class ServiceEducationController extends Controller
      */
     public function index()
     {
-        return view('backend.services.education.create');
+        $business_id = request()->session()->get('user.business_id');
+
+        $business_locations = BusinessLocation::where('business_id', $business_id)->get(['id', 'name', 'business_id']);
+
+        // return $business_locations;
+
+        return view('backend.services.education.create', compact('business_locations'));
     }
 
     /**
@@ -42,6 +49,9 @@ class ServiceEducationController extends Controller
     {
         try {
             $requestedData                               = $request->all();
+
+            // Check Service Category Table Education category id is 2
+            $requestedData['service_category_id']        = 2;
 
             $requestedData['thumbnail']                  = $this->image($request->file('thumbnail'), 'uploads/service_education/', 800, 500);
 

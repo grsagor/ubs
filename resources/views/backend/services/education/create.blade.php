@@ -34,6 +34,24 @@
                                         Get started with
                                     </legend>
 
+
+                                    <div class="form_row form_row_email">
+                                        <div class="form_label">
+                                            Business Location<span class="star">*</span>
+                                        </div>
+                                        <div class="form_inputs">
+                                            <span class="form_input form_text">
+                                                <select name="business_location_id">
+                                                    <option value="" selected="">Select business location...
+                                                    </option>
+                                                    @foreach ($business_locations as $item)
+                                                        <option value="{{ $item->id }}"> {{ $item->name }} </option>
+                                                    @endforeach
+                                                </select>
+                                            </span>
+                                        </div>
+                                    </div>
+
                                     <div class="form_row form_row_email">
                                         <div class="form_label">
                                             Course name<span class="star">*</span>

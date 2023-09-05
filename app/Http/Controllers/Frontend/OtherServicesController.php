@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers\Frontend;
 
-use App\Http\Controllers\Controller;
+use App\ServiceCharge;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class OtherServicesController extends Controller
 {
@@ -27,8 +28,11 @@ class OtherServicesController extends Controller
         return view('frontend.other_services.it_solution');
     }
 
-    public function lettingService()
+    public function propertyFindingService()
     {
-        return 0;
+
+        $data['service_charge'] = ServiceCharge::get();
+        // return  $data['service_charge'];
+        return view('frontend.other_services.property_finding_service', $data);
     }
 }

@@ -54,7 +54,7 @@ class ShopController extends Controller
             ])->first();
         $vendor = Business::where('id', $shop->business_id)->first();
 
-        // return $vendor;
+        // return $shop;
         return view('frontend.pages.shop.service_shop', compact('shop', 'vendor'));
     }
 

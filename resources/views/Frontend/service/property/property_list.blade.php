@@ -25,7 +25,7 @@
 
         p.category_text {
             /* min-height: 20px;
-                                                                                                                                                                                                                                        max-height: 20px; */
+                                                                                                                                                                                                                                                max-height: 20px; */
         }
 
         h5.product-title {
@@ -97,18 +97,15 @@
                                     <ul class="product-categories">
 
                                         <li class="cat-item cat-parent">
-                                            <a href="{{ route('room.list') }}" class="category-link" id="cat">Room To
+                                            <a href="{{ route('room.list') }}" class="category-link"
+                                                id="cat">Properties To
                                                 Rent <span class="count"></span></a>
                                         </li>
 
                                         <li class="cat-item cat-parent">
-                                            <a href="{{ route('property.list') }}" class="category-link" id="cat">Room
+                                            <a href="{{ route('property.list') }}" class="category-link"
+                                                id="cat">Properties
                                                 Wanted <span class="count"></span></a>
-                                        </li>
-
-                                        <li class="cat-item cat-parent">
-                                            <a href="{{ route('education.list') }}" class="category-link"
-                                                id="cat">Education <span class="count"></span></a>
                                         </li>
 
                                     </ul>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\BusinessLocation;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Traits\ImageFileUpload;
@@ -41,7 +42,12 @@ class PropertyWantedCustomerController extends Controller
 
     public function create()
     {
-        return view('crm::property_wanted.create');
+        $business_id = request()->session()->get('user.business_id');
+
+        $business_locations = BusinessLocation::where('business_id', $business_id)->get(['id', 'name', 'business_id']);
+
+        // return $business_locations;
+        return view('crm::property_wanted.create', compact('business_locations'));
     }
 
 

@@ -438,11 +438,11 @@
             }
 
             /*  #v-pills-tab{
-                                                            display: none;
-                                                          }
-                                                          #mobileTabManu{
-                                                            display: block;
-                                                          } */
+                                                                                                                                                                    display: none;
+                                                                                                                                                                  }
+                                                                                                                                                                  #mobileTabManu{
+                                                                                                                                                                    display: block;
+                                                                                                                                                                  } */
 
             .mobileTabManu {
                 width: 250px !important;
@@ -475,9 +475,9 @@
             }
 
             /*.mobileTabManu .nav-link{
-                                                            width: 80%;
-                                                            float: left;
-                                                          } */
+                                                                                                                                                                    width: 80%;
+                                                                                                                                                                    float: left;
+                                                                                                                                                                  } */
         }
     </style>
 
@@ -524,9 +524,9 @@
                     <!-- @if ($vendor->website)
     <a href="{{ $vendor->website }}" target="_blank"><button class="btn btn-primary mb-3 btn-sm custom-padding">Website</button></a>
     @endif
-                                                                    @if ($vendor->phone)
+                                                                                                                                                                            @if ($vendor->phone)
     <a href="javascript:void(0);" onclick="seeVendorContact()"><button class="btn btn-primary mb-3 btn-sm custom-padding">Contact</button></a>
-                                                                        <p class="vendor_contact text-danger" style="display: none;margin-top: -10px">{{ $vendor->phone }}</p>
+                                                                                                                                                                                <p class="vendor_contact text-danger" style="display: none;margin-top: -10px">{{ $vendor->phone }}</p>
     @endif -->
                 </div>
             </div>
@@ -588,6 +588,7 @@
                         <button class="nav-link vendor_sidebar rounded" id="v-pills--company-tab" data-bs-toggle="pill"
                             data-bs-target="#v-pills-company" type="button" role="tab" aria-controls="v-pills-company"
                             aria-selected="false">Company Info</button>
+
                         <ul class="social-links">
                             @if ($shop->facebook)
                                 <li>
@@ -625,9 +626,31 @@
                         </ul>
                     </div>
                 </div>
+
+
+
                 <div class="tab-content w-100" id="v-pills-tabContent">
+
+
                     <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel"
                         aria-labelledby="v-pills-home-tab">
+
+
+                        {{-- Search box Category Name --}}
+                        <div class="category_search" style="width: 33%; margin-left: 200px; margin-top: 24px;">
+                            <form id="searchForm" class="search-form form-inline search-pill-shape bg-white"
+                                action="{{ route('room.list') }}" method="GET">
+                                <div class="select-appearance-none categori-container" id="categorySelect">
+                                    <select name="category" class="form-control categoris mx-2" id="country_select">
+                                        <option selected="" value="">{{ __('Select Category') }}</option>
+                                        <option value="1"> Properties To Rent </option>
+                                        <option value="2"> Properties Wanted </option>
+                                        <option value="3"> Education </option>
+                                    </select>
+                                </div>
+                            </form>
+                        </div>
+
                         <ul role="tablist" aria-owns="nav-tab1 nav-tab2 nav-tab3 nav-tab4"
                             class="nav nav-tabs mt-3 mb-2 product-service-tab" id="nav-tab-with-nested-tabs">
                             <li class="nav-item product_service_tabs" role="presentation">
@@ -966,14 +989,14 @@
 
                             <!-- Pagination for marketing section -->
                             <!-- <div class="pagination justify-content-center">
-                                                                            <a href="#" class="pagination-link">&laquo;</a>
-                                                                            <a href="#" class="pagination-link active">1</a>
-                                                                            <a href="#" class="pagination-link">2</a>
-                                                                            <a href="#" class="pagination-link">3</a>
-                                                                            <a href="#" class="pagination-link">4</a>
-                                                                            <a href="#" class="pagination-link">5</a>
-                                                                            <a href="#" class="pagination-link">&raquo;</a>
-                                                                        </div> -->
+                                                                                                                                                                                    <a href="#" class="pagination-link">&laquo;</a>
+                                                                                                                                                                                    <a href="#" class="pagination-link active">1</a>
+                                                                                                                                                                                    <a href="#" class="pagination-link">2</a>
+                                                                                                                                                                                    <a href="#" class="pagination-link">3</a>
+                                                                                                                                                                                    <a href="#" class="pagination-link">4</a>
+                                                                                                                                                                                    <a href="#" class="pagination-link">5</a>
+                                                                                                                                                                                    <a href="#" class="pagination-link">&raquo;</a>
+                                                                                                                                                                                </div> -->
 
                             <!-- List view for marketing section -->
                             <div class="marketing-list-view" style="display:none;">
@@ -1062,6 +1085,8 @@
                         <p class="pt-3 text-justify">{{ $shop->shop_about }}</p>
                     </div>
                 </div>
+
+
             </div>
         </div>
     </div>

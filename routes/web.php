@@ -111,17 +111,20 @@ Route::get('/digital-marketing',            [OtherServicesController::class, 'di
 Route::get('/partner-boarding',             [OtherServicesController::class, 'partnerBoarding'])->name('partnerBoarding');
 Route::get('/business-solutions',           [OtherServicesController::class, 'businessSolutions'])->name('businessSolutions');
 Route::get('/it-solutions',                 [OtherServicesController::class, 'itSolutions'])->name('itSolutions');
-Route::get('/letting-service',              [OtherServicesController::class, 'lettingService'])->name('lettingService');
+Route::get('/property-finding-service',     [OtherServicesController::class, 'propertyFindingService'])->name('propertyFindingService');
 
 
 // Services
 
-Route::get('/room-list', [RoomListController::class, 'roomList'])->name('room.list');
-Route::get('/room-show/{id}', [RoomListController::class, 'roomShow'])->name('room_show');
+Route::get('/room-list/',                       [RoomListController::class, 'roomList'])->name('room.list');
+
+Route::get('/room-list/category',              [RoomListController::class, 'roomListCategory'])->name('room.list.category');
+
+Route::get('/room-show/{id}',                   [RoomListController::class, 'roomShow'])->name('room_show');
 Route::put('/room-reference-number-check/{id}', [RoomListController::class, 'referenceNumberCheck'])->name('room.referenceNumberCheck');
 
-Route::get('/property-list', [PropertyController::class, 'propertyList'])->name('property.list');
-Route::get('/property-show/{id}', [PropertyController::class, 'propertyShow'])->name('property_show');
+Route::get('/property-list',                    [PropertyController::class, 'propertyList'])->name('property.list');
+Route::get('/property-show/{id}',               [PropertyController::class, 'propertyShow'])->name('property_show');
 Route::put('/property-reference-number-check/{id}', [PropertyController::class, 'referenceNumberCheck'])->name('property.referenceNumberCheck');
 
 Route::get('/education-list', [EducationController::class, 'educationList'])->name('education.list');

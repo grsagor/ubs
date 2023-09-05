@@ -8,5 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class ServiceCharge extends Model
 {
     use HasFactory;
-    protected $table='service_charges';
+    protected $table = 'service_charges';
+
+
+    public function getSizeAttribute($value)
+    {
+        return ucfirst(strtolower($value));
+    }
 }
