@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\BusinessLocation;
 use App\ChildCategory;
 use App\ServiceCategory;
 use App\ServiceCharge;
@@ -45,6 +46,11 @@ class PropertyWantedCustomerController extends Controller
 
     public function create()
     {
+        $business_id = request()->session()->get('user.business_id');
+
+        $business_locations = BusinessLocation::where('business_id', $business_id)->get(['id', 'name', 'business_id']);
+
+        // return $business_locations;
         $category = ServiceCategory::where('name','Property')->first();
         $sub_category = SubCategory::where([['category_id',$category->id],['name','buy']])->first();
         //$sub_category = SubCategory::where(['category_id',$category->id])->get();
@@ -62,7 +68,7 @@ class PropertyWantedCustomerController extends Controller
         $data['double'] = ServiceCharge::where([['child_category',1],['size',['double']]])->first()->service_charge;
         $data['semi_double'] = ServiceCharge::where([['child_category',1],['size',['semi-double']]])->first()->service_charge;
         $data['en_suite'] = ServiceCharge::where([['child_category',1],['size',['en-suite']]])->first()->service_charge;
-        return view('crm::property_wanted.create', $data);
+        return view('crm::property_wanted.create', compact('business_locations'), $data);
     }
 
     public function showOccupantsDetailsInputs(Request $request) {

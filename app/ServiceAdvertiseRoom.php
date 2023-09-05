@@ -18,6 +18,8 @@ class ServiceAdvertiseRoom extends Model
 
     protected $fillable = [
         'reference_id',
+        'business_location_id',
+        'service_category_id',
         'service_charge_room',
         'service_category_id',
         'sub_category_id',
@@ -105,7 +107,8 @@ class ServiceAdvertiseRoom extends Model
     {
         return $query->where('advert_title', 'LIKE', '%' . $request->search . '%')
             ->orWhere('property_type', 'LIKE', '%' . $request->search . '%')
-            ->orWhere('property_address', 'LIKE', '%' . $request->search . '%');
+            ->orWhere('property_address', 'LIKE', '%' . $request->search . '%')
+            ->orWhere('child_category_id', 'LIKE', '%' . $request->search . '%');
     }
 
     public function user()

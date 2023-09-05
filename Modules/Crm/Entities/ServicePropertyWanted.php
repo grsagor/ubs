@@ -22,6 +22,8 @@ class ServicePropertyWanted extends Model
         'child_category_id',
         'occupant_details',
         'room_details',
+        'business_location_id',
+        'service_category_id',
         'who_is_searching',
         'why_is_searching',
         'gender',

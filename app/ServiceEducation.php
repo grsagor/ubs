@@ -16,6 +16,8 @@ class ServiceEducation extends Model
 
     protected $fillable = [
         'course_name',
+        'business_location_id',
+        'service_category_id',
         'price',
         'course_duration',
         'institution_name',

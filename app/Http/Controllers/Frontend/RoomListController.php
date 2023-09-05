@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Media;
+use App\ChildCategory;
 use App\ServiceCharge;
 use Illuminate\Http\Request;
 use App\ServiceAdvertiseRoom;
@@ -34,6 +35,8 @@ class RoomListController extends Controller
             })
             ->latest()->paginate($data['per_page']);
 
+        $data['categories']             = ChildCategory::get();
+
         return view('frontend.service.room.room_list', $data);
     }
 
@@ -41,29 +44,29 @@ class RoomListController extends Controller
     public function roomShow($id)
     {
         $data['info']                   = ServiceAdvertiseRoom::with('user')->findOrFail($id);
-        $data['service_charge'] = ServiceCharge::where([['category_id',$data['info']->service_category_id],['sub_category_id',$data['info']->sub_category_id],['child_category',$data['info']->child_category_id]])->first()->service_charge;
+        $data['service_charge']         = ServiceCharge::where([['category_id', $data['info']->service_category_id], ['sub_category_id', $data['info']->sub_category_id], ['child_category', $data['info']->child_category_id]])->first()->service_charge;
         $data['user_info']              = Media::where('uploaded_by', $data['info']->user_id)
             ->where('model_type', 'App\\User')->first();
         $room = json_decode($data['info']->room);
 
         $result = [];
-for ($i = 1; $i <= 5; $i++) {
-    $serviceCharge = $room->{'service_charge_room' . $i};
-    if ($serviceCharge !== null) {
-        $result[] = [
-            'room_cost_of_amount' => $room->{'room_cost_of_amount' . $i},
-            'room_cost_time' => $room->{'room_cost_time' . $i},
-            'room_size' => $room->{'room_size' . $i},
-            'room_amenities' => $room->{'room_amenities' . $i},
-            'room_furnishings' => $room->{'room_furnishings' . $i},
-            'room_security_deposit' => $room->{'room_security_deposit' . $i},
-            'room_available_from' => $room->{'room_available_from' . $i},
-            'service_charge_room' => $room->{'service_charge_room' . $i},
-        ];
-    }
-}
+        for ($i = 1; $i <= 5; $i++) {
+            $serviceCharge = $room->{'service_charge_room' . $i};
+            if ($serviceCharge !== null) {
+                $result[] = [
+                    'room_cost_of_amount' => $room->{'room_cost_of_amount' . $i},
+                    'room_cost_time' => $room->{'room_cost_time' . $i},
+                    'room_size' => $room->{'room_size' . $i},
+                    'room_amenities' => $room->{'room_amenities' . $i},
+                    'room_furnishings' => $room->{'room_furnishings' . $i},
+                    'room_security_deposit' => $room->{'room_security_deposit' . $i},
+                    'room_available_from' => $room->{'room_available_from' . $i},
+                    'service_charge_room' => $room->{'service_charge_room' . $i},
+                ];
+            }
+        }
 
-$data['roomArray'] = $result;
+        $data['roomArray'] = $result;
 
         return view('frontend.service.room.details', $data);
     }
@@ -89,5 +92,37 @@ $data['roomArray'] = $result;
         } else {
             return redirect()->back();
         }
+    }
+
+
+    public function roomListCategory(Request $request)
+    {
+        $data['per_page'] = 10;
+
+        $data['rooms']         = ServiceAdvertiseRoom::active()->select(
+            'id',
+            'property_type',
+            'property_address',
+            'room',
+            'room_available_from',
+            'advert_title',
+            'advert_description',
+            'advert_photos',
+            'advert_type',
+            'created_at'
+        )
+            ->search($request)
+            ->whereNotIn('id', function ($query) {
+                $query->select('foregn_key')
+                    ->from('payment_histories')
+                    ->where('table_name', 'service_advertise_rooms');
+            })
+            ->latest()
+            ->paginate($data['per_page']);
+
+        $data['categories']             = ChildCategory::get();
+
+        // return     $data['rooms'];
+        return view('frontend.service.room.room_list', $data);
     }
 }

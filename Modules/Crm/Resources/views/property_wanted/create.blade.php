@@ -61,8 +61,8 @@
                             <label>Who's searching?:</label>
                             <div>
                                 <input class="form-check-input" type="radio" name="who_is_searching" value="Just Me"
-                                id="justme">
-                            <label for="justme">Just Me</label>
+                                    id="justme">
+                                <label for="justme">Just Me</label>
                             </div>
                             <div>
                                 <input class="form-check-input" type="radio" name="who_is_searching"
@@ -161,6 +161,45 @@
                         </div>
                     </div>
 
+
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label for="invoice_scheme_id">Business Location</label>
+                            <select class="form-control" required="" name="business_location_id">
+                                <option selected="" value="">Select Business Location </option>
+                                @foreach ($business_locations as $item)
+                                    <option value="{{ $item->id }}">
+                                        {{ $item->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+
+
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label>Room size</label>
+                            <div>
+                                <input class="form-check-input" type="radio" name="room_size" value="A single room"
+                                    id="dobuleroom">
+                                <label for="dobuleroom">A single room</label>
+                            </div>
+                            <div>
+                                <input class="form-check-input" type="radio" name="room_size" value="A double room"
+                                    id="dobuleroom">
+                                <label for="dobuleroom">A double room</label>
+                            </div>
+                            <div>
+                                <input class="form-check-input" type="radio" name="room_size"
+                                    value="A single or double" id="asingleordouble">
+                                <label for="asingleordouble">A single or double
+                                    room</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="showingbtn2" class="d-none row" style="display:none;">
                     <div class="col-sm-12">
                         <div class="form-group">
                             <label for="invoice_scheme_id">Where do you want to live?</label>
@@ -828,34 +867,18 @@
 
                     <div class="col-sm-12">
                         <div class="form-group">
-                            <label for="selling_price_group_id">Age Range</label> <i
+                            <label for="selling_price_group_id">Age</label> <i
                                 class="fa fa-info-circle text-info hover-q no-print " aria-hidden="true"
                                 data-container="body" data-toggle="popover" data-placement="auto bottom"
                                 data-content="This price group will be used as the default price group in this location."
-                                data-html="true" data-trigger="hover"></i>
-                            <div style="display: flex;">
-                                <div class="">
-                                    <select class="form-control" id="min_age_req" name="min_age_req">
-                                        <option value="" selected>Select...</option>
-                                        @foreach (range(18, 99) as $age)
-                                            <option value="{{ $age }}">
-                                                {{ $age }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div
-                                    style="display: flex; justify-content: center; align-items: center; flex-direction:column;">
-                                    <span style="margin-bottom: 15px;">to</span></div>
-                                <div class="">
-                                    <select class="form-control" id="max_age_req" name="max_age_req">
-                                        <option value="" selected>Select...</option>
-                                        @foreach (range(18, 99) as $age)
-                                            <option value="{{ $age }}">
-                                                {{ $age }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
+                                data-html="true" data-trigger="hover"></i> <select class="form-control"
+                                id="age" name="age">
+                                <option value="">Select...</option>
+                                @foreach (range(18, 99) as $age)
+                                    <option value="{{ $age }}">
+                                        {{ $age }}</option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
 
