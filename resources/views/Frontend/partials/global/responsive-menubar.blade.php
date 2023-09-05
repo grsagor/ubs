@@ -17,7 +17,7 @@
                             </li>
                             <li
                                 class="nav-item dropdown {{ request()->path() == '/service_category' ? 'active' : '' }}">
-                                <a class="nav-link dropdown-toggle" href="{{ route('room.list') }}">Property</a>
+                                <a class="nav-link dropdown-toggle" href="{{ route('property.list') }}">Property</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('shop.list') }}">Shop</a>

@@ -2,6 +2,9 @@
 
 namespace Modules\Crm\Entities;
 
+use App\ChildCategory;
+use App\ServiceCategory;
+use App\SubCategory;
 use App\User;
 use App\Traits\CreatedUpdatedBy;
 use Illuminate\Database\Eloquent\Model;
@@ -83,5 +86,17 @@ class ServicePropertyWanted extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+    public function category()
+    {
+        return $this->belongsTo(ServiceCategory::class, 'category_id');
+    }
+    public function sub_category()
+    {
+        return $this->belongsTo(SubCategory::class, 'sub_category_id');
+    }
+    public function child_category()
+    {
+        return $this->belongsTo(ChildCategory::class, 'child_category_id');
     }
 }

@@ -1,6 +1,7 @@
 <?php
 include 'customer.php';
 
+use App\Http\Controllers\FrontendController;
 use App\Http\Controllers\Install;
 use App\Http\Controllers\Restaurant;
 use Illuminate\Support\Facades\Route;
@@ -116,14 +117,14 @@ Route::get('/property-finding-service',     [OtherServicesController::class, 'pr
 
 // Services
 
-Route::get('/room-list/',                       [RoomListController::class, 'roomList'])->name('room.list');
+Route::get('/property/{sub_category_id?}/{child_category_id?}', [FrontendController::class, 'roomList'])->name('property.list');
 
 Route::get('/room-list/category',              [RoomListController::class, 'roomListCategory'])->name('room.list.category');
 
 Route::get('/room-show/{id}',                   [RoomListController::class, 'roomShow'])->name('room_show');
 Route::put('/room-reference-number-check/{id}', [RoomListController::class, 'referenceNumberCheck'])->name('room.referenceNumberCheck');
 
-Route::get('/property-list',                    [PropertyController::class, 'propertyList'])->name('property.list');
+// Route::get('/property-list',                    [PropertyController::class, 'propertyList'])->name('property.list.a');
 Route::get('/property-show/{id}',               [PropertyController::class, 'propertyShow'])->name('property_show');
 Route::put('/property-reference-number-check/{id}', [PropertyController::class, 'referenceNumberCheck'])->name('property.referenceNumberCheck');
 

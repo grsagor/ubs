@@ -4,7 +4,7 @@
     <!-- sidebar: style can be found in sidebar.less -->
     <section class="sidebar">
 
-        <a href="{{ route('home') }}" class="logo">
+        <a href="{{ url('/') }}" class="logo">
             <span class="logo-lg">{{ Session::get('business.name') }}</span>
         </a>
 
@@ -280,14 +280,8 @@
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="{{ route('property-wanted.index') }}"><i class="fa fas fa-user-secret"></i>
-                            <span>Room Wanted</span></a></li>
-
                     <li><a href="{{ route('service-advertise.index') }}"><i class="fa fas fa-user-secret"></i>
                             <span>Room To Rent</span></a></li>
-
-                    <li><a href="{{ route('service-education.index') }}"><i class="fa fas fa-user-secret"></i>
-                            <span>Education</span></a></li>
                 </ul>
             </li>
             <!-- Services End -->

@@ -33,12 +33,9 @@
                         <tr>
                             <th>Action</th>
                             <th>Reference No</th>
-                            <th>Shop</th>
                             <th>Category</th>
                             <th>Sub-category</th>
                             <th>Child-category</th>
-                            <th>Status</th>
-                            <th>Booked by</th>
                         </tr>
                     </thead>
                 </table>
@@ -67,12 +64,9 @@
                 columns: [
                     { data: 'action', name: 'action', orderable: false, searchable: false },
                     { data: 'reference_id', name: 'reference_id' },
-                    { data: 'action', name: 'action' },
-                    { data: 'action', name: 'action' },
-                    { data: 'action', name: 'action' },
-                    { data: 'action', name: 'action' },
-                    { data: 'action', name: 'action' },
-                    { data: 'action', name: 'action' },
+                    { data: 'category_name', name: 'category_name' },
+                    { data: 'subcategory_name', name: 'subcategory_name' },
+                    { data: 'child_category_name', name: 'child_category_name' },
                 ]
             });
         });

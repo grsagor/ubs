@@ -1,8 +1,8 @@
 @inject('request', 'Illuminate\Http\Request')
 <!-- Main Header -->
 <header class="main-header no-print">
-    <a href="{{action('\Modules\Crm\Http\Controllers\DashboardController@index')}}" class="logo">
-        <span class="logo-lg">{{ Session::get('business.name') }}</span>
+    <a href="{{ url('/') }}" class="logo">
+        <span class="logo-lg">Unipuller <i class="fa fa-circle text-success" id="online_indicator"></i></span>
     </a>
 
     <!-- Header Navbar -->

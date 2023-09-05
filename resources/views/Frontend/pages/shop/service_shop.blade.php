@@ -639,7 +639,7 @@
                         {{-- Search box Category Name --}}
                         <div class="category_search" style="width: 33%; margin-left: 200px; margin-top: 24px;">
                             <form id="searchForm" class="search-form form-inline search-pill-shape bg-white"
-                                action="{{ route('room.list') }}" method="GET">
+                                action="{{ route('property.list') }}" method="GET">
                                 <div class="select-appearance-none categori-container" id="categorySelect">
                                     <select name="category" class="form-control categoris mx-2" id="country_select">
                                         <option selected="" value="">{{ __('Select Category') }}</option>

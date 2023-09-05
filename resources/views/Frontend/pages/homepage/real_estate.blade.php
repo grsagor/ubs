@@ -36,7 +36,7 @@
                                             <li class="list-group-item"><i class="fa fa-check"></i> Real estate
                                                 consulting</li>
                                         </ul>
-                                        <a href="{{ route('room.list') }}" class="btn  btn-dark mt-3">Get Job</a>
+                                        <a href="{{ route('property.list') }}" class="btn  btn-dark mt-3">Get Job</a>
                                     </div>
                                 </div>
                             </div>
