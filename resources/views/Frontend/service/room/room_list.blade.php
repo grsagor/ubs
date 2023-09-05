@@ -170,7 +170,7 @@
                                 <p class="card-text">Buy our property finding service. A completely secure and
                                     reliable property finding service tailored to your needs.</p>
 
-                                <a href="#" class="button-31">Add</a>
+                                <a href="{{ route('propertyFindingService') }}" class="button-31">Add</a>
                             </div>
                         </div>
 
