@@ -124,6 +124,8 @@ Route::get('/property-list', [PropertyController::class, 'propertyList'])->name(
 Route::get('/property-show/{id}', [PropertyController::class, 'propertyShow'])->name('property_show');
 Route::put('/property-reference-number-check/{id}', [PropertyController::class, 'referenceNumberCheck'])->name('property.referenceNumberCheck');
 
+Route::get('/property-list-showing/{child_category_id?}', [PropertyController::class, 'propertyListShowing']);
+
 Route::get('/education-list', [EducationController::class, 'educationList'])->name('education.list');
 
 

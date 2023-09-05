@@ -76,6 +76,8 @@
                             </div>
                         </div>
                     </div> --}}
+                    <input type="hidden" value="{{ $category->id }}" name="category_id">
+                    <input type="hidden" value="{{ $sub_category->id }}" name="sub_category_id">
                     <div class="col-sm-12">
                         <div class="form-group">
                             <label for="custom_field2">Your name</label>
