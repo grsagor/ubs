@@ -15,13 +15,38 @@
                             <li class="nav-item dropdown {{ request()->path() == '/' ? 'active' : '' }}">
                                 <a class="nav-link dropdown-toggle" href="{{ url('/') }}">Home</a>
                             </li>
-                            <li
+                            {{-- <li
                                 class="nav-item dropdown {{ request()->path() == '/service_category' ? 'active' : '' }}">
                                 <a class="nav-link dropdown-toggle" href="{{ route('room.list') }}">Property</a>
+                            </li> --}}
+
+
+                            <li class="nav-item dropdown mega-dropdown">
+                                <a class="nav-link dropdown-toggle" href="{{ route('room.list') }}">Property</a>
+                                <ul class="dropdown-menu mega-dropdown-menu">
+                                    <li class="mega-container">
+                                        <div class="row row-cols-lg-4 row-cols-sm-2 row-cols-1">
+
+                                            <div class="col">
+                                                <ul>
+                                                    <li><a class="dropdown-item"
+                                                            href="{{ route('room.list') }}">Property List</a> </li>
+                                                    <li><a class="dropdown-item"
+                                                            href="{{ route('propertyFindingService') }}">Property
+                                                            Finding Service</a> </li>
+                                                </ul>
+                                            </div>
+
+                                        </div>
+                                    </li>
+                                </ul>
                             </li>
+
+
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('shop.list') }}">Shop</a>
                             </li>
+
                             {{-- <li class="nav-item dropdown mega-dropdown">
                                 <a class="nav-link dropdown-toggle" href="{{ url('/category') }}">Product</a>
                                 <ul class="dropdown-menu mega-dropdown-menu">
@@ -49,24 +74,22 @@
                                     </li>
                                 </ul> 
                             </li> --}}
+
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('itSolutions') }}">{{ __('IT Solutions') }}</a>
+                                <a class="nav-link" href="{{ route('itSolutions') }}">IT Solutions</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link"
-                                    href="{{ route('businessSolutions') }}">{{ __('Business Solutions') }}</a>
+                                <a class="nav-link" href="{{ route('businessSolutions') }}">Business Solutions</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link"
-                                    href="{{ route('digitalMarketing') }}">{{ __('Digital Marketing') }}</a>
+                                <a class="nav-link" href="{{ route('digitalMarketing') }}">Digital Marketing</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="https://shop.unipuller.com/"
-                                    target="__blank">{{ __('Domain & Hosting') }}</a>
+                                <a class="nav-link" href="https://shop.unipuller.com/" target="__blank">Domain &
+                                    Hosting</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link"
-                                    href="{{ route('partnerBoarding') }}">{{ __('Partner Boarding') }}</a>
+                                <a class="nav-link" href="{{ route('partnerBoarding') }}">Partner Boarding</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('education.list') }}">Education</a>
@@ -138,9 +161,25 @@
                                                     <li class="nav-item">
                                                         <a class="nav-link" href="{{ url('/') }}">Home</a>
                                                     </li>
-                                                    <li class="nav-item">
-                                                        <a class="nav-link" href="{{ url('room-list') }}">Property</a>
+
+
+                                                    <li class="nav-item dropdown">
+                                                        <a class="nav-link dropdown-toggle"
+                                                            href="#">Property</a>
+                                                        <ul class="dropdown-menu">
+                                                            <li><a class="dropdown-item"
+                                                                    href="{{ route('room.list') }}">Property</a>
+                                                            </li>
+                                                            <li><a class="dropdown-item"
+                                                                    href="{{ route('propertyFindingService') }}">Property
+                                                                    Finding Service</a>
+                                                            </li>
+                                                        </ul>
                                                     </li>
+
+
+
+
                                                     <li class="nav-item">
                                                         <a class="nav-link" href="{{ url('/shop/list') }}">Shop</a>
                                                     </li>

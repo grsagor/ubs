@@ -1,5 +1,7 @@
 @extends('frontend.layouts.master_layout')
-
+@push('css')
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+@endpush
 @section('content')
     @includeIf('frontend.partials.global.common-header')
 
@@ -37,10 +39,11 @@
                             <div class="col-12 col-lg-4 mb-4 mb-lg-0">
                                 <div class="product-images overflow-hidden">
                                     <div class="images-inner">
+
                                         <div class="">
 
                                             @php
-                                                $images = json_decode($info->advert_photos, true);
+                                                $images = json_decode($info->images, true);
                                                 $first_image = 'https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg';
                                                 $img_count = null;
                                                 $imagePath = null;
@@ -84,6 +87,7 @@
                                                 </div>
                                             </figure>
                                         </div>
+
                                     </div>
                                 </div>
                             </div>
@@ -123,7 +127,9 @@
                                                                         Number</h5>
                                                                 </div>
                                                                 <div class="modal-body">
-                                                                    <p>Please call <a href="callto:{{ $info->user->contact_no }}">{{ $info->user->contact_no }}</a> to get the reference id.</p>
+                                                                    <p>Please call <a
+                                                                            href="callto:{{ $info->user->contact_no }}">{{ $info->user->contact_no }}</a>
+                                                                        to get the reference id.</p>
                                                                     <div class="mb-3">
                                                                         <input type="text" class="form-control"
                                                                             id="inputName" name="reference_number"
@@ -137,7 +143,8 @@
                                                                 <div class="modal-footer">
                                                                     <button type="button" class="btn btn-secondary"
                                                                         data-bs-dismiss="modal">Close</button>
-                                                                    <button type="submit" class="btn btn-primary">Buy</button>
+                                                                    <button type="submit"
+                                                                        class="btn btn-primary">Buy</button>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -277,18 +284,12 @@
                                     <span> Contact </span>
 
                                     @php
-                                        $imagePath = public_path('uploads/media/' . $user_info->file_name);
-                                        $imageUrl = File::exists($imagePath) ? asset('uploads/media/' . $user_info->file_name) : 'https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg';
+                                        $imageUrl = $user_info && $user_info->file_name && File::exists(public_path("uploads/media/{$user_info->file_name}")) ? asset("uploads/media/{$user_info->file_name}") : 'https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg';
                                     @endphp
 
                                     <div>
-                                        @if ($user_info->file_name)
-                                            <img class="" src="{{ $imageUrl }}" alt="" width="100"
-                                                height="100">
-                                        @else
-                                            <img class="" src="{{ $first_image }}" alt="" width="100"
-                                                height="100">
-                                        @endif
+                                        <img class="" src="{{ $imageUrl }}" alt="" width="100"
+                                            height="100">
                                     </div>
 
                                     <strong>

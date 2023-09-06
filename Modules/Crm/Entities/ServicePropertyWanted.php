@@ -17,7 +17,7 @@ class ServicePropertyWanted extends Model
 
     protected $fillable = [
         'reference_id',
-        'business_location_id',
+        // 'business_location_id',
         'service_category_id',
         'who_is_searching',
         'why_is_searching',
