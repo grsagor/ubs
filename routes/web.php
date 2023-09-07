@@ -101,7 +101,7 @@ use App\Http\Controllers\Frontend\CategoryController as FrontendCategoryControll
 include_once 'install_r.php';
 
 
-
+// Stripe payment gateway
 Route::controller(StripePaymentController::class)->group(function () {
     Route::get('stripe', 'stripe');
     Route::post('stripe', 'stripePost')->name('stripe.post');
@@ -109,11 +109,11 @@ Route::controller(StripePaymentController::class)->group(function () {
 
 
 // Digital Marketing, Partner Boarding, Business Solution, IT solution
-Route::get('/digital-marketing',            [OtherServicesController::class, 'digitalMarketing'])->name('digitalMarketing');
-Route::get('/partner-boarding',             [OtherServicesController::class, 'partnerBoarding'])->name('partnerBoarding');
-Route::get('/business-solutions',           [OtherServicesController::class, 'businessSolutions'])->name('businessSolutions');
-Route::get('/it-solutions',                 [OtherServicesController::class, 'itSolutions'])->name('itSolutions');
-Route::get('/property-finding-service',     [OtherServicesController::class, 'propertyFindingService'])->name('propertyFindingService');
+Route::get('/digital-marketing',                        [OtherServicesController::class, 'digitalMarketing'])->name('digitalMarketing');
+Route::get('/partner-boarding',                         [OtherServicesController::class, 'partnerBoarding'])->name('partnerBoarding');
+Route::get('/business-solutions',                       [OtherServicesController::class, 'businessSolutions'])->name('businessSolutions');
+Route::get('/it-solutions',                             [OtherServicesController::class, 'itSolutions'])->name('itSolutions');
+Route::get('/property-finding-service',                 [OtherServicesController::class, 'propertyFindingService'])->name('propertyFindingService');
 
 
 // Services
@@ -131,7 +131,7 @@ Route::put('/property-reference-number-check/{id}', [PropertyController::class, 
 
 Route::get('/property-list-showing/{child_category_id?}', [PropertyController::class, 'propertyListShowing']);
 
-Route::get('/education-list', [EducationController::class, 'educationList'])->name('education.list');
+Route::get('/education-list',                           [EducationController::class, 'educationList'])->name('education.list');
 
 
 Route::get('/room-wanted', function () {
@@ -141,11 +141,11 @@ Route::get('/room-wanted', function () {
 
 
 // FOOTER LINKS DETAIL SECTION
-Route::get('/about',            [FrontendController::class, 'footerDetails'])->name('footer.details.about');
-Route::get('/make-money',       [FrontendController::class, 'footerDetails'])->name('footer.details.make.money');
-Route::get('/our-services',     [FrontendController::class, 'footerDetails'])->name('footer.details.our.services');
-Route::get('/quick-links',      [FrontendController::class, 'footerDetails'])->name('footer.details.quick.links');
-Route::get('/policies',         [FrontendController::class, 'footerDetails'])->name('footer.details.policies');
+Route::get('/about',                                    [FrontendController::class, 'footerDetails'])->name('footer.details.about');
+Route::get('/make-money',                               [FrontendController::class, 'footerDetails'])->name('footer.details.make.money');
+Route::get('/our-services',                             [FrontendController::class, 'footerDetails'])->name('footer.details.our.services');
+Route::get('/quick-links',                              [FrontendController::class, 'footerDetails'])->name('footer.details.quick.links');
+Route::get('/policies',                                 [FrontendController::class, 'footerDetails'])->name('footer.details.policies');
 
 
 

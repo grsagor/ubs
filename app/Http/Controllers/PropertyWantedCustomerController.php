@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use App\BusinessLocation;
 use App\ChildCategory;
 use App\ServiceCategory;
@@ -22,13 +23,23 @@ class PropertyWantedCustomerController extends Controller
     {
         $user = Auth::user();
         $services = ServicePropertyWanted::where('user_id', $user->id)->with('category')->with('sub_category')->with('child_category')->get();
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
+
+        // $services       = ServicePropertyWanted::where('user_id', Auth::id())->get();
+
         // return $services;
         // if (!auth()->user()->can('business_settings.access')) {
         //     abort(403, 'Unauthorized action.');
         // }
 
+        // $user_type = User::where('user_type', 'user_customer')->where('id', Auth::id())->first();
+
+        // return $user_type;
+
         if (request()->ajax()) {
-            $services = ServicePropertyWanted::where('user_id', $user->id)->get();
+            $services       = ServicePropertyWanted::where('user_id', Auth::id())->get();
 
             return Datatables::of($services)
                 ->addColumn('category_name', function ($service) {
@@ -51,9 +62,9 @@ class PropertyWantedCustomerController extends Controller
 
     public function create()
     {
-        $business_id = request()->session()->get('user.business_id');
+        $business_id            = request()->session()->get('user.business_id');
 
-        $business_locations = BusinessLocation::where('business_id', $business_id)->get(['id', 'name', 'business_id']);
+        $business_locations     = BusinessLocation::where('business_id', $business_id)->get(['id', 'name', 'business_id']);
 
         // return $business_locations;
         $category = ServiceCategory::where('name', 'Property')->first();
