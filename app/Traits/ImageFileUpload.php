@@ -9,27 +9,28 @@ trait ImageFileUpload
     //image upload
     public function image($file, $path, $width, $height)
     {
-        // multiple image upload
-        if (is_array($file)) {
-            if (!empty($file)) {
-                $gallery = [];
-                $i = 1;
-                foreach ($file as $item) {
-                    $fileName = substr(md5(time()), 0, 20) . $i . '.' . $item->getClientOriginalExtension();
-                    Image::make(file_get_contents($item))->resize($width, $height)->save($path . $fileName);
-                    $gallery[] = $path . $fileName;
-                    $i++;
-                }
-                return json_encode($gallery);
+        // Check if it's a single image upload
+        if (!is_array($file) && !empty($file)) {
+            $image_name = rand(123456, 999999) . '.' . $file->getClientOriginalExtension();
+            $image_path = public_path('upload');
+            $file->move($image_path, $image_name);
+            return 'upload/' . $image_name;
+        }
+    
+        // Check if it's a multiple image upload
+        if (is_array($file) && !empty($file)) {
+            $image_path = public_path('upload');
+            $image_names = [];
+    
+            foreach ($file as $item) {
+                $image_name = rand(123456, 999999) . '.' . $item->getClientOriginalExtension();
+                $item->move($image_path, $image_name);
+                $image_names[] = 'upload/' . $image_name;
             }
+    
+            return json_encode($image_names);
         }
-
-        // single image upload
-        if (!empty($file)) {
-            $fileName = substr(md5(time()), 0, 20) . '.' . $file->getClientOriginalExtension();
-            Image::make(file_get_contents($file))->resize($width, $height)->save($path . $fileName);
-            return $path . $fileName;
-        }
+    
         return;
     }
 

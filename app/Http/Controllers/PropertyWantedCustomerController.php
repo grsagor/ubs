@@ -208,7 +208,21 @@ class PropertyWantedCustomerController extends Controller
         $requestedData['occupant_details'] = json_encode($occupant_details);
         $requestedData['room_details'] = json_encode($request->room_size);
 
-        $requestedData['images'] = $this->image($request->file('images'), 'uploads/service_property/', 800, 500);
+        // $requestedData['images'] = $this->image($request->file('images'), 'uploads/service_property/', 800, 500);
+        $requestedData['images'] = null;
+
+        if ($request->hasFile('images')) {
+            $image_path = public_path('uploads/service_property');
+            $image_names = [];
+        
+            foreach ($request->file('images') as $file) {
+                $image_name = rand(123456, 999999) . '.' . $file->getClientOriginalExtension();
+                $file->move($image_path, $image_name);
+                $image_names[] = 'uploads/service_property/' . $image_name;
+            }
+
+            $requestedData['images'] = $image_names;
+        }
 
         $property->fill($requestedData)->save();
 

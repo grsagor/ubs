@@ -1562,7 +1562,8 @@ h6,
 }
 
 img.nav-logo {
-    min-width: 124px;
+    width: 250px !important;
+    height: 64px !important;
 }
 
 .sign-in {
@@ -2402,6 +2403,10 @@ ul.sub-categories li a:hover {
     font-weight: 500;
     text-align: center;
     font-size: 14px;
+}
+.nav-pills .nav-link {
+    background: green;
+    color: #fff;
 }
 
 #menu-and-category .nav-link.active,

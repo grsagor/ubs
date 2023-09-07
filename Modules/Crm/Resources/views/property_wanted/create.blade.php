@@ -165,7 +165,7 @@
                     <div class="col-sm-12">
                         <div class="form-group">
                             <label for="invoice_scheme_id">Business Location</label>
-                            <select class="form-control" required="" name="business_location_id">
+                            <select class="form-control" name="business_location_id">
                                 <option selected="" value="">Select Business Location </option>
                                 @foreach ($business_locations as $item)
                                     <option value="{{ $item->id }}">
@@ -203,7 +203,7 @@
                     <div class="col-sm-12">
                         <div class="form-group">
                             <label for="invoice_scheme_id">Where do you want to live?</label>
-                            <select class="form-control" required="" id="invoice_scheme_id"
+                            <select class="form-control" id="invoice_scheme_id"
                                 name="wanted_living_area">
                                 <option value="" selected="">Select an
                                     area...
@@ -238,7 +238,7 @@
                                         type="number" id="custom_field1">
                                 </div>
                                 <div class="col-sm-4">
-                                    <select class="form-control" required="" id="per" name="per">
+                                    <select class="form-control" id="per" name="per">
                                         <option value="" selected="">Per week or month</option>
                                         <option value="pw">per week</option>
                                         <option value="pcm">per month</option>
