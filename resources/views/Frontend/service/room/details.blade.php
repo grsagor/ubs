@@ -24,7 +24,6 @@
                 </div>
             </div>
         </div>
-        <!-- breadcrumb -->
         <div class="shop-list-page">
 
             {{-- There are two product page. you have to give condition here --}}
@@ -287,7 +286,7 @@
                                                 <span>{{ $item }}, </span>
                                             @endforeach
                                         </p>
-<br>
+                                        <br>
                                         <h5>Current household</h5>
                                         <div>
                                             <hr style="width: 100%;">
@@ -325,7 +324,7 @@
                                             {{ $info->exiting_flatmate_gender == 1 ? 'Male' : ($info->exiting_flatmate_gender == 2 ? 'Female' : 'Others') }}
                                         </p>
 
-<br>
+                                        <br>
                                         <h5>New flatmate preferences</h5>
                                         <div>
                                             <hr style="width: 100%;">
@@ -367,7 +366,7 @@
                                             {{ $info->new_flatmate_language ?? '' }}
                                         </p>
                                         <br>
-                                        
+
                                         <div>
                                             <hr style="width: 100%;">
                                         </div>

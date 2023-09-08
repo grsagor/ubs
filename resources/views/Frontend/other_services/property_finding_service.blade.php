@@ -475,6 +475,7 @@
 
     <div class="container">
         <div class="header m-3 p-3">
+
             <h3 class="heading ">Property finding service </h3>
             <p class="heading-details">Unipuller is offering Tenant services to find out their properties. All our
                 services
@@ -574,7 +575,7 @@
                                                 </span>
                                             </div>
 
-                                            <div class="generic_price_tag clearfix" style="background: #eeecec">
+                                            <div class="generic_price_tag clearfix p-3" style="background: #d7d4d4">
                                                 <span class="price">
                                                     <span class="sign">£</span>
                                                     <span class="currency">{{ $item->service_charge }}</span>

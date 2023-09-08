@@ -53,15 +53,27 @@ class PropertyController extends Controller
         $info['table_name']             = 'service_property_wanted';
 
         if ($data->reference_id == $request->reference_number) {
+
+            $info['output'] = [
+                'success' => true,
+                'msg' => ('Reference number matched!!!'),
+            ];
+
             return redirect('stripe')
                 ->with([
-                    'product_id' => $info['product_id'],
-                    'product_name' => $info['product_name'],
-                    'bill' => $info['bill'],
-                    'table_name' => $info['table_name'],
+                    'product_id'    => $info['product_id'],
+                    'product_name'  => $info['product_name'],
+                    'bill'          => $info['bill'],
+                    'table_name'    => $info['table_name'],
+                    'output'        => $info['output'],
                 ]);
         } else {
-            return redirect()->back();
+            $output = [
+                'success' => false,
+                'msg' => ('Wrong Reference number!!!'),
+            ];
+
+            return redirect()->back()->with('status', $output);
         }
     }
 }

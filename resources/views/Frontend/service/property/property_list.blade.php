@@ -25,7 +25,7 @@
 
         p.category_text {
             /* min-height: 20px;
-                                                                                                                                                                                                                                                max-height: 20px; */
+                                                                                                                                                                                                                                                    max-height: 20px; */
         }
 
         h5.product-title {
@@ -76,7 +76,6 @@
         <!-- breadcrumb -->
         <div class="shop-list-page">
 
-            {{-- There are two product page. you have to give condition here --}}
             <div class="mt-2 content-circle">
 
                 <div class="container">

@@ -108,7 +108,8 @@
 
                                             <li class="addtocart m-1">
                                                 <form method="POST"
-                                                    action="{{ route('property.referenceNumberCheck', $info->id) }}">
+                                                    action="{{ route('property.referenceNumberCheck', $info->id) }}"
+                                                    style="margin-bottom: 0px;">
                                                     @csrf
                                                     @method('PUT')
 
@@ -157,22 +158,6 @@
                                         </div>
 
 
-                                        <div class="yith-wcwl-add-to-wishlist wishlist-fragment mt-3">
-                                            <div class="wishlist-button">
-                                                <a class="add_to_wishlist" href="">Wishlist</a>
-                                            </div>
-                                            <div class="compare-button">
-                                                <a class="compare button" href="">Compare</a>
-                                            </div>
-
-                                        </div>
-
-                                        <div class="report-area">
-                                            <a class="report-item" href="#"><i class="fas fa-flag"></i> Report
-                                                This
-                                                Item </a>
-                                        </div>
-
                                         <div class="my-4 social-linkss social-sharing a2a_kit a2a_kit_size_32"
                                             style="line-height: 32px;">
                                             <h5 class="mb-2">Share Now</h5>
@@ -211,6 +196,25 @@
 
                                         </div>
 
+                                        <div class="yith-wcwl-add-to-wishlist wishlist-fragment mt-3">
+                                            <div class="wishlist-button">
+                                                <a class="add_to_wishlist" href="">Wishlist</a>
+                                            </div>
+                                            <div class="compare-button">
+                                                <a class="compare button" href="">Compare</a>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="report-area">
+                                            <a class="report-item" href="#"><i class="fas fa-flag"></i> Report This
+                                                Item </a>
+                                        </div>
+
+                                        <div>
+                                            <hr style="width: 100%;">
+                                        </div>
+
                                         @if ($info->available_form)
                                             <p>
                                                 <strong>Availability: </strong>
@@ -232,6 +236,40 @@
                                             </p>
                                         @endif
 
+                                        @if ($info->who_is_searching)
+                                            <p>
+                                                <strong>Who is searching: </strong>
+                                                {{ $info->who_is_searching }}
+                                            </p>
+                                        @endif
+
+                                        @if ($info->why_is_searching)
+                                            <p>
+                                                <strong>Why is searching: </strong>
+                                                {{ $info->why_is_searching }}
+                                            </p>
+                                        @endif
+
+                                        @if ($info->gender)
+                                            <p>
+                                                <strong>Gender: </strong>
+                                                {{ $info->gender == 1 ? 'Male' : ($info->gender == 2 ? 'Female' : 'Others') }}
+                                            </p>
+                                        @endif
+
+                                        @if ($info->buddy_ups)
+                                            <p>
+                                                <strong>Buddy Ups: </strong>
+                                                {{ $info->buddy_ups }}
+                                            </p>
+                                        @endif
+
+                                        @if ($info->wanted_living_area)
+                                            <p>
+                                                <strong>Wanted Living Area: </strong>
+                                                {{ $info->wanted_living_area }}
+                                            </p>
+                                        @endif
 
 
                                         @php
@@ -249,6 +287,18 @@
                                             @endforeach
                                         </p>
 
+                                        <br>
+                                        <h5>Occupant</h5>
+                                        <div>
+                                            <hr style="width: 100%;">
+                                        </div>
+
+                                        <p>
+                                            <strong>Name: </strong>
+                                            {{ $info->first_name }}
+                                            {{ $info->last_name }}
+                                        </p>
+
                                         <p>
                                             <strong>Age: </strong>
                                             {{ $info->age ?? '' }}
@@ -256,6 +306,10 @@
                                         <p>
                                             <strong>Occupation: </strong>
                                             {{ $info->occupation ?? '' }}
+                                        </p>
+                                        <p>
+                                            <strong>Telephone </strong>
+                                            {{ $info->tel }}
                                         </p>
                                         <p>
                                             <strong>Smoker: </strong>
@@ -266,12 +320,55 @@
                                             {{ $info->pets == 1 ? 'Yes' : 'No' }}
                                         </p>
                                         <p>
+                                            <strong>Sex: </strong>
+                                            {{ $info->gay_lesbian }}
+                                        </p>
+                                        <p>
+                                            <strong>Gay Consent: </strong>
+                                            {{ $info->gay_consent == 1 ? 'Yes' : 'No' }}
+                                        </p>
+                                        <p>
                                             <strong>Nationality: </strong>
                                             {{ $info->nationality ?? '' }}
                                         </p>
                                         <p>
-                                            <strong>Gender: </strong>
+                                            <strong>Language: </strong>
+                                            {{ $info->lang_id }}
+                                        </p>
+
+
+                                        @if ($info->selectedSports)
+                                            <p>
+                                                <strong>Selected Sports </strong>
+                                                {{ $info->selectedSports }}
+                                            </p>
+                                        @endif
+
+                                        <h5>Requirements</h5>
+                                        <div>
+                                            <hr style="width: 100%;">
+                                        </div>
+
+                                        <p>
+                                            <strong>Gender Requirement: </strong>
                                             {{ $info->gender_req == 1 ? 'Male' : ($info->gender_req == 2 ? 'Female' : 'Others') }}
+                                        </p>
+
+                                        <p>
+                                            <strong>Minimum age requirement: </strong>
+                                            {{ $info->min_age_req }}
+                                        </p>
+                                        <p>
+                                            <strong>Maximum age requirement: </strong>
+                                            {{ $info->max_age_req }}
+                                        </p>
+                                        <p>
+                                            <strong>Pets Requirement: </strong>
+                                            {{ $info->pets_req }}
+                                        </p>
+                                        <p>
+                                            <strong>Gay Lesbian Requirement: </strong>
+                                            {{ $info->gay_lesbian_req }}
                                         </p>
 
                                     </div>
