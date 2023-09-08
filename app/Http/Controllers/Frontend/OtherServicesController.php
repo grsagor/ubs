@@ -32,7 +32,7 @@ class OtherServicesController extends Controller
     {
 
         $data['service_charge'] = ServiceCharge::with('childCategory')->get();
-        // return  $data['service_charge'];
+
         return view('frontend.other_services.property_finding_service', $data);
     }
 }
