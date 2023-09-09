@@ -1,6 +1,54 @@
 @extends('frontend.layouts.master_layout')
 @push('css')
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <style>
+        .image-carousel {
+            position: relative;
+        }
+
+        .carousel-container {
+            position: relative !important;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .previous,
+        .next {
+            font-size: 24px;
+            cursor: pointer;
+            padding: 8px;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            position: absolute !important;
+            top: 50%;
+            z-index: 1;
+        }
+
+        .previous {
+            left: 0;
+        }
+
+        .next {
+            right: 0;
+        }
+
+        .image-slide {
+            position: relative;
+            /* Add this to make the arrows relative to the image-slide */
+        }
+
+        .image-slide img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .active {
+            background-color: #333;
+        }
+    </style>
 @endpush
 @section('content')
     @includeIf('frontend.partials.global.common-header')
@@ -40,53 +88,68 @@
                                 <div class="product-images overflow-hidden">
                                     <div class="images-inner">
 
-                                        <div class="">
+                                        @php
+                                            $images = json_decode($info->images, true);
+                                            $first_image = 'https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg';
+                                            $img_count = null;
+                                            $imagePath = null;
+                                            
+                                            if ($images) {
+                                                $first_image = reset($images);
+                                                $imagePath = public_path($first_image);
+                                                $img_count = count($images);
+                                            }
+                                            
+                                        @endphp
 
-                                            @php
-                                                $images = json_decode($info->images, true);
-                                                $first_image = 'https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg';
-                                                $img_count = null;
-                                                $imagePath = null;
-                                                
-                                                if ($images) {
-                                                    $first_image = reset($images);
-                                                    $imagePath = public_path($first_image);
-                                                    $img_count = count($images);
-                                                }
-                                                
-                                            @endphp
-
-                                            <figure class="woocommerce-product-gallery__wrapper">
-                                                @if ($first_image && File::exists($imagePath))
-                                                    <div class="bg-light">
-                                                        <img id="single-image-zoom" src="{{ asset($first_image) }}">
-                                                    </div>
-                                                @else
-                                                    <div class="bg-light">
-                                                        <img id="single-image-zoom" src="{{ asset($first_image) }}">
-                                                    </div>
-                                                @endif
-                                                <div id="gallery_09" class="product-slide-thumb">
-                                                    <div
-                                                        class="owl-carousel four-carousel dot-disable nav-arrow-middle owl-mx-5 owl-loaded owl-drag">
-                                                        <div class="owl-stage-outer">
-                                                            <div class="owl-stage"></div>
+                                        @if ($images != null)
+                                            <div class="image-carousel">
+                                                <a class="previous" onclick="plusSlides(-1)">❮</a>
+                                                <div class="carousel-container">
+                                                    @foreach ($images as $index => $item)
+                                                        <div class="image-slide">
+                                                            <img src="{{ asset($item) }}" alt="Image {{ $index + 1 }}">
                                                         </div>
-                                                        <div class="owl-nav disabled"><button type="button"
-                                                                role="presentation" class="owl-prev">
-                                                                <div class="nav-btn prev-slide"><i
-                                                                        class="fas fa-chevron-left"></i><span>Prev</span>
-                                                                </div>
-                                                            </button><button type="button" role="presentation"
-                                                                class="owl-next">
-                                                                <div class="nav-btn next-slide"><span>Next</span><i
-                                                                        class="fas fa-chevron-right"></i></div>
-                                                            </button></div>
-                                                        <div class="owl-dots disabled"></div>
-                                                    </div>
+                                                    @endforeach
+                                                </div>
+                                                <a class="next" onclick="plusSlides(1)">❯</a>
+                                            </div>
+                                        @else
+                                            <figure class="woocommerce-product-gallery__wrapper">
+                                                <div class="bg-light">
+                                                    <img id="single-image-zoom" src="{{ asset($first_image) }}">
                                                 </div>
                                             </figure>
-                                        </div>
+                                        @endif
+
+                                        <script>
+                                            var currentIndex = 1;
+
+                                            showSlides(currentIndex);
+
+                                            function plusSlides(n) {
+                                                showSlides(currentIndex += n);
+                                            }
+
+                                            function showSlides(n) {
+                                                var i;
+                                                var slides = document.querySelectorAll(".image-slide");
+
+                                                if (n > slides.length) {
+                                                    currentIndex = 1;
+                                                }
+                                                if (n < 1) {
+                                                    currentIndex = slides.length;
+                                                }
+
+                                                for (i = 0; i < slides.length; i++) {
+                                                    slides[i].style.display = "none";
+                                                }
+
+                                                slides[currentIndex - 1].style.display = "block";
+                                            }
+                                        </script>
+
 
                                     </div>
                                 </div>
@@ -169,8 +232,8 @@
                                                     </a>
                                                 </li>
                                                 <li>
-                                                    <a class="twitter a2a_button_twitter" href="/#twitter"
-                                                        target="_blank" rel="nofollow noopener">
+                                                    <a class="twitter a2a_button_twitter" href="/#twitter" target="_blank"
+                                                        rel="nofollow noopener">
                                                         <i class="fab fa-twitter"></i>
                                                     </a>
                                                 </li>
