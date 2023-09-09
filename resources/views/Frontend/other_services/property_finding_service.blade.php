@@ -38,7 +38,7 @@
 
         /*PRICE COLOR CODE START*/
         #generic_price_table .generic_content {
-            background-color: #fff;
+            /* background-color: #afe6b7; */
         }
 
         #generic_price_table .generic_content .generic_head_price {
@@ -560,38 +560,69 @@
                                             @endphp
 
 
-                                            <div class="generic_price_tag clearfix" style="background: #f4f3f3">
-                                                <span class="price">
-                                                    <span class="sign">£</span>
-                                                    <span class="currency">{{ $wholeNumberPart }}</span>
-                                                    @if (ltrim($decimalPartFormatted, '0') != '.0')
-                                                        <span class="cent">{{ ltrim($decimalPartFormatted, '0') }}</span>
-                                                    @endif
-                                                    <span class="month">/week</span>
-                                                    <span class="month">+VAT</span>
-                                                    <ul>
-                                                        <li> Premium </li>
-                                                    </ul>
-                                                </span>
-                                            </div>
+                                            <form id="propertyFindingPaymentForm" method="GET"
+                                                action="{{ route('propertyFindingPayment') }}">
+                                                @csrf
+                                                <button type="submit">
 
-                                            <div class="generic_price_tag clearfix p-3" style="background: #d7d4d4">
-                                                <span class="price">
-                                                    <span class="sign">£</span>
-                                                    <span class="currency">{{ $item->service_charge }}</span>
-                                                    <span class="month">/month</span>
-                                                    <span class="month">+VAT</span>
-                                                    <ul>
-                                                        <li> Regular </li>
-                                                    </ul>
-                                                </span>
-                                            </div>
+                                                    <div class="generic_price_tag clearfix" style="background: #f4f3f3">
+                                                        <span class="price">
+                                                            <span class="sign">£</span>
+                                                            <span class="currency">{{ $wholeNumberPart }}</span>
+                                                            @if (ltrim($decimalPartFormatted, '0') != '.0')
+                                                                <span
+                                                                    class="cent">{{ ltrim($decimalPartFormatted, '0') }}</span>
+                                                            @endif
+                                                            <span class="month">/week</span>
+                                                            <span class="month">+VAT</span>
+                                                            <ul>
+                                                                <li style="color: rgb(109, 109, 109)"> Premium </li>
+                                                            </ul>
+                                                        </span>
+                                                    </div>
+                                                </button>
+
+                                                <input type="hidden" name="product_id" value="{{ $item->id }}">
+                                                <input type="hidden" name="product_name"
+                                                    value="{{ $item->child_category == 1 ? $item->size . ' room' : $item->childCategory->name }}">
+                                                <input type="hidden" name="bill" value="{{ $costs }}">
+
+                                            </form>
+
+
+
+
+
+                                            <form id="propertyFindingPaymentForm" method="GET"
+                                                action="{{ route('propertyFindingPayment') }}">
+                                                @csrf
+                                                <button type="submit">
+                                                    <div class="generic_price_tag clearfix p-3" style="background: #f4f4f4">
+                                                        <span class="price">
+                                                            <span class="sign">£</span>
+                                                            <span class="currency">{{ $item->service_charge }}</span>
+                                                            <span class="month">/month</span>
+                                                            <span class="month">+VAT</span>
+                                                            <ul>
+                                                                <li style="color: rgb(109, 109, 109)"> Regular </li>
+                                                            </ul>
+                                                        </span>
+                                                    </div>
+                                                </button>
+
+                                                <input type="hidden" name="product_id" value="{{ $item->id }}">
+                                                <input type="hidden" name="product_name"
+                                                    value="{{ $item->child_category == 1 ? $item->size . ' room' : $item->childCategory->name }}">
+                                                <input type="hidden" name="bill" value="{{ $item->service_charge }}">
+
+                                            </form>
+
 
                                         </div>
 
-                                        <div class="generic_price_btn clearfix">
+                                        {{-- <div class="generic_price_btn clearfix">
                                             <a class="" href="">Add</a>
-                                        </div>
+                                        </div> --}}
 
                                     </div>
 

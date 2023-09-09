@@ -21,10 +21,10 @@
 
         <h1 class="text-center">Send payments using Stripe Gateway</h1>
 
-        @if ($status)
+        @if (isset($status['msg']))
             <script>
                 $(document).ready(function() {
-                    toastr.success('Reference number matched!');
+                    toastr.success("{{ $status['msg'] }}");
                 });
             </script>
         @endif
