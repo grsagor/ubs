@@ -54,7 +54,7 @@ class ProjectController extends Controller
         $is_admin = $this->commonUtil->is_admin(auth()->user(), $business_id);
         $user_id = auth()->user()->id;
         $statuses = Project::statusDropdown();
-        
+
         //if project view is NULL, set default to list_view
         if (is_null(request()->get('project_view'))) {
             $project_view = 'list_view';
@@ -67,7 +67,7 @@ class ProjectController extends Controller
         }
 
         if (request()->ajax()) {
-            
+
             try {
                 $projects = Project::with('customer', 'members', 'lead', 'categories')->where('business_id', $business_id);
 
@@ -77,7 +77,7 @@ class ProjectController extends Controller
                         $q->where('user_id', $user_id);
                     });
                 }
-                
+
                 // filter by status
                 if (!empty(request()->get('status'))) {
                     $projects->where('status', request()->get('status'));
@@ -87,10 +87,10 @@ class ProjectController extends Controller
                 if (!empty(request()->get('end_date'))) {
                     if (request()->get('end_date') == 'overdue') {
                         $projects->where('end_date', '<', Carbon::today())
-                                ->where('status', '!=', 'completed');
+                            ->where('status', '!=', 'completed');
                     } elseif (request()->get('end_date') == 'today') {
                         $projects->where('end_date', Carbon::today())
-                                ->where('status', '!=', 'completed');
+                            ->where('status', '!=', 'completed');
                     } elseif (request()->get('end_date') == 'less_than_one_week') {
                         $projects->whereBetween('end_date', [Carbon::today(), Carbon::today()->addWeek()])
                             ->where('status', '!=', 'completed');
@@ -107,7 +107,7 @@ class ProjectController extends Controller
 
                 if ($project_view == 'list_view') {
                     $projects = $projects->latest()
-                                ->simplePaginate(10);
+                        ->simplePaginate(10);
 
                     //check if user is lead/admin for the project
                     foreach ($projects as $key => $project) {
@@ -121,12 +121,12 @@ class ProjectController extends Controller
 
                     //dynamically render projects
                     $projects_html = View::make('project::project.partials.index')
-                    ->with(compact('projects'))
-                    ->render();
+                        ->with(compact('projects'))
+                        ->render();
                 } elseif ($project_view == 'kanban') {
                     $projects = $projects->get()->groupBy('status');
                     //sort projects based on status
-                    $sorted_projects =[];
+                    $sorted_projects = [];
                     foreach ($statuses as $key => $value) {
                         if (!isset($projects[$key])) {
                             $sorted_projects[$key] = [];
@@ -152,20 +152,20 @@ class ProjectController extends Controller
 
                             $view = action('\Modules\Project\Http\Controllers\ProjectController@show', ['project' => $project->id]);
 
-                            $overviewTabUrl = action('\Modules\Project\Http\Controllers\ProjectController@show', ['project' => $project->id]).'?view=overview';
+                            $overviewTabUrl = action('\Modules\Project\Http\Controllers\ProjectController@show', ['project' => $project->id]) . '?view=overview';
 
-                            $activitiesTabUrl = action('\Modules\Project\Http\Controllers\ProjectController@show', ['project' => $project->id]).'?view=activities';
+                            $activitiesTabUrl = action('\Modules\Project\Http\Controllers\ProjectController@show', ['project' => $project->id]) . '?view=activities';
 
-                            $taskTabUrl = action('\Modules\Project\Http\Controllers\ProjectController@show', ['project' => $project->id]).'?view=project_task';
+                            $taskTabUrl = action('\Modules\Project\Http\Controllers\ProjectController@show', ['project' => $project->id]) . '?view=project_task';
 
                             $timeLogTabUrl = '';
                             if (isset($project->settings['enable_timelog']) && $project->settings['enable_timelog']) {
-                                $timeLogTabUrl = action('\Modules\Project\Http\Controllers\ProjectController@show', ['project' => $project->id]).'?view=time_log';
+                                $timeLogTabUrl = action('\Modules\Project\Http\Controllers\ProjectController@show', ['project' => $project->id]) . '?view=time_log';
                             }
 
                             $docNoteTabUrl = '';
                             if (isset($project->settings['enable_notes_documents']) && $project->settings['enable_notes_documents']) {
-                                $docNoteTabUrl = action('\Modules\Project\Http\Controllers\ProjectController@show', ['project' => $project->id]).'?view=documents_and_notes';
+                                $docNoteTabUrl = action('\Modules\Project\Http\Controllers\ProjectController@show', ['project' => $project->id]) . '?view=documents_and_notes';
                             }
 
                             // check if user is lead
@@ -173,12 +173,12 @@ class ProjectController extends Controller
 
                             $invoiceTabUrl = '';
                             if ((isset($project->settings['enable_invoice']) && $project->settings['enable_invoice']) && ($is_lead || $is_admin)) {
-                                $invoiceTabUrl = action('\Modules\Project\Http\Controllers\ProjectController@show', ['project' => $project->id]).'?view=project_invoices';
+                                $invoiceTabUrl = action('\Modules\Project\Http\Controllers\ProjectController@show', ['project' => $project->id]) . '?view=project_invoices';
                             }
 
                             $settingsTabUrl = '';
                             if ($is_lead || $is_admin) {
-                                $settingsTabUrl = action('\Modules\Project\Http\Controllers\ProjectController@show', ['project' => $project->id]).'?view=project_settings';
+                                $settingsTabUrl = action('\Modules\Project\Http\Controllers\ProjectController@show', ['project' => $project->id]) . '?view=project_settings';
                             }
 
                             //if member then get their avatar
@@ -188,7 +188,7 @@ class ProjectController extends Controller
                                     if (isset($member->media->display_url)) {
                                         $assigned_to[$member->user_full_name] = $member->media->display_url;
                                     } else {
-                                        $assigned_to[$member->user_full_name] = "https://ui-avatars.com/api/?name=".$member->first_name;
+                                        $assigned_to[$member->user_full_name] = "https://ui-avatars.com/api/?name=" . $member->first_name;
                                     }
                                 }
                             }
@@ -228,7 +228,7 @@ class ProjectController extends Controller
                         //get all the card & board title for particular board(status)
                         $projects_html[] = [
                             'id' => $key,
-                            'title' => __('project::lang.'.$key),
+                            'title' => __('project::lang.' . $key),
                             'cards' => $cards,
                         ];
                     }
@@ -240,7 +240,7 @@ class ProjectController extends Controller
                     'msg' => __('lang_v1.success')
                 ];
             } catch (Exception $e) {
-                \Log::emergency("File:" . $e->getFile(). "Line:" . $e->getLine(). "Message:" . $e->getMessage());
+                \Log::emergency("File:" . $e->getFile() . "Line:" . $e->getLine() . "Message:" . $e->getMessage());
 
                 $output = [
                     'success' => false,
@@ -314,15 +314,15 @@ class ProjectController extends Controller
 
             // default settings for project
             $input['settings'] = [
-                        'enable_timelog' => 1,
-                        'enable_invoice' => 1,
-                        'enable_notes_documents' => 1,
-                        'members_crud_task' => 0,
-                        'members_crud_note' => 0,
-                        'members_crud_timelog' => 0,
-                        'task_view' => 'list_view',
-                        'task_id_prefix' => '#'
-                    ];
+                'enable_timelog' => 1,
+                'enable_invoice' => 1,
+                'enable_notes_documents' => 1,
+                'members_crud_task' => 0,
+                'members_crud_note' => 0,
+                'members_crud_timelog' => 0,
+                'task_view' => 'list_view',
+                'task_id_prefix' => '#'
+            ];
 
             $members = $request->input('user_id');
             array_push($members, $request->input('lead_id'));
@@ -348,8 +348,8 @@ class ProjectController extends Controller
                 $project['body'] = __(
                     'project::lang.new_project_assgined_notification',
                     [
-                    'created_by' => $request->user()->user_full_name,
-                    'project' => $project->name
+                        'created_by' => $request->user()->user_full_name,
+                        'project' => $project->name
                     ]
                 );
                 $project['link'] = action('\Modules\Project\Http\Controllers\ProjectController@show', ['project' => $project->id]);
@@ -366,7 +366,7 @@ class ProjectController extends Controller
         } catch (Exception $e) {
             DB::rollBack();
 
-            \Log::emergency("File:" . $e->getFile(). "Line:" . $e->getLine(). "Message:" . $e->getMessage());
+            \Log::emergency("File:" . $e->getFile() . "Line:" . $e->getLine() . "Message:" . $e->getMessage());
 
             $output = [
                 'success' => false,
@@ -388,29 +388,30 @@ class ProjectController extends Controller
         if (!(auth()->user()->can('superadmin') || $this->moduleUtil->hasThePermissionInSubscription($business_id, 'project_module'))) {
             abort(403, 'Unauthorized action.');
         }
-        
+
         $user_id = auth()->user()->id;
 
         //Get time project details.
         $project = Project::with('customer', 'members', 'categories')
-                        ->withCount(['tasks as incomplete_task' => function ($query) {
-                            $query->where('status', '!=', 'completed');
-                        },
-                        'documentsAndnote as note_and_documents_count' => function ($query) use ($user_id) {
-                            $query->where('is_private', 0)
-                            ->orWhere(function ($query) use ($user_id) {
-                                $query->where('is_private', 1)
-                                    ->where('created_by', $user_id);
-                            });
-                        }
-                        ])
-                        ->where('business_id', $business_id)
-                        ->findOrFail($id);
+            ->withCount([
+                'tasks as incomplete_task' => function ($query) {
+                    $query->where('status', '!=', 'completed');
+                },
+                'documentsAndnote as note_and_documents_count' => function ($query) use ($user_id) {
+                    $query->where('is_private', 0)
+                        ->orWhere(function ($query) use ($user_id) {
+                            $query->where('is_private', 1)
+                                ->where('created_by', $user_id);
+                        });
+                }
+            ])
+            ->where('business_id', $business_id)
+            ->findOrFail($id);
 
         //Get time log details.
         $timelog = ProjectTimeLog::where('project_id', $id)
             ->select(DB::raw("SUM(TIMESTAMPDIFF(SECOND, start_datetime, end_datetime)) as total_seconds"))
-           ->first();
+            ->first();
 
         //Invoice paid.
         $invoice = ProjectTransaction::leftJoin('transaction_payments as TP', 'transactions.id', '=', 'TP.transaction_id')
@@ -424,7 +425,7 @@ class ProjectController extends Controller
             ->where('pjt_project_id', $id)
             ->select(DB::raw('SUM(final_total) as total'))
             ->first();
-            
+
         //check if user can create settings & task & time log
         $is_admin = $this->commonUtil->is_admin(auth()->user(), $business_id);
         $is_lead = $this->projectUtil->isProjectLead(auth()->user()->id, $id);
@@ -474,8 +475,8 @@ class ProjectController extends Controller
         $statuses = Project::statusDropdown();
         $categories = ProjectCategory::forDropdown($business_id, 'project');
         $project = Project::with('members', 'categories')
-                        ->where('business_id', $business_id)
-                        ->findOrFail($id);
+            ->where('business_id', $business_id)
+            ->findOrFail($id);
 
         return view('project::project.edit')
             ->with(compact('users', 'customers', 'statuses', 'project', 'categories'));
@@ -489,7 +490,7 @@ class ProjectController extends Controller
     public function update(Request $request, $id)
     {
         $business_id = request()->session()->get('user.business_id');
-        
+
         if (!(auth()->user()->can('superadmin') || ($this->moduleUtil->hasThePermissionInSubscription($business_id, 'project_module') && auth()->user()->can('project.edit_project')))) {
             abort(403, 'Unauthorized action.');
         }
@@ -504,11 +505,11 @@ class ProjectController extends Controller
             array_push($members, $request->input('lead_id'));
 
             $project = Project::where('business_id', $business_id)
-                            ->findOrFail($id);
+                ->findOrFail($id);
 
             $project->update($input);
             $project_members = $project->members()->sync($members);
-            
+
             //update project category
             $categories = $request->input('category_id');
             $project->categories()->sync($categories);
@@ -521,14 +522,14 @@ class ProjectController extends Controller
                         unset($project_members['attached'][$key]);
                     }
                 }
-                
+
                 //Used for broadcast notification
                 $project['title'] = __('project::lang.project');
                 $project['body'] = __(
                     'project::lang.new_project_assgined_notification',
                     [
-                    'created_by' => $request->user()->user_full_name,
-                    'project' => $project->name
+                        'created_by' => $request->user()->user_full_name,
+                        'project' => $project->name
                     ]
                 );
                 $project['link'] = action('\Modules\Project\Http\Controllers\ProjectController@show', ['project' => $project->id]);
@@ -544,8 +545,8 @@ class ProjectController extends Controller
             ];
         } catch (Exception $e) {
             DB::rollBack();
-            
-            \Log::emergency("File:" . $e->getFile(). "Line:" . $e->getLine(). "Message:" . $e->getMessage());
+
+            \Log::emergency("File:" . $e->getFile() . "Line:" . $e->getLine() . "Message:" . $e->getMessage());
 
             $output = [
                 'success' => false,
@@ -570,7 +571,7 @@ class ProjectController extends Controller
 
         try {
             $project = Project::where('business_id', $business_id)
-                            ->findOrFail($id);
+                ->findOrFail($id);
 
             $project->delete();
 
@@ -579,7 +580,7 @@ class ProjectController extends Controller
                 'msg' => __('lang_v1.success')
             ];
         } catch (Exception $e) {
-            \Log::emergency("File:" . $e->getFile(). "Line:" . $e->getLine(). "Message:" . $e->getMessage());
+            \Log::emergency("File:" . $e->getFile() . "Line:" . $e->getLine() . "Message:" . $e->getMessage());
 
             $output = [
                 'success' => false,
@@ -611,7 +612,7 @@ class ProjectController extends Controller
             $project_id = $request->get('project_id');
             $business_id = request()->session()->get('user.business_id');
             $project = Project::where('business_id', $business_id)
-                        ->findOrFail($project_id);
+                ->findOrFail($project_id);
 
             DB::beginTransaction();
 
@@ -632,24 +633,24 @@ class ProjectController extends Controller
             ];
         } catch (Exception $e) {
             DB::rollBack();
-            \Log::emergency("File:" . $e->getFile(). "Line:" . $e->getLine(). "Message:" . $e->getMessage());
+            \Log::emergency("File:" . $e->getFile() . "Line:" . $e->getLine() . "Message:" . $e->getMessage());
 
             $output = [
                 'success' => false,
                 'msg' => __('messages.something_went_wrong')
             ];
         }
-        
+
         return redirect()->action(
             '\Modules\Project\Http\Controllers\ProjectController@show',
             ['project' => $project_id]
-            )->with('status', $output);
+        )->with('status', $output);
     }
 
     /**
-    * update project status
-    * @return Response
-    */
+     * update project status
+     * @return Response
+     */
     public function postProjectStatus($id)
     {
         try {
@@ -657,17 +658,17 @@ class ProjectController extends Controller
             $status = request()->get('status');
 
             $project = Project::where('business_id', $business_id)
-                            ->findOrFail($id);
+                ->findOrFail($id);
 
             $project->status = $status;
             $project->save();
-            
+
             $output = [
                 'success' => true,
                 'msg' => __('lang_v1.success')
             ];
         } catch (Exception $e) {
-            \Log::emergency("File:" . $e->getFile(). "Line:" . $e->getLine(). "Message:" . $e->getMessage());
+            \Log::emergency("File:" . $e->getFile() . "Line:" . $e->getLine() . "Message:" . $e->getMessage());
 
             $output = [
                 'success' => false,

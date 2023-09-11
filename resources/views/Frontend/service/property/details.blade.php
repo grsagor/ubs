@@ -104,7 +104,7 @@
 
                                         @if ($images != null)
                                             <div class="image-carousel">
-                                                <a class="previous" onclick="plusSlides(-1)">❮</a>
+
                                                 <div class="carousel-container">
                                                     @foreach ($images as $index => $item)
                                                         <div class="image-slide">
@@ -112,6 +112,7 @@
                                                         </div>
                                                     @endforeach
                                                 </div>
+                                                <a class="previous" onclick="plusSlides(-1)">❮</a>
                                                 <a class="next" onclick="plusSlides(1)">❯</a>
                                             </div>
                                         @else
