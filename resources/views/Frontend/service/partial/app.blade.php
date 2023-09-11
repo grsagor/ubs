@@ -25,7 +25,7 @@
 
         p.category_text {
             /* min-height: 20px;
-                                                                                                                                                                                                                                                                                                                                                                                                max-height: 20px; */
+                                                                                                                                                                                                                                                                                                                                                                                                    max-height: 20px; */
         }
 
         h5.product-title {
@@ -47,6 +47,10 @@
         .product-wrapper .product-info .product-title a {
             font-weight: 400;
             font-size: 22px;
+        }
+
+        .active_child_category {
+            color: red !important;
         }
     </style>
 @endpush
@@ -77,15 +81,21 @@
                                     <ul class="product-categories">
 
                                         <li class="cat-item cat-parent">
-                                            <a href="{{ route('room.list') }}" class="category-link" id="cat"><span
-                                                    class="text-danger">Properties To
-                                                    Rent </span></a>
+                                            <a href="{{ route('property.list', ['sub_category_id' => 2]) }}"
+                                                class="category-link" id="cat">
+                                                <span
+                                                    class="{{ Route::currentRouteName() === 'property.list' && request()->route('sub_category_id') == 2 ? 'text-danger' : '' }}">Properties
+                                                    To Rent </span>
+                                            </a>
                                         </li>
 
                                         <li class="cat-item cat-parent">
-                                            <a href="{{ route('property.list') }}" class="category-link"
-                                                id="cat">Properties
-                                                Wanted </a>
+                                            <a href="{{ route('property.list', ['sub_category_id' => 1]) }}"
+                                                class="category-link" id="cat">
+                                                <span
+                                                    class="{{ Route::currentRouteName() === 'property.list' && request()->route('sub_category_id') == 1 ? 'text-danger' : '' }}">Properties
+                                                    Wanted</span>
+                                            </a>
                                         </li>
 
                                     </ul>
@@ -100,20 +110,13 @@
                                     <h2 class="widget-title">Property Type</h2>
 
                                     <ul>
-                                        @foreach ($categories as $item)
+                                        @foreach ($child_categories as $item)
                                             <li class="cat-item cat-parent">
-                                                <form action="{{ route('room.list.category') }}" method="GET">
-                                                    {{-- @csrf --}}
-                                                    <button type="submit" class="category-link">
-                                                        @if (request()->input('search') == $item->id)
-                                                            <span class="text-danger"> {{ $item->name }}</span>
-                                                        @else
-                                                            {{ $item->name }}
-                                                        @endif
-
-                                                    </button>
-                                                    <input type="hidden" name="search" value="{{ $item->id }}">
-                                                </form>
+                                                <a
+                                                    href="{{ route('property.list', ['sub_category_id' => $sub_category_id, 'child_category_id' => $item->id]) }}">
+                                                    <span
+                                                        class="{{ Route::currentRouteName() === 'property.list' && request()->route('sub_category_id') == $sub_category_id && request()->route('child_category_id') == $item->id ? 'active_child_category' : '' }}">{{ $item->name }}</span>
+                                                </a>
                                             </li>
                                         @endforeach
                                     </ul>
@@ -122,7 +125,109 @@
                             </div>
                         </div>
 
-                        @yield('property_list_content')
+                        {{-- Right Side --}}
+                        <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12" style="padding: 0px !important;">
+                            <div class="product-search-one">
+                                <form id="searchForm" class="search-form form-inline search-pill-shape bg-white"
+                                    action="{{ route('property.list') }}" method="GET">
+
+                                    <input type="text" id="shop_name" class="col form-control search-field"
+                                        name="search" placeholder="Search title or room type or room address"
+                                        value="{{ request()->input('search') }}">
+
+                                    <a type="submit" name="submit" class="search-submit"><i
+                                            class="flaticon-search flat-mini text-white"></i>
+                                    </a>
+                                </form>
+                            </div>
+
+
+                            <div class="showing-products pt-30 pb-50 border-2 border-bottom border-light" id="ajaxContent">
+
+
+                                <div class="row mb-4 g-3 product-style-1 shop-list product-list  e-title-hover-primary e-hover-image-zoom"
+                                    style="padding: 0px !important;">
+                                    @if (count($rooms) > 0)
+                                        <div class="col-md-9">
+                                            @yield('property_list_content')
+                                        </div>
+
+
+                                        {{-- Right side Advertise widget --}}
+                                        <div class="col-md-3">
+
+                                            <div class="card">
+                                                {{-- <img class="card-img-top" src="..." alt="Card image cap"> --}}
+                                                <div class="card-body">
+                                                    <h5 class="card-title">Advertise your propertise</h5>
+                                                    <p class="card-text">List your property unlimited and completely free.
+                                                    </p>
+                                                    <a href="{{ route('service-advertise.index') }}"
+                                                        class="button-31">Add</a>
+                                                </div>
+                                            </div>
+
+                                            <br>
+
+                                            <div class="card">
+                                                {{-- <img class="card-img-top" src="..." alt="Card image cap"> --}}
+                                                <div class="card-body">
+                                                    <h5 class="card-title">Can't find your propertise?</h5>
+                                                    <p class="card-text">Advertise your requirements completely free.</p>
+                                                    <a href="{{ route('property-wanted.index') }}"
+                                                        class="button-31">Add</a>
+                                                </div>
+                                            </div>
+
+                                            <br>
+
+                                            <div class="card">
+                                                {{-- <img class="card-img-top" src="..." alt="Card image cap"> --}}
+                                                <div class="card-body">
+                                                    <h5 class="card-title">Hire someone to find out your property.</h5>
+                                                    <ol>
+                                                        <li class="card-text">If you don't have time to find your property.
+                                                        </li>
+                                                        <li class="card-text">If you don't have idea how to deal property.
+                                                        </li>
+
+                                                    </ol>
+                                                    <p class="card-text">Buy our property finding service. A completely
+                                                        secure and
+                                                        reliable property finding service tailored to your needs.</p>
+
+                                                    <a href="#" class="button-31">Add</a>
+                                                </div>
+                                            </div>
+
+                                            <br>
+
+                                        </div>
+                                    @else
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="page-center">
+                                                    <h4 class="text-center">{{ 'No Room Found.' }}</h4>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endif
+                                </div>
+
+                            </div>
+                            <div class="col-lg-12 mt-3">
+                                <div class="d-flex align-items-start pt-3" id="custom-pagination">
+                                    <div class="pagination-style-one">
+                                        <nav aria-label="Page navigation example">
+                                            <ul class="pagination">
+                                                {{ $rooms->links() }}
+                                            </ul>
+                                        </nav>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
 
 
                     </div>
@@ -130,6 +235,11 @@
             </div>
         </div>
     </div>
+    <style>
+        .active_child_category {
+            color: red !important;
+        }
+    </style>
 @endsection
 
 @section('script')

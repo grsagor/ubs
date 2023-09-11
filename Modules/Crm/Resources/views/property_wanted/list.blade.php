@@ -7,10 +7,6 @@
         <h1>Property Wanted
             <small>Tell what you want</small>
         </h1>
-        <!-- <ol class="breadcrumb">
-                                <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
-                                <li class="active">Here</li>
-                            </ol> -->
     </section>
 
     <!-- Main content -->
@@ -29,10 +25,10 @@
                     <thead>
                         <tr>
                             <th>Action</th>
-                            <th>Name</th>
-                            <th>Who</th>
-                            <th>Why</th>
-                            <th>Room size</th>
+                            <th>Reference No</th>
+                            <th>Category</th>
+                            <th>Sub-category</th>
+                            <th>Child-category</th>
                         </tr>
                     </thead>
                 </table>
@@ -41,7 +37,7 @@
 
         <div class="modal fade room_to_rent_add_modal" role="dialog" aria-labelledby="gridSystemModalLabel">
         </div>
-        <div class="modal fade location_edit_modal" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel">
+        <div class="modal fade room_to_rent_edit_modal" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel">
         </div>
 
         <!-- Modal -->
@@ -89,10 +85,10 @@
                 ajax: '/contact/property-wanted',
                 columns: [
                     { data: 'action', name: 'action', orderable: false, searchable: false },
-                    { data: 'ad_title', name: 'ad_title' },
-                    { data: 'who_is_searching', name: 'who_is_searching' },
-                    { data: 'why_is_searching', name: 'why_is_searching' },
-                    { data: 'room_size', name: 'room_size' },
+                    { data: 'reference_id', name: 'reference_id' },
+                    { data: 'category_name', name: 'category_name' },
+                    { data: 'subcategory_name', name: 'subcategory_name' },
+                    { data: 'child_category_name', name: 'child_category_name' },
                 ]
             });
         });

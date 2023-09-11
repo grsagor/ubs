@@ -9,6 +9,14 @@ use Modules\Crm\Entities\ServicePropertyWanted;
 
 class PropertyController extends Controller
 {
+    public function propertyListShowing($child_category_id = null){
+        if(!$child_category_id){
+            $properties = ServicePropertyWanted::all();
+        }else {
+            $properties = ServicePropertyWanted::where('child_category_id', $child_category_id)->get();
+        }
+        return $properties;
+    }
     public function propertyList(Request $request)
     {
         $data['per_page'] = 10;

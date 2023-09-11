@@ -1,15 +1,15 @@
 <script>
-    $(document).ready(function() {
-        $(".step:not(:first)").hide(); // Hide all steps except the first one
+    // $(document).ready(function() {
+    //     $(".step:not(:first)").hide(); // Hide all steps except the first one
 
-        $(".next-btn").click(function() {
-            $(this).parent().hide().next().show();
-        });
+    //     $(".next-btn").click(function() {
+    //         $(this).parent().hide().next().show();
+    //     });
 
-        $(".prev-btn").click(function() {
-            $(this).parent().hide().prev().show();
-        });
-    });
+    //     $(".prev-btn").click(function() {
+    //         $(this).parent().hide().prev().show();
+    //     });
+    // });
 
 
     // Get the input element by its ID
@@ -56,7 +56,7 @@
                 enctype="multipart/form-data">
                 @csrf
                 <div id="showingbtn1" class="row">
-                    <div class="col-sm-12">
+                    {{-- <div class="col-sm-12">
                         <div class="form-group">
                             <label>Who's searching?:</label>
                             <div>
@@ -75,7 +75,70 @@
                                 <label for="meandafriend">Me and a friend</label>
                             </div>
                         </div>
+                    </div> --}}
+                    <input type="hidden" value="{{ $category->id }}" name="category_id">
+                    <input type="hidden" value="{{ $sub_category->id }}" name="sub_category_id">
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label for="custom_field2">Your name</label>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <input class="form-control" placeholder="First name" name="first_name"
+                                        type="text" id="first_name">
+                                </div>
+                                <div class="col-sm-6">
+                                    <input class="form-control" placeholder="Last name" name="last_name" type="text"
+                                        id="last_name">
+                                </div>
+                            </div>
+                        </div>
                     </div>
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label for="selling_price_group_id">Property Type</label>
+                            <select class="form-control" id="child_category_id" name="child_category_id">
+                                <option selected="" value="">Select....</option>
+                                @foreach ($child_categories as $item)
+                                    <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <label for="selling_price_group_id">Number of bed rooms</label>
+                        <select class="form-control" id="property_size" name="property_size">
+                            <option selected="" value="">Select....</option>
+                            @foreach (['1 Bed Room', '2 Bed Rooms', '3 Bed Rooms', '4 Bed Rooms', '5+ Bed Rooms'] as $key => $item)
+                                <option value="{{ $key + 1 }}">{{ $item }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div id="rooms_inputs_container">
+
+                    </div>
+
+                    <div class="col-sm-12" id="number_of_shared_people_container">
+                        <div class="form-group">
+                            <label for="invoice_scheme_id">how many people will share the property?</label>
+                            <select class="form-control" required="" id="number_of_shared_people"
+                                name="number_of_shared_people">
+                                <option selected value=0>Select....</option>
+                                <option value=1>1</option>
+                                <option value=2>2</option>
+                                <option value=3>3</option>
+                                <option value=4>4</option>
+                                <option value=5>5</option>
+                                <option value=6>6</option>
+                                <option value=7>7</option>
+                                <option value=8>8</option>
+                                <option value=9>9</option>
+                                <option value=10>10</option>
+                            </select>
+                        </div>
+                    </div>
+
                     <div class="col-sm-12">
                         <div class="form-group">
                             <label>Why is searching?</label>
@@ -99,11 +162,10 @@
                     </div>
 
 
-
                     <div class="col-sm-12">
                         <div class="form-group">
                             <label for="invoice_scheme_id">Business Location</label>
-                            <select class="form-control" required="" name="business_location_id">
+                            <select class="form-control" name="business_location_id">
                                 <option selected="" value="">Select Business Location </option>
                                 @foreach ($business_locations as $item)
                                     <option value="{{ $item->id }}">
@@ -141,7 +203,7 @@
                     <div class="col-sm-12">
                         <div class="form-group">
                             <label for="invoice_scheme_id">Where do you want to live?</label>
-                            <select class="form-control" required="" id="invoice_scheme_id"
+                            <select class="form-control" id="invoice_scheme_id"
                                 name="wanted_living_area">
                                 <option value="" selected="">Select an
                                     area...
@@ -176,7 +238,7 @@
                                         type="number" id="custom_field1">
                                 </div>
                                 <div class="col-sm-4">
-                                    <select class="form-control" required="" id="per" name="per">
+                                    <select class="form-control" id="per" name="per">
                                         <option value="" selected="">Per week or month</option>
                                         <option value="pw">per week</option>
                                         <option value="pcm">per month</option>
@@ -298,19 +360,41 @@
 
                     <div class="col-sm-12">
                         <div class="form-group">
-                            <label for="selling_price_group_id">Occupation</label> <i
-                                class="fa fa-info-circle text-info hover-q no-print " aria-hidden="true"
-                                data-container="body" data-toggle="popover" data-placement="auto bottom"
-                                data-content="This price group will be used as the default price group in this location."
-                                data-html="true" data-trigger="hover"></i> <select class="form-control"
-                                id="occupation" name="occupation">
-                                <option value="ND" selected="">Not
-                                    disclosed
-                                </option>
-                                <option value="Student">Student</option>
-                                <option value="Professional">Professional</option>
-                                <option value="Other">Other</option>
+                            <label for="selling_price_group_id">Occupation</label>
+                            <select class="form-control" id="occupation" name="occupation">
+                                <option value="ND" selected="">Not disclosed</option>
+                                <option value="1">Student</option>
+                                <option value="2">Employee</option>
+                                <option value="3">Others</option>
                             </select>
+                        </div>
+                    </div>
+
+                    <div id="student_info_container" style="display: none;">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label for="occupant_university_name">University Name</label>
+                                <input class="form-control" name="occupant_university_name[]" type="text"
+                                    id="occupant_university_name">
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label for="occupant_degree_name">Degree Name</label>
+                                <input class="form-control" name="occupant_degree_name[]" type="text"
+                                    id="occupant_degree_name">
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label for="occupant_job">Do you have job?</label>
+                                <select class="form-control" id="occupant_job" name="occupant_job[]">
+                                    <option selected="" value="">Select....</option>
+                                    <option value="1">Part-time</option>
+                                    <option value="2">Full-time</option>
+                                    <option value="3">Self-employed</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
 
@@ -759,34 +843,15 @@
                             <div id="selectedSports"></div>
                         </div>
                     </div>
-
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label for="custom_field2">Your name</label>
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <input class="form-control" placeholder="First name" name="first_name"
-                                        type="text" id="first_name">
-                                </div>
-                                <div class="col-sm-6">
-                                    <input class="form-control" placeholder="Last name" name="last_name"
-                                        type="text" id="last_name">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
+                </div>
+                <div id="showingbtn2" class="row" style="display:none;">
                     <div class="col-sm-12 input_group_title_container">
                         <h6>Your flatmate preference</h6>
                     </div>
 
                     <div class="col-sm-12">
                         <div class="form-group">
-                            <label for="selling_price_group_id">Gender</label> <i
-                                class="fa fa-info-circle text-info hover-q no-print " aria-hidden="true"
-                                data-container="body" data-toggle="popover" data-placement="auto bottom"
-                                data-content="This price group will be used as the default price group in this location."
-                                data-html="true" data-trigger="hover"></i>
+                            <label for="selling_price_group_id">Gender</label>
                             <select class="form-control" id="gender_req" name="gender_req">
                                 <option selected="" value="">Select
                                     ....</option>
@@ -802,35 +867,18 @@
 
                     <div class="col-sm-12">
                         <div class="form-group">
-                            <label for="selling_price_group_id">Age Range</label> <i
+                            <label for="selling_price_group_id">Age</label> <i
                                 class="fa fa-info-circle text-info hover-q no-print " aria-hidden="true"
                                 data-container="body" data-toggle="popover" data-placement="auto bottom"
                                 data-content="This price group will be used as the default price group in this location."
-                                data-html="true" data-trigger="hover"></i>
-                            <div style="display: flex;">
-                                <div class="">
-                                    <select class="form-control" id="min_age_req" name="min_age_req">
-                                        <option value="" selected>Select...</option>
-                                        @foreach (range(18, 99) as $age)
-                                            <option value="{{ $age }}">
-                                                {{ $age }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div
-                                    style="display: flex; justify-content: center; align-items: center; flex-direction:column;">
-                                    <span style="margin-bottom: 15px;">to</span>
-                                </div>
-                                <div class="">
-                                    <select class="form-control" id="max_age_req" name="max_age_req">
-                                        <option value="" selected>Select...</option>
-                                        @foreach (range(18, 99) as $age)
-                                            <option value="{{ $age }}">
-                                                {{ $age }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
+                                data-html="true" data-trigger="hover"></i> <select class="form-control"
+                                id="age" name="age">
+                                <option value="">Select...</option>
+                                @foreach (range(18, 99) as $age)
+                                    <option value="{{ $age }}">
+                                        {{ $age }}</option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
 
@@ -880,6 +928,8 @@
                             </select>
                         </div>
                     </div>
+                </div>
+                <div id="showingbtn3" class="row" style="display:none;">
 
                     <div class="col-sm-12">
                         <div class="form-group">
@@ -894,13 +944,13 @@
                         <div class="form-group">
                             <label for="custom_field1">Description</label>
                             <p class="sub-heading">(No contact details permitted within description)</p>
-                            <textarea type="text" class="form-control" name="ad_text" class="input-field"></textarea>
+                            <textarea rows="30" type="text" class="form-control" name="ad_text" class="input-field"></textarea>
                         </div>
                     </div>
 
                     <div class="col-sm-12">
                         <div class="form-group">
-                            <label for="custom_field1">Upload photos</label>
+                            <label for="custom_field1">Upload your photos</label>
                             <input class="form-control" name="images[]" type="file" id="imageUpload" multiple>
                         </div>
                     </div>
@@ -913,17 +963,41 @@
                         </div>
                     </div>
                 </div>
+                <div id="showingbtn4" class="row" style="display:none;">
+                    <div id="occupants_inputs_container">
+
+                    </div>
+                </div>
 
 
                 <div id="nextprev1">
-                    <button id="next1" type="button"
-                        class="btn btn-primary float-none w-25 rounded-0 submit-btn">Next</button>
+                    <div class="d-flex gap-1 justify-content-center">
+                        <button id="next1" type="button" class="btn btn-primary float-none w-25 rounded-0 submit-btn">Next</button>
+                    </div>
                 </div>
-                <div class="d-none" style="display:none;" id="nextprev2">
-                    <button id="prev2" type="button"
+                <div style="display:none;" id="nextprev2">
+                    <div class="d-flex gap-1 justify-content-center">
+                        <button id="prev2" type="button"
+                        class="btn btn-primary float-none w-25 rounded-0 submit-btn ">Previous</button>
+                        <button id="next2" type="button"
+                            class="btn btn-primary float-none w-25 rounded-0 submit-btn">Next</button>
+                    </div>
+                </div>
+                <div style="display:none;" id="nextprev3">
+                    <div class="d-flex gap-1 justify-content-center">
+                        <button id="prev3" type="button"
+                        class="btn btn-primary float-none w-25 rounded-0 submit-btn ">Previous</button>
+                        <button id="next3" type="button"
+                            class="btn btn-primary float-none w-25 rounded-0 submit-btn">Next</button>
+                    </div>
+                </div>
+                <div style="display:none;" id="nextprev4">
+                    <div class="d-flex gap-1 justify-content-center">
+                        <button id="prev4" type="button"
                         class="btn btn-primary float-none w-25 rounded-0 submit-btn ">Previous</button>
                     <button style="margin-top: 0;" class="addProductSubmit-btn w-25 btn btn-success"
                         type="submit">Submit</button>
+                    </div>
                 </div>
             </form>
         </div>
@@ -1013,19 +1087,6 @@
         background-position: center !important;
     }
 
-    /* .addProductSubmit-btn {
-        background: #1f224f;
-        width: 160px;
-        height: 40px;
-        color: #fff;
-        font-size: 14px;
-        border: 0px;
-        margin-top: 15px;
-        -webkit-transition: all 0.3s ease-in;
-        -o-transition: all 0.3s ease-in;
-        transition: all 0.3s ease-in;
-    } */
-
     .check-container input[type="checkbox"] {
         background-color: black;
     }
@@ -1039,6 +1100,15 @@
     .input_group_title_container h6 {
         font-size: 22px;
         font-weight: bold;
+    }
+    .d-flex {
+        display: flex !important;
+    } 
+    .gap-1{
+        gap: 15px;
+    }
+    .justify-content-center {
+        justify-content: center;
     }
 </style>
 <script>
@@ -1058,17 +1128,58 @@
     });
     $(document).ready(function() {
         $("#next1").click(function() {
-            $("#showingbtn1").css('display', 'none');
-            $("#showingbtn2").css('display', 'block');
-            $("#nextprev1").css('display', 'none').removeClass("d-flex gap-1 justify-content-between");
-            $("#nextprev2").css('display', 'block').addClass("d-flex gap-1 justify-content-between");
+            if ($('#child_category_id').val() == 11) {
+                $("#showingbtn1").css('display', 'none');
+                $("#showingbtn2").css('display', 'block');
+                $("#nextprev1").css('display', 'none');
+                $("#nextprev2").css('display', 'block');
+            } else {
+                $("#showingbtn1").css('display', 'none');
+                $("#showingbtn3").css('display', 'block');
+                $("#nextprev1").css('display', 'none');
+                $("#nextprev3").css('display', 'block');
+            }
+        });
+
+        $("#next2").click(function() {
+            $("#showingbtn2").css('display', 'none');
+            $("#showingbtn3").css('display', 'block');
+            $("#nextprev2").css('display', 'none');
+            $("#nextprev3").css('display', 'block');
+        });
+        $("#next3").click(function() {
+            $("#showingbtn3").css('display', 'none');
+            $("#showingbtn4").css('display', 'block');
+            $("#nextprev3").css('display', 'none');
+            $("#nextprev4").css('display', 'block');
         });
 
         $("#prev2").click(function() {
             $("#showingbtn1").css('display', 'block');
             $("#showingbtn2").css('display', 'none');
-            $("#nextprev1").css('display', 'block').addClass("d-flex gap-1 justify-content-between");
-            $("#nextprev2").css('display', 'none').removeClass("d-flex gap-1 justify-content-between");
+            $("#nextprev1").css('display', 'block');
+            $("#nextprev2").css('display', 'none');
+        });
+
+        $("#prev3").click(function() {
+            if ($('#child_category_id').val() == 11) {
+                $("#showingbtn2").css('display', 'block');
+                $("#showingbtn3").css('display', 'none');
+                $("#nextprev2").css('display', 'block');
+                $("#nextprev3").css('display', 'none');
+            } else {
+                $("#showingbtn1").css('display', 'block');
+                $("#showingbtn3").css('display', 'none');
+                $("#nextprev1").css('display', 'block');
+                $("#nextprev3").css('display', 'none');
+            }
+        });
+
+        $("#prev4").click(function() {
+            $("#showingbtn3").css('display', 'block');
+            $("#showingbtn4").css('display', 'none');
+            $("#nextprev3").css('display', 'block');
+            $("#nextprev4").css('display', 'none');
         });
     });
 </script>
@@ -1084,8 +1195,6 @@
             $('#myModal').modal('hide');
         });
 
-
-
         // Search functionality
         $('#searchBar').keyup(function() {
             var filter = $(this).val().toLowerCase();
@@ -1098,5 +1207,63 @@
             $(this).toggleClass('active');
             $(this).toggleClass('selected'); // Add 'selected' class to change background color
         });
+
+        $('#number_of_shared_people').change(function() {
+            var num = $(this).val();
+            $.ajax({
+                url: "/contact/show-occupants-details-inputs",
+                type: "get",
+                data: {
+                    num: num
+                },
+                dataType: "json",
+                success: function(data) {
+                    $('#occupants_inputs_container').empty()
+                    $('#occupants_inputs_container').html(data.html)
+                    $('#occupants_inputs_container').show()
+                }
+            });
+        })
+
+        $('#child_category_id').change(function() {
+            var value = $(this).val();
+            if (value == 11) {
+                $('#rooms_inputs_container input').prop('disabled', false);
+                $('#rooms_inputs_container').show();
+            } else {
+                $('#rooms_inputs_container').hide();
+                $('#rooms_inputs_container input').prop('disabled', true);
+            }
+        })
+
+        $('#property_size').change(function() {
+            var num = $(this).val();
+            $.ajax({
+                url: "/contact/show-room-details-inputs",
+                type: "get",
+                data: {
+                    num: num
+                },
+                dataType: "json",
+                success: function(data) {
+                    $('#rooms_inputs_container').empty()
+                    $('#rooms_inputs_container').html(data.html)
+                    $('#rooms_inputs_container').show()
+                }
+            });
+        })
+
+        $('#occupation').change(function() {
+            var isStudent = $(this).val();
+            if (isStudent == 1) {
+                $('#student_info_container input, #student_info_container select, #student_info_container textarea')
+                    .prop('disabled', false);
+                $('#student_info_container').show();
+            } else {
+                $('#student_info_container input, #student_info_container select, #student_info_container textarea')
+                    .prop('disabled', true);
+                $('#student_info_container').hide();
+            }
+        })
     });
 </script>

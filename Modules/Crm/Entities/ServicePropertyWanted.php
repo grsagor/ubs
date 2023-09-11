@@ -2,6 +2,9 @@
 
 namespace Modules\Crm\Entities;
 
+use App\ChildCategory;
+use App\ServiceCategory;
+use App\SubCategory;
 use App\User;
 use App\Traits\CreatedUpdatedBy;
 use Illuminate\Database\Eloquent\Model;
@@ -17,7 +20,12 @@ class ServicePropertyWanted extends Model
 
     protected $fillable = [
         'reference_id',
-        // 'business_location_id',
+        'category_id',
+        'sub_category_id',
+        'child_category_id',
+        'occupant_details',
+        'room_details',
+        'business_location_id',
         'service_category_id',
         'who_is_searching',
         'why_is_searching',
@@ -78,5 +86,17 @@ class ServicePropertyWanted extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+    public function category()
+    {
+        return $this->belongsTo(ServiceCategory::class, 'category_id');
+    }
+    public function sub_category()
+    {
+        return $this->belongsTo(SubCategory::class, 'sub_category_id');
+    }
+    public function child_category()
+    {
+        return $this->belongsTo(ChildCategory::class, 'child_category_id');
     }
 }

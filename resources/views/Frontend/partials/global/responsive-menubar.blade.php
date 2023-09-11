@@ -1,10 +1,11 @@
+@php
+    $user = Auth::user();
+@endphp
 <div class="main-nav d-lg-block d-none ">
     <div class="container-fluid px-lg-5 border-bottom">
         <div class="row">
             <div class="col-xl-12 col-md-12 d-flex justify-content-center">
                 <nav class="navbar navbar-expand-lg nav-dark nav-primary-hover nav-line-active">
-                    {{-- <a class="navbar-brand" href="{{ url('/') }}"><img class="nav-logo lazy"
-                            data-src="{{ asset('assets/images/logo.png') }}" alt="Image not found !"></a> --}}
                     <button class="navbar-toggler" type="button" data-toggle="collapse"
                         data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                         aria-label="Toggle navigation">
@@ -15,81 +16,31 @@
                             <li class="nav-item dropdown {{ request()->path() == '/' ? 'active' : '' }}">
                                 <a class="nav-link dropdown-toggle" href="{{ url('/') }}">Home</a>
                             </li>
-                            {{-- <li
+                            <li
                                 class="nav-item dropdown {{ request()->path() == '/service_category' ? 'active' : '' }}">
-                                <a class="nav-link dropdown-toggle" href="{{ route('room.list') }}">Property</a>
-                            </li> --}}
-
-
-                            <li class="nav-item dropdown mega-dropdown">
-                                <a class="nav-link dropdown-toggle" href="{{ route('room.list') }}">Property</a>
-                                <ul class="dropdown-menu mega-dropdown-menu">
-                                    <li class="mega-container">
-                                        <div class="row row-cols-lg-4 row-cols-sm-2 row-cols-1">
-
-                                            <div class="col">
-                                                <ul>
-                                                    <li><a class="dropdown-item"
-                                                            href="{{ route('room.list') }}">Property List</a> </li>
-                                                    <li><a class="dropdown-item"
-                                                            href="{{ route('propertyFindingService') }}">Property
-                                                            Finding Service</a> </li>
-                                                </ul>
-                                            </div>
-
-                                        </div>
-                                    </li>
-                                </ul>
+                                <a class="nav-link dropdown-toggle" href="{{ route('property.list') }}">Property</a>
                             </li>
-
-
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('shop.list') }}">Shop</a>
                             </li>
-
-                            {{-- <li class="nav-item dropdown mega-dropdown">
-                                <a class="nav-link dropdown-toggle" href="{{ url('/category') }}">Product</a>
-                                <ul class="dropdown-menu mega-dropdown-menu">
-                                    <li class="mega-container">
-                                        <div class="row row-cols-lg-4 row-cols-sm-2 row-cols-1">
-
-                                            @foreach (App\Category::where('status', 1)->take(4)->get() as $category)
-                                                <div class="col">
-                                                    <span
-                                                        class="d-inline-block px-3 font-600 text-uppercase text-secondary pb-2">{{ $category->name }}</span>
-                                                    <ul>
-                                                        @if ($category->subs->count() > 0)
-                                                            @foreach (App\Models\Subcategory::where('category_id', $category->id)->get() as $subcategory)
-                                                                <li><a class="dropdown-item"
-                                                                        href="{{ url('front/category', [$category->slug, $subcategory->slug]) }}{{ !empty(request()->input('search')) ? '?search=' . request()->input('search') : '' }}">{{ $subcategory->name }}</a>
-                                                                </li>
-                                                            @endforeach
-                                                        @endif
-
-                                                    </ul>
-                                                </div>
-                                            @endforeach
-
-                                        </div>
-                                    </li>
-                                </ul> 
-                            </li> --}}
-
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('itSolutions') }}">IT Solutions</a>
+                                <a class="nav-link" href="{{ route('itSolutions') }}">{{ __('IT Solutions') }}</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('businessSolutions') }}">Business Solutions</a>
+                                <a class="nav-link"
+                                    href="{{ route('businessSolutions') }}">{{ __('Business Solutions') }}</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('digitalMarketing') }}">Digital Marketing</a>
+                                <a class="nav-link"
+                                    href="{{ route('digitalMarketing') }}">{{ __('Digital Marketing') }}</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="https://shop.unipuller.com/" target="__blank">Domain &
-                                    Hosting</a>
+                                <a class="nav-link" href="https://shop.unipuller.com/"
+                                    target="__blank">{{ __('Domain & Hosting') }}</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('partnerBoarding') }}">Partner Boarding</a>
+                                <a class="nav-link"
+                                    href="{{ route('partnerBoarding') }}">{{ __('Partner Boarding') }}</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('education.list') }}">Education</a>
@@ -107,8 +58,9 @@
 <div class="header-sticky  py-10" style="background-color: #131921 !important">
     <div class="container">
         <div class="row align-items-center d-flex justify-content-between">
-            <div class="col-xxl-2 col-xl-2 col-lg-2 col-6 order-lg-1">
-                <div class="d-flex align-items-center h-100 md-py-10">
+            <div class="col-xxl-2 col-xl-2 col-lg-2 col-12 order-lg-1">
+                <div class="d-flex align-items-center justify-content-between h-100 md-py-10">
+                    <img class="d-block d-md-none" src="{{ asset('assets/images/logo.png') }}" alt="" style="width: 170px;">
                     <div class="nav-leftpush-overlay">
                         <nav class="navbar navbar-expand-lg nav-general nav-primary-hover">
                             <button type="button" class="push-nav-toggle d-lg-none border-0">
@@ -118,22 +70,18 @@
                                 @if (Auth::user())
                                     <div
                                         class="login-signup bg-secondary d-flex justify-content-between py-10 px-20 align-items-center">
-                                        <a href="" class="d-flex align-items-center text-white">
-
-                                            <span>{{ __('Dashboard') }}</span>
-                                        </a>
                                         <span class="slide-nav-close"><i
                                                 class="flaticon-cancel flat-mini text-white"></i></span>
                                     </div>
                                 @else
                                     <div
-                                        class="login-signup bg-secondary d-flex justify-content-between py-10 px-20 align-items-center">
-                                        <a href="{{ url('user_login') }}" class="d-flex align-items-center text-white">
+                                        class="login-signup bg-secondary d-flex justify-content-end py-10 px-20 align-items-center">
+                                        <a href="{{ url('user_login') }}" class="d-none align-items-center text-white">
                                             <i class="flaticon-user flat-small me-1"></i>
                                             <span>{{ __('Login') }}</span>
                                         </a>
                                         <a href="{{ url('user_register') }}"
-                                            class="d-flex align-items-center text-white">
+                                            class="d-none align-items-center text-white">
                                             <i class="flaticon-user flat-small me-1"></i>
                                             <span>{{ __('Signup') }}</span>
                                         </a>
@@ -150,7 +98,16 @@
                                                 aria-selected="true">{{ __('Menu') }}</a>
                                         </li>
                                         <li class="nav-item" role="presentation">
-                                            <a class="nav-link" href="{{ route('login') }}">Login/ Register</a>
+                                            @if (!$user)
+                                                <a class="nav-link" href="{{ url('login') }}">Login/ Register</a>
+                                            @endif
+                                            @if ($user && $user->user_type == 'user')
+                                                <a class="nav-link" href="{{ url('home') }}">Dashboard</a>
+                                            @endif
+                                            @if ($user && $user->user_type == 'user_customer')
+                                                <a class="nav-link"
+                                                    href="{{ url('contact/contact-dashboard') }}">Dashboard</a>
+                                            @endif
                                         </li>
                                     </ul>
                                     <div class="tab-content" id="menu-and-categoryContent">
@@ -161,25 +118,10 @@
                                                     <li class="nav-item">
                                                         <a class="nav-link" href="{{ url('/') }}">Home</a>
                                                     </li>
-
-
-                                                    <li class="nav-item dropdown">
-                                                        <a class="nav-link dropdown-toggle"
-                                                            href="#">Property</a>
-                                                        <ul class="dropdown-menu">
-                                                            <li><a class="dropdown-item"
-                                                                    href="{{ route('room.list') }}">Property</a>
-                                                            </li>
-                                                            <li><a class="dropdown-item"
-                                                                    href="{{ route('propertyFindingService') }}">Property
-                                                                    Finding Service</a>
-                                                            </li>
-                                                        </ul>
+                                                    <li class="nav-item">
+                                                        <a class="nav-link"
+                                                            href="{{ url('room-list') }}">Property</a>
                                                     </li>
-
-
-
-
                                                     <li class="nav-item">
                                                         <a class="nav-link" href="{{ url('/shop/list') }}">Shop</a>
                                                     </li>
@@ -211,34 +153,6 @@
                                                         <a class="nav-link"
                                                             href="{{ url('/education-list') }}">Education</a>
                                                     </li>
-
-
-
-                                                    {{-- <li class="nav-item ">
-                                                        <a class="nav-link"
-                                                            href="{{ url('front/category') }}">Product</a>
-                                                    </li> --}}
-                                                    {{-- <li class="nav-item dropdown">
-                                                        <a class="nav-link dropdown-toggle"
-                                                            href="#">{{ __('Pages') }}</a>
-                                                        <ul class="dropdown-menu">
-                                                            @foreach (DB::table('pages')->where('language_id', 1)->where('header', '=', 1)->get() as $data)
-                                                                <li><a class="dropdown-item"
-                                                                        href="{{ route('front.vendor', $data->slug) }}">{{ $data->title }}</a>
-                                                                </li>
-                                                            @endforeach
-                                                        </ul>
-                                                    </li> --}}
-                                                    {{-- <li class="nav-item">
-                                                        <a class="nav-link" href="{{ url('front_blog') }}">Blog</a>
-                                                    </li>
-
-                                                    <li class="nav-item">
-                                                        <a class="nav-link" href="{{ url('front_faq') }}">Faq</a>
-                                                    </li>
-                                                    <li class="nav-item"><a class="nav-link"
-                                                            href="{{ url('front_contact') }}">Contact</a>
-                                                    </li> --}}
                                                 </ul>
 
                                             </div>
@@ -255,35 +169,6 @@
                                                                 class="category-link"
                                                                 id="cat">{{ $category->name }} <span
                                                                     class="count"></span></a>
-
-                                                            {{-- @if ($category->subs->count() > 0)
-                                                                <span class="has-child"></span>
-                                                                <ul class="children">
-                                                                    @foreach (App\Models\Subcategory::where('category_id', $category->id)->get() as $subcategory)
-                                                                        <li class="cat-item cat-parent">
-                                                                            <a href="{{ url('front/category', [$category->slug, $subcategory->slug]) }}{{ !empty(request()->input('search')) ? '?search=' . request()->input('search') : '' }}"
-                                                                                class="category-link {{ isset($subcat) ? ($subcat->id == $subcategory->id ? 'active' : '') : '' }}">{{ $subcategory->name }}
-                                                                                <span class="count"></span></a>
-
-
-                                                                            @if ($subcategory->childs->count() != 0)
-                                                                                <span class="has-child"></span>
-                                                                                <ul class="children">
-                                                                                    @foreach (DB::table('childcategories')->where('subcategory_id', $subcategory->id)->get() as $key => $childelement)
-                                                                                        <li class="cat-item ">
-                                                                                            <a href="{{ url('front/category', [$category->slug, $subcategory->slug, $childelement->slug]) }}{{ !empty(request()->input('search')) ? '?search=' . request()->input('search') : '' }}"
-                                                                                                class="category-link {{ isset($childcat) ? ($childcat->id == $childelement->id ? 'active' : '') : '' }}">
-                                                                                                {{ $childelement->name }}
-                                                                                                <span
-                                                                                                    class="count"></span></a>
-                                                                                        </li>
-                                                                                    @endforeach
-                                                                                </ul>
-                                                                            @endif
-                                                                        </li>
-                                                                    @endforeach
-                                                                </ul>
-                                                            @endif --}}
                                                         </li>
                                                     @endforeach
                                                 </ul>
@@ -298,86 +183,44 @@
                             data-src="{{ asset('assets/images/logo.png') }}" alt="Image not found !"></a>
                 </div>
             </div>
-            <div class="col-xxl-3 col-xl-2 col-lg-2 col-6 order-lg-3">
-                <div class="d-flex align-items-center justify-content-end h-100 md-py-10">
-                    <div class="sign-in my-account-dropdown position-relative">
-                        <a href="my-account.html"
-                            class="has-dropdown d-flex align-items-center text-white text-decoration-none">
-                            <select name="currency" class="currency selectors nice">
-                                @foreach (DB::table('currencies')->get() as $currency)
-                                    <option value="{{ url('/front_currency', $currency->id) }}" {{-- {{ Session::has('currency')? (Session::get('currency') == $currency->id? 'selected': ''): (DB::table('currencies')->where('is_default', '=', 1)->first()->id == $currency->id? 'selected': '') }}> --}}
-                                        {{-- <span class="text-dark">{{ Session::has('currency')? DB::table('currencies')->where('id', '=', Session::get('currency'))->first()->sign: DB::table('currencies')->where('is_default', '=', 1)->first()->sign }}</span> --}} {{-- {{ $currency->sign }} --}} {{-- {{ $currency->name }} --}} </option>
-                                @endforeach
-                            </select>
+            <div class="col-xxl-3 col-xl-2 col-lg-2 col-0 order-lg-3">
+                <div class="d-none d-md-flex align-items-center justify-content-end h-100 md-py-10">
+                    <div class="dropdown sign-in my-account-dropdown position-relative">
+                        <a class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
+                            type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fa-solid fa-right-from-bracket"></i>
                         </a>
-                    </div>
-                    <div class="sign-in position-relative font-general my-account-dropdown ms-2">
-                        <a href="{{ url('login') }}"
-                            class="has-dropdown d-flex align-items-center text-dark text-decoration-none"
-                            title="My Account">
-                            @if (Auth::check())
-                                <img class="img-fluid user lazy"
-                                    data-src="{{ Auth::user()->photo ? asset('assets/images/users/' . Auth::user()->photo) : '<i class="flaticon-user-3 flat-mini mx-auto text-dark"></i>' }}"
-                                    alt="">
-                            @else
-                                <i class="flaticon-user-3 flat-mini mx-auto text-dark"></i>
+                        <ul class="dropdown-menu">
+                            @if ($user && $user->user_type == 'user_customer')
+                                <li><a class="dropdown-item"
+                                        href="{{ url('contact/contact-dashboard') }}">Dashboard</a></li>
+                                <li><a class="dropdown-item" href="{{ url('logout') }}">Logout</a></li>
                             @endif
-                        </a>
-                        <ul class="my-account-popup">
-                            @if (Auth::check())
-                                <li><a href=""><span class="menu-item-text">{{ 'User Panel' }}</span></a>
-                                </li>
-
-                                <li><a href=""><span class="menu-item-text">{{ 'Edit Profile' }}</span></a>
-                                </li>
-                                <li><a href=""><span class="menu-item-text">{{ 'Logout' }}</span></a>
-                                </li>
-                            @else
-                                <li><a href="{{ url('/user/login') }}"><span
-                                            class="menu-item-text sign-in">{{ 'Sign in' }}</span></a></li>
-
-                                <li><a href="{{ url('/user/register') }}"><span
-                                            class="menu-item-text join">{{ 'Join' }}</span></a></li>
+                            @if ($user && $user->user_type == 'user')
+                                <li><a class="dropdown-item" href="{{ url('home') }}">Dashboard</a></li>
+                                <li><a class="dropdown-item" href="{{ url('logout') }}">Logout</a></li>
+                            @endif
+                            @if (!$user)
+                                <li><a class="dropdown-item" href="{{ url('login') }}">Login</a></li>
                             @endif
                         </ul>
                     </div>
-                    <div class="wishlist-view header-cart-1 ms-2">
-                        @if (Auth::check())
-                            <a href="" class="cart " title="View Wishlist">
-                                <div class="cart-icon"><i class="flaticon-like flat-mini mx-auto text-dark"></i> <span
-                                        class="header-cart-count " id="wishlist-count1">10</span></div>
-                            </a>
-                        @else
-                            <a href="{{ url('user_login') }}" class="cart " title="View Wishlist">
-                                <div class="cart-icon"><i class="flaticon-like flat-mini mx-auto text-dark"></i> <span
-                                        class="header-cart-count" id="wishlist-count1">{{ 0 }}</span>
-                                </div>
-                            </a>
-                        @endif
-                    </div>
-                    <div class="refresh-view header-cart-1 mx-2">
-                        <a href="{{ url('product_compare') }}" class="cart " title="View Wishlist">
-                            <div class="cart-icon"><i class="flaticon-shuffle flat-mini mx-auto text-dark"></i> <span
-                                    class="header-cart-count "
-                                    id="compare-count1">{{ Session::has('compare') ? count(Session::get('compare')->items) : '0' }}</span>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="header-cart-1">
-                        <a href="{{ url('front_cart') }}" class="cart has-cart-data" title="View Cart">
-                            <div class="cart-icon"><i class="flaticon-shopping-cart flat-mini"></i> <span
-                                    class="header-cart-count"
-                                    id="cart-count1">{{ Session::has('cart') ? count(Session::get('cart')->items) : '0' }}</span>
-                            </div>
-                            <div class="cart-wrap">
-                                <div class="cart-text">Cart</div>
-                                <span
-                                    class="header-cart-count">{{ Session::has('cart') ? count(Session::get('cart')->items) : '0' }}</span>
-                            </div>
-                        </a>
-                        {{-- @include('load.cart') --}}
-                    </div>
                 </div>
+                {{-- @if ($user && $user->user_type == 'user')
+                    <div class="d-flex align-items-center justify-content-end h-100 md-py-10">
+                        <div class="sign-in my-account-dropdown position-relative">
+                            <a href="{{ url('home') }}"
+                                class="d-flex align-items-center text-white text-decoration-none">
+                            </a>
+                        </div>
+                        <div class="sign-in my-account-dropdown position-relative">
+                            <a href="{{ url('logout') }}"
+                                class="d-flex align-items-center text-white text-decoration-none">
+                                <i class="fa-solid fa-right-from-bracket"></i>
+                            </a>
+                        </div>
+                    </div>
+                @endif --}}
             </div>
             <div class="col-xxl-7 col-xl-6 col-lg-6 col-12 order-lg-2">
                 <div class="product-search-one">

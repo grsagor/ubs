@@ -115,4 +115,16 @@ class ServiceAdvertiseRoom extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
+    public function category()
+    {
+        return $this->belongsTo(ServiceCategory::class, 'service_category_id');
+    }
+    public function sub_category()
+    {
+        return $this->belongsTo(SubCategory::class, 'sub_category_id');
+    }
+    public function child_category()
+    {
+        return $this->belongsTo(ChildCategory::class, 'child_category_id');
+    }
 }
