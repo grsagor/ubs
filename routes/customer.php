@@ -13,6 +13,11 @@ Route::group(['middleware' => ['checkCustomer'], 'prefix' => 'contact',], functi
     Route::resource('/property-wanted',     PropertyWantedCustomerController::class);
     Route::get('/show-occupants-details-inputs', [PropertyWantedCustomerController::class, 'showOccupantsDetailsInputs']);
     Route::get('/show-room-details-inputs', [PropertyWantedCustomerController::class, 'showRoomDetailsInputs']);
+    Route::get('/show-property-delete-modal', [PropertyWantedCustomerController::class, 'showPropertyDeleteModal']);
+    Route::get('/confirm-property-delete', [PropertyWantedCustomerController::class, 'confirmPropertyDelete']);
+    Route::get('/show-property-edit-modal', [PropertyWantedCustomerController::class, 'showPropertyEditModal']);
+    Route::post('/update-property-wanted', [PropertyWantedCustomerController::class, 'updatePropertyWanted']);
+    Route::post('/property-wanted/upgrade', [PropertyWantedCustomerController::class, 'propertyWantedUpgradePage']);
 });
 
 Route::group(['middleware' => [], 'prefix' => 'contact', 'namespace' => 'Modules\Crm\Http\Controllers'], function () {

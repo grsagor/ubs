@@ -204,6 +204,10 @@ Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 
     // Services
     Route::resource('service-advertise', ServiceAdvertiseRoomController::class);
     Route::get('/room-to-rent-open-add-modal', [ServiceAdvertiseRoomController::class, 'create']);
+    Route::get('/show-property-rent-delete-modal', [ServiceAdvertiseRoomController::class, 'showPropertyRentDeleteModal']);
+    Route::get('/confirm-property-rent-delete', [ServiceAdvertiseRoomController::class, 'confirmPropertyRentDelete']);
+    Route::get('/show-property-rent-edit-modal', [ServiceAdvertiseRoomController::class, 'showPropertyRentEditModal']);
+    Route::post('/update-property-rent', [ServiceAdvertiseRoomController::class, 'updatePropertyRent']);
     // Route::get('/show-subcategory-select', [ServiceAdvertiseRoomController::class, 'showSubCategorySelect']);
     // Route::get('/show-childcategory-select', [ServiceAdvertiseRoomController::class, 'showChildCategorySelect']);
     Route::get('/show-room-size-select', [ServiceAdvertiseRoomController::class, 'showRoomQuantitySelect']);

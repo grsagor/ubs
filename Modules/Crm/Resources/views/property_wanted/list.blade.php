@@ -16,7 +16,7 @@
                 <div class="box-tools">
                     <button type="button" class="btn btn-block btn-primary btn-modal"
                         data-href="{{ action([\App\Http\Controllers\PropertyWantedCustomerController::class, 'create']) }}"
-                        data-container=".room_to_rent_add_modal">
+                        data-container=".property_wanted_add_modal">
                         <i class="fa fa-plus"></i> @lang('messages.add')</button>
                 </div>
             @endslot
@@ -35,9 +35,13 @@
             </div>
         @endcomponent
 
-        <div class="modal fade room_to_rent_add_modal" role="dialog" aria-labelledby="gridSystemModalLabel">
+        <div class="modal fade property_wanted_add_modal" role="dialog" aria-labelledby="gridSystemModalLabel">
         </div>
-        <div class="modal fade room_to_rent_edit_modal" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel">
+        <div class="modal fade property_wanted_edit_modal" tabindex="-1" role="dialog"
+            aria-labelledby="gridSystemModalLabel">
+        </div>
+        <div class="modal fade property_wanted_delete_modal" tabindex="-1" role="dialog"
+            aria-labelledby="gridSystemModalLabel">
         </div>
 
         <!-- Modal -->
@@ -83,12 +87,28 @@
                 bPaginate: false,
                 buttons: [],
                 ajax: '/contact/property-wanted',
-                columns: [
-                    { data: 'action', name: 'action', orderable: false, searchable: false },
-                    { data: 'reference_id', name: 'reference_id' },
-                    { data: 'category_name', name: 'category_name' },
-                    { data: 'subcategory_name', name: 'subcategory_name' },
-                    { data: 'child_category_name', name: 'child_category_name' },
+                columns: [{
+                        data: 'action',
+                        name: 'action',
+                        orderable: false,
+                        searchable: false
+                    },
+                    {
+                        data: 'reference_id',
+                        name: 'reference_id'
+                    },
+                    {
+                        data: 'category_name',
+                        name: 'category_name'
+                    },
+                    {
+                        data: 'subcategory_name',
+                        name: 'subcategory_name'
+                    },
+                    {
+                        data: 'child_category_name',
+                        name: 'child_category_name'
+                    },
                 ]
             });
         });
@@ -126,6 +146,64 @@
                 $('#myModal').css('display', 'none');
                 $('.modal-backdrop.fade.in').eq(1).remove();
             });
+
+            // Deleteing Property Started
+            $(document).on('click', '.property_wanted_delete_btn', function() {
+                var id = $(this).data('id');
+                $.ajax({
+                    url: "/contact/show-property-delete-modal",
+                    type: "get",
+                    data: {
+                        id: id
+                    },
+                    dataType: "html",
+                    success: function(html) {
+                        // toastr.success(JSON.stringify('Modal Open'));
+                        $('.property_wanted_delete_modal').empty();
+                        $('.property_wanted_delete_modal').html(html);
+                        $('.property_wanted_delete_modal').modal('show');
+                    }
+                })
+            })
+
+            $(document).on('click', '.property_delete_confirm_btn', function() {
+                var id = $(this).data('id');
+                $.ajax({
+                    url: "/contact/confirm-property-delete",
+                    type: "get",
+                    data: {
+                        id: id
+                    },
+                    dataType: "json",
+                    success: function(response) {
+                        toastr.options = {
+                            "sound": false, // Disable sound globally
+                            // Other options...
+                        };
+                        toastr.success(response.message);
+                        $('#room_to_rent_share_table').DataTable().ajax.reload();
+                        $('.property_wanted_delete_modal').modal('hide');
+                    }
+                })
+            })
+
+            // Editing property started
+            $(document).on('click', '.property_wanted_edit_btn', function() {
+                var id = $(this).data('id');
+                $.ajax({
+                    url: "/contact/show-property-edit-modal",
+                    type: "get",
+                    data: {
+                        id: id
+                    },
+                    dataType: "html",
+                    success: function(html) {
+                        $('.property_wanted_edit_modal').empty();
+                        $('.property_wanted_edit_modal').html(html);
+                        $('.property_wanted_edit_modal').modal('show');
+                    }
+                })
+            })
         })
     </script>
 @endsection

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\PaymentHistory;
+use Modules\Crm\Entities\ServicePropertyWanted;
 use Stripe;
 use Session;
 use Illuminate\Http\Request;
@@ -17,13 +18,19 @@ class StripePaymentController extends Controller
      */
     public function stripe(Request $request)
     {
-        // $data['customer_id'] = $request->customer_id;
-        // $data['email'] = $request->email;
 
         $data['product_id'] = session('product_id');
         $data['product_name'] = session('product_name');
         $data['bill'] = session('bill');
         $data['table_name'] = session('table_name');
+        $data['upgrade'] = false;
+        $data['url'] = false;
+        if (session('upgrade')) {
+            $data['upgrade'] = true;
+        }
+        if (session('url')) {
+            $data['url'] = session('url');
+        }
 
         // return $data;
         return view('stripe', $data);
@@ -69,8 +76,18 @@ class StripePaymentController extends Controller
             $payment_history->table_name = $charge->metadata->table_name;
             $payment_history->save();
 
+            if ($request->upgrade) {
+                $property = ServicePropertyWanted::find($request->product_id);
+                $property->upgraded = 1;
+                $property->save();
+            }
+
             Session::flash('success', 'Payment successful!');
-            return back();
+            if ($request->url) {
+                return redirect($request->url);
+            }else{
+                return back();
+            }
         } catch (\Stripe\Error\Card $e) {
             Session::flash('fail-message', $e->get_message());
             return back();

@@ -3,9 +3,9 @@
 @if( in_array(session()->get('user.language', config('app.locale')), config('constants.langs_rtl')) )
 	<link rel="stylesheet" href="{{ asset('css/rtl.css?v='.$asset_v) }}">
 @endif
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
 
 @yield('css')
-
 <!-- app css -->
 <link rel="stylesheet" href="{{ asset('css/app.css?v='.$asset_v) }}">
 
@@ -68,6 +68,12 @@
 	.patt-circ.n-e {
 	  -webkit-transform: rotate(315deg);
 	  transform: rotate(315deg);
+	}
+	.d-flex {
+		display: flex !important;
+	}
+	.gap-1 {
+		gap: 10px;
 	}
 </style>
 @if(!empty($__system_settings['additional_css']))

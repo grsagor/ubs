@@ -54,7 +54,7 @@ class ServiceAdvertiseRoomController extends Controller
                     return $service->child_category->name;
                 })
                 ->addColumn('action', function ($service) {
-                    return '<button type="button" class="btn btn-xs btn-primary">Edit</button>';
+                    return '<div class="d-flex gap-1"><button type="button" data-id="'.$service->id.'" class="btn btn-xs btn-success property_rent_edit_btn">Edit</button><button type="button" class="btn btn-xs btn-danger property_wanted_delete_btn" data-id="'.$service->id.'">Delete</button></div>';
                 })
                 ->rawColumns(['action'])
                 ->toJson();
@@ -269,6 +269,65 @@ class ServiceAdvertiseRoomController extends Controller
      * @param  \App\ServiceAdvertiseRoom  $serviceAdvertiseRoom
      * @return \Illuminate\Http\Response
      */
+
+     public function showPropertyRentDeleteModal(Request $request) {
+        $id = $request->id;
+        return view('backend.services.advertise_room.property_rent_delete_modal', compact('id'));
+    }
+    public function confirmPropertyRentDelete(Request $request) {
+        $id = $request->id;
+        // $property = ServicePropertyWanted::find($id)->delete();
+        $property = ServiceAdvertiseRoom::find($id);
+        $property->forceDelete();
+            $response = [
+                'success' => true,
+                'message' => 'Property deleted.'
+            ];
+            return response()->json($response);
+    }
+
+    public function showPropertyRentEditModal(Request $request)
+    {
+        $property = ServiceAdvertiseRoom::find($request->id);
+        $category = ServiceCategory::where('name', 'Property')->first();
+        $sub_category = SubCategory::where([['category_id', $category->id], ['name', 'rent']])->first();
+        //$sub_category = SubCategory::where(['category_id',$category->id])->get();
+
+        $child_categories = ChildCategory::where([['category_id', $category->id], ['sub_category_id', $sub_category->id],])->get();
+
+        $data = [];
+        $data['property'] = $property;
+        $data['category'] = $category;
+        $data['sub_category'] = $sub_category;
+        $data['child_categories'] = $child_categories;
+        $data['house'] = ServiceCharge::where('child_category', 2)->first()->service_charge;
+        $data['Flat'] = ServiceCharge::where('child_category', 6)->first()->service_charge;
+        $data['studio_flat'] = ServiceCharge::where('child_category', 9)->first()->service_charge;
+        $data['single'] = ServiceCharge::where([['child_category', 1], ['size', ['single']]])->first()->service_charge;
+        $data['double'] = ServiceCharge::where([['child_category', 1], ['size', ['double']]])->first()->service_charge;
+        $data['semi_double'] = ServiceCharge::where([['child_category', 1], ['size', ['semi-double']]])->first()->service_charge;
+        $data['en_suite'] = ServiceCharge::where([['child_category', 1], ['size', ['en-suite']]])->first()->service_charge;
+
+
+        //dd($data['child_categories']);
+        return view('backend.services.advertise_room.property_rent_edit_modal', $data);
+    }
+
+    public function updatePropertyRent(Request $request)
+    {
+        $property = ServiceAdvertiseRoom::find($request->id);
+
+        $property->advert_first_name = $request->advert_first_name;
+        $property->advert_last_name = $request->advert_last_name;
+
+        $property->save();
+
+        $response = [
+            'success' => true,
+            'message' => 'Property updated successfully.'
+        ];
+        return response()->json($response);
+    }
     public function destroy(ServiceAdvertiseRoom $serviceAdvertiseRoom)
     {
         //
