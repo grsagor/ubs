@@ -38,7 +38,7 @@
 
         /*PRICE COLOR CODE START*/
         #generic_price_table .generic_content {
-            background-color: #fff;
+            /* background-color: #afe6b7; */
         }
 
         #generic_price_table .generic_content .generic_head_price {
@@ -220,7 +220,7 @@
         }
 
         #generic_price_table .generic_content .generic_price_btn {
-            margin: 20px 0 32px;
+            margin: 20px 0 20px;
         }
 
         #generic_price_table .generic_content .generic_price_btn a {
@@ -425,7 +425,7 @@
         .price-heading h1 {
             color: #666;
             margin: 0;
-            padding: 0 0 50px 0;
+            /* padding: 0 0 50px 0; */
         }
 
         .demo-button {
@@ -474,296 +474,8 @@
     @includeIf('frontend.partials.global.common-header')
 
     <div class="container">
-
-
-
-
-
-
-
-
-
-
-
-        <div id="generic_price_table">
-            <section>
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <!--PRICE HEADING START-->
-                            <div class="price-heading clearfix">
-                                <h1> Pricing Table</h1>
-                            </div>
-                            <!--//PRICE HEADING END-->
-                        </div>
-                    </div>
-                </div>
-                <div class="container">
-
-                    <!--BLOCK ROW START-->
-                    <div class="row">
-
-                        <div class="col-md-4">
-
-                            <!--PRICE CONTENT START-->
-                            <div class="generic_content clearfix">
-
-                                <!--HEAD PRICE DETAIL START-->
-                                <div class="generic_head_price clearfix">
-
-                                    <!--HEAD CONTENT START-->
-                                    <div class="generic_head_content clearfix">
-
-                                        <!--HEAD START-->
-                                        <div class="head_bg"></div>
-                                        <div class="head">
-                                            <span>Basic</span>
-                                        </div>
-                                        <!--//HEAD END-->
-
-                                    </div>
-                                    <!--//HEAD CONTENT END-->
-
-                                    <!--PRICE START-->
-                                    <div class="generic_price_tag clearfix">
-                                        <span class="price">
-                                            <span class="sign">$</span>
-                                            <span class="currency">99</span>
-                                            <span class="cent">.99</span>
-                                            <span class="month">/MON</span>
-                                        </span>
-                                    </div>
-                                    <!--//PRICE END-->
-
-                                </div>
-                                <!--//HEAD PRICE DETAIL END-->
-
-                                <!--FEATURE LIST START-->
-                                <div class="generic_feature_list">
-                                    <ul>
-                                        <li><span>2GB</span> Bandwidth</li>
-                                        <li><span>150GB</span> Storage</li>
-                                        <li><span>12</span> Accounts</li>
-                                        <li><span>7</span> Host Domain</li>
-                                        <li><span>24/7</span> Support</li>
-                                    </ul>
-                                </div>
-                                <!--//FEATURE LIST END-->
-
-                                <!--BUTTON START-->
-                                <div class="generic_price_btn clearfix">
-                                    <a class="" href="">Sign up</a>
-                                </div>
-                                <!--//BUTTON END-->
-
-                            </div>
-                            <!--//PRICE CONTENT END-->
-
-                        </div>
-
-                        <div class="col-md-4">
-
-                            <!--PRICE CONTENT START-->
-                            <div class="generic_content clearfix">
-
-                                <!--HEAD PRICE DETAIL START-->
-                                <div class="generic_head_price clearfix">
-
-                                    <!--HEAD CONTENT START-->
-                                    <div class="generic_head_content clearfix">
-
-                                        <!--HEAD START-->
-                                        <div class="head_bg"></div>
-                                        <div class="head">
-                                            <span>Basic</span>
-                                        </div>
-                                        <!--//HEAD END-->
-
-                                    </div>
-                                    <!--//HEAD CONTENT END-->
-
-                                    <!--PRICE START-->
-                                    <div class="generic_price_tag clearfix">
-                                        <span class="price">
-                                            <span class="sign">$</span>
-                                            <span class="currency">99</span>
-                                            <span class="cent">.99</span>
-                                            <span class="month">/MON</span>
-                                        </span>
-                                    </div>
-                                    <!--//PRICE END-->
-
-                                </div>
-                                <!--//HEAD PRICE DETAIL END-->
-
-                                <!--FEATURE LIST START-->
-                                <div class="generic_feature_list">
-                                    <ul>
-                                        <li><span>2GB</span> Bandwidth</li>
-                                        <li><span>150GB</span> Storage</li>
-                                        <li><span>12</span> Accounts</li>
-                                        <li><span>7</span> Host Domain</li>
-                                        <li><span>24/7</span> Support</li>
-                                    </ul>
-                                </div>
-                                <!--//FEATURE LIST END-->
-
-                                <!--BUTTON START-->
-                                <div class="generic_price_btn clearfix">
-                                    <a class="" href="">Sign up</a>
-                                </div>
-                                <!--//BUTTON END-->
-
-                            </div>
-                            <!--//PRICE CONTENT END-->
-
-                        </div>
-
-                        {{-- <div class="col-md-4">
-
-                            <!--PRICE CONTENT START-->
-                            <div class="generic_content active clearfix">
-
-                                <!--HEAD PRICE DETAIL START-->
-                                <div class="generic_head_price clearfix">
-
-                                    <!--HEAD CONTENT START-->
-                                    <div class="generic_head_content clearfix">
-
-                                        <!--HEAD START-->
-                                        <div class="head_bg"></div>
-                                        <div class="head">
-                                            <span>Standard</span>
-                                        </div>
-                                        <!--//HEAD END-->
-
-                                    </div>
-                                    <!--//HEAD CONTENT END-->
-
-                                    <!--PRICE START-->
-                                    <div class="generic_price_tag clearfix">
-                                        <span class="price">
-                                            <span class="sign">$</span>
-                                            <span class="currency">199</span>
-                                            <span class="cent">.99</span>
-                                            <span class="month">/MON</span>
-                                        </span>
-                                    </div>
-                                    <!--//PRICE END-->
-
-                                </div>
-                                <!--//HEAD PRICE DETAIL END-->
-
-                                <!--FEATURE LIST START-->
-                                <div class="generic_feature_list">
-                                    <ul>
-                                        <li><span>2GB</span> Bandwidth</li>
-                                        <li><span>150GB</span> Storage</li>
-                                        <li><span>12</span> Accounts</li>
-                                        <li><span>7</span> Host Domain</li>
-                                        <li><span>24/7</span> Support</li>
-                                    </ul>
-                                </div>
-                                <!--//FEATURE LIST END-->
-
-                                <!--BUTTON START-->
-                                <div class="generic_price_btn clearfix">
-                                    <a class="" href="">Sign up</a>
-                                </div>
-                                <!--//BUTTON END-->
-
-                            </div>
-                            <!--//PRICE CONTENT END-->
-
-                        </div> --}}
-
-                        <div class="col-md-4">
-
-                            <!--PRICE CONTENT START-->
-                            <div class="generic_content clearfix">
-
-                                <!--HEAD PRICE DETAIL START-->
-                                <div class="generic_head_price clearfix">
-
-                                    <!--HEAD CONTENT START-->
-                                    <div class="generic_head_content clearfix">
-
-                                        <!--HEAD START-->
-                                        <div class="head_bg"></div>
-                                        <div class="head">
-                                            <span>Unlimited</span>
-                                        </div>
-                                        <!--//HEAD END-->
-
-                                    </div>
-                                    <!--//HEAD CONTENT END-->
-
-                                    <!--PRICE START-->
-                                    <div class="generic_price_tag clearfix">
-                                        <span class="price">
-                                            <span class="sign">$</span>
-                                            <span class="currency">299</span>
-                                            <span class="cent">.99</span>
-                                            <span class="month">/MON</span>
-                                        </span>
-                                    </div>
-                                    <!--//PRICE END-->
-
-                                </div>
-                                <!--//HEAD PRICE DETAIL END-->
-
-                                <!--FEATURE LIST START-->
-                                <div class="generic_feature_list">
-                                    <ul>
-                                        <li><span>2GB</span> Bandwidth</li>
-                                        <li><span>150GB</span> Storage</li>
-                                        <li><span>12</span> Accounts</li>
-                                        <li><span>7</span> Host Domain</li>
-                                        <li><span>24/7</span> Support</li>
-                                    </ul>
-                                </div>
-                                <!--//FEATURE LIST END-->
-
-                                <!--BUTTON START-->
-                                <div class="generic_price_btn clearfix">
-                                    <a class="" href="">Sign up</a>
-                                </div>
-                                <!--//BUTTON END-->
-
-                            </div>
-                            <!--//PRICE CONTENT END-->
-
-                        </div>
-
-                    </div>
-                    <!--//BLOCK ROW END-->
-
-                </div>
-            </section>
-            {{-- <footer>
-                <a class="bottom_btn" href="#">&copy; MrSahar</a>
-            </footer> --}}
-        </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         <div class="header m-3 p-3">
+
             <h3 class="heading ">Property finding service </h3>
             <p class="heading-details">Unipuller is offering Tenant services to find out their properties. All our
                 services
@@ -798,7 +510,133 @@
                 </div>
             </div>
 
-            <div class="row">
+
+            <div id="generic_price_table">
+                <section>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="price-heading clearfix">
+                                    <h1 class="mt-3"> Service Cost</h1>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="container p-4">
+
+                        <div class="row">
+
+                            @foreach ($service_charge as $key => $item)
+                                <div class="col-md-4 mt-4">
+
+                                    <div class="generic_content clearfix">
+
+                                        <div class="generic_head_price clearfix">
+
+                                            <div class="generic_head_content clearfix">
+
+                                                <div class="head_bg"></div>
+                                                <div class="head">
+                                                    <span>{{ $item->child_category == 1 ? $item->size . '  room' : $item->childCategory->name }}</span>
+                                                </div>
+
+                                            </div>
+
+                                            @php
+                                                $costs = $item->service_charge * 1.7;
+                                                
+                                                $wholeNumberPart = floor($costs);
+                                                $decimalPart = fmod($costs, 1.0);
+                                                
+                                                if ($wholeNumberPart === 0) {
+                                                    $decimalPartFormatted = rtrim(number_format($decimalPart, 1), '0');
+                                                    if ($decimalPartFormatted === '.') {
+                                                        $decimalPartFormatted = '0';
+                                                    }
+                                                } else {
+                                                    $decimalPartFormatted = number_format($decimalPart, 1);
+                                                }
+                                            @endphp
+
+
+                                            <form id="propertyFindingPaymentForm" method="GET"
+                                                action="{{ route('propertyFindingPayment') }}">
+                                                @csrf
+                                                <button type="submit">
+
+                                                    <div class="generic_price_tag clearfix" style="background: #f4f3f3">
+                                                        <span class="price">
+                                                            <span class="sign">£</span>
+                                                            <span class="currency">{{ $wholeNumberPart }}</span>
+                                                            @if (ltrim($decimalPartFormatted, '0') != '.0')
+                                                                <span
+                                                                    class="cent">{{ ltrim($decimalPartFormatted, '0') }}</span>
+                                                            @endif
+                                                            <span class="month">/week</span>
+                                                            <span class="month">+VAT</span>
+                                                            <ul>
+                                                                <li style="color: rgb(109, 109, 109)"> Premium </li>
+                                                            </ul>
+                                                        </span>
+                                                    </div>
+                                                </button>
+
+                                                <input type="hidden" name="product_id" value="{{ $item->id }}">
+                                                <input type="hidden" name="product_name"
+                                                    value="{{ $item->child_category == 1 ? $item->size . ' room' : $item->childCategory->name }}">
+                                                <input type="hidden" name="bill" value="{{ $costs }}">
+
+                                            </form>
+
+
+
+
+
+                                            <form id="propertyFindingPaymentForm" method="GET"
+                                                action="{{ route('propertyFindingPayment') }}">
+                                                @csrf
+                                                <button type="submit">
+                                                    <div class="generic_price_tag clearfix p-3" style="background: #f4f4f4">
+                                                        <span class="price">
+                                                            <span class="sign">£</span>
+                                                            <span class="currency">{{ $item->service_charge }}</span>
+                                                            <span class="month">/month</span>
+                                                            <span class="month">+VAT</span>
+                                                            <ul>
+                                                                <li style="color: rgb(109, 109, 109)"> Regular </li>
+                                                            </ul>
+                                                        </span>
+                                                    </div>
+                                                </button>
+
+                                                <input type="hidden" name="product_id" value="{{ $item->id }}">
+                                                <input type="hidden" name="product_name"
+                                                    value="{{ $item->child_category == 1 ? $item->size . ' room' : $item->childCategory->name }}">
+                                                <input type="hidden" name="bill" value="{{ $item->service_charge }}">
+
+                                            </form>
+
+
+                                        </div>
+
+                                        {{-- <div class="generic_price_btn clearfix">
+                                            <a class="" href="">Add</a>
+                                        </div> --}}
+
+                                    </div>
+
+                                </div>
+                            @endforeach
+                        </div>
+
+                    </div>
+                </section>
+            </div>
+
+
+
+            {{-- <div class="row">
                 <div class="col-md-12">
                     <h6 class="body-heading">Service Cost:</h6>
                     <table>
@@ -811,7 +649,8 @@
 
                         @foreach ($service_charge as $item)
                             <tr>
-                                <td>{{ $item->child_category == 1 ? $item->size : $item->childCategory->name }}</td>
+                                <td>{{ $item->child_category == 1 ? $item->size . '  room' : $item->childCategory->name }}
+                                </td>
                                 <td>£{{ $item->service_charge * 1.7 }}+VAT</td>
                                 <td>£{{ $item->service_charge }}+VAT</td>
                                 <td style="text-align: center;"> <a href="#" class="button-31">Add</a></td>
@@ -819,7 +658,7 @@
                         @endforeach
                     </table>
                 </div>
-            </div>
+            </div> --}}
 
 
             <div class="row mt-3">

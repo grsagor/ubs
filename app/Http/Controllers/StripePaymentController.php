@@ -31,6 +31,14 @@ class StripePaymentController extends Controller
         if (session('url')) {
             $data['url'] = session('url');
         }
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
+        $data['product_id']         = session('product_id');
+        $data['product_name']       = session('product_name');
+        $data['bill']               = session('bill');
+        $data['table_name']         = session('table_name');
+        $data['status']             = session('output');
 
         // return $data;
         return view('stripe', $data);

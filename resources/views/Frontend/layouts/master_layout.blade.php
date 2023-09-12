@@ -131,6 +131,11 @@
             <div class="spinner"></div>
         </div>
 
+        @if (session('status'))
+            <input type="hidden" id="status_span" data-status="{{ session('status.success') }}"
+                data-msg="{{ session('status.msg') }}">
+        @endif
+
         @yield('content')
 
 
@@ -160,6 +165,7 @@
         };
     </script> --}}
     <!-- Include Scripts -->
+
     <script src="{{ asset('assets/front/js/jquery.min.js') }}"></script>
     <script src="{{ asset('assets/front/js/jquery-ui.min.js') }}"></script>
     <script src="{{ asset('assets/front/js/popper.min.js') }}"></script>
@@ -179,6 +185,17 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script>
         $('.select2').select2();
+    </script>
+
+    <script>
+        if ($('#status_span').length) {
+            var status = $('#status_span').attr('data-status');
+            if (status === '1') {
+                toastr.success($('#status_span').attr('data-msg'));
+            } else if (status == '' || status === '0') {
+                toastr.error($('#status_span').attr('data-msg'));
+            }
+        }
     </script>
 
     <script>

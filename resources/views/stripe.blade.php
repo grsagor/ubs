@@ -5,6 +5,14 @@
     <title>Laravel - Stripe Payment Gateway Integration Example - ItSolutionStuff.com</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" />
+    <!-- Toastr CSS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 </head>
 
 <body>
@@ -12,6 +20,14 @@
     <div class="container">
 
         <h1 class="text-center">Send payments using Stripe Gateway</h1>
+
+        @if (isset($status['msg']))
+            <script>
+                $(document).ready(function() {
+                    toastr.success("{{ $status['msg'] }}");
+                });
+            </script>
+        @endif
 
         <div class="row">
             <div class="col-md-6 col-md-offset-3">

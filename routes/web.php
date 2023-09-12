@@ -42,6 +42,7 @@ use App\Http\Controllers\CashRegisterController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\OpeningStockController;
 use App\Http\Controllers\CustomerGroupController;
+use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Frontend\ShopController;
 use App\Http\Controllers\InvoiceLayoutController;
 use App\Http\Controllers\InvoiceSchemeController;
@@ -50,8 +51,8 @@ use App\Http\Controllers\StockTransferController;
 use App\Http\Controllers\StripePaymentController;
 use App\Http\Controllers\AccountReportsController;
 use App\Http\Controllers\ImportProductsController;
-use App\Http\Controllers\LedgerDiscountController;
 // use App\Http\Controllers\Auth;
+use App\Http\Controllers\LedgerDiscountController;
 use App\Http\Controllers\PurchaseReturnController;
 use App\Http\Controllers\TypesOfServiceController;
 use App\Http\Controllers\DocumentAndNoteController;
@@ -71,14 +72,14 @@ use App\Http\Controllers\ImportOpeningStockController;
 use App\Http\Controllers\TransactionPaymentController;
 use App\Http\Controllers\Frontend\RoomWantedController;
 use App\Http\Controllers\PurchaseRequisitionController;
-use App\Http\Controllers\NotificationTemplateController;
 
 // use App\Http\Controllers\DashboardConfiguratorController;    
 
-use App\Http\Controllers\SalesCommissionAgentController;
+use App\Http\Controllers\NotificationTemplateController;
 
 // use App\Http\Controllers\CombinedPurchaseReturnController;
 
+use App\Http\Controllers\SalesCommissionAgentController;
 use App\Http\Controllers\DashboardConfiguratorController;
 use App\Http\Controllers\Backend\PropertyWantedController;
 use App\Http\Controllers\CombinedPurchaseReturnController;
@@ -114,6 +115,7 @@ Route::get('/partner-boarding',                         [OtherServicesController
 Route::get('/business-solutions',                       [OtherServicesController::class, 'businessSolutions'])->name('businessSolutions');
 Route::get('/it-solutions',                             [OtherServicesController::class, 'itSolutions'])->name('itSolutions');
 Route::get('/property-finding-service',                 [OtherServicesController::class, 'propertyFindingService'])->name('propertyFindingService');
+Route::get('/property-finding-payment',                 [OtherServicesController::class, 'propertyFindingPayment'])->name('propertyFindingPayment');
 
 
 // Services
@@ -138,6 +140,10 @@ Route::get('/room-wanted', function () {
     return view('rough.room_wanted');
 });
 
+Route::get('/product', function () {
+    return view('rough.room_wanted');
+});
+
 
 
 // FOOTER LINKS DETAIL SECTION
@@ -147,6 +153,20 @@ Route::get('/our-services',                             [FrontendController::cla
 Route::get('/quick-links',                              [FrontendController::class, 'footerDetails'])->name('footer.details.quick.links');
 Route::get('/policies',                                 [FrontendController::class, 'footerDetails'])->name('footer.details.policies');
 
+
+// CART SECTION
+Route::get('/carts',                    [CartController::class, 'cart'])->name('front.cart');
+Route::get('/addcart/{id}',             [CartController::class, 'addcart'])->name('product.cart.add');
+Route::get('/addtocart/{id}',           [CartController::class, 'addtocart'])->name('product.cart.quickadd');
+Route::get('/addnumcart', 'Front\CartController@addnumcart')->name('details.cart');
+Route::get('/addtonumcart', 'Front\CartController@addtonumcart');
+Route::get('/addservicetonumcart', 'Front\CartController@addservicetonumcart');
+Route::get('/addbyone', 'Front\CartController@addbyone');
+Route::get('/reducebyone', 'Front\CartController@reducebyone');
+Route::get('/upcolor', 'Front\CartController@upcolor');
+Route::get('/removecart/{id}', 'Front\CartController@removecart')->name('product.cart.remove');
+// Route::get('/carts/coupon', 'Front\CouponController@coupon');
+// CART SECTION ENDS
 
 
 
@@ -158,19 +178,19 @@ Route::middleware(['setData'])->group(function () {
 
     // Frontend Routes Start //
 
-    Route::get('/', [HomePageController::class, 'index'])->name('homePage');
-    Route::get('/extras', [HomePageController::class, 'extraIndex'])->name('front.extraIndex');
+    Route::get('/',         [HomePageController::class, 'index'])->name('homePage');
+    Route::get('/extras',   [HomePageController::class, 'extraIndex'])->name('front.extraIndex');
     Route::get('/category/{category?}/{subcategory?}/{childcategory?}/{kind?}', [FrontendCategoryController::class, 'category'])->name('front.category');
 
     Route::get('/shop/list/{category?}/{country?}', [ShopController::class, 'shopList'])->name('shop.list');
-    Route::get('/shop/{id}', [ShopController::class, 'ShopService'])->name('shop.service');
+    Route::get('/shop/{id}',                        [ShopController::class, 'ShopService'])->name('shop.service');
 
-    Route::get('/shop/business/service/{id}', [ShopController::class, 'BusinessShopService'])->name('business.shop.service');
+    Route::get('/shop/business/service/{id}',       [ShopController::class, 'BusinessShopService'])->name('business.shop.service');
 
 
     // CATEGORY SECTION
 
-    Route::get('/categories', [CatalogController::class, 'categories'])->name('front.categories');
+    Route::get('/categories',                       [CatalogController::class, 'categories'])->name('front.categories');
     Route::get('/category/{category?}/{subcategory?}/{childcategory?}/{kind?}', [CatalogController::class, 'category'])->name('front.category');
 
     // Frontend Routes End //
