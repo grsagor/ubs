@@ -12,7 +12,7 @@ use Modules\Crm\Entities\CrmContact;
 use App\Utils\ModuleUtil;
 
 class ProposalTemplateController extends Controller
-{   
+{
     /**
      * All Utils instance.
      *
@@ -35,7 +35,7 @@ class ProposalTemplateController extends Controller
      * @return Response
      */
     public function index()
-    {   
+    {
         $business_id = request()->session()->get('user.business_id');
         // if (!(auth()->user()->can('superadmin') || $this->moduleUtil->hasThePermissionInSubscription($business_id, 'crm_module'))) {
         //     abort(403, 'Unauthorized action.');
@@ -52,7 +52,7 @@ class ProposalTemplateController extends Controller
      * @return Response
      */
     public function create()
-    {   
+    {
         $business_id = request()->session()->get('user.business_id');
         // if (!(auth()->user()->can('superadmin'))) {
         //     abort(403, 'Unauthorized action.');
@@ -65,7 +65,7 @@ class ProposalTemplateController extends Controller
         //                 'msg' => __('crm::lang.template_is_already_created')
         //             ]);
         // }
-        
+
         return view('crm::proposal_template.create');
     }
 
@@ -88,7 +88,7 @@ class ProposalTemplateController extends Controller
         //                 'msg' => __('crm::lang.template_is_already_created')
         //             ]);
         // }
-        
+
         $request->validate([
             'subject' => 'required',
             'body' => 'required'
@@ -99,25 +99,27 @@ class ProposalTemplateController extends Controller
             $input = $request->only(['subject', 'body']);
             $input['business_id'] = $business_id;
             $input['created_by'] = request()->session()->get('user.id');
-            
+
             $attachments = $request->file('attachments');
 
             DB::beginTransaction();
-                $proposal_template = ProposalTemplate::create($input);
-                if (!empty($attachments)) {
-                    Media::uploadMedia($business_id, $proposal_template, request(), 'attachments');
-                }
+            $proposal_template = ProposalTemplate::create($input);
+            if (!empty($attachments)) {
+                Media::uploadMedia($business_id, $proposal_template, request(), 'attachments');
+            }
             DB::commit();
-            $output = ['success' => 1,
-                        'msg' => __('lang_v1.success')
-                    ];
+            $output = [
+                'success' => 1,
+                'msg' => __('lang_v1.success')
+            ];
         } catch (\Exception $e) {
             DB::rollBack();
-            \Log::emergency("File:" . $e->getFile(). "Line:" . $e->getLine(). "Message:" . $e->getMessage());
-            
-            $output = ['success' => 0,
-                        'msg' => __('messages.something_went_wrong')
-                    ];
+            \Log::emergency("File:" . $e->getFile() . "Line:" . $e->getLine() . "Message:" . $e->getMessage());
+
+            $output = [
+                'success' => 0,
+                'msg' => __('messages.something_went_wrong')
+            ];
         }
 
         return redirect()
@@ -169,8 +171,8 @@ class ProposalTemplateController extends Controller
     private function __getProposalTemplate($business_id)
     {
         $proposal_template = ProposalTemplate::with(['media'])
-                                ->where('business_id', $business_id)
-                                ->first();
+            ->where('business_id', $business_id)
+            ->first();
 
         return $proposal_template;
     }
@@ -185,9 +187,10 @@ class ProposalTemplateController extends Controller
         if (empty($this->__getProposalTemplate($business_id))) {
             return redirect()
                 ->action('\Modules\Crm\Http\Controllers\ProposalTemplateController@create')
-                ->with('status', ['success' => 0,
-                        'msg' => __('crm::lang.please_add_template')
-                    ]);
+                ->with('status', [
+                    'success' => 0,
+                    'msg' => __('crm::lang.please_add_template')
+                ]);
         }
 
         $proposal_template = $this->__getProposalTemplate($business_id);
@@ -206,11 +209,12 @@ class ProposalTemplateController extends Controller
         if (empty($this->__getProposalTemplate($business_id))) {
             return redirect()
                 ->action('\Modules\Crm\Http\Controllers\ProposalTemplateController@create')
-                ->with('status', ['success' => 0,
-                        'msg' => __('crm::lang.please_add_template')
-                    ]);
+                ->with('status', [
+                    'success' => 0,
+                    'msg' => __('crm::lang.please_add_template')
+                ]);
         }
-        
+
         $request->validate([
             'subject' => 'required',
             'body' => 'required'
@@ -223,27 +227,29 @@ class ProposalTemplateController extends Controller
             $attachments = $request->file('attachments');
 
             DB::beginTransaction();
-                $proposal_template = ProposalTemplate::where('business_id', $business_id)
-                                        ->first();
+            $proposal_template = ProposalTemplate::where('business_id', $business_id)
+                ->first();
 
-                $proposal_template->subject = $input['subject'];
-                $proposal_template->body = $input['body'];
-                $proposal_template->save();
+            $proposal_template->subject = $input['subject'];
+            $proposal_template->body = $input['body'];
+            $proposal_template->save();
 
-                if (!empty($attachments)) {
-                    Media::uploadMedia($business_id, $proposal_template, request(), 'attachments');
-                }
+            if (!empty($attachments)) {
+                Media::uploadMedia($business_id, $proposal_template, request(), 'attachments');
+            }
             DB::commit();
-            $output = ['success' => 1,
-                        'msg' => __('lang_v1.updated')
-                    ];
+            $output = [
+                'success' => 1,
+                'msg' => __('lang_v1.updated')
+            ];
         } catch (\Exception $e) {
             DB::rollBack();
-            \Log::emergency("File:" . $e->getFile(). "Line:" . $e->getLine(). "Message:" . $e->getMessage());
-            
-            $output = ['success' => 0,
-                        'msg' => __('messages.something_went_wrong')
-                    ];
+            \Log::emergency("File:" . $e->getFile() . "Line:" . $e->getLine() . "Message:" . $e->getMessage());
+
+            $output = [
+                'success' => 0,
+                'msg' => __('messages.something_went_wrong')
+            ];
         }
 
         return redirect()
@@ -261,9 +267,10 @@ class ProposalTemplateController extends Controller
         if (empty($this->__getProposalTemplate($business_id))) {
             return redirect()
                 ->action('\Modules\Crm\Http\Controllers\ProposalTemplateController@create')
-                ->with('status', ['success' => 0,
-                        'msg' => __('crm::lang.please_add_template')
-                    ]);
+                ->with('status', [
+                    'success' => 0,
+                    'msg' => __('crm::lang.please_add_template')
+                ]);
         }
 
         $proposal_template = $this->__getProposalTemplate($business_id);
@@ -282,15 +289,16 @@ class ProposalTemplateController extends Controller
         if (empty($this->__getProposalTemplate($business_id))) {
             return redirect()
                 ->action('\Modules\Crm\Http\Controllers\ProposalTemplateController@create')
-                ->with('status', ['success' => 0,
-                        'msg' => __('crm::lang.please_add_template')
-                    ]);
+                ->with('status', [
+                    'success' => 0,
+                    'msg' => __('crm::lang.please_add_template')
+                ]);
         }
 
         $proposal_template = $this->__getProposalTemplate($business_id);
         $leads = CrmContact::leadsDropdown($business_id, false, false);
         $customers = CrmContact::customersDropdown($business_id, false, false);
-        
+
         $contacts = [];
         foreach ($customers as $key => $customer) {
             $contacts[$key] = $customer;
@@ -314,12 +322,14 @@ class ProposalTemplateController extends Controller
             try {
 
                 Media::deleteMedia($business_id, $id);
-                
-                $output = ['success' => true,
+
+                $output = [
+                    'success' => true,
                     'msg' => __("lang_v1.success")
                 ];
             } catch (\Exception $e) {
-                $output = ['success' => false,
+                $output = [
+                    'success' => false,
                     'msg' => __('messages.something_went_wrong')
                 ];
             }

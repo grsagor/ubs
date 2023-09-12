@@ -33,12 +33,12 @@ class FrontendController extends Controller
                 })
                 ->latest();
 
-                if ($child_category_id !== null) {
-                    $data['rooms'] = $data['rooms']->where('child_category_id', $child_category_id);
-                }
-                
-                $data['rooms'] = $data['rooms']->paginate($data['per_page']);
-    
+            if ($child_category_id !== null) {
+                $data['rooms'] = $data['rooms']->where('child_category_id', $child_category_id);
+            }
+
+            $data['rooms'] = $data['rooms']->paginate($data['per_page']);
+
             $data['child_categories']             = ChildCategory::where('sub_category_id', $sub_category_id)->get();
             $data['sub_category_id']             = $sub_category_id;
             return view('frontend.service.room.room_list', $data);
@@ -49,6 +49,7 @@ class FrontendController extends Controller
             $data['rooms']          = ServicePropertyWanted::active()->select(
                 'id',
                 'room_size',
+                'room_details',
                 'available_form',
                 'ad_title',
                 'ad_text',
@@ -64,15 +65,15 @@ class FrontendController extends Controller
                 })
                 ->latest();
 
-                if ($child_category_id !== null) {
-                    $data['rooms'] = $data['rooms']->where('child_category_id', $child_category_id);
-                }
-                
-                $data['rooms'] = $data['rooms']->paginate($data['per_page']);
+            if ($child_category_id !== null) {
+                $data['rooms'] = $data['rooms']->where('child_category_id', $child_category_id);
+            }
 
-                $data['child_categories']             = ChildCategory::where('sub_category_id', $sub_category_id)->get();
-                $data['sub_category_id']             = $sub_category_id;
-    
+            $data['rooms'] = $data['rooms']->paginate($data['per_page']);
+
+            $data['child_categories']             = ChildCategory::where('sub_category_id', $sub_category_id)->get();
+            $data['sub_category_id']             = $sub_category_id;
+
             return view('frontend.service.property.property_list', $data);
         }
     }

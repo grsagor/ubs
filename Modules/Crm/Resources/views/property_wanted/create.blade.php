@@ -121,7 +121,7 @@
 
                     <div class="col-sm-12" id="number_of_shared_people_container">
                         <div class="form-group">
-                            <label for="invoice_scheme_id">how many people will share the property?</label>
+                            <label for="invoice_scheme_id">How many people will share with you the property?</label>
                             <select class="form-control" required="" id="number_of_shared_people"
                                 name="number_of_shared_people">
                                 <option selected value=0>Select....</option>
@@ -162,7 +162,7 @@
                     </div>
 
 
-                    <div class="col-sm-12">
+                    {{-- <div class="col-sm-12">
                         <div class="form-group">
                             <label for="invoice_scheme_id">Business Location</label>
                             <select class="form-control" name="business_location_id">
@@ -174,10 +174,10 @@
                                 @endforeach
                             </select>
                         </div>
-                    </div>
+                    </div> --}}
 
 
-                    <div class="col-sm-12">
+                    {{-- <div class="col-sm-12">
                         <div class="form-group">
                             <label>Room size</label>
                             <div>
@@ -197,14 +197,16 @@
                                     room</label>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
+
+
                 </div>
+
                 <div id="showingbtn2" class="d-none row" style="display:none;">
                     <div class="col-sm-12">
                         <div class="form-group">
                             <label for="invoice_scheme_id">Where do you want to live?</label>
-                            <select class="form-control" id="invoice_scheme_id"
-                                name="wanted_living_area">
+                            <select class="form-control" id="invoice_scheme_id" name="wanted_living_area">
                                 <option value="" selected="">Select an
                                     area...
                                 </option>
@@ -844,6 +846,7 @@
                         </div>
                     </div>
                 </div>
+
                 <div id="showingbtn2" class="row" style="display:none;">
                     <div class="col-sm-12 input_group_title_container">
                         <h6>Your flatmate preference</h6>
@@ -935,8 +938,8 @@
                         <div class="form-group">
                             <label for="custom_field1">Advert title</label>
                             <p class="sub-heading">(Short description)</p>
-                            <input class="form-control" placeholder="Short description" name="ad_title"
-                                type="text" id="ad_title">
+                            <input class="form-control" placeholder="Short description maximum 92 characters"
+                                name="ad_title" type="text" id="ad_title">
                         </div>
                     </div>
 
@@ -944,14 +947,15 @@
                         <div class="form-group">
                             <label for="custom_field1">Description</label>
                             <p class="sub-heading">(No contact details permitted within description)</p>
-                            <textarea rows="30" type="text" class="form-control" name="ad_text" class="input-field"></textarea>
+                            <textarea rows="30" type="text" class="form-control" name="ad_text" class="input-field"
+                                placeholder="Description"></textarea>
                         </div>
                     </div>
 
                     <div class="col-sm-12">
                         <div class="form-group">
-                            <label for="custom_field1">Upload your photos</label>
-                            <input class="form-control" name="images[]" type="file" id="imageUpload" multiple>
+                            <label for="custom_field1">Upload your profile picture</label>
+                            <input class="form-control" name="images[]" type="file" id="imageUpload">
                         </div>
                     </div>
 
@@ -972,13 +976,14 @@
 
                 <div id="nextprev1">
                     <div class="d-flex gap-1 justify-content-center">
-                        <button id="next1" type="button" class="btn btn-primary float-none w-25 rounded-0 submit-btn">Next</button>
+                        <button id="next1" type="button"
+                            class="btn btn-primary float-none w-25 rounded-0 submit-btn">Next</button>
                     </div>
                 </div>
                 <div style="display:none;" id="nextprev2">
                     <div class="d-flex gap-1 justify-content-center">
                         <button id="prev2" type="button"
-                        class="btn btn-primary float-none w-25 rounded-0 submit-btn ">Previous</button>
+                            class="btn btn-primary float-none w-25 rounded-0 submit-btn ">Previous</button>
                         <button id="next2" type="button"
                             class="btn btn-primary float-none w-25 rounded-0 submit-btn">Next</button>
                     </div>
@@ -986,7 +991,7 @@
                 <div style="display:none;" id="nextprev3">
                     <div class="d-flex gap-1 justify-content-center">
                         <button id="prev3" type="button"
-                        class="btn btn-primary float-none w-25 rounded-0 submit-btn ">Previous</button>
+                            class="btn btn-primary float-none w-25 rounded-0 submit-btn ">Previous</button>
                         <button id="next3" type="button"
                             class="btn btn-primary float-none w-25 rounded-0 submit-btn">Next</button>
                     </div>
@@ -994,9 +999,9 @@
                 <div style="display:none;" id="nextprev4">
                     <div class="d-flex gap-1 justify-content-center">
                         <button id="prev4" type="button"
-                        class="btn btn-primary float-none w-25 rounded-0 submit-btn ">Previous</button>
-                    <button style="margin-top: 0;" class="addProductSubmit-btn w-25 btn btn-success"
-                        type="submit">Submit</button>
+                            class="btn btn-primary float-none w-25 rounded-0 submit-btn ">Previous</button>
+                        <button style="margin-top: 0;" class="addProductSubmit-btn w-25 btn btn-success"
+                            type="submit">Submit</button>
                     </div>
                 </div>
             </form>
@@ -1101,12 +1106,15 @@
         font-size: 22px;
         font-weight: bold;
     }
+
     .d-flex {
         display: flex !important;
-    } 
-    .gap-1{
+    }
+
+    .gap-1 {
         gap: 15px;
     }
+
     .justify-content-center {
         justify-content: center;
     }

@@ -1,53 +1,82 @@
 @extends('frontend.layouts.master_layout')
 @push('css')
     <style>
-        .image-carousel {
-            position: relative;
-        }
-
-        .carousel-container {
-            position: relative !important;
+        .call-button {
             display: flex;
-            justify-content: center;
             align-items: center;
         }
 
-        .previous,
-        .next {
-            font-size: 24px;
-            cursor: pointer;
-            padding: 8px;
-            background-color: rgba(0, 0, 0, 0.5);
-            color: white;
-            border: none;
-            border-radius: 4px;
-            position: absolute !important;
-            top: 50%;
-            z-index: 1;
+        .button-31 {
+            width: 130px;
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 5px;
         }
 
-        .previous {
-            left: 0;
+        #call_id {
+            display: none;
+            margin-left: 10px;
         }
 
-        .next {
-            right: 0;
+        @media (max-width: 768px) {
+
+            #call_id {
+                display: none !important;
+                display: block;
+                margin-left: 0;
+                margin-top: 10px;
+            }
         }
 
-        .image-slide {
-            position: relative;
-            /* Add this to make the arrows relative to the image-slide */
-        }
+        /* .image-carousel {
+                            position: relative;
+                        }
 
-        .image-slide img {
-            max-width: 100%;
-            height: auto;
-            display: block;
-        }
+                        .carousel-container {
+                            position: relative !important;
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                        }
 
-        .active {
-            background-color: #333;
-        }
+                        .previous,
+                        .next {
+                            font-size: 24px;
+                            cursor: pointer;
+                            padding: 8px;
+                            background-color: rgba(0, 0, 0, 0.5);
+                            color: white;
+                            border: none;
+                            border-radius: 4px;
+                            position: absolute !important;
+                            top: 50%;
+                            z-index: 1;
+                        }
+
+                        .previous {
+                            left: 0;
+                        }
+
+                        .next {
+                            right: 0;
+                        }
+
+                        .image-slide {
+                            position: relative;
+                        }
+
+                        .image-slide img {
+                            max-width: 100%;
+                            height: auto;
+                            display: block;
+                        }
+
+                        .active {
+                            background-color: #333;
+                        } */
     </style>
 @endpush
 @section('content')
@@ -84,7 +113,7 @@
                     <div class="row mobile-reverse">
 
                         <div class="row single-product-wrapper mt-3">
-                            <div class="col-12 col-lg-4 mb-4 mb-lg-0">
+                            <div class="col-lg-4 mb-4 mb-lg-0">
                                 <div class="product-images overflow-hidden">
                                     <div class="images-inner">
 
@@ -112,8 +141,8 @@
                                                         </div>
                                                     @endforeach
                                                 </div>
-                                                <a class="previous" onclick="plusSlides(-1)">❮</a>
-                                                <a class="next" onclick="plusSlides(1)">❯</a>
+                                                {{-- <a class="previous" onclick="plusSlides(-1)">❮</a>
+                                                <a class="next" onclick="plusSlides(1)" style="float: right;">❯</a> --}}
                                             </div>
                                         @else
                                             <figure class="woocommerce-product-gallery__wrapper">
@@ -123,7 +152,7 @@
                                             </figure>
                                         @endif
 
-                                        <script>
+                                        {{-- <script>
                                             var currentIndex = 1;
 
                                             showSlides(currentIndex);
@@ -149,40 +178,40 @@
 
                                                 slides[currentIndex - 1].style.display = "block";
                                             }
-                                        </script>
+                                        </script> --}}
 
 
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="col-12 col-lg-5 col-md-8">
+                            <div class="col-lg-5 col-md-8">
                                 <div class="summary entry-summary">
                                     <div class="summary-inner">
 
                                         <h1 class="product_title entry-title">{{ $info->ad_title }}</h1>
-                                        <p class="product-title">{{ $info->ad_text }}</p>
+
 
                                         <div class="pro-details">
 
                                             <div class="pro-info">
-                                                <strong class="room-list__price">
+                                                <strong class="room-list__price"gggggggg>
                                                     {{ $info->room_size }}</strong>
                                             </div>
 
-                                            <li class="addtocart m-1">
+                                            {{-- <li class="addtocart m-1">
                                                 <form method="POST"
                                                     action="{{ route('property.referenceNumberCheck', $info->id) }}"
-                                                    style="margin-bottom: 0px;">
+                                                    style="margin: 0px;">
                                                     @csrf
                                                     @method('PUT')
 
                                                     <button type="button" data-bs-toggle="modal"
-                                                        data-bs-target="#exampleModal"> Book Now
-                                                        ${{ $info->combined_budget }}
+                                                        data-bs-target="#exampleModal">
+                                                        Send Message
                                                     </button>
 
-                                                    {{-- Modal --}}
+                                                 
                                                     <div class="modal fade" id="exampleModal" tabindex="-1"
                                                         aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                         <div class="modal-dialog">
@@ -214,15 +243,31 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    {{-- Modal --}}
+                                                    
 
                                                 </form>
-                                            </li>
+                                            </li> --}}
+
+                                            <div class="call-button" style="display: flex; align-items: center;">
+                                                <a href="tel:{{ $info->tel }}" class="button-31" id="call_button_id"
+                                                    style="width: 130px;">Call</a>
+                                                <span id="call_id"
+                                                    style="display: none; margin-left: 10px;">{{ $info->tel }}</span>
+                                            </div>
+
+                                            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                                            <script>
+                                                $(document).ready(function() {
+                                                    $("#call_button_id").click(function() { // Use the correct ID selector (#call_button_id)
+                                                        $("#call_id").show(); // Use the correct ID selector (#call_id)
+                                                    });
+                                                });
+                                            </script>
 
                                         </div>
 
 
-                                        <div class="my-4 social-linkss social-sharing a2a_kit a2a_kit_size_32"
+                                        <div class="my-2 social-linkss social-sharing a2a_kit a2a_kit_size_32"
                                             style="line-height: 32px;">
                                             <h5 class="mb-2">Share Now</h5>
                                             <ul class="social-icons py-1 share-product social-linkss py-md-0">
@@ -275,165 +320,7 @@
                                                 Item </a>
                                         </div>
 
-                                        <div>
-                                            <hr style="width: 100%;">
-                                        </div>
 
-                                        @if ($info->available_form)
-                                            <p>
-                                                <strong>Availability: </strong>
-                                                {{ Carbon\Carbon::createFromFormat('Y-m-d', $info->available_form)->format('M d') }}
-                                            </p>
-                                        @endif
-
-                                        @if ($info->min_term)
-                                            <p>
-                                                <strong>Minimum term: </strong>
-                                                {{ $info->min_term ?? '' }} months
-                                            </p>
-                                        @endif
-
-                                        @if ($info->max_term)
-                                            <p>
-                                                <strong>Maximum term: </strong>
-                                                {{ $info->max_term ?? '' }} months
-                                            </p>
-                                        @endif
-
-                                        @if ($info->who_is_searching)
-                                            <p>
-                                                <strong>Who is searching: </strong>
-                                                {{ $info->who_is_searching }}
-                                            </p>
-                                        @endif
-
-                                        @if ($info->why_is_searching)
-                                            <p>
-                                                <strong>Why is searching: </strong>
-                                                {{ $info->why_is_searching }}
-                                            </p>
-                                        @endif
-
-                                        @if ($info->gender)
-                                            <p>
-                                                <strong>Gender: </strong>
-                                                {{ $info->gender == 1 ? 'Male' : ($info->gender == 2 ? 'Female' : 'Others') }}
-                                            </p>
-                                        @endif
-
-                                        @if ($info->buddy_ups)
-                                            <p>
-                                                <strong>Buddy Ups: </strong>
-                                                {{ $info->buddy_ups }}
-                                            </p>
-                                        @endif
-
-                                        @if ($info->wanted_living_area)
-                                            <p>
-                                                <strong>Wanted Living Area: </strong>
-                                                {{ $info->wanted_living_area }}
-                                            </p>
-                                        @endif
-
-
-                                        @php
-                                            $aminities = json_decode($info->roomfurnishings, true);
-                                            
-                                            array_walk($aminities, function (&$amenity) {
-                                                $amenity = ucfirst($amenity);
-                                            });
-                                        @endphp
-
-                                        <p>
-                                            <strong>Aminities: </strong>
-                                            @foreach ($aminities as $item)
-                                                <span>{{ $item }}, </span>
-                                            @endforeach
-                                        </p>
-
-                                        <br>
-                                        <h5>Occupant</h5>
-                                        <div>
-                                            <hr style="width: 100%;">
-                                        </div>
-
-                                        <p>
-                                            <strong>Name: </strong>
-                                            {{ $info->first_name }}
-                                            {{ $info->last_name }}
-                                        </p>
-
-                                        <p>
-                                            <strong>Age: </strong>
-                                            {{ $info->age ?? '' }}
-                                        </p>
-                                        <p>
-                                            <strong>Occupation: </strong>
-                                            {{ $info->occupation ?? '' }}
-                                        </p>
-                                        <p>
-                                            <strong>Telephone </strong>
-                                            {{ $info->tel }}
-                                        </p>
-                                        <p>
-                                            <strong>Smoker: </strong>
-                                            {{ $info->smoking_current == 1 ? 'Yes' : 'No' }}
-                                        </p>
-                                        <p>
-                                            <strong>Pets: </strong>
-                                            {{ $info->pets == 1 ? 'Yes' : 'No' }}
-                                        </p>
-                                        <p>
-                                            <strong>Sex: </strong>
-                                            {{ $info->gay_lesbian }}
-                                        </p>
-                                        <p>
-                                            <strong>Gay Consent: </strong>
-                                            {{ $info->gay_consent == 1 ? 'Yes' : 'No' }}
-                                        </p>
-                                        <p>
-                                            <strong>Nationality: </strong>
-                                            {{ $info->nationality ?? '' }}
-                                        </p>
-                                        <p>
-                                            <strong>Language: </strong>
-                                            {{ $info->lang_id }}
-                                        </p>
-
-
-                                        @if ($info->selectedSports)
-                                            <p>
-                                                <strong>Selected Sports </strong>
-                                                {{ $info->selectedSports }}
-                                            </p>
-                                        @endif
-
-                                        <h5>Requirements</h5>
-                                        <div>
-                                            <hr style="width: 100%;">
-                                        </div>
-
-                                        <p>
-                                            <strong>Gender Requirement: </strong>
-                                            {{ $info->gender_req == 1 ? 'Male' : ($info->gender_req == 2 ? 'Female' : 'Others') }}
-                                        </p>
-
-                                        <p>
-                                            <strong>Minimum age requirement: </strong>
-                                            {{ $info->min_age_req }}
-                                        </p>
-                                        <p>
-                                            <strong>Maximum age requirement: </strong>
-                                            {{ $info->max_age_req }}
-                                        </p>
-                                        <p>
-                                            <strong>Pets Requirement: </strong>
-                                            {{ $info->pets_req }}
-                                        </p>
-                                        <p>
-                                            <strong>Gay Lesbian Requirement: </strong>
-                                            {{ $info->gay_lesbian_req }}
-                                        </p>
 
                                     </div>
                                 </div>
@@ -464,6 +351,183 @@
 
                         </div>
 
+
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-lg-7 p-4" style="text-align: justify">
+                            <p class="product-title">{{ $info->ad_text }}</p>
+                        </div>
+
+                        <div class="col-lg-5">
+                            <div>
+                                <hr style="width: 100%;">
+                            </div>
+                            @if ($info->available_form)
+                                <p>
+                                    <strong>Availability: </strong>
+                                    {{ Carbon\Carbon::createFromFormat('Y-m-d', $info->available_form)->format('M d') }}
+                                </p>
+                            @endif
+
+                            @if ($info->min_term)
+                                <p>
+                                    <strong>Minimum term: </strong>
+                                    {{ $info->min_term ?? '' }} months
+                                </p>
+                            @endif
+
+                            @if ($info->max_term)
+                                <p>
+                                    <strong>Maximum term: </strong>
+                                    {{ $info->max_term ?? '' }} months
+                                </p>
+                            @endif
+
+                            @if ($info->who_is_searching)
+                                <p>
+                                    <strong>Who is searching: </strong>
+                                    {{ $info->who_is_searching }}
+                                </p>
+                            @endif
+
+                            @if ($info->why_is_searching)
+                                <p>
+                                    <strong>Why is searching: </strong>
+                                    {{ $info->why_is_searching }}
+                                </p>
+                            @endif
+
+                            @if ($info->gender)
+                                <p>
+                                    <strong>Gender: </strong>
+                                    {{ $info->gender == 1 ? 'Male' : ($info->gender == 2 ? 'Female' : 'Others') }}
+                                </p>
+                            @endif
+
+                            @if ($info->buddy_ups)
+                                <p>
+                                    <strong>Buddy Ups: </strong>
+                                    {{ $info->buddy_ups }}
+                                </p>
+                            @endif
+
+                            @if ($info->wanted_living_area)
+                                <p>
+                                    <strong>Wanted Living Area: </strong>
+                                    {{ $info->wanted_living_area }}
+                                </p>
+                            @endif
+
+
+                            @php
+                                if ($info->roomfurnishings == null) {
+                                    $aminities = json_decode($info->roomfurnishings, true);
+                                
+                                    array_walk($aminities, function (&$amenity) {
+                                        $amenity = ucfirst($amenity);
+                                    });
+                                }
+                                
+                            @endphp
+
+                            @if ($info->roomfurnishings == null)
+                                <p>
+                                    <strong>Aminities: </strong>
+                                    @foreach ($aminities as $item)
+                                        <span>{{ $item }}, </span>
+                                    @endforeach
+                                </p>
+                            @endif
+
+                            <br>
+                            <h5>Occupant Details</h5>
+                            <div>
+                                <hr style="width: 100%;">
+                            </div>
+
+                            <p>
+                                <strong>Name: </strong>
+                                {{ $info->first_name }}
+                                {{ $info->last_name }}
+                            </p>
+
+                            <p>
+                                <strong>Age: </strong>
+                                {{ $info->age ?? '' }}
+                            </p>
+                            <p>
+                                <strong>Occupation: </strong>
+                                {{ $info->occupation ?? '' }}
+                            </p>
+                            <p>
+                                <strong>Telephone </strong>
+                                {{ $info->tel }}
+                            </p>
+                            <p>
+                                <strong>Smoker: </strong>
+                                {{ $info->smoking_current == 1 ? 'Yes' : 'No' }}
+                            </p>
+                            <p>
+                                <strong>Pets: </strong>
+                                {{ $info->pets == 1 ? 'Yes' : 'No' }}
+                            </p>
+                            <p>
+                                <strong>Sex: </strong>
+                                {{ $info->gay_lesbian }}
+                            </p>
+                            <p>
+                                <strong>Gay Consent: </strong>
+                                {{ $info->gay_consent == 1 ? 'Yes' : 'No' }}
+                            </p>
+                            <p>
+                                <strong>Nationality: </strong>
+                                {{ $info->nationality ?? '' }}
+                            </p>
+                            <p>
+                                <strong>Language: </strong>
+                                {{ $info->lang_id }}
+                            </p>
+
+
+                            @if ($info->selectedSports)
+                                <p>
+                                    <strong>Selected Sports </strong>
+                                    {{ $info->selectedSports }}
+                                </p>
+                            @endif
+
+                            <h5>Requirements</h5>
+                            <div>
+                                <hr style="width: 100%;">
+                            </div>
+
+                            <p>
+                                <strong>Gender Requirement: </strong>
+                                {{ $info->gender_req == 1 ? 'Male' : ($info->gender_req == 2 ? 'Female' : 'Others') }}
+                            </p>
+
+                            <p>
+                                <strong>Minimum age requirement: </strong>
+                                {{ $info->min_age_req }}
+                            </p>
+                            <p>
+                                <strong>Maximum age requirement: </strong>
+                                {{ $info->max_age_req }}
+                            </p>
+                            <p>
+                                <strong>Pets Requirement: </strong>
+                                {{ $info->pets_req }}
+                            </p>
+                            <p>
+                                <strong>Gay Lesbian Requirement: </strong>
+                                {{ $info->gay_lesbian_req }}
+                            </p>
+                        </div>
+                        {{-- <div class="col-lg-3">
+
+                        </div> --}}
                     </div>
                 </div>
             </div>

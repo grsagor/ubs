@@ -108,6 +108,10 @@ class PropertyWantedCustomerController extends Controller
 
     public function store(Request $request)
     {
+        $request->validate([
+            'ad_title' => 'required|max:92',
+        ]);
+
         $count = count($request->occupant_name);
         $occupant_details = [];
         for ($i = 0; $i < $count; $i++) {
@@ -145,7 +149,7 @@ class PropertyWantedCustomerController extends Controller
         $requestedData['occupant_details'] = json_encode($occupant_details);
         $requestedData['room_details'] = json_encode($request->room_details);
 
-        $requestedData['images'] = $this->image($request->file('images'), 'uploads/service_property/', 800, 500);
+        $requestedData['images'] = $this->image($request->file('images'), '', 800, 500);
 
         $property->fill($requestedData)->save();
 
@@ -225,7 +229,7 @@ class PropertyWantedCustomerController extends Controller
         if ($request->hasFile('images')) {
             $image_path = public_path('uploads/service_property');
             $image_names = [];
-        
+
             foreach ($request->file('images') as $file) {
                 $image_name = rand(123456, 999999) . '.' . $file->getClientOriginalExtension();
                 $file->move($image_path, $image_name);

@@ -51,7 +51,7 @@ return new class extends Migration
             $table->string('pets_req')->nullable();
             $table->string('gay_lesbian_req')->nullable();
             $table->string('ad_title')->nullable();
-            $table->string('ad_text')->nullable();
+            $table->text('ad_text')->nullable();
             $table->string('tel')->nullable();
             $table->string('selectedSports')->nullable();
             $table->string('images')->nullable();

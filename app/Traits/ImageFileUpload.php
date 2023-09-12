@@ -16,21 +16,21 @@ trait ImageFileUpload
             $file->move($image_path, $image_name);
             return 'upload/' . $image_name;
         }
-    
+
         // Check if it's a multiple image upload
         if (is_array($file) && !empty($file)) {
             $image_path = public_path('upload');
             $image_names = [];
-    
+
             foreach ($file as $item) {
                 $image_name = rand(123456, 999999) . '.' . $item->getClientOriginalExtension();
                 $item->move($image_path, $image_name);
                 $image_names[] = 'upload/' . $image_name;
             }
-    
+
             return json_encode($image_names);
         }
-    
+
         return;
     }
 

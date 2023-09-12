@@ -1,6 +1,11 @@
 @for ($i = 0; $i < $num; $i++)
+    @if ($i != 0)
+    @endif
+
     <div class="each_occupant_container">
-        <h6>Occupant-{{ $i + 1 }} Details</h6>
+        <div class="col-sm-12" style="{{ $i != 0 ? 'margin-top: 20px;' : '' }}">
+            <h6><u>Occupant-{{ $i + 1 }} Details</u></h6>
+        </div>
         <div class="col-sm-12">
             <div class="form-group">
                 <label for="occupant_name">Name</label>
@@ -72,7 +77,8 @@
             <div class="col-sm-12">
                 <div class="form-group">
                     <label for="occupant_job">Do you have job?</label>
-                    <select onchange="showJobInfo({{ $i }})" class="form-control" id="occupant_job_{{ $i }}" name="occupant_job[]">
+                    <select onchange="showJobInfo({{ $i }})" class="form-control"
+                        id="occupant_job_{{ $i }}" name="occupant_job[]">
                         <option selected="" value="">Select....</option>
                         <option value="1">Yes</option>
                         <option value="0">No</option>
@@ -140,9 +146,9 @@
         }
     }
 
-    function showJobInfo(i){
+    function showJobInfo(i) {
         var haveJob = $(`#occupant_job_${i}`).val();
-        if(haveJob == 1){
+        if (haveJob == 1) {
             $(`#job_info_${i}`).show();
         } else {
             $(`#job_info_${i}`).hide();
