@@ -15,35 +15,31 @@
                                 $img_count = count($images);
                             }
                         @endphp
-
                         @if ($first_image && File::exists($imagePath))
-                            <a href="{{ route('property_show', $item->id) }}" class="woocommerce-LoopProduct-link">
+                            <a href="{{ route('room_show', $item->id) }}" class="woocommerce-LoopProduct-link">
                                 <img class="lazy img-fluid rounded" data-src="{{ asset($first_image) }}" alt="Product Image">
                             </a>
                         @else
                             <img src="https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg"
-                                class="swiper-lazy" alt="" style="height: 270px;">
+                                class="swiper-lazy" alt="">
                         @endif
                     </div>
                     <div class=" col-lg-8 col-md-8 col-sm-12 p-0">
                         <div class="p-2">
-                            <h5 class="product-title" style="padding: 2px 2px 2px 2px;">
+                            <h5 class="product-title mb-1">
                                 <a class="text-dark" href="{{ route('room_show', $item->id) }}">
-                                    <span style="font-weight: 600;">
-                                        {{ Str::limit($item->advert_title, $limit = 92, $end = '...') }}
+                                    <span class="company-name">
+                                        {{ Str::limit($item->advert_title, $limit = 20, $end = '...') }}
                                     </span>
                                 </a>
                             </h5>
-                            <hr class="mt-0" style="height: 2px; width: 100% !important;">
-                            <p class="category_text text-dark"
-                                style="margin-bottom: 0rem; text-align: justify; padding: 0px 10px 0px 10px">
-                                {{ Str::limit($item->advert_description, $limit = 368, $end = '...') }}
+                            <hr class="mt-0">
+                            <p class="category_text text-dark" style="margin-bottom: 0rem; margin-top: -10px;">
+                                {{ Str::limit($item->advert_description, $limit = 30, $end = '...') }}
                             </p>
                         </div>
-
-
                         @php
-                            $room_data = json_decode($item->room, true);
+                            $room_data = json_decode($item->room, true);                            
                             $maxValue = null;
                             $minValue = null;
                             for ($i = 1; $i <= 3; $i++) {
@@ -64,64 +60,29 @@
                                 $room_rent = $minValue . ' - ' . $maxValue;
                         } @endphp
 
-
                         <div class="d-flex text-center"
                             style="background-color: whitesmoke; border-top: 3px solid var(--green);">
-
                             <span class=" flex-fill mb-0 text-white">
-                                <p class="lower-section-text mb-0  text-muted"
-                                    style="color: black !important; font-size: 15px;">
-                                    Type
-                                </p>
-                                <p class="mb-0 text-muted">
-                                    {{ $item->child_category->name }}
-                                </p>
-                            </span>
-
-                            <span class=" flex-fill mb-0 text-white">
-                                <p class="lower-section-text mb-0  text-muted"
-                                    style="color: black !important; font-size: 15px;">
-                                    Bed
-                                </p>
-                                <p class="mb-0 text-muted">
-                                    {{ $item->property_room_quantity }}
-                                </p>
-                            </span>
-
-                            <span class=" flex-fill mb-0 text-white">
-                                <p class="lower-section-text mb-0  text-muted"
-                                    style="color: black !important; font-size: 15px;">
-                                    Toilet
-                                </p>
-                                <p class="mb-0 text-muted">
-                                    {{ $item->bathroom }}
-                                </p>
-                            </span>
-
-                            <span class=" flex-fill mb-0 text-white">
-                                <p class="lower-section-text mb-0  text-muted"
-                                    style="color: black !important; font-size: 15px;">
-                                    Max. Tenants
-                                </p>
-                                <p class="mb-0 text-muted">
-                                    {{ $item->property_allow_people }}
-                                </p>
-                            </span>
-
-                            <span class=" flex-fill mb-0 text-white">
-                                <p class="lower-section-text mb-0" style="color: black; font-size: 15px;">
+                                <p class="lower-section-text mb-0  text-muted">
                                     Rent
                                 </p>
                                 <p class="mb-0 text-muted">
                                     &pound;{{ $room_rent }} <abbr>pcm</abbr>
                                 </p>
                             </span>
-
-
+                            <span class=" flex-fill mb-0 text-white">
+                                <p class="lower-section-text mb-0  text-muted">Type
+                                </p>
+                                <p class="mb-0 text-muted">
+                                    {{ $item->property_type }}</p>
+                                </p>
+                            </span>
                         </div>
                     </div>
                 </div>
+
             </div>
         </div>
+        <br>
     @endforeach
 @endsection

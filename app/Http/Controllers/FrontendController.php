@@ -19,10 +19,14 @@ class FrontendController extends Controller
                 'property_address',
                 'room',
                 'room_available_from',
+                'child_category_id',
                 'advert_title',
                 'advert_description',
                 'advert_photos',
                 'advert_type',
+                'property_room_quantity',
+                'property_allow_people',
+                'bathroom',
                 'created_at'
             )
                 ->search($request)
@@ -31,6 +35,7 @@ class FrontendController extends Controller
                         ->from('payment_histories')
                         ->where('table_name', 'service_advertise_rooms');
                 })
+                ->with('child_category')
                 ->latest();
 
             if ($child_category_id !== null) {
@@ -39,8 +44,9 @@ class FrontendController extends Controller
 
             $data['rooms'] = $data['rooms']->paginate($data['per_page']);
 
-            $data['child_categories']             = ChildCategory::where('sub_category_id', $sub_category_id)->get();
-            $data['sub_category_id']             = $sub_category_id;
+            $data['child_categories']               = ChildCategory::where('sub_category_id', $sub_category_id)->get();
+            $data['sub_category_id']                = $sub_category_id;
+
             return view('frontend.service.room.room_list', $data);
         }
         if ($sub_category_id == 1) {

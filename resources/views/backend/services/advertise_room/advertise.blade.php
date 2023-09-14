@@ -13,9 +13,9 @@
             <small>Advertise your room</small>
         </h1>
         <!-- <ol class="breadcrumb">
-                                    <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
-                                    <li class="active">Here</li>
-                                </ol> -->
+                                        <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
+                                        <li class="active">Here</li>
+                                    </ol> -->
     </section>
 
     <!-- Main content -->
@@ -61,12 +61,28 @@
                 bPaginate: false,
                 buttons: [],
                 ajax: '/service-advertise',
-                columns: [
-                    { data: 'action', name: 'action', orderable: false, searchable: false },
-                    { data: 'reference_id', name: 'reference_id' },
-                    { data: 'category_name', name: 'category_name' },
-                    { data: 'subcategory_name', name: 'subcategory_name' },
-                    { data: 'child_category_name', name: 'child_category_name' },
+                columns: [{
+                        data: 'action',
+                        name: 'action',
+                        orderable: false,
+                        searchable: false
+                    },
+                    {
+                        data: 'reference_id',
+                        name: 'reference_id'
+                    },
+                    {
+                        data: 'category_name',
+                        name: 'category_name'
+                    },
+                    {
+                        data: 'subcategory_name',
+                        name: 'subcategory_name'
+                    },
+                    {
+                        data: 'child_category_name',
+                        name: 'child_category_name'
+                    },
                 ]
             });
         });
