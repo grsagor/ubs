@@ -51,33 +51,31 @@
                                 </p>
                             </span>
 
-                            @php
-                                $roomDetails = json_decode($item->room_details, true);
-                                
-                                // Check if $roomDetails is not null and is an array
-                                if (is_array($roomDetails)) {
-                                    $finalData = []; // Initialize an empty array to store the results
-                                
-                                    foreach ($roomDetails as $key => $data) {
-                                        if ($data == 1) {
-                                            $finalData[] = $key + 1 . '-Single'; // Concatenate key and value
-                                        } elseif ($data == 2) {
-                                            $finalData[] = $key + 1 . '-Double'; // Concatenate key and value
-                                        } elseif ($data == 3) {
-                                            $finalData[] = $key + 1 . '-Semi-Semi-double'; // Concatenate key and value
-                                        } elseif ($data == 4) {
-                                            $finalData[] = $key + 1 . '-En-suit'; // Concatenate key and value
+                            @if ($item->room_details !== 'null' && $item->room_details !== null)
+                                @php
+                                    $roomDetails = json_decode($item->room_details, true);
+                                    
+                                    // Check if $roomDetails is not null and is an array
+                                    if (is_array($roomDetails)) {
+                                        $finalData = []; // Initialize an empty array to store the results
+                                    
+                                        foreach ($roomDetails as $key => $data) {
+                                            if ($data == 1) {
+                                                $finalData[] = $key + 1 . '-Single'; // Concatenate key and value
+                                            } elseif ($data == 2) {
+                                                $finalData[] = $key + 1 . '-Double'; // Concatenate key and value
+                                            } elseif ($data == 3) {
+                                                $finalData[] = $key + 1 . '-Semi-double'; // Concatenate key and value
+                                            } elseif ($data == 4) {
+                                                $finalData[] = $key + 1 . '-En-suit'; // Concatenate key and value
+                                            }
                                         }
+                                    
+                                        // Join the elements of the array into a string using a comma and space as separators
+                                        $output = implode(', ', $finalData);
                                     }
-                                
-                                    // Join the elements of the array into a string using a comma and space as separators
-                                    $output = implode(', ', $finalData);
-                                }
-                            @endphp
-
-
-
-
+                                @endphp
+                            @endif
 
                             <span class=" flex-fill mb-0 text-white">
                                 <p class="lower-section-text mb-0  text-muted"
@@ -85,7 +83,7 @@
                                     Room Size
                                 </p>
                                 <p class="mb-0 text-muted">
-                                    @if ($item->room_details)
+                                    @if ($item->room_details !== 'null' && $item->room_details !== null)
                                         {{ $output }}
                                     @endif
                                 </p>

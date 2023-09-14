@@ -108,8 +108,10 @@ class PropertyWantedCustomerController extends Controller
 
     public function store(Request $request)
     {
+        // dd($request->toArray());
         $request->validate([
-            'ad_title' => 'required|max:92',
+            'ad_title'              => 'required|max:92',
+            'why_is_searching'      => 'required|max:100',
         ]);
 
         $count = count($request->occupant_name);
@@ -145,9 +147,10 @@ class PropertyWantedCustomerController extends Controller
 
         $requestedData['user_id'] = auth()->id();
 
-        $requestedData['roomfurnishings'] = json_encode($request->roomfurnishings);
-        $requestedData['occupant_details'] = json_encode($occupant_details);
-        $requestedData['room_details'] = json_encode($request->room_details);
+        $requestedData['roomfurnishings']       = json_encode($request->roomfurnishings);
+        $requestedData['occupant_details']      = json_encode($occupant_details);
+        $requestedData['room_details']          = json_encode($request->room_details);
+        $requestedData['age']                   = json_encode($request->age);
 
         $requestedData['images'] = $this->image($request->file('images'), '', 800, 500);
 

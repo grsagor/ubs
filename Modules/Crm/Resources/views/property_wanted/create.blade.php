@@ -78,7 +78,8 @@
                     </div> --}}
                     <input type="hidden" value="{{ $category->id }}" name="category_id">
                     <input type="hidden" value="{{ $sub_category->id }}" name="sub_category_id">
-                    <div class="col-sm-12">
+
+                    {{-- <div class="col-sm-12">
                         <div class="form-group">
                             <label for="custom_field2">Your name</label>
                             <div class="row">
@@ -92,7 +93,8 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
+
                     <div class="col-sm-12">
                         <div class="form-group">
                             <label for="selling_price_group_id">Property Type</label>
@@ -121,7 +123,8 @@
 
                     <div class="col-sm-12" id="number_of_shared_people_container">
                         <div class="form-group">
-                            <label for="invoice_scheme_id">How many people will share with you the property?</label>
+                            <label for="invoice_scheme_id">How many people, including yourself, will share the
+                                property?</label>
                             <select class="form-control" required="" id="number_of_shared_people"
                                 name="number_of_shared_people">
                                 <option selected value=0>Select....</option>
@@ -142,7 +145,8 @@
                     <div class="col-sm-12">
                         <div class="form-group">
                             <label>Why is searching?</label>
-                            <textarea name="why_is_searching" class="form-control" type="text"></textarea>
+                            <textarea name="why_is_searching" class="form-control" type="text" rows="6"
+                                placeholder="Maximum 100 characters"></textarea>
                         </div>
                     </div>
                     <div class="col-sm-12">
@@ -161,49 +165,7 @@
                         </div>
                     </div>
 
-
                     {{-- <div class="col-sm-12">
-                        <div class="form-group">
-                            <label for="invoice_scheme_id">Business Location</label>
-                            <select class="form-control" name="business_location_id">
-                                <option selected="" value="">Select Business Location </option>
-                                @foreach ($business_locations as $item)
-                                    <option value="{{ $item->id }}">
-                                        {{ $item->name }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div> --}}
-
-
-                    {{-- <div class="col-sm-12">
-                        <div class="form-group">
-                            <label>Room size</label>
-                            <div>
-                                <input class="form-check-input" type="radio" name="room_size" value="A single room"
-                                    id="dobuleroom">
-                                <label for="dobuleroom">A single room</label>
-                            </div>
-                            <div>
-                                <input class="form-check-input" type="radio" name="room_size" value="A double room"
-                                    id="dobuleroom">
-                                <label for="dobuleroom">A double room</label>
-                            </div>
-                            <div>
-                                <input class="form-check-input" type="radio" name="room_size"
-                                    value="A single or double" id="asingleordouble">
-                                <label for="asingleordouble">A single or double
-                                    room</label>
-                            </div>
-                        </div>
-                    </div> --}}
-
-
-                </div>
-
-                <div id="showingbtn2" class="d-none row" style="display:none;">
-                    <div class="col-sm-12">
                         <div class="form-group">
                             <label for="invoice_scheme_id">Where do you want to live?</label>
                             <select class="form-control" id="invoice_scheme_id" name="wanted_living_area">
@@ -228,7 +190,18 @@
                                 <option value="14">Isle of Man</option>
                             </select>
                         </div>
+                    </div> --}}
+
+
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label for="invoice_scheme_id">Where do you want to live?</label>
+                            <input class="form-control" placeholder="Area name" name="wanted_living_area"
+                                type="text">
+                        </div>
                     </div>
+
+
 
                     <div class="col-sm-12">
                         <div class="form-group">
@@ -236,14 +209,14 @@
                             <p class="">(total rental amount you can afford)</p>
                             <div class="row">
                                 <div class="col-sm-7">
-                                    <input class="form-control" placeholder="4" name="combined_budget"
-                                        type="number" id="custom_field1">
+                                    <input class="form-control" placeholder="4" name="combined_budget" type="number"
+                                        id="custom_field1">
                                 </div>
                                 <div class="col-sm-4">
                                     <select class="form-control" id="per" name="per">
                                         <option value="" selected="">Per week or month</option>
-                                        <option value="pw">per week</option>
-                                        <option value="pcm">per month</option>
+                                        <option value="per week">per week</option>
+                                        <option value="per month">per month</option>
                                     </select>
                                 </div>
                             </div>
@@ -259,23 +232,23 @@
 
                     @php
                         $months = [
-                            1 => '1 month',
-                            2 => '2 months',
-                            3 => '3 months',
-                            4 => '4 months',
-                            5 => '5 months',
-                            6 => '6 months',
-                            7 => '7 months',
-                            8 => '8 months',
-                            9 => '9 months',
-                            10 => '10 months',
-                            11 => '11 months',
-                            12 => '1 year',
-                            15 => '1 year 3 months',
-                            18 => '1 year 6 months',
-                            21 => '1 year 9 months',
-                            24 => '2 years',
-                            36 => '3 years',
+                            '1 month' => '1 month',
+                            '2 months' => '2 months',
+                            '3 months' => '3 months',
+                            '4 months' => '4 months',
+                            '5 months' => '5 months',
+                            '6 months' => '6 months',
+                            '7 months' => '7 months',
+                            '8 months' => '8 months',
+                            '9 months' => '9 months',
+                            '10 months' => '10 months',
+                            '11 months' => '11 months',
+                            '1 year' => '1 year',
+                            '1 year 3 months' => '1 year 3 months',
+                            '1 year 6 months' => '1 year 6 months',
+                            '1 year 9 months' => '1 year 9 months',
+                            '2 years' => '2 years',
+                            '3 years' => '3 years',
                         ];
                     @endphp
 
@@ -343,31 +316,94 @@
                         </div>
                     </div>
 
-                    <div class="col-sm-12">
+
+                    {{-- <div class="col-sm-12">
                         <div class="form-group">
-                            <label for="selling_price_group_id">Age</label> <i
-                                class="fa fa-info-circle text-info hover-q no-print " aria-hidden="true"
-                                data-container="body" data-toggle="popover" data-placement="auto bottom"
-                                data-content="This price group will be used as the default price group in this location."
-                                data-html="true" data-trigger="hover"></i> <select class="form-control"
-                                id="age" name="age">
-                                <option value="">Select...</option>
-                                @foreach (range(18, 99) as $age)
-                                    <option value="{{ $age }}">
-                                        {{ $age }}</option>
+                            <label for="invoice_scheme_id">Business Location</label>
+                            <select class="form-control" name="business_location_id">
+                                <option selected="" value="">Select Business Location </option>
+                                @foreach ($business_locations as $item)
+                                    <option value="{{ $item->id }}">
+                                        {{ $item->name }}
+                                    </option>
                                 @endforeach
                             </select>
                         </div>
+                    </div> --}}
+
+
+                    {{-- <div class="col-sm-12">
+                        <div class="form-group">
+                            <label>Room size</label>
+                            <div>
+                                <input class="form-check-input" type="radio" name="room_size" value="A single room"
+                                    id="dobuleroom">
+                                <label for="dobuleroom">A single room</label>
+                            </div>
+                            <div>
+                                <input class="form-check-input" type="radio" name="room_size" value="A double room"
+                                    id="dobuleroom">
+                                <label for="dobuleroom">A double room</label>
+                            </div>
+                            <div>
+                                <input class="form-check-input" type="radio" name="room_size"
+                                    value="A single or double" id="asingleordouble">
+                                <label for="asingleordouble">A single or double
+                                    room</label>
+                            </div>
+                        </div>
+                    </div> --}}
+
+
+                </div>
+
+                <div id="showingbtn2" class="d-none row" style="display:none;">
+                    <h4 class="modal-title" style="padding: 12px;">Your Household preferences</h4>
+
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label for="invoice_scheme_id">Age range</label>
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <select class="form-control" id="age" name="age[]">
+                                        <option value="">Select...</option>
+                                        @foreach (range(18, 99) as $age)
+                                            <option value="{{ $age }}">
+                                                {{ $age }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <div class="col-sm-1" style="width: 5%">
+                                    <p class="text-center" style="font-size: 15px; margin-top: 5px;">To</p>
+                                </div>
+                                <div class="col-sm-4">
+                                    <select class="form-control" id="age" name="age[]">
+                                        <option value="">Select...</option>
+                                        @foreach (range(18, 99) as $age)
+                                            <option value="{{ $age }}">
+                                                {{ $age }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+
 
                     <div class="col-sm-12">
                         <div class="form-group">
                             <label for="selling_price_group_id">Occupation</label>
+                            <i class="fa fa-info-circle text-info hover-q no-print " aria-hidden="true"
+                                data-container="body" data-toggle="popover" data-placement="auto bottom"
+                                data-content="This price group will be used as the default price group in this location."
+                                data-html="true" data-trigger="hover"></i>
                             <select class="form-control" id="occupation" name="occupation">
-                                <option value="ND" selected="">Not disclosed</option>
-                                <option value="1">Student</option>
-                                <option value="2">Employee</option>
-                                <option value="3">Others</option>
+                                <option value="Not disclosed" selected="">Not disclosed</option>
+                                <option value="Student">Student</option>
+                                <option value="Employee">Employee</option>
+                                <option value="Others">Others</option>
+                                <option value="I don't mind">I don't mind</option>
                             </select>
                         </div>
                     </div>
@@ -402,7 +438,7 @@
 
                     <div class="col-sm-12">
                         <div class="form-group">
-                            <label for="selling_price_group_id">Do you smoke?</label> <i
+                            <label for="selling_price_group_id">Smoking?</label> <i
                                 class="fa fa-info-circle text-info hover-q no-print " aria-hidden="true"
                                 data-container="body" data-toggle="popover" data-placement="auto bottom"
                                 data-content="This price group will be used as the default price group in this location."
@@ -416,7 +452,7 @@
 
                     <div class="col-sm-12">
                         <div class="form-group">
-                            <label for="selling_price_group_id">Do you have any pets?</label> <i
+                            <label for="selling_price_group_id">Pets?</label> <i
                                 class="fa fa-info-circle text-info hover-q no-print " aria-hidden="true"
                                 data-container="body" data-toggle="popover" data-placement="auto bottom"
                                 data-content="This price group will be used as the default price group in this location."
@@ -430,7 +466,7 @@
 
                     <div class="col-sm-12">
                         <div class="form-group">
-                            <label for="selling_price_group_id">Your sexual orientation</label> <i
+                            <label for="selling_price_group_id">Preferred sex</label> <i
                                 class="fa fa-info-circle text-info hover-q no-print " aria-hidden="true"
                                 data-container="body" data-toggle="popover" data-placement="auto bottom"
                                 data-content="This price group will be used as the default price group in this location."
@@ -442,409 +478,54 @@
                                 <option value="Straight">Straight</option>
                                 <option value="Gay/Lesbian">Gay/Lesbian</option>
                                 <option value="Bisexual">Bisexual</option>
+                                <option value="I don't mind">I don't mind</option>
                             </select>
                             <label class="form_input form_checkbox">
                                 <input type="checkbox" name="gay_consent" value="1">
-                                Yes, I would like my orientation to form part of my
-                                ad's
-                                search criteria and allow others to search on this
-                                field.
+                                Yes, Check this strictly
                             </label>
                         </div>
                     </div>
 
                     <div class="col-sm-12">
                         <div class="form-group">
-                            <label for="selling_price_group_id">Your preferred language</label> <i
+                            <label for="selling_price_group_id">Preferred language</label> <i
                                 class="fa fa-info-circle text-info hover-q no-print " aria-hidden="true"
                                 data-container="body" data-toggle="popover" data-placement="auto bottom"
                                 data-content="This price group will be used as the default price group in this location."
                                 data-html="true" data-trigger="hover"></i> <select class="form-control"
                                 id="lang_id" name="lang_id">
-                                <option value="26">English</option>
-                                <option value="27">Mixed</option>
-                                <option value="4">Arabic</option>
-                                <option value="11">Bengali</option>
-                                <option value="17">Cantonese</option>
-                                <option value="37">French</option>
-                                <option value="39">German</option>
-                                <option value="44">Hindi</option>
-                                <option value="48">Indonesian</option>
-                                <option value="50">Japanese</option>
-                                <option value="62">Malay</option>
-                                <option value="63">Mandarin</option>
-                                <option value="73">Portuguese</option>
-                                <option value="74">Punjabi</option>
-                                <option value="79">Russian</option>
-                                <option value="88">Spanish</option>
-                                <option value="1">Afrikaans</option>
-                                <option value="2">Albanian</option>
-                                <option value="3">Amharic</option>
-                                <option value="5">Armenian</option>
-                                <option value="6">Aymara</option>
-                                <option value="7">Baluchi</option>
-                                <option value="8">Bambara</option>
-                                <option value="9">Basque</option>
-                                <option value="10">Belarussian</option>
-                                <option value="12">Berber</option>
-                                <option value="13">Bislama</option>
-                                <option value="14">Bosnian</option>
-                                <option value="15">Bulgarian</option>
-                                <option value="16">Burmese</option>
-                                <option value="18">Catalan</option>
-                                <option value="19">Ciluba</option>
-                                <option value="20">Creole</option>
-                                <option value="21">Croatian</option>
-                                <option value="22">Czech</option>
-                                <option value="23">Danish</option>
-                                <option value="24">Dari</option>
-                                <option value="25">Dutch</option>
-                                <option value="28">Eskimo</option>
-                                <option value="29">Estonian</option>
-                                <option value="30">Ewe</option>
-                                <option value="31">Fang</option>
-                                <option value="32">Faroese</option>
-                                <option value="33">Farsi (Persian)</option>
-                                <option value="34">Filipino</option>
-                                <option value="35">Finnish</option>
-                                <option value="36">Flemish</option>
-                                <option value="38">Galician</option>
-                                <option value="40">Greek</option>
-                                <option value="41">Gujarati</option>
-                                <option value="42">Hausa</option>
-                                <option value="43">Hebrew</option>
-                                <option value="45">Hungarian</option>
-                                <option value="46">Ibo</option>
-                                <option value="47">Icelandic</option>
-                                <option value="49">Italian</option>
-                                <option value="51">Kabi</option>
-                                <option value="52">Kashmiri</option>
-                                <option value="53">Kirundi</option>
-                                <option value="54">Kishwahili</option>
-                                <option value="55">Korean</option>
-                                <option value="56">Latvian</option>
-                                <option value="57">Lingala</option>
-                                <option value="58">Lithuanian</option>
-                                <option value="59">Luxembourgish</option>
-                                <option value="60">Macedonian</option>
-                                <option value="61">Malagasy</option>
-                                <option value="64">Mayan</option>
-                                <option value="65">Motu</option>
-                                <option value="66">Nepali</option>
-                                <option value="67">Norwegian</option>
-                                <option value="68">Noub</option>
-                                <option value="69">Pashto</option>
-                                <option value="70">Peul</option>
-                                <option value="71">Pidgin</option>
-                                <option value="72">Polish</option>
-                                <option value="75">Pushtu</option>
-                                <option value="76">Quechua</option>
-                                <option value="77">Romanian</option>
-                                <option value="78">Romansch</option>
-                                <option value="80">Sango</option>
-                                <option value="81">Serbian</option>
-                                <option value="82">Setswana</option>
-                                <option value="83">Sindhi</option>
-                                <option value="84">Sinhala</option>
-                                <option value="85">Slovak</option>
-                                <option value="86">Slovene</option>
-                                <option value="87">Somali</option>
-                                <option value="89">Swahili</option>
-                                <option value="90">Swedish</option>
-                                <option value="91">Tamil</option>
-                                <option value="92">Thai</option>
-                                <option value="93">Turkish</option>
-                                <option value="94">Urdu</option>
-                                <option value="95">Vietnamese</option>
-                                <option value="99">Welsh</option>
-                                <option value="96">Xhosa</option>
-                                <option value="97">Yoruba</option>
-                                <option value="98">Zulu</option>
+
+                                @include('crm::layouts.language')
+
                             </select>
                         </div>
                     </div>
 
                     <div class="col-sm-12">
                         <div class="form-group">
-                            <label for="selling_price_group_id">Your nationality</label> <i
+                            <label for="selling_price_group_id">Preferred nationality</label> <i
                                 class="fa fa-info-circle text-info hover-q no-print " aria-hidden="true"
                                 data-container="body" data-toggle="popover" data-placement="auto bottom"
                                 data-content="This price group will be used as the default price group in this location."
                                 data-html="true" data-trigger="hover"></i> <select class="form-control"
                                 id="nationality" name="nationality">
-                                <option value="">Not disclosed</option>
-                                <option value="Afghan">Afghan</option>
-                                <option value="Albanian">Albanian</option>
-                                <option value="Algerian">Algerian</option>
-                                <option value="American">American</option>
-                                <option value="Andorran">Andorran</option>
-                                <option value="Angolan">Angolan</option>
-                                <option value="Anguillan">Anguillan</option>
-                                <option value="Antigua and Barbuda">Citizen of
-                                    Antigua and
-                                    Barbuda</option>
-                                <option value="Argentine">Argentine</option>
-                                <option value="Armenian">Armenian</option>
-                                <option value="Australian">Australian</option>
-                                <option value="Austrian">Austrian</option>
-                                <option value="Azerbaijani">Azerbaijani</option>
-                                <option value="Bahamian">Bahamian</option>
-                                <option value="Bahraini">Bahraini</option>
-                                <option value="Bangladeshi">Bangladeshi</option>
-                                <option value="Barbadian">Barbadian</option>
-                                <option value="Belarusian">Belarusian</option>
-                                <option value="Belgian">Belgian</option>
-                                <option value="Belizean">Belizean</option>
-                                <option value="Beninese">Beninese</option>
-                                <option value="Bermudian">Bermudian</option>
-                                <option value="Bhutanese">Bhutanese</option>
-                                <option value="Bolivian">Bolivian</option>
-                                <option value="Bosnia and Herzegovina">Citizen of
-                                    Bosnia
-                                    and Herzegovina</option>
-                                <option value="Botswanan">Botswanan</option>
-                                <option value="Brazilian">Brazilian</option>
-                                <option value="British">British</option>
-                                <option value="British Virgin Islander">British
-                                    Virgin
-                                    Islander</option>
-                                <option value="Bruneian">Bruneian</option>
-                                <option value="Bulgarian">Bulgarian</option>
-                                <option value="Burkinan">Burkinan</option>
-                                <option value="Burmese">Burmese</option>
-                                <option value="Burundian">Burundian</option>
-                                <option value="Cambodian">Cambodian</option>
-                                <option value="Cameroonian">Cameroonian</option>
-                                <option value="Canadian">Canadian</option>
-                                <option value="Cape Verdean">Cape Verdean</option>
-                                <option value="Cayman Islander">Cayman Islander
-                                </option>
-                                <option value="Central African">Central African
-                                </option>
-                                <option value="Chadian">Chadian</option>
-                                <option value="Chilean">Chilean</option>
-                                <option value="Chinese">Chinese</option>
-                                <option value="Colombian">Colombian</option>
-                                <option value="Comoran">Comoran</option>
-                                <option value="Congolese (Congo)">Congolese (Congo)
-                                </option>
-                                <option value="Congolese (DRC)">Congolese (DRC)
-                                </option>
-                                <option value="Cook Islander">Cook Islander
-                                </option>
-                                <option value="Costa Rican">Costa Rican</option>
-                                <option value="Croatian">Croatian</option>
-                                <option value="Cuban">Cuban</option>
-                                <option value="Cymraes">Cymraes</option>
-                                <option value="Cymro">Cymro</option>
-                                <option value="Cypriot">Cypriot</option>
-                                <option value="Czech">Czech</option>
-                                <option value="Danish">Danish</option>
-                                <option value="Djiboutian">Djiboutian</option>
-                                <option value="Dominican (Commonwealth)">Dominican
-                                    (Commonwealth)</option>
-                                <option value="Dominican (Republic)">Dominican
-                                    (Republic)
-                                </option>
-                                <option value="Dutch">Dutch</option>
-                                <option value="East Timorese">East Timorese
-                                </option>
-                                <option value="Ecuadorean">Ecuadorean</option>
-                                <option value="Egyptian">Egyptian</option>
-                                <option value="Emirati">Emirati</option>
-                                <option value="English">English</option>
-                                <option value="Equatorial Guinean">Equatorial
-                                    Guinean
-                                </option>
-                                <option value="Eritrean">Eritrean</option>
-                                <option value="Estonian">Estonian</option>
-                                <option value="Ethiopian">Ethiopian</option>
-                                <option value="Faroese">Faroese</option>
-                                <option value="Fijian">Fijian</option>
-                                <option value="Filipino">Filipino</option>
-                                <option value="Finnish">Finnish</option>
-                                <option value="French">French</option>
-                                <option value="Gabonese">Gabonese</option>
-                                <option value="Gambian">Gambian</option>
-                                <option value="Georgian">Georgian</option>
-                                <option value="German">German</option>
-                                <option value="Ghanaian">Ghanaian</option>
-                                <option value="Gibraltarian">Gibraltarian</option>
-                                <option value="Greek">Greek</option>
-                                <option value="Greenlandic">Greenlandic</option>
-                                <option value="Grenadian">Grenadian</option>
-                                <option value="Guamanian">Guamanian</option>
-                                <option value="Guatemalan">Guatemalan</option>
-                                <option value="Guinea-Bissau">Citizen of
-                                    Guinea-Bissau
-                                </option>
-                                <option value="Guinean">Guinean</option>
-                                <option value="Guyanese">Guyanese</option>
-                                <option value="Haitian">Haitian</option>
-                                <option value="Honduran">Honduran</option>
-                                <option value="Hong Konger">Hong Konger</option>
-                                <option value="Hungarian">Hungarian</option>
-                                <option value="Icelandic">Icelandic</option>
-                                <option value="Indian">Indian</option>
-                                <option value="Indonesian">Indonesian</option>
-                                <option value="Iranian">Iranian</option>
-                                <option value="Iraqi">Iraqi</option>
-                                <option value="Irish">Irish</option>
-                                <option value="Israeli">Israeli</option>
-                                <option value="Italian">Italian</option>
-                                <option value="Ivorian">Ivorian</option>
-                                <option value="Jamaican">Jamaican</option>
-                                <option value="Japanese">Japanese</option>
-                                <option value="Jordanian">Jordanian</option>
-                                <option value="Kazakh">Kazakh</option>
-                                <option value="Kenyan">Kenyan</option>
-                                <option value="Kittitian">Kittitian</option>
-                                <option value="Kiribati">Citizen of Kiribati
-                                </option>
-                                <option value="Kosovan">Kosovan</option>
-                                <option value="Kuwaiti">Kuwaiti</option>
-                                <option value="Kyrgyz">Kyrgyz</option>
-                                <option value="Lao">Lao</option>
-                                <option value="Latvian">Latvian</option>
-                                <option value="Lebanese">Lebanese</option>
-                                <option value="Liberian">Liberian</option>
-                                <option value="Libyan">Libyan</option>
-                                <option value="Liechtenstein citizen">Liechtenstein
-                                    citizen
-                                </option>
-                                <option value="Lithuanian">Lithuanian</option>
-                                <option value="Luxembourger">Luxembourger</option>
-                                <option value="Macanese">Macanese</option>
-                                <option value="Macedonian">Macedonian</option>
-                                <option value="Malagasy">Malagasy</option>
-                                <option value="Malawian">Malawian</option>
-                                <option value="Malaysian">Malaysian</option>
-                                <option value="Maldivian">Maldivian</option>
-                                <option value="Malian">Malian</option>
-                                <option value="Maltese">Maltese</option>
-                                <option value="Marshallese">Marshallese</option>
-                                <option value="Martiniquais">Martiniquais</option>
-                                <option value="Mauritanian">Mauritanian</option>
-                                <option value="Mauritian">Mauritian</option>
-                                <option value="Mexican">Mexican</option>
-                                <option value="Micronesian">Micronesian</option>
-                                <option value="Moldovan">Moldovan</option>
-                                <option value="Monegasque">Monegasque</option>
-                                <option value="Mongolian">Mongolian</option>
-                                <option value="Montenegrin">Montenegrin</option>
-                                <option value="Montserratian">Montserratian
-                                </option>
-                                <option value="Moroccan">Moroccan</option>
-                                <option value="Mosotho">Mosotho</option>
-                                <option value="Mozambican">Mozambican</option>
-                                <option value="Namibian">Namibian</option>
-                                <option value="Nauruan">Nauruan</option>
-                                <option value="Nepalese">Nepalese</option>
-                                <option value="New Zealander">New Zealander
-                                </option>
-                                <option value="Nicaraguan">Nicaraguan</option>
-                                <option value="Nigerian">Nigerian</option>
-                                <option value="Nigerien">Nigerien</option>
-                                <option value="Niuean">Niuean</option>
-                                <option value="North Korean">North Korean</option>
-                                <option value="Northern Irish">Northern Irish
-                                </option>
-                                <option value="Norwegian">Norwegian</option>
-                                <option value="Omani">Omani</option>
-                                <option value="Pakistani">Pakistani</option>
-                                <option value="Palauan">Palauan</option>
-                                <option value="Palestinian">Palestinian</option>
-                                <option value="Panamanian">Panamanian</option>
-                                <option value="Papua New Guinean">Papua New Guinean
-                                </option>
-                                <option value="Paraguayan">Paraguayan</option>
-                                <option value="Peruvian">Peruvian</option>
-                                <option value="Pitcairn Islander">Pitcairn Islander
-                                </option>
-                                <option value="Polish">Polish</option>
-                                <option value="Portuguese">Portuguese</option>
-                                <option value="Prydeinig">Prydeinig</option>
-                                <option value="Puerto Rican">Puerto Rican</option>
-                                <option value="Qatari">Qatari</option>
-                                <option value="Romanian">Romanian</option>
-                                <option value="Russian">Russian</option>
-                                <option value="Rwandan">Rwandan</option>
-                                <option value="Salvadorean">Salvadorean</option>
-                                <option value="Sammarinese">Sammarinese</option>
-                                <option value="Samoan">Samoan</option>
-                                <option value="Sao Tomean">Sao Tomean</option>
-                                <option value="Saudi Arabian">Saudi Arabian
-                                </option>
-                                <option value="Scottish">Scottish</option>
-                                <option value="Senegalese">Senegalese</option>
-                                <option value="Serbian">Serbian</option>
-                                <option value="Seychelles">Citizen of Seychelles
-                                </option>
-                                <option value="Sierra Leonean">Sierra Leonean
-                                </option>
-                                <option value="Singaporean">Singaporean</option>
-                                <option value="Slovak">Slovak</option>
-                                <option value="Slovenian">Slovenian</option>
-                                <option value="Solomon Islander">Solomon Islander
-                                </option>
-                                <option value="Somali">Somali</option>
-                                <option value="South African">South African
-                                </option>
-                                <option value="South Korean">South Korean</option>
-                                <option value="South Sudanese">South Sudanese
-                                </option>
-                                <option value="Spanish">Spanish</option>
-                                <option value="Sri Lankan">Sri Lankan</option>
-                                <option value="St Helenian">St Helenian</option>
-                                <option value="St Lucian">St Lucian</option>
-                                <option value="Stateless">Stateless</option>
-                                <option value="Sudanese">Sudanese</option>
-                                <option value="Surinamese">Surinamese</option>
-                                <option value="Swazi">Swazi</option>
-                                <option value="Swedish">Swedish</option>
-                                <option value="Swiss">Swiss</option>
-                                <option value="Syrian">Syrian</option>
-                                <option value="Taiwanese">Taiwanese</option>
-                                <option value="Tajik">Tajik</option>
-                                <option value="Tanzanian">Tanzanian</option>
-                                <option value="Thai">Thai</option>
-                                <option value="Togolese">Togolese</option>
-                                <option value="Tongan">Tongan</option>
-                                <option value="Trinidadian">Trinidadian</option>
-                                <option value="Tristanian">Tristanian</option>
-                                <option value="Tunisian">Tunisian</option>
-                                <option value="Turkish">Turkish</option>
-                                <option value="Turkmen">Turkmen</option>
-                                <option value="Turks and Caicos Islander">Turks and
-                                    Caicos
-                                    Islander</option>
-                                <option value="Tuvaluan">Tuvaluan</option>
-                                <option value="Ugandan">Ugandan</option>
-                                <option value="Ukrainian">Ukrainian</option>
-                                <option value="Uruguayan">Uruguayan</option>
-                                <option value="Uzbek">Uzbek</option>
-                                <option value="Vatican citizen">Vatican citizen
-                                </option>
-                                <option value="Vanuatu">Citizen of Vanuatu</option>
-                                <option value="Venezuelan">Venezuelan</option>
-                                <option value="Vietnamese">Vietnamese</option>
-                                <option value="Vincentian">Vincentian</option>
-                                <option value="Wallisian">Wallisian</option>
-                                <option value="Welsh">Welsh</option>
-                                <option value="Yemeni">Yemeni</option>
-                                <option value="Zambian">Zambian</option>
-                                <option value="Zimbabwean">Zimbabwean</option>
+
+                                @include('crm::layouts.nationality')
+
                             </select>
                         </div>
                     </div>
 
-                    <div class="col-sm-12" style="margin-top: 15px;">
+                    {{-- <div class="col-sm-12" style="margin-top: 15px;">
                         <div class="form-group">
                             <label for="custom_field2">Your Interests</label><br>
                             <button type="button" id="openModal" class="btn btn-primary">Select</button>
                             <div id="selectedSports"></div>
                         </div>
-                    </div>
+                    </div> --}}
+
+
                 </div>
 
                 <div id="showingbtn2" class="row" style="display:none;">
@@ -868,7 +549,7 @@
                         </div>
                     </div>
 
-                    <div class="col-sm-12">
+                    {{-- <div class="col-sm-12">
                         <div class="form-group">
                             <label for="selling_price_group_id">Age</label> <i
                                 class="fa fa-info-circle text-info hover-q no-print " aria-hidden="true"
@@ -883,7 +564,7 @@
                                 @endforeach
                             </select>
                         </div>
-                    </div>
+                    </div> --}}
 
 
                     <div class="col-sm-12">
@@ -955,7 +636,7 @@
                     <div class="col-sm-12">
                         <div class="form-group">
                             <label for="custom_field1">Upload your profile picture</label>
-                            <input class="form-control" name="images[]" type="file" id="imageUpload">
+                            <input class="form-control" name="images[]" type="file" id="imageUpload" multiple>
                         </div>
                     </div>
 

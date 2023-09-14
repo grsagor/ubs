@@ -9,10 +9,11 @@ use Modules\Crm\Entities\ServicePropertyWanted;
 
 class PropertyController extends Controller
 {
-    public function propertyListShowing($child_category_id = null){
-        if(!$child_category_id){
+    public function propertyListShowing($child_category_id = null)
+    {
+        if (!$child_category_id) {
             $properties = ServicePropertyWanted::all();
-        }else {
+        } else {
             $properties = ServicePropertyWanted::where('child_category_id', $child_category_id)->get();
         }
         return $properties;
@@ -45,9 +46,10 @@ class PropertyController extends Controller
 
     public function propertyShow($id)
     {
-        $data['info']                   = ServicePropertyWanted::with('user')->findOrFail($id);
+        $data['info']                   = ServicePropertyWanted::with(['user', 'child_category'])->findOrFail($id);
         $data['user_info']              = Media::where('uploaded_by', $data['info']->user_id)
             ->where('model_type', 'App\\User')->first();
+        // return $data;
         return view('frontend.service.property.details', $data);
     }
 

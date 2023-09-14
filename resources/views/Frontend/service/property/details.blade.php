@@ -1,88 +1,14 @@
 @extends('frontend.layouts.master_layout')
-@push('css')
-    <style>
-        .call-button {
-            display: flex;
-            align-items: center;
-        }
 
-        .button-31 {
-            width: 130px;
-            padding: 10px;
-            background-color: #007bff;
-            color: #fff;
-            text-align: center;
-            text-decoration: none;
-            border-radius: 5px;
-        }
+@section('css')
+    @include('frontend.service.property.property_style')
+@endsection
 
-        #call_id {
-            display: none;
-            margin-left: 10px;
-        }
-
-        @media (max-width: 768px) {
-
-            #call_id {
-                display: none !important;
-                display: block;
-                margin-left: 0;
-                margin-top: 10px;
-            }
-        }
-
-        /* .image-carousel {
-                            position: relative;
-                        }
-
-                        .carousel-container {
-                            position: relative !important;
-                            display: flex;
-                            justify-content: center;
-                            align-items: center;
-                        }
-
-                        .previous,
-                        .next {
-                            font-size: 24px;
-                            cursor: pointer;
-                            padding: 8px;
-                            background-color: rgba(0, 0, 0, 0.5);
-                            color: white;
-                            border: none;
-                            border-radius: 4px;
-                            position: absolute !important;
-                            top: 50%;
-                            z-index: 1;
-                        }
-
-                        .previous {
-                            left: 0;
-                        }
-
-                        .next {
-                            right: 0;
-                        }
-
-                        .image-slide {
-                            position: relative;
-                        }
-
-                        .image-slide img {
-                            max-width: 100%;
-                            height: auto;
-                            display: block;
-                        }
-
-                        .active {
-                            background-color: #333;
-                        } */
-    </style>
-@endpush
 @section('content')
     @includeIf('frontend.partials.global.common-header')
 
     <div class="shop-list-page">
+
         <div class="full-row bg-light overlay-dark py-5"
             style="background-image: url(https://www.unipuller.com/assets/images/1678212738up-mailphp.php); background-position: center center; background-size: cover;">
             <div class="container">
@@ -103,256 +29,245 @@
                 </div>
             </div>
         </div>
+
         <!-- breadcrumb -->
         <div class="shop-list-page">
 
-            {{-- There are two product page. you have to give condition here --}}
             <div class="mt-2 content-circle">
 
                 <div class="container">
                     <div class="row mobile-reverse">
 
                         <div class="row single-product-wrapper mt-3">
-                            <div class="col-lg-4 mb-4 mb-lg-0">
-                                <div class="product-images overflow-hidden">
-                                    <div class="images-inner">
+                            <div class="col-lg-5 mb-4 mb-lg-0">
 
-                                        @php
-                                            $images = json_decode($info->images, true);
-                                            $first_image = 'https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg';
-                                            $img_count = null;
-                                            $imagePath = null;
-                                            
-                                            if ($images) {
-                                                $first_image = reset($images);
-                                                $imagePath = public_path($first_image);
-                                                $img_count = count($images);
-                                            }
-                                            
-                                        @endphp
+                                @php
+                                    $first_image = 'https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg';
+                                @endphp
 
-                                        @if ($images != null)
-                                            <div class="image-carousel">
+                                @if ($info->images != null)
+                                    @php
+                                        $images = json_decode($info->images, true);
+                                        $img_count = null;
+                                        $imagePath = null;
+                                        
+                                        if ($images) {
+                                            $first_image = reset($images);
+                                            $imagePath = public_path($first_image);
+                                            $img_count = count($images);
+                                        }
+                                    @endphp
 
-                                                <div class="carousel-container">
-                                                    @foreach ($images as $index => $item)
-                                                        <div class="image-slide">
-                                                            <img src="{{ asset($item) }}" alt="Image {{ $index + 1 }}">
-                                                        </div>
-                                                    @endforeach
-                                                </div>
-                                                {{-- <a class="previous" onclick="plusSlides(-1)">❮</a>
-                                                <a class="next" onclick="plusSlides(1)" style="float: right;">❯</a> --}}
+                                    <div class="slideShow">
+                                        <!-- Images in the slideshow -->
+                                        <div class="image-carousel">
+                                            <div class="carousel-container">
+                                                @foreach ($images as $key => $item)
+                                                    <img class="mySlides" src="{{ asset($item) }}">
+                                                @endforeach
+                                                <a class="previous" onclick="plusSlides(-1)">❮</a>
+                                                <a class="next" onclick="plusSlides(1)" style="float: right;">❯</a>
                                             </div>
-                                        @else
-                                            <figure class="woocommerce-product-gallery__wrapper">
-                                                <div class="bg-light">
-                                                    <img id="single-image-zoom" src="{{ asset($first_image) }}">
-                                                </div>
-                                            </figure>
-                                        @endif
-
-                                        {{-- <script>
-                                            var currentIndex = 1;
-
-                                            showSlides(currentIndex);
-
-                                            function plusSlides(n) {
-                                                showSlides(currentIndex += n);
-                                            }
-
-                                            function showSlides(n) {
-                                                var i;
-                                                var slides = document.querySelectorAll(".image-slide");
-
-                                                if (n > slides.length) {
-                                                    currentIndex = 1;
-                                                }
-                                                if (n < 1) {
-                                                    currentIndex = slides.length;
-                                                }
-
-                                                for (i = 0; i < slides.length; i++) {
-                                                    slides[i].style.display = "none";
-                                                }
-
-                                                slides[currentIndex - 1].style.display = "block";
-                                            }
-                                        </script> --}}
-
-
+                                        </div>
                                     </div>
-                                </div>
+
+                                    <div class="row p-2">
+                                        @foreach ($images as $key => $item)
+                                            <div class="col-lg-4">
+                                                <img class="demo w3-opacity w3-hover-opacity-off" src="{{ asset($item) }}"
+                                                    onclick="currentDiv({{ $key + 1 }})">
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                @else
+                                    <figure class="woocommerce-product-gallery__wrapper">
+                                        <div class="bg-light">
+                                            <img id="single-image-zoom" src="{{ asset($first_image) }}">
+                                        </div>
+                                    </figure>
+                                @endif
+
+
                             </div>
 
-                            <div class="col-lg-5 col-md-8">
+                            <div class="col-lg-7 col-md-8">
                                 <div class="summary entry-summary">
                                     <div class="summary-inner">
 
                                         <h1 class="product_title entry-title">{{ $info->ad_title }}</h1>
 
+                                        <div class="row">
+                                            <div class="col-lg-5">
+                                                <div class="pro-details">
 
-                                        <div class="pro-details">
+                                                    @if ($info->room_details !== 'null' && $info->room_details !== null)
+                                                        @php
+                                                            $roomDetails = json_decode($info->room_details, true);
+                                                            $countRoom = count($roomDetails);
+                                                        @endphp
 
-                                            <div class="pro-info">
-                                                <strong class="room-list__price"gggggggg>
-                                                    {{ $info->room_size }}</strong>
-                                            </div>
 
-                                            {{-- <li class="addtocart m-1">
-                                                <form method="POST"
-                                                    action="{{ route('property.referenceNumberCheck', $info->id) }}"
-                                                    style="margin: 0px;">
-                                                    @csrf
-                                                    @method('PUT')
+                                                        <div class="pro-info">
+                                                            <strong class="room-list__price">
+                                                                {{-- $info->child_category_id == 11 means child_categories table value Room check child_categories table --}}
+                                                                @if ($info->child_category_id == 11)
+                                                                    {{ $countRoom }}
+                                                                @endif
+                                                                {{ $info->child_category->name . ' Wanted' ?? '' }}
+                                                            </strong>
+                                                        </div>
+                                                    @endif
 
-                                                    <button type="button" data-bs-toggle="modal"
-                                                        data-bs-target="#exampleModal">
-                                                        Send Message
-                                                    </button>
-
-                                                 
-                                                    <div class="modal fade" id="exampleModal" tabindex="-1"
-                                                        aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                        <div class="modal-dialog">
-                                                            <div class="modal-content">
-                                                                <div class="modal-header">
-                                                                    <h5 class="modal-title" id="exampleModalLabel">Reference
-                                                                        Number</h5>
-                                                                </div>
-                                                                <div class="modal-body">
-                                                                    <p>Please call <a
-                                                                            href="callto:{{ $info->user->contact_no }}">{{ $info->user->contact_no }}</a>
-                                                                        to get the reference id.</p>
-                                                                    <div class="mb-3">
-                                                                        <input type="text" class="form-control"
-                                                                            id="inputName" name="reference_number"
-                                                                            placeholder="Enter reference number"
-                                                                            style="width: 100%;">
-
-                                                                        <input type="hidden" name="bill"
-                                                                            value={{ $info->combined_budget }}>
+                                                    {{-- <li class="addtocart m-1">
+                                                        <form method="POST"
+                                                            action="{{ route('property.referenceNumberCheck', $info->id) }}"
+                                                            style="margin: 0px;">
+                                                            @csrf
+                                                            @method('PUT')
+        
+                                                            <button type="button" data-bs-toggle="modal"
+                                                                data-bs-target="#exampleModal">
+                                                                Send Message
+                                                            </button>
+        
+                                                         
+                                                            <div class="modal fade" id="exampleModal" tabindex="-1"
+                                                                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                                <div class="modal-dialog">
+                                                                    <div class="modal-content">
+                                                                        <div class="modal-header">
+                                                                            <h5 class="modal-title" id="exampleModalLabel">Reference
+                                                                                Number</h5>
+                                                                        </div>
+                                                                        <div class="modal-body">
+                                                                            <p>Please call <a
+                                                                                    href="callto:{{ $info->user->contact_no }}">{{ $info->user->contact_no }}</a>
+                                                                                to get the reference id.</p>
+                                                                            <div class="mb-3">
+                                                                                <input type="text" class="form-control"
+                                                                                    id="inputName" name="reference_number"
+                                                                                    placeholder="Enter reference number"
+                                                                                    style="width: 100%;">
+        
+                                                                                <input type="hidden" name="bill"
+                                                                                    value={{ $info->combined_budget }}>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="modal-footer">
+                                                                            <button type="button" class="btn btn-secondary"
+                                                                                data-bs-dismiss="modal">Close</button>
+                                                                            <button type="submit"
+                                                                                class="btn btn-primary">Buy</button>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
-                                                                <div class="modal-footer">
-                                                                    <button type="button" class="btn btn-secondary"
-                                                                        data-bs-dismiss="modal">Close</button>
-                                                                    <button type="submit"
-                                                                        class="btn btn-primary">Buy</button>
-                                                                </div>
                                                             </div>
-                                                        </div>
+                                                            
+        
+                                                        </form>
+                                                    </li> --}}
+
+                                                    <div class="call-button" style="display: flex; align-items: center;">
+                                                        <a href="tel:{{ $info->tel }}" class="button-31"
+                                                            id="call_button_id"
+                                                            style="width: 130px; margin-left: 9px;">Call</a>
+                                                        <span id="call_id"
+                                                            style="display: none; margin-left: 10px;">{{ $info->tel }}</span>
                                                     </div>
-                                                    
 
-                                                </form>
-                                            </li> --}}
+                                                </div>
 
-                                            <div class="call-button" style="display: flex; align-items: center;">
-                                                <a href="tel:{{ $info->tel }}" class="button-31" id="call_button_id"
-                                                    style="width: 130px;">Call</a>
-                                                <span id="call_id"
-                                                    style="display: none; margin-left: 10px;">{{ $info->tel }}</span>
+
+                                                <div class="my-2 social-linkss social-sharing a2a_kit a2a_kit_size_32"
+                                                    style="line-height: 32px;">
+                                                    <h5 class="mb-2">Share Now</h5>
+                                                    <ul class="social-icons py-1 share-product social-linkss py-md-0">
+                                                        <li>
+                                                            <a class="facebook a2a_button_facebook" href="/#facebook"
+                                                                target="_blank" rel="nofollow noopener">
+                                                                <i class="fab fa-facebook-f"></i>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a class="twitter a2a_button_twitter" href="/#twitter"
+                                                                target="_blank" rel="nofollow noopener">
+                                                                <i class="fab fa-twitter"></i>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a class="linkedin a2a_button_linkedin" href="/#linkedin"
+                                                                target="_blank" rel="nofollow noopener">
+                                                                <i class="fab fa-linkedin-in"></i>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a class="pinterest a2a_button_pinterest" href="/#pinterest"
+                                                                target="_blank" rel="nofollow noopener">
+                                                                <i class="fab fa-pinterest-p"></i>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a class="instagram a2a_button_whatsapp" href="/#whatsapp"
+                                                                target="_blank" rel="nofollow noopener">
+                                                                <i class="fab fa-whatsapp"></i>
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+
+                                                </div>
+
+                                                <div class="yith-wcwl-add-to-wishlist wishlist-fragment mt-3">
+                                                    <div class="wishlist-button">
+                                                        <a class="add_to_wishlist" href="">Wishlist</a>
+                                                    </div>
+                                                    <div class="compare-button">
+                                                        <a class="compare button" href="">Compare</a>
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="report-area">
+                                                    <a class="report-item" href="#"><i class="fas fa-flag"></i> Report
+                                                        This
+                                                        Item </a>
+                                                </div>
                                             </div>
 
-                                            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-                                            <script>
-                                                $(document).ready(function() {
-                                                    $("#call_button_id").click(function() { // Use the correct ID selector (#call_button_id)
-                                                        $("#call_id").show(); // Use the correct ID selector (#call_id)
-                                                    });
-                                                });
-                                            </script>
+                                            <div class="col-lg-7 mt-3">
+                                                <div class="pro-details-sidebar-item mb-4">
+                                                    <span> Contact </span>
 
-                                        </div>
+                                                    @php
+                                                        $imageUrl = $user_info && $user_info->file_name && File::exists(public_path("uploads/media/{$user_info->file_name}")) ? asset("uploads/media/{$user_info->file_name}") : 'https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg';
+                                                    @endphp
 
+                                                    <div>
+                                                        <img class="" src="{{ $imageUrl }}" alt=""
+                                                            width="100" height="100">
+                                                    </div>
 
-                                        <div class="my-2 social-linkss social-sharing a2a_kit a2a_kit_size_32"
-                                            style="line-height: 32px;">
-                                            <h5 class="mb-2">Share Now</h5>
-                                            <ul class="social-icons py-1 share-product social-linkss py-md-0">
-                                                <li>
-                                                    <a class="facebook a2a_button_facebook" href="/#facebook"
-                                                        target="_blank" rel="nofollow noopener">
-                                                        <i class="fab fa-facebook-f"></i>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a class="twitter a2a_button_twitter" href="/#twitter" target="_blank"
-                                                        rel="nofollow noopener">
-                                                        <i class="fab fa-twitter"></i>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a class="linkedin a2a_button_linkedin" href="/#linkedin"
-                                                        target="_blank" rel="nofollow noopener">
-                                                        <i class="fab fa-linkedin-in"></i>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a class="pinterest a2a_button_pinterest" href="/#pinterest"
-                                                        target="_blank" rel="nofollow noopener">
-                                                        <i class="fab fa-pinterest-p"></i>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a class="instagram a2a_button_whatsapp" href="/#whatsapp"
-                                                        target="_blank" rel="nofollow noopener">
-                                                        <i class="fab fa-whatsapp"></i>
-                                                    </a>
-                                                </li>
-                                            </ul>
+                                                    <strong>
+                                                        {{ $info->user->surname ?? '' }}
+                                                        {{ $info->user->first_name ?? '' }}
+                                                        {{ $info->user->last_name ?? '' }}
+                                                    </strong>
 
-                                        </div>
+                                                    <p style="background: #45606b; color: #fff">
+                                                        {{ $info->why_is_searching }}</p>
 
-                                        <div class="yith-wcwl-add-to-wishlist wishlist-fragment mt-3">
-                                            <div class="wishlist-button">
-                                                <a class="add_to_wishlist" href="">Wishlist</a>
+                                                </div>
                                             </div>
-                                            <div class="compare-button">
-                                                <a class="compare button" href="">Compare</a>
-                                            </div>
-
                                         </div>
-
-                                        <div class="report-area">
-                                            <a class="report-item" href="#"><i class="fas fa-flag"></i> Report This
-                                                Item </a>
-                                        </div>
-
-
 
                                     </div>
                                 </div>
                             </div>
-
-
-                            <div class="col-lg-3 col-md-4">
-                                <div class="pro-details-sidebar-item mb-4">
-                                    <span> Contact </span>
-
-                                    @php
-                                        $imageUrl = $user_info && $user_info->file_name && File::exists(public_path("uploads/media/{$user_info->file_name}")) ? asset("uploads/media/{$user_info->file_name}") : 'https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg';
-                                    @endphp
-
-                                    <div>
-                                        <img class="" src="{{ $imageUrl }}" alt="" width="100"
-                                            height="100">
-                                    </div>
-
-                                    <strong>
-                                        {{ $info->user->surname ?? '' }}
-                                        {{ $info->user->first_name ?? '' }}
-                                        {{ $info->user->last_name ?? '' }}
-                                    </strong>
-
-                                </div>
-                            </div>
-
                         </div>
 
 
                     </div>
+
+                    <hr class="mt-3" style="width: 100%; height: 2px; margin: 0px;">
 
                     <div class="row">
 
@@ -360,13 +275,20 @@
                             <p class="product-title">{{ $info->ad_text }}</p>
                         </div>
 
-                        <div class="col-lg-5">
-                            <div>
-                                <hr style="width: 100%;">
-                            </div>
+                        <div class="col-lg-5 mt-3">
+
+                            <h5>Availability</h5>
+
                             @if ($info->available_form)
                                 <p>
-                                    <strong>Availability: </strong>
+                                    <strong>Total Budget: </strong>
+                                    £{{ $info->combined_budget }} {{ $info->per }}
+                                </p>
+                            @endif
+
+                            @if ($info->available_form)
+                                <p>
+                                    <strong>Available From: </strong>
                                     {{ Carbon\Carbon::createFromFormat('Y-m-d', $info->available_form)->format('M d') }}
                                 </p>
                             @endif
@@ -374,7 +296,7 @@
                             @if ($info->min_term)
                                 <p>
                                     <strong>Minimum term: </strong>
-                                    {{ $info->min_term ?? '' }} months
+                                    {{ $info->min_term ?? '' }}
                                 </p>
                             @endif
 
@@ -385,33 +307,10 @@
                                 </p>
                             @endif
 
-                            @if ($info->who_is_searching)
-                                <p>
-                                    <strong>Who is searching: </strong>
-                                    {{ $info->who_is_searching }}
-                                </p>
-                            @endif
-
-                            @if ($info->why_is_searching)
-                                <p>
-                                    <strong>Why is searching: </strong>
-                                    {{ $info->why_is_searching }}
-                                </p>
-                            @endif
-
-                            @if ($info->gender)
-                                <p>
-                                    <strong>Gender: </strong>
-                                    {{ $info->gender == 1 ? 'Male' : ($info->gender == 2 ? 'Female' : 'Others') }}
-                                </p>
-                            @endif
-
-                            @if ($info->buddy_ups)
-                                <p>
-                                    <strong>Buddy Ups: </strong>
-                                    {{ $info->buddy_ups }}
-                                </p>
-                            @endif
+                            <div>
+                                <hr class="mb-2" style="width: 100%; height: 2px; margin: 0px;">
+                            </div>
+                            <h5>Preferred Area</h5>
 
                             @if ($info->wanted_living_area)
                                 <p>
@@ -420,117 +319,189 @@
                                 </p>
                             @endif
 
+                            <div>
+                                <hr class="mb-2" style="width: 100%; height: 2px; margin: 0px;">
+                            </div>
+                            <h5>Preferred Amenities</h5>
 
-                            @php
-                                if ($info->roomfurnishings == null) {
-                                    $aminities = json_decode($info->roomfurnishings, true);
-                                
-                                    array_walk($aminities, function (&$amenity) {
+                            @if ($info->roomfurnishings != null)
+                                @php
+                                    $amenities = json_decode($info->roomfurnishings, true);
+                                    
+                                    array_walk($amenities, function (&$amenity) {
                                         $amenity = ucfirst($amenity);
                                     });
-                                }
-                                
-                            @endphp
-
-                            @if ($info->roomfurnishings == null)
+                                @endphp
                                 <p>
-                                    <strong>Aminities: </strong>
-                                    @foreach ($aminities as $item)
+                                    <strong>Amenities: </strong>
+                                    @foreach ($amenities as $item)
                                         <span>{{ $item }}, </span>
                                     @endforeach
                                 </p>
                             @endif
 
-                            <br>
-                            <h5>Occupant Details</h5>
-                            <div>
-                                <hr style="width: 100%;">
-                            </div>
+                            {{-- $info->child_category_id == 11 means child_categories table value Room check child_categories table --}}
+                            @if ($info->child_category_id == 11)
 
-                            <p>
-                                <strong>Name: </strong>
-                                {{ $info->first_name }}
-                                {{ $info->last_name }}
-                            </p>
+                                <div>
+                                    <hr class="mb-2" style="width: 100%; height: 2px; margin: 0px;">
+                                </div>
+                                <h5>Household Preference</h5>
 
-                            <p>
-                                <strong>Age: </strong>
-                                {{ $info->age ?? '' }}
-                            </p>
-                            <p>
-                                <strong>Occupation: </strong>
-                                {{ $info->occupation ?? '' }}
-                            </p>
-                            <p>
-                                <strong>Telephone </strong>
-                                {{ $info->tel }}
-                            </p>
-                            <p>
-                                <strong>Smoker: </strong>
-                                {{ $info->smoking_current == 1 ? 'Yes' : 'No' }}
-                            </p>
-                            <p>
-                                <strong>Pets: </strong>
-                                {{ $info->pets == 1 ? 'Yes' : 'No' }}
-                            </p>
-                            <p>
-                                <strong>Sex: </strong>
-                                {{ $info->gay_lesbian }}
-                            </p>
-                            <p>
-                                <strong>Gay Consent: </strong>
-                                {{ $info->gay_consent == 1 ? 'Yes' : 'No' }}
-                            </p>
-                            <p>
-                                <strong>Nationality: </strong>
-                                {{ $info->nationality ?? '' }}
-                            </p>
-                            <p>
-                                <strong>Language: </strong>
-                                {{ $info->lang_id }}
-                            </p>
+                                @if ($info->age)
+                                    @php
+                                        $old = json_decode($info->age, true);
+                                    @endphp
+                                    <p>
+                                        <strong>Age Range: </strong>
+                                        @foreach ($old as $key => $item)
+                                            {{ $item }}
+                                            @if ($key == 0)
+                                                to
+                                            @endif
+                                        @endforeach
+                                        Years
+                                    </p>
+                                @endif
 
+                                @if ($info->occupation)
+                                    <p>
+                                        <strong>Occupation: </strong>
+                                        {{ $info->occupation ?? '' }}
+                                    </p>
+                                @endif
 
-                            @if ($info->selectedSports)
-                                <p>
-                                    <strong>Selected Sports </strong>
-                                    {{ $info->selectedSports }}
-                                </p>
+                                @if ($info->smoking_current)
+                                    <p>
+                                        <strong>Smoking: </strong>
+                                        {{ $info->smoking_current == 1 ? 'Yes' : 'No' }}
+                                    </p>
+                                @endif
+
+                                @if ($info->pets)
+                                    <p>
+                                        <strong>Pets: </strong>
+                                        {{ $info->pets == 1 ? 'Yes' : 'No' }}
+                                    </p>
+                                @endif
+
+                                @if ($info->pets)
+                                    <p>
+                                        <strong>Pets: </strong>
+                                        {{ $info->pets == 1 ? 'Yes' : 'No' }}
+                                    </p>
+                                @endif
+
+                                @if ($info->gay_lesbian)
+                                    <p>
+                                        <strong>Preferred Sex: </strong>
+                                        {{ $info->gay_lesbian }}
+                                    </p>
+                                @endif
+
+                                @if ($info->lang_id)
+                                    <p>
+                                        <strong>Preferred Language: </strong>
+                                        {{ $info->lang_id }}
+                                    </p>
+                                @endif
+
+                                @if ($info->nationality)
+                                    <p>
+                                        <strong>Preferred Nationality: </strong>
+                                        {{ $info->nationality }}
+                                    </p>
+                                @endif
+
                             @endif
 
-                            <h5>Requirements</h5>
-                            <div>
-                                <hr style="width: 100%;">
-                            </div>
-
-                            <p>
-                                <strong>Gender Requirement: </strong>
-                                {{ $info->gender_req == 1 ? 'Male' : ($info->gender_req == 2 ? 'Female' : 'Others') }}
-                            </p>
-
-                            <p>
-                                <strong>Minimum age requirement: </strong>
-                                {{ $info->min_age_req }}
-                            </p>
-                            <p>
-                                <strong>Maximum age requirement: </strong>
-                                {{ $info->max_age_req }}
-                            </p>
-                            <p>
-                                <strong>Pets Requirement: </strong>
-                                {{ $info->pets_req }}
-                            </p>
-                            <p>
-                                <strong>Gay Lesbian Requirement: </strong>
-                                {{ $info->gay_lesbian_req }}
-                            </p>
                         </div>
-                        {{-- <div class="col-lg-3">
 
-                        </div> --}}
                     </div>
+
+                    <div class="row">
+                        <div class="col-lg-12">
+
+                            <table id="customers">
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Age</th>
+                                    <th>Gender</th>
+                                    <th>Relationship</th>
+                                    <th>Profession</th>
+                                    <th>Job Type</th>
+                                    <th>Nationality</th>
+                                </tr>
+
+                                @if ($info->occupant_details != null)
+                                    @php
+                                        $occupantDetails = json_decode($info->occupant_details, true);
+                                    @endphp
+
+                                    @foreach ($occupantDetails as $item)
+                                        <tr>
+                                            <td>{{ $item['occupant_name'] }}</td>
+                                            <td>{{ $item['occupant_age'] }}</td>
+                                            <td>
+                                                @if ($item['occupant_gender_req'] == 1)
+                                                    Male
+                                                @elseif ($item['occupant_gender_req'] == 2)
+                                                    Female
+                                                @elseif ($item['occupant_gender_req'] == 3)
+                                                    Others
+                                                @endif
+                                            </td>
+                                            <td>
+                                                @if ($item['occupant_relationship'] == 1)
+                                                    Family
+                                                @elseif ($item['occupant_relationship'] == 2)
+                                                    Relatives
+                                                @elseif ($item['occupant_relationship'] == 3)
+                                                    Friends
+                                                @elseif ($item['occupant_relationship'] == 4)
+                                                    Others
+                                                @endif
+                                            </td>
+
+                                            <td>
+                                                @if ($item['occupant_occupation'] == 1)
+                                                    Student
+                                                    <br>
+                                                    <span style="font-size: 12ggggpx;">
+                                                        {{ $item['occupant_degree_name'] }}</span>
+                                                @elseif ($item['occupant_occupation'] == 2)
+                                                    Employee
+                                                @elseif ($item['occupant_occupation'] == 3)
+                                                    Others
+                                                @endif
+                                            </td>
+
+                                            <td>
+                                                @if ($item['occupant_job_type'] == 1)
+                                                    Part-time
+                                                @elseif ($item['occupant_job_type'] == 2)
+                                                    Full-time
+                                                @elseif ($item['occupant_job_type'] == 3)
+                                                    Self-employed
+                                                @endif
+                                            </td>
+
+                                            <td>{{ $item['occupant_nationality'] }}</td>
+                                        </tr>
+                                    @endforeach
+                                @endif
+
+
+                            </table>
+
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
     </div>
+@endsection
+@section('script')
+    @include('frontend.service.property.property_script')
 @endsection

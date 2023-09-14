@@ -39,6 +39,8 @@
                 <label for="occupant_relationship">Relationship</label>
                 <select class="form-control" id="occupant_relationship" name="occupant_relationship[]">
                     <option selected="" value="">Select....</option>
+                    <option value="4">Contact Person(The person as the point of contact or responsible party.)
+                    </option>
                     <option value="1">Family (Family member if relation is
                         Father/Mother/Son/Daughter/Brother/Sister/Husband/Wife)</option>
                     <option value="2">Relatives (Uncle/ Aunty/Cousin/ Brother-in-law/ Sister-in-law)</option>
@@ -49,7 +51,7 @@
         </div>
         <div class="col-sm-12">
             <div class="form-group">
-                <label for="occupant_occupation">Job</label>
+                <label for="occupant_occupation">Profession</label>
                 <select class="form-control" id="occupant_occupation_{{ $i }}"
                     onchange="showStudentInfo({{ $i }})" name="occupant_occupation[]">
                     <option selected="" value="">Select....</option>
@@ -120,7 +122,14 @@
         <div class="col-sm-12">
             <div class="form-group">
                 <label for="occupant_nationality">Nationality</label>
-                <input class="form-control" name="occupant_nationality[]" type="text" id="occupant_nationality">
+                {{-- <input class="form-control" name="occupant_nationality[]" type="text" id="occupant_nationality"> --}}
+
+                <select class="form-control" id="occupant_nationality" name="occupant_nationality[]">
+
+                    @include('crm::layouts.nationality')
+
+                </select>
+
             </div>
         </div>
         <div class="col-sm-12">

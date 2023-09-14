@@ -73,6 +73,16 @@ class ServicePropertyWanted extends Model
         'user_id',
     ];
 
+    protected $casts = [
+        'occupant_details'      => 'array',
+        'age'                   => 'array',
+    ];
+
+    public function getPerAttribute($value)
+    {
+        return ucfirst(strtolower($value));
+    }
+
     public function scopeActive($query)
     {
         $query->where('status', 1);
