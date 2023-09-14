@@ -27,19 +27,8 @@ class PropertyWantedCustomerController extends Controller
             return redirect()->route('login');
         }
 
-        // $services       = ServicePropertyWanted::where('user_id', Auth::id())->get();
-
-        // return $services;
-        // if (!auth()->user()->can('business_settings.access')) {
-        //     abort(403, 'Unauthorized action.');
-        // }
-
-        // $user_type = User::where('user_type', 'user_customer')->where('id', Auth::id())->first();
-
-        // return $user_type;
-
         if (request()->ajax()) {
-            $services       = ServicePropertyWanted::where('user_id', Auth::id())->get();
+            $services = ServicePropertyWanted::where('user_id', Auth::id())->get();
 
             return Datatables::of($services)
                 ->addColumn('category_name', function ($service) {
@@ -52,7 +41,28 @@ class PropertyWantedCustomerController extends Controller
                     return $service->child_category->name;
                 })
                 ->addColumn('action', function ($service) {
-                    return '<button type="button" class="btn btn-xs btn-primary">Edit</button>';
+                    $buttons = '<div class="d-flex gap-1">';
+
+                    // Edit button
+                    $buttons .= '<button type="button" data-id="' . $service->id . '" class="btn btn-xs btn-success property_wanted_edit_btn">Edit</button>';
+
+                    // Delete button
+                    $buttons .= '<button type="button" class="btn btn-xs btn-danger property_wanted_delete_btn" data-id="' . $service->id . '">Delete</button>';
+
+                    // Check the upgraded status and add the appropriate button
+                    if ($service->upgraded == 1) {
+                        $buttons .= '<button>Upgraded</button>';
+                    } else {
+                        $buttons .= '<form action="/contact/property-wanted/upgrade" method="POST" enctype="multipart/form-data">
+                        <input type="hidden" name="_token" value="' . csrf_token() . '">
+                        <input type="hidden" name="product_id" value="' . $service->id . '">
+                                        <input type="submit" value="Upgrade" class="btn btn-xs btn-primary">
+                                    </form>';
+                    }
+
+                    $buttons .= '</div>';
+
+                    return $buttons;
                 })
                 ->rawColumns(['action'])
                 ->toJson();
@@ -62,9 +72,9 @@ class PropertyWantedCustomerController extends Controller
 
     public function create()
     {
-        $business_id            = request()->session()->get('user.business_id');
+        $business_id = request()->session()->get('user.business_id');
 
-        $business_locations     = BusinessLocation::where('business_id', $business_id)->get(['id', 'name', 'business_id']);
+        $business_locations = BusinessLocation::where('business_id', $business_id)->get(['id', 'name', 'business_id']);
 
         // return $business_locations;
         $category = ServiceCategory::where('name', 'Property')->first();
@@ -133,12 +143,7 @@ class PropertyWantedCustomerController extends Controller
                 "occupant_visa_status" => $request->occupant_visa_status[$i],
             ];
         }
-        // $roomDetails = [];
-        // $count = count($request->room_details);
-        // for ($i = 0; $i < $count; $i++) {
-        //     $roomDetails[$i] = $request->room_details[$i];
-        // }
-        // return $request;
+
         $property = new ServicePropertyWanted();
 
         $requestedData = $request->all();
@@ -162,36 +167,8 @@ class PropertyWantedCustomerController extends Controller
         ];
 
         return redirect()->back()->with('status', $output);
-        // try {
-        //     $property                                 = new ServicePropertyWanted();
-
-        //     $requestedData                            = $request->all();
-
-        //     $requestedData['reference_id']            = Auth::id() . Str::random(15);
-
-        //     $requestedData['user_id']                 = auth()->id();
-
-        //     $requestedData['roomfurnishings']         = json_encode($request->roomfurnishings);
-        //     $requestedData['occupant_details']         = json_encode($occupant_details);
-        //     $requestedData['room_details']         = json_encode($request->room_size);
-
-        //     $requestedData['images']                  = $this->image($request->file('images'), 'uploads/service_property/', 800, 500);
-
-        //     $property->fill($requestedData)->save();
-
-        //     $output = [
-        //         'success' => true,
-        //         'msg' => ('Created Successfully!!!'),
-        //     ];
-
-        //     return redirect()->back()->with('status', $output);
-        // } catch (\Throwable $e) {
-
-        //     dd($e->getmessage());
-
-        //     return redirect()->back();
-        // }
     }
+
     public function storaae(Request $request)
     {
         $count = count($request->occupant_name);
@@ -249,35 +226,89 @@ class PropertyWantedCustomerController extends Controller
             'msg' => ('Created Successfully!!!'),
         ];
 
-        return redirect()->back()->with('status', $output);
-        // try {
-        //     $property                                 = new ServicePropertyWanted();
+        return redirect()->back()->with('success', $output);
+    }
 
-        //     $requestedData                            = $request->all();
+    public function showPropertyDeleteModal(Request $request)
+    {
+        $id = $request->id;
+        return view('crm::property_wanted.property_delete_modal', compact('id'));
+    }
+    public function confirmPropertyDelete(Request $request)
+    {
+        $id = $request->id;
+        // $property = ServicePropertyWanted::find($id)->delete();
+        $property = ServicePropertyWanted::find($id);
+        $property->forceDelete();
+        $response = [
+            'success' => true,
+            'message' => 'Property deleted.'
+        ];
+        return response()->json($response);
+    }
 
-        //     $requestedData['reference_id']            = Auth::id() . Str::random(15);
+    public function showPropertyEditModal(Request $request)
+    {
+        $id = $request->id;
+        $property = ServicePropertyWanted::find($id);
+        $property->occupant_details = json_decode($property->occupant_details);
+        $property->room_details = json_decode($property->room_details);
+        $property->roomfurnishings = json_decode($property->roomfurnishings);
 
-        //     $requestedData['user_id']                 = auth()->id();
 
-        //     $requestedData['roomfurnishings']         = json_encode($request->roomfurnishings);
-        //     $requestedData['occupant_details']         = json_encode($occupant_details);
-        //     $requestedData['room_details']         = json_encode($request->room_size);
+        $business_id = request()->session()->get('user.business_id');
 
-        //     $requestedData['images']                  = $this->image($request->file('images'), 'uploads/service_property/', 800, 500);
+        $business_locations = BusinessLocation::where('business_id', $business_id)->get(['id', 'name', 'business_id']);
 
-        //     $property->fill($requestedData)->save();
+        // return $business_locations;
+        $category = ServiceCategory::where('name', 'Property')->first();
+        $sub_category = SubCategory::where([['category_id', $category->id], ['name', 'buy']])->first();
+        //$sub_category = SubCategory::where(['category_id',$category->id])->get();
 
-        //     $output = [
-        //         'success' => true,
-        //         'msg' => ('Created Successfully!!!'),
-        //     ];
+        $child_categories = ChildCategory::where([['category_id', $category->id], ['sub_category_id', $sub_category->id],])->get();
 
-        //     return redirect()->back()->with('status', $output);
-        // } catch (\Throwable $e) {
+        $data = [];
+        $data['property'] = $property;
+        $data['category'] = $category;
+        $data['sub_category'] = $sub_category;
+        $data['child_categories'] = $child_categories;
+        $data['house'] = ServiceCharge::where('child_category', 2)->first()->service_charge;
+        $data['Flat'] = ServiceCharge::where('child_category', 6)->first()->service_charge;
+        $data['studio_flat'] = ServiceCharge::where('child_category', 9)->first()->service_charge;
+        $data['single'] = ServiceCharge::where([['child_category', 1], ['size', ['single']]])->first()->service_charge;
+        $data['double'] = ServiceCharge::where([['child_category', 1], ['size', ['double']]])->first()->service_charge;
+        $data['semi_double'] = ServiceCharge::where([['child_category', 1], ['size', ['semi-double']]])->first()->service_charge;
+        $data['en_suite'] = ServiceCharge::where([['child_category', 1], ['size', ['en-suite']]])->first()->service_charge;
+        return view('crm::property_wanted.property_edit_modal', compact('business_locations'), $data);
+    }
 
-        //     dd($e->getmessage());
+    public function updatePropertyWanted(Request $request)
+    {
+        $property = ServicePropertyWanted::find($request->id);
 
-        //     return redirect()->back();
-        // }
+        $property->first_name = $request->first_name;
+        $property->last_name = $request->last_name;
+
+        $property->save();
+
+        $response = [
+            'success' => true,
+            'message' => 'Property updated successfully.'
+        ];
+        return response()->json($response);
+    }
+    public function propertyWantedUpgradePage(Request $request)
+    {
+        $property = ServicePropertyWanted::find($request->product_id);
+        $bill = ServiceCharge::where([['category_id', $property->category_id],['sub_category_id', $property->sub_category_id],['child_category', $property->child_category_id]])->first()->service_charge;
+        return redirect('stripe')
+            ->with([
+                'product_id' => $request->product_id,
+                // 'product_name' => $info['product_name'],
+                'bill' => $bill,
+                'table_name' => 'service_property_wanted',
+                'upgrade' => 'yes',
+                'url' => '/contact/property-wanted',
+            ]);
     }
 }
