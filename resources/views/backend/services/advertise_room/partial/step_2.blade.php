@@ -1,7 +1,6 @@
   <!-- Step 2 -->
   <div class="step" id="step-2">
       <h3 class="text-center mb-2">Step 2</h3>
-      <!-- Step 2 form fields go here -->
 
       <!-- Start Step 2 -->
       <div class="grid-12-4" style="display: flex; justify-content: center;">
@@ -13,7 +12,6 @@
 
                   <div class="block_content">
                       <div id="deposit_warning_popup"></div>
-
 
                       <fieldset>
                           <legend>More about the property</legend>
@@ -44,7 +42,7 @@
                           <div class="col-sm-12">
                               <div class="form-group">
                                   <label for="selling_price_group_id">Transport</label>
-                                  <div>
+                                  <div style="display: flex; align-items: center;">
                                       <div>
                                           <select class="form-control" id="transport_minutes" name="transport_minutes">
                                               <option value="" selected="">Select...</option>
@@ -55,7 +53,7 @@
                                               @endforeach
                                           </select>
                                       </div>
-                                      <div>minutes</div>
+                                      <div style="margin: 0px 10px 0px 10px;">minutes</div>
                                       <div>
                                           <select class="form-control" id="transport_form" name="transport_form">
                                               <option value="" selected="">Select...</option>
@@ -63,22 +61,17 @@
                                               <option value="by tram">by tram</option>
                                           </select>
                                       </div>
-                                      <div>from</div>
-                                      <div>
-                                          <select class="form-control" id="transport_to" name="transport_to">
-                                              <option value="" selected="">Select...
-                                              </option>
-                                              <option value="BLACKFRIARS">Blackfriars
-                                              </option>
-                                              <option value="CITYTHAMESLINK">City Thameslink
-                                              </option>
-                                              <option value="FARRINGDON">Farringdon
-                                              </option>
-                                          </select>
+                                      <div style="margin: 0px 10px 0px 10px;">from</div>
+                                      <div style="flex-grow: 1;">
+                                          <input class="form-control" name="transport_to" type="text"
+                                              id="transport_to" style="margin-right: 10px;">
                                       </div>
                                   </div>
                               </div>
                           </div>
+
+
+
 
                           <div class="col-sm-12">
                               <div class="form-group">

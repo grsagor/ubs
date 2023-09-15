@@ -14,7 +14,7 @@
                 <div class="block_content">
                     <div id="deposit_warning_popup"></div>
 
-                    <fieldset>
+                    <fieldset id="existing_flatmate_id">
                         <legend>The Existing Flatmate</legend>
 
                         <div class="form_row form_row_smoking">
@@ -53,11 +53,10 @@
                             <div class="form_inputs">
                                 <span class="form_input form_select">
                                     <select name="exiting_flatmate_occupation">
-                                        <option value="ND" selected="">Not disclosed</option>
+                                        <option value="Not disclosed" selected="">Not disclosed</option>
                                         <option value="Student">Student</option>
                                         <option value="Professional">Professional</option>
                                         <option value="Other">Other</option>
-
                                     </select>
                                 </span>
                             </div>
@@ -85,9 +84,9 @@
                                 <span class="form_input form_select">
                                     <select name="exiting_flatmate_age">
                                         <option value="null" selected="">-</option>
-                                        <option value="18">18</option>
-                                        <option value="98">98</option>
-                                        <option value="99">99</option>
+                                        @foreach (range(1, 150) as $item)
+                                            <option value="{{ $item }}">{{ $item }}</option>
+                                        @endforeach
                                     </select>
                                 </span>
                             </div>
@@ -99,9 +98,9 @@
                             <div class="form_inputs">
                                 <span class="form_input form_select">
                                     <select name="exiting_flatmate_language">
-                                        <option value="26">English </option>
-                                        <option value="27">Mixed </option>
-                                        <option value="17">Cantonese </option>
+
+                                        @include('partial.language')
+
                                     </select>
                                 </span>
                             </div>
@@ -112,11 +111,9 @@
                                 <span class="form_input form_select">
                                     <span id="nationality-select" data-selected=""><select
                                             name="exiting_flatmate_nationality">
-                                            <option value="Not disclosed">Not disclosed</option>
-                                            <option value="Welsh">Welsh</option>
-                                            <option value="Yemeni">Yemeni</option>
-                                            <option value="Zambian">Zambian</option>
-                                            <option value="Zimbabwean">Zimbabwean</option>
+
+                                            @include('partial.nationality')
+
                                         </select></span>
                                 </span>
                             </div>
@@ -151,7 +148,7 @@
                             <div class="form_inputs">
                                 <span class="form_input form_select">
                                     <select name="new_flatmate_smoking">
-                                        <option value=>No preference</option>
+                                        <option value=0>No preference</option>
                                         <option value=1>Yes</option>
                                         <option value=2>No</option>
                                     </select>
@@ -181,16 +178,13 @@
                             <div class="form_inputs">
                                 <span class="form_input form_select">
                                     <select name="new_flatmate_occupation">
-                                        <option value="">No preference</option>
+                                        <option value="0">No preference</option>
                                         <option value="S">Student</option>
                                         <option value="P">Professional</option>
                                     </select>
                                 </span>
                             </div>
                         </div>
-
-
-
 
                         <div class="form_row form_row_pets">
                             <div class="form_label"> Pets considered </div>
@@ -204,22 +198,20 @@
                             </div>
                         </div>
 
-
-
-
                         <div class="form_row form_row_min_age">
                             <div class="form_label"> Minimum age </div>
                             <div class="form_inputs">
                                 <span class="form_input form_select">
                                     <select name="new_flatmate_min_age">
                                         <option value="null" selected="">-</option>
-                                        <option value="18">18</option>
-                                        <option value="19">19</option>
-                                        <option value="99">99</option>
+                                        @foreach (range(1, 150) as $item)
+                                            <option value="{{ $item }}">{{ $item }}</option>
+                                        @endforeach
                                     </select>
                                 </span>
                             </div>
                         </div>
+
                         <div class="form_row form_row_max_age">
                             <div class="form_label"> Maximum age </div>
                             <div class="form_inputs">
@@ -227,35 +219,26 @@
 
                                     <select name="new_flatmate_max_age">
                                         <option value="null" selected="">-</option>
-                                        <option value="18">18</option>
-                                        <option value="19">19</option>
-                                        <option value="99">99</option>
+                                        @foreach (range(1, 150) as $item)
+                                            <option value="{{ $item }}">{{ $item }}</option>
+                                        @endforeach
                                     </select>
                                 </span>
                             </div>
                         </div>
-
-
-
-
 
                         <div class="form_row form_row_language">
                             <div class="form_label"> Language </div>
                             <div class="form_inputs">
                                 <span class="form_input form_select">
                                     <select name="new_flatmate_language">
-                                        <option value="27">Mixed
-                                        </option>
-                                        <option value="76">Quechua
-                                        </option>
-                                        <option value="98">Zulu
-                                        </option>
+
+                                        @include('partial.language')
+
                                     </select>
                                 </span>
                             </div>
                         </div>
-
-
 
                         <div class="form_row form_row_couples">
                             <div class="form_label"> Couples welcome? </div>
@@ -265,48 +248,27 @@
                                         no
                                     </label>
                                     <label><input type="radio" name="new_flatmate_couples" value=1>
-                                        yes*
+                                        yes
                                     </label>
                                 </span>
-                                <div class="form_hint"> *specify any rent adjustments in your ad
-                                    description
-                                    on next step
+                                <div class="form_hint"> *specify any rent adjustments in your ad description on next
+                                    step
 
                                 </div>
                             </div>
                         </div>
-
 
                         <div class="form_row form_row_misc">
                             <div class="form_label"> Vegetarians preferred? </div>
                             <div class="form_inputs">
                                 <span class="form_input form_select">
                                     <select name="new_flatmate_vegetarians">
-                                        <option>No preference</option>
+                                        <option value="2">No preference</option>
                                         <option value=1>Yes</option>
                                     </select>
                                 </span>
                             </div>
                         </div>
-
-
-                        {{-- <div class="form_row ">
-                    <div class="form_label"></div>
-                    <div class="form_inputs">
-                        <div class="btn-wrapper">
-                            <div>
-                                <button class="button" type="submit" name="validate_step"
-                                    value="Continue to next step">Continue to next step
-                                </button>
-                            </div>
-                            <div class="btn-wrapper__back-btn">
-                                <input class="button button--link" id="backButton" type="submit"
-                                    name="prev_step" value="Back">
-                            </div>
-
-                        </div>
-                    </div>
-                </div> --}}
 
                     </fieldset>
                 </div>

@@ -39,14 +39,22 @@
         $("#step_2_next").click(function() {
 
             var child_category = $('#child_category_id').val();
+
             if (child_category == 1) {
                 var selectedQuantity = parseInt($('#property_room_quantity').val());
                 $(".form_room_fieldset:not(#room1)").hide();
                 for (var i = 2; i <= selectedQuantity; i++) {
                     $("#room" + i).show();
                 }
+            } else if (child_category == 9) {
+                var selectedQuantity = 1;
+                $(".form_room_fieldset:not(#room1)").hide();
+                for (var i = 2; i <= selectedQuantity; i++) {
+                    $("#room" + i).show();
+                }
             } else {
                 var selectedQuantity = parseInt($('#property_size').val());
+
                 $(".form_room_fieldset:not(#room1)").hide();
                 for (var i = 2; i <= selectedQuantity; i++) {
                     $("#room" + i).show();
@@ -154,10 +162,58 @@
             var sub_category_id = $('#sub_category_id').val();
             var service_category_id = $('#service_category_id').val();
             //alert(child_category_id);
+
             var a = document.getElementById('badOption');
             var b = document.getElementById('showroom');
             var c = document.getElementById('room_available_from_container');
-            var d = document.getElementById('room_available_from1_container');
+
+            var d_1 = document.getElementById('room_available_from1_container');
+            var d_2 = document.getElementById('room_available_from2_container');
+            var d_3 = document.getElementById('room_available_from3_container');
+            var d_4 = document.getElementById('room_available_from4_container');
+            var d_5 = document.getElementById('room_available_from5_container');
+
+            var e_1 = document.getElementById('size_of_room1');
+            var e_2 = document.getElementById('size_of_room2');
+            var e_3 = document.getElementById('size_of_room3');
+            var e_4 = document.getElementById('size_of_room4');
+            var e_5 = document.getElementById('size_of_room5');
+
+            var f_1 = document.getElementById('room_amenities_id1');
+            var f_2 = document.getElementById('room_amenities_id2');
+            var f_3 = document.getElementById('room_amenities_id3');
+            var f_4 = document.getElementById('room_amenities_id4');
+            var f_5 = document.getElementById('room_amenities_id5');
+
+            var g_1 = document.getElementById('room_security_deposit_id1');
+            var g_2 = document.getElementById('room_security_deposit_id2');
+            var g_3 = document.getElementById('room_security_deposit_id3');
+            var g_4 = document.getElementById('room_security_deposit_id4');
+            var g_5 = document.getElementById('room_security_deposit_id5');
+
+            var h_1 = document.getElementById('room_cost_id1');
+            var h_2 = document.getElementById('room_cost_id2');
+            var h_3 = document.getElementById('room_cost_id3');
+            var h_4 = document.getElementById('room_cost_id4');
+            var h_5 = document.getElementById('room_cost_id5');
+
+            var i = document.getElementById('rent_id');
+            var j = document.getElementById('security_Deposit_id');
+            var k = document.getElementById('holding_deposit_id');
+
+            var m_1 = document.getElementById('room_holding_deposit_id1');
+            var m_2 = document.getElementById('room_holding_deposit_id2');
+            var m_3 = document.getElementById('room_holding_deposit_id3');
+            var m_4 = document.getElementById('room_holding_deposit_id4');
+            var m_5 = document.getElementById('room_holding_deposit_id5');
+
+            var p = document.getElementById('existing_flatmate_id');
+
+
+            // child_category_id means category 1 = Room
+            // child_category_id means category 2 = House
+            // child_category_id means category 6 = Flat
+            // child_category_id means category 9 = Studio Flat
 
             if (child_category_id == 2 || child_category_id == 6 || child_category_id == 1) {
                 a.style.display = 'block';
@@ -167,11 +223,94 @@
             if (child_category_id == 1) {
                 b.style.display = 'block';
                 c.style.display = 'none';
-                d.style.display = 'block';
+                i.style.display = 'none';
+                j.style.display = 'none';
+                k.style.display = 'none';
+                p.style.display = 'block';
+
+                d_1.style.display = 'block';
+                d_2.style.display = 'block';
+                d_3.style.display = 'block';
+                d_4.style.display = 'block';
+                d_5.style.display = 'block';
+
+                m_1.style.display = 'block';
+                m_2.style.display = 'block';
+                m_3.style.display = 'block';
+                m_4.style.display = 'block';
+                m_5.style.display = 'block';
             } else {
                 b.style.display = 'none';
                 c.style.display = 'block';
-                d.style.display = 'none';
+                i.style.display = 'block';
+                j.style.display = 'block';
+                k.style.display = 'block';
+                p.style.display = 'none';
+
+                d_1.style.display = 'none';
+                d_2.style.display = 'none';
+                d_3.style.display = 'none';
+                d_4.style.display = 'none';
+                d_5.style.display = 'none';
+
+                m_1.style.display = 'none';
+                m_2.style.display = 'none';
+                m_3.style.display = 'none';
+                m_4.style.display = 'none';
+                m_5.style.display = 'none';
+            }
+
+            if (child_category_id == 9) {
+                e_1.style.display = 'none';
+                e_2.style.display = 'none';
+                e_3.style.display = 'none';
+                e_4.style.display = 'none';
+                e_5.style.display = 'none';
+
+                f_1.style.display = 'none';
+                f_2.style.display = 'none';
+                f_3.style.display = 'none';
+                f_4.style.display = 'none';
+                f_5.style.display = 'none';
+
+            } else {
+                e_1.style.display = 'block';
+                e_2.style.display = 'block';
+                e_3.style.display = 'block';
+                e_4.style.display = 'block';
+                e_5.style.display = 'block';
+
+                f_1.style.display = 'block';
+                f_2.style.display = 'block';
+                f_3.style.display = 'block';
+                f_4.style.display = 'block';
+                f_5.style.display = 'block';
+            }
+
+            if (child_category_id == 2 || child_category_id == 6) {
+                g_1.style.display = 'none';
+                g_2.style.display = 'none';
+                g_3.style.display = 'none';
+                g_4.style.display = 'none';
+                g_5.style.display = 'none';
+
+                h_1.style.display = 'none';
+                h_2.style.display = 'none';
+                h_3.style.display = 'none';
+                h_4.style.display = 'none';
+                h_5.style.display = 'none';
+            } else {
+                g_1.style.display = 'block';
+                g_2.style.display = 'block';
+                g_3.style.display = 'block';
+                g_3.style.display = 'block';
+                g_4.style.display = 'block';
+
+                h_1.style.display = 'block';
+                h_2.style.display = 'block';
+                h_3.style.display = 'block';
+                h_4.style.display = 'block';
+                h_5.style.display = 'block';
             }
 
             $.ajax({
@@ -191,7 +330,6 @@
 
                     } else {
                         $('.room_size_container').hide();
-
                     }
                 }
             });

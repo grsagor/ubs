@@ -496,7 +496,7 @@
                                 data-html="true" data-trigger="hover"></i> <select class="form-control"
                                 id="lang_id" name="lang_id">
 
-                                @include('crm::layouts.language')
+                                @include('partial.language')
 
                             </select>
                         </div>
@@ -511,7 +511,7 @@
                                 data-html="true" data-trigger="hover"></i> <select class="form-control"
                                 id="nationality" name="nationality">
 
-                                @include('crm::layouts.nationality')
+                                @include('partial.nationality')
 
                             </select>
                         </div>

@@ -41,39 +41,7 @@
                         <div class="row single-product-wrapper mt-3">
                             <div class="col-lg-5 mb-4 mb-lg-0">
 
-                                @php
-                                    $first_image = 'https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg';
-                                @endphp
-
                                 @if ($info->images != null)
-                                    @php
-                                        $images = json_decode($info->images, true);
-                                        $img_count = null;
-                                        $imagePath = null;
-                                        $div_value = 0;
-                                        
-                                        if ($images) {
-                                            $first_image = reset($images);
-                                            $imagePath = public_path($first_image);
-                                            $img_count = count($images);
-                                            if ($img_count >= 7) {
-                                                $div_value = 1;
-                                            }
-                                        
-                                            if ($img_count == 5 || $img_count == 6) {
-                                                $div_value = 2;
-                                            }
-                                        
-                                            if ($img_count == 4) {
-                                                $div_value = 3;
-                                            }
-                                        
-                                            if ($img_count <= 3) {
-                                                $div_value = 4;
-                                            }
-                                        }
-                                    @endphp
-
                                     <div class="slideShow">
                                         <!-- Images in the slideshow -->
                                         <div class="image-carousel">
@@ -103,7 +71,6 @@
                                     </figure>
                                 @endif
 
-
                             </div>
 
                             <div class="col-lg-7 col-md-8">
@@ -121,7 +88,6 @@
                                                             $roomDetails = json_decode($info->room_details, true);
                                                             $countRoom = count($roomDetails);
                                                         @endphp
-
 
                                                         <div class="pro-info">
                                                             <strong class="room-list__price">

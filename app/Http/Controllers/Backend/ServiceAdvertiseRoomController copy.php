@@ -28,10 +28,10 @@ class ServiceAdvertiseRoomController extends Controller
      */
     public function index()
     {
-        $category = ServiceCategory::where('name','Property')->first();
-        $sub_category = SubCategory::where([['category_id',$category->id],['name','rent']])->first();
-        $child_categories = ChildCategory::where([['category_id',$category->id],['sub_category_id',$sub_category->id],])->get();
-        $service_charges = ServiceCharge::where([['category_id',$category->id],['sub_category_id',$sub_category->id],['child_category',1]])->get();
+        $category = ServiceCategory::where('name', 'Property')->first();
+        $sub_category = SubCategory::where([['category_id', $category->id], ['name', 'rent']])->first();
+        $child_categories = ChildCategory::where([['category_id', $category->id], ['sub_category_id', $sub_category->id],])->get();
+        $service_charges = ServiceCharge::where([['category_id', $category->id], ['sub_category_id', $sub_category->id], ['child_category', 1]])->get();
         // return $service_charges;
         $user = Auth::user();
         $services = ServiceAdvertiseRoom::where('user_id', $user->id)->get();
@@ -64,9 +64,9 @@ class ServiceAdvertiseRoomController extends Controller
      */
     public function create()
     {
-        $category = ServiceCategory::where('name','Property')->first();
-        $sub_category = SubCategory::where([['category_id',$category->id],['name','rent']])->first();
-        $child_categories = ChildCategory::where([['category_id',$category->id],['sub_category_id',$sub_category->id],])->get();
+        $category = ServiceCategory::where('name', 'Property')->first();
+        $sub_category = SubCategory::where([['category_id', $category->id], ['name', 'rent']])->first();
+        $child_categories = ChildCategory::where([['category_id', $category->id], ['sub_category_id', $sub_category->id],])->get();
 
         $data = [];
         $data['category'] = $category;
@@ -98,7 +98,7 @@ class ServiceAdvertiseRoomController extends Controller
     public function showRoomQuantitySelect(Request $request)
     {
         $child_category = ChildCategory::find($request->child_category_id);
-        $service_charges = ServiceCharge::where([['category_id',$request->service_category_id],['sub_category_id',$request->sub_category_id],['child_category',$request->child_category_id]])->get();
+        $service_charges = ServiceCharge::where([['category_id', $request->service_category_id], ['sub_category_id', $request->sub_category_id], ['child_category', $request->child_category_id]])->get();
         $html = '';
         foreach ($service_charges as $category) {
             $html .= '<option value="' . $category->size . '">' . $category->size . '</option>';
@@ -117,8 +117,6 @@ class ServiceAdvertiseRoomController extends Controller
      */
     public function store(StoreServiceAdvertiseRoomRequest $request, ServiceAdvertiseRoom $serviceAdvertiseRoom)
     {
-        // return $request;
-
         try {
             $requestedData                               = $request->all();
 
@@ -161,7 +159,7 @@ class ServiceAdvertiseRoomController extends Controller
                 $image_path = public_path('uploads/service_room');
 
                 $images = [];
-            
+
                 foreach ($request->file('advert_photos') as $image) {
                     $image_name = rand(123456, 999999) . '.' . $image->getClientOriginalExtension();
                     $image->move($image_path, $image_name);

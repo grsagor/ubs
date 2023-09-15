@@ -54,7 +54,7 @@ class ServiceAdvertiseRoomController extends Controller
                     return $service->child_category->name;
                 })
                 ->addColumn('action', function ($service) {
-                    return '<div class="d-flex gap-1"><button type="button" data-id="'.$service->id.'" class="btn btn-xs btn-success property_rent_edit_btn">Edit</button><button type="button" class="btn btn-xs btn-danger property_wanted_delete_btn" data-id="'.$service->id.'">Delete</button></div>';
+                    return '<div class="d-flex gap-1"><button type="button" data-id="' . $service->id . '" class="btn btn-xs btn-success property_rent_edit_btn">Edit</button><button type="button" class="btn btn-xs btn-danger property_wanted_delete_btn" data-id="' . $service->id . '">Delete</button></div>';
                 })
                 ->rawColumns(['action'])
                 ->toJson();
@@ -138,8 +138,7 @@ class ServiceAdvertiseRoomController extends Controller
         try {
             $requestedData = $request->all();
 
-            $requestedData['reference_id'] = Auth::id() . Str::random(15);
-            ;
+            $requestedData['reference_id'] = Auth::id() . Str::random(15);;
 
             $requestedData['property_amenities'] = json_encode($request->property_amenities);
 
@@ -157,6 +156,7 @@ class ServiceAdvertiseRoomController extends Controller
                 'room_security_deposit1' => $request->room_security_deposit1 ?? NULL,
                 'room_available_from1' => $request->room_available_from1 ?? NULL,
                 'service_charge_room1' => $request->service_charge_room1 ?? NULL,
+                'room_holding_deposit1' => $request->room_holding_deposit1 ?? NULL,
 
                 'room_cost_of_amount2' => $request->room_cost_of_amount2 ?? NULL,
                 'room_cost_time2' => $request->room_cost_time2 ?? NULL,
@@ -166,6 +166,7 @@ class ServiceAdvertiseRoomController extends Controller
                 'room_security_deposit2' => $request->room_security_deposit2 ?? NULL,
                 'room_available_from2' => $request->room_available_from2 ?? NULL,
                 'service_charge_room2' => $request->service_charge_room2 ?? NULL,
+                'room_holding_deposit2' => $request->room_holding_deposit2 ?? NULL,
 
                 'room_cost_of_amount3' => $request->room_cost_of_amount3 ?? NULL,
                 'room_cost_time3' => $request->room_cost_time3 ?? NULL,
@@ -175,6 +176,7 @@ class ServiceAdvertiseRoomController extends Controller
                 'room_security_deposit3' => $request->room_security_deposit3 ?? NULL,
                 'room_available_from3' => $request->room_available_from3 ?? NULL,
                 'service_charge_room3' => $request->service_charge_room3 ?? NULL,
+                'room_holding_deposit3' => $request->room_holding_deposit3 ?? NULL,
 
                 'room_cost_of_amount4' => $request->room_cost_of_amount4 ?? NULL,
                 'room_cost_time4' => $request->room_cost_time4 ?? NULL,
@@ -184,6 +186,7 @@ class ServiceAdvertiseRoomController extends Controller
                 'room_security_deposit4' => $request->room_security_deposit4 ?? NULL,
                 'room_available_from4' => $request->room_available_from4 ?? NULL,
                 'service_charge_room4' => $request->service_charge_room4 ?? NULL,
+                'room_holding_deposit4' => $request->room_holding_deposit4 ?? NULL,
 
                 'room_cost_of_amount5' => $request->room_cost_of_amount5 ?? NULL,
                 'room_cost_time5' => $request->room_cost_time5 ?? NULL,
@@ -193,6 +196,7 @@ class ServiceAdvertiseRoomController extends Controller
                 'room_security_deposit5' => $request->room_security_deposit5 ?? NULL,
                 'room_available_from5' => $request->room_available_from5 ?? NULL,
                 'service_charge_room5' => $request->service_charge_room5 ?? NULL,
+                'room_holding_deposit5' => $request->room_holding_deposit5 ?? NULL,
             ]);
 
 
@@ -270,20 +274,22 @@ class ServiceAdvertiseRoomController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-     public function showPropertyRentDeleteModal(Request $request) {
+    public function showPropertyRentDeleteModal(Request $request)
+    {
         $id = $request->id;
         return view('backend.services.advertise_room.property_rent_delete_modal', compact('id'));
     }
-    public function confirmPropertyRentDelete(Request $request) {
+    public function confirmPropertyRentDelete(Request $request)
+    {
         $id = $request->id;
         // $property = ServicePropertyWanted::find($id)->delete();
         $property = ServiceAdvertiseRoom::find($id);
         $property->forceDelete();
-            $response = [
-                'success' => true,
-                'message' => 'Property deleted.'
-            ];
-            return response()->json($response);
+        $response = [
+            'success' => true,
+            'message' => 'Property deleted.'
+        ];
+        return response()->json($response);
     }
 
     public function showPropertyRentEditModal(Request $request)

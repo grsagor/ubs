@@ -7,10 +7,18 @@ use App\ChildCategory;
 use App\ServiceCharge;
 use Illuminate\Http\Request;
 use App\ServiceAdvertiseRoom;
+use App\Services\PropertyService;
 use App\Http\Controllers\Controller;
 
 class RoomListController extends Controller
 {
+    protected $propertyService;
+
+    public function __construct(PropertyService $propertyService)
+    {
+        $this->propertyService      = $propertyService;
+    }
+
     public function roomList(Request $request)
     {
         $data['per_page'] = 10;
@@ -52,8 +60,10 @@ class RoomListController extends Controller
         $result = [];
         for ($i = 1; $i <= 5; $i++) {
             $serviceCharge = $room->{'service_charge_room' . $i};
+            // dd($serviceCharge);
             if ($serviceCharge !== null) {
                 $result[] = [
+                    'room_number' => $i,
                     'room_cost_of_amount' => $room->{'room_cost_of_amount' . $i},
                     'room_cost_time' => $room->{'room_cost_time' . $i},
                     'room_size' => $room->{'room_size' . $i},
@@ -67,7 +77,12 @@ class RoomListController extends Controller
         }
 
         $data['roomArray'] = $result;
-        // dd(count($data['roomArray']));
+
+        // dd($data['roomArray']);
+
+        // $item =  $this->propertyService->imagesManipulate($data['info']->advert_photos);
+
+        // dd($item);
 
         $data['first_image'] = 'https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg';
 
@@ -94,7 +109,7 @@ class RoomListController extends Controller
             }
 
             if ($data['img_count'] <= 3) {
-                $data['div_value'] = 3;
+                $data['div_value'] = 4;
             }
         }
 

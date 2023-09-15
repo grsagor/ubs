@@ -1,6 +1,5 @@
  <!-- Step 1 -->
  <div class="step" id="step-1">
-     <!-- Step 1 form fields go here -->
      <!-- Start Step 1 -->
      <div class="grid-12">
          <div class="text-center">
@@ -15,11 +14,8 @@
                  </div>
 
                  <div class="block_content">
-                     {{-- <form action="" method="GET" class="pl_step1"> --}}
                      <fieldset>
-                         <legend>
-                             Get started with your free advert
-                         </legend>
+                         <legend> Get started with your free advert </legend>
                          {{-- <div class="col-sm-12">
                             <div class="form-group">
                                 <label for="selling_price_group_id">Sub Categories</label>
@@ -65,7 +61,6 @@
                                          <option value="{{ $key + 1 }}">{{ $item }}
                                          </option>
                                      @endforeach
-                                     {{-- <option>Select child category first</option> --}}
                                  </select>
                              </div>
                          </div>
@@ -169,15 +164,12 @@
                              </div>
                          </div>
 
-
                      </fieldset>
-                     {{-- </form> --}}
                  </div>
-
 
              </div>
          </div>
      </div>
-     <!-- Start Step 1 -->
+     <!-- End Step 1 -->
      <button type="button" class="btn btn-primary next-btn" style="display: block; margin: auto;">Next</button>
  </div>

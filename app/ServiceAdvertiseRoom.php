@@ -98,6 +98,9 @@ class ServiceAdvertiseRoom extends Model
 
         'status',
         'user_id',
+        'rent',
+        'security_deposit',
+        'holding_deposit',
     ];
 
     public function scopeActive($query)
