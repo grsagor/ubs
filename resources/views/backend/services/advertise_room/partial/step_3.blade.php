@@ -50,7 +50,7 @@
                               <div class="form_row form_row_amenities">
                                   <div class="form_label"> Amenities </div>
                                   <div class="form_inputs"> <label class="form_input form_checkbox">
-                                          <input type="checkbox" name="room_amenities1" value="Y">
+                                          <input type="checkbox" name="room_amenities1" value="1">
                                           En-suite <span class="form_hint">(tick if room has own toilet
                                               and/or bath/shower)</span> </label>
                                   </div>

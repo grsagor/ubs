@@ -1,7 +1,7 @@
 @extends('frontend.layouts.master_layout')
 
 @section('css')
-    @include('frontend.service.property.property_style')
+    @include('frontend.service.partial.property_style')
 @endsection
 
 @section('content')
@@ -50,11 +50,27 @@
                                         $images = json_decode($info->images, true);
                                         $img_count = null;
                                         $imagePath = null;
+                                        $div_value = 0;
                                         
                                         if ($images) {
                                             $first_image = reset($images);
                                             $imagePath = public_path($first_image);
                                             $img_count = count($images);
+                                            if ($img_count >= 7) {
+                                                $div_value = 1;
+                                            }
+                                        
+                                            if ($img_count == 5 || $img_count == 6) {
+                                                $div_value = 2;
+                                            }
+                                        
+                                            if ($img_count == 4) {
+                                                $div_value = 3;
+                                            }
+                                        
+                                            if ($img_count <= 3) {
+                                                $div_value = 4;
+                                            }
                                         }
                                     @endphp
 
@@ -73,7 +89,7 @@
 
                                     <div class="row p-2">
                                         @foreach ($images as $key => $item)
-                                            <div class="col-lg-4">
+                                            <div class="col-lg-{{ $div_value }} text-center p-2">
                                                 <img class="demo w3-opacity w3-hover-opacity-off" src="{{ asset($item) }}"
                                                     onclick="currentDiv({{ $key + 1 }})">
                                             </div>
@@ -264,7 +280,6 @@
                             </div>
                         </div>
 
-
                     </div>
 
                     <hr class="mt-3" style="width: 100%; height: 2px; margin: 0px;">
@@ -307,9 +322,8 @@
                                 </p>
                             @endif
 
-                            <div>
-                                <hr class="mb-2" style="width: 100%; height: 2px; margin: 0px;">
-                            </div>
+                            <hr class="mb-2" style="width: 100%; height: 2px; margin: 0px;">
+
                             <h5>Preferred Area</h5>
 
                             @if ($info->wanted_living_area)
@@ -319,9 +333,8 @@
                                 </p>
                             @endif
 
-                            <div>
-                                <hr class="mb-2" style="width: 100%; height: 2px; margin: 0px;">
-                            </div>
+                            <hr class="mb-2" style="width: 100%; height: 2px; margin: 0px;">
+
                             <h5>Preferred Amenities</h5>
 
                             @if ($info->roomfurnishings != null)
@@ -343,9 +356,8 @@
                             {{-- $info->child_category_id == 11 means child_categories table value Room check child_categories table --}}
                             @if ($info->child_category_id == 11)
 
-                                <div>
-                                    <hr class="mb-2" style="width: 100%; height: 2px; margin: 0px;">
-                                </div>
+                                <hr class="mb-2" style="width: 100%; height: 2px; margin: 0px;">
+
                                 <h5>Household Preference</h5>
 
                                 @if ($info->age)
@@ -503,5 +515,5 @@
     </div>
 @endsection
 @section('script')
-    @include('frontend.service.property.property_script')
+    @include('frontend.service.partial.property_script')
 @endsection

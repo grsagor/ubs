@@ -99,7 +99,7 @@
 
 @section('script')
     <script>
-        setTimeout(function() {
+        setTimeout(function() {gggggggggggggggggggggggggggggggggg
             if ($(window).width() < 1350) {
                 $(".large_screen").css("display", "none");
                 $(".small_screen").css("display", "block");

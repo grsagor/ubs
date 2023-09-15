@@ -1,7 +1,6 @@
 <!-- Step 4 -->
 <div class="step" id="step-4">
     <h3 class="text-center mb-2">Step 4</h3>
-    <!-- Step 4 form fields go here -->
 
     <!-- Start Step 4 -->
 
@@ -55,9 +54,9 @@
                                 <span class="form_input form_select">
                                     <select name="exiting_flatmate_occupation">
                                         <option value="ND" selected="">Not disclosed</option>
-                                        <option value="S">Student</option>
-                                        <option value="P">Professional</option>
-                                        <option value="O">Other</option>
+                                        <option value="Student">Student</option>
+                                        <option value="Professional">Professional</option>
+                                        <option value="Other">Other</option>
 
                                     </select>
                                 </span>
@@ -113,7 +112,7 @@
                                 <span class="form_input form_select">
                                     <span id="nationality-select" data-selected=""><select
                                             name="exiting_flatmate_nationality">
-                                            <option value="">Not disclosed</option>
+                                            <option value="Not disclosed">Not disclosed</option>
                                             <option value="Welsh">Welsh</option>
                                             <option value="Yemeni">Yemeni</option>
                                             <option value="Zambian">Zambian</option>
@@ -128,9 +127,9 @@
                             <div class="form_inputs">
                                 <span class="form_input form_select">
                                     <select name="exiting_flatmate_sexual_orientation">
-                                        <option value="ND">Not disclosed</option>
-                                        <option value="S">Straight</option>
-                                        <option value="B">Bisexual</option>
+                                        <option value="Not disclosed">Not disclosed</option>
+                                        <option value="Straight">Straight</option>
+                                        <option value="Bisexual">Bisexual</option>
                                     </select>
                                 </span>
                                 <label class="form_input form_checkbox">

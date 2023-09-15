@@ -43,7 +43,7 @@ class RoomListController extends Controller
 
     public function roomShow($id)
     {
-        $data['info']                   = ServiceAdvertiseRoom::with('user')->findOrFail($id);
+        $data['info']                   = ServiceAdvertiseRoom::with(['child_category', 'user'])->findOrFail($id);
         $data['service_charge']         = ServiceCharge::where([['category_id', $data['info']->service_category_id], ['sub_category_id', $data['info']->sub_category_id], ['child_category', $data['info']->child_category_id]])->first()->service_charge;
         $data['user_info']              = Media::where('uploaded_by', $data['info']->user_id)
             ->where('model_type', 'App\\User')->first();
@@ -67,6 +67,36 @@ class RoomListController extends Controller
         }
 
         $data['roomArray'] = $result;
+        // dd(count($data['roomArray']));
+
+        $data['first_image'] = 'https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg';
+
+        $data['images'] = json_decode($data['info']->advert_photos, true);
+        $data['img_count'] = null;
+        $data['imagePath'] = null;
+        $data['div_value'] = 0;
+
+        if ($data['images']) {
+            $data['first_image'] = reset($data['images']);
+            $data['imagePath'] = public_path($data['first_image']);
+            $data['img_count'] = count($data['images']);
+
+            if ($data['img_count'] >= 7) {
+                $data['div_value'] = 1;
+            }
+
+            if ($data['img_count'] == 5 ||  $data['img_count'] == 6) {
+                $data['div_value'] = 2;
+            }
+
+            if ($data['img_count'] == 4) {
+                $data['div_value'] = 3;
+            }
+
+            if ($data['img_count'] <= 3) {
+                $data['div_value'] = 3;
+            }
+        }
 
         return view('frontend.service.room.details', $data);
     }
