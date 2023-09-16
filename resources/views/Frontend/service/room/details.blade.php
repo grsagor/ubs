@@ -110,27 +110,37 @@
 
                                                             <input type="hidden" name="bill"
                                                                 value="{{ $service_charge }}">
-                                                            <ul class="room-list">
+                                                            <section class="row">
+                                                                <section class="col-lg-12">
+                                                                    <ul class="room-list">
 
-                                                                @foreach ($roomArray as $i => $item)
-                                                                    <li class="room-list__room">
-                                                                        <input type="radio" name="room_cost"
-                                                                            id="room{{ $i + 1 }}"
-                                                                            value="{{ $item['room_cost_of_amount'] }}">
-                                                                        <strong class="room-list__price">&pound;
-                                                                            {{ $item['room_cost_of_amount'] }}
-                                                                            pcm</strong>
-                                                                        <small>(Room {{ $i + 1 }})</small>
-                                                                    </li>
-                                                                @endforeach
+                                                                        @foreach ($roomArray as $i => $item)
+                                                                            <li class="room-list__room">
+                                                                                <input type="radio" name="room_cost"
+                                                                                    id="room{{ $i + 1 }}"
+                                                                                    value="{{ $item['room_cost_of_amount'] }}">
+                                                                                <strong class="room-list__price">&pound;
+                                                                                    {{ $item['room_cost_of_amount'] }}
+                                                                                    pcm</strong>
+                                                                                <small>(Room {{ $i + 1 }})</small>
+                                                                            </li>
+                                                                        @endforeach
 
-                                                            </ul>
+                                                                    </ul>
+                                                                </section>
 
-                                                            <div class="button-31 mt-2" data-bs-toggle="modal"
-                                                                data-bs-target="#exampleModal"
-                                                                style="display:block; align-items: center; width:130px;">
-                                                                Book Now
-                                                            </div>
+                                                                <div class="col-lg-12">
+                                                                    <div class="button-31 mt-2" data-bs-toggle="modal"
+                                                                        data-bs-target="#exampleModal"
+                                                                        style="display:block; align-items: center; width:130px;">
+                                                                        Book Now
+                                                                    </div>
+                                                                </div>
+
+                                                            </section>
+
+
+
 
                                                             {{-- Modal --}}
                                                             <div class="modal fade" id="exampleModal" tabindex="-1"
@@ -337,7 +347,7 @@
                                     @foreach ($roomArray as $i => $item)
                                         <tr>
                                             <td>{{ $item['room_number'] }}</td>
-                                            <td>{{ $item['room_cost_of_amount'] ?? '' }}</td>
+                                            <td>{{ $info->rent ?? '' }}</td>
                                             <td>
                                                 @if ($item['room_amenities'] == 'Y')
                                                     En-suite
@@ -357,8 +367,9 @@
                                             <td>
                                                 {{ $item['room_furnishings'] == 1 ? 'Furnisihed' : 'Unfurnished' }}
                                             </td>
-                                            <td>{{ $item['room_security_deposit'] }}</td>
-                                            <td>{{ $item['room_available_from'] }}</td>
+                                            <td>{{ $info->security_deposit ?? '' }}</td>
+                                            <td>{{ $info->holding_deposit ?? '' }}</td>
+                                            <td>{{ $info->room_available_from ?? '' }}</td>
                                         </tr>
                                     @endforeach
                                 </table>
@@ -380,29 +391,14 @@
 
                                     @foreach ($roomArray as $i => $item)
                                         <tr>
-                                            <td>{{ $item['room_number'] }}</td>
-                                            <td>{{ $item['room_cost_of_amount'] ?? '' }}</td>
-                                            <td>
-                                                @if ($item['room_amenities'] == 'Y')
-                                                    En-suite
-                                                @else
-                                                    @if ($item['room_size'] == 1)
-                                                        Single
-                                                    @endif
-                                                    @if ($item['room_size'] == 2)
-                                                        Double
-                                                    @endif
-                                                    @if ($item['room_size'] == 3)
-                                                        Semi-double
-                                                    @endif
-                                                @endif
-                                            </td>
+                                            <td>{{ $info->rent ?? '' }}</td>
                                             <td>{{ $item['room_amenities'] == 1 ? 'Yes' : 'No' }}</td>
                                             <td>
                                                 {{ $item['room_furnishings'] == 1 ? 'Furnisihed' : 'Unfurnished' }}
                                             </td>
-                                            <td>{{ $item['room_security_deposit'] }}</td>
-                                            <td>{{ $item['room_available_from'] }}</td>
+                                            <td>{{ $info->security_deposit ?? '' }}</td>
+                                            <td>{{ $info->holding_deposit ?? '' }}</td>
+                                            <td>{{ $info->room_available_from ?? '' }}</td>
                                         </tr>
                                     @endforeach
                                 </table>

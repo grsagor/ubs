@@ -31,7 +31,7 @@
                                       </span> <label class="form_input form_radio"> <input type="radio"
                                               name="room_cost_time1" value=1> per week </label> <label
                                           class="form_input form_radio"> <input type="radio" name="room_cost_time1"
-                                              checked="" value=2> per
+                                              value=2> per
                                           calendar month </label> </div>
                               </div>
 
@@ -136,7 +136,7 @@
                                   <div class="form_label"> Extra feature </div>
                                   <div class="form_inputs">
                                       <label class="form_input form_checkbox">
-                                          <input type="checkbox" name="room_amenities2" value="Y">
+                                          <input type="checkbox" name="room_amenities2" value="1">
                                           En-suite
                                           <span class="form_hint">(tick if room has own toilet and/or
                                               bath/shower)</span>
@@ -235,7 +235,7 @@
                                   <div class="form_label"> Extra feature </div>
                                   <div class="form_inputs">
                                       <label class="form_input form_checkbox">
-                                          <input type="checkbox" name="room_amenities3" value="Y">
+                                          <input type="checkbox" name="room_amenities3" value="1">
                                           En-suite
                                           <span class="form_hint">(tick if room has own toilet and/or
                                               bath/shower)</span>
@@ -334,7 +334,7 @@
                                   <div class="form_label"> Extra feature </div>
                                   <div class="form_inputs">
                                       <label class="form_input form_checkbox">
-                                          <input type="checkbox" name="room_amenities4" value="Y">
+                                          <input type="checkbox" name="room_amenities4" value="1">
                                           En-suite
                                           <span class="form_hint">(tick if room has own toilet and/or
                                               bath/shower)</span>

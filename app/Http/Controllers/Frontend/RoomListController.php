@@ -57,9 +57,12 @@ class RoomListController extends Controller
             ->where('model_type', 'App\\User')->first();
         $room = json_decode($data['info']->room);
 
+        $service_charge_room             = $data['info']->service_charge_room;
+        // dd($service_charge_room);
+
         $result = [];
         for ($i = 1; $i <= 5; $i++) {
-            $serviceCharge = $room->{'service_charge_room' . $i};
+            $serviceCharge = $service_charge_room ?? $room->{'service_charge_room' . $i};
             // dd($serviceCharge);
             if ($serviceCharge !== null) {
                 $result[] = [

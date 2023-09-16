@@ -87,8 +87,6 @@ class ServiceAdvertiseRoomController extends Controller
         $data['semi_double'] = ServiceCharge::where([['child_category', 1], ['size', ['semi-double']]])->first()->service_charge;
         $data['en_suite'] = ServiceCharge::where([['child_category', 1], ['size', ['en-suite']]])->first()->service_charge;
 
-
-        //dd($data['child_categories']);
         return view('backend.services.advertise_room.create', $data);
     }
     public function showSubCategorySelect(Request $request)
@@ -133,7 +131,7 @@ class ServiceAdvertiseRoomController extends Controller
      */
     public function store(StoreServiceAdvertiseRoomRequest $request, ServiceAdvertiseRoom $serviceAdvertiseRoom)
     {
-        // return $request;
+        dd($request->toArray());
 
         try {
             $requestedData = $request->all();
