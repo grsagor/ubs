@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers\Frontend;
 
+use App\ChildCategory;
 use App\ServiceCharge;
+use App\ServiceCategory;
+use App\SubCategory;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use PDO;
 
 class OtherServicesController extends Controller
 {
@@ -33,7 +37,18 @@ class OtherServicesController extends Controller
 
         $data['service_charge'] = ServiceCharge::with('childCategory')->get();
 
-        return view('frontend.other_services.property_finding_service', $data);
+        $category = ServiceCategory::where('name', 'Property')->first();
+        $sub_category = SubCategory::where([['category_id', $category->id], ['name', 'rent']])->first();
+        $data['child_categories'] = ChildCategory::where([['category_id', $category->id], ['sub_category_id', $sub_category->id],])->latest()->get();
+
+
+        return view('frontend.other_services.property_finding_service2', $data);
+    }
+
+    public function propertyFindingServiceCharge($id)
+    {
+        $data['service_charge'] = ServiceCharge::findOrFail($id);
+        return $data;
     }
 
     public function propertyFindingPayment(Request $request)

@@ -115,6 +115,7 @@ Route::get('/partner-boarding',                         [OtherServicesController
 Route::get('/business-solutions',                       [OtherServicesController::class, 'businessSolutions'])->name('businessSolutions');
 Route::get('/it-solutions',                             [OtherServicesController::class, 'itSolutions'])->name('itSolutions');
 Route::get('/property-finding-service',                 [OtherServicesController::class, 'propertyFindingService'])->name('propertyFindingService');
+Route::get('/property-finding-sevice-charge/{id}',      [OtherServicesController::class, 'propertyFindingServiceCharge'])->name('propertyFindingServiceCharge');
 Route::get('/property-finding-payment',                 [OtherServicesController::class, 'propertyFindingPayment'])->name('propertyFindingPayment');
 
 

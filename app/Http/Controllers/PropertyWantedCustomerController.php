@@ -300,7 +300,9 @@ class PropertyWantedCustomerController extends Controller
     public function propertyWantedUpgradePage(Request $request)
     {
         $property = ServicePropertyWanted::find($request->product_id);
-        $bill = ServiceCharge::where([['category_id', $property->category_id],['sub_category_id', $property->sub_category_id],['child_category', $property->child_category_id]])->first()->service_charge;
+        $bill = ServiceCharge::where([['category_id', $property->category_id], ['sub_category_id', $property->sub_category_id], ['child_category', $property->child_category_id]])->first()->service_charge;
+
+        return [$bill, $property->category_id, $property->sub_category_id, $property->child_category_id, $property];
         return redirect('stripe')
             ->with([
                 'product_id' => $request->product_id,
