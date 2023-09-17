@@ -16,10 +16,34 @@
                             <li class="nav-item dropdown {{ request()->path() == '/' ? 'active' : '' }}">
                                 <a class="nav-link dropdown-toggle" href="{{ url('/') }}">Home</a>
                             </li>
-                            <li
+                            {{-- <li
                                 class="nav-item dropdown {{ request()->path() == '/service_category' ? 'active' : '' }}">
                                 <a class="nav-link dropdown-toggle" href="{{ route('property.list') }}">Property</a>
+                            </li> --}}
+
+
+                            <li
+                                class="nav-item dropdown mega-dropdown {{ request()->path() == '/service_category' ? 'active' : '' }}">
+                                <a class="nav-link dropdown-toggle" href="{{ route('property.list') }}">Property</a>
+                                <ul class="dropdown-menu mega-dropdown-menu">
+                                    <li class="mega-container">
+                                        <div class="row row-cols-lg-4 row-cols-sm-2 row-cols-1">
+
+                                            <div class="col">
+                                                <ul>
+                                                    <li><a class="dropdown-item"
+                                                            href="{{ route('property.list') }}">Property List</a> </li>
+                                                    <li><a class="dropdown-item"
+                                                            href="{{ route('propertyFindingService') }}">Property
+                                                            Finding Service</a> </li>
+                                                </ul>
+                                            </div>
+
+                                        </div>
+                                    </li>
+                                </ul>
                             </li>
+
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('shop.list') }}">Shop</a>
                             </li>
@@ -60,7 +84,8 @@
         <div class="row align-items-center d-flex justify-content-between">
             <div class="col-xxl-2 col-xl-2 col-lg-2 col-12 order-lg-1">
                 <div class="d-flex align-items-center justify-content-between h-100 md-py-10">
-                    <img class="d-block d-md-none" src="{{ asset('assets/images/logo.png') }}" alt="" style="width: 170px;">
+                    <img class="d-block d-md-none" src="{{ asset('assets/images/logo.png') }}" alt=""
+                        style="width: 170px;">
                     <div class="nav-leftpush-overlay">
                         <nav class="navbar navbar-expand-lg nav-general nav-primary-hover">
                             <button type="button" class="push-nav-toggle d-lg-none border-0">
@@ -112,7 +137,8 @@
                                     </ul>
                                     <div class="tab-content" id="menu-and-categoryContent">
                                         <div class="tab-pane fade show active woocommerce-Tabs-panel woocommerce-Tabs-panel--description"
-                                            id="pills-push-menu" role="tabpanel" aria-labelledby="pills-push-menu-tab">
+                                            id="pills-push-menu" role="tabpanel"
+                                            aria-labelledby="pills-push-menu-tab">
                                             <div class="push-navbar">
                                                 <ul class="navbar-nav">
                                                     <li class="nav-item">
