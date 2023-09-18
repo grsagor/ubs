@@ -41,7 +41,7 @@ class OtherServicesController extends Controller
         $sub_category = SubCategory::where([['category_id', $category->id], ['name', 'rent']])->first();
         $data['child_categories'] = ChildCategory::where([['category_id', $category->id], ['sub_category_id', $sub_category->id],])->latest()->get();
 
-
+        return $sub_category->id;
         return view('frontend.other_services.property_finding_service2', $data);
     }
 

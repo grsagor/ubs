@@ -131,7 +131,6 @@ class ServiceAdvertiseRoomController extends Controller
      */
     public function store(StoreServiceAdvertiseRoomRequest $request, ServiceAdvertiseRoom $serviceAdvertiseRoom)
     {
-        dd($request->toArray());
 
         try {
             $requestedData = $request->all();

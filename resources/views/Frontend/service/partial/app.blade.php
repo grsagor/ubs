@@ -25,7 +25,7 @@
 
         p.category_text {
             /* min-height: 20px;
-                                                                                                                                                                                                                                                                                                                                                                                                    max-height: 20px; */
+                                                                                                                                                                                                                                                                                                                                                                                                        max-height: 20px; */
         }
 
         h5.product-title {
@@ -55,7 +55,7 @@
     </style>
 @endpush
 @section('content')
-    @includeIf('Frontend.partials.global.common-header')
+    @includeIf('frontend.partials.global.common-header')
 
     <div class="shop-list-page">
 

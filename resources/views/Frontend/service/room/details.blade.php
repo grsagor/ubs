@@ -110,20 +110,44 @@
 
                                                             <input type="hidden" name="bill"
                                                                 value="{{ $service_charge }}">
+
                                                             <section class="row">
+
+
                                                                 <section class="col-lg-12">
                                                                     <ul class="room-list">
 
+                                                                        {{-- @if ($info->child_category_id == 1) --}}
                                                                         @foreach ($roomArray as $i => $item)
-                                                                            <li class="room-list__room">
-                                                                                <input type="radio" name="room_cost"
-                                                                                    id="room{{ $i + 1 }}"
-                                                                                    value="{{ $item['room_cost_of_amount'] }}">
-                                                                                <strong class="room-list__price">&pound;
-                                                                                    {{ $item['room_cost_of_amount'] }}
-                                                                                    pcm</strong>
-                                                                                <small>(Room {{ $i + 1 }})</small>
-                                                                            </li>
+                                                                            @if ($info->child_category_id == 9)
+                                                                                @if ($i == 0)
+                                                                                    <li class="room-list__room">
+                                                                                        <input type="radio"
+                                                                                            name="room_cost"
+                                                                                            id="room{{ $i + 1 }}"
+                                                                                            value="{{ $item['room_cost_of_amount'] }}">
+                                                                                        <strong
+                                                                                            class="room-list__price">&pound;
+                                                                                            {{ $item['room_cost_of_amount'] }}
+                                                                                            pcm</strong>
+                                                                                        {{-- <small>(Room
+                                                                                            {{ $i + 1 }})</small> --}}
+                                                                                    </li>
+                                                                                @endif
+                                                                            @endif
+                                                                            @if ($info->child_category_id == 1)
+                                                                                <li class="room-list__room">
+                                                                                    <input type="radio" name="room_cost"
+                                                                                        id="room{{ $i + 1 }}"
+                                                                                        value="{{ $item['room_cost_of_amount'] }}">
+                                                                                    <strong class="room-list__price">
+                                                                                        &pound;
+                                                                                        {{ $item['room_cost_of_amount'] }}
+                                                                                        pcm</strong>
+                                                                                    <small>(Room
+                                                                                        {{ $i + 1 }})</small>
+                                                                                </li>
+                                                                            @endif
                                                                         @endforeach
 
                                                                     </ul>
@@ -132,8 +156,11 @@
                                                                 <div class="col-lg-12">
                                                                     <div class="button-31 mt-2" data-bs-toggle="modal"
                                                                         data-bs-target="#exampleModal"
-                                                                        style="display:block; align-items: center; width:130px;">
+                                                                        style="display:block; align-items: center; width:170px;">
                                                                         Book Now
+                                                                        @if ($info->child_category_id == 2 || $info->child_category_id == 6)
+                                                                            £{{ $info->rent }}
+                                                                        @endif
                                                                     </div>
                                                                 </div>
 
@@ -165,7 +192,8 @@
                                                                             </div>
                                                                         </div>
                                                                         <div class="modal-footer">
-                                                                            <button type="button" class="btn btn-secondary"
+                                                                            <button type="button"
+                                                                                class="btn btn-secondary"
                                                                                 data-bs-dismiss="modal">Close</button>
                                                                             <button type="submit"
                                                                                 class="btn btn-primary">Buy</button>
@@ -182,7 +210,7 @@
 
                                                 <div class="call-button" style="display: flex; align-items: center;">
                                                     <a href="tel:{{ $info->advert_telephone }}" class="button-31"
-                                                        id="call_button_id" style="width: 130px;">Call</a>
+                                                        id="call_button_id" style="width: 170px;">Call</a>
                                                 </div>
 
                                                 <p id="call_id" class="mt-2"
@@ -286,6 +314,10 @@
                     <div class="row">
                         <div class="col-lg-12">
 
+                            @php
+                                $room_count = count($roomArray);
+                            @endphp
+
                             {{-- Room category table --}}
                             @if ($info->child_category_id == 1)
                                 <table id="customers">
@@ -335,19 +367,19 @@
                                 <table id="customers">
                                     <tr>
                                         <th>Room No.</th>
-                                        <th>Rent</th>
                                         <th>Size</th>
                                         <th>Extra Feature</th>
                                         <th>Furnishing</th>
+                                        <th>Available From</th>
+                                        <th>Rent</th>
                                         <th>Deposit</th>
                                         <th>Holding Deposit</th>
-                                        <th>Available From</th>
                                     </tr>
 
                                     @foreach ($roomArray as $i => $item)
                                         <tr>
                                             <td>{{ $item['room_number'] }}</td>
-                                            <td>{{ $info->rent ?? '' }}</td>
+
                                             <td>
                                                 @if ($item['room_amenities'] == 'Y')
                                                     En-suite
@@ -367,9 +399,17 @@
                                             <td>
                                                 {{ $item['room_furnishings'] == 1 ? 'Furnisihed' : 'Unfurnished' }}
                                             </td>
-                                            <td>{{ $info->security_deposit ?? '' }}</td>
-                                            <td>{{ $info->holding_deposit ?? '' }}</td>
                                             <td>{{ $info->room_available_from ?? '' }}</td>
+
+                                            @if ($i == 0)
+                                                <td rowspan="{{ $room_count }}" style="background: white;">
+                                                    {{ $info->rent ?? '' }}</td>
+                                                <td rowspan="{{ $room_count }}" style="background: white;">
+                                                    {{ $info->security_deposit ?? '' }}
+                                                </td>
+                                                <td rowspan="{{ $room_count }}" style="background: white;">
+                                                    {{ $info->holding_deposit ?? '' }}</td>
+                                            @endif
                                         </tr>
                                     @endforeach
                                 </table>
@@ -378,27 +418,28 @@
 
                             {{-- Studio Flat category table --}}
                             @if ($info->child_category_id == 9)
-                                {{-- {{ dd($roomArray) }} --}}
                                 <table id="customers">
                                     <tr>
-                                        <th>Rent</th>
                                         <th>Extra Feature</th>
                                         <th>Furnishing</th>
+                                        <th>Available From</th>
+                                        <th>Rent</th>
                                         <th>Deposit</th>
                                         <th>Holding Deposit</th>
-                                        <th>Available From</th>
                                     </tr>
 
                                     @foreach ($roomArray as $i => $item)
                                         <tr>
-                                            <td>{{ $info->rent ?? '' }}</td>
-                                            <td>{{ $item['room_amenities'] == 1 ? 'Yes' : 'No' }}</td>
-                                            <td>
-                                                {{ $item['room_furnishings'] == 1 ? 'Furnisihed' : 'Unfurnished' }}
-                                            </td>
-                                            <td>{{ $info->security_deposit ?? '' }}</td>
-                                            <td>{{ $info->holding_deposit ?? '' }}</td>
-                                            <td>{{ $info->room_available_from ?? '' }}</td>
+                                            @if ($i == 0)
+                                                <td>{{ $item['room_amenities'] == 1 ? 'Yes' : 'No' }}</td>
+                                                <td>
+                                                    {{ $item['room_furnishings'] == 1 ? 'Furnisihed' : 'Unfurnished' }}
+                                                </td>
+                                                <td>{{ $info->room_available_from ?? '' }}</td>
+                                                <td>{{ $info->rent ?? '' }}</td>
+                                                <td>{{ $info->security_deposit ?? '' }}</td>
+                                                <td>{{ $info->holding_deposit ?? '' }}</td>
+                                            @endif
                                         </tr>
                                     @endforeach
                                 </table>
@@ -437,12 +478,32 @@
                                     </p>
                                 @endif
 
+                                @if ($info->property_allow_people)
+                                    <p>
+                                        <strong>Max tenants allowed: </strong>
+                                        {{ $info->property_allow_people }}
+                                    </p>
+                                @endif
+
+                                @if ($info->bathroom)
+                                    <p>
+                                        <strong>Total bathrooms: </strong>
+                                        {{ $info->bathroom }}
+                                    </p>
+                                @endif
+
+                                <p>
+                                    <strong>Bills included: </strong>
+                                    {{ $info->room_bills == 1 ? 'Yes' : 'No' }}
+                                </p>
+
                                 @if ($info->property_address)
                                     <p>
                                         <strong>Address: </strong>
                                         {{ $info->property_address }}
                                     </p>
                                 @endif
+
                             </div>
 
 
@@ -500,11 +561,6 @@
                                         @endforeach
                                     </p>
                                 @endif
-
-                                <p>
-                                    <strong>Bills included: </strong>
-                                    {{ $info->room_bills == 1 ? 'Yes' : 'No' }}
-                                </p>
 
                                 <p>
                                     <strong>Broadband included: </strong>
