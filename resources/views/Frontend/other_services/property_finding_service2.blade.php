@@ -112,7 +112,7 @@
 
         .pricing tr td i {
             /* display: block;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    margin-bottom: 12px; */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        margin-bottom: 12px; */
             font-size: 20px;
         }
 
@@ -591,7 +591,6 @@
                 </div>
 
             </div>
-
 
 
             <div class="booking_fee mt-3">

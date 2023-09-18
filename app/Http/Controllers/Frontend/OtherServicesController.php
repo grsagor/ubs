@@ -51,7 +51,7 @@ class OtherServicesController extends Controller
 
     public function propertyFindingPayment(Request $request)
     {
-        dd($request->toArray());
+        // dd($request->toArray());
         $info['product_id']             = $request->product_id;
         $info['product_name']           = $request->product_name;
         $info['bill']                   = $request->bill;
