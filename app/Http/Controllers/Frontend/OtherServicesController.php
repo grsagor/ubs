@@ -34,14 +34,12 @@ class OtherServicesController extends Controller
 
     public function propertyFindingService()
     {
-
         $data['service_charge'] = ServiceCharge::with('childCategory')->get();
 
         $category = ServiceCategory::where('name', 'Property')->first();
         $sub_category = SubCategory::where([['category_id', $category->id], ['name', 'rent']])->first();
         $data['child_categories'] = ChildCategory::where([['category_id', $category->id], ['sub_category_id', $sub_category->id],])->latest()->get();
 
-        return $sub_category->id;
         return view('frontend.other_services.property_finding_service2', $data);
     }
 
@@ -53,10 +51,11 @@ class OtherServicesController extends Controller
 
     public function propertyFindingPayment(Request $request)
     {
+        dd($request->toArray());
         $info['product_id']             = $request->product_id;
         $info['product_name']           = $request->product_name;
         $info['bill']                   = $request->bill;
-        $info['table_name']             = 'propertyFindingService';
+        $info['table_name']             = 'propertyFindingService->serviceCharge';
 
         $info['output'] = [
             'success'               => true,

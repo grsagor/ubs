@@ -112,7 +112,7 @@
 
         .pricing tr td i {
             /* display: block;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            margin-bottom: 12px; */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    margin-bottom: 12px; */
             font-size: 20px;
         }
 
@@ -224,7 +224,6 @@
                 </ul>
             </div>
 
-
             @php
                 $service_charges = DB::table('service_charges')->get();
                 $studio_flat_service_charge = null;
@@ -245,12 +244,11 @@
                     }
                 }
                 
-                // dd($studio_flat_service_charge, $flat_service_charge, $house_service_charge);
-                
             @endphp
 
 
             <div class="tab-content custom-tab-content">
+
                 <div class="tab-pane fade show active" id="tab1">
                     <!-- Content for tab 1 goes here -->
                     <div id="generic_price_table">
@@ -291,128 +289,35 @@
 
                                         <tbody>
 
-                                            @php
-                                                $valueee = '
-                                                <td>
-                                                    Open Market
-                                                    <abbr style="text-decoration: none"
-                                                        title="Anyone who has property can be your provider">
-                                                        <i class="fa fa-info-circle white" aria-hidden="true">
-                                                        </i>
-                                                    </abbr>
-                                                </td>
-                                                <td>
-                                                    Open Market + Agent
-                                                    <abbr style="text-decoration: none"
-                                                        title="In addition to the open market our partner agents will be working for you to find out the property">
-                                                        <i class="fa fa-info-circle white" aria-hidden="true">
-                                                        </i>
-                                                    </abbr>
-                                                </td>';
-                                            @endphp
-
-                                            <tr>
-                                                <td>
-                                                    <span class="ptable-title">
-                                                        Provider
-                                                    </span>
-                                                    <abbr style="text-decoration: none"
-                                                        title="The responsible body who will be working for you to find out your property">
-                                                        <i class="fa fa-info-circle white" aria-hidden="true">
-                                                        </i>
-                                                    </abbr>
-                                                </td>
-
-                                                {!! $valueee !!}
-                                            </tr>
-
-                                            <tr>
-                                                <td>
-                                                    <span class="ptable-title">Market </span>
-                                                    <abbr style="text-decoration: none"
-                                                        title="From where your property will be searching">
-                                                        <i class="fa fa-info-circle white" aria-hidden="true">
-                                                        </i>
-                                                    </abbr>
-                                                </td>
-
-                                                {!! $valueee !!}
-
-                                            </tr>
-
-                                            <tr>
-                                                <td>
-                                                    <span class="ptable-title">Viewing By </span>
-                                                    <abbr style="text-decoration: none"
-                                                        title="The responsible person who will arrage viewing for you">
-                                                        <i class="fa fa-info-circle white" aria-hidden="true">
-                                                        </i>
-                                                    </abbr>
-                                                </td>
-
-                                                {!! $valueee !!}
-
-                                            </tr>
-
-                                            <tr>
-                                                <td>
-                                                    <span class="ptable-title">Dedicated </span>
-                                                    <abbr style="text-decoration: none"
-                                                        title="One of the officers will be dedicated to collaborate with you and agents to get property">
-                                                        <i class="fa fa-info-circle white" aria-hidden="true">
-                                                        </i>
-                                                    </abbr>
-                                                </td>
-                                                <td> <i class="fa fa-times red"></i> </td>
-                                                <td> <i class="fa fa-check green"></i> </td>
-                                            </tr>
-
-                                            <tr>
-                                                <td>
-                                                    <span class="ptable-title">Call service </span>
-                                                    <abbr style="text-decoration: none"
-                                                        title="You can contact us for any information regarding the property">
-                                                        <i class="fa fa-info-circle white" aria-hidden="true">
-                                                        </i>
-                                                    </abbr>
-                                                </td>
-                                                <td> Office hour </td>
-                                                <td> 24/7 </td>
-                                            </tr>
-
-                                            <tr>
-                                                <td>
-                                                    <span class="ptable-title">Cancel </span>
-                                                    <abbr style="text-decoration: none" title="Right to cancel the service">
-                                                        <i class="fa fa-info-circle white" aria-hidden="true">
-                                                        </i>
-                                                    </abbr>
-                                                </td>
-                                                <td> Anytime </td>
-                                                <td> Anytime </td>
-                                            </tr>
-
-                                            <tr>
-                                                <td>
-                                                    <span class="ptable-title">Refund </span>
-                                                    <abbr style="text-decoration: none"
-                                                        title="Eligibilty for the return if you cancle this service">
-                                                        <i class="fa fa-info-circle white" aria-hidden="true">
-                                                        </i>
-                                                    </abbr>
-                                                </td>
-                                                <td> 100% </td>
-                                                <td> 100% </td>
-                                            </tr>
+                                            @include('frontend.other_services.partial.property_finding_service.tab_table')
 
                                             <!-- Buttons -->
                                             <tr>
                                                 <td>&nbsp;</td>
-                                                <form action="">
-                                                    <td class="bg-green"><a class="btn" href="#">Pay</a></td>
+                                                <form id="propertyFindingPaymentForm" method="GET"
+                                                    action="{{ route('propertyFindingPayment') }}">
+                                                    @csrf
+                                                    <input type="hidden" name="product_id" value="5">
+                                                    <input type="hidden" name="product_name" value="Studio Flat Regular">
+                                                    <input type="hidden" name="bill"
+                                                        value="{{ $studio_flat_service_charge }}">
+
+                                                    <td class="bg-green">
+                                                        <button type="submit" class="btn"
+                                                            style="color: white">PAY</button>
+                                                    </td>
                                                 </form>
-                                                <form action="">
-                                                    <td class="bg-lblue"><a class="btn" href="#">Pay</a></td>
+                                                <form id="propertyFindingPaymentForm" method="GET"
+                                                    action="{{ route('propertyFindingPayment') }}">
+                                                    @csrf
+                                                    <input type="hidden" name="product_id" value="5">
+                                                    <input type="hidden" name="product_name" value="Studio Flat Premium">
+                                                    <input type="hidden" name="bill"
+                                                        value="{{ $studio_flat_service_charge * 1.7 }}">
+
+                                                    <td class="bg-lblue">
+                                                        <button type="submit" class="btn"
+                                                            style="color: white">PAY</button>
                                                 </form>
                                             </tr>
                                         </tbody>
@@ -421,10 +326,9 @@
                             </div>
                         </div>
 
-
-
                     </div>
                 </div>
+
                 <div class="tab-pane fade" id="tab2">
                     <!-- Content for tab 2 goes here -->
                     <div id="generic_price_table">
@@ -465,129 +369,35 @@
 
                                         <tbody>
 
-                                            @php
-                                                $valueee = '
-                                                <td>
-                                                    Open Market
-                                                    <abbr style="text-decoration: none"
-                                                        title="Anyone who has property can be your provider">
-                                                        <i class="fa fa-info-circle white" aria-hidden="true">
-                                                        </i>
-                                                    </abbr>
-                                                </td>
-                                                <td>
-                                                    Open Market + Agent
-                                                    <abbr style="text-decoration: none"
-                                                        title="In addition to the open market our partner agents will be working for you to find out the property">
-                                                        <i class="fa fa-info-circle white" aria-hidden="true">
-                                                        </i>
-                                                    </abbr>
-                                                </td>';
-                                            @endphp
-
-                                            <tr>
-                                                <td>
-                                                    <span class="ptable-title">
-                                                        Provider
-                                                    </span>
-                                                    <abbr style="text-decoration: none"
-                                                        title="The responsible body who will be working for you to find out your property">
-                                                        <i class="fa fa-info-circle white" aria-hidden="true">
-                                                        </i>
-                                                    </abbr>
-                                                </td>
-
-                                                {!! $valueee !!}
-                                            </tr>
-
-                                            <tr>
-                                                <td>
-                                                    <span class="ptable-title">Market </span>
-                                                    <abbr style="text-decoration: none"
-                                                        title="From where your property will be searching">
-                                                        <i class="fa fa-info-circle white" aria-hidden="true">
-                                                        </i>
-                                                    </abbr>
-                                                </td>
-
-                                                {!! $valueee !!}
-
-                                            </tr>
-
-                                            <tr>
-                                                <td>
-                                                    <span class="ptable-title">Viewing By </span>
-                                                    <abbr style="text-decoration: none"
-                                                        title="The responsible person who will arrage viewing for you">
-                                                        <i class="fa fa-info-circle white" aria-hidden="true">
-                                                        </i>
-                                                    </abbr>
-                                                </td>
-
-                                                {!! $valueee !!}
-
-                                            </tr>
-
-                                            <tr>
-                                                <td>
-                                                    <span class="ptable-title">Dedicated </span>
-                                                    <abbr style="text-decoration: none"
-                                                        title="One of the officers will be dedicated to collaborate with you and agents to get property">
-                                                        <i class="fa fa-info-circle white" aria-hidden="true">
-                                                        </i>
-                                                    </abbr>
-                                                </td>
-                                                <td> <i class="fa fa-times red"></i> </td>
-                                                <td> <i class="fa fa-check green"></i> </td>
-                                            </tr>
-
-                                            <tr>
-                                                <td>
-                                                    <span class="ptable-title">Call service </span>
-                                                    <abbr style="text-decoration: none"
-                                                        title="You can contact us for any information regarding the property">
-                                                        <i class="fa fa-info-circle white" aria-hidden="true">
-                                                        </i>
-                                                    </abbr>
-                                                </td>
-                                                <td> Office hour </td>
-                                                <td> 24/7 </td>
-                                            </tr>
-
-                                            <tr>
-                                                <td>
-                                                    <span class="ptable-title">Cancel </span>
-                                                    <abbr style="text-decoration: none"
-                                                        title="Right to cancel the service">
-                                                        <i class="fa fa-info-circle white" aria-hidden="true">
-                                                        </i>
-                                                    </abbr>
-                                                </td>
-                                                <td> Anytime </td>
-                                                <td> Anytime </td>
-                                            </tr>
-
-                                            <tr>
-                                                <td>
-                                                    <span class="ptable-title">Refund </span>
-                                                    <abbr style="text-decoration: none"
-                                                        title="Eligibilty for the return if you cancle this service">
-                                                        <i class="fa fa-info-circle white" aria-hidden="true">
-                                                        </i>
-                                                    </abbr>
-                                                </td>
-                                                <td> 100% </td>
-                                                <td> 100% </td>
-                                            </tr>
+                                            @include('frontend.other_services.partial.property_finding_service.tab_table')
 
                                             <!-- Buttons -->
                                             <tr>
                                                 <td>&nbsp;</td>
-                                                <form action="">
-                                                    <td class="bg-green"><a class="btn" href="#">Pay</a></td>
+                                                <form id="propertyFindingPaymentForm" method="GET"
+                                                    action="{{ route('propertyFindingPayment') }}">
+                                                    @csrf
+                                                    <input type="hidden" name="product_id" value="3">
+                                                    <input type="hidden" name="product_name" value="Flat Regular">
+                                                    <input type="hidden" name="bill"
+                                                        value="{{ $flat_service_charge }}">
+
+                                                    <td class="bg-green">
+                                                        <button type="submit" class="btn"
+                                                            style="color: white">PAY</button>
+                                                    </td>
                                                 </form>
-                                                <form action="">
-                                                    <td class="bg-lblue"><a class="btn" href="#">Pay</a></td>
+                                                <form id="propertyFindingPaymentForm" method="GET"
+                                                    action="{{ route('propertyFindingPayment') }}">
+                                                    @csrf
+                                                    <input type="hidden" name="product_id" value="3">
+                                                    <input type="hidden" name="product_name" value="Flat Premium">
+                                                    <input type="hidden" name="bill"
+                                                        value="{{ $flat_service_charge * 1.7 }}">
+
+                                                    <td class="bg-lblue">
+                                                        <button type="submit" class="btn"
+                                                            style="color: white">PAY</button>
                                                 </form>
                                             </tr>
                                         </tbody>
@@ -649,131 +459,43 @@
 
                                         <tbody id="table_room_tab3">
 
-                                            @php
-                                                $valueee = '
-                                                <td>
-                                                    Open Market
-                                                    <abbr style="text-decoration: none"
-                                                        title="Anyone who has property can be your provider">
-                                                        <i class="fa fa-info-circle white" aria-hidden="true">
-                                                        </i>
-                                                    </abbr>
-                                                </td>
-                                                <td>
-                                                    Open Market + Agent
-                                                    <abbr style="text-decoration: none"
-                                                        title="In addition to the open market our partner agents will be working for you to find out the property">
-                                                        <i class="fa fa-info-circle white" aria-hidden="true">
-                                                        </i>
-                                                    </abbr>
-                                                </td>';
-                                            @endphp
+                                            @include('frontend.other_services.partial.property_finding_service.tab_table')
 
-                                            <tr>
-                                                <td>
-                                                    <span class="ptable-title">
-                                                        Provider
-                                                    </span>
-                                                    <abbr style="text-decoration: none"
-                                                        title="The responsible body who will be working for you to find out your property">
-                                                        <i class="fa fa-info-circle white" aria-hidden="true">
-                                                        </i>
-                                                    </abbr>
-                                                </td>
-
-                                                {!! $valueee !!}
-                                            </tr>
-
-                                            <tr>
-                                                <td>
-                                                    <span class="ptable-title">Market </span>
-                                                    <abbr style="text-decoration: none"
-                                                        title="From where your property will be searching">
-                                                        <i class="fa fa-info-circle white" aria-hidden="true">
-                                                        </i>
-                                                    </abbr>
-                                                </td>
-
-                                                {!! $valueee !!}
-
-                                            </tr>
-
-                                            <tr>
-                                                <td>
-                                                    <span class="ptable-title">Viewing By </span>
-                                                    <abbr style="text-decoration: none"
-                                                        title="The responsible person who will arrage viewing for you">
-                                                        <i class="fa fa-info-circle white" aria-hidden="true">
-                                                        </i>
-                                                    </abbr>
-                                                </td>
-
-                                                {!! $valueee !!}
-
-                                            </tr>
-
-                                            <tr>
-                                                <td>
-                                                    <span class="ptable-title">Dedicated </span>
-                                                    <abbr style="text-decoration: none"
-                                                        title="One of the officers will be dedicated to collaborate with you and agents to get property">
-                                                        <i class="fa fa-info-circle white" aria-hidden="true">
-                                                        </i>
-                                                    </abbr>
-                                                </td>
-                                                <td> <i class="fa fa-times red"></i> </td>
-                                                <td> <i class="fa fa-check green"></i> </td>
-                                            </tr>
-
-                                            <tr>
-                                                <td>
-                                                    <span class="ptable-title">Call service </span>
-                                                    <abbr style="text-decoration: none"
-                                                        title="You can contact us for any information regarding the property">
-                                                        <i class="fa fa-info-circle white" aria-hidden="true">
-                                                        </i>
-                                                    </abbr>
-                                                </td>
-                                                <td> Office hour </td>
-                                                <td> 24/7 </td>
-                                            </tr>
-
-                                            <tr>
-                                                <td>
-                                                    <span class="ptable-title">Cancel </span>
-                                                    <abbr style="text-decoration: none"
-                                                        title="Right to cancel the service">
-                                                        <i class="fa fa-info-circle white" aria-hidden="true">
-                                                        </i>
-                                                    </abbr>
-                                                </td>
-                                                <td> Anytime </td>
-                                                <td> Anytime </td>
-                                            </tr>
-
-                                            <tr>
-                                                <td>
-                                                    <span class="ptable-title">Refund </span>
-                                                    <abbr style="text-decoration: none"
-                                                        title="Eligibilty for the return if you cancle this service">
-                                                        <i class="fa fa-info-circle white" aria-hidden="true">
-                                                        </i>
-                                                    </abbr>
-                                                </td>
-                                                <td> 100% </td>
-                                                <td> 100% </td>
-                                            </tr>
-
+                                            <!-- Buttons -->
                                             <!-- Buttons -->
                                             <tr>
                                                 <td>&nbsp;</td>
-                                                <form action="">
-                                                    <td class="bg-green"><a class="btn" href="#">Pay</a></td>
+                                                <form id="propertyFindingPaymentForm" method="GET"
+                                                    action="{{ route('propertyFindingPayment') }}">
+                                                    @csrf
+                                                    <input type="hidden" id="room_regular_product_id" name="product_id"
+                                                        value="">
+                                                    <input type="hidden" id="room_regular_product_name"
+                                                        name="product_name" value="">
+                                                    <input type="hidden" id="room_regular_product_bill" name="bill"
+                                                        value="">
+
+                                                    <td class="bg-green">
+                                                        <button type="submit" class="btn"
+                                                            style="color: white">PAY</button>
+                                                    </td>
                                                 </form>
-                                                <form action="">
-                                                    <td class="bg-lblue"><a class="btn" href="#">Pay</a></td>
+                                                <form id="propertyFindingPaymentForm" method="GET"
+                                                    action="{{ route('propertyFindingPayment') }}">
+                                                    @csrf
+                                                    <input type="hidden" id="room_premium_product_id" name="product_id"
+                                                        value="">
+                                                    <input type="hidden" id="room_premium_product_name"
+                                                        name="product_name" value="">
+                                                    <input type="hidden" id="room_premium_product_bill" name="bill"
+                                                        value="">
+
+                                                    <td class="bg-lblue">
+                                                        <button type="submit" class="btn"
+                                                            style="color: white">PAY</button>
                                                 </form>
                                             </tr>
+
                                         </tbody>
                                     </table>
                                 </div>
@@ -825,131 +547,38 @@
 
                                         <tbody>
 
-                                            @php
-                                                $valueee = '
-                                                <td>
-                                                    Open Market
-                                                    <abbr style="text-decoration: none"
-                                                        title="Anyone who has property can be your provider">
-                                                        <i class="fa fa-info-circle white" aria-hidden="true">
-                                                        </i>
-                                                    </abbr>
-                                                </td>
-                                                <td>
-                                                    Open Market + Agent
-                                                    <abbr style="text-decoration: none"
-                                                        title="In addition to the open market our partner agents will be working for you to find out the property">
-                                                        <i class="fa fa-info-circle white" aria-hidden="true">
-                                                        </i>
-                                                    </abbr>
-                                                </td>';
-                                            @endphp
-
-                                            <tr>
-                                                <td>
-                                                    <span class="ptable-title">
-                                                        Provider
-                                                    </span>
-                                                    <abbr style="text-decoration: none"
-                                                        title="The responsible body who will be working for you to find out your property">
-                                                        <i class="fa fa-info-circle white" aria-hidden="true">
-                                                        </i>
-                                                    </abbr>
-                                                </td>
-
-                                                {!! $valueee !!}
-                                            </tr>
-
-                                            <tr>
-                                                <td>
-                                                    <span class="ptable-title">Market </span>
-                                                    <abbr style="text-decoration: none"
-                                                        title="From where your property will be searching">
-                                                        <i class="fa fa-info-circle white" aria-hidden="true">
-                                                        </i>
-                                                    </abbr>
-                                                </td>
-
-                                                {!! $valueee !!}
-
-                                            </tr>
-
-                                            <tr>
-                                                <td>
-                                                    <span class="ptable-title">Viewing By </span>
-                                                    <abbr style="text-decoration: none"
-                                                        title="The responsible person who will arrage viewing for you">
-                                                        <i class="fa fa-info-circle white" aria-hidden="true">
-                                                        </i>
-                                                    </abbr>
-                                                </td>
-
-                                                {!! $valueee !!}
-
-                                            </tr>
-
-                                            <tr>
-                                                <td>
-                                                    <span class="ptable-title">Dedicated </span>
-                                                    <abbr style="text-decoration: none"
-                                                        title="One of the officers will be dedicated to collaborate with you and agents to get property">
-                                                        <i class="fa fa-info-circle white" aria-hidden="true">
-                                                        </i>
-                                                    </abbr>
-                                                </td>
-                                                <td> <i class="fa fa-times red"></i> </td>
-                                                <td> <i class="fa fa-check green"></i> </td>
-                                            </tr>
-
-                                            <tr>
-                                                <td>
-                                                    <span class="ptable-title">Call service </span>
-                                                    <abbr style="text-decoration: none"
-                                                        title="You can contact us for any information regarding the property">
-                                                        <i class="fa fa-info-circle white" aria-hidden="true">
-                                                        </i>
-                                                    </abbr>
-                                                </td>
-                                                <td> Office hour </td>
-                                                <td> 24/7 </td>
-                                            </tr>
-
-                                            <tr>
-                                                <td>
-                                                    <span class="ptable-title">Cancel </span>
-                                                    <abbr style="text-decoration: none"
-                                                        title="Right to cancel the service">
-                                                        <i class="fa fa-info-circle white" aria-hidden="true">
-                                                        </i>
-                                                    </abbr>
-                                                </td>
-                                                <td> Anytime </td>
-                                                <td> Anytime </td>
-                                            </tr>
-
-                                            <tr>
-                                                <td>
-                                                    <span class="ptable-title">Refund </span>
-                                                    <abbr style="text-decoration: none"
-                                                        title="Eligibilty for the return if you cancle this service">
-                                                        <i class="fa fa-info-circle white" aria-hidden="true">
-                                                        </i>
-                                                    </abbr>
-                                                </td>
-                                                <td> 100% </td>
-                                                <td> 100% </td>
-                                            </tr>
+                                            @include('frontend.other_services.partial.property_finding_service.tab_table')
 
                                             <!-- Buttons -->
                                             <tr>
                                                 <td>&nbsp;</td>
-                                                <form action="">
-                                                    <td class="bg-green"><a class="btn" href="#">Pay</a></td>
+                                                <form id="propertyFindingPaymentForm" method="GET"
+                                                    action="{{ route('propertyFindingPayment') }}">
+                                                    @csrf
+                                                    <input type="hidden" name="product_id" value="4">
+                                                    <input type="hidden" name="product_name" value="House Regular">
+                                                    <input type="hidden" name="bill"
+                                                        value="{{ $house_service_charge }}">
+
+                                                    <td class="bg-green">
+                                                        <button type="submit" class="btn"
+                                                            style="color: white">PAY</button>
+                                                    </td>
                                                 </form>
-                                                <form action="">
-                                                    <td class="bg-lblue"><a class="btn" href="#">Pay</a></td>
+                                                <form id="propertyFindingPaymentForm" method="GET"
+                                                    action="{{ route('propertyFindingPayment') }}">
+                                                    @csrf
+                                                    <input type="hidden" name="product_id" value="4">
+                                                    <input type="hidden" name="product_name" value="House Premium">
+                                                    <input type="hidden" name="bill"
+                                                        value="{{ $house_service_charge * 1.7 }}">
+
+                                                    <td class="bg-lblue">
+                                                        <button type="submit" class="btn"
+                                                            style="color: white">PAY</button>
                                                 </form>
                                             </tr>
+
                                         </tbody>
                                     </table>
                                 </div>
@@ -1057,7 +686,6 @@
             </div>
         </div>
 
-
     </div>
 @endsection
 
@@ -1066,6 +694,14 @@
         const $regularPrice = $('#regular_price_room_tab3');
         const $premiumPrice = $('#premium_price_room_tab3');
         const $tableRoom = $('#table_room_tab3').hide();
+
+        const $roomRegularProductid = $('#room_regular_product_id');
+        const $roomRegularProductName = $('#room_regular_product_name');
+        const $roomRegularProductBill = $('#room_regular_product_bill');
+
+        const $roomPremiumProductid = $('#room_premium_product_id');
+        const $roomPremiumProductName = $('#room_premium_product_name');
+        const $roomPremiumProductBill = $('#room_premium_product_bill');
 
         $('#regular_price_room_tab3, #premium_price_room_tab3').hide();
 
@@ -1091,6 +727,46 @@
                             $premiumPrice.text(`£${premiumServiceCharge}`).show();
 
                             $tableRoom.show();
+
+                            if (id == 1) {
+                                $roomRegularProductid.val(id);
+                                $roomRegularProductName.val('Room-single Regular');
+                                $roomRegularProductBill.val(serviceCharge);
+
+                                $roomPremiumProductid.val(id);
+                                $roomPremiumProductName.val('Room-single Premium');
+                                $roomPremiumProductBill.val(premiumServiceCharge);
+                            }
+
+                            if (id == 2) {
+                                $roomRegularProductid.val(id);
+                                $roomRegularProductName.val('Room-double Regular');
+                                $roomRegularProductBill.val(serviceCharge);
+
+                                $roomPremiumProductid.val(id);
+                                $roomPremiumProductName.val('Room-double Premium');
+                                $roomPremiumProductBill.val(premiumServiceCharge);
+                            }
+
+                            if (id == 6) {
+                                $roomRegularProductid.val(id);
+                                $roomRegularProductName.val('Room-semi-double Regular');
+                                $roomRegularProductBill.val(serviceCharge);
+
+                                $roomPremiumProductid.val(id);
+                                $roomPremiumProductName.val('Room-semi-double Premium');
+                                $roomPremiumProductBill.val(premiumServiceCharge);
+                            }
+
+                            if (id == 7) {
+                                $roomRegularProductid.val(id);
+                                $roomRegularProductName.val('Room-en-suit Regular');
+                                $roomRegularProductBill.val(serviceCharge);
+
+                                $roomPremiumProductid.val(id);
+                                $roomPremiumProductName.val('Room-en-suit Premium');
+                                $roomPremiumProductBill.val(premiumServiceCharge);
+                            }
                         }
                     }
                 });
