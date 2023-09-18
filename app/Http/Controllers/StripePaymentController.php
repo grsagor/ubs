@@ -40,7 +40,7 @@ class StripePaymentController extends Controller
         $data['table_name']         = session('table_name');
         $data['status']             = session('output');
 
-        // return $data;
+        return $data;
         return view('stripe', $data);
     }
 
@@ -93,7 +93,7 @@ class StripePaymentController extends Controller
             Session::flash('success', 'Payment successful!');
             if ($request->url) {
                 return redirect($request->url);
-            }else{
+            } else {
                 return back();
             }
         } catch (\Stripe\Error\Card $e) {

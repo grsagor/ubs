@@ -370,10 +370,10 @@
                                         <th>Size</th>
                                         <th>Extra Feature</th>
                                         <th>Furnishing</th>
-                                        <th>Available From</th>
                                         <th>Rent</th>
                                         <th>Deposit</th>
                                         <th>Holding Deposit</th>
+                                        <th>Available From</th>
                                     </tr>
 
                                     @foreach ($roomArray as $i => $item)
@@ -399,7 +399,6 @@
                                             <td>
                                                 {{ $item['room_furnishings'] == 1 ? 'Furnisihed' : 'Unfurnished' }}
                                             </td>
-                                            <td>{{ $info->room_available_from ?? '' }}</td>
 
                                             @if ($i == 0)
                                                 <td rowspan="{{ $room_count }}" style="background: white;">
@@ -409,6 +408,8 @@
                                                 </td>
                                                 <td rowspan="{{ $room_count }}" style="background: white;">
                                                     {{ $info->holding_deposit ?? '' }}</td>
+                                                <td rowspan="{{ $room_count }}" style="background: white;">
+                                                    {{ $info->room_available_from ?? '' }}</td>
                                             @endif
                                         </tr>
                                     @endforeach
@@ -422,10 +423,10 @@
                                     <tr>
                                         <th>Extra Feature</th>
                                         <th>Furnishing</th>
-                                        <th>Available From</th>
                                         <th>Rent</th>
                                         <th>Deposit</th>
                                         <th>Holding Deposit</th>
+                                        <th>Available From</th>
                                     </tr>
 
                                     @foreach ($roomArray as $i => $item)
@@ -435,10 +436,10 @@
                                                 <td>
                                                     {{ $item['room_furnishings'] == 1 ? 'Furnisihed' : 'Unfurnished' }}
                                                 </td>
-                                                <td>{{ $info->room_available_from ?? '' }}</td>
                                                 <td>{{ $info->rent ?? '' }}</td>
                                                 <td>{{ $info->security_deposit ?? '' }}</td>
                                                 <td>{{ $info->holding_deposit ?? '' }}</td>
+                                                <td>{{ $info->room_available_from ?? '' }}</td>
                                             @endif
                                         </tr>
                                     @endforeach

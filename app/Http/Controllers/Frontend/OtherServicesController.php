@@ -32,8 +32,17 @@ class OtherServicesController extends Controller
         return view('frontend.other_services.it_solution');
     }
 
-    public function propertyFindingService()
+    public function propertyFindingService($child_category_id = null)
     {
+        $data['child_category_id'] = $child_category_id;
+
+        if ($child_category_id !== null) {
+            $data['upgrade'] = 'yes';
+            $data['url'] = '/contact/property-wanted';
+        }
+
+        // return $data;
+
         $data['service_charge'] = ServiceCharge::with('childCategory')->get();
 
         $category = ServiceCategory::where('name', 'Property')->first();
@@ -57,6 +66,14 @@ class OtherServicesController extends Controller
         $info['bill']                   = $request->bill;
         $info['table_name']             = 'propertyFindingService->serviceCharge';
 
+        $info['upgrade']                = null;
+        $info['url']                    = null;
+
+        if ($request->child_category_id_from_backend) {
+            $info['upgrade']            = 'yes';
+            $info['url']                = '/contact/property-wanted';
+        }
+
         $info['output'] = [
             'success'               => true,
             'msg'                   => ('Successfull!'),
@@ -69,6 +86,8 @@ class OtherServicesController extends Controller
                 'bill'              => $info['bill'],
                 'table_name'        => $info['table_name'],
                 'output'            => $info['output'],
+                'upgrade'           => $info['upgrade'],
+                'url'               => $info['url'],
             ]);
     }
 }

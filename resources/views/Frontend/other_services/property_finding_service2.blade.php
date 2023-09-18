@@ -112,7 +112,7 @@
 
         .pricing tr td i {
             /* display: block;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        margin-bottom: 12px; */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        margin-bottom: 12px; */
             font-size: 20px;
         }
 
@@ -211,16 +211,34 @@
                 </p>
             </div>
 
-
+            {{-- {{ dd($child_category_id) }} --}}
 
             <div class="category_tab">
                 <ul class="nav nav-tabs custom-tabs" id="myTabs">
-                    @foreach ($child_categories as $key => $item)
+                    {{-- @foreach ($child_categories as $key => $item)
                         <li class="nav-item">
                             <a class="nav-link {{ $key === 0 ? 'active' : '' }}" data-bs-toggle="tab"
                                 href="#tab{{ $key + 1 }}">{{ $item->name }}</a>
                         </li>
-                    @endforeach
+                    @endforeach --}}
+
+                    {{-- child_category_id == 11, 12, 13, 14 this value check child categories table --}}
+                    <li class="nav-item">
+                        <a class="nav-link {{ $child_category_id == 14 || $child_category_id === null ? 'active' : '' }}"
+                            data-bs-toggle="tab" href="#tab1">Studio Flat</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ $child_category_id == 13 ? 'active' : '' }}" data-bs-toggle="tab"
+                            href="#tab2">Flat</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ $child_category_id == 11 ? 'active' : '' }}" data-bs-toggle="tab"
+                            href="#tab3">Room</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ $child_category_id == 12 ? 'active' : '' }}" data-bs-toggle="tab"
+                            href="#tab4">House</a>
+                    </li>
                 </ul>
             </div>
 
@@ -249,7 +267,8 @@
 
             <div class="tab-content custom-tab-content">
 
-                <div class="tab-pane fade show active" id="tab1">
+                <div class="tab-pane fade {{ $child_category_id == 14 || $child_category_id === null ? 'show active' : '' }}"
+                    id="tab1">
                     <!-- Content for tab 1 goes here -->
                     <div id="generic_price_table">
 
@@ -302,6 +321,13 @@
                                                     <input type="hidden" name="bill"
                                                         value="{{ $studio_flat_service_charge }}">
 
+                                                    @if ($child_category_id !== null)
+                                                        <input type="hidden" name="child_category_id_from_backend"
+                                                            value="{{ $child_category_id }}">
+                                                        <input type="hidden" name="upgrade" value="{{ $upgrade }}">
+                                                        <input type="hidden" name="url" value="{{ $url }}">
+                                                    @endif
+
                                                     <td class="bg-green">
                                                         <button type="submit" class="btn"
                                                             style="color: white">PAY</button>
@@ -329,7 +355,7 @@
                     </div>
                 </div>
 
-                <div class="tab-pane fade" id="tab2">
+                <div class="tab-pane fade {{ $child_category_id == 13 ? 'show active' : '' }}" id="tab2">
                     <!-- Content for tab 2 goes here -->
                     <div id="generic_price_table">
 
@@ -411,7 +437,7 @@
                     </div>
                 </div>
 
-                <div class="tab-pane fade" id="tab3">
+                <div class="tab-pane fade {{ $child_category_id == 11 ? 'show active' : '' }}" id="tab3">
                     <!-- Content for tab 1 goes here -->
                     <div id="generic_price_table">
                         <!-- Pricing # -->
@@ -507,7 +533,7 @@
                     </div>
                 </div>
 
-                <div class="tab-pane fade" id="tab4">
+                <div class="tab-pane fade {{ $child_category_id == 12 ? 'show active' : '' }}" id="tab4">
                     <!-- Content for tab 2 goes here -->
                     <div id="generic_price_table">
 

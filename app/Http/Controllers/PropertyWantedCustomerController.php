@@ -53,9 +53,13 @@ class PropertyWantedCustomerController extends Controller
                     if ($service->upgraded == 1) {
                         $buttons .= '<button>Upgraded</button>';
                     } else {
-                        $buttons .= '<form action="/contact/property-wanted/upgrade" method="POST" enctype="multipart/form-data">
-                        <input type="hidden" name="_token" value="' . csrf_token() . '">
-                        <input type="hidden" name="product_id" value="' . $service->id . '">
+                        // $buttons .= '<form action="/contact/property-wanted/upgrade" method="POST" enctype="multipart/form-data">
+                        // <input type="hidden" name="_token" value="' . csrf_token() . '">
+                        // <input type="hidden" name="product_id" value="' . $service->id . '">
+                        //                 <input type="submit" value="Upgrade" class="btn btn-xs btn-primary">
+                        //             </form>';
+
+                        $buttons .= '<form action="/property-finding-service/' . $service->child_category_id . '" method="GET" enctype="multipart/form-data">
                                         <input type="submit" value="Upgrade" class="btn btn-xs btn-primary">
                                     </form>';
                     }
@@ -302,7 +306,6 @@ class PropertyWantedCustomerController extends Controller
         $property = ServicePropertyWanted::find($request->product_id);
         $bill = ServiceCharge::where([['category_id', $property->category_id], ['sub_category_id', $property->sub_category_id], ['child_category', $property->child_category_id]])->first()->service_charge;
 
-        return [$bill, $property->category_id, $property->sub_category_id, $property->child_category_id, $property];
         return redirect('stripe')
             ->with([
                 'product_id' => $request->product_id,
