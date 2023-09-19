@@ -112,7 +112,7 @@
 
         .pricing tr td i {
             /* display: block;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        margin-bottom: 12px; */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                margin-bottom: 12px; */
             font-size: 20px;
         }
 
@@ -321,11 +321,10 @@
                                                     <input type="hidden" name="bill"
                                                         value="{{ $studio_flat_service_charge }}">
 
-                                                    @if ($child_category_id !== null)
+                                                    @if ($service_id !== null)
+                                                        <input type="hidden" name="service_id" value="{{ $service_id }}">
                                                         <input type="hidden" name="child_category_id_from_backend"
                                                             value="{{ $child_category_id }}">
-                                                        <input type="hidden" name="upgrade" value="{{ $upgrade }}">
-                                                        <input type="hidden" name="url" value="{{ $url }}">
                                                     @endif
 
                                                     <td class="bg-green">

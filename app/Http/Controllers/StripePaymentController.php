@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\PaymentHistory;
+use App\User;
 use Modules\Crm\Entities\ServicePropertyWanted;
 use Stripe;
 use Session;
@@ -19,26 +20,30 @@ class StripePaymentController extends Controller
     public function stripe(Request $request)
     {
 
-        $data['product_id'] = session('product_id');
-        $data['product_name'] = session('product_name');
-        $data['bill'] = session('bill');
-        $data['table_name'] = session('table_name');
-        $data['upgrade'] = false;
-        $data['url'] = false;
+        $data['product_id']             = session('product_id');
+        $data['product_name']           = session('product_name');
+        $data['bill']                   = session('bill');
+        $data['table_name']             = session('table_name');
+        $data['description']            = session('description');
+        $data['upgrade']                = false;
+        $data['url']                    = false;
+        $data['meta_description']       = session('description');
+        $data['status']                 = session('output');
+
         if (session('upgrade')) {
-            $data['upgrade'] = true;
+            $data['upgrade']            = true;
         }
+
         if (session('url')) {
-            $data['url'] = session('url');
+            $data['url']                = session('url');
         }
+
         if (!Auth::check()) {
             return redirect()->route('login');
         }
-        $data['product_id']         = session('product_id');
-        $data['product_name']       = session('product_name');
-        $data['bill']               = session('bill');
-        $data['table_name']         = session('table_name');
-        $data['status']             = session('output');
+
+
+
 
         return $data;
         return view('stripe', $data);
@@ -52,25 +57,27 @@ class StripePaymentController extends Controller
     public function stripePost(Request $request)
     {
         Stripe\Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
-        $email = Auth::user()->email;
-        $customer = \Stripe\Customer::create(array(
-            'name' => 'test',
-            'description' => 'test description',
-            'email' => $email,
-            'source' => $request->input('stripeToken'),
-            "address" => ["city" => "San Francisco", "country" => "US", "line1" => "510 Townsend St", "postal_code" => "98140", "state" => "CA"]
+        $userId             = Auth::id();
+        $user_info          = User::find($userId);
+        $customer           = \Stripe\Customer::create(array(
+            'name'          => $user_info->username,
+            'description'   => 'Null',
+            'email'         => $user_info->email,
+            'source'        => $request->input('stripeToken'),
+            "address"       => ["city" => "San Francisco", "country" => "US", "line1" => "510 Townsend St", "postal_code" => "98140", "state" => "CA"]
         ));
         try {
             $charge = \Stripe\Charge::create(array(
-                "amount" => $request->bill * 100,
-                "currency" => "usd",
-                "customer" =>  $customer["id"],
-                "description" => "Test payment.",
-                "metadata" => array(
-                    "bill" => $request->bill,
-                    "product_id" => $request->product_id,
-                    "product_name" => $request->product_name,
-                    "table_name" => $request->table_name,
+                "amount"        => $request->bill * 100,
+                "currency"      => "usd",
+                "customer"      =>  $customer["id"],
+                "description"   => "Test payment.",
+                "metadata"      => array(
+                    "bill"                  => $request->bill,
+                    "product_id"            => $request->product_id,
+                    "product_name"          => $request->product_name,
+                    "table_name"            => $request->table_name,
+                    "meta_description"      => $request->meta_description,
                 )
             ));
 
@@ -84,7 +91,8 @@ class StripePaymentController extends Controller
             $payment_history->table_name = $charge->metadata->table_name;
             $payment_history->save();
 
-            if ($request->upgrade) {
+            // dd($request->product_id, $request->upgrade, $request->url);
+            if ($request->upgrade  == 'yes') {
                 $property = ServicePropertyWanted::find($request->product_id);
                 $property->upgraded = 1;
                 $property->save();

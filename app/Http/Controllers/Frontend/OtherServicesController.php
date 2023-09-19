@@ -32,16 +32,10 @@ class OtherServicesController extends Controller
         return view('frontend.other_services.it_solution');
     }
 
-    public function propertyFindingService($child_category_id = null)
+    public function propertyFindingService($service_id = null, $child_category_id = null)
     {
+        $data['service_id'] = $service_id;
         $data['child_category_id'] = $child_category_id;
-
-        if ($child_category_id !== null) {
-            $data['upgrade'] = 'yes';
-            $data['url'] = '/contact/property-wanted';
-        }
-
-        // return $data;
 
         $data['service_charge'] = ServiceCharge::with('childCategory')->get();
 
@@ -61,15 +55,16 @@ class OtherServicesController extends Controller
     public function propertyFindingPayment(Request $request)
     {
         // dd($request->toArray());
-        $info['product_id']             = $request->product_id;
+        $info['product_id']             = $request->service_id;
         $info['product_name']           = $request->product_name;
         $info['bill']                   = $request->bill;
         $info['table_name']             = 'propertyFindingService->serviceCharge';
+        $info['description']            = 'Service charge id: ' . $request->child_category_id ?? NULL;
 
         $info['upgrade']                = null;
         $info['url']                    = null;
 
-        if ($request->child_category_id_from_backend) {
+        if ($request->service_id) {
             $info['upgrade']            = 'yes';
             $info['url']                = '/contact/property-wanted';
         }
@@ -85,6 +80,7 @@ class OtherServicesController extends Controller
                 'product_name'      => $info['product_name'],
                 'bill'              => $info['bill'],
                 'table_name'        => $info['table_name'],
+                'description'        => $info['description'],
                 'output'            => $info['output'],
                 'upgrade'           => $info['upgrade'],
                 'url'               => $info['url'],

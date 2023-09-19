@@ -110,13 +110,13 @@ Route::controller(StripePaymentController::class)->group(function () {
 
 
 // Digital Marketing, Partner Boarding, Business Solution, IT solution
-Route::get('/digital-marketing',                                        [OtherServicesController::class, 'digitalMarketing'])->name('digitalMarketing');
-Route::get('/partner-boarding',                                         [OtherServicesController::class, 'partnerBoarding'])->name('partnerBoarding');
-Route::get('/business-solutions',                                       [OtherServicesController::class, 'businessSolutions'])->name('businessSolutions');
-Route::get('/it-solutions',                                             [OtherServicesController::class, 'itSolutions'])->name('itSolutions');
-Route::get('/property-finding-service/{child_category_id?}',            [OtherServicesController::class, 'propertyFindingService'])->name('propertyFindingService');
-Route::get('/property-finding-sevice-charge/{id}',                      [OtherServicesController::class, 'propertyFindingServiceCharge'])->name('propertyFindingServiceCharge');
-Route::get('/property-finding-payment',                                 [OtherServicesController::class, 'propertyFindingPayment'])->name('propertyFindingPayment');
+Route::get('/digital-marketing',                                                    [OtherServicesController::class, 'digitalMarketing'])->name('digitalMarketing');
+Route::get('/partner-boarding',                                                     [OtherServicesController::class, 'partnerBoarding'])->name('partnerBoarding');
+Route::get('/business-solutions',                                                   [OtherServicesController::class, 'businessSolutions'])->name('businessSolutions');
+Route::get('/it-solutions',                                                         [OtherServicesController::class, 'itSolutions'])->name('itSolutions');
+Route::get('/property-finding-service/{service_id?}/{child_category_id?}',          [OtherServicesController::class, 'propertyFindingService'])->name('propertyFindingService');
+Route::get('/property-finding-sevice-charge/{id}',                                  [OtherServicesController::class, 'propertyFindingServiceCharge'])->name('propertyFindingServiceCharge');
+Route::get('/property-finding-payment',                                             [OtherServicesController::class, 'propertyFindingPayment'])->name('propertyFindingPayment');
 
 
 // Services

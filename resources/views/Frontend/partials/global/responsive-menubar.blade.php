@@ -1,6 +1,7 @@
 @php
     $user = Auth::user();
 @endphp
+
 <div class="main-nav d-lg-block d-none ">
     <div class="container-fluid px-lg-5 border-bottom">
         <div class="row">
@@ -79,6 +80,7 @@
 
     </div>
 </div>
+
 <div class="header-sticky  py-10" style="background-color: #131921 !important">
     <div class="container">
         <div class="row align-items-center d-flex justify-content-between">
@@ -347,6 +349,7 @@
         </div>
     </div>
 </div>
+
 <script>
     function searchCategorySticky() {
         var type = document.getElementById("selectTypeSticky").value;

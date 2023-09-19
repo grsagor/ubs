@@ -59,7 +59,7 @@ class PropertyWantedCustomerController extends Controller
                         //                 <input type="submit" value="Upgrade" class="btn btn-xs btn-primary">
                         //             </form>';
 
-                        $buttons .= '<form action="/property-finding-service/' . $service->child_category_id . '" method="GET" enctype="multipart/form-data">
+                        $buttons .= '<form action="/property-finding-service/' . $service->id . '/' . $service->child_category_id . '" method="GET" enctype="multipart/form-data">
                                         <input type="submit" value="Upgrade" class="btn btn-xs btn-primary">
                                     </form>';
                     }

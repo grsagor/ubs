@@ -139,7 +139,7 @@ class ModuleUtil extends Util
     public function hasThePermissionInSubscription($business_id, $permission, $callback_function = null)
     {
         if ($this->isSuperadminInstalled()) {
-            if (auth()->user()->can('superadmin')) {
+            if (auth()->user()->can('admin')) {
                 return true;
             }
 
