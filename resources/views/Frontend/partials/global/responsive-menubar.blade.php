@@ -146,10 +146,22 @@
                                                     <li class="nav-item">
                                                         <a class="nav-link" href="{{ url('/') }}">Home</a>
                                                     </li>
-                                                    <li class="nav-item">
-                                                        <a class="nav-link"
-                                                            href="{{ url('room-list') }}">Property</a>
+
+
+                                                    <li class="nav-item dropdown">
+                                                        <a class="nav-link dropdown-toggle"
+                                                            href="#">Property</a>
+                                                        <ul class="dropdown-menu">
+                                                            <li><a class="dropdown-item"
+                                                                    href="{{ route('property.list') }}">Property</a>
+                                                            </li>
+                                                            <li><a class="dropdown-item"
+                                                                    href="{{ route('propertyFindingService') }}">Property
+                                                                    Finding Service</a>
+                                                            </li>
+                                                        </ul>
                                                     </li>
+
                                                     <li class="nav-item">
                                                         <a class="nav-link" href="{{ url('/shop/list') }}">Shop</a>
                                                     </li>
