@@ -130,7 +130,7 @@ class TaskController extends Controller
                                     </button>
                                       <ul class="dropdown-menu dropdown-menu-left" role="menu">
                                        <li>
-                                            <a data-href="' . action('\Modules\Project\Http\Controllers\TaskController@show', ['id' => $row->id, 'project_id' => $row->project_id]) . '" class="cursor-pointer view_a_project_task">
+                                            <a data-href="' . action('\Modules\Project\Http\Controllers\TaskController@show', ['project_task' => $row->id, 'project_id' => $row->project_id]) . '" class="cursor-pointer view_a_project_task">
                                                 <i class="fa fa-eye"></i>
                                                 ' . __("messages.view") . '
                                             </a>
@@ -144,13 +144,13 @@ class TaskController extends Controller
 
                         if ($can_crud) {
                             $html .= '<li>
-                                    <a data-href="' . action('\Modules\Project\Http\Controllers\TaskController@edit', ['id' => $row->id, 'project_id' => $row->project_id]) . '" class="cursor-pointer edit_a_project_task">
+                                    <a data-href="' . action('\Modules\Project\Http\Controllers\TaskController@edit', ['project_task' => $row->id, 'project_id' => $row->project_id]) . '" class="cursor-pointer edit_a_project_task">
                                         <i class="fa fa-edit"></i>
                                         ' . __("messages.edit") . '
                                     </a>
                                 </li>
                                 <li>
-                                    <a data-href="' . action('\Modules\Project\Http\Controllers\TaskController@destroy', ['id' => $row->id, 'project_id' => $row->project_id]) . '" class="cursor-pointer delete_a_project_task">
+                                    <a data-href="' . action('\Modules\Project\Http\Controllers\TaskController@destroy', ['project_task' => $row->id, 'project_id' => $row->project_id]) . '" class="cursor-pointer delete_a_project_task">
                                         <i class="fas fa-trash"></i>
                                         ' . __("messages.delete") . '
                                     </a>
@@ -227,11 +227,11 @@ class TaskController extends Controller
 
                         return $html;
                     })
-                    ->editColumn('subject', '
-                            <a data-href="{{action("\Modules\Project\Http\Controllers\TaskController@show", ["id" => $id, "project_id" => $project_id])}}" class="cursor-pointer view_a_project_task text-black">
-                                {{$subject}} <code>{{$task_id}}</code>
-                            </a>
-                        ')
+                    // ->editColumn('subject', '
+                    //         <a data-href="{{action("\Modules\Project\Http\Controllers\TaskController@show", ["id" => $id, "project_id" => $project_id])}}" class="cursor-pointer view_a_project_task text-black">
+                    //             {{$subject}} <code>{{$task_id}}</code>
+                    //         </a>
+                    //     ')
                     ->removeColumn('id')
                     ->rawColumns(['action', 'project', 'subject', 'members', 'priority', 'start_date', 'due_date', 'status', 'createdBy'])
                     ->make(true);
@@ -255,13 +255,13 @@ class TaskController extends Controller
                     foreach ($tasks as $task) {
                         $edit = '';
                         $delete = '';
-                        if ($can_crud) {
-                            $edit = action('\Modules\Project\Http\Controllers\TaskController@edit', ['id' => $task->id, 'project_id' => $task->project_id]);
+                        // if ($can_crud) {
+                        //     $edit = action('\Modules\Project\Http\Controllers\TaskController@edit', ['id' => $task->id, 'project_id' => $task->project_id]);
 
-                            $delete = action('\Modules\Project\Http\Controllers\TaskController@destroy', ['id' => $task->id, 'project_id' => $task->project_id]);
-                        }
+                        //     $delete = action('\Modules\Project\Http\Controllers\TaskController@destroy', ['id' => $task->id, 'project_id' => $task->project_id]);
+                        // }
 
-                        $view = action('\Modules\Project\Http\Controllers\TaskController@show', ['id' => $task->id, 'project_id' => $task->project_id]);
+                        // $view = action('\Modules\Project\Http\Controllers\TaskController@show', ['id' => $task->id, 'project_id' => $task->project_id]);
 
                         //if member then get their avatar
                         if ($task->members->count() > 0) {
@@ -411,7 +411,6 @@ class TaskController extends Controller
      */
     public function show($id)
     {
-        dd($id);
         $project_id = request()->get('project_id');
 
         $project_task = ProjectTask::with([
