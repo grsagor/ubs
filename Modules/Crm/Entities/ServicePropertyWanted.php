@@ -20,6 +20,8 @@ class ServicePropertyWanted extends Model
 
     protected $fillable = [
         'reference_id',
+        'upgraded',
+        'plan',
         'category_id',
         'sub_category_id',
         'child_category_id',

@@ -23,8 +23,8 @@ class StripePaymentController extends Controller
         $data['product_id']             = session('product_id');
         $data['product_name']           = session('product_name');
         $data['bill']                   = session('bill');
+        $data['plan']                   = session('plan');
         $data['table_name']             = session('table_name');
-        $data['description']            = session('description');
         $data['upgrade']                = false;
         $data['url']                    = false;
         $data['meta_description']       = session('description');
@@ -42,10 +42,7 @@ class StripePaymentController extends Controller
             return redirect()->route('login');
         }
 
-
-
-
-        return $data;
+        // return $data;
         return view('stripe', $data);
     }
 
@@ -95,11 +92,18 @@ class StripePaymentController extends Controller
             if ($request->upgrade  == 'yes') {
                 $property = ServicePropertyWanted::find($request->product_id);
                 $property->upgraded = 1;
+                $property->plan = $request->plan;
                 $property->save();
             }
 
             Session::flash('success', 'Payment successful!');
             if ($request->url) {
+                // $output = [
+                //     'success' => true,
+                //     'msg' => ('Created Successfully!!!'),
+                // ];
+
+                // return redirect()->back()->with('status', $output);
                 return redirect($request->url);
             } else {
                 return back();

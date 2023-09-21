@@ -57,9 +57,10 @@ class OtherServicesController extends Controller
         // dd($request->toArray());
         $info['product_id']             = $request->service_id;
         $info['product_name']           = $request->product_name;
+        $info['plan']                   = $request->plan;
         $info['bill']                   = $request->bill;
         $info['table_name']             = 'propertyFindingService->serviceCharge';
-        $info['description']            = 'Service charge id: ' . $request->child_category_id ?? NULL;
+        $info['description']            = "Service charge id: " . $request->child_category_id_from_backend ?? NULL;
 
         $info['upgrade']                = null;
         $info['url']                    = null;
@@ -69,19 +70,20 @@ class OtherServicesController extends Controller
             $info['url']                = '/contact/property-wanted';
         }
 
-        $info['output'] = [
-            'success'               => true,
-            'msg'                   => ('Successfull!'),
-        ];
+        // $info['output'] = [
+        //     'success'               => true,
+        //     'msg'                   => ('Successfull!'),
+        // ];
 
         return redirect('stripe')
             ->with([
                 'product_id'        => $info['product_id'],
                 'product_name'      => $info['product_name'],
                 'bill'              => $info['bill'],
+                'plan'              => $info['plan'],
                 'table_name'        => $info['table_name'],
-                'description'        => $info['description'],
-                'output'            => $info['output'],
+                'description'       => $info['description'],
+                // 'output'            => $info['output'],
                 'upgrade'           => $info['upgrade'],
                 'url'               => $info['url'],
             ]);

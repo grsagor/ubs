@@ -50,8 +50,10 @@ class PropertyWantedCustomerController extends Controller
                     $buttons .= '<button type="button" class="btn btn-xs btn-danger property_wanted_delete_btn" data-id="' . $service->id . '">Delete</button>';
 
                     // Check the upgraded status and add the appropriate button
-                    if ($service->upgraded == 1) {
-                        $buttons .= '<button>Upgraded</button>';
+                    if ($service->upgraded && $service->plan == 'Regular') {
+                        $buttons .= '<button>Regular </button>';
+                    } elseif ($service->plan == 'Premium') {
+                        $buttons .= '<button>Premium </button>';
                     } else {
                         // $buttons .= '<form action="/contact/property-wanted/upgrade" method="POST" enctype="multipart/form-data">
                         // <input type="hidden" name="_token" value="' . csrf_token() . '">
