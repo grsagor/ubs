@@ -126,7 +126,7 @@
 
                 <select class="form-control" id="occupant_nationality" name="occupant_nationality[]">
 
-                    @include('crm::layouts.nationality')
+                    @include('partial.nationality')
 
                 </select>
 

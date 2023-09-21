@@ -1,10 +1,10 @@
 <?php
 include 'customer.php';
 
-use App\Http\Controllers\FrontendController as PropertyFrontController;
 use App\Http\Controllers\Install;
 use App\Http\Controllers\Restaurant;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SellController;
@@ -86,6 +86,7 @@ use App\Http\Controllers\CombinedPurchaseReturnController;
 use App\Http\Controllers\Frontend\OtherServicesController;
 use App\Http\Controllers\Backend\ServiceEducationController;
 use App\Http\Controllers\Backend\ServiceAdvertiseRoomController;
+use App\Http\Controllers\FrontendController as PropertyFrontController;
 use App\Http\Controllers\Frontend\CategoryController as FrontendCategoryController;
 
 /*
@@ -100,6 +101,13 @@ use App\Http\Controllers\Frontend\CategoryController as FrontendCategoryControll
 */
 
 include_once 'install_r.php';
+
+
+//Optimize Clear:
+Route::get('/route-optimize-clear', function () {
+    Artisan::call('optimize:clear');
+    return '<h2>Events, views, cache, route, config, compiled clear</h2>';
+});
 
 
 // Stripe payment gateway

@@ -106,7 +106,7 @@
                                         <input type="hidden" name="url" value="{{ $url }}">
                                     @endif
                                     <button class="btn btn-primary btn-lg btn-block" type="submit">Pay Now
-                                        ${{ $bill }}</button>
+                                        £{{ $bill }}</button>
                                 </div>
                             </div>
 

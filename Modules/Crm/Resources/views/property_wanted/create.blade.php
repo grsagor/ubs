@@ -106,7 +106,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-sm-12">
+                    <div class="col-sm-12" id="number_of_bed_rooms_id">
                         <label for="selling_price_group_id">Number of bed rooms</label>
                         <select class="form-control" id="property_size" name="property_size">
                             <option selected="" value="">Select....</option>
@@ -149,7 +149,7 @@
                                 placeholder="Maximum 100 characters"></textarea>
                         </div>
                     </div>
-                    <div class="col-sm-12">
+                    {{-- <div class="col-sm-12">
                         <div class="form-group">
                             <label for="invoice_scheme_id">Your gender(s)</label>
                             <select class="form-control" required="" id="gender" name="gender">
@@ -163,7 +163,7 @@
                                 @endforeach
                             </select>
                         </div>
-                    </div>
+                    </div> --}}
 
                     {{-- <div class="col-sm-12">
                         <div class="form-group">
@@ -446,6 +446,7 @@
                                 id="smoking_current" name="smoking_current">
                                 <option value="2">no</option>
                                 <option value="1">yes</option>
+                                <option value="I don't mind">I don't mind</option>
                             </select>
                         </div>
                     </div>
@@ -460,6 +461,7 @@
                                 id="pets" name="pets">
                                 <option value="2" selected="">no</option>
                                 <option value="1">yes</option>
+                                <option value="I don't mind">I don't mind</option>
                             </select>
                         </div>
                     </div>
@@ -493,8 +495,8 @@
                                 class="fa fa-info-circle text-info hover-q no-print " aria-hidden="true"
                                 data-container="body" data-toggle="popover" data-placement="auto bottom"
                                 data-content="This price group will be used as the default price group in this location."
-                                data-html="true" data-trigger="hover"></i> <select class="form-control"
-                                id="lang_id" name="lang_id">
+                                data-html="true" data-trigger="hover"></i>
+                            <select class="form-control" id="lang_id" name="lang_id">
 
                                 @include('partial.language')
 
@@ -508,9 +510,10 @@
                                 class="fa fa-info-circle text-info hover-q no-print " aria-hidden="true"
                                 data-container="body" data-toggle="popover" data-placement="auto bottom"
                                 data-content="This price group will be used as the default price group in this location."
-                                data-html="true" data-trigger="hover"></i> <select class="form-control"
-                                id="nationality" name="nationality">
+                                data-html="true" data-trigger="hover"></i>
+                            <select class="form-control" id="nationality" name="nationality">
 
+                                <option value="---">Select country</option>
                                 @include('partial.nationality')
 
                             </select>
@@ -620,7 +623,7 @@
                             <label for="custom_field1">Advert title</label>
                             <p class="sub-heading">(Short description)</p>
                             <input class="form-control" placeholder="Short description maximum 92 characters"
-                                name="ad_title" type="text" id="ad_title">
+                                name="ad_title" type="text" maxlength="100" id="ad_title">
                         </div>
                     </div>
 
@@ -815,6 +818,7 @@
             });
         });
     });
+
     $(document).ready(function() {
         $("#next1").click(function() {
             if ($('#child_category_id').val() == 11) {
@@ -922,6 +926,11 @@
             } else {
                 $('#rooms_inputs_container').hide();
                 $('#rooms_inputs_container input').prop('disabled', true);
+            }
+            if (value == 14) {
+                $("#number_of_bed_rooms_id").css('display', 'none');
+            } else {
+                $("#number_of_bed_rooms_id").css('display', 'block');
             }
         })
 

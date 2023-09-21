@@ -78,29 +78,6 @@
                 </ul>
             </div>
 
-            @php
-                $service_charges = DB::table('service_charges')->get();
-                $studio_flat_service_charge = null;
-                $house_service_charge = null;
-                $flat_service_charge = null;
-                
-                foreach ($service_charges as $item) {
-                    if ($item->child_category == 2) {
-                        $house_service_charge = $item->service_charge;
-                    }
-                
-                    if ($item->child_category == 6) {
-                        $flat_service_charge = $item->service_charge;
-                    }
-                
-                    if ($item->child_category == 9) {
-                        $studio_flat_service_charge = $item->service_charge;
-                    }
-                }
-                
-            @endphp
-
-
             <div class="tab-content custom-tab-content">
 
                 <div class="tab-pane fade {{ $child_category_id == 14 || $child_category_id === null ? 'show active' : '' }}"
@@ -127,62 +104,41 @@
 
                                             @include('frontend.other_services.partial.property_finding_service.tab_table')
 
-
                                             <!-- Buttons -->
                                             <tr>
                                                 <td>&nbsp;</td>
 
-                                                {{-- @include(
-                                                    'frontend.other_services.partial.property_finding_service.pay_button',
-                                                    [
-                                                        'product_id' => '5',
-                                                        'product_name' => 'Studio Flat Regular',
-                                                        'bill' => $studio_flat_service_charge,
-                                                        'service_id' => $service_id,
-                                                        'child_category_id' => $child_category_id,
-                                                    ]
-                                                ) --}}
-
                                                 <td class="bg-green">
-                                                    <form id="propertyFindingPaymentForm" method="GET"
-                                                        action="{{ route('propertyFindingPayment') }}">
-                                                        @csrf
-                                                        <input type="hidden" name="product_id" value="5">
-                                                        <input type="hidden" name="product_name"
-                                                            value="Studio Flat Regular">
-                                                        <input type="hidden" name="product_name"
-                                                            value="Studio Flat Regular">
-                                                        <input type="hidden" name="plan" value="Regular">
-                                                        <input type="hidden" name="bill"
-                                                            value="{{ $studio_flat_service_charge }}">
-
-                                                        @if ($service_id !== null)
-                                                            <input type="hidden" name="service_id"
-                                                                value="{{ $service_id }}">
-                                                            <input type="hidden" name="child_category_id_from_backend"
-                                                                value="{{ $child_category_id }}">
-                                                        @endif
-
-                                                        <button type="submit" class="btn"
-                                                            style="color: white">PAY</button>
-
-                                                    </form>
+                                                    @include(
+                                                        'frontend.other_services.partial.property_finding_service.pay_button',
+                                                        [
+                                                            'product_id' => '5',
+                                                            'product_name' => 'Studio Flat Regular',
+                                                            'plan' => 'Regular',
+                                                            'bill' => $studio_flat_service_charge,
+                                                            'service_id' => $service_id ?? null,
+                                                            'child_category_id_from_backend' =>
+                                                                $child_category_id ?? null,
+                                                        ]
+                                                    )
                                                 </td>
 
                                                 <td class="bg-lblue">
-                                                    <form id="propertyFindingPaymentForm" method="GET"
-                                                        action="{{ route('propertyFindingPayment') }}">
-                                                        @csrf
-                                                        <input type="hidden" name="product_id" value="5">
-                                                        <input type="hidden" name="product_name"
-                                                            value="Studio Flat Premium">
-                                                        <input type="hidden" name="bill"
-                                                            value="{{ $studio_flat_service_charge * 1.7 }}">
 
-                                                        <button type="submit" class="btn"
-                                                            style="color: white">PAY</button>
-                                                    </form>
+                                                    @include(
+                                                        'frontend.other_services.partial.property_finding_service.pay_button',
+                                                        [
+                                                            'product_id' => '5',
+                                                            'product_name' => 'Studio Flat Premium',
+                                                            'plan' => 'Premium',
+                                                            'bill' => $studio_flat_service_charge * 1.7,
+                                                            'service_id' => $service_id ?? null,
+                                                            'child_category_id_from_backend' =>
+                                                                $child_category_id ?? null,
+                                                        ]
+                                                    )
                                                 </td>
+
                                             </tr>
                                         </tbody>
                                     </table>
@@ -219,31 +175,36 @@
                                             <!-- Buttons -->
                                             <tr>
                                                 <td>&nbsp;</td>
-                                                <form id="propertyFindingPaymentForm" method="GET"
-                                                    action="{{ route('propertyFindingPayment') }}">
-                                                    @csrf
-                                                    <input type="hidden" name="product_id" value="3">
-                                                    <input type="hidden" name="product_name" value="Flat Regular">
-                                                    <input type="hidden" name="bill"
-                                                        value="{{ $flat_service_charge }}">
+                                                <td class="bg-green">
+                                                    @include(
+                                                        'frontend.other_services.partial.property_finding_service.pay_button',
+                                                        [
+                                                            'product_id' => '3',
+                                                            'product_name' => 'Flat Regular',
+                                                            'plan' => 'Regular',
+                                                            'bill' => $flat_service_charge,
+                                                            'service_id' => $service_id ?? null,
+                                                            'child_category_id_from_backend' =>
+                                                                $child_category_id ?? null,
+                                                        ]
+                                                    )
+                                                </td>
 
-                                                    <td class="bg-green">
-                                                        <button type="submit" class="btn"
-                                                            style="color: white">PAY</button>
-                                                    </td>
-                                                </form>
-                                                <form id="propertyFindingPaymentForm" method="GET"
-                                                    action="{{ route('propertyFindingPayment') }}">
-                                                    @csrf
-                                                    <input type="hidden" name="product_id" value="3">
-                                                    <input type="hidden" name="product_name" value="Flat Premium">
-                                                    <input type="hidden" name="bill"
-                                                        value="{{ $flat_service_charge * 1.7 }}">
+                                                <td class="bg-lblue">
+                                                    @include(
+                                                        'frontend.other_services.partial.property_finding_service.pay_button',
+                                                        [
+                                                            'product_id' => '3',
+                                                            'product_name' => 'Flat Premium',
+                                                            'plan' => 'Premium',
+                                                            'bill' => $flat_service_charge * 1.7,
+                                                            'service_id' => $service_id ?? null,
+                                                            'child_category_id_from_backend' =>
+                                                                $child_category_id ?? null,
+                                                        ]
+                                                    )
+                                                </td>
 
-                                                    <td class="bg-lblue">
-                                                        <button type="submit" class="btn"
-                                                            style="color: white">PAY</button>
-                                                </form>
                                             </tr>
                                         </tbody>
 
@@ -374,31 +335,37 @@
                                             <!-- Buttons -->
                                             <tr>
                                                 <td>&nbsp;</td>
-                                                <form id="propertyFindingPaymentForm" method="GET"
-                                                    action="{{ route('propertyFindingPayment') }}">
-                                                    @csrf
-                                                    <input type="hidden" name="product_id" value="4">
-                                                    <input type="hidden" name="product_name" value="House Regular">
-                                                    <input type="hidden" name="bill"
-                                                        value="{{ $house_service_charge }}">
 
-                                                    <td class="bg-green">
-                                                        <button type="submit" class="btn"
-                                                            style="color: white">PAY</button>
-                                                    </td>
-                                                </form>
-                                                <form id="propertyFindingPaymentForm" method="GET"
-                                                    action="{{ route('propertyFindingPayment') }}">
-                                                    @csrf
-                                                    <input type="hidden" name="product_id" value="4">
-                                                    <input type="hidden" name="product_name" value="House Premium">
-                                                    <input type="hidden" name="bill"
-                                                        value="{{ $house_service_charge * 1.7 }}">
+                                                <td class="bg-green">
+                                                    @include(
+                                                        'frontend.other_services.partial.property_finding_service.pay_button',
+                                                        [
+                                                            'product_id' => '4',
+                                                            'product_name' => 'House Regular',
+                                                            'plan' => 'Regular',
+                                                            'bill' => $house_service_charge,
+                                                            'service_id' => $service_id ?? null,
+                                                            'child_category_id_from_backend' =>
+                                                                $child_category_id ?? null,
+                                                        ]
+                                                    )
+                                                </td>
 
-                                                    <td class="bg-lblue">
-                                                        <button type="submit" class="btn"
-                                                            style="color: white">PAY</button>
-                                                </form>
+                                                <td class="bg-lblue">
+                                                    @include(
+                                                        'frontend.other_services.partial.property_finding_service.pay_button',
+                                                        [
+                                                            'product_id' => '4',
+                                                            'product_name' => 'House Premium',
+                                                            'plan' => 'Premium',
+                                                            'bill' => $house_service_charge * 1.7,
+                                                            'service_id' => $service_id ?? null,
+                                                            'child_category_id_from_backend' =>
+                                                                $child_category_id ?? null,
+                                                        ]
+                                                    )
+                                                </td>
+
                                             </tr>
 
                                         </tbody>
@@ -487,5 +454,5 @@
     </div>
 @endsection
 @section('script')
-    @include('frontend.other_services.partial.property_finding_service.style')
+    @include('frontend.other_services.partial.property_finding_service.script')
 @endsection

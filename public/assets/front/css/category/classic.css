@@ -157,7 +157,7 @@ h6,
 .navbar-expand-lg .navbar-nav .nav-link {
     font-size: 13px;
     text-transform: uppercase;
-	font-weight: 500;
+    font-weight: 500;
 }
 
 .dropdown-item {
@@ -285,13 +285,14 @@ h6,
 .time-box li span:last-child {
     color: var(--theme-secondary-color)
 }
-.header-cart-1 .cart-icon, 
+
+.header-cart-1 .cart-icon,
 .header-cart-6 .cart-icon,
-.search-view > a,
-.wishlist-view > a,
-.refresh-view > a,
-.cart-view > a,
-.sign-in > a {
+.search-view>a,
+.wishlist-view>a,
+.refresh-view>a,
+.cart-view>a,
+.sign-in>a {
     padding: 4px;
     line-height: 50px;
     text-align: center;
@@ -302,45 +303,48 @@ h6,
 }
 
 @media screen and (max-width: 1199px) {
-    .search-view > a,
-	.wishlist-view > a,
-	.refresh-view > a,
-	.cart-view > a,
-	.sign-in > a {
-		line-height: 35px;
-		width: 35px;
-		height: 35px;
-	}
+
+    .search-view>a,
+    .wishlist-view>a,
+    .refresh-view>a,
+    .cart-view>a,
+    .sign-in>a {
+        line-height: 35px;
+        width: 35px;
+        height: 35px;
+    }
 }
 
-@media screen and (max-width: 1399px){
-	.touch-screen-view.visible {
-		visibility: visible;
-		opacity: 1;
-	}
-	.touch-screen-view {
-		position: fixed;
-		width: 100%;
-		height: 130px;
-		background: var(--theme-light-color);
-		top: 0;
-		left: 0;
-		z-index: 110;
-		visibility: hidden;
-		opacity: 0;
-		-moz-transition: all 300ms ease-in-out 0s;
-		-webkit-transition: all 300ms ease-in-out 0s;
-		-o-transition: all 300ms ease-in-out 0s;
-		-ms-transition: all 300ms ease-in-out 0s;
-		transition: all 300ms ease-in-out 0s;
-	}
-	.touch-screen-view .form-inline {
-		position: absolute;
-		top: 50%;
-		left: 50%;
-		transform: translate(-50%, -50%);
-		width: 80%;
-	}
+@media screen and (max-width: 1399px) {
+    .touch-screen-view.visible {
+        visibility: visible;
+        opacity: 1;
+    }
+
+    .touch-screen-view {
+        position: fixed;
+        width: 100%;
+        height: 130px;
+        background: var(--theme-light-color);
+        top: 0;
+        left: 0;
+        z-index: 110;
+        visibility: hidden;
+        opacity: 0;
+        -moz-transition: all 300ms ease-in-out 0s;
+        -webkit-transition: all 300ms ease-in-out 0s;
+        -o-transition: all 300ms ease-in-out 0s;
+        -ms-transition: all 300ms ease-in-out 0s;
+        transition: all 300ms ease-in-out 0s;
+    }
+
+    .touch-screen-view .form-inline {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 80%;
+    }
 }
 
 @media screen and (max-width: 575px) {
@@ -350,6 +354,7 @@ h6,
         top: 0;
         transform: translateY(0);
     }
+
     .product-wrapper {
         display: block
     }

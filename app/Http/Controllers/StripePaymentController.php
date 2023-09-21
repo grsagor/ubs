@@ -19,6 +19,9 @@ class StripePaymentController extends Controller
      */
     public function stripe(Request $request)
     {
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
 
         $data['product_id']             = session('product_id');
         $data['product_name']           = session('product_name');
@@ -36,10 +39,6 @@ class StripePaymentController extends Controller
 
         if (session('url')) {
             $data['url']                = session('url');
-        }
-
-        if (!Auth::check()) {
-            return redirect()->route('login');
         }
 
         // return $data;
@@ -63,6 +62,8 @@ class StripePaymentController extends Controller
             'source'        => $request->input('stripeToken'),
             "address"       => ["city" => "San Francisco", "country" => "US", "line1" => "510 Townsend St", "postal_code" => "98140", "state" => "CA"]
         ));
+
+
         try {
             $charge = \Stripe\Charge::create(array(
                 "amount"        => $request->bill * 100,
