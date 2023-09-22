@@ -56,7 +56,8 @@ return [
     'app_title' => env('APP_TITLE'),
     'mpdf_temp_path' => storage_path('app/pdf'), //Temporary path used by mpdf
 
-    'document_upload_mimes_types' => ['application/pdf' => '.pdf',
+    'document_upload_mimes_types' => [
+        'application/pdf' => '.pdf',
         'text/csv' => '.csv',
         'application/zip' => '.zip',
         'application/msword' => '.doc',
