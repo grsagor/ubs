@@ -54,7 +54,7 @@ class ServiceAdvertiseRoomController extends Controller
                     return $service->child_category->name;
                 })
                 ->addColumn('action', function ($service) {
-                    return '<div class="d-flex gap-1"><button type="button" data-id="' . $service->id . '" class="btn btn-xs btn-success property_rent_edit_btn">Edit</button><button type="button" class="btn btn-xs btn-danger property_wanted_delete_btn" data-id="' . $service->id . '">Delete</button></div>';
+                    return '<div class="d-flex gap-1"><button type="button" data-id="' . $service->id . '" class="btn btn-xs btn-success property_rent_edit_btn">Edit</button><button type="button" class="btn btn-xs btn-primary property_wanted_delete_btn" data-id="' . $service->id . '">Change Status</button></div>';
                 })
                 ->rawColumns(['action'])
                 ->toJson();
@@ -279,12 +279,16 @@ class ServiceAdvertiseRoomController extends Controller
     public function confirmPropertyRentDelete(Request $request)
     {
         $id = $request->id;
-        // $property = ServicePropertyWanted::find($id)->delete();
         $property = ServiceAdvertiseRoom::find($id);
-        $property->forceDelete();
+        if ($property->status == 1) {
+            $property->status = 0;
+        } else {
+            $property->status = 1;
+        }
+        $property->save();
         $response = [
             'success' => true,
-            'message' => 'Property deleted.'
+            'message' => 'Property status changed.'
         ];
         return response()->json($response);
     }

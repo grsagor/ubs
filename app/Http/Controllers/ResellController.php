@@ -30,7 +30,7 @@ class ResellController extends Controller
             }
             return Datatables::of($products)
             ->addColumn('action', function ($product) {
-                return '<button type="submit" class="btn btn-xs btn-primary resell_product_button" data-id="'.$product->id.'">Share This Shop</button>';
+                return '<button type="submit" class="btn btn-xs btn-primary resell_product_button" data-id="'.$product->id.'">Resell</button>';
         
             })
             ->removeColumn('id')
