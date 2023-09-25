@@ -13,9 +13,9 @@
             <small>Advertise your room</small>
         </h1>
         <!-- <ol class="breadcrumb">
-                                                <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
-                                                <li class="active">Here</li>
-                                            </ol> -->
+                                                        <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
+                                                        <li class="active">Here</li>
+                                                    </ol> -->
     </section>
 
     <!-- Main content -->
@@ -32,6 +32,7 @@
                     <thead>
                         <tr>
                             <th>Action</th>
+                            <th>Status</th>
                             <th>Reference No</th>
                             <th>Category</th>
                             <th>Sub-category</th>
@@ -70,6 +71,13 @@
                         name: 'action',
                         orderable: false,
                         searchable: false
+                    },
+                    {
+                        data: 'status',
+                        name: 'status',
+                        render: function(data) {
+                            return data == 1 ? 'Active' : 'Inactive';
+                        }
                     },
                     {
                         data: 'reference_id',

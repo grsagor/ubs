@@ -46,8 +46,8 @@ class PropertyWantedCustomerController extends Controller
                     // Edit button
                     $buttons .= '<button type="button" data-id="' . $service->id . '" class="btn btn-xs btn-success property_wanted_edit_btn">Edit</button>';
 
-                    // Delete button
-                    $buttons .= '<button type="button" class="btn btn-xs btn-danger property_wanted_delete_btn" data-id="' . $service->id . '">Delete</button>';
+                    // Change status button
+                    $buttons .= '<button type="button" class="btn btn-xs btn-primary property_wanted_delete_btn" data-id="' . $service->id . '">Change Status</button>';
 
                     // Check the upgraded status and add the appropriate button
                     if ($service->upgraded == 1) {
@@ -241,12 +241,15 @@ class PropertyWantedCustomerController extends Controller
     public function confirmPropertyDelete(Request $request)
     {
         $id = $request->id;
-        // $property = ServicePropertyWanted::find($id)->delete();
         $property = ServicePropertyWanted::find($id);
-        $property->forceDelete();
-        $response = [
+        if ($property->status == 1) {
+            $property->status = 0;
+        } else {
+            $property->status = 1;
+        }
+        $property->save();        $response = [
             'success' => true,
-            'message' => 'Property deleted.'
+            'message' => 'Property status changed.'
         ];
         return response()->json($response);
     }
@@ -255,9 +258,9 @@ class PropertyWantedCustomerController extends Controller
     {
         $id = $request->id;
         $property = ServicePropertyWanted::find($id);
-        $property->occupant_details = json_decode($property->occupant_details);
-        $property->room_details = json_decode($property->room_details);
-        $property->roomfurnishings = json_decode($property->roomfurnishings);
+        // $property->occupant_details = json_decode($property->occupant_details);
+        // $property->room_details = json_decode($property->room_details);
+        // $property->roomfurnishings = json_decode($property->roomfurnishings);
 
 
         $business_id = request()->session()->get('user.business_id');

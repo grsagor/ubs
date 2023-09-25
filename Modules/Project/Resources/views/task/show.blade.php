@@ -8,7 +8,7 @@
                 <i class="fa fa-tasks"></i>
                 {{$project_task->subject}}
                 <code>({{$project_task->task_id}})</code>
-                <button data-href="{{action('\Modules\Project\Http\Controllers\TaskController@edit', ['id' => $project_task->id, 'project_id' => $project_task->project_id])}}" class="cursor-pointer edit_a_task_from_view_task mr-16 btn btn-sm btn-primary pull-right">
+                <button data-href="{{action('\Modules\Project\Http\Controllers\TaskController@edit', ['project_task' => $project_task->id, 'project_id' => $project_task->project_id])}}" class="cursor-pointer edit_a_task_from_view_task mr-16 btn btn-sm btn-primary pull-right">
                     <i class="fa fa-edit"></i>
                     {{__("messages.edit")}}
                 </button>
