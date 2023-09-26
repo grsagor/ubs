@@ -216,15 +216,13 @@
                     </div>
                 </div>
 
-                <div class="tab-pane fade {{ $child_category_id == 11 ? 'show active' : '' }}" id="tab3">
-                    <!-- Content for tab 1 goes here -->
+                {{-- Previous --}}
+                {{-- <div class="tab-pane fade {{ $child_category_id == 11 ? 'show active' : '' }}" id="tab3">
                     <div id="generic_price_table">
-                        <!-- Pricing # -->
                         <div class="pricing">
                             <div class="container">
                                 <div class="pricing-table table-responsive" style="text-align: -webkit-center">
                                     <table class="table">
-                                        <!-- Heading -->
                                         <thead>
                                             <th>
                                                 <select style="background: white;" id="child_category_id_room_tab3">
@@ -242,7 +240,6 @@
                                                     <i class="fa fa-star"></i>
                                                     <i class="fa fa-star"></i>
                                                     <i class="fa fa-star"></i>
-                                                    {{-- <i class="fa fa-star-half-o"></i> --}}
                                                     <i class="fa fa-star-o"></i>
                                                     <i class="fa fa-star-o"></i>
                                                 </span>
@@ -266,8 +263,238 @@
 
                                             @include('frontend.other_services.partial.property_finding_service.tab_table')
 
-                                            <!-- Buttons -->
-                                            <!-- Buttons -->
+                                            <tr>
+                                                <td>&nbsp;</td>
+                                                <form id="propertyFindingPaymentForm" method="GET"
+                                                    action="{{ route('propertyFindingPayment') }}">
+                                                    @csrf
+                                                    <input type="hidden" id="room_regular_product_id" name="product_id"
+                                                        value="">
+                                                    <input type="hidden" id="room_regular_product_name"
+                                                        name="product_name" value="">
+                                                    <input type="hidden" id="room_regular_product_bill" name="bill"
+                                                        value="">
+
+                                                    <td class="bg-green">
+                                                        <button type="submit" class="btn"
+                                                            style="color: white">PAY</button>
+                                                    </td>
+                                                </form>
+                                                <form id="propertyFindingPaymentForm" method="GET"
+                                                    action="{{ route('propertyFindingPayment') }}">
+                                                    @csrf
+                                                    <input type="hidden" id="room_premium_product_id" name="product_id"
+                                                        value="">
+                                                    <input type="hidden" id="room_premium_product_name"
+                                                        name="product_name" value="">
+                                                    <input type="hidden" id="room_premium_product_bill" name="bill"
+                                                        value="">
+
+                                                    <td class="bg-lblue">
+                                                        <button type="submit" class="btn"
+                                                            style="color: white">PAY</button>
+                                                </form>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div> --}}
+
+
+                <div class="tab-pane fade {{ $child_category_id == 11 ? 'show active' : '' }}" id="tab3">
+                    <div id="generic_price_table">
+                        <div class="pricing">
+                            <div class="container">
+                                <div class="pricing-table table-responsive" style="text-align: -webkit-center">
+                                    <table class="table" style="width: 75%">
+                                        <thead>
+                                            <th style="width: 30%">
+
+                                                <div class="room_type_tab" id="room_type_tab">
+                                                    <div class="row" id="room_type_tab1">
+
+                                                        <div class="col-md-6" style="padding-right: 0;">
+                                                            <select class="form-control"
+                                                                style="background: white; height: auto;"
+                                                                id="child_category_id_room_tab3_1">
+                                                                <option value="0">Select</option>
+                                                                <option value="1">Single</option>
+                                                                <option value="6">Semi-Double</option>
+                                                                <option value="2">Double</option>
+                                                                <option value="7">En-suite</option>
+                                                            </select>
+                                                        </div>
+
+                                                        <div class="col-md-4" style="padding-right: 0;">
+                                                            <select class="form-control"
+                                                                style="background: white; height: auto;"
+                                                                id="quantity_tab3_1">
+                                                                <option value="0">Qty</option>
+                                                                <option value="1">1</option>
+                                                                <option value="2">2</option>
+                                                                <option value="3">3</option>
+                                                                <option value="4">4</option>
+                                                                <option value="5">5</option>
+                                                            </select>
+                                                        </div>
+
+                                                        <div class="col-md-2"> <button class="btn bg-danger btn_remove"
+                                                                type="button"
+                                                                style="padding: 6px; line-height: 0px; margin-top: -20px;">
+                                                                <i class="fa fa-times" aria-hidden="true"></i> </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                {{-- Add button --}}
+                                                <div class="add_button_tab_3">
+                                                    <div class="row">
+                                                        <div class="col-lg-12">
+                                                            <button class="btn bg-success" type="button" id="add">
+                                                                <i class="fa fa-plus" aria-hidden="true"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                {{-- <div class="row" id="room_type2_tab3">
+                                                    <div class="col-md-6" style="padding-right: 0;">
+                                                        <select class="form-control"
+                                                            style="background: white; height: auto;"
+                                                            id="child_category_id_room_tab3_2">
+                                                            <option value="0">Select</option>
+                                                            <option value="1">Single</option>
+                                                            <option value="6">Semi-Double</option>
+                                                            <option value="2">Double</option>
+                                                            <option value="7">En-suite</option>
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="col-md-4" style="padding-right: 0;">
+                                                        <select class="form-control"
+                                                            style="background: white; height: auto;" id="quantity_tab3_2">
+                                                            <option value="0">Qty</option>
+                                                            <option value="1">1</option>
+                                                            <option value="2">2</option>
+                                                            <option value="3">3</option>
+                                                            <option value="4">4</option>
+                                                            <option value="5">5</option>
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="col-md-2">
+                                                        <button class="btn bg-danger" type="button"
+                                                            id="remove_btn_room2"
+                                                            style="padding: 5px; line-height: 0px; margin-top: -20px;">
+                                                            <i class="fa fa-times" aria-hidden="true"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row" id="room_type3_tab3">
+                                                    <div class="col-md-6" style="padding-right: 0;">
+                                                        <select class="form-control"
+                                                            style="background: white; height: auto;"
+                                                            id="child_category_id_room_tab3_3">
+                                                            <option value="0">Select</option>
+                                                            <option value="1">Single</option>
+                                                            <option value="6">Semi-Double</option>
+                                                            <option value="2">Double</option>
+                                                            <option value="7">En-suite</option>
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="col-md-4" style="padding-right: 0;">
+                                                        <select class="form-control"
+                                                            style="background: white; height: auto;" id="quantity_tab3_3">
+                                                            <option value="0">Qty</option>
+                                                            <option value="1">1</option>
+                                                            <option value="2">2</option>
+                                                            <option value="3">3</option>
+                                                            <option value="4">4</option>
+                                                            <option value="5">5</option>
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="col-md-2">
+                                                        <button class="btn bg-danger" type="button"
+                                                            id="remove_btn_room3"
+                                                            style="padding: 5px; line-height: 0px; margin-top: -20px;">
+                                                            <i class="fa fa-times" aria-hidden="true"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row" id="room_type4_tab3">
+                                                    <div class="col-md-6" style="padding-right: 0;">
+                                                        <select class="form-control"
+                                                            style="background: white; height: auto;"
+                                                            id="child_category_id_room_tab3_4">
+                                                            <option value="0">Select</option>
+                                                            <option value="1">Single</option>
+                                                            <option value="6">Semi-Double</option>
+                                                            <option value="2">Double</option>
+                                                            <option value="7">En-suite</option>
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="col-md-4" style="padding-right: 0;">
+                                                        <select class="form-control"
+                                                            style="background: white; height: auto;" id="quantity_tab3_4">
+                                                            <option value="0">Qty</option>
+                                                            <option value="1">1</option>
+                                                            <option value="2">2</option>
+                                                            <option value="3">3</option>
+                                                            <option value="4">4</option>
+                                                            <option value="5">5</option>
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="col-md-2">
+                                                        <button class="btn bg-danger" type="button"
+                                                            id="remove_btn_room4"
+                                                            style="padding: 5px; line-height: 0px; margin-top: -20px;">
+                                                            <i class="fa fa-times" aria-hidden="true"></i>
+                                                        </button>
+                                                    </div>
+                                                </div> --}}
+
+                                            </th>
+
+                                            <th>
+                                                Regular
+                                                <span class="ptable-star green">
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star-o"></i>
+                                                    <i class="fa fa-star-o"></i>
+                                                </span>
+                                                <span class="ptable-price" id="regular_price_room_tab3">£0.0</span>
+                                            </th>
+                                            <th>
+                                                Premium
+                                                <span class="ptable-star lblue">
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star-o"></i>
+                                                </span>
+                                                <span class="ptable-price" id="premium_price_room_tab3">£0.0</span>
+                                            </th>
+
+                                        </thead>
+
+                                        <tbody id="table_room_tab3">
+
+                                            @include('frontend.other_services.partial.property_finding_service.tab_table')
+
                                             <tr>
                                                 <td>&nbsp;</td>
                                                 <form id="propertyFindingPaymentForm" method="GET"
@@ -454,5 +681,355 @@
     </div>
 @endsection
 @section('script')
-    @include('frontend.other_services.partial.property_finding_service.script')
+    {{-- <script>
+        $(document).ready(function() {
+
+
+
+            const $add_btn = $('#add');
+
+            const $remove_btn_room1 = $('#remove_btn_room1');
+            const $room_type1_tab3 = $('#room_type1_tab3');
+
+            const $remove_btn_room2 = $('#remove_btn_room2');
+            const $room_type2_tab3 = $('#room_type2_tab3');
+
+            const $remove_btn_room3 = $('#remove_btn_room3');
+            const $room_type3_tab3 = $('#room_type3_tab3');
+
+            const $remove_btn_room4 = $('#remove_btn_room4');
+            const $room_type4_tab3 = $('#room_type4_tab3');
+
+            $room_type2_tab3.hide();
+            $room_type3_tab3.hide();
+            $room_type4_tab3.hide();
+
+            var i = 1;
+            $add_btn.click(function() {
+                i++;
+                if (i == 1) {
+                    $room_type1_tab3.show();
+                }
+                if (i == 2) {
+                    $room_type2_tab3.show();
+                }
+                if (i == 3) {
+                    $room_type3_tab3.show();
+                }
+                if (i == 4) {
+                    $room_type4_tab3.show();
+                }
+
+            });
+
+            $remove_btn_room1.click(function() {
+                $room_type1_tab3.remove();
+            });
+
+            $remove_btn_room2.click(function() {
+                $room_type2_tab3.remove();
+            });
+
+            $remove_btn_room3.click(function() {
+                $room_type3_tab3.remove();
+            });
+
+            $remove_btn_room4.click(function() {
+                $room_type4_tab3.remove();
+            });
+
+        });
+    </script> --}}
+
+    <script>
+        $(document).ready(function() {
+
+
+            var i = 1; // Initialize the counter
+            var j = 1; // Initialize another counter
+            var maxRows = 4; // Set the maximum number of rows
+            var selectedCategories = []; // Array to store selected category values
+
+            let serviceCharge = 0;
+            let premiumServiceCharge = 0;
+
+            const $regularPrice = $('#regular_price_room_tab3');
+            const $premiumPrice = $('#premium_price_room_tab3');
+
+            const $roomRegularProductid = $('#room_regular_product_id');
+            const $roomRegularProductName = $('#room_regular_product_name');
+            const $roomRegularProductBill = $('#room_regular_product_bill');
+
+            const $roomPremiumProductid = $('#room_premium_product_id');
+            const $roomPremiumProductName = $('#room_premium_product_name');
+            const $roomPremiumProductBill = $('#room_premium_product_bill');
+
+            $('#room_type_tab').on('change', 'select[id^="child_category_id_room_tab3_"]', function() {
+                // Disable the select box when it's changed
+                $(this).prop('disabled', true);
+            });
+
+
+            $('#room_type_tab').on('change', '#child_category_id_room_tab3_1', function() {
+
+                let id = $(this).val();
+
+                if (id != 0) {
+                    $.ajax({
+                        url: '/property-finding-sevice-charge/' + id,
+                        type: 'get',
+                        success: (result) => {
+                            if (result) {
+
+                                $('#room_type_tab').on('change', '#quantity_tab3_1',
+                                    function() {
+                                        let quantity = $(this).val();
+
+                                        serviceCharge = result.service_charge
+                                            .service_charge.toFixed(2) * quantity;
+                                        console.log('Service charge : ' + serviceCharge);
+
+                                        $regularPrice.text(`£${serviceCharge}`).show();
+
+                                        premiumServiceCharge = (serviceCharge * 1.7)
+                                            .toFixed(2);
+                                        $premiumPrice.text(`£${premiumServiceCharge}`)
+                                            .show();
+
+                                        $roomRegularProductid.val(quantity);
+                                        $roomRegularProductName.val(
+                                            'Room-single Regular');
+                                        $roomRegularProductBill.val(serviceCharge);
+
+                                        $roomPremiumProductid.val(quantity);
+                                        $roomPremiumProductName.val(
+                                            'Room-single Premium');
+                                        $roomPremiumProductBill.val(
+                                            premiumServiceCharge);
+
+                                    });
+                            }
+                        }
+                    });
+                }
+
+            });
+
+
+            $('#add').click(function() {
+                var selectedValueCategory = $('#child_category_id_room_tab3_' + j).val();
+                var selectedValueQuantity = $('#quantity_tab3_' + j).val();
+
+                if (selectedValueCategory != 0 && selectedValueQuantity != 0) {
+                    if (i < maxRows) {
+                        j++;
+                        i++;
+
+
+                        $('#room_type_tab').on('change', '#child_category_id_room_tab3_' + j, function() {
+
+                            let id = $(this).val();
+
+                            if (id != 0) {
+                                $.ajax({
+                                    url: '/property-finding-sevice-charge/' + id,
+                                    type: 'get',
+                                    success: (result) => {
+                                        if (result) {
+
+                                            $('#room_type_tab').on('change',
+                                                '#quantity_tab3_' + j,
+                                                function() {
+                                                    let quantity = $(this).val();
+
+                                                    serviceCharge = result
+                                                        .service_charge
+                                                        .service_charge.toFixed(2) *
+                                                        quantity;
+                                                    console.log(
+                                                        'Service charge : ' +
+                                                        serviceCharge);
+
+                                                    $regularPrice.text(
+                                                            `£${serviceCharge}`)
+                                                        .show();
+
+                                                    premiumServiceCharge = (
+                                                            serviceCharge * 1.7)
+                                                        .toFixed(2);
+                                                    $premiumPrice.text(
+                                                            `£${premiumServiceCharge}`
+                                                        )
+                                                        .show();
+
+                                                    $roomRegularProductid.val(
+                                                        quantity);
+                                                    $roomRegularProductName.val(
+                                                        'Room-single Regular');
+                                                    $roomRegularProductBill.val(
+                                                        serviceCharge);
+
+                                                    $roomPremiumProductid.val(
+                                                        quantity);
+                                                    $roomPremiumProductName.val(
+                                                        'Room-single Premium');
+                                                    $roomPremiumProductBill.val(
+                                                        premiumServiceCharge);
+
+                                                });
+                                        }
+                                    }
+                                });
+                            }
+
+
+                        });
+
+
+
+                        // Add the selected category to the array
+                        selectedCategories.push(selectedValueCategory);
+
+                        // Create the new row with the category and quantity selectors
+                        var categoryOptionsHtml = '<option value="0">Select</option>';
+
+                        for (var optionValue = 1; optionValue <= 7; optionValue++) {
+                            if (!selectedCategories.includes(optionValue.toString())) {
+                                var optionText = getOptionText(optionValue);
+                                if (optionText.trim() !== '') {
+                                    categoryOptionsHtml += '<option value="' + optionValue + '">' +
+                                        optionText + '</option>';
+                                }
+                            }
+                        }
+
+
+                        $('#room_type_tab').append(
+                            '<div class="row" id="room_type_tab' + j +
+                            '"> <div class="col-md-6" style="padding-right: 0;"> <select class="form-control" style="background: white; height: auto;" id="child_category_id_room_tab3_' +
+                            j + '">' + categoryOptionsHtml +
+                            '</select> </div> <div class="col-md-4" style="padding-right: 0;"> <select class="form-control" style="background: white; height: auto;" id="quantity_tab3_' +
+                            j +
+                            '"> <option value="0">Qty</option> <option value="1">1</option> <option value="2">2</option> <option value="3">3</option> <option value="4">4</option> <option value="5">5</option> </select> </div> <div class="col-md-2"> <button class="btn bg-danger btn_remove" type="button" id="' +
+                            j +
+                            '" style="padding: 6px; line-height: 0px; margin-top: -20px;"> <i class="fa fa-times" aria-hidden="true"></i> </button> </div> </div>'
+                        );
+                    } else {
+                        i = maxRows;
+                        toastr.error('Maximum room type add 4');
+                    }
+                } else {
+                    toastr.error('Please select a value before adding a new row.');
+                }
+            });
+            // ...
+
+
+            $(document).on('click', '.btn_remove', function() {
+                var button_id = $(this).attr("id");
+                if (button_id) {
+                    // Retrieve the selected category value from the removed row
+                    var removedCategory = $('#child_category_id_room_tab3_' + button_id).val();
+
+                    // Remove the selected category value from the array
+                    selectedCategories = selectedCategories.filter(category => category !==
+                        removedCategory);
+
+
+                    // Show all the select elements in all rows
+                    $('select').show();
+
+                    // Loop through each selected category and hide the corresponding options
+                    selectedCategories.forEach(function(category) {
+                        $('select option[value="' + category + '"]').hide();
+                    });
+
+                    $('#room_type_tab' + button_id).remove();
+                } else {
+
+
+                    var removedCategory = $('#child_category_id_room_tab3_1').val();
+
+                    // Remove the selected category value from the array
+                    selectedCategories = selectedCategories.filter(category => category !==
+                        removedCategory);
+
+                    $('#room_type_tab1').remove();
+                }
+                i--;
+            });
+
+
+            // Function to get option text based on the option value
+            function getOptionText(optionValue) {
+                switch (optionValue) {
+                    case 1:
+                        return 'Single';
+                    case 6:
+                        return 'Semi-Double';
+                    case 2:
+                        return 'Double';
+                    case 7:
+                        return 'En-suite';
+                    default:
+                        return '';
+                }
+            }
+
+
+
+
+
+
+            // var i = 1;
+            // var j = 1;
+            // var maxRows = 4;
+
+            // $('#add').click(function() {
+
+            //     var selectedValueCategory = $('#child_category_id_room_tab3_' + j).val();
+            //     var selectedValueQuantity = $('#quantity_tab3_' + j).val();
+
+            //     // console.log('Selected value ' + selectedValueCategory);
+            //     if (selectedValueCategory != 0 && selectedValueQuantity != 0) {
+            //         i++;
+            //         if (i <= maxRows) {
+            //             j++;
+            //             console.log('Value of j' + j);
+            //             $('#room_type_tab').append(
+            //                 '<div class="row" id="room_type_tab' +
+            //                 j +
+            //                 '"> <div class="col-md-6" style="padding-right: 0;"> <select class="form-control" style="background: white; height: auto;" id="child_category_id_room_tab3_' +
+            //                 j +
+            //                 '"> <option value="0">Select</option> <option value="1" ' + (
+            //                     selectedValueCategory
+            //                     .includes('1') ? 'style="display: none;"' : '') +
+            //                 '>Single</option> <option value="6" ' + (selectedValueCategory.includes(
+            //                     '6') ?
+            //                     'style="display: none;"' : '') +
+            //                 '>Semi-Double</option> <option value="2" ' + (selectedValueCategory
+            //                     .includes('2') ?
+            //                     'style="display: none;"' : '') + '>Double</option> <option value="7" ' +
+            //                 (selectedValueCategory.includes('7') ? 'style="display: none;"' : '') +
+            //                 '>En-suite</option> </select> </div> <div class="col-md-4" style="padding-right: 0;"> <select class="form-control" style="background: white; height: auto;" id="quantity_tab3_' +
+            //                 j +
+            //                 '"> <option value="0">Qty</option> <option value="1">1</option> <option value="2">2</option> <option value="3">3</option> <option value="4">4</option> <option value="5">5</option> </select> </div> <div class="col-md-2"> <button class="btn bg-danger btn_remove" type="button" id="' +
+            //                 j +
+            //                 '" style="padding: 6px; line-height: 0px; margin-top: -20px;"> <i class="fa fa-times" aria-hidden="true"></i> </button> </div> </div> </div>'
+            //             );
+            //         } else {
+            //             i = maxRows;
+            //             // console.log('Else value' + i);
+            //             toastr.error('Maximum room type add 4');
+            //         }
+            //     } else {
+            //         toastr.error('Please select a value before adding a new row.');
+            //     }
+            // });
+
+
+
+        });
+    </script>
+    {{-- @include('frontend.other_services.partial.property_finding_service.script') --}}
 @endsection
