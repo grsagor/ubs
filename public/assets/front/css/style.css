@@ -1073,7 +1073,7 @@ select.form-control,
 select {
     -webkit-appearance: none;
     -moz-appearance: none;
-    background: url(../images/icon/chevron-down.png) calc(100% - 15px) 52%/8px no-repeat;
+    /* background: url(../images/icon/chevron-down.png) calc(100% - 15px) 52%/8px no-repeat; */
     padding: 5px 30px 5px 10px;
     cursor: pointer;
 }
@@ -2404,6 +2404,7 @@ ul.sub-categories li a:hover {
     text-align: center;
     font-size: 14px;
 }
+
 .nav-pills .nav-link {
     background: green;
     color: #fff;

@@ -131,7 +131,7 @@
                                                             'product_id' => '5',
                                                             'product_name' => 'Studio Flat Premium',
                                                             'plan' => 'Premium',
-                                                            'bill' => $studio_flat_service_charge * 1.7,
+                                                            'bill' => $studio_flat_service_charge * 1.4,
                                                             'service_id' => $service_id ?? null,
                                                             'child_category_id_from_backend' =>
                                                                 $child_category_id ?? null,
@@ -197,7 +197,7 @@
                                                             'product_id' => '3',
                                                             'product_name' => 'Flat Premium',
                                                             'plan' => 'Premium',
-                                                            'bill' => $flat_service_charge * 1.7,
+                                                            'bill' => $flat_service_charge * 1.4,
                                                             'service_id' => $service_id ?? null,
                                                             'child_category_id_from_backend' =>
                                                                 $child_category_id ?? null,
@@ -217,23 +217,32 @@
                 </div>
 
                 <div class="tab-pane fade {{ $child_category_id == 11 ? 'show active' : '' }}" id="tab3">
-                    <!-- Content for tab 1 goes here -->
                     <div id="generic_price_table">
-                        <!-- Pricing # -->
                         <div class="pricing">
                             <div class="container">
                                 <div class="pricing-table table-responsive" style="text-align: -webkit-center">
-                                    <table class="table">
-                                        <!-- Heading -->
+                                    <table class="table" style="width: 75%">
                                         <thead>
-                                            <th>
-                                                <select style="background: white;" id="child_category_id_room_tab3">
-                                                    <option value="0">Select Room</option>
-                                                    <option value="1">Single </option>
-                                                    <option value="6">Semi-Double</option>
-                                                    <option value="2">Double</option>
-                                                    <option value="7">En-suite</option>
-                                                </select>
+                                            <th style="width: 30%">
+
+                                                <div class="room_type_tab" id="room_type_tab">
+                                                    <div class="row" id="room_type_tab1">
+
+                                                    </div>
+                                                </div>
+
+                                                {{-- Add button --}}
+                                                <div class="add_button_tab_3">
+                                                    <div class="row">
+                                                        <div class="col-lg-12">
+                                                            <button class="btn bg-success" type="button" id="add">
+                                                                <i class="fa fa-plus" aria-hidden="true"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
                                             </th>
 
                                             <th>
@@ -242,7 +251,6 @@
                                                     <i class="fa fa-star"></i>
                                                     <i class="fa fa-star"></i>
                                                     <i class="fa fa-star"></i>
-                                                    {{-- <i class="fa fa-star-half-o"></i> --}}
                                                     <i class="fa fa-star-o"></i>
                                                     <i class="fa fa-star-o"></i>
                                                 </span>
@@ -257,7 +265,7 @@
                                                     <i class="fa fa-star"></i>
                                                     <i class="fa fa-star-o"></i>
                                                 </span>
-                                                <span class="ptable-price" id="premium_price_room_tab3">£99.0</span>
+                                                <span class="ptable-price" id="premium_price_room_tab3">£0.0</span>
                                             </th>
 
                                         </thead>
@@ -266,8 +274,6 @@
 
                                             @include('frontend.other_services.partial.property_finding_service.tab_table')
 
-                                            <!-- Buttons -->
-                                            <!-- Buttons -->
                                             <tr>
                                                 <td>&nbsp;</td>
                                                 <form id="propertyFindingPaymentForm" method="GET"
@@ -298,6 +304,7 @@
                                                     <td class="bg-lblue">
                                                         <button type="submit" class="btn"
                                                             style="color: white">PAY</button>
+                                                    </td>
                                                 </form>
                                             </tr>
 
@@ -358,7 +365,7 @@
                                                             'product_id' => '4',
                                                             'product_name' => 'House Premium',
                                                             'plan' => 'Premium',
-                                                            'bill' => $house_service_charge * 1.7,
+                                                            'bill' => $house_service_charge * 1.4,
                                                             'service_id' => $service_id ?? null,
                                                             'child_category_id_from_backend' =>
                                                                 $child_category_id ?? null,
@@ -454,5 +461,226 @@
     </div>
 @endsection
 @section('script')
-    @include('frontend.other_services.partial.property_finding_service.script')
+    <script>
+        $(document).ready(function() {
+
+            var i = 1;
+            var j = 1;
+            var maxRows = 5;
+            let totalServiceCharge = 0;
+
+            var selectedCategories = [];
+            let totalServiceCharges = [];
+            let childCategoryIds = [];
+            let quantities = [];
+
+            const $regularPrice = $('#regular_price_room_tab3');
+            const $premiumPrice = $('#premium_price_room_tab3');
+
+
+            const $roomRegularProductid = $('#room_regular_product_id');
+            const $roomRegularProductName = $('#room_regular_product_name');
+            const $roomRegularProductBill = $('#room_regular_product_bill');
+
+            const $roomPremiumProductid = $('#room_premium_product_id');
+            const $roomPremiumProductName = $('#room_premium_product_name');
+            const $roomPremiumProductBill = $('#room_premium_product_bill');
+
+            $('#room_type_tab').on('change', 'select[id^="child_category_id_room_tab3_"]', function() {
+                $(this).prop('disabled', true);
+            });
+
+            $('#room_type_tab').on('change', 'select[id^="quantity_tab3_"]', function() {
+                $(this).prop('disabled', true);
+            });
+
+            function rowIncreaseFunction() {
+                var selectedValueCategory = $('#child_category_id_room_tab3_' + j).val();
+                var selectedValueQuantity = $('#quantity_tab3_' + j).val();
+
+                if (selectedValueCategory != 0 && selectedValueQuantity != 0) {
+                    if (i < maxRows) {
+                        j++;
+                        i++;
+
+                        $('#room_type_tab').on('change', '#child_category_id_room_tab3_' + j, function() {
+                            let id = $(this).val();
+                            if (id != 0) {
+                                $.ajax({
+                                    url: '/property-finding-service-charge/' + id,
+                                    type: 'get',
+                                    success: (result) => {
+                                        if (result) {
+                                            // Save the child category ID in the array
+                                            childCategoryIds[j] = id;
+
+                                            $('#room_type_tab').on('change', '#quantity_tab3_' +
+                                                j,
+                                                function() {
+                                                    let quantity = $(this).val();
+
+                                                    // Save the quantity in the array
+                                                    quantities[j] = quantity;
+
+                                                    // Your existing code to calculate service charges and update the UI
+                                                    serviceCharge = result.service_charge
+                                                        .service_charge.toFixed(2) *
+                                                        quantity;
+                                                    totalServiceCharge += serviceCharge;
+                                                    totalServiceCharges[j] = serviceCharge;
+                                                    $regularPrice.text(
+                                                        `£${totalServiceCharge}`).show();
+                                                    premiumServiceCharge = (
+                                                            totalServiceCharge * 1.4)
+                                                        .toFixed(2);
+                                                    $premiumPrice.text(
+                                                            `£${premiumServiceCharge}`)
+                                                        .show();
+
+                                                    $roomRegularProductid.val(
+                                                        childCategoryIds.filter(id =>
+                                                            id !== undefined).join(', ')
+                                                    );
+                                                    $roomRegularProductName.val(quantities
+                                                        .filter(qty => qty !==
+                                                            undefined).join(', '));
+                                                    $roomRegularProductBill.val(
+                                                        totalServiceCharge);
+
+                                                    $roomPremiumProductid.val(
+                                                        childCategoryIds.filter(id =>
+                                                            id !== undefined).join(', ')
+                                                    );
+                                                    $roomPremiumProductName.val(quantities
+                                                        .filter(qty => qty !==
+                                                            undefined).join(', '));
+                                                    $roomPremiumProductBill.val(
+                                                        premiumServiceCharge);
+
+                                                    // Remove first two commas
+                                                    console.log('Child category id ' +
+                                                        childCategoryIds.filter(id =>
+                                                            id !== undefined).join(', ')
+                                                    );
+                                                    console.log('Quantity ' + quantities
+                                                        .filter(qty => qty !==
+                                                            undefined).join(', '));
+                                                });
+                                        }
+                                    }
+                                });
+                            }
+                        });
+
+                        selectedCategories.push(selectedValueCategory);
+
+                        var categoryOptionsHtml = '<option value="0">Select</option>';
+
+                        for (var optionValue = 1; optionValue <= 7; optionValue++) {
+                            if (!selectedCategories.includes(optionValue.toString())) {
+                                var optionText = getOptionText(optionValue);
+                                if (optionText.trim() !== '') {
+                                    categoryOptionsHtml += '<option value="' + optionValue + '">' +
+                                        optionText + '</option>';
+                                }
+                            }
+                        }
+
+                        $('#room_type_tab').append(
+                            '<div class="row" id="room_type_tab' + j +
+                            '"> <div class="col-md-6" style="padding-right: 0;"> <select class="form-control" style="background: white; height: auto;" id="child_category_id_room_tab3_' +
+                            j + '">' + categoryOptionsHtml +
+                            '</select> </div> <div class="col-md-4" style="padding-right: 0;"> <select class="form-control" style="background: white; height: auto;" id="quantity_tab3_' +
+                            j +
+                            '"> <option value="0">Qty</option> <option value="1">1</option> <option value="2">2</option> <option value="3">3</option> <option value="4">4</option> <option value="5">5</option> </select> </div> <div class="col-md-2"> <button class="btn bg-danger btn_remove" type="button" id="' +
+                            j +
+                            '" style="padding: 6px; line-height: 0px; margin-top: -20px;"> <i class="fa fa-times" aria-hidden="true"></i> </button> </div> </div>'
+                        );
+                    } else {
+                        i = maxRows;
+                        toastr.error('Maximum room type add 4');
+                    }
+                } else {
+                    toastr.error('Please select a value before adding a new row.');
+                }
+            }
+
+            if (j = 1) {
+                rowIncreaseFunction();
+            }
+
+            $('#add').click(function() {
+                rowIncreaseFunction();
+            });
+
+
+            $(document).on('click', '.btn_remove', function() {
+                var button_id = $(this).attr("id");
+
+                // Get the child category ID of the item being removed
+                var removedChildCategoryId = $('#child_category_id_room_tab3_' + button_id).val();
+
+                // Find the index of the removed item in the childCategoryIds array
+                var removedIndex = childCategoryIds.indexOf(removedChildCategoryId);
+
+                if (removedIndex !== -1) {
+                    // Remove the child category ID and quantity at the same index from the arrays
+                    childCategoryIds.splice(removedIndex, 1);
+                    quantities.splice(removedIndex, 1);
+                }
+
+                // Get the quantity of the item being removed
+                var removedQuantity = $('#quantity_tab3_' + button_id).val();
+
+                // Get the service charge for this item
+                var removedServiceCharge = totalServiceCharges[button_id];
+
+                // Subtract the service charge for the removed item from the totalServiceCharge
+                totalServiceCharge -= removedServiceCharge;
+
+                // Update the totalServiceCharges array by removing the entry for the removed item
+                delete totalServiceCharges[button_id];
+
+                // Update the UI with the new total service charge
+                $regularPrice.text(`£${totalServiceCharge}`).show();
+
+                // Calculate and update the premium service charge
+                var premiumServiceCharge = (totalServiceCharge * 1.4).toFixed(2);
+                $premiumPrice.text(`£${premiumServiceCharge}`).show();
+
+                var removedCategory = $('#child_category_id_room_tab3_' + button_id).val();
+
+                selectedCategories = selectedCategories.filter(category => category !== removedCategory);
+
+                $('select').show();
+
+                selectedCategories.forEach(function(category) {
+                    $('select option[value="' + category + '"]').hide();
+                });
+
+                $('#room_type_tab' + button_id).remove();
+
+                i--;
+            });
+
+
+
+            function getOptionText(optionValue) {
+                switch (optionValue) {
+                    case 1:
+                        return 'Single';
+                    case 6:
+                        return 'Semi-Double';
+                    case 2:
+                        return 'Double';
+                    case 7:
+                        return 'En-suite';
+                    default:
+                        return '';
+                }
+            }
+
+        });
+    </script>
+    {{-- @include('frontend.other_services.partial.property_finding_service.script') --}}
 @endsection

@@ -77,6 +77,7 @@ class OtherServicesController extends Controller
 
     public function propertyFindingPayment(Request $request)
     {
+        dd($request->toArray());
         // $request['table_name']             = 'propertyFindingService->serviceCharge';
         // $request['description']            = "Service charge id: " . $request->child_category_id_from_backend ?? NULL;
         // $request['upgrade']                = 'yes';
