@@ -123,7 +123,7 @@ Route::get('/partner-boarding',                                                 
 Route::get('/business-solutions',                                                   [OtherServicesController::class, 'businessSolutions'])->name('businessSolutions');
 Route::get('/it-solutions',                                                         [OtherServicesController::class, 'itSolutions'])->name('itSolutions');
 Route::get('/property-finding-service/{service_id?}/{child_category_id?}',          [OtherServicesController::class, 'propertyFindingService'])->name('propertyFindingService');
-Route::get('/property-finding-sevice-charge/{id}',                                  [OtherServicesController::class, 'propertyFindingServiceCharge'])->name('propertyFindingServiceCharge');
+Route::get('/property-finding-service-charge/{id}',                                 [OtherServicesController::class, 'propertyFindingServiceCharge'])->name('propertyFindingServiceCharge');
 Route::get('/property-finding-payment',                                             [OtherServicesController::class, 'propertyFindingPayment'])->name('propertyFindingPayment');
 
 
