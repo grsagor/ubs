@@ -58,6 +58,7 @@
                                  <label for="selling_price_group_id">I have</label>
                                  <select class="form-control" id="property_room_quantity" name="property_room_quantity">
                                      @foreach (['1 Room for Rent', '2 Rooms for Rent', '3 Rooms for Rent', '4 Rooms for Rent', '5 Rooms for Rent'] as $key => $item)
+                                         <option value="">--Select-- </option>
                                          <option value="{{ $key + 1 }}">{{ $item }}
                                          </option>
                                      @endforeach

@@ -54,7 +54,7 @@
                 <label for="occupant_occupation">Profession</label>
                 <select class="form-control" id="occupant_occupation_{{ $i }}"
                     onchange="showStudentInfo({{ $i }})" name="occupant_occupation[]">
-                    <option selected="" value="">Select....</option>
+                    <option selected="" value=0>Select....</option>
                     <option value="1">Student</option>
                     <option value="2">Employee</option>
                     <option value="3">Others</option>
@@ -62,30 +62,15 @@
             </div>
         </div>
 
-        <div id="student_info_container_{{ $i }}" style="display: none;">
-            <div class="col-sm-12">
-                <div class="form-group">
-                    <label for="occupant_university_name">University Name</label>
-                    <input class="form-control" name="occupant_university_name[]" type="text"
-                        id="occupant_university_name">
-                </div>
-            </div>
-            <div class="col-sm-12">
-                <div class="form-group">
-                    <label for="occupant_degree_name">Degree Name</label>
-                    <input class="form-control" name="occupant_degree_name[]" type="text" id="occupant_degree_name">
-                </div>
-            </div>
-            <div class="col-sm-12">
-                <div class="form-group">
-                    <label for="occupant_job">Do you have job?</label>
-                    <select onchange="showJobInfo({{ $i }})" class="form-control"
-                        id="occupant_job_{{ $i }}" name="occupant_job[]">
-                        <option selected="" value="">Select....</option>
-                        <option value="1">Yes</option>
-                        <option value="0">No</option>
-                    </select>
-                </div>
+        <div class="col-sm-12" id="have_job{{ $i }}" style="display: none;">
+            <div class="form-group">
+                <label for="occupant_job">Do you have job?</label>
+                <select onchange="showJobInfo({{ $i }})" class="form-control"
+                    id="occupant_job_{{ $i }}" name="occupant_job[]">
+                    <option selected="" value="-1">Select....</option>
+                    <option value="1">Yes</option>
+                    <option value="0">No</option>
+                </select>
             </div>
         </div>
 
@@ -103,11 +88,36 @@
             </div>
             <div class="col-sm-12">
                 <div class="form-group">
+                    <label for="occupant_designation">Designation</label>
+                    <input class="form-control" type="text" name="occupant_designation[]" id="occupant_designation">
+                </div>
+            </div>
+            <div class="col-sm-12">
+                <div class="form-group">
                     <label for="occupant_miat">Monthly income after tax</label>
                     <input class="form-control" name="occupant_miat[]" type="text" id="occupant_miat">
                 </div>
             </div>
         </div>
+
+        <div id="student_info_container_{{ $i }}" style="display: none;">
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <label for="occupant_university_name">University Name</label>
+                    <input class="form-control" name="occupant_university_name[]" type="text"
+                        id="occupant_university_name">
+                </div>
+            </div>
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <label for="occupant_degree_name">Degree Name</label>
+                    <input class="form-control" name="occupant_degree_name[]" type="text"
+                        id="occupant_degree_name">
+                </div>
+            </div>
+
+        </div>
+
 
         <div class="col-sm-12">
             <div class="form-group">
@@ -153,6 +163,19 @@
         } else {
             $(`#student_info_container_${i}`).hide();
         }
+
+        if (isStudent == 0) {
+            console.log('Value check ' + isStudent);
+            $(`#occupant_job_${i}`).val('0');
+
+            $(`#have_job${i}`).hide();
+            $(`#job_info_${i}`).hide();
+        } else if (isStudent) {
+            $(`#have_job${i}`).show();
+        } else {
+            $(`#have_job${i}`).hide();
+        }
+
     }
 
     function showJobInfo(i) {

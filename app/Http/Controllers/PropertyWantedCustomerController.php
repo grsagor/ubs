@@ -144,6 +144,7 @@ class PropertyWantedCustomerController extends Controller
                     "occupant_degree_name" => $request->occupant_degree_name[$i],
                     "occupant_job" => $request->occupant_job[$i],
                     "occupant_job_type" => $request->occupant_job_type[$i],
+                    "occupant_designation" => $request->occupant_designation[$i],
                     "occupant_miat" => $request->occupant_miat[$i],
                     "occupant_pay_rent" => $request->occupant_pay_rent[$i],
                     "occupant_nationality" => $request->occupant_nationality[$i],

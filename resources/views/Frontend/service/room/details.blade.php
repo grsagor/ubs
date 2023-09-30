@@ -86,15 +86,17 @@
                                                     @if ($info->property_postcode)
                                                         <p style="margin: 10px;">
                                                             <strong>Post Code: </strong>
-                                                            {{ $info->property_postcode ?? '' }} months
+                                                            {{ $info->property_postcode ?? '' }}
                                                         </p>
                                                     @endif
 
                                                     @if ($info->transport_minutes)
                                                         <p style="margin: 10px;">
-                                                            <strong>Distance from station: </strong>
+                                                            {{-- <strong>Distance from station: </strong> --}}
                                                             {{ $info->transport_minutes ?? '' }}
+                                                            minutes
                                                             {{ $info->transport_form ?? '' }}
+                                                            from
                                                             {{ $info->transport_to ?? '' }}
                                                         </p>
                                                     @endif
@@ -140,12 +142,12 @@
                                                                                     <input type="radio" name="room_cost"
                                                                                         id="room{{ $i + 1 }}"
                                                                                         value="{{ $item['room_cost_of_amount'] }}">
-                                                                                    <strong class="room-list__price">
+                                                                                    {{-- <strong class="room-list__price">
                                                                                         &pound;
                                                                                         {{ $item['room_cost_of_amount'] }}
-                                                                                        pcm</strong>
-                                                                                    <small>(Room
-                                                                                        {{ $i + 1 }})</small>
+                                                                                        pcm</strong> --}}
+                                                                                    <small>Room
+                                                                                        {{ $i + 1 }}</small>
                                                                                 </li>
                                                                             @endif
                                                                         @endforeach
@@ -174,30 +176,31 @@
                                                                 aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                                 <div class="modal-dialog">
                                                                     <div class="modal-content">
-                                                                        <div class="modal-header">
+                                                                        {{-- <div class="modal-header">
                                                                             <h5 class="modal-title" id="exampleModalLabel">
                                                                                 Reference
                                                                                 Number</h5>
-                                                                        </div>
+                                                                        </div> --}}
                                                                         <div class="modal-body">
-                                                                            <p>Please call <a
+                                                                            <p class="text-center">Please call <a
                                                                                     href="callto:{{ $info->user->contact_no }}">{{ $info->user->contact_no }}</a>
                                                                                 to get the reference id.</p>
                                                                             <div class="mb-3">
                                                                                 <input type="text" class="form-control"
                                                                                     id="inputName" name="reference_number"
                                                                                     placeholder="Enter reference number"
-                                                                                    style="width: 100%;">
+                                                                                    style="width: 100%; border: 1px solid rgb(89, 85, 85);                                                                                    ">
 
                                                                             </div>
                                                                         </div>
-                                                                        <div class="modal-footer">
-                                                                            <button type="button"
-                                                                                class="btn btn-secondary"
+                                                                        <div
+                                                                            class="modal-footer d-flex justify-content-center">
+                                                                            <button type="button" class="btn btn-dark"
                                                                                 data-bs-dismiss="modal">Close</button>
                                                                             <button type="submit"
-                                                                                class="btn btn-primary">Buy</button>
+                                                                                class="btn btn-dark">Book</button>
                                                                         </div>
+
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -376,42 +379,46 @@
                                         <th>Available From</th>
                                     </tr>
 
+                                    {{-- {{ dd($roomArray) }} --}}
+
                                     @foreach ($roomArray as $i => $item)
-                                        <tr>
-                                            <td>{{ $item['room_number'] }}</td>
+                                        @if ($item['room_size'] !== null)
+                                            <tr>
+                                                <td>{{ $item['room_number'] }}</td>
 
-                                            <td>
-                                                @if ($item['room_amenities'] == 'Y')
-                                                    En-suite
-                                                @else
-                                                    @if ($item['room_size'] == 1)
-                                                        Single
+                                                <td>
+                                                    @if ($item['room_amenities'] == 'Y')
+                                                        En-suite
+                                                    @else
+                                                        @if ($item['room_size'] == 1)
+                                                            Single
+                                                        @endif
+                                                        @if ($item['room_size'] == 2)
+                                                            Double
+                                                        @endif
+                                                        @if ($item['room_size'] == 3)
+                                                            Semi-double
+                                                        @endif
                                                     @endif
-                                                    @if ($item['room_size'] == 2)
-                                                        Double
-                                                    @endif
-                                                    @if ($item['room_size'] == 3)
-                                                        Semi-double
-                                                    @endif
-                                                @endif
-                                            </td>
-                                            <td>{{ $item['room_amenities'] == 1 ? 'Yes' : 'No' }}</td>
-                                            <td>
-                                                {{ $item['room_furnishings'] == 1 ? 'Furnisihed' : 'Unfurnished' }}
-                                            </td>
-
-                                            @if ($i == 0)
-                                                <td rowspan="{{ $room_count }}" style="background: white;">
-                                                    {{ $info->rent ?? '' }}</td>
-                                                <td rowspan="{{ $room_count }}" style="background: white;">
-                                                    {{ $info->security_deposit ?? '' }}
                                                 </td>
-                                                <td rowspan="{{ $room_count }}" style="background: white;">
-                                                    {{ $info->holding_deposit ?? '' }}</td>
-                                                <td rowspan="{{ $room_count }}" style="background: white;">
-                                                    {{ $info->room_available_from ?? '' }}</td>
-                                            @endif
-                                        </tr>
+                                                <td>{{ $item['room_amenities'] == 1 ? 'Yes' : 'No' }}</td>
+                                                <td>
+                                                    {{ $item['room_furnishings'] == 1 ? 'Furnisihed' : 'Unfurnished' }}
+                                                </td>
+
+                                                @if ($i == 0)
+                                                    <td rowspan="{{ $room_count }}" style="background: white;">
+                                                        {{ $info->rent ?? '' }}</td>
+                                                    <td rowspan="{{ $room_count }}" style="background: white;">
+                                                        {{ $info->security_deposit ?? '' }}
+                                                    </td>
+                                                    <td rowspan="{{ $room_count }}" style="background: white;">
+                                                        {{ $info->holding_deposit ?? '' }}</td>
+                                                    <td rowspan="{{ $room_count }}" style="background: white;">
+                                                        {{ $info->room_available_from ?? '' }}</td>
+                                                @endif
+                                            </tr>
+                                        @endif
                                     @endforeach
                                 </table>
                             @endif
@@ -471,11 +478,11 @@
                                     </p>
                                 @endif
 
-                                @if ($info->property_room_quantity)
+                                @if ($info->property_size)
                                     <p>
                                         <strong>Total Room: </strong>
                                         {{-- {{ count($roomArray) }} --}}
-                                        {{ $info->property_room_quantity ?? '' }}
+                                        {{ $info->property_size ?? '' }}
                                     </p>
                                 @endif
 

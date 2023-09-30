@@ -103,19 +103,30 @@ use App\Http\Controllers\Frontend\CategoryController as FrontendCategoryControll
 include_once 'install_r.php';
 
 
+Route::get('/room-wanted', function () {
+    return view('rough.room_wanted');
+});
+
+Route::get('/product', function () {
+    return view('rough.room_wanted');
+});
+
+Route::get('/rough', function () {
+    return view('frontend.service.room.details_form');
+});
+
+
 //Optimize Clear:
 Route::get('/route-optimize-clear', function () {
     Artisan::call('optimize:clear');
     return '<h2>Events, views, cache, route, config, compiled clear</h2>';
 });
 
-
 // Stripe payment gateway
 Route::controller(StripePaymentController::class)->group(function () {
     Route::get('stripe', 'stripe');
     Route::post('stripe', 'stripePost')->name('stripe.post');
 });
-
 
 // Digital Marketing, Partner Boarding, Business Solution, IT solution
 Route::get('/digital-marketing',                                                    [OtherServicesController::class, 'digitalMarketing'])->name('digitalMarketing');
@@ -126,7 +137,6 @@ Route::get('/property-finding-service/{service_id?}/{child_category_id?}',      
 Route::get('/property-finding-service-charge/{id}',                                 [OtherServicesController::class, 'propertyFindingServiceCharge'])->name('propertyFindingServiceCharge');
 Route::get('/property-finding-payment',                                             [OtherServicesController::class, 'propertyFindingPayment'])->name('propertyFindingPayment');
 
-
 // Services
 Route::get('/room-list/',                               [RoomListController::class, 'roomList'])->name('room.list');
 Route::get('/room-list/category',                       [RoomListController::class, 'roomListCategory'])->name('room.list.category');
@@ -134,11 +144,6 @@ Route::get('/room-show/{id}',                           [RoomListController::cla
 Route::put('/room-reference-number-check/{id}',         [RoomListController::class, 'referenceNumberCheck'])->name('room.referenceNumberCheck');
 
 Route::get('/property/{sub_category_id?}/{child_category_id?}', [PropertyFrontController::class, 'roomList'])->name('property.list');
-
-Route::get('/room-list/category',              [RoomListController::class, 'roomListCategory'])->name('room.list.category');
-
-Route::get('/room-show/{id}',                   [RoomListController::class, 'roomShow'])->name('room_show');
-Route::put('/room-reference-number-check/{id}', [RoomListController::class, 'referenceNumberCheck'])->name('room.referenceNumberCheck');
 
 // Route::get('/property-list',                    [PropertyController::class, 'propertyList'])->name('property.list.a');
 Route::get('/property-show/{id}',               [PropertyController::class, 'propertyShow'])->name('property_show');
@@ -148,24 +153,12 @@ Route::get('/property-list-showing/{child_category_id?}', [PropertyController::c
 
 Route::get('/education-list',                           [EducationController::class, 'educationList'])->name('education.list');
 
-
-Route::get('/room-wanted', function () {
-    return view('rough.room_wanted');
-});
-
-Route::get('/product', function () {
-    return view('rough.room_wanted');
-});
-
-
-
 // FOOTER LINKS DETAIL SECTION
 Route::get('/about',                                    [FrontendController::class, 'footerDetails'])->name('footer.details.about');
 Route::get('/make-money',                               [FrontendController::class, 'footerDetails'])->name('footer.details.make.money');
 Route::get('/our-services',                             [FrontendController::class, 'footerDetails'])->name('footer.details.our.services');
 Route::get('/quick-links',                              [FrontendController::class, 'footerDetails'])->name('footer.details.quick.links');
 Route::get('/policies',                                 [FrontendController::class, 'footerDetails'])->name('footer.details.policies');
-
 
 // CART SECTION
 Route::get('/carts',                    [CartController::class, 'cart'])->name('front.cart');

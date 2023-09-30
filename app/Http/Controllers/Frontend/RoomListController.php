@@ -124,26 +124,33 @@ class RoomListController extends Controller
     {
         $data                           = ServiceAdvertiseRoom::findOrFail($id);
 
-        $info['product_id']             = $id;
-        $info['product_name']           = $data->advert_title;
-        $info['bill']                   = $request->bill;
-        $info['table_name']             = 'service_advertise_rooms';
+        // $info['product_id']             = $id;
+        // $info['product_name']           = $data->advert_title;
+        // $info['bill']                   = $request->bill;
+        // $info['table_name']             = 'service_advertise_rooms';
 
         if ($data->reference_id == $request->reference_number) {
 
-            $info['output'] = [
+            $output     = [
                 'success'               => true,
                 'msg'                   => ('Reference number matched!!!'),
             ];
 
-            return redirect('stripe')
-                ->with([
-                    'product_id'        => $info['product_id'],
-                    'product_name'      => $info['product_name'],
-                    'bill'              => $info['bill'],
-                    'table_name'        => $info['table_name'],
-                    'output'            => $info['output'],
-                ]);
+            return redirect()->back()->with('status', $output);
+
+            // $info['output'] = [
+            //     'success'               => true,
+            //     'msg'                   => ('Reference number matched!!!'),
+            // ];
+
+            // return redirect('stripe')
+            //     ->with([
+            //         'product_id'        => $info['product_id'],
+            //         'product_name'      => $info['product_name'],
+            //         'bill'              => $info['bill'],
+            //         'table_name'        => $info['table_name'],
+            //         'output'            => $info['output'],
+            //     ]);
         } else {
             $output     = [
                 'success'               => false,
