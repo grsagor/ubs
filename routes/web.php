@@ -68,6 +68,7 @@ use App\Http\Controllers\Frontend\RoomListController;
 use App\Http\Controllers\SellingPriceGroupController;
 use App\Http\Controllers\VariationTemplateController;
 use App\Http\Controllers\Frontend\EducationController;
+use App\Http\Controllers\Frontend\ServiceController;
 use App\Http\Controllers\ImportOpeningStockController;
 use App\Http\Controllers\TransactionPaymentController;
 use App\Http\Controllers\Frontend\RoomWantedController;
@@ -147,7 +148,9 @@ Route::put('/property-reference-number-check/{id}', [PropertyController::class, 
 Route::get('/property-list-showing/{child_category_id?}', [PropertyController::class, 'propertyListShowing']);
 
 Route::get('/education-list',                           [EducationController::class, 'educationList'])->name('education.list');
+Route::get('/education-show/{id}',               [EducationController::class, 'educationShow'])->name('education_show');
 
+Route::get('/service-list',                           [ServiceController::class, 'serviceList'])->name('service.list');
 
 Route::get('/room-wanted', function () {
     return view('rough.room_wanted');

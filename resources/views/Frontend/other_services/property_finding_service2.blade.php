@@ -216,15 +216,13 @@
                     </div>
                 </div>
 
-                <div class="tab-pane fade {{ $child_category_id == 11 ? 'show active' : '' }}" id="tab3">
-                    <!-- Content for tab 1 goes here -->
+                {{-- Previous --}}
+                {{-- <div class="tab-pane fade {{ $child_category_id == 11 ? 'show active' : '' }}" id="tab3">
                     <div id="generic_price_table">
-                        <!-- Pricing # -->
                         <div class="pricing">
                             <div class="container">
                                 <div class="pricing-table table-responsive" style="text-align: -webkit-center">
                                     <table class="table">
-                                        <!-- Heading -->
                                         <thead>
                                             <th>
                                                 <select style="background: white;" id="child_category_id_room_tab3">
@@ -242,7 +240,6 @@
                                                     <i class="fa fa-star"></i>
                                                     <i class="fa fa-star"></i>
                                                     <i class="fa fa-star"></i>
-                                                    {{-- <i class="fa fa-star-half-o"></i> --}}
                                                     <i class="fa fa-star-o"></i>
                                                     <i class="fa fa-star-o"></i>
                                                 </span>
@@ -266,8 +263,250 @@
 
                                             @include('frontend.other_services.partial.property_finding_service.tab_table')
 
-                                            <!-- Buttons -->
-                                            <!-- Buttons -->
+                                            <tr>
+                                                <td>&nbsp;</td>
+                                                <form id="propertyFindingPaymentForm" method="GET"
+                                                    action="{{ route('propertyFindingPayment') }}">
+                                                    @csrf
+                                                    <input type="hidden" id="room_regular_product_id" name="product_id"
+                                                        value="">
+                                                    <input type="hidden" id="room_regular_product_name"
+                                                        name="product_name" value="">
+                                                    <input type="hidden" id="room_regular_product_bill" name="bill"
+                                                        value="">
+
+                                                    <td class="bg-green">
+                                                        <button type="submit" class="btn"
+                                                            style="color: white">PAY</button>
+                                                    </td>
+                                                </form>
+                                                <form id="propertyFindingPaymentForm" method="GET"
+                                                    action="{{ route('propertyFindingPayment') }}">
+                                                    @csrf
+                                                    <input type="hidden" id="room_premium_product_id" name="product_id"
+                                                        value="">
+                                                    <input type="hidden" id="room_premium_product_name"
+                                                        name="product_name" value="">
+                                                    <input type="hidden" id="room_premium_product_bill" name="bill"
+                                                        value="">
+
+                                                    <td class="bg-lblue">
+                                                        <button type="submit" class="btn"
+                                                            style="color: white">PAY</button>
+                                                </form>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div> --}}
+
+
+                <div class="tab-pane fade {{ $child_category_id == 11 ? 'show active' : '' }}" id="tab3">
+                    <div id="generic_price_table">
+                        <div class="pricing">
+                            <div class="container">
+                                <div class="pricing-table table-responsive" style="text-align: -webkit-center">
+                                    <table class="table" style="width: 75%">
+                                        <thead>
+                                            <th style="width: 30%">
+
+                                                <div class="room_type_tab" id="room_type_tab">
+                                                    <div class="row" id="room_type_tab1">
+
+                                                        <div class="col-md-6" style="padding-right: 0;">
+                                                            <select class="form-control"
+                                                                style="background: white; height: auto;"
+                                                                id="child_category_id_room_tab3_1">
+                                                                <option value="0">Select</option>
+                                                                <option value="1">Single</option>
+                                                                <option value="6">Semi-Double</option>
+                                                                <option value="2">Double</option>
+                                                                <option value="7">En-suite</option>
+                                                            </select>
+                                                        </div>
+
+                                                        <div class="col-md-4" style="padding-right: 0;">
+                                                            <select class="form-control"
+                                                                style="background: white; height: auto;"
+                                                                id="quantity_tab3_1">
+                                                                <option value="0">Qty</option>
+                                                                <option value="1">1</option>
+                                                                <option value="2">2</option>
+                                                                <option value="3">3</option>
+                                                                <option value="4">4</option>
+                                                                <option value="5">5</option>
+                                                            </select>
+                                                        </div>
+
+                                                        {{-- <div class="col-md-2">
+                                                            <button class="btn bg-success" type="button" id="add"
+                                                                style="padding: 5px; line-height: 0px; margin-top: -20px;">
+                                                                <i class="fa fa-plus" aria-hidden="true"></i>
+                                                            </button>
+                                                        </div> --}}
+
+
+                                                        <div class="col-md-2"> <button class="btn bg-danger btn_remove"
+                                                                type="button" id=" + j + "
+                                                                style="padding: 6px; line-height: 0px; margin-top: -20px;">
+                                                                <i class="fa fa-times" aria-hidden="true"></i> </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                {{-- <div class="row" id="room_type2_tab3">
+                                                    <div class="col-md-6" style="padding-right: 0;">
+                                                        <select class="form-control"
+                                                            style="background: white; height: auto;"
+                                                            id="child_category_id_room_tab3_2">
+                                                            <option value="0">Select</option>
+                                                            <option value="1">Single</option>
+                                                            <option value="6">Semi-Double</option>
+                                                            <option value="2">Double</option>
+                                                            <option value="7">En-suite</option>
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="col-md-4" style="padding-right: 0;">
+                                                        <select class="form-control"
+                                                            style="background: white; height: auto;" id="quantity_tab3_2">
+                                                            <option value="0">Qty</option>
+                                                            <option value="1">1</option>
+                                                            <option value="2">2</option>
+                                                            <option value="3">3</option>
+                                                            <option value="4">4</option>
+                                                            <option value="5">5</option>
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="col-md-2">
+                                                        <button class="btn bg-danger" type="button"
+                                                            id="remove_btn_room2"
+                                                            style="padding: 5px; line-height: 0px; margin-top: -20px;">
+                                                            <i class="fa fa-times" aria-hidden="true"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row" id="room_type3_tab3">
+                                                    <div class="col-md-6" style="padding-right: 0;">
+                                                        <select class="form-control"
+                                                            style="background: white; height: auto;"
+                                                            id="child_category_id_room_tab3_3">
+                                                            <option value="0">Select</option>
+                                                            <option value="1">Single</option>
+                                                            <option value="6">Semi-Double</option>
+                                                            <option value="2">Double</option>
+                                                            <option value="7">En-suite</option>
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="col-md-4" style="padding-right: 0;">
+                                                        <select class="form-control"
+                                                            style="background: white; height: auto;" id="quantity_tab3_3">
+                                                            <option value="0">Qty</option>
+                                                            <option value="1">1</option>
+                                                            <option value="2">2</option>
+                                                            <option value="3">3</option>
+                                                            <option value="4">4</option>
+                                                            <option value="5">5</option>
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="col-md-2">
+                                                        <button class="btn bg-danger" type="button"
+                                                            id="remove_btn_room3"
+                                                            style="padding: 5px; line-height: 0px; margin-top: -20px;">
+                                                            <i class="fa fa-times" aria-hidden="true"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row" id="room_type4_tab3">
+                                                    <div class="col-md-6" style="padding-right: 0;">
+                                                        <select class="form-control"
+                                                            style="background: white; height: auto;"
+                                                            id="child_category_id_room_tab3_4">
+                                                            <option value="0">Select</option>
+                                                            <option value="1">Single</option>
+                                                            <option value="6">Semi-Double</option>
+                                                            <option value="2">Double</option>
+                                                            <option value="7">En-suite</option>
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="col-md-4" style="padding-right: 0;">
+                                                        <select class="form-control"
+                                                            style="background: white; height: auto;" id="quantity_tab3_4">
+                                                            <option value="0">Qty</option>
+                                                            <option value="1">1</option>
+                                                            <option value="2">2</option>
+                                                            <option value="3">3</option>
+                                                            <option value="4">4</option>
+                                                            <option value="5">5</option>
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="col-md-2">
+                                                        <button class="btn bg-danger" type="button"
+                                                            id="remove_btn_room4"
+                                                            style="padding: 5px; line-height: 0px; margin-top: -20px;">
+                                                            <i class="fa fa-times" aria-hidden="true"></i>
+                                                        </button>
+                                                    </div>
+                                                </div> --}}
+
+
+
+                                                {{-- Add button --}}
+                                                <div class="add_button_tab_3">
+                                                    <div class="row">
+                                                        <div class="col-lg-12">
+                                                            <button class="btn bg-success" type="button" id="add">
+                                                                <i class="fa fa-plus" aria-hidden="true"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+
+                                            </th>
+
+                                            <th>
+                                                Regular
+                                                <span class="ptable-star green">
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star-o"></i>
+                                                    <i class="fa fa-star-o"></i>
+                                                </span>
+                                                <span class="ptable-price" id="regular_price_room_tab3">£0.0</span>
+                                            </th>
+                                            <th>
+                                                Premium
+                                                <span class="ptable-star lblue">
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star-o"></i>
+                                                </span>
+                                                <span class="ptable-price" id="premium_price_room_tab3">£0.0</span>
+                                            </th>
+
+                                        </thead>
+
+                                        <tbody id="table_room_tab3">
+
+                                            @include('frontend.other_services.partial.property_finding_service.tab_table')
+
                                             <tr>
                                                 <td>&nbsp;</td>
                                                 <form id="propertyFindingPaymentForm" method="GET"
@@ -454,5 +693,104 @@
     </div>
 @endsection
 @section('script')
-    @include('frontend.other_services.partial.property_finding_service.script')
+    {{-- <script>
+        $(document).ready(function() {
+
+
+
+            const $add_btn = $('#add');
+
+            const $remove_btn_room1 = $('#remove_btn_room1');
+            const $room_type1_tab3 = $('#room_type1_tab3');
+
+            const $remove_btn_room2 = $('#remove_btn_room2');
+            const $room_type2_tab3 = $('#room_type2_tab3');
+
+            const $remove_btn_room3 = $('#remove_btn_room3');
+            const $room_type3_tab3 = $('#room_type3_tab3');
+
+            const $remove_btn_room4 = $('#remove_btn_room4');
+            const $room_type4_tab3 = $('#room_type4_tab3');
+
+            $room_type2_tab3.hide();
+            $room_type3_tab3.hide();
+            $room_type4_tab3.hide();
+
+            var i = 1;
+            $add_btn.click(function() {
+                i++;
+                if (i == 1) {
+                    $room_type1_tab3.show();
+                }
+                if (i == 2) {
+                    $room_type2_tab3.show();
+                }
+                if (i == 3) {
+                    $room_type3_tab3.show();
+                }
+                if (i == 4) {
+                    $room_type4_tab3.show();
+                }
+
+            });
+
+            $remove_btn_room1.click(function() {
+                $room_type1_tab3.remove();
+            });
+
+            $remove_btn_room2.click(function() {
+                $room_type2_tab3.remove();
+            });
+
+            $remove_btn_room3.click(function() {
+                $room_type3_tab3.remove();
+            });
+
+            $remove_btn_room4.click(function() {
+                $room_type4_tab3.remove();
+            });
+
+        });
+    </script> --}}
+
+    <script>
+        $(document).ready(function() {
+            var i = 1;
+            var j = 1;
+            var maxRows = 4;
+
+            $('#add').click(function() {
+                i++;
+                j++;
+
+                if (i <= maxRows) {
+                    $('#room_type_tab').append(
+                        '<div class="row" id="room_type_tab' +
+                        j +
+                        '"> <div class="col-md-6" style="padding-right: 0;"> <select class="form-control" style="background: white; height: auto;" id="child_category_id_room_tab3_' +
+                        j +
+                        '"> <option value="0">Select</option> <option value="1">Single</option> <option value="6">Semi-Double</option> <option value="2">Double</option> <option value="7">En-suite</option> </select> </div> <div class="col-md-4" style="padding-right: 0;"> <select class="form-control" style="background: white; height: auto;" id="quantity_tab3_' +
+                        j +
+                        '"> <option value="0">Qty</option> <option value="1">1</option> <option value="2">2</option> <option value="3">3</option> <option value="4">4</option> <option value="5">5</option> </select> </div> <div class="col-md-2"> <button class="btn bg-danger btn_remove" type="button" id="' +
+                        j +
+                        '" style="padding: 6px; line-height: 0px; margin-top: -20px;"> <i class="fa fa-times" aria-hidden="true"></i> </button> </div> </div> </div>'
+                    );
+                    console.log('Adding i ' + i);
+                } else {
+                    i = maxRows;
+                    console.log('Else value' + i);
+                    toastr.error('Maximum room type add 4');
+                }
+            });
+
+            $(document).on('click', '.btn_remove', function() {
+                var button_id = $(this).attr("id");
+                $('#room_type_tab' + button_id).remove();
+                i--;
+                console.log('Removing ' + i);
+            });
+
+        });
+    </script>
+    {{-- @include('frontend.other_services.partial.property_finding_service.script') --}}
 @endsection

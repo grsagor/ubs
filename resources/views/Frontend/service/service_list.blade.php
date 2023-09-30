@@ -89,6 +89,21 @@
                                     <i class="fas fa-times"></i>
                                 </div>
 
+                                {{--categories--}}
+                                <div id="woocommerce_product_categories-4"
+                                     class="widget woocommerce widget_product_categories widget-toggle">
+
+                                    <h2 class="widget-title">Service Categories</h2>
+
+                                    <ul>
+                                        @foreach ($service_categories as $item)
+                                            <li class="cat-item cat-parent">
+                                                {{ $item }}
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+
                                 {{--sub categories--}}
                                 <div id="woocommerce_product_categories-4"
                                      class="widget woocommerce widget_product_categories widget-toggle">
@@ -224,55 +239,51 @@
                                                                                 {{ Str::limit($item->course_name, $limit = 20, $end = '...') }}
                                                                             </span>
                                                                         </a>
-                                                                        <div class="row mb-0">
-                                                                            <div class="col-md-6">
-                                                                                <p style="font-size: 12px">
-                                                                                    Service Provider:
-                                                                                    {{ $item->institution_name }}
-                                                                                </p>
-                                                                            </div>
-                                                                            <div class="col-md-6">
-                                                                                <p style="font-size: 12px">
-                                                                                    Full time 4 Years work Placement
-                                                                                </p>
-                                                                            </div>
-                                                                        </div>
                                                                     </h5>
 
                                                                     <hr class="mt-0">
-                                                                    <div class="row">
-                                                                        <div class="col-md-6 mb-0">
-                                                                            <p class="category_text text-dark mb-0">Tuition Fees:{{ $item->tuition_fee }}</p>
-                                                                            <p class="category_text text-dark mb-0">Home Student:</p>
-                                                                            <p class="category_text text-dark mb-0">International:</p>
-                                                                            <br>
-                                                                            <p class="category_text text-dark mb-0">Scholarship:{{ $item->scholarship }}</p>
-                                                                            {{--<p class="category_text text-dark mb-0"
-                                                                               style="margin-bottom: 0rem; margin-top: -10px;">
-                                                                                {{ Str::limit($item->description, $limit = 30, $end = '...') }}
-                                                                            </p>--}}
-                                                                        </div>
-                                                                        <div class="col-md-6">
-                                                                            <p class="category_text text-dark mb-0">Requirements:{{ $item->requirements }}</p>
-                                                                            <p class="category_text text-dark mb-0">IELTS:</p>
-                                                                            <p class="category_text text-dark mb-0">Education:</p>
-                                                                            <br>
-                                                                            <p class="category_text text-dark mb-0">Start Date:{{ $item->start_date }}</p>
 
-                                                                            {{--<p class="category_text text-dark"
-                                                                               style="margin-bottom: 0rem;">
-                                                                                {{ Str::limit($item->institution_name, $limit = 30, $end = '...') }}
-                                                                            </p>--}}
-                                                                        </div>
-                                                                    </div>
+                                                                    <p class="category_text text-dark"
+                                                                       style="margin-bottom: 0rem; margin-top: -10px;">
+                                                                        {{ Str::limit($item->description, $limit = 30, $end = '...') }}
+                                                                    </p>
+
+                                                                    <p class="category_text text-dark"
+                                                                       style="margin-bottom: 0rem;">
+                                                                        {{ Str::limit($item->institution_name, $limit = 30, $end = '...') }}
+                                                                    </p>
+
                                                                 </div>
+
                                                                 <div class="d-flex text-center"
                                                                      style="background-color: whitesmoke; border-top: 3px solid var(--green);">
+
+                                                                <span class=" flex-fill mb-0 text-white">
+                                                                    <p class="lower-section-text mb-0  text-muted">
+                                                                        Price
+                                                                    </p>
+                                                                    <p class="mb-0 text-muted">
+                                                                       &pound; {{ $item->price }}
+                                                                    </p>
+                                                                </span>
+
+                                                                {{--<span class=" flex-fill mb-0 text-white">
+                                                                    <p class="lower-section-text mb-0  text-muted">
+                                                                        Price
+                                                                    </p>
+                                                                    <p class="mb-0 text-muted">
+                                                                        &pound; {{ $item->price }}
+                                                                    </p>
+                                                                </span>--}}
                                                                     <span class=" flex-fill mb-0 text-white">
-                                                                        <button class="btn btn-success btn-sm m-2 ">Message</button>
-                                                                        <a href="{{ route('education_show', $item->id) }}" class="btn btn-success btn-sm m-2 ">More Info</a>
-                                                                        <button class="btn btn-success btn-sm m-2 ">Apply</button>
-                                                                    </span>
+                                                                    <p class="lower-section-text mb-0  text-muted">Start
+                                                                        Date
+                                                                    </p>
+                                                                    <p class="mb-0 text-muted">
+                                                                        {{ $item->start_date }}</p>
+                                                                        </p>
+                                                                </span>
+
                                                                 </div>
 
                                                             </div>
