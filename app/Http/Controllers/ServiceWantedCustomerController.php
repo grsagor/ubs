@@ -71,7 +71,7 @@ class ServiceWantedCustomerController extends Controller
                 ->rawColumns(['action'])
                 ->toJson();
         }
-        return view('crm::property_wanted.list');
+        return view('crm::service_wanted.list');
     }
 
     public function create()
@@ -98,6 +98,6 @@ class ServiceWantedCustomerController extends Controller
         $data['double'] = ServiceCharge::where([['child_category', 1], ['size', ['double']]])->first()->service_charge;
         $data['semi_double'] = ServiceCharge::where([['child_category', 1], ['size', ['semi-double']]])->first()->service_charge;
         $data['en_suite'] = ServiceCharge::where([['child_category', 1], ['size', ['en-suite']]])->first()->service_charge;
-        return view('crm::property_wanted.create', compact('business_locations'), $data);
+        return view('crm::service_wanted.create', compact('business_locations'), $data);
     }
 }
