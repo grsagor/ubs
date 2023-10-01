@@ -1,7 +1,5 @@
 <!-- Step 5 -->
 <div class="step" id="step-5">
-    <h3 class="text-center mb-2">Step 5</h3>
-    <!-- Step 5 form fields go here -->
 
     <!-- Start Step 5 -->
     <div class="grid-12-4" style="display: flex; justify-content: center;">

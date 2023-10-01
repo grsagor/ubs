@@ -128,7 +128,10 @@
                                         placeholder="Mobile">
                                 </div>
 
-                                <button type="button" class="btn btn-dark next-step">Next</button>
+                                <div class="text-center">
+                                    <button type="button" class="btn btn-dark next-step">Next</button>
+                                </div>
+
                             </div>
 
                             <div class="step" id="step2" style="display: none;">
@@ -137,8 +140,11 @@
 
                                 </div>
 
-                                <button type="button" class="btn btn-dark previous-step">Previous</button>
-                                <button type="submit" class="btn btn-dark">Submit</button>
+                                <div class="text-center">
+                                    <button type="button" class="btn btn-dark previous-step">Previous</button>
+                                    <button type="submit" class="btn btn-dark">Submit</button>
+                                </div>
+
                             </div>
                         </form>
                     </div>

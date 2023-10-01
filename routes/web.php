@@ -116,6 +116,7 @@ Route::get('/rough', function () {
 })->name('frontend.service.room.details_form');
 
 
+
 //Optimize Clear:
 Route::get('/route-optimize-clear', function () {
     Artisan::call('optimize:clear');

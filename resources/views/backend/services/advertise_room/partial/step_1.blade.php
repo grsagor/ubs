@@ -1,11 +1,6 @@
  <!-- Step 1 -->
  <div class="step" id="step-1">
-     <!-- Start Step 1 -->
-     <div class="grid-12">
-         <div class="text-center">
-             <h1>Advertise your room</h1>
-         </div>
-     </div>
+
      <div class="grid-12-4" style="display: flex; justify-content: center;">
          <div>
              <div class="block block_simple block_offered_listing">

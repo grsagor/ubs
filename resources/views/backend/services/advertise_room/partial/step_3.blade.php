@@ -1,6 +1,5 @@
   <!-- Step 3 -->
   <div class="step" id="step-3">
-      <h3 class="text-center mb-2">Step 3</h3>
 
       <!-- Start Step 3 -->
       <div class="grid-12-4" style="display: flex; justify-content: center;">

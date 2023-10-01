@@ -148,12 +148,15 @@
                 <label for="occupant_visa_status">Visa status</label>
                 <select class="form-control" id="occupant_visa_status" name="occupant_visa_status[]">
                     <option selected="" value="">Select....</option>
-                    <option value="1">Yes</option>
-                    <option value="0">No</option>
+                    <option value="Citizen">Citizen</option>
+                    <option value="ILR">ILR</option>
+                    <option value="Visit Visa">Visit Visa</option>
+                    <option value="International student">International student</option>
+                    <option value="Work permit">Work permit</option>
+                    <option value="Others">Others</option>
                 </select>
             </div>
         </div>
-
 
         <div class="col-sm-12">
             <div class="form-group">
