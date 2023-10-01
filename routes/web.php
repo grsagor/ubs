@@ -113,7 +113,7 @@ Route::get('/product', function () {
 
 Route::get('/rough', function () {
     return view('frontend.service.room.details_form');
-});
+})->name('frontend.service.room.details_form');
 
 
 //Optimize Clear:
@@ -142,6 +142,7 @@ Route::get('/room-list/',                               [RoomListController::cla
 Route::get('/room-list/category',                       [RoomListController::class, 'roomListCategory'])->name('room.list.category');
 Route::get('/room-show/{id}',                           [RoomListController::class, 'roomShow'])->name('room_show');
 Route::put('/room-reference-number-check/{id}',         [RoomListController::class, 'referenceNumberCheck'])->name('room.referenceNumberCheck');
+Route::get('/show-occupants-details-inputs',            [RoomListController::class, 'showOccupantsDetailsInputs']);
 
 Route::get('/property/{sub_category_id?}/{child_category_id?}', [PropertyFrontController::class, 'roomList'])->name('property.list');
 

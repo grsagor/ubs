@@ -711,5 +711,8 @@
 @endsection
 
 @section('script')
+    <script>
+        $('#exampleModal').modal('show');
+    </script>
     @include('frontend.service.partial.property_script')
 @endsection
