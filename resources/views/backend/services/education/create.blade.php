@@ -13,18 +13,17 @@
     <section class="content">
         <div>
             <form class="row g-3 mt-2" action="{{ route('service-education.store') }}" id="multi-step-form" method="POST"
-                enctype="multipart/form-data">
+                  enctype="multipart/form-data">
                 @csrf
 
                 <div class="grid-12">
                     <div class="text-center">
-                        <h1>Education</h1>
+                        <h1>Service Add</h1>
                     </div>
                 </div>
 
-                <div class="grid-12-4" style="display: flex; justify-content: center;">
-                    <div>
-                        <div class="block block_simple block_offered_listing">
+                <div class="grid-12-6" style="display: flex; justify-content: center;">
+                    <div class="block block_simple block_offered_listing">
 
                             <div class="block_content">
 
@@ -34,19 +33,95 @@
                                         Get started with
                                     </legend>
 
-
                                     <div class="form_row form_row_email">
                                         <div class="form_label">
-                                            Business Location<span class="star">*</span>
+                                            Title<span class="star">*</span>
                                         </div>
                                         <div class="form_inputs">
                                             <span class="form_input form_text">
-                                                <select name="business_location_id">
-                                                    <option value="" selected="">Select business location...
-                                                    </option>
-                                                    @foreach ($business_locations as $item)
-                                                        <option value="{{ $item->id }}"> {{ $item->name }} </option>
-                                                    @endforeach
+                                                <input type="text" name="title" value="" size="50"
+                                                       maxlength="50">
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div class="form_row form_row_email">
+                                        <div class="form_label">
+                                            Price(Hourly/Fixed)<span class="star">*</span>
+                                        </div>
+                                        <div class="form_inputs">
+                                            <span class="form_input form_text">
+                                                <input type="text" name="price" value="" size="50"
+                                                       maxlength="50">
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div class="form_row form_row_email">
+                                        <div class="form_label">
+                                            Sales Commission<span class="star">*</span>
+                                        </div>
+                                        <div class="form_inputs">
+                                            <span class="form_input form_text">
+                                                <input type="text" name="sales_commission"  value="" size="50"
+                                                       maxlength="50">
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div class="form_row form_row_email">
+                                        <div class="form_label">
+                                            Fixed Price / Changeable<span class="star">*</span>
+                                        </div>
+                                        <div class="form_inputs">
+                                            <span class="form_input form_text">
+                                                <select name="fixed_price_changeable" id="" class="form-control" maxlength="50">
+                                                    <option value="">Select</option>
+                                                    <option value="fixed">Fixed</option>
+                                                    <option value="changeable">changeable</option>
+                                                </select>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="form_row form_row_email">
+                                        <div class="form_label">
+                                            Mode of delivery
+                                            (Online/Offline)
+                                        </div>
+                                        <div class="form_inputs">
+                                            <span class="form_input form_text">
+                                                <select name="fixed_price_changeable" id="" class="form-control" maxlength="50">
+                                                    <option value="">Select</option>
+                                                    <option value="Online">Online</option>
+                                                    <option value="Offline">Offline</option>
+                                                </select>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="form_row form_row_email">
+                                        <div class="form_label">
+                                            Payment Instalment<span class="star">*</span>
+                                        </div>
+                                        <div class="form_inputs">
+                                            <span class="form_input form_text">
+                                                <select name="fixed_price_changeable" id="" class="form-control" maxlength="50">
+                                                    <option value="">Select</option>
+                                                    <option value="Available">Available</option>
+                                                    <option value="Not Available">Not Available</option>
+                                                </select>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="form_row form_row_email">
+                                        <div class="form_label">
+                                            Delivery Area<span class="star">*</span>
+                                        </div>
+                                        <div class="form_inputs">
+                                            <span class="form_input form_text">
+                                                <select name="fixed_price_changeable" id="" class="form-control" maxlength="50">
+                                                    <option value="">Select</option>
+                                                    <option value="National">National</option>
+                                                    <option value="International">International</option>
                                                 </select>
                                             </span>
                                         </div>
@@ -54,140 +129,60 @@
 
                                     <div class="form_row form_row_email">
                                         <div class="form_label">
-                                            Course name<span class="star">*</span>
+                                            Service Warranty<span class="star">*</span>
                                         </div>
                                         <div class="form_inputs">
                                             <span class="form_input form_text">
-                                                <input type="text" name="course_name" value="" size="50"
-                                                    maxlength="50">
+                                                <input type="text" name="service_warranty" value="" size="50"
+                                                       maxlength="50">
                                             </span>
                                         </div>
                                     </div>
 
                                     <div class="form_row form_row_email">
                                         <div class="form_label">
-                                            Price<span class="star">*</span>
+                                            Service Features<span class="star">*</span>
                                         </div>
                                         <div class="form_inputs">
                                             <span class="form_input form_text">
-                                                <input type="text" name="price" value="" size="50"
-                                                    maxlength="50">
+                                               <input type="text" name="service_features" value="" size="50"
+                                                      maxlength="50">
                                             </span>
                                         </div>
                                     </div>
 
                                     <div class="form_row form_row_email">
                                         <div class="form_label">
-                                            Course Duration<span class="star">*</span>
+                                            Years of Experiences
                                         </div>
                                         <div class="form_inputs">
                                             <span class="form_input form_text">
-                                                <input type="text" name="course_duration" value="" size="50"
-                                                    maxlength="50">
+                                                <input type="number" step=".01" name="years_of_experiences" value=""
+                                                       style="max-width: 152px;">
                                             </span>
                                         </div>
                                     </div>
 
                                     <div class="form_row form_row_email">
                                         <div class="form_label">
-                                            Institution name<span class="star">*</span>
-                                        </div>
-                                        <div class="form_inputs">
-                                            <span class="form_input form_text">
-                                                <input type="text" name="institution_name" value="" size="50"
-                                                    maxlength="50">
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <div class="form_row form_row_email">
-                                        <div class="form_label">
-                                            Requirements
-                                        </div>
-                                        <div class="form_inputs">
-                                            <span class="form_input form_text">
-                                                <input type="text" name="requirements" value="" size="50"
-                                                    maxlength="50">
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <div class="form_row form_row_email">
-                                        <div class="form_label">
-                                            Start Date<span class="star">*</span>
-                                        </div>
-                                        <div class="form_inputs">
-                                            <span class="form_input form_text">
-                                                <input type="date" name="start_date" value="">
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <div class="form_row form_row_email">
-                                        <div class="form_label">
-                                            Intake<span class="star">*</span>
-                                        </div>
-                                        <div class="form_inputs">
-                                            <span class="form_input form_text">
-                                                <input type="date" name="intake" value="" size="50"
-                                                    maxlength="50">
-                                            </span>
-                                        </div>
-                                    </div>
-
-                                    <div class="form_row form_row_email">
-                                        <div class="form_label">
-                                            Department<span class="star">*</span>
-                                        </div>
-                                        <div class="form_inputs">
-                                            <span class="form_input form_text">
-                                                <input type="text" name="department" value="" size="50"
-                                                    maxlength="50">
-                                            </span>
-                                        </div>
-                                    </div>
-
-                                    <div class="form_row form_row_email">
-                                        <div class="form_label">
-                                            Tution Fee<span class="star">*</span>
-                                        </div>
-                                        <div class="form_inputs">
-                                            <span class="form_input form_text">
-                                                <input type="number" step=".01" name="tuition_fee" value=""
-                                                    style="max-width: 152px;">
-                                            </span>
-                                        </div>
-                                    </div>
-
-                                    <div class="form_row form_row_email">
-                                        <div class="form_label">
-                                            Scholarship
-                                        </div>
-                                        <div class="form_inputs">
-                                            <span class="form_input form_text">
-                                                <input type="number" step=".01" name="scholarship" value=""
-                                                    style="max-width: 152px;">
-                                            </span>
-                                        </div>
-                                    </div>
-
-                                    <div class="form_row form_row_email">
-                                        <div class="form_label">
-                                            Modules
+                                            Specialization
                                         </div>
                                         <div class="form_inputs">
                                             <span class="form_input form_text">
                                                 <input type="text" name="modules" value="" size="50"
-                                                    maxlength="50">
+                                                       maxlength="50">
                                             </span>
                                         </div>
                                     </div>
 
                                     <div class="form_row form_row_email">
                                         <div class="form_label">
-                                            Description
+                                            Facilities
                                         </div>
                                         <div class="form_inputs">
                                             <span class="form_input form_text">
                                                 <input type="text" name="description" value="" size="50"
-                                                    maxlength="50">
+                                                       maxlength="50">
                                             </span>
                                         </div>
                                     </div>
@@ -199,7 +194,7 @@
                                         <div class="form_inputs">
                                             <span class="form_input form_text">
                                                 <input type="text" name="service_facilities" value=""
-                                                    size="50" maxlength="50">
+                                                       size="50" maxlength="50">
                                             </span>
                                         </div>
                                     </div>
@@ -211,7 +206,7 @@
                                         <div class="form_inputs">
                                             <span class="form_input form_text">
                                                 <input type="number" step=".01" name="agent_commission"
-                                                    value="" style="max-width: 152px;">
+                                                       value="" style="max-width: 152px;">
                                             </span>
                                         </div>
                                     </div>
@@ -249,7 +244,6 @@
 
                             </div>
 
-                        </div>
                     </div>
                 </div>
 

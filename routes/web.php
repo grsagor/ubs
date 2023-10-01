@@ -150,7 +150,13 @@ Route::get('/property-list-showing/{child_category_id?}', [PropertyController::c
 Route::get('/education-list',                           [EducationController::class, 'educationList'])->name('education.list');
 Route::get('/education-show/{id}',               [EducationController::class, 'educationShow'])->name('education_show');
 
-Route::get('/service-list',                           [ServiceController::class, 'serviceList'])->name('service.list');
+Route::get('/service-list',  [ServiceController::class, 'serviceList'])->name('service.list');
+Route::get('/service-create', [ServiceController::class, 'serviceCreate'])->name('service.create');
+Route::get('/get-subcategories/{category_id}',  [ServiceController::class, 'getSubcategories'])->name('service.subCategory');
+Route::get('/get-child-subcategories/{category_id}',  [ServiceController::class, 'getChildSubcategories'])->name('service.childSubCategory');
+
+Route::get('/get-service-items/{category_id}',  [ServiceController::class, 'getServiceItems']);
+
 
 Route::get('/room-wanted', function () {
     return view('rough.room_wanted');

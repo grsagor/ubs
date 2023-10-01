@@ -28,6 +28,8 @@
             <li><a href="{{ url('/contact/property-wanted') }}"><i class="fa fas fa-arrow-circle-up"></i>
                     <span>Property Wanted</span></a></li>
 
+            <li><a href="{{ url('/contact/service-wanted') }}"><i class="fas fa fa-calendar-check"></i>
+                    <span>Service Wanted</span></a></li>
             {{-- <li><a href="{{ url('/contact/room-to-rent') }}"><i class="fa fas fa-arrow-circle-up"></i>
                     <span>Room to rent</span></a></li> --}}
 

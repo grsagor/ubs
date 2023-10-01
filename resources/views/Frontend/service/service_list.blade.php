@@ -91,37 +91,27 @@
 
                                 {{--categories--}}
                                 <div id="woocommerce_product_categories-4"
-                                     class="widget woocommerce widget_product_categories widget-toggle">
-
+                                     class="widget woocommerce widget_product_categories">
                                     <h2 class="widget-title">Service Categories</h2>
-
-                                    <ul>
-                                        @foreach ($service_categories as $item)
-                                            <li class="cat-item cat-parent">
-                                                {{ $item }}
-                                            </li>
-                                        @endforeach
-                                    </ul>
+                                    <div id="category-container">
+                                        <select id="category" name="category" class="form-control">
+                                            <option value="">Select Category</option>
+                                            @foreach ($service_categories as $key=>$item)
+                                                <option value="{{ $key }}">{{ $item }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
                                 </div>
 
                                 {{--sub categories--}}
                                 <div id="woocommerce_product_categories-4"
                                      class="widget woocommerce widget_product_categories widget-toggle">
-
                                     <h2 class="widget-title">Service Sub-Categories</h2>
-
-                                    <ul>
-                                        @foreach ($service_sub_categories as $item)
-                                            <li class="cat-item cat-parent">
-                                                {{--<a
-                                                        href="{{ route('property.list', ['sub_category_id' => $sub_category_id, 'child_category_id' => $item->id]) }}">
-                                                    <span
-                                                            class="{{ Route::currentRouteName() === 'property.list' && request()->route('sub_category_id') == $sub_category_id && request()->route('child_category_id') == $item->id ? 'active_child_category' : '' }}">{{ $item->name }}</span>
-                                                </a>--}}
-                                                {{ $item }}
-                                            </li>
-                                        @endforeach
-                                    </ul>
+                                    <div id="subcategory-container">
+                                        <select id="subcategory" name="subcategory" class="form-control">
+                                            <option value="">Select Subcategory</option>
+                                        </select>
+                                    </div>
                                 </div>
 
                                 {{--child categories--}}
@@ -130,18 +120,11 @@
 
                                     <h2 class="widget-title">Service Child Categories</h2>
 
-                                    <ul>
-                                        @foreach ($service_child_categories as $item)
-                                            <li class="cat-item cat-parent">
-                                                {{--<a
-                                                        href="{{ route('property.list', ['sub_category_id' => $sub_category_id, 'child_category_id' => $item->id]) }}">
-                                                    <span
-                                                            class="{{ Route::currentRouteName() === 'property.list' && request()->route('sub_category_id') == $sub_category_id && request()->route('child_category_id') == $item->id ? 'active_child_category' : '' }}">{{ $item->name }}</span>
-                                                </a>--}}
-                                                {{ $item }}
-                                            </li>
-                                        @endforeach
-                                    </ul>
+                                    <div id="childSubcategory-container">
+                                            <select id="child-subcategory" name="childSubcategory" class="form-control">
+                                            <option value="">Select Child Subcategory</option>
+                                        </select>
+                                    </div>
                                 </div>
 
                             </div>
@@ -347,7 +330,7 @@
                                     <div class="card">
                                         <div class="card-body">
                                             <div class="page-center">
-                                                <h4 class="text-center">{{ 'No Room Found.' }}</h4>
+                                                <h4 class="text-center">{{ 'No Service Found.' }}</h4>
                                             </div>
                                         </div>
                                     </div>
@@ -460,29 +443,59 @@
 
             // Listen for changes in the category dropdown
             $('#category').on('change', function () {
-                var category_id = $(this).val();
-                if (category_id) {
-                    // Fetch subcategories based on the selected category
-                    $.ajax({
-                        url: '/get-subcategories/' + category_id,
-                        type: 'GET',
-                        dataType: 'json',
-                        success: function (data) {
-                            // Clear existing subcategory options
-                            $('#subcategory').empty();
-                            $('#subcategory').append('<option value="">Select Subcategory</option>');
-                            // Populate the subcategory dropdown with retrieved data
-                            $.each(data, function (key, value) {
-                                $('#subcategory').append('<option value="' + value.id + '">' + value.name + '</option>');
-                            });
-                        }
-                    });
-                } else {
-                    // If no category is selected, clear the subcategory dropdown
-                    $('#subcategory').empty();
-                    $('#subcategory').append('<option value="">Select Subcategory</option>');
-                }
+                let category_id = $(this).val();
+
+                // Make an AJAX request to fetch subcategories for the selected category
+                loadSubcategories(category_id);
+                // loadServiceItems(category_id);
             });
 
-            </script>
+            // Listen for changes in the sub-category dropdown
+            $('#subcategory').on('change', function () {
+                let sub_category_id = $(this).val();
+
+                // Make an AJAX request to fetch subcategories for the selected category
+                loadChildSubcategories(sub_category_id);
+            });
+
+            function loadSubcategories(category_id) {
+                $.ajax({
+                    url: '/get-subcategories/' + category_id,
+                    type: 'GET',
+                    success: function (data) {
+                        // Clear existing subcategory options
+                        $('#subcategory').empty();
+                        $('#subcategory').append('<option value="">Select Subcategory</option>');
+                        // Populate the subcategory dropdown with retrieved subcategories
+                        $.each(data, function (key, subcategory) {
+                            $('#subcategory').append('<option value="' + subcategory.id + '">' + subcategory.name + '</option>');
+                        });
+                    },
+                    error: function (xhr, status, error) {
+                        // Handle errors if needed
+                    }
+                });
+            }
+
+
+            function loadChildSubcategories(sub_category_id){
+                $.ajax({
+                    url: '/get-child-subcategories/' + sub_category_id,
+                    type: 'GET',
+                    success: function (data) {
+                        // Clear existing subcategory options
+                        $('#child-subcategory').empty();
+                        $('#child-subcategory').append('<option value="">Select Subcategory</option>');
+                        // Populate the subcategory dropdown with retrieved subcategories
+                        $.each(data, function (key, childSubcategory) {
+                            $('#child-subcategory').append('<option value="' + childSubcategory.id + '">' + childSubcategory.name + '</option>');
+                        });
+                    },
+                    error: function (xhr, status, error) {
+                        // Handle errors if needed
+                    }
+                });
+            }
+
+        </script>
     @endsection
