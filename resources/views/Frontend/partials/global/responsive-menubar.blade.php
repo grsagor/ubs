@@ -68,6 +68,9 @@
                                     href="{{ route('partnerBoarding') }}">{{ __('Partner Boarding') }}</a>
                             </li>
                             <li class="nav-item">
+                                <a class="nav-link" href="{{ route('service.list') }}">Service</a>
+                            </li>
+                            <li class="nav-item">
                                 <a class="nav-link" href="{{ route('education.list') }}">Education</a>
                             </li>
                         </ul>

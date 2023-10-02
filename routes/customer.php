@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\RoomToRentController;
 use App\Http\Controllers\PropertyWantedCustomerController;
+use App\Http\Controllers\ServiceWantedCustomerController;
 
 
 
@@ -11,6 +12,7 @@ use App\Http\Controllers\PropertyWantedCustomerController;
 // Route::group(['middleware' => ['web', 'authh', 'SetSessionData', 'auth', 'language', 'timezone', 'ContactSidebarMenu', 'CheckContactLogin'], 'prefix' => 'contact',], function () {
 Route::group(['middleware' => ['checkCustomer'], 'prefix' => 'contact',], function () {
     Route::resource('/property-wanted',     PropertyWantedCustomerController::class);
+    Route::resource('/service_wanted',     ServiceWantedCustomerController::class);
     Route::get('/show-occupants-details-inputs', [PropertyWantedCustomerController::class, 'showOccupantsDetailsInputs']);
     Route::get('/show-room-details-inputs', [PropertyWantedCustomerController::class, 'showRoomDetailsInputs']);
     Route::get('/show-property-delete-modal', [PropertyWantedCustomerController::class, 'showPropertyDeleteModal']);

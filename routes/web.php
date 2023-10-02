@@ -68,6 +68,7 @@ use App\Http\Controllers\Frontend\RoomListController;
 use App\Http\Controllers\SellingPriceGroupController;
 use App\Http\Controllers\VariationTemplateController;
 use App\Http\Controllers\Frontend\EducationController;
+use App\Http\Controllers\Frontend\ServiceController;
 use App\Http\Controllers\ImportOpeningStockController;
 use App\Http\Controllers\TransactionPaymentController;
 use App\Http\Controllers\Frontend\RoomWantedController;
@@ -154,6 +155,14 @@ Route::put('/property-reference-number-check/{id}', [PropertyController::class, 
 Route::get('/property-list-showing/{child_category_id?}', [PropertyController::class, 'propertyListShowing']);
 
 Route::get('/education-list',                           [EducationController::class, 'educationList'])->name('education.list');
+Route::get('/education-show/{id}',               [EducationController::class, 'educationShow'])->name('education_show');
+
+Route::get('/service-list',  [ServiceController::class, 'serviceList'])->name('service.list');
+Route::get('/service-create', [ServiceController::class, 'serviceCreate'])->name('service.create');
+Route::get('/get-subcategories/{category_id}',  [ServiceController::class, 'getSubcategories'])->name('service.subCategory');
+Route::get('/get-child-subcategories/{category_id}',  [ServiceController::class, 'getChildSubcategories'])->name('service.childSubCategory');
+
+Route::get('/get-service-items/{category_id}',  [ServiceController::class, 'getServiceItems']);
 
 // FOOTER LINKS DETAIL SECTION
 Route::get('/about',                                    [FrontendController::class, 'footerDetails'])->name('footer.details.about');

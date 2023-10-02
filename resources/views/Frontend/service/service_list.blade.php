@@ -89,24 +89,29 @@
                                     <i class="fas fa-times"></i>
                                 </div>
 
+                                {{--categories--}}
+                                <div id="woocommerce_product_categories-4"
+                                     class="widget woocommerce widget_product_categories">
+                                    <h2 class="widget-title">Service Categories</h2>
+                                    <div id="category-container">
+                                        <select id="category" name="category" class="form-control">
+                                            <option value="">Select Category</option>
+                                            @foreach ($service_categories as $key=>$item)
+                                                <option value="{{ $key }}">{{ $item }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+
                                 {{--sub categories--}}
                                 <div id="woocommerce_product_categories-4"
                                      class="widget woocommerce widget_product_categories widget-toggle">
-
                                     <h2 class="widget-title">Service Sub-Categories</h2>
-
-                                    <ul>
-                                        @foreach ($service_sub_categories as $item)
-                                            <li class="cat-item cat-parent">
-                                                {{--<a
-                                                        href="{{ route('property.list', ['sub_category_id' => $sub_category_id, 'child_category_id' => $item->id]) }}">
-                                                    <span
-                                                            class="{{ Route::currentRouteName() === 'property.list' && request()->route('sub_category_id') == $sub_category_id && request()->route('child_category_id') == $item->id ? 'active_child_category' : '' }}">{{ $item->name }}</span>
-                                                </a>--}}
-                                                {{ $item }}
-                                            </li>
-                                        @endforeach
-                                    </ul>
+                                    <div id="subcategory-container">
+                                        <select id="subcategory" name="subcategory" class="form-control">
+                                            <option value="">Select Subcategory</option>
+                                        </select>
+                                    </div>
                                 </div>
 
                                 {{--child categories--}}
@@ -115,18 +120,11 @@
 
                                     <h2 class="widget-title">Service Child Categories</h2>
 
-                                    <ul>
-                                        @foreach ($service_child_categories as $item)
-                                            <li class="cat-item cat-parent">
-                                                {{--<a
-                                                        href="{{ route('property.list', ['sub_category_id' => $sub_category_id, 'child_category_id' => $item->id]) }}">
-                                                    <span
-                                                            class="{{ Route::currentRouteName() === 'property.list' && request()->route('sub_category_id') == $sub_category_id && request()->route('child_category_id') == $item->id ? 'active_child_category' : '' }}">{{ $item->name }}</span>
-                                                </a>--}}
-                                                {{ $item }}
-                                            </li>
-                                        @endforeach
-                                    </ul>
+                                    <div id="childSubcategory-container">
+                                            <select id="child-subcategory" name="childSubcategory" class="form-control">
+                                            <option value="">Select Child Subcategory</option>
+                                        </select>
+                                    </div>
                                 </div>
 
                             </div>
@@ -224,55 +222,51 @@
                                                                                 {{ Str::limit($item->course_name, $limit = 20, $end = '...') }}
                                                                             </span>
                                                                         </a>
-                                                                        <div class="row mb-0">
-                                                                            <div class="col-md-6">
-                                                                                <p style="font-size: 12px">
-                                                                                    Service Provider:
-                                                                                    {{ $item->institution_name }}
-                                                                                </p>
-                                                                            </div>
-                                                                            <div class="col-md-6">
-                                                                                <p style="font-size: 12px">
-                                                                                    Full time 4 Years work Placement
-                                                                                </p>
-                                                                            </div>
-                                                                        </div>
                                                                     </h5>
 
                                                                     <hr class="mt-0">
-                                                                    <div class="row">
-                                                                        <div class="col-md-6 mb-0">
-                                                                            <p class="category_text text-dark mb-0">Tuition Fees:{{ $item->tuition_fee }}</p>
-                                                                            <p class="category_text text-dark mb-0">Home Student:</p>
-                                                                            <p class="category_text text-dark mb-0">International:</p>
-                                                                            <br>
-                                                                            <p class="category_text text-dark mb-0">Scholarship:{{ $item->scholarship }}</p>
-                                                                            {{--<p class="category_text text-dark mb-0"
-                                                                               style="margin-bottom: 0rem; margin-top: -10px;">
-                                                                                {{ Str::limit($item->description, $limit = 30, $end = '...') }}
-                                                                            </p>--}}
-                                                                        </div>
-                                                                        <div class="col-md-6">
-                                                                            <p class="category_text text-dark mb-0">Requirements:{{ $item->requirements }}</p>
-                                                                            <p class="category_text text-dark mb-0">IELTS:</p>
-                                                                            <p class="category_text text-dark mb-0">Education:</p>
-                                                                            <br>
-                                                                            <p class="category_text text-dark mb-0">Start Date:{{ $item->start_date }}</p>
 
-                                                                            {{--<p class="category_text text-dark"
-                                                                               style="margin-bottom: 0rem;">
-                                                                                {{ Str::limit($item->institution_name, $limit = 30, $end = '...') }}
-                                                                            </p>--}}
-                                                                        </div>
-                                                                    </div>
+                                                                    <p class="category_text text-dark"
+                                                                       style="margin-bottom: 0rem; margin-top: -10px;">
+                                                                        {{ Str::limit($item->description, $limit = 30, $end = '...') }}
+                                                                    </p>
+
+                                                                    <p class="category_text text-dark"
+                                                                       style="margin-bottom: 0rem;">
+                                                                        {{ Str::limit($item->institution_name, $limit = 30, $end = '...') }}
+                                                                    </p>
+
                                                                 </div>
+
                                                                 <div class="d-flex text-center"
                                                                      style="background-color: whitesmoke; border-top: 3px solid var(--green);">
+
+                                                                <span class=" flex-fill mb-0 text-white">
+                                                                    <p class="lower-section-text mb-0  text-muted">
+                                                                        Price
+                                                                    </p>
+                                                                    <p class="mb-0 text-muted">
+                                                                       &pound; {{ $item->price }}
+                                                                    </p>
+                                                                </span>
+
+                                                                {{--<span class=" flex-fill mb-0 text-white">
+                                                                    <p class="lower-section-text mb-0  text-muted">
+                                                                        Price
+                                                                    </p>
+                                                                    <p class="mb-0 text-muted">
+                                                                        &pound; {{ $item->price }}
+                                                                    </p>
+                                                                </span>--}}
                                                                     <span class=" flex-fill mb-0 text-white">
-                                                                        <button class="btn btn-success btn-sm m-2 ">Message</button>
-                                                                        <a href="{{ route('education_show', $item->id) }}" class="btn btn-success btn-sm m-2 ">More Info</a>
-                                                                        <button class="btn btn-success btn-sm m-2 ">Apply</button>
-                                                                    </span>
+                                                                    <p class="lower-section-text mb-0  text-muted">Start
+                                                                        Date
+                                                                    </p>
+                                                                    <p class="mb-0 text-muted">
+                                                                        {{ $item->start_date }}</p>
+                                                                        </p>
+                                                                </span>
+
                                                                 </div>
 
                                                             </div>
@@ -336,7 +330,7 @@
                                     <div class="card">
                                         <div class="card-body">
                                             <div class="page-center">
-                                                <h4 class="text-center">{{ 'No Room Found.' }}</h4>
+                                                <h4 class="text-center">{{ 'No Service Found.' }}</h4>
                                             </div>
                                         </div>
                                     </div>
@@ -449,29 +443,59 @@
 
             // Listen for changes in the category dropdown
             $('#category').on('change', function () {
-                var category_id = $(this).val();
-                if (category_id) {
-                    // Fetch subcategories based on the selected category
-                    $.ajax({
-                        url: '/get-subcategories/' + category_id,
-                        type: 'GET',
-                        dataType: 'json',
-                        success: function (data) {
-                            // Clear existing subcategory options
-                            $('#subcategory').empty();
-                            $('#subcategory').append('<option value="">Select Subcategory</option>');
-                            // Populate the subcategory dropdown with retrieved data
-                            $.each(data, function (key, value) {
-                                $('#subcategory').append('<option value="' + value.id + '">' + value.name + '</option>');
-                            });
-                        }
-                    });
-                } else {
-                    // If no category is selected, clear the subcategory dropdown
-                    $('#subcategory').empty();
-                    $('#subcategory').append('<option value="">Select Subcategory</option>');
-                }
+                let category_id = $(this).val();
+
+                // Make an AJAX request to fetch subcategories for the selected category
+                loadSubcategories(category_id);
+                // loadServiceItems(category_id);
             });
 
-            </script>
+            // Listen for changes in the sub-category dropdown
+            $('#subcategory').on('change', function () {
+                let sub_category_id = $(this).val();
+
+                // Make an AJAX request to fetch subcategories for the selected category
+                loadChildSubcategories(sub_category_id);
+            });
+
+            function loadSubcategories(category_id) {
+                $.ajax({
+                    url: '/get-subcategories/' + category_id,
+                    type: 'GET',
+                    success: function (data) {
+                        // Clear existing subcategory options
+                        $('#subcategory').empty();
+                        $('#subcategory').append('<option value="">Select Subcategory</option>');
+                        // Populate the subcategory dropdown with retrieved subcategories
+                        $.each(data, function (key, subcategory) {
+                            $('#subcategory').append('<option value="' + subcategory.id + '">' + subcategory.name + '</option>');
+                        });
+                    },
+                    error: function (xhr, status, error) {
+                        // Handle errors if needed
+                    }
+                });
+            }
+
+
+            function loadChildSubcategories(sub_category_id){
+                $.ajax({
+                    url: '/get-child-subcategories/' + sub_category_id,
+                    type: 'GET',
+                    success: function (data) {
+                        // Clear existing subcategory options
+                        $('#child-subcategory').empty();
+                        $('#child-subcategory').append('<option value="">Select Subcategory</option>');
+                        // Populate the subcategory dropdown with retrieved subcategories
+                        $.each(data, function (key, childSubcategory) {
+                            $('#child-subcategory').append('<option value="' + childSubcategory.id + '">' + childSubcategory.name + '</option>');
+                        });
+                    },
+                    error: function (xhr, status, error) {
+                        // Handle errors if needed
+                    }
+                });
+            }
+
+        </script>
     @endsection
