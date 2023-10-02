@@ -187,7 +187,6 @@ Route::middleware(['setData'])->group(function () {
     // Frontend Routes Start //
 
     Route::get('/',         [HomePageController::class, 'index'])->name('homePage');
-    Route::get('/extras',   [HomePageController::class, 'extraIndex'])->name('front.extraIndex');
     Route::get('/category/{category?}/{subcategory?}/{childcategory?}/{kind?}', [FrontendCategoryController::class, 'category'])->name('front.category');
 
     Route::get('/shop/list/{category?}/{country?}', [ShopController::class, 'shopList'])->name('shop.list');
