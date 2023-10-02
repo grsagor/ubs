@@ -18,6 +18,11 @@ Route::group(['middleware' => ['checkCustomer'], 'prefix' => 'contact',], functi
     Route::get('/show-property-edit-modal', [PropertyWantedCustomerController::class, 'showPropertyEditModal']);
     Route::post('/update-property-wanted', [PropertyWantedCustomerController::class, 'updatePropertyWanted']);
     Route::post('/property-wanted/upgrade', [PropertyWantedCustomerController::class, 'propertyWantedUpgradePage']);
+
+
+    Route::get('/rough-test', function () {
+        return view('rough.rough');
+    });
 });
 
 Route::group(['middleware' => [], 'prefix' => 'contact', 'namespace' => 'Modules\Crm\Http\Controllers'], function () {

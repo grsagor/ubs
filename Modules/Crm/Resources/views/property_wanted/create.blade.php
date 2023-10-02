@@ -1,17 +1,4 @@
 <script>
-    // $(document).ready(function() {
-    //     $(".step:not(:first)").hide(); // Hide all steps except the first one
-
-    //     $(".next-btn").click(function() {
-    //         $(this).parent().hide().next().show();
-    //     });
-
-    //     $(".prev-btn").click(function() {
-    //         $(this).parent().hide().prev().show();
-    //     });
-    // });
-
-
     // Get the input element by its ID
     var roomAvailableFromInput = document.getElementById('room_available_from');
 
@@ -48,7 +35,7 @@
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                     aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title">Add room to rent</h4>
+            <h4 class="modal-title">Property wanted form</h4>
         </div>
 
         <div class="modal-body">
@@ -56,44 +43,9 @@
                 enctype="multipart/form-data">
                 @csrf
                 <div id="showingbtn1" class="row">
-                    {{-- <div class="col-sm-12">
-                        <div class="form-group">
-                            <label>Who's searching?:</label>
-                            <div>
-                                <input class="form-check-input" type="radio" name="who_is_searching" value="Just Me"
-                                    id="justme">
-                                <label for="justme">Just Me</label>
-                            </div>
-                            <div>
-                                <input class="form-check-input" type="radio" name="who_is_searching"
-                                    value="Me and a partner" id="meandapartner">
-                                <label for="meandapartner">Me and a partner</label>
-                            </div>
-                            <div>
-                                <input class="form-check-input" type="radio" name="who_is_searching"
-                                    value="Me and a friend" id="meandafriend">
-                                <label for="meandafriend">Me and a friend</label>
-                            </div>
-                        </div>
-                    </div> --}}
+
                     <input type="hidden" value="{{ $category->id }}" name="category_id">
                     <input type="hidden" value="{{ $sub_category->id }}" name="sub_category_id">
-
-                    {{-- <div class="col-sm-12">
-                        <div class="form-group">
-                            <label for="custom_field2">Your name</label>
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <input class="form-control" placeholder="First name" name="first_name"
-                                        type="text" id="first_name">
-                                </div>
-                                <div class="col-sm-6">
-                                    <input class="form-control" placeholder="Last name" name="last_name" type="text"
-                                        id="last_name">
-                                </div>
-                            </div>
-                        </div>
-                    </div> --}}
 
                     <div class="col-sm-12">
                         <div class="form-group">
@@ -149,49 +101,6 @@
                                 placeholder="Maximum 100 characters"></textarea>
                         </div>
                     </div>
-                    {{-- <div class="col-sm-12">
-                        <div class="form-group">
-                            <label for="invoice_scheme_id">Your gender(s)</label>
-                            <select class="form-control" required="" id="gender" name="gender">
-                                <option selected="" value="">Select
-                                    ....</option>
-                                @foreach (getSex() as $item)
-                                    <option value="{{ $item['value'] }}"
-                                        {{ old('sex') == $item['value'] ? 'selected' : '' }}>
-                                        {{ $item['label'] }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div> --}}
-
-                    {{-- <div class="col-sm-12">
-                        <div class="form-group">
-                            <label for="invoice_scheme_id">Where do you want to live?</label>
-                            <select class="form-control" id="invoice_scheme_id" name="wanted_living_area">
-                                <option value="" selected="">Select an
-                                    area...
-                                </option>
-                                <option value="1">London and surrounds
-                                </option>
-                                <option value="2">East Anglia</option>
-                                <option value="3">East Midlands</option>
-                                <option value="4">North East England</option>
-                                <option value="5">North West England</option>
-                                <option value="6">South East England</option>
-                                <option value="7">South West England</option>
-                                <option value="8">West Midlands</option>
-                                <option value="9">Yorkshire and Humberside
-                                </option>
-                                <option value="10">Northern Ireland</option>
-                                <option value="11">Scotland</option>
-                                <option value="12">Wales</option>
-                                <option value="13">Channel Islands</option>
-                                <option value="14">Isle of Man</option>
-                            </select>
-                        </div>
-                    </div> --}}
-
 
                     <div class="col-sm-12">
                         <div class="form-group">
@@ -200,8 +109,6 @@
                                 type="text">
                         </div>
                     </div>
-
-
 
                     <div class="col-sm-12">
                         <div class="form-group">
@@ -317,42 +224,6 @@
                     </div>
 
 
-                    {{-- <div class="col-sm-12">
-                        <div class="form-group">
-                            <label for="invoice_scheme_id">Business Location</label>
-                            <select class="form-control" name="business_location_id">
-                                <option selected="" value="">Select Business Location </option>
-                                @foreach ($business_locations as $item)
-                                    <option value="{{ $item->id }}">
-                                        {{ $item->name }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div> --}}
-
-
-                    {{-- <div class="col-sm-12">
-                        <div class="form-group">
-                            <label>Room size</label>
-                            <div>
-                                <input class="form-check-input" type="radio" name="room_size" value="A single room"
-                                    id="dobuleroom">
-                                <label for="dobuleroom">A single room</label>
-                            </div>
-                            <div>
-                                <input class="form-check-input" type="radio" name="room_size" value="A double room"
-                                    id="dobuleroom">
-                                <label for="dobuleroom">A double room</label>
-                            </div>
-                            <div>
-                                <input class="form-check-input" type="radio" name="room_size"
-                                    value="A single or double" id="asingleordouble">
-                                <label for="asingleordouble">A single or double
-                                    room</label>
-                            </div>
-                        </div>
-                    </div> --}}
 
 
                 </div>
@@ -520,15 +391,6 @@
                         </div>
                     </div>
 
-                    {{-- <div class="col-sm-12" style="margin-top: 15px;">
-                        <div class="form-group">
-                            <label for="custom_field2">Your Interests</label><br>
-                            <button type="button" id="openModal" class="btn btn-primary">Select</button>
-                            <div id="selectedSports"></div>
-                        </div>
-                    </div> --}}
-
-
                 </div>
 
                 <div id="showingbtn2" class="row" style="display:none;">
@@ -551,23 +413,6 @@
                             </select>
                         </div>
                     </div>
-
-                    {{-- <div class="col-sm-12">
-                        <div class="form-group">
-                            <label for="selling_price_group_id">Age</label> <i
-                                class="fa fa-info-circle text-info hover-q no-print " aria-hidden="true"
-                                data-container="body" data-toggle="popover" data-placement="auto bottom"
-                                data-content="This price group will be used as the default price group in this location."
-                                data-html="true" data-trigger="hover"></i> <select class="form-control"
-                                id="age" name="age">
-                                <option value="">Select...</option>
-                                @foreach (range(18, 99) as $age)
-                                    <option value="{{ $age }}">
-                                        {{ $age }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div> --}}
 
 
                     <div class="col-sm-12">

@@ -2,14 +2,14 @@
     @if ($i != 0)
     @endif
 
-    <div class="each_occupant_container">
-        <div class="col-sm-12" style="{{ $i != 0 ? 'margin-top: 20px;' : '' }}">
+    <div class="each_occupant_container p-1 mb-3" style="border: 1px solid rgb(127, 125, 125)">
+        <div class="col-sm-12" style="margin-top: 10px;">
             <h6><u>Occupant-{{ $i + 1 }} Details</u></h6>
         </div>
         <div class="col-sm-12">
             <div class="form-group">
                 <label for="occupant_name">Name</label>
-                <input class="form-control" name="occupant_name[]" type="text" id="occupant_name">
+                <input class="form-control select-style" name="occupant_name[]" type="text" id="occupant_name">
             </div>
         </div>
         <div class="col-sm-12">
@@ -39,11 +39,13 @@
                 <label for="occupant_relationship">Relationship</label>
                 <select class="form-control" id="occupant_relationship" name="occupant_relationship[]">
                     <option selected="" value="">Select....</option>
-                    <option value="4">Contact Person(The person as the point of contact or responsible party.)
+                    <option value="4">Contact Person(The person as the point of contact or responsible
+                        party.)
                     </option>
                     <option value="1">Family (Family member if relation is
                         Father/Mother/Son/Daughter/Brother/Sister/Husband/Wife)</option>
-                    <option value="2">Relatives (Uncle/ Aunty/Cousin/ Brother-in-law/ Sister-in-law)</option>
+                    <option value="2">Relatives (Uncle/ Aunty/Cousin/ Brother-in-law/ Sister-in-law)
+                    </option>
                     <option value="3">Friends</option>
                     <option value="4">Others</option>
                 </select>
@@ -132,7 +134,6 @@
         <div class="col-sm-12">
             <div class="form-group">
                 <label for="occupant_nationality">Nationality</label>
-                {{-- <input class="form-control" name="occupant_nationality[]" type="text" id="occupant_nationality"> --}}
 
                 <select class="form-control" id="occupant_nationality" name="occupant_nationality[]">
 
@@ -147,11 +148,54 @@
                 <label for="occupant_visa_status">Visa status</label>
                 <select class="form-control" id="occupant_visa_status" name="occupant_visa_status[]">
                     <option selected="" value="">Select....</option>
-                    <option value="1">Yes</option>
-                    <option value="0">No</option>
+                    <option value="Citizen">Citizen</option>
+                    <option value="ILR">ILR</option>
+                    <option value="Visit Visa">Visit Visa</option>
+                    <option value="International student">International student</option>
+                    <option value="Work permit">Work permit</option>
+                    <option value="Others">Others</option>
                 </select>
             </div>
         </div>
+
+        <div class="col-sm-12">
+            <div class="form-group">
+                <label for="photo">Upload your photo</label>
+                <input type="file" class="form-control select-style" name="photo[]" id="photo">
+            </div>
+        </div>
+
+        <div class="col-sm-12">
+            <div class="form-group">
+                <label for="passport_id">Passport/ ID</label>
+                <input type="file" class="form-control select-style" name="passport_id[]" id="passport_id"
+                    multiple>
+            </div>
+        </div>
+
+        <div class="col-sm-12">
+            <div class="form-group">
+                <label for="pay_slip">Pay slip </label>
+                <input type="file" class="form-control select-style" name="pay_slip[]" id="pay_slip" multiple>
+            </div>
+        </div>
+
+        <div class="col-sm-12">
+            <div class="form-group">
+                <label for="bank_statement">Bank statement </label>
+                <input type="file" class="form-control select-style" name="bank_statement[]" id="bank_statement"
+                    multiple>
+            </div>
+        </div>
+
+        <div class="col-sm-12">
+            <div class="form-group">
+                <label for="other_documents">Other documents </label>
+                <input type="file" class="form-control select-style" name="other_documents[]"
+                    id="other_documents" multiple>
+            </div>
+        </div>
+
     </div>
 @endfor
 

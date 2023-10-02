@@ -6,7 +6,7 @@
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                     aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title">Add room to rent</h4>
+            <h1 class="modal-title text-center mt-2">Property advertising form</h1>
         </div>
 
         <div class="modal-body">

@@ -58,12 +58,11 @@ class RoomListController extends Controller
         $room = json_decode($data['info']->room);
 
         $service_charge_room             = $data['info']->service_charge_room;
-        // dd($service_charge_room);
 
         $result = [];
         for ($i = 1; $i <= 5; $i++) {
             $serviceCharge = $service_charge_room ?? $room->{'service_charge_room' . $i};
-            // dd($serviceCharge);
+
             if ($serviceCharge !== null) {
                 $result[] = [
                     'room_number' => $i,
@@ -80,12 +79,6 @@ class RoomListController extends Controller
         }
 
         $data['roomArray'] = $result;
-
-        // dd($data['roomArray']);
-
-        // $item =  $this->propertyService->imagesManipulate($data['info']->advert_photos);
-
-        // dd($item);
 
         $data['first_image'] = 'https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg';
 
@@ -120,30 +113,49 @@ class RoomListController extends Controller
     }
 
 
+    public function showOccupantsDetailsInputs(Request $request)
+    {
+        $num = $request->num;
+        $html = view('frontend.service.room.occupant_details', compact('num'))->render();
+        $response = [
+            'html' => $html,
+        ];
+        return $response;
+    }
+
     public function referenceNumberCheck(Request $request, $id)
     {
         $data                           = ServiceAdvertiseRoom::findOrFail($id);
 
-        $info['product_id']             = $id;
-        $info['product_name']           = $data->advert_title;
-        $info['bill']                   = $request->bill;
-        $info['table_name']             = 'service_advertise_rooms';
+        // $info['product_id']             = $id;
+        // $info['product_name']           = $data->advert_title;
+        // $info['bill']                   = $request->bill;
+        // $info['table_name']             = 'service_advertise_rooms';
 
         if ($data->reference_id == $request->reference_number) {
 
-            $info['output'] = [
+            $output     = [
                 'success'               => true,
                 'msg'                   => ('Reference number matched!!!'),
             ];
 
-            return redirect('stripe')
-                ->with([
-                    'product_id'        => $info['product_id'],
-                    'product_name'      => $info['product_name'],
-                    'bill'              => $info['bill'],
-                    'table_name'        => $info['table_name'],
-                    'output'            => $info['output'],
-                ]);
+            return redirect()->route('frontend.service.room.details_form')->with('status', $output);
+
+            return redirect()->back()->with('status', $output);
+
+            // $info['output'] = [
+            //     'success'               => true,
+            //     'msg'                   => ('Reference number matched!!!'),
+            // ];
+
+            // return redirect('stripe')
+            //     ->with([
+            //         'product_id'        => $info['product_id'],
+            //         'product_name'      => $info['product_name'],
+            //         'bill'              => $info['bill'],
+            //         'table_name'        => $info['table_name'],
+            //         'output'            => $info['output'],
+            //     ]);
         } else {
             $output     = [
                 'success'               => false,
@@ -182,7 +194,6 @@ class RoomListController extends Controller
 
         $data['categories']             = ChildCategory::get();
 
-        // return     $data['rooms'];
         return view('frontend.service.room.room_list', $data);
     }
 }
