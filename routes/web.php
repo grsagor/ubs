@@ -143,6 +143,7 @@ Route::get('/property-finding-payment',                                         
 Route::get('/room-list/',                               [RoomListController::class, 'roomList'])->name('room.list');
 Route::get('/room-list/category',                       [RoomListController::class, 'roomListCategory'])->name('room.list.category');
 Route::get('/room-show/{id}',                           [RoomListController::class, 'roomShow'])->name('room_show');
+Route::post('/submit-form', [RoomListController::class, 'showModal']);
 Route::put('/room-reference-number-check/{id}',         [RoomListController::class, 'referenceNumberCheck'])->name('room.referenceNumberCheck');
 Route::get('/show-occupants-details-inputs',            [RoomListController::class, 'showOccupantsDetailsInputs']);
 

@@ -104,14 +104,15 @@
 
                                                     <div class="pro-info">
 
-                                                        <form method="POST"
-                                                            action="{{ route('room.referenceNumberCheck', $info->id) }}"
+                                                        <form id="room_to_rent_reference_matching_form"
+                                                            {{-- action="{{ route('room.referenceNumberCheck', $info->id) }}" --}}
                                                             style="margin: 0px;">
                                                             @csrf
-                                                            @method('PUT')
+                                                            {{-- @method('PUT') --}}
 
                                                             <input type="hidden" name="bill"
                                                                 value="{{ $service_charge }}">
+                                                            <input type="hidden" name="id" value="{{ $info->id }}">
 
                                                             <section class="row">
 
@@ -708,6 +709,11 @@
             </div>
         </div>
     </div>
+
+
+    <div class="modal fade" id="room_to_rent_details_form">
+    </div>
+
 @endsection
 
 @section('script')
@@ -715,4 +721,30 @@
         $('#exampleModal').modal('show');
     </script>
     @include('frontend.service.partial.property_script')
+
+    <script>
+        $(document).ready(function () {
+            $('#room_to_rent_reference_matching_form').submit(function (e) {
+                e.preventDefault(); // Prevent the default form submission
+    
+                $.ajax({
+                    type: 'POST',
+                    url: '/submit-form',
+                    data: $(this).serialize(), // Serialize the form data
+                    dataType: 'html',
+                    success: function (html) {
+                        // $('#exampleModal').modal('hide');
+                        $('#room_to_rent_details_form').empty();
+                        $('#room_to_rent_details_form').html(html);
+                        $('#room_to_rent_details_form').modal('show');
+                    },
+                    error: function (xhr, status, error) {
+                        // Handle any errors that occur during the request
+                        console.error(xhr.responseText);
+                    }
+                });
+            });
+        });
+    </script>
+    
 @endsection

@@ -48,6 +48,15 @@ class RoomListController extends Controller
         return view('frontend.service.room.room_list', $data);
     }
 
+    public function showModal(Request $request){
+        $data = ServiceAdvertiseRoom::findOrFail($request->id);
+        $matched = false;
+        if ($data->reference_id == $request->reference_number) {
+            $matched = true;
+        }
+        return view('frontend.service.room.details_form', compact('matched'));
+    }
+
 
     public function roomShow($id)
     {
