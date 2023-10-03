@@ -220,9 +220,9 @@
                                                     <div class="wishlist-button">
                                                         <a class="add_to_wishlist" href="">Wishlist</a>
                                                     </div>
-                                                    <div class="compare-button">
+                                                    {{--<div class="compare-button">
                                                         <a class="compare button" href="">Compare</a>
-                                                    </div>
+                                                    </div>--}}
 
                                                 </div>
 

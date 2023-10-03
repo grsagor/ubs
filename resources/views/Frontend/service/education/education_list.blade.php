@@ -242,8 +242,8 @@
                                                                     <hr class="mt-0">
                                                                     <div class="row">
                                                                         <div class="col-md-6 mb-0">
-                                                                            <p class="category_text text-dark mb-0">Tuition Fees:{{ $item->tuition_fee }}</p>
-                                                                            <p class="category_text text-dark mb-0">Home Student:</p>
+                                                                            <p class="category_text text-dark mb-0">Tuition Fees</p>
+                                                                            <p class="category_text text-dark mb-0">Home Student:{{ $item->tuition_fee }}</p>
                                                                             <p class="category_text text-dark mb-0">International:</p>
                                                                             <br>
                                                                             <p class="category_text text-dark mb-0">Scholarship:{{ $item->scholarship }}</p>
@@ -270,6 +270,7 @@
                                                                      style="background-color: whitesmoke; border-top: 3px solid var(--green);">
                                                                     <span class=" flex-fill mb-0 text-white">
                                                                         <button class="btn btn-success btn-sm m-2 ">Message</button>
+{{--                                                                        <button class="btn btn-success btn-sm m-2 ">Save</button>--}}
                                                                         <a href="{{ route('education_show', $item->id) }}" class="btn btn-success btn-sm m-2 ">More Info</a>
                                                                         <button class="btn btn-success btn-sm m-2 ">Apply</button>
                                                                     </span>

@@ -71,7 +71,7 @@
 
                                 <div class="form_row form_row_email">
                                     <div class="form_label">
-                                        Fixed Price / Changeable<span class="star">*</span>
+                                        Allow Price Customization<span class="star">*</span>
                                     </div>
                                     <div class="form_inputs">
                                             <span class="form_input form_text">
@@ -261,9 +261,9 @@
                                 <div class="form_inputs">
                                     <div class="form_input form_button">
                                         <button class="button" id="continueButton" type="submit" name="submit">
-                                            Continue
+                                            Submit
                                         </button>
-                                    </div>contact/property-wanted
+                                    </div>
                                 </div>
                             </fieldset>
 
