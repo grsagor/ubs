@@ -5,13 +5,17 @@ namespace App\Http\Controllers\Frontend;
 use App\Media;
 use App\ChildCategory;
 use App\ServiceCharge;
+use App\BookingService;
 use Illuminate\Http\Request;
 use App\ServiceAdvertiseRoom;
+use App\Traits\ImageFileUpload;
 use App\Services\PropertyService;
+use App\PropertyRentBookingDetails;
 use App\Http\Controllers\Controller;
 
 class RoomListController extends Controller
 {
+    use ImageFileUpload;
     protected $propertyService;
 
     public function __construct(PropertyService $propertyService)
@@ -48,19 +52,9 @@ class RoomListController extends Controller
         return view('frontend.service.room.room_list', $data);
     }
 
-    public function showModal(Request $request){
-        $data = ServiceAdvertiseRoom::findOrFail($request->id);
-        $matched = false;
-        if ($data->reference_id == $request->reference_number) {
-            $matched = true;
-        }
-        return view('frontend.service.room.details_form', compact('matched'));
-    }
-
-
     public function roomShow($id)
     {
-        $data['info']                   = ServiceAdvertiseRoom::with(['child_category', 'user'])->findOrFail($id);
+        $data['info']                   = ServiceAdvertiseRoom::with(['child_category', 'user', 'latest_booking_service'])->findOrFail($id);
         $data['service_charge']         = ServiceCharge::where([['category_id', $data['info']->service_category_id], ['sub_category_id', $data['info']->sub_category_id], ['child_category', $data['info']->child_category_id]])->first()->service_charge;
         $data['user_info']              = Media::where('uploaded_by', $data['info']->user_id)
             ->where('model_type', 'App\\User')->first();
@@ -121,6 +115,15 @@ class RoomListController extends Controller
         return view('frontend.service.room.details', $data);
     }
 
+    public function showModal(Request $request)
+    {
+        $data = ServiceAdvertiseRoom::findOrFail($request->id);
+        $matched = false;
+        if ($data->reference_id == $request->reference_number) {
+            $matched = true;
+        }
+        return view('frontend.service.room.details_form', compact('matched', 'data'));
+    }
 
     public function showOccupantsDetailsInputs(Request $request)
     {
@@ -132,47 +135,60 @@ class RoomListController extends Controller
         return $response;
     }
 
-    public function referenceNumberCheck(Request $request, $id)
+    public function propertyRentBooking(Request $request)
     {
-        $data                           = ServiceAdvertiseRoom::findOrFail($id);
-
-        // $info['product_id']             = $id;
-        // $info['product_name']           = $data->advert_title;
-        // $info['bill']                   = $request->bill;
-        // $info['table_name']             = 'service_advertise_rooms';
-
-        if ($data->reference_id == $request->reference_number) {
-
-            $output     = [
-                'success'               => true,
-                'msg'                   => ('Reference number matched!!!'),
+        $count = count($request->occupant_name);
+        $occupant_details = [];
+        for ($i = 0; $i < $count; $i++) {
+            $occupant_details[] = [
+                "occupant_name" => $request->occupant_name[$i],
+                "occupant_gender_req" => $request->occupant_gender[$i],
+                "occupant_age" => $request->occupant_age[$i],
+                "occupant_relationship" => $request->occupant_relationship[$i],
+                "occupant_occupation" => $request->occupant_occupation[$i],
+                "occupant_job" => $request->occupant_job[$i],
+                "occupant_job_type" => $request->occupant_job_type[$i],
+                "occupant_designation" => $request->occupant_designation[$i],
+                "occupant_miat" => $request->occupant_miat[$i],
+                "occupant_university_name" => $request->occupant_university_name[$i],
+                "occupant_degree_name" => $request->occupant_degree_name[$i],
+                "occupant_pay_rent" => $request->occupant_pay_rent[$i],
+                "occupant_nationality" => $request->occupant_nationality[$i],
+                "occupant_visa_status" => $request->occupant_visa_status[$i],
+                "occupant_photo" => $this->image($request->file('occupant_photo' . $i), '', 800, 500),
+                "occupant_passport_id" => $this->fileUpload($request->file('occupant_passport_id' . $i), ''),
+                "occupant_pay_slip" => $this->fileUpload($request->file('occupant_pay_slip' . $i), ''),
+                "occupant_bank_statement" => $this->fileUpload($request->file('occupant_bank_statement' . $i), ''),
+                "occupant_other_documents" => $this->fileUpload($request->file('occupant_other_documents' . $i), ''),
             ];
-
-            return redirect()->route('frontend.service.room.details_form')->with('status', $output);
-
-            return redirect()->back()->with('status', $output);
-
-            // $info['output'] = [
-            //     'success'               => true,
-            //     'msg'                   => ('Reference number matched!!!'),
-            // ];
-
-            // return redirect('stripe')
-            //     ->with([
-            //         'product_id'        => $info['product_id'],
-            //         'product_name'      => $info['product_name'],
-            //         'bill'              => $info['bill'],
-            //         'table_name'        => $info['table_name'],
-            //         'output'            => $info['output'],
-            //     ]);
-        } else {
-            $output     = [
-                'success'               => false,
-                'msg'                   => ('Wrong Reference number!!!'),
-            ];
-
-            return redirect()->back()->with('status', $output);
         }
+
+        // dd($request->occupant_photo);
+
+        // dd($request->toArray());
+        $requestedData['service_advertise_id']          = $request->service_advertise_id;
+        $requestedData['number_of_shared_people']       = $request->number_of_shared_people;
+        $requestedData['preriod_accommodation_needed']  = $request->preriod_accommodation_needed;
+        $requestedData['want_stay_accommodation']       = $request->want_stay_accommodation;
+        $requestedData['email']                         = $request->email;
+        $requestedData['mobile']                        = $request->mobile;
+        $requestedData['occupant_details']              = json_encode($occupant_details);
+        $requestedData['status']                        = 'confirmed';
+
+        $propertyBookingDetails                         = PropertyRentBookingDetails::create($requestedData);
+
+        $requestedData['type']                          = 'property_to_rent';
+        $requestedData['service_id']                    = $propertyBookingDetails->id;
+        $requestedData['description']                   = 'Table: service_advertise_rooms';
+
+        BookingService::create($requestedData);
+
+        $output = [
+            'success' => true,
+            'msg' => ('Booked Successfully!!!'),
+        ];
+
+        return redirect()->back()->with('status', $output);
     }
 
 

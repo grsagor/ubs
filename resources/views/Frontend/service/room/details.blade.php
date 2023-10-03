@@ -105,14 +105,14 @@
                                                     <div class="pro-info">
 
                                                         <form id="room_to_rent_reference_matching_form"
-                                                            {{-- action="{{ route('room.referenceNumberCheck', $info->id) }}" --}}
-                                                            style="margin: 0px;">
+                                                            {{-- action="{{ route('room.referenceNumberCheck', $info->id) }}" --}} style="margin: 0px;">
                                                             @csrf
                                                             {{-- @method('PUT') --}}
 
                                                             <input type="hidden" name="bill"
                                                                 value="{{ $service_charge }}">
-                                                            <input type="hidden" name="id" value="{{ $info->id }}">
+                                                            <input type="hidden" name="id"
+                                                                value="{{ $info->id }}">
 
                                                             <section class="row">
 
@@ -156,16 +156,27 @@
                                                                     </ul>
                                                                 </section>
 
-                                                                <div class="col-lg-12">
-                                                                    <div class="button-31 mt-2" data-bs-toggle="modal"
-                                                                        data-bs-target="#exampleModal"
-                                                                        style="display:block; align-items: center; width:170px;">
-                                                                        Book Now
-                                                                        @if ($info->child_category_id == 2 || $info->child_category_id == 6)
-                                                                            £{{ $info->rent }}
-                                                                        @endif
+                                                                @if ($info->latest_booking_service === null || $info->latest_booking_service->status !== 'confirmed')
+                                                                    <div class="col-lg-12">
+                                                                        <div class="button-31 mt-2" data-bs-toggle="modal"
+                                                                            data-bs-target="#exampleModal"
+                                                                            style="display:block; align-items: center; width:170px;">
+                                                                            @if ($info->child_category_id == 2 || $info->child_category_id == 6)
+                                                                                Book Now £{{ $info->rent }}
+                                                                            @else
+                                                                                Book Now
+                                                                            @endif
+                                                                        </div>
                                                                     </div>
-                                                                </div>
+                                                                @else
+                                                                    <div class="col-lg-12">
+                                                                        <div class="button-31 mt-2"
+                                                                            style="display:block; align-items: center; width:170px;">
+                                                                            Booked
+                                                                        </div>
+                                                                    </div>
+                                                                @endif
+
 
                                                             </section>
 
@@ -198,8 +209,8 @@
                                                                             class="modal-footer d-flex justify-content-center">
                                                                             <button type="button" class="btn btn-dark"
                                                                                 data-bs-dismiss="modal">Close</button>
-                                                                            <button type="submit"
-                                                                                class="btn btn-dark">Book</button>
+                                                                            <button type="submit" class="btn btn-dark"
+                                                                                id="book_submit_modal">Book</button>
                                                                         </div>
 
                                                                     </div>
@@ -717,34 +728,35 @@
 @endsection
 
 @section('script')
-    <script>
-        $('#exampleModal').modal('show');
-    </script>
     @include('frontend.service.partial.property_script')
 
     <script>
-        $(document).ready(function () {
-            $('#room_to_rent_reference_matching_form').submit(function (e) {
+        $(document).ready(function() {
+            $('#room_to_rent_reference_matching_form').submit(function(e) {
                 e.preventDefault(); // Prevent the default form submission
-    
+
                 $.ajax({
                     type: 'POST',
                     url: '/submit-form',
                     data: $(this).serialize(), // Serialize the form data
                     dataType: 'html',
-                    success: function (html) {
+                    success: function(html) {
                         // $('#exampleModal').modal('hide');
                         $('#room_to_rent_details_form').empty();
                         $('#room_to_rent_details_form').html(html);
                         $('#room_to_rent_details_form').modal('show');
                     },
-                    error: function (xhr, status, error) {
+                    error: function(xhr, status, error) {
                         // Handle any errors that occur during the request
                         console.error(xhr.responseText);
                     }
                 });
             });
+
+            $('#book_submit_modal').on('click', function(e) {
+                $('#exampleModal').modal('hide');
+            });
+
         });
     </script>
-    
 @endsection

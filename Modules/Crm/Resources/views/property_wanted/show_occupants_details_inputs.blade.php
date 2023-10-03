@@ -39,7 +39,7 @@
                 <label for="occupant_relationship">Relationship</label>
                 <select class="form-control" id="occupant_relationship" name="occupant_relationship[]">
                     <option selected="" value="">Select....</option>
-                    <option value="4">Contact Person(The person as the point of contact or responsible party.)
+                    <option value="5">Contact Person(The person as the point of contact or responsible party.)
                     </option>
                     <option value="1">Family (Family member if relation is
                         Father/Mother/Son/Daughter/Brother/Sister/Husband/Wife)</option>
