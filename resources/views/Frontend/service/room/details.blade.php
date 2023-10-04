@@ -116,28 +116,9 @@
 
                                                             <section class="row">
 
-
                                                                 <section class="col-lg-12">
                                                                     <ul class="room-list">
-
-                                                                        {{-- @if ($info->child_category_id == 1) --}}
                                                                         @foreach ($roomArray as $i => $item)
-                                                                            @if ($info->child_category_id == 9)
-                                                                                @if ($i == 0)
-                                                                                    <li class="room-list__room">
-                                                                                        <input type="radio"
-                                                                                            name="room_cost"
-                                                                                            id="room{{ $i + 1 }}"
-                                                                                            value="{{ $item['room_cost_of_amount'] }}">
-                                                                                        <strong
-                                                                                            class="room-list__price">&pound;
-                                                                                            {{ $item['room_cost_of_amount'] }}
-                                                                                            pcm</strong>
-                                                                                        {{-- <small>(Room
-                                                                                            {{ $i + 1 }})</small> --}}
-                                                                                    </li>
-                                                                                @endif
-                                                                            @endif
                                                                             @if ($info->child_category_id == 1)
                                                                                 <li class="room-list__room">
                                                                                     <input type="radio" name="room_cost"
@@ -152,7 +133,6 @@
                                                                                 </li>
                                                                             @endif
                                                                         @endforeach
-
                                                                     </ul>
                                                                 </section>
 
@@ -161,7 +141,7 @@
                                                                         <div class="button-31 mt-2" data-bs-toggle="modal"
                                                                             data-bs-target="#exampleModal"
                                                                             style="display:block; align-items: center; width:170px;">
-                                                                            @if ($info->child_category_id == 2 || $info->child_category_id == 6)
+                                                                            @if ($info->child_category_id !== 1)
                                                                                 Book Now £{{ $info->rent }}
                                                                             @else
                                                                                 Book Now
