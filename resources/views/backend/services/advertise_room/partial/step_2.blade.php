@@ -1,7 +1,6 @@
   <!-- Step 2 -->
   <div class="step" id="step-2">
 
-
       <!-- Start Step 2 -->
       <div class="grid-12-4" style="display: flex; justify-content: center;">
           <div>
@@ -76,11 +75,15 @@
                           <div class="col-sm-12">
                               <div class="form-group">
                                   <label>Living room?</label>
-                                  <div>
+                                  <div id="living_room_option1">
                                       <input class="form-check-input" type="radio" name="living_room" value="1">
                                       <label>Yes, there is a shared living room</label>
                                   </div>
-                                  <div>
+                                  <div id="living_room_option2">
+                                      <input class="form-check-input" type="radio" name="living_room" value="3">
+                                      <label>Yes, there is a living room</label>
+                                  </div>
+                                  <div id="living_room_option3">
                                       <input class="form-check-input" type="radio" name="living_room" value="2">
                                       <label>No</label>
                                   </div>
@@ -95,7 +98,7 @@
                                   <label>Amenities</label>
                                   @foreach ($amenities as $amenity)
                                       <div>
-                                          <input class="form-check-input" type="radio" name="property_amenities[]"
+                                          <input class="form-check-input" type="checkbox" name="property_amenities[]"
                                               value="{{ $amenity }}">
                                           <label>{{ $amenity }}</label>
                                       </div>

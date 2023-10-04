@@ -141,26 +141,19 @@
                                                                         <div class="button-31 mt-2" data-bs-toggle="modal"
                                                                             data-bs-target="#exampleModal"
                                                                             style="display:block; align-items: center; width:170px;">
-                                                                            @if ($info->child_category_id !== 1)
-                                                                                Book Now £{{ $info->rent }}
-                                                                            @else
-                                                                                Book Now
-                                                                            @endif
+                                                                            Book Now
                                                                         </div>
                                                                     </div>
                                                                 @else
                                                                     <div class="col-lg-12">
                                                                         <div class="button-31 mt-2"
-                                                                            style="display:block; align-items: center; width:170px;">
-                                                                            Booked
+                                                                            style="display:block; align-items: center; width:170px; background: #e0892f;">
+                                                                            Let Agreed
                                                                         </div>
                                                                     </div>
                                                                 @endif
 
-
                                                             </section>
-
-
 
 
                                                             {{-- Modal --}}
@@ -171,7 +164,7 @@
 
                                                                         <div class="modal-body">
                                                                             <p class="text-center">Please call <a
-                                                                                    href="callto:{{ $info->business_location->mobile }}">{{ $info->business_location->mobile }}</a>
+                                                                                    href="callto:{{ $info->business_location->mobile ?? '' }}">{{ $info->business_location->mobile ?? '' }}</a>
                                                                                 to get the reference id.</p>
                                                                             <div class="mb-3">
                                                                                 <input type="text" class="form-control"
@@ -270,19 +263,19 @@
                                                     <span> Contact </span>
 
                                                     @php
-                                                        $imageUrl = $user_info && $user_info->file_name && File::exists(public_path("uploads/media/{$user_info->file_name}")) ? asset("uploads/media/{$user_info->file_name}") : 'https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg';
+                                                        $imageUrl = $info->business_location->logo && File::exists(public_path("{$info->business_location->logo}")) ? asset("{$info->business_location->logo}") : 'https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg';
                                                     @endphp
 
-                                                    <div>
-                                                        <img class="" src="{{ $imageUrl }}" alt=""
-                                                            width="100" height="100">
-                                                    </div>
+                                                    <a href="{{ route('shop.service', $info->business_location->id) }}">
+                                                        <div>
+                                                            <img class="" src="{{ $imageUrl }}" alt=""
+                                                                width="100" height="100">
+                                                        </div>
 
-                                                    <strong>
-                                                        {{ $info->user->surname ?? '' }}
-                                                        {{ $info->user->first_name ?? '' }}
-                                                        {{ $info->user->last_name ?? '' }}
-                                                    </strong>
+                                                        <strong style="font-size: 24px;">
+                                                            {{ $info->business_location->name ?? '' }}
+                                                        </strong>
+                                                    </a>
 
                                                     <p style="background: #45606b; color: #fff">
                                                         {{ $info->property_user_title }}</p>
@@ -484,6 +477,14 @@
                                     <p>
                                         <strong>Total bathrooms: </strong>
                                         {{ $info->bathroom }}
+                                    </p>
+                                @endif
+
+                                @if ($info->living_room)
+                                    <p>
+                                        <strong>Living room: </strong>
+                                        {{ $info->living_room == 1 ? 'Yes, there is a shared living room' : ($info->living_room == 3 ? 'Yes, there is a living room' : 'No') }}
+
                                     </p>
                                 @endif
 

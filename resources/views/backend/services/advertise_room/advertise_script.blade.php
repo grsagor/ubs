@@ -161,7 +161,6 @@
             var child_category_id = $(this).val();
             var sub_category_id = $('#sub_category_id').val();
             var service_category_id = $('#service_category_id').val();
-            //alert(child_category_id);
 
             var a = document.getElementById('badOption');
             var b = document.getElementById('showroom');
@@ -208,6 +207,8 @@
             var m_5 = document.getElementById('room_holding_deposit_id5');
 
             var p = document.getElementById('existing_flatmate_id');
+            var q = document.getElementById('living_room_option2');
+            var r = document.getElementById('living_room_option1');
 
 
             // child_category_id means category 1 = Room
@@ -221,6 +222,9 @@
                 a.style.display = 'none';
             }
             if (child_category_id == 1) {
+                //Step 2 Living room second option-> Yes, there is a living room
+                q.style.display = 'none';
+
                 b.style.display = 'block';
                 c.style.display = 'none';
                 i.style.display = 'none';
@@ -240,6 +244,8 @@
                 m_4.style.display = 'block';
                 m_5.style.display = 'block';
             } else {
+                q.style.display = 'block';
+
                 b.style.display = 'none';
                 c.style.display = 'block';
                 i.style.display = 'block';
@@ -288,6 +294,7 @@
             }
 
             if (child_category_id == 2 || child_category_id == 6 || child_category_id == 9) {
+                r.style.display = 'none';
                 if (child_category_id == 2 || child_category_id == 6) {
                     g_1.style.display = 'none';
                     g_2.style.display = 'none';
@@ -310,6 +317,7 @@
                     h_5.style.display = 'none';
                 }
             } else {
+                r.style.display = 'block';
                 if (child_category_id == 2 || child_category_id == 6) {
                     g_1.style.display = 'block';
                     g_2.style.display = 'block';
