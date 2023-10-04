@@ -29,6 +29,18 @@
                         </div> --}}
                          <div class="col-sm-12">
                              <div class="form-group">
+                                 <label for="selling_price_group_id">Business location</label>
+                                 <select class="form-control" name="business_location_id">
+                                     <option value="">Select</option>
+                                     @foreach ($business_locations as $item)
+                                         <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                     @endforeach
+                                 </select>
+                             </div>
+                         </div>
+
+                         <div class="col-sm-12">
+                             <div class="form-group">
                                  <label for="selling_price_group_id">Category</label>
                                  <select class="form-control" id="child_category_id" name="child_category_id">
                                      <option value="">Select</option>

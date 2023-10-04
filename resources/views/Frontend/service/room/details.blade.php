@@ -168,14 +168,10 @@
                                                                 aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                                 <div class="modal-dialog">
                                                                     <div class="modal-content">
-                                                                        {{-- <div class="modal-header">
-                                                                            <h5 class="modal-title" id="exampleModalLabel">
-                                                                                Reference
-                                                                                Number</h5>
-                                                                        </div> --}}
+
                                                                         <div class="modal-body">
                                                                             <p class="text-center">Please call <a
-                                                                                    href="callto:{{ $info->user->contact_no }}">{{ $info->user->contact_no }}</a>
+                                                                                    href="callto:{{ $info->business_location->mobile }}">{{ $info->business_location->mobile }}</a>
                                                                                 to get the reference id.</p>
                                                                             <div class="mb-3">
                                                                                 <input type="text" class="form-control"
@@ -473,7 +469,6 @@
                                 @if ($info->property_size)
                                     <p>
                                         <strong>Total Room: </strong>
-                                        {{-- {{ count($roomArray) }} --}}
                                         {{ $info->property_size ?? '' }}
                                     </p>
                                 @endif

@@ -128,10 +128,14 @@ class ServiceAdvertiseRoom extends Model
         return $this->belongsTo(ChildCategory::class, 'child_category_id');
     }
 
-    // Define a custom relationship for the latest booking service
     public function latest_booking_service()
     {
         return $this->hasOne(PropertyRentBookingDetails::class, 'service_advertise_id', 'id')
-            ->latest()->where('status', 'confirmed'); // Retrieve the latest (most recent) booking service
+            ->latest()->where('status', 'confirmed');
+    }
+
+    public function business_location()
+    {
+        return $this->belongsTo(BusinessLocation::class, 'business_location_id');
     }
 }

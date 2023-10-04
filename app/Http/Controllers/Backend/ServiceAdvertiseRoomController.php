@@ -2,19 +2,20 @@
 
 namespace App\Http\Controllers\Backend;
 
-use App\ChildCategory;
-use App\ServiceCategory;
-use App\ServiceCharge;
 use App\SubCategory;
+use App\ChildCategory;
+use App\ServiceCharge;
+use App\ServiceCategory;
+use App\BusinessLocation;
 use Illuminate\Support\Str;
+use Illuminate\Http\Request;
 use App\ServiceAdvertiseRoom;
 use App\Traits\ImageFileUpload;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Yajra\DataTables\Facades\DataTables;
 use App\Http\Requests\StoreServiceAdvertiseRoomRequest;
 use App\Http\Requests\UpdateServiceAdvertiseRoomRequest;
-use Yajra\DataTables\Facades\DataTables;
-use Illuminate\Http\Request;
 
 class ServiceAdvertiseRoomController extends Controller
 {
@@ -32,7 +33,6 @@ class ServiceAdvertiseRoomController extends Controller
         $sub_category = SubCategory::where([['category_id', $category->id], ['name', 'rent']])->first();
         $child_categories = ChildCategory::where([['category_id', $category->id], ['sub_category_id', $sub_category->id],])->get();
         $service_charges = ServiceCharge::where([['category_id', $category->id], ['sub_category_id', $sub_category->id], ['child_category', 1]])->get();
-        // return $service_charges;
         $user = Auth::user();
         $services = ServiceAdvertiseRoom::where('user_id', $user->id)->get();
         // return $services;
@@ -71,7 +71,6 @@ class ServiceAdvertiseRoomController extends Controller
     {
         $category = ServiceCategory::where('name', 'Property')->first();
         $sub_category = SubCategory::where([['category_id', $category->id], ['name', 'rent']])->first();
-        //$sub_category = SubCategory::where(['category_id',$category->id])->get();
 
         $child_categories = ChildCategory::where([['category_id', $category->id], ['sub_category_id', $sub_category->id],])->get();
 
@@ -86,6 +85,12 @@ class ServiceAdvertiseRoomController extends Controller
         $data['double'] = ServiceCharge::where([['child_category', 1], ['size', ['double']]])->first()->service_charge;
         $data['semi_double'] = ServiceCharge::where([['child_category', 1], ['size', ['semi-double']]])->first()->service_charge;
         $data['en_suite'] = ServiceCharge::where([['child_category', 1], ['size', ['en-suite']]])->first()->service_charge;
+
+        $business_id = request()->session()->get('user.business_id');
+
+        //Get all business locations
+        $data['business_locations'] = BusinessLocation::where('business_id', $business_id)
+            ->get();
 
         return view('backend.services.advertise_room.create', $data);
     }
