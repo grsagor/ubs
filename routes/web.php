@@ -104,20 +104,6 @@ use App\Http\Controllers\Frontend\CategoryController as FrontendCategoryControll
 include_once 'install_r.php';
 
 
-Route::get('/room-wanted', function () {
-    return view('rough.room_wanted');
-});
-
-Route::get('/product', function () {
-    return view('rough.room_wanted');
-});
-
-Route::get('/rough', function () {
-    return view('frontend.service.room.details_form');
-})->name('frontend.service.room.details_form');
-
-
-
 //Optimize Clear:
 Route::get('/route-optimize-clear', function () {
     Artisan::call('optimize:clear');

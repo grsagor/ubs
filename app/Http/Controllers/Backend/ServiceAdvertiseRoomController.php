@@ -352,18 +352,18 @@ class ServiceAdvertiseRoomController extends Controller
         ];
         return response()->json($response);
     }
+
     public function destroy(ServiceAdvertiseRoom $serviceAdvertiseRoom)
     {
         //
     }
-
 
     public function showPropertyBookingDetailsModal(Request $request)
     {
         $data['booking_details'] = PropertyRentBookingDetails::with('service_advertise')->find($request->id);
 
         $data['booking_occupant_details'] = json_decode($data['booking_details']->occupant_details, true);
-        // dd($data['booking_occupant_details']);
+        // dd($data);
         return view('backend.services.advertise_room.property_booking_details_modal', $data);
     }
 }

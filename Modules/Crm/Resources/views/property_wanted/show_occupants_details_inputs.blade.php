@@ -94,7 +94,7 @@
             </div>
             <div class="col-sm-12">
                 <div class="form-group">
-                    <label for="occupant_miat">Monthly income after tax</label>
+                    <label for="occupant_miat">Monthly income before tax</label>
                     <input class="form-control" name="occupant_miat[]" type="text" id="occupant_miat">
                 </div>
             </div>
