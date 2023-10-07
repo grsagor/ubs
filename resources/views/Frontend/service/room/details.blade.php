@@ -263,18 +263,18 @@
                                                     <span> Contact </span>
 
                                                     @php
-                                                        $imageUrl = $info->business_location->logo && File::exists(public_path("{$info->business_location->logo}")) ? asset("{$info->business_location->logo}") : 'https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg';
+                                                        $businessLocation = $info->business_location;
+                                                        $imageUrl = $businessLocation && File::exists(public_path($businessLocation->logo)) ? asset($businessLocation->logo) : 'https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg';
                                                     @endphp
 
-                                                    <a href="{{ route('shop.service', $info->business_location->id) }}">
+                                                    <a
+                                                        href="{{ $businessLocation ? route('shop.service', $businessLocation->id) : '#' }}">
                                                         <div>
                                                             <img class="" src="{{ $imageUrl }}" alt=""
                                                                 width="100" height="100">
                                                         </div>
-
-                                                        <strong style="font-size: 24px;">
-                                                            {{ $info->business_location->name ?? '' }}
-                                                        </strong>
+                                                        <strong
+                                                            style="font-size: 24px;">{{ $businessLocation ? $businessLocation->name : '' }}</strong>
                                                     </a>
 
                                                     <p style="background: #45606b; color: #fff">

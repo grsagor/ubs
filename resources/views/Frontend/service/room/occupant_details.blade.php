@@ -89,13 +89,14 @@
             <div class="col-sm-12">
                 <div class="form-group">
                     <label for="occupant_designation">Designation</label>
-                    <input class="form-control" type="text" name="occupant_designation[]" id="occupant_designation">
+                    <input class="form-control select-style" type="text" name="occupant_designation[]"
+                        id="occupant_designation">
                 </div>
             </div>
             <div class="col-sm-12">
                 <div class="form-group">
-                    <label for="occupant_miat">Monthly income after tax</label>
-                    <input class="form-control" name="occupant_miat[]" type="text" id="occupant_miat">
+                    <label for="occupant_miat">Monthly income before tax</label>
+                    <input class="form-control select-style" name="occupant_miat[]" type="text" id="occupant_miat">
                 </div>
             </div>
         </div>
@@ -104,20 +105,18 @@
             <div class="col-sm-12">
                 <div class="form-group">
                     <label for="occupant_university_name">University Name</label>
-                    <input class="form-control" name="occupant_university_name[]" type="text"
+                    <input class="form-control select-style" name="occupant_university_name[]" type="text"
                         id="occupant_university_name">
                 </div>
             </div>
             <div class="col-sm-12">
                 <div class="form-group">
                     <label for="occupant_degree_name">Degree Name</label>
-                    <input class="form-control" name="occupant_degree_name[]" type="text"
+                    <input class="form-control select-style" name="occupant_degree_name[]" type="text"
                         id="occupant_degree_name">
                 </div>
             </div>
-
         </div>
-
 
         <div class="col-sm-12">
             <div class="form-group">

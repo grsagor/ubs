@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\Facades\DataTables;
 use App\Http\Requests\StoreServiceAdvertiseRoomRequest;
 use App\Http\Requests\UpdateServiceAdvertiseRoomRequest;
+use App\PropertyRentBookingDetails;
 
 class ServiceAdvertiseRoomController extends Controller
 {
@@ -34,14 +35,13 @@ class ServiceAdvertiseRoomController extends Controller
         $child_categories = ChildCategory::where([['category_id', $category->id], ['sub_category_id', $sub_category->id],])->get();
         $service_charges = ServiceCharge::where([['category_id', $category->id], ['sub_category_id', $sub_category->id], ['child_category', 1]])->get();
         $user = Auth::user();
-        $services = ServiceAdvertiseRoom::where('user_id', $user->id)->get();
+        $services = ServiceAdvertiseRoom::with('latest_booking_service')->where('user_id', $user->id)->get();
         // return $services;
         if (!auth()->user()->can('business_settings.access')) {
             abort(403, 'Unauthorized action.');
         }
 
         if (request()->ajax()) {
-            $services = ServiceAdvertiseRoom::where('user_id', $user->id)->get();
 
             return Datatables::of($services)
                 ->addColumn('category_name', function ($service) {
@@ -54,8 +54,23 @@ class ServiceAdvertiseRoomController extends Controller
                     return $service->child_category->name;
                 })
                 ->addColumn('action', function ($service) {
-                    return '<div class="d-flex gap-1"><button type="button" data-id="' . $service->id . '" class="btn btn-xs btn-success property_rent_edit_btn">Edit</button><button type="button" class="btn btn-xs btn-primary property_wanted_delete_btn" data-id="' . $service->id . '">Change Status</button></div>';
+                    $bookingServiceId = isset($service->latest_booking_service) ? $service->latest_booking_service->id : 0;
+
+                    $html = '<div class="d-flex gap-1">';
+                    $html .= '<button type="button" data-id="' . $service->id . '" class="btn btn-xs btn-success property_rent_edit_btn">Edit</button>';
+                    $html .= '<button type="button" class="btn btn-xs btn-primary property_wanted_delete_btn" data-id="' . $service->id . '">Change Status</button>';
+
+                    // Only include the "Booking Info" button if bookingServiceId is not null or 0
+                    if ($bookingServiceId !== null && $bookingServiceId !== 0) {
+                        $html .= '<button type="button" data-id="' . $bookingServiceId . '" class="btn btn-xs btn-info property_booking_details_btn">Booking Info</button>';
+                    }
+
+                    $html .= '</div>';
+
+                    return $html;
                 })
+
+
                 ->rawColumns(['action'])
                 ->toJson();
         }
@@ -303,7 +318,6 @@ class ServiceAdvertiseRoomController extends Controller
         $property = ServiceAdvertiseRoom::find($request->id);
         $category = ServiceCategory::where('name', 'Property')->first();
         $sub_category = SubCategory::where([['category_id', $category->id], ['name', 'rent']])->first();
-        //$sub_category = SubCategory::where(['category_id',$category->id])->get();
 
         $child_categories = ChildCategory::where([['category_id', $category->id], ['sub_category_id', $sub_category->id],])->get();
 
@@ -320,8 +334,6 @@ class ServiceAdvertiseRoomController extends Controller
         $data['semi_double'] = ServiceCharge::where([['child_category', 1], ['size', ['semi-double']]])->first()->service_charge;
         $data['en_suite'] = ServiceCharge::where([['child_category', 1], ['size', ['en-suite']]])->first()->service_charge;
 
-
-        //dd($data['child_categories']);
         return view('backend.services.advertise_room.property_rent_edit_modal', $data);
     }
 
@@ -343,5 +355,15 @@ class ServiceAdvertiseRoomController extends Controller
     public function destroy(ServiceAdvertiseRoom $serviceAdvertiseRoom)
     {
         //
+    }
+
+
+    public function showPropertyBookingDetailsModal(Request $request)
+    {
+        $data['booking_details'] = PropertyRentBookingDetails::with('service_advertise')->find($request->id);
+
+        $data['booking_occupant_details'] = json_decode($data['booking_details']->occupant_details, true);
+        // dd($data['booking_occupant_details']);
+        return view('backend.services.advertise_room.property_booking_details_modal', $data);
     }
 }

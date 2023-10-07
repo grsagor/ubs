@@ -20,4 +20,9 @@ class PropertyRentBookingDetails extends Model
         'occupant_details',
         'status'
     ];
+
+    public function service_advertise()
+    {
+        return $this->belongsTo(ServiceAdvertiseRoom::class, 'service_advertise_id');
+    }
 }

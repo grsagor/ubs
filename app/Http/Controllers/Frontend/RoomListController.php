@@ -112,8 +112,6 @@ class RoomListController extends Controller
             }
         }
 
-        // return $data['info'];
-
         return view('frontend.service.room.details', $data);
     }
 
