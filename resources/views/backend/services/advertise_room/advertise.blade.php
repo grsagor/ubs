@@ -13,9 +13,9 @@
             <small>Advertise your room</small>
         </h1>
         <!-- <ol class="breadcrumb">
-                                                                            <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
-                                                                            <li class="active">Here</li>
-                                                                        </ol> -->
+                                                                                        <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
+                                                                                        <li class="active">Here</li>
+                                                                                    </ol> -->
     </section>
 
     <!-- Main content -->
@@ -138,7 +138,7 @@
             });
 
             // Deleteing Property Started
-            $(document).on('click', '.property_wanted_delete_btn', function() {
+            $(document).on('click', '#property_wanted_delete_btn', function() {
                 var id = $(this).data('id');
                 $.ajax({
                     url: "/show-property-rent-delete-modal",
@@ -178,7 +178,7 @@
             });
 
             // Editing property started
-            $(document).on('click', '.property_rent_edit_btn', function() {
+            $(document).on('click', '#property_rent_edit_btn', function() {
                 var id = $(this).data('id');
                 $.ajax({
                     url: "/show-property-rent-edit-modal",
@@ -196,7 +196,7 @@
             });
 
             // Show booking details property started
-            $(document).on('click', '.property_booking_details_btn', function() {
+            $(document).on('click', '#property_booking_details_btn', function() {
                 var id = $(this).data('id');
                 $.ajax({
                     url: "/show-property-booking-details-modal",

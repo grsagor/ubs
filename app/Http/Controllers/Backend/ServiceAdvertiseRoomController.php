@@ -54,18 +54,21 @@ class ServiceAdvertiseRoomController extends Controller
                     return $service->child_category->name;
                 })
                 ->addColumn('action', function ($service) {
+
                     $bookingServiceId = isset($service->latest_booking_service) ? $service->latest_booking_service->id : 0;
 
-                    $html = '<div class="d-flex gap-1">';
-                    $html .= '<button type="button" data-id="' . $service->id . '" class="btn btn-xs btn-success property_rent_edit_btn">Edit</button>';
-                    $html .= '<button type="button" class="btn btn-xs btn-primary property_wanted_delete_btn" data-id="' . $service->id . '">Change Status</button>';
+                    $html =
+                        '<div class="btn-group"><button type="button" class="btn btn-info dropdown-toggle btn-xs" data-toggle="dropdown" aria-expanded="false">' . __('messages.actions') . '<span class="caret"></span><span class="sr-only">Toggle Dropdown</span></button><ul class="dropdown-menu dropdown-menu-left" role="menu">';
+
+                    $html .= '<li><button type="button" data-id="' . $service->id . '" class="btn btn-link" id="property_rent_edit_btn" data-toggle="tooltip" style="color: #525557;"><i class="glyphicon glyphicon-edit"></i> ' . __('Edit') . '</button></li>';
+                    $html .= '<li><button type="button" data-id="' . $service->id . '" class="btn btn-link" id="property_wanted_delete_btn" data-toggle="tooltip" style="color: #525557;"><i class="fa fa-barcode"></i> ' . __('Change Status') . '</button></li>';
 
                     // Only include the "Booking Info" button if bookingServiceId is not null or 0
                     if ($bookingServiceId !== null && $bookingServiceId !== 0) {
-                        $html .= '<button type="button" data-id="' . $bookingServiceId . '" class="btn btn-xs btn-info property_booking_details_btn">Booking Info</button>';
+                        $html .= '<li><button type="button" data-id="' . $bookingServiceId . '" class="btn btn-link" id="property_booking_details_btn" data-toggle="tooltip" style="color: #525557;"><i class="fa fa-info-circle"></i> ' . __('Booking Info') . '</button></li>';
                     }
 
-                    $html .= '</div>';
+                    $html .= '</ul></div>';
 
                     return $html;
                 })
