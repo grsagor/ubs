@@ -104,20 +104,6 @@ use App\Http\Controllers\Frontend\CategoryController as FrontendCategoryControll
 include_once 'install_r.php';
 
 
-Route::get('/room-wanted', function () {
-    return view('rough.room_wanted');
-});
-
-Route::get('/product', function () {
-    return view('rough.room_wanted');
-});
-
-Route::get('/rough', function () {
-    return view('frontend.service.room.details_form');
-})->name('frontend.service.room.details_form');
-
-
-
 //Optimize Clear:
 Route::get('/route-optimize-clear', function () {
     Artisan::call('optimize:clear');
@@ -146,7 +132,7 @@ Route::get('/room-list/',                               [RoomListController::cla
 Route::get('/room-list/category',                       [RoomListController::class, 'roomListCategory'])->name('room.list.category');
 Route::get('/room-show/{id}',                           [RoomListController::class, 'roomShow'])->name('room_show');
 Route::post('/submit-form', [RoomListController::class, 'showModal']);
-Route::put('/room-reference-number-check/{id}',         [RoomListController::class, 'referenceNumberCheck'])->name('room.referenceNumberCheck');
+Route::post('/room-booking/', [RoomListController::class, 'propertyRentBooking'])->name('room.propertyRentBooking');
 Route::get('/show-occupants-details-inputs',            [RoomListController::class, 'showOccupantsDetailsInputs']);
 
 Route::get('/property/{sub_category_id?}/{child_category_id?}', [PropertyFrontController::class, 'roomList'])->name('property.list');
@@ -199,7 +185,6 @@ Route::middleware(['setData'])->group(function () {
     // Frontend Routes Start //
 
     Route::get('/',         [HomePageController::class, 'index'])->name('homePage');
-    Route::get('/extras',   [HomePageController::class, 'extraIndex'])->name('front.extraIndex');
     Route::get('/category/{category?}/{subcategory?}/{childcategory?}/{kind?}', [FrontendCategoryController::class, 'category'])->name('front.category');
 
     Route::get('/shop/list/{category?}/{country?}', [ShopController::class, 'shopList'])->name('shop.list');
@@ -247,6 +232,7 @@ Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 
     Route::get('/show-property-rent-delete-modal', [ServiceAdvertiseRoomController::class, 'showPropertyRentDeleteModal']);
     Route::get('/confirm-property-rent-delete', [ServiceAdvertiseRoomController::class, 'confirmPropertyRentDelete']);
     Route::get('/show-property-rent-edit-modal', [ServiceAdvertiseRoomController::class, 'showPropertyRentEditModal']);
+    Route::get('/show-property-booking-details-modal', [ServiceAdvertiseRoomController::class, 'showPropertyBookingDetailsModal']);
     Route::post('/update-property-rent', [ServiceAdvertiseRoomController::class, 'updatePropertyRent']);
     // Route::get('/show-subcategory-select', [ServiceAdvertiseRoomController::class, 'showSubCategorySelect']);
     // Route::get('/show-childcategory-select', [ServiceAdvertiseRoomController::class, 'showChildCategorySelect']);

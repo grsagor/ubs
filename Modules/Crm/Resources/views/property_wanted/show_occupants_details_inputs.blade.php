@@ -39,7 +39,7 @@
                 <label for="occupant_relationship">Relationship</label>
                 <select class="form-control" id="occupant_relationship" name="occupant_relationship[]">
                     <option selected="" value="">Select....</option>
-                    <option value="4">Contact Person(The person as the point of contact or responsible party.)
+                    <option value="5">Contact Person(The person as the point of contact or responsible party.)
                     </option>
                     <option value="1">Family (Family member if relation is
                         Father/Mother/Son/Daughter/Brother/Sister/Husband/Wife)</option>
@@ -94,7 +94,7 @@
             </div>
             <div class="col-sm-12">
                 <div class="form-group">
-                    <label for="occupant_miat">Monthly income after tax</label>
+                    <label for="occupant_miat">Monthly income before tax</label>
                     <input class="form-control" name="occupant_miat[]" type="text" id="occupant_miat">
                 </div>
             </div>

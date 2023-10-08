@@ -2,19 +2,21 @@
 
 namespace App\Http\Controllers\Backend;
 
-use App\ChildCategory;
-use App\ServiceCategory;
-use App\ServiceCharge;
 use App\SubCategory;
+use App\ChildCategory;
+use App\ServiceCharge;
+use App\ServiceCategory;
+use App\BusinessLocation;
 use Illuminate\Support\Str;
+use Illuminate\Http\Request;
 use App\ServiceAdvertiseRoom;
 use App\Traits\ImageFileUpload;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Yajra\DataTables\Facades\DataTables;
 use App\Http\Requests\StoreServiceAdvertiseRoomRequest;
 use App\Http\Requests\UpdateServiceAdvertiseRoomRequest;
-use Yajra\DataTables\Facades\DataTables;
-use Illuminate\Http\Request;
+use App\PropertyRentBookingDetails;
 
 class ServiceAdvertiseRoomController extends Controller
 {
@@ -32,16 +34,14 @@ class ServiceAdvertiseRoomController extends Controller
         $sub_category = SubCategory::where([['category_id', $category->id], ['name', 'rent']])->first();
         $child_categories = ChildCategory::where([['category_id', $category->id], ['sub_category_id', $sub_category->id],])->get();
         $service_charges = ServiceCharge::where([['category_id', $category->id], ['sub_category_id', $sub_category->id], ['child_category', 1]])->get();
-        // return $service_charges;
         $user = Auth::user();
-        $services = ServiceAdvertiseRoom::where('user_id', $user->id)->get();
+        $services = ServiceAdvertiseRoom::with('latest_booking_service')->where('user_id', $user->id)->get();
         // return $services;
         if (!auth()->user()->can('business_settings.access')) {
             abort(403, 'Unauthorized action.');
         }
 
         if (request()->ajax()) {
-            $services = ServiceAdvertiseRoom::where('user_id', $user->id)->get();
 
             return Datatables::of($services)
                 ->addColumn('category_name', function ($service) {
@@ -54,8 +54,26 @@ class ServiceAdvertiseRoomController extends Controller
                     return $service->child_category->name;
                 })
                 ->addColumn('action', function ($service) {
-                    return '<div class="d-flex gap-1"><button type="button" data-id="' . $service->id . '" class="btn btn-xs btn-success property_rent_edit_btn">Edit</button><button type="button" class="btn btn-xs btn-primary property_wanted_delete_btn" data-id="' . $service->id . '">Change Status</button></div>';
+
+                    $bookingServiceId = isset($service->latest_booking_service) ? $service->latest_booking_service->id : 0;
+
+                    $html =
+                        '<div class="btn-group"><button type="button" class="btn btn-info dropdown-toggle btn-xs" data-toggle="dropdown" aria-expanded="false">' . __('messages.actions') . '<span class="caret"></span><span class="sr-only">Toggle Dropdown</span></button><ul class="dropdown-menu dropdown-menu-left" role="menu">';
+
+                    $html .= '<li><button type="button" data-id="' . $service->id . '" class="btn btn-link" id="property_rent_edit_btn" data-toggle="tooltip" style="color: #525557;"><i class="glyphicon glyphicon-edit"></i> ' . __('Edit') . '</button></li>';
+                    $html .= '<li><button type="button" data-id="' . $service->id . '" class="btn btn-link" id="property_wanted_delete_btn" data-toggle="tooltip" style="color: #525557;"><i class="fa fa-barcode"></i> ' . __('Change Status') . '</button></li>';
+
+                    // Only include the "Booking Info" button if bookingServiceId is not null or 0
+                    if ($bookingServiceId !== null && $bookingServiceId !== 0) {
+                        $html .= '<li><button type="button" data-id="' . $bookingServiceId . '" class="btn btn-link" id="property_booking_details_btn" data-toggle="tooltip" style="color: #525557;"><i class="fa fa-info-circle"></i> ' . __('Booking Info') . '</button></li>';
+                    }
+
+                    $html .= '</ul></div>';
+
+                    return $html;
                 })
+
+
                 ->rawColumns(['action'])
                 ->toJson();
         }
@@ -71,7 +89,6 @@ class ServiceAdvertiseRoomController extends Controller
     {
         $category = ServiceCategory::where('name', 'Property')->first();
         $sub_category = SubCategory::where([['category_id', $category->id], ['name', 'rent']])->first();
-        //$sub_category = SubCategory::where(['category_id',$category->id])->get();
 
         $child_categories = ChildCategory::where([['category_id', $category->id], ['sub_category_id', $sub_category->id],])->get();
 
@@ -86,6 +103,12 @@ class ServiceAdvertiseRoomController extends Controller
         $data['double'] = ServiceCharge::where([['child_category', 1], ['size', ['double']]])->first()->service_charge;
         $data['semi_double'] = ServiceCharge::where([['child_category', 1], ['size', ['semi-double']]])->first()->service_charge;
         $data['en_suite'] = ServiceCharge::where([['child_category', 1], ['size', ['en-suite']]])->first()->service_charge;
+
+        $business_id = request()->session()->get('user.business_id');
+
+        //Get all business locations
+        $data['business_locations'] = BusinessLocation::where('business_id', $business_id)
+            ->get();
 
         return view('backend.services.advertise_room.create', $data);
     }
@@ -298,7 +321,6 @@ class ServiceAdvertiseRoomController extends Controller
         $property = ServiceAdvertiseRoom::find($request->id);
         $category = ServiceCategory::where('name', 'Property')->first();
         $sub_category = SubCategory::where([['category_id', $category->id], ['name', 'rent']])->first();
-        //$sub_category = SubCategory::where(['category_id',$category->id])->get();
 
         $child_categories = ChildCategory::where([['category_id', $category->id], ['sub_category_id', $sub_category->id],])->get();
 
@@ -315,8 +337,6 @@ class ServiceAdvertiseRoomController extends Controller
         $data['semi_double'] = ServiceCharge::where([['child_category', 1], ['size', ['semi-double']]])->first()->service_charge;
         $data['en_suite'] = ServiceCharge::where([['child_category', 1], ['size', ['en-suite']]])->first()->service_charge;
 
-
-        //dd($data['child_categories']);
         return view('backend.services.advertise_room.property_rent_edit_modal', $data);
     }
 
@@ -335,8 +355,18 @@ class ServiceAdvertiseRoomController extends Controller
         ];
         return response()->json($response);
     }
+
     public function destroy(ServiceAdvertiseRoom $serviceAdvertiseRoom)
     {
         //
+    }
+
+    public function showPropertyBookingDetailsModal(Request $request)
+    {
+        $data['booking_details'] = PropertyRentBookingDetails::with('service_advertise')->find($request->id);
+
+        $data['booking_occupant_details'] = json_decode($data['booking_details']->occupant_details, true);
+        // dd($data);
+        return view('backend.services.advertise_room.property_booking_details_modal', $data);
     }
 }

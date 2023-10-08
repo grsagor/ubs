@@ -61,6 +61,8 @@ class PropertyWantedController extends Controller
 
             $requestedData                            = $request->all();
 
+            dd($requestedData);
+
             // Check Service Category Table Education category id is 2
             $requestedData['service_category_id']     = 1;
 

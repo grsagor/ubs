@@ -44,14 +44,6 @@ class ServiceAdvertiseRoom extends Model
         'property_amenities',
 
         'room',
-
-        // 'room_cost_of_amount',
-        // 'room_cost_time',
-        // 'room_size',
-        // 'room_amenities',
-        // 'room_furnishings',
-        // 'room_security_deposit',
-
         'room_available_from',
         'room_min_stay',
         'room_max_stay',
@@ -120,16 +112,30 @@ class ServiceAdvertiseRoom extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
+
     public function category()
     {
         return $this->belongsTo(ServiceCategory::class, 'service_category_id');
     }
+
     public function sub_category()
     {
         return $this->belongsTo(SubCategory::class, 'sub_category_id');
     }
+
     public function child_category()
     {
         return $this->belongsTo(ChildCategory::class, 'child_category_id');
+    }
+
+    public function latest_booking_service()
+    {
+        return $this->hasOne(PropertyRentBookingDetails::class, 'service_advertise_id', 'id')
+            ->latest()->where('status', 'confirmed');
+    }
+
+    public function business_location()
+    {
+        return $this->belongsTo(BusinessLocation::class, 'business_location_id');
     }
 }

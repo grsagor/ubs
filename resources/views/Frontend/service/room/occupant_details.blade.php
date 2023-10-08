@@ -9,13 +9,13 @@
         <div class="col-sm-12">
             <div class="form-group">
                 <label for="occupant_name">Name</label>
-                <input class="form-control select-style" name="occupant_name[]" type="text" id="occupant_name">
+                <input class="form-control select-style" name="occupant_name[]" type="text">
             </div>
         </div>
         <div class="col-sm-12">
             <div class="form-group">
-                <label for="occupant_gender_req">Gender</label>
-                <select class="form-control" id="occupant_gender_req" name="occupant_gender_req[]">
+                <label for="occupant_gender">Gender</label>
+                <select class="form-control" name="occupant_gender[]">
                     <option selected="" value="">Select....</option>
                     <option value="1">Male</option>
                     <option value="2">Female</option>
@@ -26,7 +26,7 @@
         <div class="col-sm-12">
             <div class="form-group">
                 <label for="occupant_age">Age Range</label>
-                <select class="form-control" id="occupant_age" name="occupant_age[]">
+                <select class="form-control" name="occupant_age[]">
                     <option value="" selected>Select...</option>
                     @foreach (range(18, 99) as $age)
                         <option value="{{ $age }}">{{ $age }}</option>
@@ -39,13 +39,11 @@
                 <label for="occupant_relationship">Relationship</label>
                 <select class="form-control" id="occupant_relationship" name="occupant_relationship[]">
                     <option selected="" value="">Select....</option>
-                    <option value="4">Contact Person(The person as the point of contact or responsible
-                        party.)
+                    <option value="5">Contact Person(The person as the point of contact or responsible party.)
                     </option>
                     <option value="1">Family (Family member if relation is
                         Father/Mother/Son/Daughter/Brother/Sister/Husband/Wife)</option>
-                    <option value="2">Relatives (Uncle/ Aunty/Cousin/ Brother-in-law/ Sister-in-law)
-                    </option>
+                    <option value="2">Relatives (Uncle/ Aunty/Cousin/ Brother-in-law/ Sister-in-law)</option>
                     <option value="3">Friends</option>
                     <option value="4">Others</option>
                 </select>
@@ -91,13 +89,14 @@
             <div class="col-sm-12">
                 <div class="form-group">
                     <label for="occupant_designation">Designation</label>
-                    <input class="form-control" type="text" name="occupant_designation[]" id="occupant_designation">
+                    <input class="form-control select-style" type="text" name="occupant_designation[]"
+                        id="occupant_designation">
                 </div>
             </div>
             <div class="col-sm-12">
                 <div class="form-group">
-                    <label for="occupant_miat">Monthly income after tax</label>
-                    <input class="form-control" name="occupant_miat[]" type="text" id="occupant_miat">
+                    <label for="occupant_miat">Monthly income before tax</label>
+                    <input class="form-control select-style" name="occupant_miat[]" type="text" id="occupant_miat">
                 </div>
             </div>
         </div>
@@ -106,20 +105,18 @@
             <div class="col-sm-12">
                 <div class="form-group">
                     <label for="occupant_university_name">University Name</label>
-                    <input class="form-control" name="occupant_university_name[]" type="text"
+                    <input class="form-control select-style" name="occupant_university_name[]" type="text"
                         id="occupant_university_name">
                 </div>
             </div>
             <div class="col-sm-12">
                 <div class="form-group">
                     <label for="occupant_degree_name">Degree Name</label>
-                    <input class="form-control" name="occupant_degree_name[]" type="text"
+                    <input class="form-control select-style" name="occupant_degree_name[]" type="text"
                         id="occupant_degree_name">
                 </div>
             </div>
-
         </div>
-
 
         <div class="col-sm-12">
             <div class="form-group">
@@ -161,37 +158,38 @@
         <div class="col-sm-12">
             <div class="form-group">
                 <label for="photo">Upload your photo</label>
-                <input type="file" class="form-control select-style" name="photo[]" id="photo">
+                <input type="file" class="form-control select-style" name="occupant_photo[]" id="photo">
             </div>
         </div>
 
         <div class="col-sm-12">
             <div class="form-group">
                 <label for="passport_id">Passport/ ID</label>
-                <input type="file" class="form-control select-style" name="passport_id[]" id="passport_id"
-                    multiple>
+                <input type="file" class="form-control select-style" name="occupant_passport_id[]"
+                    id="passport_id" multiple>
             </div>
         </div>
 
         <div class="col-sm-12">
             <div class="form-group">
                 <label for="pay_slip">Pay slip </label>
-                <input type="file" class="form-control select-style" name="pay_slip[]" id="pay_slip" multiple>
-            </div>
-        </div>
-
-        <div class="col-sm-12">
-            <div class="form-group">
-                <label for="bank_statement">Bank statement </label>
-                <input type="file" class="form-control select-style" name="bank_statement[]" id="bank_statement"
+                <input type="file" class="form-control select-style" name="occupant_pay_slip[]" id="pay_slip"
                     multiple>
             </div>
         </div>
 
         <div class="col-sm-12">
             <div class="form-group">
+                <label for="bank_statement">Bank statement </label>
+                <input type="file" class="form-control select-style" name="occupant_bank_statement[]"
+                    id="bank_statement" multiple>
+            </div>
+        </div>
+
+        <div class="col-sm-12">
+            <div class="form-group">
                 <label for="other_documents">Other documents </label>
-                <input type="file" class="form-control select-style" name="other_documents[]"
+                <input type="file" class="form-control select-style" name="occupant_other_documents[]"
                     id="other_documents" multiple>
             </div>
         </div>

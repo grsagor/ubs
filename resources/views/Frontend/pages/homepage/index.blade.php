@@ -108,21 +108,8 @@
     {{-- @include('frontend.pages.homepage.stars') --}}
     {{-- @include('frontend.pages.homepage.recruitments') --}}
     @include('frontend.pages.homepage.real_estate')
-    @include('frontend.pages.homepage.partners')
     @include('frontend.pages.homepage.digital_solutions')
-
-
-
-
-
-    <div id="extraData">
-        <div class="text-center">
-            {{-- <img src="{{ asset('assets/images/' . $gs->loader) }}"> --}}
-
-
-        </div>
-    </div>
-
+    @include('frontend.pages.homepage.partners')
 
 
     @if (isset($visited))
@@ -159,14 +146,7 @@
 @section('script')
     <script>
         let checkTrur = 0;
-        // $(window).on('scroll', function() {
-        $(window).on('load', function() {
 
-            if (checkTrur == 0) {
-                $('#extraData').load('{{ route('front.extraIndex') }}');
-                checkTrur = 1;
-            }
-        });
         var owl = $('.home-slider').owlCarousel({
             loop: true,
             nav: false,

@@ -105,39 +105,20 @@
                                                     <div class="pro-info">
 
                                                         <form id="room_to_rent_reference_matching_form"
-                                                            {{-- action="{{ route('room.referenceNumberCheck', $info->id) }}" --}}
-                                                            style="margin: 0px;">
+                                                            {{-- action="{{ route('room.referenceNumberCheck', $info->id) }}" --}} style="margin: 0px;">
                                                             @csrf
                                                             {{-- @method('PUT') --}}
 
                                                             <input type="hidden" name="bill"
                                                                 value="{{ $service_charge }}">
-                                                            <input type="hidden" name="id" value="{{ $info->id }}">
+                                                            <input type="hidden" name="id"
+                                                                value="{{ $info->id }}">
 
                                                             <section class="row">
 
-
                                                                 <section class="col-lg-12">
                                                                     <ul class="room-list">
-
-                                                                        {{-- @if ($info->child_category_id == 1) --}}
                                                                         @foreach ($roomArray as $i => $item)
-                                                                            @if ($info->child_category_id == 9)
-                                                                                @if ($i == 0)
-                                                                                    <li class="room-list__room">
-                                                                                        <input type="radio"
-                                                                                            name="room_cost"
-                                                                                            id="room{{ $i + 1 }}"
-                                                                                            value="{{ $item['room_cost_of_amount'] }}">
-                                                                                        <strong
-                                                                                            class="room-list__price">&pound;
-                                                                                            {{ $item['room_cost_of_amount'] }}
-                                                                                            pcm</strong>
-                                                                                        {{-- <small>(Room
-                                                                                            {{ $i + 1 }})</small> --}}
-                                                                                    </li>
-                                                                                @endif
-                                                                            @endif
                                                                             @if ($info->child_category_id == 1)
                                                                                 <li class="room-list__room">
                                                                                     <input type="radio" name="room_cost"
@@ -152,24 +133,27 @@
                                                                                 </li>
                                                                             @endif
                                                                         @endforeach
-
                                                                     </ul>
                                                                 </section>
 
-                                                                <div class="col-lg-12">
-                                                                    <div class="button-31 mt-2" data-bs-toggle="modal"
-                                                                        data-bs-target="#exampleModal"
-                                                                        style="display:block; align-items: center; width:170px;">
-                                                                        Book Now
-                                                                        @if ($info->child_category_id == 2 || $info->child_category_id == 6)
-                                                                            £{{ $info->rent }}
-                                                                        @endif
+                                                                @if ($info->latest_booking_service === null || $info->latest_booking_service->status !== 'confirmed')
+                                                                    <div class="col-lg-12">
+                                                                        <div class="button-31 mt-2" data-bs-toggle="modal"
+                                                                            data-bs-target="#exampleModal"
+                                                                            style="display:block; align-items: center; width:170px;">
+                                                                            Book Now
+                                                                        </div>
                                                                     </div>
-                                                                </div>
+                                                                @else
+                                                                    <div class="col-lg-12">
+                                                                        <div class="button-31 mt-2"
+                                                                            style="display:block; align-items: center; width:170px; background: #e0892f;">
+                                                                            Let Agreed
+                                                                        </div>
+                                                                    </div>
+                                                                @endif
 
                                                             </section>
-
-
 
 
                                                             {{-- Modal --}}
@@ -177,14 +161,10 @@
                                                                 aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                                 <div class="modal-dialog">
                                                                     <div class="modal-content">
-                                                                        {{-- <div class="modal-header">
-                                                                            <h5 class="modal-title" id="exampleModalLabel">
-                                                                                Reference
-                                                                                Number</h5>
-                                                                        </div> --}}
+
                                                                         <div class="modal-body">
                                                                             <p class="text-center">Please call <a
-                                                                                    href="callto:{{ $info->user->contact_no }}">{{ $info->user->contact_no }}</a>
+                                                                                    href="callto:{{ $info->business_location->mobile ?? '' }}">{{ $info->business_location->mobile ?? '' }}</a>
                                                                                 to get the reference id.</p>
                                                                             <div class="mb-3">
                                                                                 <input type="text" class="form-control"
@@ -198,8 +178,8 @@
                                                                             class="modal-footer d-flex justify-content-center">
                                                                             <button type="button" class="btn btn-dark"
                                                                                 data-bs-dismiss="modal">Close</button>
-                                                                            <button type="submit"
-                                                                                class="btn btn-dark">Book</button>
+                                                                            <button type="submit" class="btn btn-dark"
+                                                                                id="book_submit_modal">Book</button>
                                                                         </div>
 
                                                                     </div>
@@ -283,19 +263,19 @@
                                                     <span> Contact </span>
 
                                                     @php
-                                                        $imageUrl = $user_info && $user_info->file_name && File::exists(public_path("uploads/media/{$user_info->file_name}")) ? asset("uploads/media/{$user_info->file_name}") : 'https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg';
+                                                        $businessLocation = $info->business_location;
+                                                        $imageUrl = $businessLocation && File::exists(public_path($businessLocation->logo)) ? asset($businessLocation->logo) : 'https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg';
                                                     @endphp
 
-                                                    <div>
-                                                        <img class="" src="{{ $imageUrl }}" alt=""
-                                                            width="100" height="100">
-                                                    </div>
-
-                                                    <strong>
-                                                        {{ $info->user->surname ?? '' }}
-                                                        {{ $info->user->first_name ?? '' }}
-                                                        {{ $info->user->last_name ?? '' }}
-                                                    </strong>
+                                                    <a
+                                                        href="{{ $businessLocation ? route('shop.service', $businessLocation->id) : '#' }}">
+                                                        <div>
+                                                            <img class="" src="{{ $imageUrl }}" alt=""
+                                                                width="100" height="100">
+                                                        </div>
+                                                        <strong
+                                                            style="font-size: 24px;">{{ $businessLocation ? $businessLocation->name : '' }}</strong>
+                                                    </a>
 
                                                     <p style="background: #45606b; color: #fff">
                                                         {{ $info->property_user_title }}</p>
@@ -482,7 +462,6 @@
                                 @if ($info->property_size)
                                     <p>
                                         <strong>Total Room: </strong>
-                                        {{-- {{ count($roomArray) }} --}}
                                         {{ $info->property_size ?? '' }}
                                     </p>
                                 @endif
@@ -498,6 +477,14 @@
                                     <p>
                                         <strong>Total bathrooms: </strong>
                                         {{ $info->bathroom }}
+                                    </p>
+                                @endif
+
+                                @if ($info->living_room)
+                                    <p>
+                                        <strong>Living room: </strong>
+                                        {{ $info->living_room == 1 ? 'Yes, there is a shared living room' : ($info->living_room == 3 ? 'Yes, there is a living room' : 'No') }}
+
                                     </p>
                                 @endif
 
@@ -717,34 +704,35 @@
 @endsection
 
 @section('script')
-    <script>
-        $('#exampleModal').modal('show');
-    </script>
     @include('frontend.service.partial.property_script')
 
     <script>
-        $(document).ready(function () {
-            $('#room_to_rent_reference_matching_form').submit(function (e) {
+        $(document).ready(function() {
+            $('#room_to_rent_reference_matching_form').submit(function(e) {
                 e.preventDefault(); // Prevent the default form submission
-    
+
                 $.ajax({
                     type: 'POST',
                     url: '/submit-form',
                     data: $(this).serialize(), // Serialize the form data
                     dataType: 'html',
-                    success: function (html) {
+                    success: function(html) {
                         // $('#exampleModal').modal('hide');
                         $('#room_to_rent_details_form').empty();
                         $('#room_to_rent_details_form').html(html);
                         $('#room_to_rent_details_form').modal('show');
                     },
-                    error: function (xhr, status, error) {
+                    error: function(xhr, status, error) {
                         // Handle any errors that occur during the request
                         console.error(xhr.responseText);
                     }
                 });
             });
+
+            $('#book_submit_modal').on('click', function(e) {
+                $('#exampleModal').modal('hide');
+            });
+
         });
     </script>
-    
 @endsection

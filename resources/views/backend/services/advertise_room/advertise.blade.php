@@ -13,9 +13,9 @@
             <small>Advertise your room</small>
         </h1>
         <!-- <ol class="breadcrumb">
-                                                        <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
-                                                        <li class="active">Here</li>
-                                                    </ol> -->
+                                                                                        <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
+                                                                                        <li class="active">Here</li>
+                                                                                    </ol> -->
     </section>
 
     <!-- Main content -->
@@ -50,6 +50,10 @@
             aria-labelledby="gridSystemModalLabel">
         </div>
         <div class="modal fade property_rent_delete_modal" tabindex="-1" role="dialog"
+            aria-labelledby="gridSystemModalLabel">
+        </div>
+
+        <div class="modal fade property_booking_details_modal" tabindex="-1" role="dialog"
             aria-labelledby="gridSystemModalLabel">
         </div>
 
@@ -115,7 +119,7 @@
                         $('#room_to_rent_add_modal').modal('show');
                     }
                 })
-            })
+            });
 
             $(document).on('change', '#service_category_id', function() {
                 var id = $(this).val();
@@ -131,10 +135,10 @@
                         $('#sub-category-container').html(html);
                     }
                 })
-            })
+            });
 
             // Deleteing Property Started
-            $(document).on('click', '.property_wanted_delete_btn', function() {
+            $(document).on('click', '#property_wanted_delete_btn', function() {
                 var id = $(this).data('id');
                 $.ajax({
                     url: "/show-property-rent-delete-modal",
@@ -150,7 +154,7 @@
                         $('.property_rent_delete_modal').modal('show');
                     }
                 })
-            })
+            });
 
             $(document).on('click', '.property_delete_confirm_btn', function() {
                 var id = $(this).data('id');
@@ -171,10 +175,10 @@
                         $('.property_rent_delete_modal').modal('hide');
                     }
                 })
-            })
+            });
 
             // Editing property started
-            $(document).on('click', '.property_rent_edit_btn', function() {
+            $(document).on('click', '#property_rent_edit_btn', function() {
                 var id = $(this).data('id');
                 $.ajax({
                     url: "/show-property-rent-edit-modal",
@@ -189,7 +193,26 @@
                         $('.property_rent_edit_modal').modal('show');
                     }
                 })
-            })
+            });
+
+            // Show booking details property started
+            $(document).on('click', '#property_booking_details_btn', function() {
+                var id = $(this).data('id');
+                $.ajax({
+                    url: "/show-property-booking-details-modal",
+                    type: "get",
+                    data: {
+                        id: id
+                    },
+                    dataType: "html",
+                    success: function(html) {
+                        $('.property_booking_details_modal').empty();
+                        $('.property_booking_details_modal').html(html);
+                        $('.property_booking_details_modal').modal('show');
+                    }
+                })
+            });
+
         })
     </script>
 @endsection

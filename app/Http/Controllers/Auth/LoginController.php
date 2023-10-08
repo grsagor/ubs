@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
-use App\Providers\RouteServiceProvider;
-use App\Utils\BusinessUtil;
 use App\Utils\ModuleUtil;
-use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use App\Utils\BusinessUtil;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use App\Providers\RouteServiceProvider;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 class LoginController extends Controller
 {
@@ -50,7 +51,7 @@ class LoginController extends Controller
         $this->moduleUtil = $moduleUtil;
     }
 
-    public function showLoginForm()
+    public function showLoginForm(Request $request)
     {
         return view('auth.login');
     }
@@ -124,15 +125,23 @@ class LoginController extends Controller
 
     protected function redirectTo()
     {
+        // Check if there is an intended URL in the session
+        if ($intendedUrl = session('url.intended')) {
+            return $intendedUrl;
+        }
+
         $user = \Auth::user();
+
+        // Check user type and permissions
         if (!$user->can('dashboard.data') && $user->can('sell.create')) {
             return '/pos/create';
         }
 
         if ($user->user_type == 'user_customer') {
-            return 'contact/contact-dashboard';
+            return '/contact/contact-dashboard';
         }
 
+        // Default redirection for other cases
         return '/home';
     }
 }
