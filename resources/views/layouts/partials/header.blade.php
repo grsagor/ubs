@@ -1,7 +1,7 @@
 @inject('request', 'Illuminate\Http\Request')
 <!-- Main Header -->
 <header class="main-header no-print">
-    <a href="{{ url('/') }}" class="logo" style="background-color: #504191 ;">
+    <a href="{{ url('/') }}" target="_blank" class="logo" style="background-color: #504191 ;">
 
         <span class="logo-lg">{{ Session::get('business.name') }} <i class="fa fa-circle text-success"
                 id="online_indicator"></i></span>

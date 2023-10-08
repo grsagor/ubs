@@ -4,10 +4,6 @@
     <!-- sidebar: style can be found in sidebar.less -->
     <section class="sidebar">
 
-        <a href="{{ url('/') }}" class="logo">
-            <span class="logo-lg">{{ Session::get('business.name') }}</span>
-        </a>
-
         <!-- Sidebar Menu -->
         {{-- {!! Menu::render('admin-sidebar-menu', 'adminltecustom') !!} --}}
         <ul class="sidebar-menu tree" data-widget="tree">
@@ -54,7 +50,8 @@
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="{{ route('shop.share.page') }}"><i class="fa fas fa-list"></i> <span>Shop Share</span></a></li>
+                    <li><a href="{{ route('shop.share.page') }}"><i class="fa fas fa-list"></i> <span>Shop
+                                Share</span></a></li>
                 </ul>
             </li>
             <li class="treeview" id="tour_step5">

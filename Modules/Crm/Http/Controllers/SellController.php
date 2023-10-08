@@ -35,14 +35,14 @@ class SellController extends Controller
         $business_id = request()->session()->get('user.business_id');
 
         $contact_type = Contact::where('business_id', $business_id)
-                            ->find(auth()->user()->crm_contact_id)
-                            ->type;
+            ->find(auth()->user()->crm_contact_id)
+            ->type;
 
-        if (!(auth()->user()->can('superadmin') || $this->moduleUtil->hasThePermissionInSubscription($business_id, 'crm_module') && in_array($contact_type, ['customer', 'both']))) {
-            abort(403, 'Unauthorized action.');
-        }
+        // if (!(auth()->user()->can('superadmin') || $this->moduleUtil->hasThePermissionInSubscription($business_id, 'crm_module') && in_array($contact_type, ['customer', 'both']))) {
+        //     abort(403, 'Unauthorized action.');
+        // }
 
-        
+
 
         $shipping_statuses = $this->transactionUtil->shipping_statuses();
         $payment_types = $this->transactionUtil->payment_types(null, true);
@@ -72,14 +72,14 @@ class SellController extends Controller
 
 
             return Datatables::of($sells)
-                    ->addColumn(
-                        'action',
-                        function ($row) {
-                            $html = '<div class="btn-group">
+                ->addColumn(
+                    'action',
+                    function ($row) {
+                        $html = '<div class="btn-group">
                                     <button type="button" class="btn btn-info dropdown-toggle btn-xs" 
                                         data-toggle="dropdown" aria-expanded="false">' .
-                                        __("messages.actions") .
-                                        '<span class="caret"></span><span class="sr-only">Toggle Dropdown
+                            __("messages.actions") .
+                            '<span class="caret"></span><span class="sr-only">Toggle Dropdown
                                         </span>
                                     </button>
                                     <ul class="dropdown-menu dropdown-menu-left" role="menu">
@@ -89,10 +89,10 @@ class SellController extends Controller
 
                                 <li><a href="' . action('SellPosController@showInvoiceUrl', [$row->id]) . '" class="view_invoice_url"><i class="fas fa-eye"></i> ' . __("lang_v1.view_invoice_url") . '</a></li>';
 
-                            $html .= '</ul></div>';
+                        $html .= '</ul></div>';
 
-                            return $html;
-                        }
+                        return $html;
+                    }
                 )
                 ->removeColumn('id')
                 ->editColumn(
@@ -139,7 +139,7 @@ class SellController extends Controller
                             $bg = 'bg-red';
                         }
 
-                        $html = '<a href="#" class="view_payment_modal payment-status-label" data-orig-value="'.$payment_status.'" data-status-name="'.__('lang_v1.' . $payment_status).'"><span class="label '.$bg.'">'.__('lang_v1.' . $payment_status).'
+                        $html = '<a href="#" class="view_payment_modal payment-status-label" data-orig-value="' . $payment_status . '" data-status-name="' . __('lang_v1.' . $payment_status) . '"><span class="label ' . $bg . '">' . __('lang_v1.' . $payment_status) . '
                         </span></a>';
 
                         return $html;
@@ -153,7 +153,7 @@ class SellController extends Controller
                     $total_remaining =  $row->final_total - $row->total_paid;
                     $total_remaining_html = '<span class="display_currency payment_due" data-currency_symbol="true" data-orig-value="' . $total_remaining . '">' . $total_remaining . '</span>';
 
-                    
+
                     return $total_remaining_html;
                 })
                 ->addColumn('return_due', function ($row) {
@@ -171,22 +171,22 @@ class SellController extends Controller
                         $invoice_no .= ' <i class="fab fa-wordpress text-primary no-print" title="' . __('lang_v1.synced_from_woocommerce') . '"></i>';
                     }
                     if (!empty($row->return_exists)) {
-                        $invoice_no .= ' &nbsp;<small class="label bg-red label-round no-print" title="' . __('lang_v1.some_qty_returned_from_sell') .'"><i class="fas fa-undo"></i></small>';
+                        $invoice_no .= ' &nbsp;<small class="label bg-red label-round no-print" title="' . __('lang_v1.some_qty_returned_from_sell') . '"><i class="fas fa-undo"></i></small>';
                     }
                     if (!empty($row->is_recurring)) {
-                        $invoice_no .= ' &nbsp;<small class="label bg-red label-round no-print" title="' . __('lang_v1.subscribed_invoice') .'"><i class="fas fa-recycle"></i></small>';
+                        $invoice_no .= ' &nbsp;<small class="label bg-red label-round no-print" title="' . __('lang_v1.subscribed_invoice') . '"><i class="fas fa-recycle"></i></small>';
                     }
 
                     if (!empty($row->recur_parent_id)) {
-                        $invoice_no .= ' &nbsp;<small class="label bg-info label-round no-print" title="' . __('lang_v1.subscription_invoice') .'"><i class="fas fa-recycle"></i></small>';
+                        $invoice_no .= ' &nbsp;<small class="label bg-info label-round no-print" title="' . __('lang_v1.subscription_invoice') . '"><i class="fas fa-recycle"></i></small>';
                     }
 
                     return $invoice_no;
                 })
                 ->editColumn('shipping_status', function ($row) use ($shipping_statuses) {
                     $status_color = !empty($this->shipping_status_colors[$row->shipping_status]) ? $this->shipping_status_colors[$row->shipping_status] : 'bg-gray';
-                    $status = !empty($row->shipping_status) ? '<a href="#" class="btn-modal" data-href="' . action('SellController@editShipping', [$row->id]) . '" data-container=".view_modal"><span class="label ' . $status_color .'">' . $shipping_statuses[$row->shipping_status] . '</span></a>' : '';
-                     
+                    $status = !empty($row->shipping_status) ? '<a href="#" class="btn-modal" data-href="' . action('SellController@editShipping', [$row->id]) . '" data-container=".view_modal"><span class="label ' . $status_color . '">' . $shipping_statuses[$row->shipping_status] . '</span></a>' : '';
+
                     return $status;
                 })
                 ->addColumn('payment_methods', function ($row) use ($payment_types) {
@@ -200,13 +200,14 @@ class SellController extends Controller
                     }
 
                     $html = !empty($payment_method) ? '<span class="payment-method" data-orig-value="' . $payment_method . '" data-status-name="' . $payment_method . '">' . $payment_method . '</span>' : '';
-                    
+
                     return $html;
                 })
                 ->setRowAttr([
                     'data-href' => function ($row) {
                         return  action('SellController@show', [$row->id]);
-                    }])
+                    }
+                ])
                 ->rawColumns(['final_total', 'action', 'total_paid', 'total_remaining', 'payment_status', 'invoice_no', 'discount_amount', 'tax_amount', 'total_before_tax', 'shipping_status', 'types_of_service_name', 'payment_methods', 'return_due'])
                 ->make(true);
         }
