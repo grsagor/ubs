@@ -47,8 +47,10 @@ class OtherServicesController extends Controller
         $category = ServiceCategory::where('name', 'Property')->first();
         $sub_category = SubCategory::where([['category_id', $category->id], ['name', 'rent']])->first();
         $data['child_categories'] = ChildCategory::where([['category_id', $category->id], ['sub_category_id', $sub_category->id],])->latest()->get();
+        $data['room_size'] = ServiceCharge::where([['category_id', $category->id], ['sub_category_id', $sub_category->id],['size', '!=', NULL]])->get();
 
         $data['service_charge'] = ServiceCharge::with('childCategory')->get();
+        $data['service_id'] = $service_id;
         $data['studio_flat_service_charge'] = null;
         $data['house_service_charge'] = null;
         $data['flat_service_charge'] = null;
@@ -75,9 +77,43 @@ class OtherServicesController extends Controller
         return $data;
     }
 
+    public function addClilckHandler(Request $request){
+        $category = ServiceCategory::where('name', 'Property')->first();
+        $sub_category = SubCategory::where([['category_id', $category->id], ['name', 'rent']])->first();
+        $room_size = ServiceCharge::where([['category_id', $category->id], ['sub_category_id', $sub_category->id],['size', '!=', NULL]])->whereNotIn('id',$request->child_category)->get();
+        $number_of_children = $request->number_of_children;
+        $compact = [
+            'number_of_children' => $number_of_children,
+            'room_size' => $room_size
+        ];
+        $html = view('frontend.other_services.ajax_payment_select', $compact)->render();
+        $response = [
+            'html' => $html
+        ];
+        return response()->json($response);
+    }
+    public function changeQuantityHandler(Request $request){
+        $size_id = $request->size_id;
+        $quantity = $request->quantity;
+        $total_service_charge = 0;
+        foreach ($size_id as $key => $value) {
+            $service_charge = ServiceCharge::find($value)->service_charge;
+            $service_charge = intval($service_charge) * intval($quantity[$key]);
+            $total_service_charge = $total_service_charge + $service_charge;
+        }
+        $premium_service_charge = $total_service_charge * 1.4;
+        $premium_service_charge = number_format($premium_service_charge, 2);
+
+        $response = [
+            'total_service_charge' => $total_service_charge,
+            'premium_service_charge' => $premium_service_charge
+        ];
+        return response()->json($response);
+    }
+
     public function propertyFindingPayment(Request $request)
     {
-        dd($request->toArray());
+        return $request;
         // $request['table_name']             = 'propertyFindingService->serviceCharge';
         // $request['description']            = "Service charge id: " . $request->child_category_id_from_backend ?? NULL;
         // $request['upgrade']                = 'yes';
