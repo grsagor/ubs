@@ -133,12 +133,19 @@
                                     <b>Designation:</b>
                                     @if ($occupant['occupant_designation'])
                                         {{ $occupant['occupant_designation'] }}
+                                        @if ($occupant['occupant_job_type'] == 1)
+                                            (Part-time)
+                                        @elseif ($occupant['occupant_job_type'] == 2)
+                                            (Full-time)
+                                        @elseif ($occupant['occupant_job_type'] == 3)
+                                            (Self-employed )
+                                        @endif
                                     @else
                                         N/A
                                     @endif
                                 </p>
 
-                                <p>
+                                {{-- <p>
                                     <b>Job Type:</b>
                                     @if ($occupant['occupant_job_type'] == 1)
                                         Part-time
@@ -149,7 +156,7 @@
                                     @else
                                         N/A
                                     @endif
-                                </p>
+                                </p> --}}
 
                                 <p>
                                     <b>Monthly income before tax:</b>
@@ -160,26 +167,33 @@
                                     @endif
                                 </p>
 
-                                <p>
+                                {{-- <p>
                                     <b>University Name:</b>
                                     @if ($occupant['occupant_university_name'])
                                         {{ $occupant['occupant_university_name'] }}
                                     @else
                                         N/A
                                     @endif
-                                </p>
+                                </p> --}}
+
+
+                                @if ($occupant['occupant_occupation'] == 1)
+                                    <p>
+                                        <b>Degree Name:</b>
+                                        @if ($occupant['occupant_degree_name'])
+                                            {{ $occupant['occupant_degree_name'] }}
+                                            @if ($occupant['occupant_university_name'])
+                                                ({{ $occupant['occupant_university_name'] }})
+                                            @endif
+                                        @else
+                                            N/A
+                                        @endif
+                                    </p>
+                                @endif
+
 
                                 <p>
-                                    <b>Degree Name:</b>
-                                    @if ($occupant['occupant_degree_name'])
-                                        {{ $occupant['occupant_degree_name'] }}
-                                    @else
-                                        N/A
-                                    @endif
-                                </p>
-
-                                <p>
-                                    <b>Pay Rent:</b>
+                                    <b>Rent share:</b>
                                     @if ($occupant['occupant_pay_rent'] == 0)
                                         No
                                     @elseif ($occupant['occupant_pay_rent'] == 1)
