@@ -25,7 +25,7 @@
 
         p.category_text {
             /* min-height: 20px;
-                                                                                                                                                                                                                                                                                                                                                                                                        max-height: 20px; */
+                                                                                                                                                                                                                                                                                                                                                                                                            max-height: 20px; */
         }
 
         h5.product-title {
@@ -196,7 +196,8 @@
                                                         secure and
                                                         reliable property finding service tailored to your needs.</p>
 
-                                                    <a href="#" class="button-31">Add</a>
+                                                    <a href="{{ route('propertyFindingService') }}"
+                                                        class="button-31">Add</a>
                                                 </div>
                                             </div>
 

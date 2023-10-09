@@ -235,7 +235,7 @@ Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 
     // Route::get('/show-childcategory-select', [ServiceAdvertiseRoomController::class, 'showChildCategorySelect']);
     Route::get('/show-room-size-select', [ServiceAdvertiseRoomController::class, 'showRoomQuantitySelect']);
 
-    Route::resource('property-wanted', PropertyWantedController::class);
+    // Route::resource('property-wanted', PropertyWantedController::class);
 
     Route::resource('/room-to-rent', RoomToRentController::class);
 
