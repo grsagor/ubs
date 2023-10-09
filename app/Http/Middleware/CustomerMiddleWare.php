@@ -22,7 +22,7 @@ class CustomerMiddleWare
         if (!$user || $user->user_type != 'user_customer') {
             return redirect(url('login'))->with('error', 'Please login as a customer.');
         }
-        
+
         return $next($request);
     }
 }

@@ -31,9 +31,9 @@ class ServiceController extends Controller
             ->search($request)
             ->latest()->paginate($data['per_page']);
 
-        $data['service_categories'] = ServiceCategory::query()->pluck('name','id');
-        $data['service_sub_categories'] = ServiceSubCategories::query()->pluck('name','id');
-        $data['service_child_categories'] = ServiceChildCategories::query()->pluck('name','id');
+        $data['service_categories'] = ServiceCategory::query()->pluck('name', 'id');
+        $data['service_sub_categories'] = ServiceSubCategories::query()->pluck('name', 'id');
+        $data['service_child_categories'] = ServiceChildCategories::query()->pluck('name', 'id');
 
         return view('frontend.service.service_list', $data);
     }
@@ -43,8 +43,6 @@ class ServiceController extends Controller
         $business_id = request()->session()->get('user.business_id');
 
         $business_locations = BusinessLocation::where('business_id', $business_id)->get(['id', 'name', 'business_id']);
-
-        // return $business_locations;
 
         return view('backend.services.create', compact('business_locations'));
     }
@@ -65,15 +63,10 @@ class ServiceController extends Controller
         return response()->json($childSubcategories);
     }
 
-
     public function getServiceItems($category_id)
     {
         $serviceItems = ServiceEducation::where('service_category_id', $category_id)->get();
 
         return response()->json($serviceItems);
     }
-
-
-
-
 }

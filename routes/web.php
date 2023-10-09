@@ -178,9 +178,6 @@ Route::get('/removecart/{id}', 'Front\CartController@removecart')->name('product
 
 
 Route::middleware(['setData'])->group(function () {
-    // Route::get('/', function () {
-    //     return view('welcome');
-    // });
 
     // Frontend Routes Start //
 
