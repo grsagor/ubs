@@ -13,9 +13,9 @@
             <small>Advertise your room</small>
         </h1>
         <!-- <ol class="breadcrumb">
-                                                                                        <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
-                                                                                        <li class="active">Here</li>
-                                                                                    </ol> -->
+                                                                                                                <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
+                                                                                                                <li class="active">Here</li>
+                                                                                                            </ol> -->
     </section>
 
     <!-- Main content -->
@@ -80,7 +80,11 @@
                         data: 'status',
                         name: 'status',
                         render: function(data) {
-                            return data == 1 ? 'Active' : 'Inactive';
+                            var statusText = data == 1 ? 'Active' : 'Inactive';
+                            var badgeStyle = data == 1 ? 'background-color: green; color: white;' :
+                                'background-color: red; color: white;';
+                            return '<span class="badge" style="' + badgeStyle + '">' + statusText +
+                                '</span>';
                         }
                     },
                     {

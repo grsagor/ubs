@@ -98,7 +98,11 @@
                         data: 'status',
                         name: 'status',
                         render: function(data) {
-                            return data == 1 ? 'Active' : 'Inactive';
+                            var statusText = data == 1 ? 'Active' : 'Inactive';
+                            var badgeStyle = data == 1 ? 'background-color: green; color: white;' :
+                                'background-color: red; color: white;';
+                            return '<span class="badge" style="' + badgeStyle + '">' + statusText +
+                                '</span>';
                         }
                     },
                     {
@@ -156,7 +160,7 @@
             });
 
             // Deleteing Property Started
-            $(document).on('click', '.property_wanted_delete_btn', function() {
+            $(document).on('click', '#property_wanted_delete_btn', function() {
                 var id = $(this).data('id');
                 $.ajax({
                     url: "/contact/show-property-delete-modal",
@@ -196,7 +200,7 @@
             })
 
             // Editing property started
-            $(document).on('click', '.property_wanted_edit_btn', function() {
+            $(document).on('click', '#property_wanted_edit_btn', function() {
                 var id = $(this).data('id');
                 $.ajax({
                     url: "/contact/show-property-edit-modal",

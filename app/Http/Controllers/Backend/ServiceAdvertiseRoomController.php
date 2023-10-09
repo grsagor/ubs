@@ -61,7 +61,7 @@ class ServiceAdvertiseRoomController extends Controller
                         '<div class="btn-group"><button type="button" class="btn btn-info dropdown-toggle btn-xs" data-toggle="dropdown" aria-expanded="false">' . __('messages.actions') . '<span class="caret"></span><span class="sr-only">Toggle Dropdown</span></button><ul class="dropdown-menu dropdown-menu-left" role="menu">';
 
                     $html .= '<li><button type="button" data-id="' . $service->id . '" class="btn btn-link" id="property_rent_edit_btn" data-toggle="tooltip" style="color: #525557;"><i class="glyphicon glyphicon-edit"></i> ' . __('Edit') . '</button></li>';
-                    $html .= '<li><button type="button" data-id="' . $service->id . '" class="btn btn-link" id="property_wanted_delete_btn" data-toggle="tooltip" style="color: #525557;"><i class="fa fa-barcode"></i> ' . __('Change Status') . '</button></li>';
+                    $html .= '<li><button type="button" data-id="' . $service->id . '" class="btn btn-link" id="property_wanted_delete_btn" data-toggle="tooltip" style="color: #525557;"><i class="fas fa-history"></i> ' . __('Change Status') . '</button></li>';
 
                     // Only include the "Booking Info" button if bookingServiceId is not null or 0
                     if ($bookingServiceId !== null && $bookingServiceId !== 0) {
