@@ -2,12 +2,20 @@
 
 namespace App\Http\Controllers\Backend;
 
+use App\Brands;
 use App\BusinessLocation;
+use App\Category;
+use App\Product;
+use App\SellingPriceGroup;
 use App\ServiceEducation;
+use App\ServiceSubCategories;
+use App\TaxRate;
 use App\Traits\ImageFileUpload;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreServiceEducationRequest;
 use App\Http\Requests\UpdateServiceEducationRequest;
+use App\Unit;
+use App\Warranty;
 
 class ServiceEducationController extends Controller
 {
@@ -36,8 +44,32 @@ class ServiceEducationController extends Controller
      */
     public function create()
     {
-        //
+        if (!auth()->user()->can('product.create')) {
+            abort(403, 'Unauthorized action.');
+        }
+
+
+
+        $business_id = request()->session()->get('user.business_id');
+
+        $categories = Category::forDropdown($business_id, 'product');
+
+        $brands = Brands::forDropdown($business_id);
+
+        //Duplicate product
+        $duplicate_product = null;
+        $rack_details = null;
+
+        $sub_categories = ServiceSubCategories::query()->where('service_category_id',2)->pluck('name','id');
+
+        return view('backend.services.education.create')
+            ->with(compact('categories', 'brands', 'sub_categories'));
     }
+
+/*    public function create()
+    {
+        return view('backend.services.education.create');
+    }*/
 
     /**
      * Store a newly created resource in storage.
@@ -47,6 +79,7 @@ class ServiceEducationController extends Controller
      */
     public function store(StoreServiceEducationRequest $request, ServiceEducation $serviceEducation)
     {
+        dd('hello im here');
         try {
             $requestedData                               = $request->all();
 
