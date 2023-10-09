@@ -21,14 +21,12 @@ class PropertyWantedCustomerController extends Controller
 
     public function index()
     {
-        $user = Auth::user();
-        $services = ServicePropertyWanted::where('user_id', $user->id)->with('category')->with('sub_category')->with('child_category')->get();
         if (!Auth::check()) {
             return redirect()->route('login');
         }
-
+        $user = Auth::user();
         if (request()->ajax()) {
-            $services = ServicePropertyWanted::where('user_id', Auth::id())->get();
+            $services = ServicePropertyWanted::where('user_id', $user->id)->with('category')->with('sub_category')->with('child_category')->get();
 
             return Datatables::of($services)
                 ->addColumn('category_name', function ($service) {
@@ -41,34 +39,62 @@ class PropertyWantedCustomerController extends Controller
                     return $service->child_category->name;
                 })
                 ->addColumn('action', function ($service) {
-                    $buttons = '<div class="d-flex gap-1">';
 
-                    // Edit button
-                    $buttons .= '<button type="button" data-id="' . $service->id . '" class="btn btn-xs btn-success property_wanted_edit_btn">Edit</button>';
+                    $html =
+                        '<div class="btn-group"><button type="button" class="btn btn-info dropdown-toggle btn-xs" data-toggle="dropdown" aria-expanded="false">' . __('messages.actions') . '<span class="caret"></span><span class="sr-only">Toggle Dropdown</span></button><ul class="dropdown-menu dropdown-menu-left" role="menu">';
 
-                    // Change status button
-                    $buttons .= '<button type="button" class="btn btn-xs btn-primary property_wanted_delete_btn" data-id="' . $service->id . '">Change Status</button>';
+                    $html .= '<li><button type="button" data-id="' . $service->id . '" class="btn btn-link" id="property_wanted_edit_btn" data-toggle="tooltip" style="color: #525557;"><i class="glyphicon glyphicon-edit"></i> ' . __('Edit') . '</button></li>';
+                    $html .= '<li><button type="button" data-id="' . $service->id . '" class="btn btn-link" id="property_wanted_delete_btn" data-toggle="tooltip" style="color: #525557;"><i class="fas fa-history"></i> ' . __('Change Status') . '</button></li>';
 
-                    // Check the upgraded status and add the appropriate button
+
                     if ($service->upgraded && $service->plan == 'Regular') {
-                        $buttons .= '<button>Regular </button>';
+                        $html .= '<li><button type="button" class="btn btn-link" id="" data-toggle="tooltip" style="color: #525557;"><i class="fa fa-moon"></i> ' . __('Regular') . '</button></li>';
                     } elseif ($service->plan == 'Premium') {
-                        $buttons .= '<button>Premium </button>';
+                        $html .= '<li><button type="button" class="btn btn-link" id="" data-toggle="tooltip" style="color: #525557;"><i class="fa fa-star"></i> ' . __('Premium') . '</button></li>';
                     } else {
-                        // $buttons .= '<form action="/contact/property-wanted/upgrade" method="POST" enctype="multipart/form-data">
-                        // <input type="hidden" name="_token" value="' . csrf_token() . '">
-                        // <input type="hidden" name="product_id" value="' . $service->id . '">
-                        //                 <input type="submit" value="Upgrade" class="btn btn-xs btn-primary">
-                        //             </form>';
-
-                        $buttons .= '<form action="/property-finding-service/' . $service->id . '/' . $service->child_category_id . '" method="GET" enctype="multipart/form-data">
-                                        <input type="submit" value="Upgrade" class="btn btn-xs btn-primary">
-                                    </form>';
+                        $html .= '<form action="/property-finding-service/' . $service->id . '/' . $service->child_category_id . '" method="GET" enctype="multipart/form-data">
+                    <li><button type="submit" class="btn btn-link" id="" data-toggle="tooltip" style="color: #525557;"><i class="fa fa-arrow-circle-up"></i> ' . __('Upgrade') . '</button></li>
+                    
+                  ';
                     }
 
-                    $buttons .= '</div>';
 
-                    return $buttons;
+                    $html .= '</ul></div>';
+
+                    return $html;
+
+
+
+
+
+                    // $buttons = '<div class="d-flex gap-1">';
+
+                    // // Edit button
+                    // $buttons .= '<button type="button" data-id="' . $service->id . '" class="btn btn-xs btn-success property_wanted_edit_btn">Edit</button>';
+
+                    // // Change status button
+                    // $buttons .= '<button type="button" class="btn btn-xs btn-primary property_wanted_delete_btn" data-id="' . $service->id . '">Change Status</button>';
+
+                    // // Check the upgraded status and add the appropriate button
+                    // if ($service->upgraded && $service->plan == 'Regular') {
+                    //     $buttons .= '<button>Regular </button>';
+                    // } elseif ($service->plan == 'Premium') {
+                    //     $buttons .= '<button>Premium </button>';
+                    // } else {
+                    //     // $buttons .= '<form action="/contact/property-wanted/upgrade" method="POST" enctype="multipart/form-data">
+                    //     // <input type="hidden" name="_token" value="' . csrf_token() . '">
+                    //     // <input type="hidden" name="product_id" value="' . $service->id . '">
+                    //     //                 <input type="submit" value="Upgrade" class="btn btn-xs btn-primary">
+                    //     //             </form>';
+
+                    //     $buttons .= '<form action="/property-finding-service/' . $service->id . '/' . $service->child_category_id . '" method="GET" enctype="multipart/form-data">
+                    //                     <input type="submit" value="Upgrade" class="btn btn-xs btn-primary">
+                    //                 </form>';
+                    // }
+
+                    // $buttons .= '</div>';
+
+                    // return $buttons;
                 })
                 ->rawColumns(['action'])
                 ->toJson();
@@ -260,7 +286,8 @@ class PropertyWantedCustomerController extends Controller
         } else {
             $property->status = 1;
         }
-        $property->save();        $response = [
+        $property->save();
+        $response = [
             'success' => true,
             'message' => 'Property status changed.'
         ];

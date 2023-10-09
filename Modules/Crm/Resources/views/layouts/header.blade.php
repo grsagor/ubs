@@ -1,21 +1,24 @@
 @inject('request', 'Illuminate\Http\Request')
 <!-- Main Header -->
 <header class="main-header no-print">
-    <a href="{{ url('/') }}" class="logo">
+    <a href="{{ url('/') }}" class="logo" target="_blank">
         <span class="logo-lg">Unipuller <i class="fa fa-circle text-success" id="online_indicator"></i></span>
     </a>
 
     <!-- Header Navbar -->
     <nav class="navbar navbar-static-top" role="navigation">
         <!-- Sidebar toggle button-->
-            <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+        <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
             &#9776;
             <span class="sr-only">Toggle navigation</span>
         </a>
 
         <!-- Navbar Right Menu -->
         <div class="navbar-custom-menu">
-            <button id="btnCalculator" title="@lang('lang_v1.calculator')" type="button" class="btn btn-success btn-flat pull-left m-8 hidden-xs btn-sm mt-10 popover-default" data-toggle="popover" data-trigger="click" data-content='@include("layouts.partials.calculator")' data-html="true" data-placement="bottom">
+            <button id="btnCalculator" title="@lang('lang_v1.calculator')" type="button"
+                class="btn btn-success btn-flat pull-left m-8 hidden-xs btn-sm mt-10 popover-default"
+                data-toggle="popover" data-trigger="click" data-content='@include('layouts.partials.calculator')' data-html="true"
+                data-placement="bottom">
                 <strong>
                     <i class="fa fa-calculator fa-lg" aria-hidden="true"></i>
                 </strong>
@@ -35,8 +38,8 @@
                         @php
                             $profile_photo = auth()->user()->media;
                         @endphp
-                        @if(!empty($profile_photo))
-                            <img src="{{$profile_photo->display_url}}" class="user-image" alt="User Image">
+                        @if (!empty($profile_photo))
+                            <img src="{{ $profile_photo->display_url }}" class="user-image" alt="User Image">
                         @endif
                         <!-- hidden-xs hides the username on small devices so only the image appears. -->
                         <span>
@@ -46,8 +49,9 @@
                     <ul class="dropdown-menu">
                         <!-- The user image in the menu -->
                         <li class="user-header">
-                            @if(!empty(Session::get('business.logo')))
-                                <img src="{{ url( 'uploads/business_logos/' . Session::get('business.logo') ) }}" alt="Logo">
+                            @if (!empty(Session::get('business.logo')))
+                                <img src="{{ url('uploads/business_logos/' . Session::get('business.logo')) }}"
+                                    alt="Logo">
                                 </span>
                             @endif
                             <p>
@@ -56,12 +60,14 @@
                         </li>
                         <li class="user-footer">
                             <div class="pull-left">
-                                <a href="{{action('\Modules\Crm\Http\Controllers\ManageProfileController@getProfile')}}" class="btn btn-default btn-flat">
+                                <a href="{{ action('\Modules\Crm\Http\Controllers\ManageProfileController@getProfile') }}"
+                                    class="btn btn-default btn-flat">
                                     @lang('lang_v1.profile')
                                 </a>
                             </div>
                             <div class="pull-right">
-                                <a href="{{action('\App\Http\Controllers\Auth\LoginController@logout')}}" class="btn btn-default btn-flat">
+                                <a href="{{ action('\App\Http\Controllers\Auth\LoginController@logout') }}"
+                                    class="btn btn-default btn-flat">
                                     @lang('lang_v1.sign_out')
                                 </a>
                             </div>

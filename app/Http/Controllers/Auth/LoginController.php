@@ -53,7 +53,13 @@ class LoginController extends Controller
 
     public function showLoginForm(Request $request)
     {
-        return view('auth.login');
+        // Get the intended URL from the session
+        $intendedUrl = session('url.intended');
+
+        // dd($intendedUrl);
+
+        // Pass the intended URL to the view
+        return view('auth.login', ['intendedUrl' => $intendedUrl]);
     }
 
     /**

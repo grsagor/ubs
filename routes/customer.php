@@ -27,7 +27,7 @@ Route::group(['middleware' => ['auth', 'checkCustomer'], 'prefix' => 'contact',]
     });
 });
 
-Route::group(['middleware' => [], 'prefix' => 'contact', 'namespace' => 'Modules\Crm\Http\Controllers'], function () {
+Route::group(['middleware' => ['auth', 'checkCustomer'], 'prefix' => 'contact', 'namespace' => 'Modules\Crm\Http\Controllers'], function () {
     Route::resource('contact-dashboard', 'DashboardController');
     Route::get('contact-profile', 'ManageProfileController@getProfile');
     Route::post('contact-password-update', 'ManageProfileController@updatePassword');
