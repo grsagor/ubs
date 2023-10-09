@@ -309,7 +309,7 @@
                                                     action="{{ route('propertyFindingPayment') }}">
                                                     @csrf
                                                     <input type="hidden" id="room_regular_product_id" name="product_id"
-                                                        value="">
+                                                        value="{{ $service_id }}">
                                                     <input type="hidden" id="room_regular_product_name"
                                                         name="product_name" value="">
                                                     <input type="hidden" id="room_regular_product_bill" name="bill"
@@ -547,11 +547,6 @@
             var quantity = $("select[name='quantity[]']").map(function() {
                 return $(this).val();
             }).get();
-            $('#room_regular_product_id').val(JSON.stringify(size_id));
-            $('#room_regular_product_name').val(JSON.stringify(quantity));
-
-            $('#room_premium_product_id').val(JSON.stringify(size_id));
-            $('#room_premium_product_name').val(JSON.stringify(quantity));
             var data = {
                 size_id: size_id,
                 quantity: quantity
@@ -564,8 +559,6 @@
                 success: function(response) {
                     $(`#regular_price_room_tab3`).text(`£${response.total_service_charge}`);
                     $(`#premium_price_room_tab3`).text(`£${response.premium_service_charge}`);
-                    $('#room_regular_product_bill').val(response.total_service_charge);
-                    $('#room_premium_product_bill').val(response.premium_service_charge);
                 },
                 error: function(error) {
                     console.log(error);
@@ -580,8 +573,6 @@
                 quantitySelectChange();
             })
         });
-
-
     </script>
     {{-- @include('frontend.other_services.partial.property_finding_service.script') --}}
 @endsection

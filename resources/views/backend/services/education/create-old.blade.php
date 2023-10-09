@@ -18,11 +18,11 @@
 
                 <div class="grid-12">
                     <div class="text-center">
-                        <h1>Add Service</h1>
+                        <h1>Service Add</h1>
                     </div>
                 </div>
 
-                <div class="grid-12-4" style="display: flex; justify-content: center;">
+                <div class="grid-12-6" style="display: flex; justify-content: center;">
                     <div class="block block_simple block_offered_listing">
 
                         <div class="block_content">
@@ -39,7 +39,7 @@
                                     </div>
                                     <div class="form_inputs">
                                             <span class="form_input form_text">
-                                                <input type="text" name="title" class="form-control" value="" size="50"
+                                                <input type="text" name="title" value="" size="50"
                                                        maxlength="50">
                                             </span>
                                     </div>
@@ -51,7 +51,7 @@
                                     </div>
                                     <div class="form_inputs">
                                             <span class="form_input form_text">
-                                                <input type="text" name="price" class="form-control" value="" size="50"
+                                                <input type="text" name="price" value="" size="50"
                                                        maxlength="50">
                                             </span>
                                     </div>
@@ -63,7 +63,7 @@
                                     </div>
                                     <div class="form_inputs">
                                             <span class="form_input form_text">
-                                                <input type="text" name="sales_commission" class="form-control" value="" size="50"
+                                                <input type="text" name="sales_commission"  value="" size="50"
                                                        maxlength="50">
                                             </span>
                                     </div>
@@ -71,7 +71,7 @@
 
                                 <div class="form_row form_row_email">
                                     <div class="form_label">
-                                        Allow Price Customization<span class="star">*</span>
+                                        Fixed Price / Changeable<span class="star">*</span>
                                     </div>
                                     <div class="form_inputs">
                                             <span class="form_input form_text">
@@ -133,7 +133,7 @@
                                     </div>
                                     <div class="form_inputs">
                                             <span class="form_input form_text">
-                                                <input type="text" name="service_warranty" class="form-control" value="" size="50"
+                                                <input type="text" name="service_warranty" value="" size="50"
                                                        maxlength="50">
                                             </span>
                                     </div>
@@ -145,7 +145,7 @@
                                     </div>
                                     <div class="form_inputs">
                                             <span class="form_input form_text">
-                                               <input type="text" name="service_features" class="form-control" value="" size="50"
+                                               <input type="text" name="service_features" value="" size="50"
                                                       maxlength="50">
                                             </span>
                                     </div>
@@ -157,8 +157,8 @@
                                     </div>
                                     <div class="form_inputs">
                                             <span class="form_input form_text">
-                                                <input type="text" name="service_features" class="form-control" value="" size="50"
-                                                       maxlength="50">
+                                                <input type="number" step=".01" name="years_of_experiences" value=""
+                                                       style="max-width: 152px;">
                                             </span>
                                     </div>
                                 </div>
@@ -169,7 +169,7 @@
                                     </div>
                                     <div class="form_inputs">
                                             <span class="form_input form_text">
-                                                <input type="text" name="modules" class="form-control" value="" size="50"
+                                                <input type="text" name="modules" value="" size="50"
                                                        maxlength="50">
                                             </span>
                                     </div>
@@ -181,7 +181,7 @@
                                     </div>
                                     <div class="form_inputs">
                                             <span class="form_input form_text">
-                                                <input type="text" name="description" class="form-control" value="" size="50"
+                                                <input type="text" name="description" value="" size="50"
                                                        maxlength="50">
                                             </span>
                                     </div>
@@ -189,11 +189,11 @@
 
                                 <div class="form_row form_row_email">
                                     <div class="form_label">
-                                        Service Policies
+                                        Service Facilites
                                     </div>
                                     <div class="form_inputs">
                                             <span class="form_input form_text">
-                                                <input type="text" name="service_facilities" class="form-control" value=""
+                                                <input type="text" name="service_facilities" value=""
                                                        size="50" maxlength="50">
                                             </span>
                                     </div>
@@ -201,34 +201,12 @@
 
                                 <div class="form_row form_row_email">
                                     <div class="form_label">
-                                        Description
+                                        Agent Commission
                                     </div>
                                     <div class="form_inputs">
                                             <span class="form_input form_text">
-                                                <input type="text" name="description" class="form-control" value=""
-                                                       size="50" maxlength="50">
-                                            </span>
-                                    </div>
-                                </div>
-
-                                <div class="form_row form_row_email">
-                                    <div class="form_label">
-                                        Feature Image
-                                    </div>
-                                    <div class="form_inputs">
-                                            <span class="form_input form_text">
-                                                <input type="file" name="feature_image" value="">
-                                            </span>
-                                    </div>
-                                </div>
-
-                                <div class="form_row form_row_email">
-                                    <div class="form_label">
-                                        Sample Image
-                                    </div>
-                                    <div class="form_inputs">
-                                            <span class="form_input form_text">
-                                                <input type="file" name="sample_image" value="">
+                                                <input type="number" step=".01" name="agent_commission"
+                                                       value="" style="max-width: 152px;">
                                             </span>
                                     </div>
                                 </div>
@@ -246,14 +224,11 @@
 
                                 <div class="form_row form_row_email">
                                     <div class="form_label">
-                                        Unipuller's Sales Policy
+                                        Images
                                     </div>
                                     <div class="form_inputs">
                                             <span class="form_input form_text">
-                                               <input class="form-check-input" type="checkbox" id="unipuller_sales_policy" name="unipuller_sales_policy">
-                                                <label class="form-check-label" for="unipuller_sales_policy">
-                                                    I agree to Unipuller's Sales Policy
-                                                </label>
+                                                <input type="file" name="images[]" multiple value="">
                                             </span>
                                     </div>
                                 </div>
@@ -261,7 +236,7 @@
                                 <div class="form_inputs">
                                     <div class="form_input form_button">
                                         <button class="button" id="continueButton" type="submit" name="submit">
-                                            Submit
+                                            Continue
                                         </button>
                                     </div>
                                 </div>
