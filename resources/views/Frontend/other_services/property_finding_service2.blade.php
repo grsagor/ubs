@@ -310,8 +310,10 @@
                                                     @csrf
                                                     <input type="hidden" id="room_regular_product_id" name="product_id"
                                                         value="">
+                                                    <input type="hidden" id="room_regular_quantity" name="product_quantity"
+                                                        value="">
                                                     <input type="hidden" id="room_regular_product_name"
-                                                        name="product_name" value="">
+                                                        name="product_name" value="Room regular">
                                                     <input type="hidden" id="room_regular_product_bill" name="bill"
                                                         value="">
 
@@ -325,8 +327,10 @@
                                                     @csrf
                                                     <input type="hidden" id="room_premium_product_id" name="product_id"
                                                         value="">
+                                                    <input type="hidden" id="room_premium_quantity" name="product_quantity"
+                                                        value="">
                                                     <input type="hidden" id="room_premium_product_name"
-                                                        name="product_name" value="">
+                                                        name="product_name" value="Room Premium">
                                                     <input type="hidden" id="room_premium_product_bill" name="bill"
                                                         value="">
 
@@ -548,10 +552,10 @@
                 return $(this).val();
             }).get();
             $('#room_regular_product_id').val(JSON.stringify(size_id));
-            $('#room_regular_product_name').val(JSON.stringify(quantity));
+            $('#room_regular_quantity').val(JSON.stringify(quantity));
 
             $('#room_premium_product_id').val(JSON.stringify(size_id));
-            $('#room_premium_product_name').val(JSON.stringify(quantity));
+            $('#room_premium_quantity').val(JSON.stringify(quantity));
             var data = {
                 size_id: size_id,
                 quantity: quantity
