@@ -10,7 +10,7 @@ use App\Http\Controllers\ServiceWantedCustomerController;
 
 
 // Route::group(['middleware' => ['web', 'authh', 'SetSessionData', 'auth', 'language', 'timezone', 'ContactSidebarMenu', 'CheckContactLogin'], 'prefix' => 'contact',], function () {
-Route::group(['middleware' => ['auth', 'checkCustomer'], 'prefix' => 'contact',], function () {
+Route::group(['middleware' => ['checkCustomer'], 'prefix' => 'contact',], function () {
     Route::resource('/property-wanted',     PropertyWantedCustomerController::class);
     Route::resource('/service_wanted',     ServiceWantedCustomerController::class);
     Route::get('/show-occupants-details-inputs', [PropertyWantedCustomerController::class, 'showOccupantsDetailsInputs']);
@@ -27,7 +27,7 @@ Route::group(['middleware' => ['auth', 'checkCustomer'], 'prefix' => 'contact',]
     });
 });
 
-Route::group(['middleware' => ['auth', 'checkCustomer'], 'prefix' => 'contact', 'namespace' => 'Modules\Crm\Http\Controllers'], function () {
+Route::group(['middleware' => ['checkCustomer'], 'prefix' => 'contact', 'namespace' => 'Modules\Crm\Http\Controllers'], function () {
     Route::resource('contact-dashboard', 'DashboardController');
     Route::get('contact-profile', 'ManageProfileController@getProfile');
     Route::post('contact-password-update', 'ManageProfileController@updatePassword');

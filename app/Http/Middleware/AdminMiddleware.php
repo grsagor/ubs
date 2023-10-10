@@ -21,8 +21,7 @@ class AdminMiddleware
 
         if ($user) {
             if ($user->user_type != 'user') {
-                return back()->with('error', 'Please login as a admin.');
-            }
+                return redirect(url('login'))->with(['from' => 'admin', 'error' => 'Login as admin']);            }
         }
         return $next($request);
     }
