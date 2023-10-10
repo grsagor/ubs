@@ -5,18 +5,33 @@
 
     <!-- Register Url -->
     @if (config('constants.allow_registration'))
-        <div class="btn-group">
-            <button type="button" class="btn dropdown-toggle bg-maroon btn-flat" data-toggle="dropdown" aria-haspopup="true"
-                aria-expanded="false">
-                <b>{{ __('business.not_yet_registered') }}</b>
-                {{ __('business.register_now') }} <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu">
-                <li><a href="{{ url('business/register') }}">Register as business</a></li>
-                <li role="separator" class="divider"></li>
-                <li><a href="{{ url('customer/register') }}">Register as customer</a></li>
-            </ul>
-        </div>
+        @if (session()->has('from'))
+            @if (session()->get('from') == 'customer')
+                <a href="{{ url('customer/register') }}"><button type="button" class="btn dropdown-toggle bg-maroon btn-flat" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">
+                    <b>Register as customer</b>
+                </button></a>
+            @endif
+            @if (session()->get('from') == 'admin')
+                <a href="{{ url('business/register') }}"><button type="button" class="btn dropdown-toggle bg-maroon btn-flat" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">
+                    <b>Register as business</b>
+                </button></a>
+            @endif
+        @else
+            <div class="btn-group">
+                <button type="button" class="btn dropdown-toggle bg-maroon btn-flat" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">
+                    <b>{{ __('business.not_yet_registered') }}</b>
+                    {{ __('business.register_now') }} <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a href="{{ url('business/register') }}">Register as business</a></li>
+                    <li role="separator" class="divider"></li>
+                    <li><a href="{{ url('customer/register') }}">Register as customer</a></li>
+                </ul>
+            </div>
+        @endif
     @endif
 
     <div class="login-form col-md-12 col-xs-12 right-col-content">
