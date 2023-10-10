@@ -19,9 +19,8 @@ class AdminMiddleware
     {
         $user = Auth::user();
 
-        if ($user) {
-            if ($user->user_type != 'user') {
-                return redirect(url('login'))->with(['from' => 'admin', 'error' => 'Login as admin']);            }
+        if (!$user || $user->user_type != 'user') {
+            return redirect(url('login'))->with(['from' => 'admin', 'error' => 'Login as admin']);
         }
         return $next($request);
     }
