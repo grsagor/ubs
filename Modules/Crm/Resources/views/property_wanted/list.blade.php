@@ -28,8 +28,6 @@
                             <th>Status</th>
                             <th>Reference No</th>
                             <th>Category</th>
-                            <th>Sub-category</th>
-                            <th>Child-category</th>
                         </tr>
                     </thead>
                 </table>
@@ -109,14 +107,7 @@
                         data: 'reference_id',
                         name: 'reference_id'
                     },
-                    {
-                        data: 'category_name',
-                        name: 'category_name'
-                    },
-                    {
-                        data: 'subcategory_name',
-                        name: 'subcategory_name'
-                    },
+
                     {
                         data: 'child_category_name',
                         name: 'child_category_name'

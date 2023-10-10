@@ -62,7 +62,8 @@
                                 $room_rent = $maxValue;
                             } else {
                                 $room_rent = $minValue . ' - ' . $maxValue;
-                        } @endphp
+                            }
+                        @endphp
 
 
                         <div class="d-flex text-center"
@@ -113,7 +114,12 @@
                                     Rent
                                 </p>
                                 <p class="mb-0 text-muted">
-                                    &pound;{{ $room_rent }} <abbr>pcm</abbr>
+                                    &pound;
+                                    @if ($item->child_category_id == 1)
+                                        {{ $room_rent }}
+                                    @else
+                                        {{ $item->rent }}
+                                    @endif <abbr>pcm</abbr>
                                 </p>
                             </span>
 

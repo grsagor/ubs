@@ -12,10 +12,6 @@
         <h1>Service
             <small>Advertise your room</small>
         </h1>
-        <!-- <ol class="breadcrumb">
-                                                                                                                <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
-                                                                                                                <li class="active">Here</li>
-                                                                                                            </ol> -->
     </section>
 
     <!-- Main content -->
@@ -36,7 +32,7 @@
                             <th>Reference No</th>
                             <th>Category</th>
                             <th>Sub-category</th>
-                            <th>Child-category</th>
+                            <th>Rent</th>
                         </tr>
                     </thead>
                 </table>
@@ -92,17 +88,17 @@
                         name: 'reference_id'
                     },
                     {
-                        data: 'category_name',
-                        name: 'category_name'
+                        data: 'child_category_name',
+                        name: 'child_category_name'
                     },
                     {
                         data: 'subcategory_name',
                         name: 'subcategory_name'
                     },
                     {
-                        data: 'child_category_name',
-                        name: 'child_category_name'
-                    },
+                        data: 'rent',
+                        name: 'rent'
+                    }
                 ]
             });
         });

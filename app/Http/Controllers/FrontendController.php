@@ -27,6 +27,7 @@ class FrontendController extends Controller
                 'property_room_quantity',
                 'property_allow_people',
                 'bathroom',
+                'rent',
                 'created_at'
             )
                 ->search($request)
