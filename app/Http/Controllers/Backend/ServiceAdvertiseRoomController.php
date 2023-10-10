@@ -44,14 +44,37 @@ class ServiceAdvertiseRoomController extends Controller
         if (request()->ajax()) {
 
             return Datatables::of($services)
-                ->addColumn('category_name', function ($service) {
-                    return $service->category->name;
-                })
                 ->addColumn('subcategory_name', function ($service) {
                     return $service->sub_category->name;
                 })
                 ->addColumn('child_category_name', function ($service) {
                     return $service->child_category->name;
+                })
+                ->addColumn('rent', function ($service) {
+                    if ($service->child_category_id == 1) {
+                        $room_data = json_decode($service->room, true);
+                        $maxValue = null;
+                        $minValue = null;
+                        for ($i = 1; $i <= 3; $i++) {
+                            $field = 'room_cost_of_amount' . $i;
+                            if (isset($room_data[$field])) {
+                                $amount = intval($room_data[$field]);
+                                if ($maxValue === null || $amount > $maxValue) {
+                                    $maxValue = $amount;
+                                }
+                                if ($minValue === null || $amount < $minValue) {
+                                    $minValue = $amount;
+                                }
+                            }
+                        }
+                        if ($minValue == $maxValue) {
+                            $room_rent = $maxValue;
+                        } else {
+                            $room_rent = $minValue . ' - ' . $maxValue;
+                        }
+                        return $room_rent;
+                    }
+                    return $service->rent;
                 })
                 ->addColumn('action', function ($service) {
 

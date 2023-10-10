@@ -5,7 +5,6 @@
     <section class="sidebar">
 
         <!-- Sidebar Menu -->
-        {{-- {!! Menu::render('admin-sidebar-menu', 'adminltecustom') !!} --}}
         <ul class="sidebar-menu tree" data-widget="tree">
             <li><a href="{{ url('superadmin') }}"><i class="fa fas fa-users-cog"></i> <span>Superadmin</span></a></li>
             <li><a href="{{ route('home') }}"><i class="fa fas fa-tachometer-alt"></i> <span>Home</span></a></li>
@@ -278,7 +277,7 @@
                 </a>
                 <ul class="treeview-menu">
                     <li><a href="{{ route('service-advertise.index') }}"><i class="fa fas fa-user-secret"></i>
-                            <span>Room To Rent</span></a></li>
+                            <span>Property To Rent</span></a></li>
                 </ul>
             </li>
             <!-- Services End -->

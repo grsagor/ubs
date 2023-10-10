@@ -29,12 +29,6 @@ class PropertyWantedCustomerController extends Controller
             $services = ServicePropertyWanted::where('user_id', $user->id)->with('category')->with('sub_category')->with('child_category')->get();
 
             return Datatables::of($services)
-                ->addColumn('category_name', function ($service) {
-                    return $service->category->name;
-                })
-                ->addColumn('subcategory_name', function ($service) {
-                    return $service->sub_category->name;
-                })
                 ->addColumn('child_category_name', function ($service) {
                     return $service->child_category->name;
                 })
