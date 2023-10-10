@@ -113,7 +113,21 @@ class OtherServicesController extends Controller
 
     public function propertyFindingPayment(Request $request)
     {
+        $product_id = [];
+        $request->product_quantity = json_decode($request->product_quantity);
+        foreach (json_decode($request->product_id) as $key => $value) {
+            $size = ServiceCharge::find($value)->size;
+            $service_charge = ServiceCharge::find($value)->service_charge;
+            $product_id[] = [
+                'size' => $size,
+                'quantity' => $request->product_quantity[$key],
+                'service_charge' => $service_charge
+            ];
+        }
+        $request->merge(['product_id' => $product_id]);
+        $request = $request->except('product_quantity');
         return $request;
+
         // $request['table_name']             = 'propertyFindingService->serviceCharge';
         // $request['description']            = "Service charge id: " . $request->child_category_id_from_backend ?? NULL;
         // $request['upgrade']                = 'yes';
