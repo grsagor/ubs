@@ -100,11 +100,6 @@
                             (0) Reviews
                         </span>
                     </p>
-                    {{-- <a href="http://www.kingsmeadschool.net"><button
-                            class="btn mb-2 btn-primary btn-sm custom-padding">Website</button></a>
-                    <a href="javascript:void(0);" onclick="seeVendorContact()"><button
-                            class="btn mb-2 btn-primary btn-sm custom-padding">Contact</button></a>
-                    <p class="vendor_contact text-danger" style="display: none;margin-top: -10px">01543 227320 </p> --}}
                 </div>
             </div>
             <div class="col-md-8 banner-div px-0">

@@ -53,13 +53,11 @@
                                         <option value="Not disclosed" selected="">Not disclosed</option>
                                         <option value="Student">Student</option>
                                         <option value="Professional">Professional</option>
-                                        <option value="Other">Other</option>
+                                        <option value="Others">Others</option>
                                     </select>
                                 </span>
                             </div>
                         </div>
-
-
 
 
                         <div class="form_row form_row_pets">
@@ -159,12 +157,10 @@
                                 <span class="form_input form_select">
                                     <select name="new_flatmate_gender">
                                         <option selected="" value="">Select ....</option>
-                                        @foreach (getSex() as $item)
-                                            <option value="{{ $item['value'] }}"
-                                                {{ old('sex') == $item['value'] ? 'selected' : '' }}>
-                                                {{ $item['label'] }}
-                                            </option>
-                                        @endforeach
+                                        <option value="1"> Male </option>
+                                        <option value="1"> Female </option>
+                                        <option value="3"> Others </option>
+                                        <option value="4"> I don’t mind </option>
                                     </select>
                                 </span>
                             </div>
@@ -175,9 +171,11 @@
                             <div class="form_inputs">
                                 <span class="form_input form_select">
                                     <select name="new_flatmate_occupation">
-                                        <option value="0">No preference</option>
-                                        <option value="S">Student</option>
-                                        <option value="P">Professional</option>
+                                        <option value="No preference">No preference</option>
+                                        <option value="Student">Student</option>
+                                        <option value="Professional">Professional</option>
+                                        <option value="Others">Others</option>
+                                        <option value="I don’t mind">I don’t mind</option>
                                     </select>
                                 </span>
                             </div>

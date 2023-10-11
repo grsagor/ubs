@@ -25,7 +25,7 @@
 
         p.category_text {
             /* min-height: 20px;
-                                                                                                                                                                                                                                                                                    max-height: 20px; */
+                                                                                                                                                                                                                                                                                        max-height: 20px; */
         }
 
         h5.product-title {
@@ -54,8 +54,7 @@
     @includeIf('frontend.partials.global.common-header')
 
     <div class="shop-list-page">
-        <div class="full-row bg-light overlay-dark py-5"
-            style="background-image: url(https://www.unipuller.com/assets/images/1678212738up-mailphp.php); background-position: center center; background-size: cover;">
+        <div class="full-row bg-light overlay-dark py-5">
             <div class="container">
                 <div class="row text-center text-white">
                     <div class="col-12">
@@ -89,23 +88,23 @@
                                     <i class="fas fa-times"></i>
                                 </div>
 
-                                {{--categories--}}
+                                {{-- categories --}}
                                 <div id="woocommerce_product_categories-4"
-                                     class="widget woocommerce widget_product_categories">
+                                    class="widget woocommerce widget_product_categories">
                                     <h2 class="widget-title">Service Categories</h2>
                                     <div id="category-container">
                                         <select id="category" name="category" class="form-control">
                                             <option value="">Select Category</option>
-                                            @foreach ($service_categories as $key=>$item)
+                                            @foreach ($service_categories as $key => $item)
                                                 <option value="{{ $key }}">{{ $item }}</option>
                                             @endforeach
                                         </select>
                                     </div>
                                 </div>
 
-                                {{--sub categories--}}
+                                {{-- sub categories --}}
                                 <div id="woocommerce_product_categories-4"
-                                     class="widget woocommerce widget_product_categories widget-toggle">
+                                    class="widget woocommerce widget_product_categories widget-toggle">
                                     <h2 class="widget-title">Service Sub-Categories</h2>
                                     <div id="subcategory-container">
                                         <select id="subcategory" name="subcategory" class="form-control">
@@ -114,30 +113,30 @@
                                     </div>
                                 </div>
 
-                                {{--child categories--}}
+                                {{-- child categories --}}
                                 <div id="woocommerce_product_categories-4"
-                                     class="widget woocommerce widget_product_categories widget-toggle">
+                                    class="widget woocommerce widget_product_categories widget-toggle">
 
                                     <h2 class="widget-title">Service Child Categories</h2>
 
                                     <div id="childSubcategory-container">
-                                            <select id="child-subcategory" name="childSubcategory" class="form-control">
+                                        <select id="child-subcategory" name="childSubcategory" class="form-control">
                                             <option value="">Select Child Subcategory</option>
                                         </select>
                                     </div>
                                 </div>
 
                             </div>
-                            {{--<select id="category" name="category">
+                            {{-- <select id="category" name="category">
                                 <option value="">Select Category</option>
-                                @foreach ($service_categories as $key=> $category)
+                                @foreach ($service_categories as $key => $category)
                                     <option value="{{ $key }}">{{ $category }}</option>
                                 @endforeach
                             </select>
 
                             <select id="subcategory" name="subcategory">
                                 <option value="">Select Subcategory</option>
-                            </select>--}}
+                            </select> --}}
 
                         </div>
 
@@ -174,7 +173,7 @@
                             <div class="showing-products pt-30 pb-50 border-2 border-bottom border-light" id="ajaxContent">
                                 @if (count($education) > 0)
                                     <div class="row mb-4 g-3 product-style-1 shop-list product-list  e-title-hover-primary e-hover-image-zoom"
-                                         style="padding: 0px !important;">
+                                        style="padding: 0px !important;">
 
                                         <div class="col-md-9">
                                             @foreach ($education as $item)
@@ -185,7 +184,7 @@
                                                         <div class=" row m-0">
 
                                                             <div
-                                                                    class="  col-lg-4 col-md-4 col-sm-12 d-flex align-items-center card-image">
+                                                                class="  col-lg-4 col-md-4 col-sm-12 d-flex align-items-center card-image">
 
                                                                 @php
                                                                     $images = json_decode($item->images, true);
@@ -201,14 +200,15 @@
                                                                 @endphp
 
                                                                 @if ($first_image && File::exists($imagePath))
-                                                                    <a href="{{ route('education_show', $item->id) }}" class="woocommerce-LoopProduct-link">
+                                                                    <a href="{{ route('education_show', $item->id) }}"
+                                                                        class="woocommerce-LoopProduct-link">
                                                                         <img class="lazy img-fluid rounded"
-                                                                             data-src="{{ asset($first_image) }}"
-                                                                             alt="Product Image">
+                                                                            data-src="{{ asset($first_image) }}"
+                                                                            alt="Product Image">
                                                                     </a>
                                                                 @else
                                                                     <img src="https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg"
-                                                                         class="swiper-lazy" alt="">
+                                                                        class="swiper-lazy" alt="">
                                                                 @endif
 
                                                             </div>
@@ -217,7 +217,8 @@
 
                                                                 <div class="p-2">
                                                                     <h5 class="product-title">
-                                                                        <a class="text-dark" href="{{ route('education_show', $item->id) }}">
+                                                                        <a class="text-dark"
+                                                                            href="{{ route('education_show', $item->id) }}">
                                                                             <span class="company-name">
                                                                                 {{ Str::limit($item->course_name, $limit = 20, $end = '...') }}
                                                                             </span>
@@ -227,45 +228,45 @@
                                                                     <hr class="mt-0">
 
                                                                     <p class="category_text text-dark"
-                                                                       style="margin-bottom: 0rem; margin-top: -10px;">
+                                                                        style="margin-bottom: 0rem; margin-top: -10px;">
                                                                         {{ Str::limit($item->description, $limit = 30, $end = '...') }}
                                                                     </p>
 
                                                                     <p class="category_text text-dark"
-                                                                       style="margin-bottom: 0rem;">
+                                                                        style="margin-bottom: 0rem;">
                                                                         {{ Str::limit($item->institution_name, $limit = 30, $end = '...') }}
                                                                     </p>
 
                                                                 </div>
 
                                                                 <div class="d-flex text-center"
-                                                                     style="background-color: whitesmoke; border-top: 3px solid var(--green);">
+                                                                    style="background-color: whitesmoke; border-top: 3px solid var(--green);">
 
-                                                                <span class=" flex-fill mb-0 text-white">
-                                                                    <p class="lower-section-text mb-0  text-muted">
-                                                                        Price
-                                                                    </p>
-                                                                    <p class="mb-0 text-muted">
-                                                                       &pound; {{ $item->price }}
-                                                                    </p>
-                                                                </span>
+                                                                    <span class=" flex-fill mb-0 text-white">
+                                                                        <p class="lower-section-text mb-0  text-muted">
+                                                                            Price
+                                                                        </p>
+                                                                        <p class="mb-0 text-muted">
+                                                                            &pound; {{ $item->price }}
+                                                                        </p>
+                                                                    </span>
 
-                                                                {{--<span class=" flex-fill mb-0 text-white">
+                                                                    {{-- <span class=" flex-fill mb-0 text-white">
                                                                     <p class="lower-section-text mb-0  text-muted">
                                                                         Price
                                                                     </p>
                                                                     <p class="mb-0 text-muted">
                                                                         &pound; {{ $item->price }}
                                                                     </p>
-                                                                </span>--}}
+                                                                </span> --}}
                                                                     <span class=" flex-fill mb-0 text-white">
-                                                                    <p class="lower-section-text mb-0  text-muted">Start
-                                                                        Date
-                                                                    </p>
-                                                                    <p class="mb-0 text-muted">
-                                                                        {{ $item->start_date }}</p>
+                                                                        <p class="lower-section-text mb-0  text-muted">Start
+                                                                            Date
                                                                         </p>
-                                                                </span>
+                                                                        <p class="mb-0 text-muted">
+                                                                            {{ $item->start_date }}</p>
+                                                                        </p>
+                                                                    </span>
 
                                                                 </div>
 
@@ -286,7 +287,7 @@
                                                     <p class="card-text">List your property unlimited and completely free.
                                                     </p>
                                                     <a href="{{ route('service-advertise.index') }}"
-                                                       class="button-31">Add</a>
+                                                        class="button-31">Add</a>
                                                 </div>
                                             </div>
 
@@ -298,7 +299,7 @@
                                                     <h5 class="card-title">Can't find your propertise?</h5>
                                                     <p class="card-text">Advertise your requirements completely free.</p>
                                                     <a href="{{ route('property-wanted.index') }}"
-                                                       class="button-31">Add</a>
+                                                        class="button-31">Add</a>
                                                 </div>
                                             </div>
 
@@ -442,7 +443,7 @@
 
 
             // Listen for changes in the category dropdown
-            $('#category').on('change', function () {
+            $('#category').on('change', function() {
                 let category_id = $(this).val();
 
                 // Make an AJAX request to fetch subcategories for the selected category
@@ -451,7 +452,7 @@
             });
 
             // Listen for changes in the sub-category dropdown
-            $('#subcategory').on('change', function () {
+            $('#subcategory').on('change', function() {
                 let sub_category_id = $(this).val();
 
                 // Make an AJAX request to fetch subcategories for the selected category
@@ -462,40 +463,41 @@
                 $.ajax({
                     url: '/get-subcategories/' + category_id,
                     type: 'GET',
-                    success: function (data) {
+                    success: function(data) {
                         // Clear existing subcategory options
                         $('#subcategory').empty();
                         $('#subcategory').append('<option value="">Select Subcategory</option>');
                         // Populate the subcategory dropdown with retrieved subcategories
-                        $.each(data, function (key, subcategory) {
-                            $('#subcategory').append('<option value="' + subcategory.id + '">' + subcategory.name + '</option>');
+                        $.each(data, function(key, subcategory) {
+                            $('#subcategory').append('<option value="' + subcategory.id + '">' + subcategory
+                                .name + '</option>');
                         });
                     },
-                    error: function (xhr, status, error) {
+                    error: function(xhr, status, error) {
                         // Handle errors if needed
                     }
                 });
             }
 
 
-            function loadChildSubcategories(sub_category_id){
+            function loadChildSubcategories(sub_category_id) {
                 $.ajax({
                     url: '/get-child-subcategories/' + sub_category_id,
                     type: 'GET',
-                    success: function (data) {
+                    success: function(data) {
                         // Clear existing subcategory options
                         $('#child-subcategory').empty();
                         $('#child-subcategory').append('<option value="">Select Subcategory</option>');
                         // Populate the subcategory dropdown with retrieved subcategories
-                        $.each(data, function (key, childSubcategory) {
-                            $('#child-subcategory').append('<option value="' + childSubcategory.id + '">' + childSubcategory.name + '</option>');
+                        $.each(data, function(key, childSubcategory) {
+                            $('#child-subcategory').append('<option value="' + childSubcategory.id + '">' +
+                                childSubcategory.name + '</option>');
                         });
                     },
-                    error: function (xhr, status, error) {
+                    error: function(xhr, status, error) {
                         // Handle errors if needed
                     }
                 });
             }
-
         </script>
     @endsection

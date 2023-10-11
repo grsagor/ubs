@@ -9,8 +9,7 @@
 
     <div class="shop-list-page">
 
-        <div class="full-row bg-light overlay-dark py-5"
-            style="background-image: url(https://www.unipuller.com/assets/images/1678212738up-mailphp.php); background-position: center center; background-size: cover;">
+        <div class="full-row bg-light overlay-dark py-5">
             <div class="container">
                 <div class="row text-center text-white">
                     <div class="col-12">
@@ -306,7 +305,7 @@
                             @if ($info->roomfurnishings != null)
                                 @php
                                     $amenities = json_decode($info->roomfurnishings, true);
-                                    
+
                                     array_walk($amenities, function (&$amenity) {
                                         $amenity = ucfirst($amenity);
                                     });

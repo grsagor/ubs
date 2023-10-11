@@ -30,6 +30,7 @@
                             <th>Action</th>
                             <th>Status</th>
                             <th>Reference No</th>
+                            <th>Title</th>
                             <th>Category</th>
                             <th>Sub-category</th>
                             <th>Rent</th>
@@ -86,6 +87,10 @@
                     {
                         data: 'reference_id',
                         name: 'reference_id'
+                    },
+                    {
+                        data: 'advert_title',
+                        name: 'advert_title'
                     },
                     {
                         data: 'child_category_name',

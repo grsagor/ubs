@@ -50,6 +50,9 @@ class ServiceAdvertiseRoomController extends Controller
                 ->addColumn('child_category_name', function ($service) {
                     return $service->child_category->name;
                 })
+                ->addColumn('advert_title', function ($service) {
+                    return $service->advert_title;
+                })
                 ->addColumn('rent', function ($service) {
                     if ($service->child_category_id == 1) {
                         $room_data = json_decode($service->room, true);

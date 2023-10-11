@@ -79,15 +79,21 @@
                                 </p>
                             </span>
 
-                            <span class=" flex-fill mb-0 text-white">
-                                <p class="lower-section-text mb-0  text-muted"
-                                    style="color: black !important; font-size: 15px;">
-                                    Bed
-                                </p>
-                                <p class="mb-0 text-muted">
-                                    {{ $item->property_room_quantity }}
-                                </p>
-                            </span>
+                            @if ($item->child_category_id !== 9)
+                                <span class=" flex-fill mb-0 text-white">
+                                    <p class="lower-section-text mb-0  text-muted"
+                                        style="color: black !important; font-size: 15px;">
+                                        Bed
+                                    </p>
+                                    <p class="mb-0 text-muted">
+                                        @if ($item->child_category_id == 1)
+                                            {{ $item->property_room_quantity }}
+                                        @elseif($item->child_category_id == 2 || $item->child_category_id == 6)
+                                            {{ $item->property_size }}
+                                        @endif
+                                    </p>
+                                </span>
+                            @endif
 
                             <span class=" flex-fill mb-0 text-white">
                                 <p class="lower-section-text mb-0  text-muted"

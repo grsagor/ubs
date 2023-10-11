@@ -101,22 +101,25 @@
                          </div>
 
                          <div class="col-sm-12">
-                             <label for="selling_price_group_id">Bathrooms</label>
-                             <select class="form-control" id="bathroom" name="bathroom">
-                                 @foreach (range(0, 10) as $item)
-                                     <option value="{{ $item }}" {{ $item === 1 ? 'selected' : '' }}>
-                                         {{ $item }}
-                                     </option>
-                                 @endforeach
-                             </select>
+                             <div class="form-group">
+                                 <label for="selling_price_group_id">Bathrooms</label>
+                                 <select class="form-control" id="bathroom" name="bathroom">
+                                     @foreach (range(0, 10) as $item)
+                                         <option value="{{ $item }}" {{ $item === 1 ? 'selected' : '' }}>
+                                             {{ $item }}
+                                         </option>
+                                     @endforeach
+                                 </select>
+                             </div>
                          </div>
 
-                         <div class="col-sm-12" style="margin-top: 15px">
+                         <div class="col-sm-12" id="step1_there_are_already" style="display: none;">
                              <div class="form-group">
                                  <label for="selling_price_group_id">There are already</label>
                                  <select class="form-control" id="property_occupants" name="property_occupants">
-                                     @foreach (range(0, 10) as $item)
-                                         <option value="{{ $item }}" {{ $item === 1 ? 'selected' : '' }}>
+                                     <option value="">Select </option>
+                                     @foreach (range(1, 10) as $item)
+                                         <option value="{{ $item }}">
                                              {{ $item }}
                                          </option>
                                      @endforeach

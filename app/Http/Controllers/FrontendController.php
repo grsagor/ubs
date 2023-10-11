@@ -25,6 +25,7 @@ class FrontendController extends Controller
                 'advert_photos',
                 'advert_type',
                 'property_room_quantity',
+                'property_size',
                 'property_allow_people',
                 'bathroom',
                 'rent',

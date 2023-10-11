@@ -8,8 +8,7 @@
     @includeIf('frontend.partials.global.common-header')
 
     <div class="shop-list-page">
-        <div class="full-row bg-light overlay-dark py-5"
-            style="background-image: url(https://www.unipuller.com/assets/images/1678212738up-mailphp.php); background-position: center center; background-size: cover;">
+        <div class="full-row bg-light overlay-dark py-5">
             <div class="container">
                 <div class="row text-center text-white">
                     <div class="col-12">
@@ -164,7 +163,7 @@
 
                                                                         <div class="modal-body">
                                                                             <p class="text-center">Please call <a
-                                                                                    href="callto:{{ $info->business_location->mobile ?? '' }}">{{ $info->business_location->mobile ?? '' }}</a>
+                                                                                    href="callto:{{ $info->advert_telephone ?? '' }}">{{ $info->advert_telephone ?? '' }}</a>
                                                                                 to get the reference id.</p>
                                                                             <div class="mb-3">
                                                                                 <input type="text" class="form-control"
@@ -309,7 +308,7 @@
                                         <th>Room No.</th>
                                         <th>Rent</th>
                                         <th>Size</th>
-                                        <th>Extra Feature</th>
+                                        <th>En-suites</th>
                                         <th>Furnishing</th>
                                         <th>Deposit</th>
                                         <th>Available From</th>
@@ -352,7 +351,7 @@
                                     <tr>
                                         <th>Room No.</th>
                                         <th>Size</th>
-                                        <th>Extra Feature</th>
+                                        <th>En-suites</th>
                                         <th>Furnishing</th>
                                         <th>Rent</th>
                                         <th>Deposit</th>
@@ -409,7 +408,7 @@
                             @if ($info->child_category_id == 9)
                                 <table id="customers">
                                     <tr>
-                                        <th>Extra Feature</th>
+                                        <th>En-suites</th>
                                         <th>Furnishing</th>
                                         <th>Rent</th>
                                         <th>Deposit</th>
@@ -534,6 +533,13 @@
                                     {{ $info->room_short_term_let_consider == 1 ? 'Yes' : 'No' }}
                                 </p>
 
+                                @if ($info->room_days_available)
+                                    <p>
+                                        <strong>Days avaiable: </strong>
+                                        {{ $info->room_days_available }}
+                                    </p>
+                                @endif
+
                             </div>
 
                             <div class="amenities">
@@ -544,7 +550,7 @@
                                 @if ($info->property_amenities)
                                     @php
                                         $amenities = json_decode($info->property_amenities, true);
-                                        
+
                                         array_walk($amenities, function (&$amenity) {
                                             $amenity = ucfirst($amenity);
                                         });
@@ -705,6 +711,8 @@
 
 @section('script')
     @include('frontend.service.partial.property_script')
+
+
 
     <script>
         $(document).ready(function() {
