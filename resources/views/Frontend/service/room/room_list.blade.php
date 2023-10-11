@@ -25,8 +25,8 @@
                                 class="swiper-lazy" alt="" style="height: 270px;">
                         @endif
                     </div>
-                    <div class=" col-lg-8 col-md-8 col-sm-12 p-0">
-                        <div class="p-2">
+                    <div class=" col-lg-8 col-md-8 col-sm-12 p-0 d-flex flex-column">
+                        <div class="p-2 flex-grow-1">
                             <h5 class="product-title" style="padding: 2px 2px 2px 2px;">
                                 <a class="text-dark" href="{{ route('room_show', $item->id) }}">
                                     <span style="font-weight: 600;">
