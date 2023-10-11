@@ -25,8 +25,8 @@
                                 class="swiper-lazy" alt="" style="height: 270px;">
                         @endif
                     </div>
-                    <div class=" col-lg-8 col-md-8 col-sm-12 p-0">
-                        <div class="p-2">
+                    <div class=" col-lg-8 col-md-8 col-sm-12 p-0 d-flex flex-column">
+                        <div class="p-2 flex-grow-1">
                             <h5 class="product-title" style="padding: 2px 2px 2px 2px;">
                                 <a class="text-dark" href="{{ route('room_show', $item->id) }}">
                                     <span style="font-weight: 600;">
@@ -79,15 +79,21 @@
                                 </p>
                             </span>
 
-                            <span class=" flex-fill mb-0 text-white">
-                                <p class="lower-section-text mb-0  text-muted"
-                                    style="color: black !important; font-size: 15px;">
-                                    Bed
-                                </p>
-                                <p class="mb-0 text-muted">
-                                    {{ $item->property_room_quantity }}
-                                </p>
-                            </span>
+                            @if ($item->child_category_id !== 9)
+                                <span class=" flex-fill mb-0 text-white">
+                                    <p class="lower-section-text mb-0  text-muted"
+                                        style="color: black !important; font-size: 15px;">
+                                        Bed
+                                    </p>
+                                    <p class="mb-0 text-muted">
+                                        @if ($item->child_category_id == 1)
+                                            {{ $item->property_room_quantity }}
+                                        @elseif($item->child_category_id == 2 || $item->child_category_id == 6)
+                                            {{ $item->property_size }}
+                                        @endif
+                                    </p>
+                                </span>
+                            @endif
 
                             <span class=" flex-fill mb-0 text-white">
                                 <p class="lower-section-text mb-0  text-muted"

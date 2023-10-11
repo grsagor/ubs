@@ -222,7 +222,7 @@ Route::middleware(['setData'])->group(function () {
 
 //Routes for authenticated users only
 // Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 'AdminSidebarMenu', 'CheckUserLogin'])->group(function () {
-Route::middleware(['checkAdmin'])->group(function () {
+Route::middleware(['checkAdmin', 'SetSessionData'])->group(function () {
 
     // Services
     Route::resource('service-advertise', ServiceAdvertiseRoomController::class);

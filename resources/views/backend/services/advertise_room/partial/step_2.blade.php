@@ -31,12 +31,12 @@
                               </div>
                           </div>
 
-                          <div class="col-sm-12">
+                          {{-- <div class="col-sm-12">
                               <div class="form-group">
                                   <label for="selling_price_group_id">Area</label>
                                   <input class="form-control" name="property_area" type="text" id="property_area">
                               </div>
-                          </div>
+                          </div> --}}
 
                           <div class="col-sm-12">
                               <div class="form-group">

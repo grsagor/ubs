@@ -438,11 +438,11 @@
             }
 
             /*  #v-pills-tab{
-                                                                                                                                                                    display: none;
-                                                                                                                                                                  }
-                                                                                                                                                                  #mobileTabManu{
-                                                                                                                                                                    display: block;
-                                                                                                                                                                  } */
+                                                                                                                                                                        display: none;
+                                                                                                                                                                      }
+                                                                                                                                                                      #mobileTabManu{
+                                                                                                                                                                        display: block;
+                                                                                                                                                                      } */
 
             .mobileTabManu {
                 width: 250px !important;
@@ -475,9 +475,9 @@
             }
 
             /*.mobileTabManu .nav-link{
-                                                                                                                                                                    width: 80%;
-                                                                                                                                                                    float: left;
-                                                                                                                                                                  } */
+                                                                                                                                                                        width: 80%;
+                                                                                                                                                                        float: left;
+                                                                                                                                                                      } */
         }
     </style>
 
@@ -490,7 +490,7 @@
         <img class="user-image"
             src="{{ $shop->shop_image ? asset('assets/images/categories/' . $shop->shop_image) : asset('assets/common_img/vendor_profile.jpeg') }}" />
         <img class="top-left-image"
-            src="{{ $vendor->logo ? asset('assets/images/users/' . $vendor->logo) : asset('assets/common_img/vendor_profile.jpeg') }}" />
+            src="{{ $vendor->logo ? asset($vendor->logo) : asset('assets/common_img/vendor_profile.jpeg') }}" />
         <h3 class="partner_company_name">{{ $shop->shop_name }}</h3>
         <h4 class="partner_company_address">40 Bracken house</h4>
     </div>
@@ -501,7 +501,7 @@
             <div class="col-lg-4 d-flex pl-0 user-custom1">
                 <a href="{{ route('business.shop.service', $vendor->id) }}">
                     <img class="lazy custom-left-img w-100 img-fluid rounded"
-                        data-src="{{ $vendor->photo ? asset('assets/images/users/' . $vendor->photo) : asset('assets/common_img/vendor_profile.jpeg') }}"
+                        data-src="{{ $vendor->photo ? asset($vendor->photo) : asset('assets/common_img/vendor_profile.jpeg') }}"
                         alt="">
                 </a>
                 <div class="sub_company_details">
@@ -524,9 +524,9 @@
                     <!-- @if ($vendor->website)
     <a href="{{ $vendor->website }}" target="_blank"><button class="btn btn-primary mb-3 btn-sm custom-padding">Website</button></a>
     @endif
-                                                                                                                                                                            @if ($vendor->phone)
+                                                                                                                                                                                @if ($vendor->phone)
     <a href="javascript:void(0);" onclick="seeVendorContact()"><button class="btn btn-primary mb-3 btn-sm custom-padding">Contact</button></a>
-                                                                                                                                                                                <p class="vendor_contact text-danger" style="display: none;margin-top: -10px">{{ $vendor->phone }}</p>
+                                                                                                                                                                                    <p class="vendor_contact text-danger" style="display: none;margin-top: -10px">{{ $vendor->phone }}</p>
     @endif -->
                 </div>
             </div>
@@ -989,14 +989,14 @@
 
                             <!-- Pagination for marketing section -->
                             <!-- <div class="pagination justify-content-center">
-                                                                                                                                                                                    <a href="#" class="pagination-link">&laquo;</a>
-                                                                                                                                                                                    <a href="#" class="pagination-link active">1</a>
-                                                                                                                                                                                    <a href="#" class="pagination-link">2</a>
-                                                                                                                                                                                    <a href="#" class="pagination-link">3</a>
-                                                                                                                                                                                    <a href="#" class="pagination-link">4</a>
-                                                                                                                                                                                    <a href="#" class="pagination-link">5</a>
-                                                                                                                                                                                    <a href="#" class="pagination-link">&raquo;</a>
-                                                                                                                                                                                </div> -->
+                                                                                                                                                                                        <a href="#" class="pagination-link">&laquo;</a>
+                                                                                                                                                                                        <a href="#" class="pagination-link active">1</a>
+                                                                                                                                                                                        <a href="#" class="pagination-link">2</a>
+                                                                                                                                                                                        <a href="#" class="pagination-link">3</a>
+                                                                                                                                                                                        <a href="#" class="pagination-link">4</a>
+                                                                                                                                                                                        <a href="#" class="pagination-link">5</a>
+                                                                                                                                                                                        <a href="#" class="pagination-link">&raquo;</a>
+                                                                                                                                                                                    </div> -->
 
                             <!-- List view for marketing section -->
                             <div class="marketing-list-view" style="display:none;">

@@ -70,9 +70,9 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('service.list') }}">Service</a>
                             </li>
-                            <li class="nav-item">
+                            {{-- <li class="nav-item">
                                 <a class="nav-link" href="{{ route('education.list') }}">Education</a>
-                            </li>
+                            </li> --}}
                         </ul>
                     </div>
                 </nav>

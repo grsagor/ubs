@@ -209,6 +209,8 @@
             var p = document.getElementById('existing_flatmate_id');
             var q = document.getElementById('living_room_option2');
             var r = document.getElementById('living_room_option1');
+            var s = document.getElementById('step1_there_are_already');
+            var property_occupants = document.getElementById('property_occupants');
 
 
             // child_category_id means category 1 = Room
@@ -224,6 +226,8 @@
             if (child_category_id == 1) {
                 //Step 2 Living room second option-> Yes, there is a living room
                 q.style.display = 'none';
+
+                s.style.display = 'block';
 
                 b.style.display = 'block';
                 c.style.display = 'none';
@@ -245,6 +249,8 @@
                 m_5.style.display = 'block';
             } else {
                 q.style.display = 'block';
+                s.style.display = 'none';
+                property_occupants.value = "";
 
                 b.style.display = 'none';
                 c.style.display = 'block';

@@ -25,7 +25,7 @@
 
         p.category_text {
             /* min-height: 20px;
-                                                                                                                                                                                                                                                                                    max-height: 20px; */
+                                                                                                                                                                                                                                                                                        max-height: 20px; */
         }
 
         h5.product-title {
@@ -54,8 +54,7 @@
     @includeIf('frontend.partials.global.common-header')
 
     <div class="shop-list-page">
-        <div class="full-row bg-light overlay-dark py-5"
-            style="background-image: url(https://www.unipuller.com/assets/images/1678212738up-mailphp.php); background-position: center center; background-size: cover;">
+        <div class="full-row bg-light overlay-dark py-5">
             <div class="container">
                 <div class="row text-center text-white">
                     <div class="col-12">
@@ -89,40 +88,40 @@
                                     <i class="fas fa-times"></i>
                                 </div>
 
-                                {{--sub categories--}}
+                                {{-- sub categories --}}
                                 <div id="woocommerce_product_categories-4"
-                                     class="widget woocommerce widget_product_categories widget-toggle">
+                                    class="widget woocommerce widget_product_categories widget-toggle">
 
                                     <h2 class="widget-title">Service Sub-Categories</h2>
 
                                     <ul>
                                         @foreach ($service_sub_categories as $item)
                                             <li class="cat-item cat-parent">
-                                                {{--<a
+                                                {{-- <a
                                                         href="{{ route('property.list', ['sub_category_id' => $sub_category_id, 'child_category_id' => $item->id]) }}">
                                                     <span
                                                             class="{{ Route::currentRouteName() === 'property.list' && request()->route('sub_category_id') == $sub_category_id && request()->route('child_category_id') == $item->id ? 'active_child_category' : '' }}">{{ $item->name }}</span>
-                                                </a>--}}
+                                                </a> --}}
                                                 {{ $item }}
                                             </li>
                                         @endforeach
                                     </ul>
                                 </div>
 
-                                {{--child categories--}}
+                                {{-- child categories --}}
                                 <div id="woocommerce_product_categories-4"
-                                     class="widget woocommerce widget_product_categories widget-toggle">
+                                    class="widget woocommerce widget_product_categories widget-toggle">
 
                                     <h2 class="widget-title">Service Child Categories</h2>
 
                                     <ul>
                                         @foreach ($service_child_categories as $item)
                                             <li class="cat-item cat-parent">
-                                                {{--<a
+                                                {{-- <a
                                                         href="{{ route('property.list', ['sub_category_id' => $sub_category_id, 'child_category_id' => $item->id]) }}">
                                                     <span
                                                             class="{{ Route::currentRouteName() === 'property.list' && request()->route('sub_category_id') == $sub_category_id && request()->route('child_category_id') == $item->id ? 'active_child_category' : '' }}">{{ $item->name }}</span>
-                                                </a>--}}
+                                                </a> --}}
                                                 {{ $item }}
                                             </li>
                                         @endforeach
@@ -130,16 +129,16 @@
                                 </div>
 
                             </div>
-                            {{--<select id="category" name="category">
+                            {{-- <select id="category" name="category">
                                 <option value="">Select Category</option>
-                                @foreach ($service_categories as $key=> $category)
+                                @foreach ($service_categories as $key => $category)
                                     <option value="{{ $key }}">{{ $category }}</option>
                                 @endforeach
                             </select>
 
                             <select id="subcategory" name="subcategory">
                                 <option value="">Select Subcategory</option>
-                            </select>--}}
+                            </select> --}}
 
                         </div>
 
@@ -176,7 +175,7 @@
                             <div class="showing-products pt-30 pb-50 border-2 border-bottom border-light" id="ajaxContent">
                                 @if (count($education) > 0)
                                     <div class="row mb-4 g-3 product-style-1 shop-list product-list  e-title-hover-primary e-hover-image-zoom"
-                                         style="padding: 0px !important;">
+                                        style="padding: 0px !important;">
 
                                         <div class="col-md-9">
                                             @foreach ($education as $item)
@@ -187,7 +186,7 @@
                                                         <div class=" row m-0">
 
                                                             <div
-                                                                    class="  col-lg-4 col-md-4 col-sm-12 d-flex align-items-center card-image">
+                                                                class="  col-lg-4 col-md-4 col-sm-12 d-flex align-items-center card-image">
 
                                                                 @php
                                                                     $images = json_decode($item->images, true);
@@ -203,14 +202,15 @@
                                                                 @endphp
 
                                                                 @if ($first_image && File::exists($imagePath))
-                                                                    <a href="{{ route('education_show', $item->id) }}" class="woocommerce-LoopProduct-link">
+                                                                    <a href="{{ route('education_show', $item->id) }}"
+                                                                        class="woocommerce-LoopProduct-link">
                                                                         <img class="lazy img-fluid rounded"
-                                                                             data-src="{{ asset($first_image) }}"
-                                                                             alt="Product Image">
+                                                                            data-src="{{ asset($first_image) }}"
+                                                                            alt="Product Image">
                                                                     </a>
                                                                 @else
                                                                     <img src="https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg"
-                                                                         class="swiper-lazy" alt="">
+                                                                        class="swiper-lazy" alt="">
                                                                 @endif
 
                                                             </div>
@@ -219,7 +219,8 @@
 
                                                                 <div class="p-2">
                                                                     <h5 class="product-title">
-                                                                        <a class="text-dark" href="{{ route('education_show', $item->id) }}">
+                                                                        <a class="text-dark"
+                                                                            href="{{ route('education_show', $item->id) }}">
                                                                             <span class="company-name">
                                                                                 {{ Str::limit($item->course_name, $limit = 20, $end = '...') }}
                                                                             </span>
@@ -242,37 +243,49 @@
                                                                     <hr class="mt-0">
                                                                     <div class="row">
                                                                         <div class="col-md-6 mb-0">
-                                                                            <p class="category_text text-dark mb-0">Tuition Fees</p>
-                                                                            <p class="category_text text-dark mb-0">Home Student:{{ $item->tuition_fee }}</p>
-                                                                            <p class="category_text text-dark mb-0">International:</p>
+                                                                            <p class="category_text text-dark mb-0">Tuition
+                                                                                Fees</p>
+                                                                            <p class="category_text text-dark mb-0">Home
+                                                                                Student:{{ $item->tuition_fee }}</p>
+                                                                            <p class="category_text text-dark mb-0">
+                                                                                International:</p>
                                                                             <br>
-                                                                            <p class="category_text text-dark mb-0">Scholarship:{{ $item->scholarship }}</p>
-                                                                            {{--<p class="category_text text-dark mb-0"
+                                                                            <p class="category_text text-dark mb-0">
+                                                                                Scholarship:{{ $item->scholarship }}</p>
+                                                                            {{-- <p class="category_text text-dark mb-0"
                                                                                style="margin-bottom: 0rem; margin-top: -10px;">
                                                                                 {{ Str::limit($item->description, $limit = 30, $end = '...') }}
-                                                                            </p>--}}
+                                                                            </p> --}}
                                                                         </div>
                                                                         <div class="col-md-6">
-                                                                            <p class="category_text text-dark mb-0">Requirements:{{ $item->requirements }}</p>
-                                                                            <p class="category_text text-dark mb-0">IELTS:</p>
-                                                                            <p class="category_text text-dark mb-0">Education:</p>
+                                                                            <p class="category_text text-dark mb-0">
+                                                                                Requirements:{{ $item->requirements }}</p>
+                                                                            <p class="category_text text-dark mb-0">IELTS:
+                                                                            </p>
+                                                                            <p class="category_text text-dark mb-0">
+                                                                                Education:</p>
                                                                             <br>
-                                                                            <p class="category_text text-dark mb-0">Start Date:{{ $item->start_date }}</p>
+                                                                            <p class="category_text text-dark mb-0">Start
+                                                                                Date:{{ $item->start_date }}</p>
 
-                                                                            {{--<p class="category_text text-dark"
+                                                                            {{-- <p class="category_text text-dark"
                                                                                style="margin-bottom: 0rem;">
                                                                                 {{ Str::limit($item->institution_name, $limit = 30, $end = '...') }}
-                                                                            </p>--}}
+                                                                            </p> --}}
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                                 <div class="d-flex text-center"
-                                                                     style="background-color: whitesmoke; border-top: 3px solid var(--green);">
+                                                                    style="background-color: whitesmoke; border-top: 3px solid var(--green);">
                                                                     <span class=" flex-fill mb-0 text-white">
-                                                                        <button class="btn btn-success btn-sm m-2 ">Message</button>
-{{--                                                                        <button class="btn btn-success btn-sm m-2 ">Save</button>--}}
-                                                                        <a href="{{ route('education_show', $item->id) }}" class="btn btn-success btn-sm m-2 ">More Info</a>
-                                                                        <button class="btn btn-success btn-sm m-2 ">Apply</button>
+                                                                        <button
+                                                                            class="btn btn-success btn-sm m-2 ">Message</button>
+                                                                        {{--                                                                        <button class="btn btn-success btn-sm m-2 ">Save</button> --}}
+                                                                        <a href="{{ route('education_show', $item->id) }}"
+                                                                            class="btn btn-success btn-sm m-2 ">More
+                                                                            Info</a>
+                                                                        <button
+                                                                            class="btn btn-success btn-sm m-2 ">Apply</button>
                                                                     </span>
                                                                 </div>
 
@@ -293,7 +306,7 @@
                                                     <p class="card-text">List your property unlimited and completely free.
                                                     </p>
                                                     <a href="{{ route('service-advertise.index') }}"
-                                                       class="button-31">Add</a>
+                                                        class="button-31">Add</a>
                                                 </div>
                                             </div>
 
@@ -305,7 +318,7 @@
                                                     <h5 class="card-title">Can't find your propertise?</h5>
                                                     <p class="card-text">Advertise your requirements completely free.</p>
                                                     <a href="{{ route('property-wanted.index') }}"
-                                                       class="button-31">Add</a>
+                                                        class="button-31">Add</a>
                                                 </div>
                                             </div>
 
@@ -449,7 +462,7 @@
 
 
             // Listen for changes in the category dropdown
-            $('#category').on('change', function () {
+            $('#category').on('change', function() {
                 var category_id = $(this).val();
                 if (category_id) {
                     // Fetch subcategories based on the selected category
@@ -457,13 +470,14 @@
                         url: '/get-subcategories/' + category_id,
                         type: 'GET',
                         dataType: 'json',
-                        success: function (data) {
+                        success: function(data) {
                             // Clear existing subcategory options
                             $('#subcategory').empty();
                             $('#subcategory').append('<option value="">Select Subcategory</option>');
                             // Populate the subcategory dropdown with retrieved data
-                            $.each(data, function (key, value) {
-                                $('#subcategory').append('<option value="' + value.id + '">' + value.name + '</option>');
+                            $.each(data, function(key, value) {
+                                $('#subcategory').append('<option value="' + value.id + '">' + value
+                                    .name + '</option>');
                             });
                         }
                     });
@@ -473,6 +487,5 @@
                     $('#subcategory').append('<option value="">Select Subcategory</option>');
                 }
             });
-
-            </script>
+        </script>
     @endsection

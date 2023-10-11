@@ -62,9 +62,9 @@ class ProjectController extends Controller
             $project_view = request()->get('project_view');
         }
 
-        if (!(auth()->user()->can('superadmin') || $this->moduleUtil->hasThePermissionInSubscription($business_id, 'project_module'))) {
-            abort(403, 'Unauthorized action.');
-        }
+        // if (!(auth()->user()->can('superadmin') || $this->moduleUtil->hasThePermissionInSubscription($business_id, 'project_module'))) {
+        //     abort(403, 'Unauthorized action.');
+        // }
 
         if (request()->ajax()) {
 
@@ -277,9 +277,9 @@ class ProjectController extends Controller
     {
         $business_id = request()->session()->get('user.business_id');
 
-        if (!(auth()->user()->can('superadmin') || ($this->moduleUtil->hasThePermissionInSubscription($business_id, 'project_module') && auth()->user()->can('project.create_project')))) {
-            abort(403, 'Unauthorized action.');
-        }
+        // if (!(auth()->user()->can('superadmin') || ($this->moduleUtil->hasThePermissionInSubscription($business_id, 'project_module') && auth()->user()->can('project.create_project')))) {
+        //     abort(403, 'Unauthorized action.');
+        // }
 
         $users = User::forDropdown($business_id, false);
         $customers = Contact::customersDropdown($business_id, false);
@@ -299,9 +299,9 @@ class ProjectController extends Controller
     {
         $business_id = request()->session()->get('user.business_id');
 
-        if (!(auth()->user()->can('superadmin') || ($this->moduleUtil->hasThePermissionInSubscription($business_id, 'project_module') && auth()->user()->can('project.create_project')))) {
-            abort(403, 'Unauthorized action.');
-        }
+        // if (!(auth()->user()->can('superadmin') || ($this->moduleUtil->hasThePermissionInSubscription($business_id, 'project_module') && auth()->user()->can('project.create_project')))) {
+        //     abort(403, 'Unauthorized action.');
+        // }
 
         try {
             DB::beginTransaction();
@@ -385,9 +385,9 @@ class ProjectController extends Controller
     {
         $business_id = request()->session()->get('user.business_id');
 
-        if (!(auth()->user()->can('superadmin') || $this->moduleUtil->hasThePermissionInSubscription($business_id, 'project_module'))) {
-            abort(403, 'Unauthorized action.');
-        }
+        // if (!(auth()->user()->can('superadmin') || $this->moduleUtil->hasThePermissionInSubscription($business_id, 'project_module'))) {
+        //     abort(403, 'Unauthorized action.');
+        // }
 
         $user_id = auth()->user()->id;
 
@@ -466,9 +466,9 @@ class ProjectController extends Controller
     {
         $business_id = request()->session()->get('user.business_id');
 
-        if (!(auth()->user()->can('superadmin') || ($this->moduleUtil->hasThePermissionInSubscription($business_id, 'project_module') && auth()->user()->can('project.edit_project')))) {
-            abort(403, 'Unauthorized action.');
-        }
+        // if (!(auth()->user()->can('superadmin') || ($this->moduleUtil->hasThePermissionInSubscription($business_id, 'project_module') && auth()->user()->can('project.edit_project')))) {
+        //     abort(403, 'Unauthorized action.');
+        // }
 
         $users = User::forDropdown($business_id, false);
         $customers = Contact::customersDropdown($business_id, false);
@@ -491,9 +491,9 @@ class ProjectController extends Controller
     {
         $business_id = request()->session()->get('user.business_id');
 
-        if (!(auth()->user()->can('superadmin') || ($this->moduleUtil->hasThePermissionInSubscription($business_id, 'project_module') && auth()->user()->can('project.edit_project')))) {
-            abort(403, 'Unauthorized action.');
-        }
+        // if (!(auth()->user()->can('superadmin') || ($this->moduleUtil->hasThePermissionInSubscription($business_id, 'project_module') && auth()->user()->can('project.edit_project')))) {
+        //     abort(403, 'Unauthorized action.');
+        // }
 
         try {
             DB::beginTransaction();
@@ -565,9 +565,9 @@ class ProjectController extends Controller
     {
         $business_id = request()->session()->get('user.business_id');
 
-        if (!(auth()->user()->can('superadmin') || ($this->moduleUtil->hasThePermissionInSubscription($business_id, 'project_module') && auth()->user()->can('project.delete_project')))) {
-            abort(403, 'Unauthorized action.');
-        }
+        // if (!(auth()->user()->can('superadmin') || ($this->moduleUtil->hasThePermissionInSubscription($business_id, 'project_module') && auth()->user()->can('project.delete_project')))) {
+        //     abort(403, 'Unauthorized action.');
+        // }
 
         try {
             $project = Project::where('business_id', $business_id)

@@ -9,8 +9,7 @@
 
     <div class="shop-list-page">
 
-        <div class="full-row bg-light overlay-dark py-5"
-            style="background-image: url(https://www.unipuller.com/assets/images/1678212738up-mailphp.php); background-position: center center; background-size: cover;">
+        <div class="full-row bg-light overlay-dark py-5">
             <div class="container">
                 <div class="row text-center text-white">
                     <div class="col-12">
@@ -59,7 +58,7 @@
                                         @foreach ($images as $key => $item)
                                             <div class="col-lg-{{ $div_value }} text-center p-2">
                                                 <img class="demo w3-opacity w3-hover-opacity-off" src="{{ asset($item) }}"
-                                                     onclick="currentDiv({{ $key + 1 }})">
+                                                    onclick="currentDiv({{ $key + 1 }})">
                                             </div>
                                         @endforeach
                                     </div>
@@ -104,20 +103,20 @@
                                                     <div class="pro-info">
 
                                                         <form method="POST"
-                                                              action="{{ route('room.referenceNumberCheck', $info->id) }}"
-                                                              style="margin: 0px;">
+                                                            action="{{ route('room.referenceNumberCheck', $info->id) }}"
+                                                            style="margin: 0px;">
                                                             @csrf
                                                             @method('PUT')
 
                                                             <input type="hidden" name="bill"
-                                                                   value="{{ @$service_charge }}">
+                                                                value="{{ @$service_charge }}">
 
                                                             <section class="row">
 
                                                                 <div class="col-lg-12">
                                                                     <div class="button-31 mt-2" data-bs-toggle="modal"
-                                                                         data-bs-target="#exampleModal"
-                                                                         style="display:block; align-items: center; width:170px;">
+                                                                        data-bs-target="#exampleModal"
+                                                                        style="display:block; align-items: center; width:170px;">
                                                                         Book Now
                                                                         @if ($info->child_category_id == 2 || $info->child_category_id == 6)
                                                                             £{{ $info->rent }}
@@ -132,7 +131,7 @@
 
                                                             {{-- Modal --}}
                                                             <div class="modal fade" id="exampleModal" tabindex="-1"
-                                                                 aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                                aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                                 <div class="modal-dialog">
                                                                     <div class="modal-content">
                                                                         <div class="modal-header">
@@ -142,22 +141,21 @@
                                                                         </div>
                                                                         <div class="modal-body">
                                                                             <p>Please call <a
-                                                                                        href="callto:{{ $info->user->contact_no }}">{{ $info->user->contact_no }}</a>
+                                                                                    href="callto:{{ $info->user->contact_no }}">{{ $info->user->contact_no }}</a>
                                                                                 to get the reference id.</p>
                                                                             <div class="mb-3">
                                                                                 <input type="text" class="form-control"
-                                                                                       id="inputName" name="reference_number"
-                                                                                       placeholder="Enter reference number"
-                                                                                       style="width: 100%;">
+                                                                                    id="inputName" name="reference_number"
+                                                                                    placeholder="Enter reference number"
+                                                                                    style="width: 100%;">
 
                                                                             </div>
                                                                         </div>
                                                                         <div class="modal-footer">
-                                                                            <button type="button"
-                                                                                    class="btn btn-secondary"
-                                                                                    data-bs-dismiss="modal">Close</button>
+                                                                            <button type="button" class="btn btn-secondary"
+                                                                                data-bs-dismiss="modal">Close</button>
                                                                             <button type="submit"
-                                                                                    class="btn btn-primary">Buy</button>
+                                                                                class="btn btn-primary">Buy</button>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -171,11 +169,10 @@
 
                                                 <div class="call-button" style="display: flex; align-items: center;">
                                                     <a href="tel:{{ $info->advert_telephone }}" class="button-31"
-                                                       id="call_button_id" style="width: 170px;">Call</a>
+                                                        id="call_button_id" style="width: 170px;">Call</a>
                                                 </div>
 
-                                                <p id="call_id" class="mt-2"
-                                                   style="display: none; margin-left: 10px;">
+                                                <p id="call_id" class="mt-2" style="display: none; margin-left: 10px;">
                                                     {{ $info->advert_telephone }}</p>
 
                                                 <div class="my-2 social-linkss social-sharing a2a_kit a2a_kit_size_32"
@@ -220,14 +217,15 @@
                                                     <div class="wishlist-button">
                                                         <a class="add_to_wishlist" href="">Wishlist</a>
                                                     </div>
-                                                    {{--<div class="compare-button">
+                                                    {{-- <div class="compare-button">
                                                         <a class="compare button" href="">Compare</a>
-                                                    </div>--}}
+                                                    </div> --}}
 
                                                 </div>
 
                                                 <div class="report-area">
-                                                    <a class="report-item" href="#"><i class="fas fa-flag"></i> Report
+                                                    <a class="report-item" href="#"><i class="fas fa-flag"></i>
+                                                        Report
                                                         This
                                                         Item </a>
                                                 </div>
@@ -324,7 +322,7 @@
                             @if ($info->roomfurnishings != null)
                                 @php
                                     $amenities = json_decode($info->roomfurnishings, true);
-                                    
+
                                     array_walk($amenities, function (&$amenity) {
                                         $amenity = ucfirst($amenity);
                                     });

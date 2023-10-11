@@ -100,16 +100,11 @@
                             (0) Reviews
                         </span>
                     </p>
-                    {{-- <a href="http://www.kingsmeadschool.net"><button
-                            class="btn mb-2 btn-primary btn-sm custom-padding">Website</button></a>
-                    <a href="javascript:void(0);" onclick="seeVendorContact()"><button
-                            class="btn mb-2 btn-primary btn-sm custom-padding">Contact</button></a>
-                    <p class="vendor_contact text-danger" style="display: none;margin-top: -10px">01543 227320 </p> --}}
                 </div>
             </div>
             <div class="col-md-8 banner-div px-0">
                 <img class="lazy custom-img2 w-100 img-fluid rounded" alt=""
-                    src="{{ $vendor->logo ? asset('assets/images/users/' . $vendor->logo) : asset('assets/common_img/vendor_profile.jpeg') }}"
+                    src="{{ $vendor->logo ? asset($vendor->logo) : asset('assets/common_img/vendor_profile.jpeg') }}"
                     style="">
             </div>
 
@@ -143,7 +138,7 @@
                                     <div class="col-md-3">
                                         <a href="{{ route('shop.service', $item->id) }}">
                                             <img class="lazy" alt=""
-                                                src="{{ $item->logo ? asset('assets/images/users/' . $item->logo) : asset('assets/common_img/vendor_profile.jpeg') }}"
+                                                src="{{ $item->logo ? asset($item->logo) : asset('assets/common_img/vendor_profile.jpeg') }}"
                                                 style="">
                                         </a>
                                     </div>

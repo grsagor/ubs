@@ -1,4 +1,10 @@
 <script>
+    $(document).ready(function() {
+        $("#call_button_id").click(function() {
+            $("#call_id").show();
+        });
+    });
+
     var slideIndex = 1;
     showDivs(slideIndex);
 
@@ -32,11 +38,4 @@
         x[slideIndex - 1].style.display = "block";
         dots[slideIndex - 1].className += " w3-opacity-off";
     }
-
-
-    $(document).ready(function() {
-        $("#call_button_id").click(function() {
-            $("#call_id").show();
-        });
-    });
 </script>

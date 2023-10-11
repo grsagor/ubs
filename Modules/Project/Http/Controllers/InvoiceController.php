@@ -152,9 +152,9 @@ class InvoiceController extends Controller
     {
         $business_id = request()->session()->get('user.business_id');
 
-        if (!(auth()->user()->can('superadmin') || $this->moduleUtil->hasThePermissionInSubscription($business_id, 'project_module'))) {
-            abort(403, 'Unauthorized action.');
-        }
+        // if (!(auth()->user()->can('superadmin') || $this->moduleUtil->hasThePermissionInSubscription($business_id, 'project_module'))) {
+        //     abort(403, 'Unauthorized action.');
+        // }
 
         $project_id = request()->get('project_id');
 
@@ -279,9 +279,9 @@ class InvoiceController extends Controller
     {
         $business_id = request()->session()->get('user.business_id');
 
-        if (!(auth()->user()->can('superadmin') || $this->moduleUtil->hasThePermissionInSubscription($business_id, 'project_module'))) {
-            abort(403, 'Unauthorized action.');
-        }
+        // if (!(auth()->user()->can('superadmin') || $this->moduleUtil->hasThePermissionInSubscription($business_id, 'project_module'))) {
+        //     abort(403, 'Unauthorized action.');
+        // }
 
         $project_id = request()->get('project_id');
 

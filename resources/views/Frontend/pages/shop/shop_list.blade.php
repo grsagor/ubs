@@ -2,8 +2,7 @@
 @section('content')
     @includeIf('frontend.partials.global.common-header')
     <div class="shop-list-page">
-        <div class="full-row bg-light overlay-dark py-5"
-            style="background-image: url(https://www.unipuller.com/assets/images/1678212738up-mailphp.php); background-position: center center; background-size: cover;">
+        <div class="full-row bg-light overlay-dark py-5">
             <div class="container">
                 <div class="row text-center text-white">
                     <div class="col-12">
@@ -324,12 +323,12 @@
                                             }
 
                                             /* .shipping-feed-back {
-                                                                                                            margin-bottom: -25px;
-                                                                                                        } */
+                                                                                                                margin-bottom: -25px;
+                                                                                                            } */
 
                                             /* .shipping-feed-back2 {
-                                                                                                            margin-bottom: -15px;
-                                                                                                        } */
+                                                                                                                margin-bottom: -15px;
+                                                                                                            } */
 
                                             .product-info .product-title a {
                                                 font-size: 18px !important;
