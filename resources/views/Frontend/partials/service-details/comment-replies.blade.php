@@ -32,7 +32,7 @@
                                 <div class="single-comment comment-section">
                                     <div class="left-area">
                                         <img class="lazy"
-                                            data-src="{{ $comment->user->photo != null ? asset('assets/images/users/' . $comment->user->photo) : asset('assets/images/' . $gs->user_image) }}"
+                                            data-src="{{ $comment->user->photo != null ? asset($comment->user->photo) : asset('assets/images/' . $gs->user_image) }}"
                                             alt="">
                                         <h5 class="name">{{ $comment->user->name }}</h5>
                                         <p class="date">{{ $comment->created_at->diffForHumans() }}</p>
@@ -45,22 +45,29 @@
                                         </div>
                                         <div class="comment-footer">
                                             <div class="links">
-                                                <a href="javascript:;" class="comment-link reply mr-2"><i class="fas fa-reply "></i>{{ __('Reply') }}</a>
+                                                <a href="javascript:;" class="comment-link reply mr-2"><i
+                                                        class="fas fa-reply "></i>{{ __('Reply') }}</a>
                                                 @if (count($comment->replies) > 0)
-                                                    <a href="javascript:;" class="comment-link view-reply mr-2"><i class="fas fa-eye "></i>{{ __('View ') }}
+                                                    <a href="javascript:;" class="comment-link view-reply mr-2"><i
+                                                            class="fas fa-eye "></i>{{ __('View ') }}
                                                         {{ count($comment->replies) == 1 ? __('Reply') : __('Replies') }}
                                                     </a>
                                                 @endif
                                                 @if (Auth::user()->id == $comment->user->id)
-                                                    <a href="javascript:;" class="comment-link edit mr-2"><i class="fas fa-edit "></i>{{ __('Edit') }}</a>
-                                                    <a href="javascript:;" data-href="{{ route('service.comment.delete', $comment->id) }}" class="comment-link comment-delete mr-2"><i class="fas fa-trash"></i>{{ __('Delete') }}</a>
+                                                    <a href="javascript:;" class="comment-link edit mr-2"><i
+                                                            class="fas fa-edit "></i>{{ __('Edit') }}</a>
+                                                    <a href="javascript:;"
+                                                        data-href="{{ route('service.comment.delete', $comment->id) }}"
+                                                        class="comment-link comment-delete mr-2"><i
+                                                            class="fas fa-trash"></i>{{ __('Delete') }}</a>
                                                 @endif
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="replay-area edit-area d-none">
-                                    <form class="update" action="{{ route('service.comment.edit', $comment->id) }}" method="POST">
+                                    <form class="update" action="{{ route('service.comment.edit', $comment->id) }}"
+                                        method="POST">
                                         {{ csrf_field() }}
                                         <textarea placeholder="{{ __('Edit Your Comment') }}" name="text" required=""></textarea>
                                         <button type="submit">{{ __('Submit') }}</button>
@@ -72,7 +79,7 @@
                                         <div class="single-comment replay-review d-none">
                                             <div class="left-area">
                                                 <img class="lazy"
-                                                    data-src="{{ $reply->user->photo != null ? asset('assets/images/users/' . $reply->user->photo) : asset('assets/images/' . $gs->user_image) }}"
+                                                    data-src="{{ $reply->user->photo != null ? asset($reply->user->photo) : asset('assets/images/' . $gs->user_image) }}"
                                                     alt="">
                                                 <h5 class="name">{{ $reply->user->name }}</h5>
                                                 <p class="date">{{ $reply->created_at->diffForHumans() }}</p>
@@ -85,17 +92,24 @@
                                                 </div>
                                                 <div class="comment-footer">
                                                     <div class="links">
-                                                        <a href="javascript:;" class="comment-link reply mr-2"><i class="fas fa-reply "></i>{{ __('Reply') }}</a>
+                                                        <a href="javascript:;" class="comment-link reply mr-2"><i
+                                                                class="fas fa-reply "></i>{{ __('Reply') }}</a>
                                                         @if (Auth::user()->id == $reply->user->id)
-                                                            <a href="javascript:;" class="comment-link edit mr-2"><i class="fas fa-edit "></i>{{ __('Edit') }}</a>
-                                                            <a href="javascript:;" data-href="{{ route('service.comment.reply.delete', $reply->id) }}" class="comment-link reply-delete mr-2"><i class="fas fa-trash"></i>{{ __('Delete') }}</a>
+                                                            <a href="javascript:;" class="comment-link edit mr-2"><i
+                                                                    class="fas fa-edit "></i>{{ __('Edit') }}</a>
+                                                            <a href="javascript:;"
+                                                                data-href="{{ route('service.comment.reply.delete', $reply->id) }}"
+                                                                class="comment-link reply-delete mr-2"><i
+                                                                    class="fas fa-trash"></i>{{ __('Delete') }}</a>
                                                         @endif
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="replay-area edit-area d-none">
-                                            <form class="update" action="{{ route('service.comment.reply.edit', $reply->id) }}" method="POST">
+                                            <form class="update"
+                                                action="{{ route('service.comment.reply.edit', $reply->id) }}"
+                                                method="POST">
                                                 {{ csrf_field() }}
                                                 <textarea placeholder="{{ __('Edit Your Reply') }}" name="text" required=""></textarea>
                                                 <button type="submit">{{ __('Submit') }}</button>
@@ -106,7 +120,8 @@
                                 @endif
 
                                 <div class="replay-area reply-reply-area d-none">
-                                    <form class="reply-form" action="{{ route('service.comment.reply', $comment->id) }}" method="POST">
+                                    <form class="reply-form"
+                                        action="{{ route('service.comment.reply', $comment->id) }}" method="POST">
                                         @csrf
                                         <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
                                         <textarea placeholder="{{ __('Write Your Your Reply') }}" name="text" required=""></textarea>
@@ -123,7 +138,8 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <br>
-                        <h5 class="text-center"><a href="{{ url('user_login') }}" class="btn login-btn">{{ __('Login') }}</a> {{ __('To Comment') }} </h5>
+                        <h5 class="text-center"><a href="{{ url('user_login') }}"
+                                class="btn login-btn">{{ __('Login') }}</a> {{ __('To Comment') }} </h5>
                         <br>
                     </div>
                 </div>
@@ -135,7 +151,9 @@
                             <li>
                                 <div class="single-comment">
                                     <div class="left-area">
-                                        <img class="lazy" data-src="{{ $comment->user->photo != null ? asset('assets/images/users/' . $comment->user->photo) : asset('assets/images/' . $gs->user_image) }}" alt="">
+                                        <img class="lazy"
+                                            data-src="{{ $comment->user->photo != null ? asset($comment->user->photo) : asset('assets/images/' . $gs->user_image) }}"
+                                            alt="">
                                         <h5 class="name">{{ $comment->user->name }}</h5>
                                         <p class="date">{{ $comment->created_at->diffForHumans() }}</p>
                                     </div>
@@ -149,7 +167,8 @@
                                         @if (count($comment->replies) > 0)
                                             <div class="comment-footer">
                                                 <div class="links">
-                                                    <a href="javascript:;" class="comment-link view-reply mr-2"><i class="fas fa-eye "></i>{{ __('View ') }}
+                                                    <a href="javascript:;" class="comment-link view-reply mr-2"><i
+                                                            class="fas fa-eye "></i>{{ __('View ') }}
                                                         {{ count($comment->replies) == 1 ? __('Reply') : __('Replies') }}
                                                     </a>
                                                 </div>
@@ -163,7 +182,9 @@
                                     @foreach ($comment->replies()->latest()->get() as $reply)
                                         <div class="single-comment replay-review d-none">
                                             <div class="left-area">
-                                                <img class="lazy" data-src="{{ $reply->user->photo != null ? asset('assets/images/users/' . $reply->user->photo) : asset('assets/images/' . $gs->user_image) }}" alt="">
+                                                <img class="lazy"
+                                                    data-src="{{ $reply->user->photo != null ? asset($reply->user->photo) : asset('assets/images/' . $gs->user_image) }}"
+                                                    alt="">
                                                 <h5 class="name">{{ $reply->user->name }}</h5>
                                                 <p class="date">{{ $reply->created_at->diffForHumans() }}</p>
                                             </div>

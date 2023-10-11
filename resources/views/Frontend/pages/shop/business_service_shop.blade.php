@@ -104,7 +104,7 @@
             </div>
             <div class="col-md-8 banner-div px-0">
                 <img class="lazy custom-img2 w-100 img-fluid rounded" alt=""
-                    src="{{ $vendor->logo ? asset('assets/images/users/' . $vendor->logo) : asset('assets/common_img/vendor_profile.jpeg') }}"
+                    src="{{ $vendor->logo ? asset($vendor->logo) : asset('assets/common_img/vendor_profile.jpeg') }}"
                     style="">
             </div>
 
@@ -138,7 +138,7 @@
                                     <div class="col-md-3">
                                         <a href="{{ route('shop.service', $item->id) }}">
                                             <img class="lazy" alt=""
-                                                src="{{ $item->logo ? asset('assets/images/users/' . $item->logo) : asset('assets/common_img/vendor_profile.jpeg') }}"
+                                                src="{{ $item->logo ? asset($item->logo) : asset('assets/common_img/vendor_profile.jpeg') }}"
                                                 style="">
                                         </a>
                                     </div>

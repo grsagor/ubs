@@ -5,7 +5,8 @@
                 <h2 class="woocommerce-Reviews-title my-3"> {{ __('Ratings & Reviews') }}</h2>
 
                 <div class="reating-area">
-                    <div class="stars"><span id="star-rating">{{ App\Models\Rating::normalRating($service->id) }}</span> <i class="fas fa-star"></i></div>
+                    <div class="stars"><span id="star-rating">{{ App\Models\Rating::normalRating($service->id) }}</span>
+                        <i class="fas fa-star"></i></div>
                 </div>
 
                 <ul class="all-comments">
@@ -14,7 +15,7 @@
                             <div class="single-comment">
                                 <div class="left-area">
                                     <img class="lazy"
-                                        data-src="{{ $review->user->photo ? asset('assets/images/users/' . $review->user->photo) : asset('assets/images/' . $gs->user_image) }}"
+                                        data-src="{{ $review->user->photo ? asset($review->user->photo) : asset('assets/images/' . $gs->user_image) }}"
                                         alt="">
                                     <h5 class="name">
                                         {{ $review->user->name }}
@@ -87,7 +88,9 @@
                     <div class="gocover"
                         style="background: url({{ asset('assets/images/' . $gs->loader) }}) no-repeat scroll center center rgba(45, 45, 45, 0.5);">
                     </div>
-                    <form id="reviewform" action="{{ route('front.service.review.submit') }}" data-href="{{ route('front.service.reviews', $service->id) }}" data-side-href="{{ route('front.service.side.reviews', $service->id) }}" method="POST">
+                    <form id="reviewform" action="{{ route('front.service.review.submit') }}"
+                        data-href="{{ route('front.service.reviews', $service->id) }}"
+                        data-side-href="{{ route('front.service.side.reviews', $service->id) }}" method="POST">
                         @csrf
                         <input type="hidden" id="rating" name="rating" value="5">
                         <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">

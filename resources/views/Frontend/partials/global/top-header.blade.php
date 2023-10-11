@@ -58,8 +58,7 @@
                 <div class="d-flex align-items-center  text-general">
                     <i class="flaticon-phone-call flat-mini me-2 text-general"></i>
                     <a class="navbar-brand p-0" href="{{ url('/') }}"><img class="nav-logo lazy"
-                            data-src="{{ asset('assets/images/logo.png') }}" width="120"
-                            alt="Image not found !"></a>
+                            data-src="{{ asset('assets/images/logo.png') }}" width="120" alt="Image not found !"></a>
                 </div>
             </div>
             <div class="col-lg-6 sm-mx-none">
@@ -68,7 +67,11 @@
                     $lastSegment = request()->segment(2);
 
                 @endphp
-                @if ($categoryType != 'service_category' && $categoryType != 'category' && $categoryType!='shop' && $lastSegment !='list'  )
+                @if (
+                    $categoryType != 'service_category' &&
+                        $categoryType != 'category' &&
+                        $categoryType != 'shop' &&
+                        $lastSegment != 'list')
                     <div class="product-search-one flex-grow-1 global-search">
                         <form id="searchForm" class="search-form form-inline search-pill-shape" action=""
                             method="GET">
@@ -130,7 +133,7 @@
                             </div>
                             <input type="text" id="prod_name2" class="col form-control search-field" name="search"
                                 placeholder="Search For" value="{{ request()->input('search') }}">
-                                <input type="hidden" name="searchProduct" value="product">
+                            <input type="hidden" name="searchProduct" value="product">
 
 
                             <button type="submit" name="submit" class="search-submit"><i
@@ -253,7 +256,7 @@
 
                         </form>
                     </div>
-                  
+
 
                     {{-- <div class="sign-in my-account-dropdown position-relative">
                         <a href="my-account.html"
@@ -261,11 +264,11 @@
                             <select name="currency" class="currency selectors nice">
                                 @foreach (DB::table('currencies')->get() as $currency)
                                     <option value="{{ url('/front_currency', $currency->id) }}"> --}}
-                                        {{-- {{ Session::has('currency')? (Session::get('currency') == $currency->id? 'selected': ''): (DB::table('currencies')->where('is_default', '=', 1)->first()->id == $currency->id? 'selected': '') }}> --}}
-                                        {{-- <span class="text-dark">{{ Session::has('currency')? DB::table('currencies')->where('id', '=', Session::get('currency'))->first()->sign: DB::table('currencies')->where('is_default', '=', 1)->first()->sign }}</span> --}}
-                                        {{-- {{$currency->sign}} --}}
-                                        {{-- {{ $currency->name }} --}}
-                                    {{-- </option>
+                    {{-- {{ Session::has('currency')? (Session::get('currency') == $currency->id? 'selected': ''): (DB::table('currencies')->where('is_default', '=', 1)->first()->id == $currency->id? 'selected': '') }}> --}}
+                    {{-- <span class="text-dark">{{ Session::has('currency')? DB::table('currencies')->where('id', '=', Session::get('currency'))->first()->sign: DB::table('currencies')->where('is_default', '=', 1)->first()->sign }}</span> --}}
+                    {{-- {{$currency->sign}} --}}
+                    {{-- {{ $currency->name }} --}}
+                    {{-- </option>
                                 @endforeach
                             </select>
                         </a>
@@ -274,8 +277,7 @@
                         <a href="{{ url('login') }}"
                             class="d-flex align-items-center text-white text-decoration-none">
                             @if (Auth::check())
-                                <img class="img-fluid user lazy"
-                                    data-src="{{ asset('assets/images/users/' . Auth::user()->photo) }}"
+                                <img class="img-fluid user lazy" data-src="{{ asset(Auth::user()->photo) }}"
                                     alt="">
                             @else
                                 <i class="flaticon-user-3 flat-mini mx-auto text-dark"></i>
@@ -283,14 +285,13 @@
                         </a>
                         <ul class="my-account-popup">
                             @if (Auth::check())
+                                <li><a href=""><span class="menu-item-text">{{ 'User Panel' }}</span></a>
+                                </li>
 
-                                <li><a href=""><span
-                                            class="menu-item-text">{{ 'User Panel' }}</span></a></li>
-
-                                <li><a href=""><span
-                                            class="menu-item-text">{{ 'Edit Profile' }}</span></a></li>
-                                <li><a href=""><span
-                                            class="menu-item-text">{{ 'Logout' }}</span></a></li>
+                                <li><a href=""><span class="menu-item-text">{{ 'Edit Profile' }}</span></a>
+                                </li>
+                                <li><a href=""><span class="menu-item-text">{{ 'Logout' }}</span></a>
+                                </li>
                             @else
                                 <li><a href="{{ url('/user/login') }}"><span
                                             class="menu-item-text sign-in">{{ 'Sign in' }}</span></a></li>
@@ -321,7 +322,7 @@
                             </a>
                         @endif
                     </div> --}}
-{{-- 
+                    {{-- 
                     <div class="header-cart-1">
                         <a href="{{ url('product_compare') }}" class="cart " title="Compare">
                             <div class="cart-icon"><i class="flaticon-shuffle flat-mini mx-auto text-dark"></i> <span
@@ -343,7 +344,7 @@
                                     class="header-cart-count">{{ Session::has('cart') ? count(Session::get('cart')->items) : '0' }}</span>
                             </div>
                         </a> --}}
-                        {{-- @include('load.cart') --}}
+                    {{-- @include('load.cart') --}}
                     {{-- </div> --}}
 
                 </div>
