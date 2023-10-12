@@ -34,13 +34,13 @@
                     <div class="clearfix"></div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="email">Email:</label>
+                            <label for="email">Email:*</label>
                             <input class="form-control" placeholder="Email" id="email" name="email" type="text">
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="contact_number">Mobile Number:</label>
+                            <label for="contact_number">Mobile Number:*</label>
                             <input class="form-control" placeholder="Mobile Number" id="contact_number"
                                 name="contact_number" type="text">
                         </div>

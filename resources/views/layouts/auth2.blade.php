@@ -23,6 +23,12 @@
         <input type="hidden" id="status_span" data-status="{{ session('status.success') }}"
             data-msg="{{ session('status.msg') }}">
     @endif
+
+    @if (session('status') && !session('status.success'))
+        <input type="hidden" id="status_span" data-status="{{ session('status.error') }}"
+            data-msg="{{ session('status.msg') }}">
+    @endif
+
     <div class="container-fluid">
         <div class="row eq-height-row">
             <div class="col-md-6 col-sm-5 hidden-xs left-col eq-height-col">
