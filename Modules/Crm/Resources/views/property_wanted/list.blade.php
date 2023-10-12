@@ -95,12 +95,16 @@
                     {
                         data: 'status',
                         name: 'status',
-                        render: function(data) {
-                            var statusText = data == 1 ? 'Active' : 'Inactive';
-                            var badgeStyle = data == 1 ? 'background-color: green; color: white;' :
-                                'background-color: red; color: white;';
-                            return '<span class="badge" style="' + badgeStyle + '">' + statusText +
-                                '</span>';
+                        render: function(data, type, row) {
+                            if (type === 'display' && data !== null) {
+                                var statusClass = data === 0 ? 'bg-red' : data === 1 ? 'bg-green' :
+                                    '';
+                                return '<span class="cursor-pointer label ' + statusClass +
+                                    ' property-wanted-delete-btn" data-id="' +
+                                    row.id + '">' + (data === 0 ? 'Active' : 'Inactive') +
+                                    '</span>';
+                            }
+                            return '';
                         }
                     },
                     {
@@ -151,7 +155,7 @@
             });
 
             // Deleteing Property Started
-            $(document).on('click', '#property_wanted_delete_btn', function() {
+            $(document).on('click', '.property-wanted-delete-btn', function() {
                 var id = $(this).data('id');
                 $.ajax({
                     url: "/contact/show-property-delete-modal",

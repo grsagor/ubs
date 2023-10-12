@@ -32,13 +32,16 @@ class PropertyWantedCustomerController extends Controller
                 ->addColumn('child_category_name', function ($service) {
                     return $service->child_category->name;
                 })
+                ->addColumn('status', function ($service) {
+                    return $service->status;
+                })
                 ->addColumn('action', function ($service) {
 
                     $html =
                         '<div class="btn-group"><button type="button" class="btn btn-info dropdown-toggle btn-xs" data-toggle="dropdown" aria-expanded="false">' . __('messages.actions') . '<span class="caret"></span><span class="sr-only">Toggle Dropdown</span></button><ul class="dropdown-menu dropdown-menu-left" role="menu">';
 
                     $html .= '<li><button type="button" data-id="' . $service->id . '" class="btn btn-link" id="property_wanted_edit_btn" data-toggle="tooltip" style="color: #525557;"><i class="glyphicon glyphicon-edit"></i> ' . __('Edit') . '</button></li>';
-                    $html .= '<li><button type="button" data-id="' . $service->id . '" class="btn btn-link" id="property_wanted_delete_btn" data-toggle="tooltip" style="color: #525557;"><i class="fas fa-history"></i> ' . __('Change Status') . '</button></li>';
+                    // $html .= '<li><button type="button" data-id="' . $service->id . '" class="btn btn-link" id="property_wanted_delete_btn" data-toggle="tooltip" style="color: #525557;"><i class="fas fa-history"></i> ' . __('Change Status') . '</button></li>';
 
 
                     if ($service->upgraded && $service->plan == 'Regular') {
