@@ -39,9 +39,11 @@ class ServiceAdvertiseRoomController extends Controller
         $child_categories = ChildCategory::where([['category_id', $category->id], ['sub_category_id', $sub_category->id],])->get();
         $service_charges = ServiceCharge::where([['category_id', $category->id], ['sub_category_id', $sub_category->id], ['child_category', 1]])->get();
         $user = Auth::user();
-        $services = ServiceAdvertiseRoom::with('latest_booking_service')->where('user_id', $user->id)->get();
-        // return $services;
-
+        $services = ServiceAdvertiseRoom::with('latest_booking_service')
+            ->whereHas('business_location', function ($query) use ($user) {
+                $query->where('business_id', $user->business_id);
+            })
+            ->get();
 
         if (request()->ajax()) {
 
