@@ -30,6 +30,10 @@ class ServiceAdvertiseRoomController extends Controller
      */
     public function index()
     {
+        if (!auth()->user()->can('property_to_rent.view')) {
+            abort(403, 'Unauthorized action.');
+        }
+
         $category = ServiceCategory::where('name', 'Property')->first();
         $sub_category = SubCategory::where([['category_id', $category->id], ['name', 'rent']])->first();
         $child_categories = ChildCategory::where([['category_id', $category->id], ['sub_category_id', $sub_category->id],])->get();
@@ -37,9 +41,7 @@ class ServiceAdvertiseRoomController extends Controller
         $user = Auth::user();
         $services = ServiceAdvertiseRoom::with('latest_booking_service')->where('user_id', $user->id)->get();
         // return $services;
-        if (!auth()->user()->can('business_settings.access')) {
-            abort(403, 'Unauthorized action.');
-        }
+
 
         if (request()->ajax()) {
 
@@ -117,6 +119,10 @@ class ServiceAdvertiseRoomController extends Controller
      */
     public function create()
     {
+        if (!auth()->user()->can('property_to_rent.create')) {
+            abort(403, 'Unauthorized action.');
+        }
+
         $category = ServiceCategory::where('name', 'Property')->first();
         $sub_category = SubCategory::where([['category_id', $category->id], ['name', 'rent']])->first();
 
@@ -184,7 +190,6 @@ class ServiceAdvertiseRoomController extends Controller
      */
     public function store(StoreServiceAdvertiseRoomRequest $request, ServiceAdvertiseRoom $serviceAdvertiseRoom)
     {
-
         try {
             $requestedData = $request->all();
 

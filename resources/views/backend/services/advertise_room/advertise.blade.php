@@ -82,7 +82,7 @@
                                     '';
                                 return '<span class="cursor-pointer label ' + statusClass +
                                     ' property-wanted-delete-btn" data-id="' +
-                                    row.id + '">' + (data === 0 ? 'Active' : 'Inactive') +
+                                    row.id + '">' + (data === 1 ? 'Active' : 'Inactive') +
                                     '</span>';
                             }
                             return '';

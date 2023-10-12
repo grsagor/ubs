@@ -92,4 +92,9 @@ return [
     'dashboard.data' => 'View Home data',
     'profit_loss_report.view' => 'View profit/loss report',
     'direct_sell.access' => 'Access sell',
+
+    'property_to_rent.view' => 'View property to rent',
+    'property_to_rent.create' => 'Add property to rent',
+    'property_to_rent.update' => 'Edit property to rent',
+    'property_to_rent.delete' => 'Delete property to rent',
 ];
