@@ -121,7 +121,7 @@ Route::get('/digital-marketing',                                                
 Route::get('/partner-boarding',                                                     [OtherServicesController::class, 'partnerBoarding'])->name('partnerBoarding');
 Route::get('/business-solutions',                                                   [OtherServicesController::class, 'businessSolutions'])->name('businessSolutions');
 Route::get('/it-solutions',                                                         [OtherServicesController::class, 'itSolutions'])->name('itSolutions');
-Route::get('/property-finding-service/{service_id?}/{child_category_id?}',          [OtherServicesController::class, 'propertyFindingService'])->name('propertyFindingService');
+Route::get('/property-finding-service/{property_id?}/{child_category_id?}',         [OtherServicesController::class, 'propertyFindingService'])->name('propertyFindingService');
 Route::get('/property-finding-service-charge/{id}',                                 [OtherServicesController::class, 'propertyFindingServiceCharge'])->name('propertyFindingServiceCharge');
 Route::get('/property-finding-service-add-click-handler', [OtherServicesController::class, 'addClilckHandler']);
 Route::get('/property-finding-service-change-quantity-handler', [OtherServicesController::class, 'changeQuantityHandler']);

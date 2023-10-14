@@ -112,13 +112,13 @@
                                                     @include(
                                                         'frontend.other_services.partial.property_finding_service.pay_button',
                                                         [
-                                                            'product_id' => '5',
+                                                            'product_id' => $property_id ?? null,
                                                             'product_name' => 'Studio Flat Regular',
                                                             'plan' => 'Regular',
                                                             'bill' => $studio_flat_service_charge,
-                                                            'service_id' => $service_id ?? null,
                                                             'child_category_id_from_backend' =>
-                                                                $child_category_id ?? null,
+                                                                $child_category_id ?? 14,
+                                                            'service_charge_id' => 5,
                                                         ]
                                                     )
                                                 </td>
@@ -128,13 +128,13 @@
                                                     @include(
                                                         'frontend.other_services.partial.property_finding_service.pay_button',
                                                         [
-                                                            'product_id' => '5',
+                                                            'product_id' => $property_id ?? null,
                                                             'product_name' => 'Studio Flat Premium',
                                                             'plan' => 'Premium',
                                                             'bill' => $studio_flat_service_charge * 1.4,
-                                                            'service_id' => $service_id ?? null,
                                                             'child_category_id_from_backend' =>
-                                                                $child_category_id ?? null,
+                                                                $child_category_id ?? 14,
+                                                            'service_charge_id' => 5,
                                                         ]
                                                     )
                                                 </td>
@@ -179,13 +179,13 @@
                                                     @include(
                                                         'frontend.other_services.partial.property_finding_service.pay_button',
                                                         [
-                                                            'product_id' => '3',
+                                                            'product_id' => $property_id ?? null,
                                                             'product_name' => 'Flat Regular',
                                                             'plan' => 'Regular',
                                                             'bill' => $flat_service_charge,
-                                                            'service_id' => $service_id ?? null,
                                                             'child_category_id_from_backend' =>
-                                                                $child_category_id ?? null,
+                                                                $child_category_id ?? 13,
+                                                            'service_charge_id' => 3,
                                                         ]
                                                     )
                                                 </td>
@@ -194,13 +194,13 @@
                                                     @include(
                                                         'frontend.other_services.partial.property_finding_service.pay_button',
                                                         [
-                                                            'product_id' => '3',
+                                                            'product_id' => $property_id ?? null,
                                                             'product_name' => 'Flat Premium',
                                                             'plan' => 'Premium',
                                                             'bill' => $flat_service_charge * 1.4,
-                                                            'service_id' => $service_id ?? null,
                                                             'child_category_id_from_backend' =>
-                                                                $child_category_id ?? null,
+                                                                $child_category_id ?? 13,
+                                                            'service_charge_id' => 3,
                                                         ]
                                                     )
                                                 </td>
@@ -225,7 +225,8 @@
                                         <thead>
                                             <th style="width: 30%">
                                                 <div class="room_type_tab" id="room_type_tab">
-                                                    <input type="hidden" value="1" id="number_of_child_of_room_type_tab">
+                                                    <input type="hidden" value="1"
+                                                        id="number_of_child_of_room_type_tab">
                                                     <div class="row" id="room_type_tab_1">
                                                         <div class="col-md-6" style="padding-right: 0;">
                                                             <select class="form-control"
@@ -240,10 +241,9 @@
                                                             </select>
                                                         </div>
                                                         <div class="col-md-4" style="padding-right: 0;">
-                                                            <select class="form-control"
-                                                                onchange="quantitySelectChange()" disabled
-                                                                style="background: white; height: auto;" id="quantity_tab_1"
-                                                                name="quantity[]">
+                                                            <select class="form-control" onchange="quantitySelectChange()"
+                                                                disabled style="background: white; height: auto;"
+                                                                id="quantity_tab_1" name="quantity[]">
                                                                 <option value="0">Qty</option>
                                                                 <option value="1">1</option>
                                                                 <option value="2">2</option>
@@ -308,10 +308,11 @@
                                                 <form id="propertyFindingPaymentForm" method="GET"
                                                     action="{{ route('propertyFindingPayment') }}">
                                                     @csrf
+                                                    <input type="hidden" name="category_name" value="room">
                                                     <input type="hidden" id="room_regular_product_id" name="product_id"
                                                         value="">
-                                                    <input type="hidden" id="room_regular_quantity" name="product_quantity"
-                                                        value="">
+                                                    <input type="hidden" id="room_regular_quantity"
+                                                        name="product_quantity" value="">
                                                     <input type="hidden" id="room_regular_product_name"
                                                         name="product_name" value="Room regular">
                                                     <input type="hidden" id="room_regular_product_bill" name="bill"
@@ -325,10 +326,11 @@
                                                 <form id="propertyFindingPaymentForm" method="GET"
                                                     action="{{ route('propertyFindingPayment') }}">
                                                     @csrf
+                                                    <input type="hidden" name="category_name" value="room">
                                                     <input type="hidden" id="room_premium_product_id" name="product_id"
                                                         value="">
-                                                    <input type="hidden" id="room_premium_quantity" name="product_quantity"
-                                                        value="">
+                                                    <input type="hidden" id="room_premium_quantity"
+                                                        name="product_quantity" value="">
                                                     <input type="hidden" id="room_premium_product_name"
                                                         name="product_name" value="Room Premium">
                                                     <input type="hidden" id="room_premium_product_bill" name="bill"
@@ -380,13 +382,13 @@
                                                     @include(
                                                         'frontend.other_services.partial.property_finding_service.pay_button',
                                                         [
-                                                            'product_id' => '4',
+                                                            'product_id' => $property_id ?? null,
                                                             'product_name' => 'House Regular',
                                                             'plan' => 'Regular',
                                                             'bill' => $house_service_charge,
-                                                            'service_id' => $service_id ?? null,
                                                             'child_category_id_from_backend' =>
-                                                                $child_category_id ?? null,
+                                                                $child_category_id ?? 12,
+                                                            'service_charge_id' => 4,
                                                         ]
                                                     )
                                                 </td>
@@ -395,13 +397,13 @@
                                                     @include(
                                                         'frontend.other_services.partial.property_finding_service.pay_button',
                                                         [
-                                                            'product_id' => '4',
+                                                            'product_id' => $property_id ?? null,
                                                             'product_name' => 'House Premium',
                                                             'plan' => 'Premium',
                                                             'bill' => $house_service_charge * 1.4,
-                                                            'service_id' => $service_id ?? null,
                                                             'child_category_id_from_backend' =>
-                                                                $child_category_id ?? null,
+                                                                $child_category_id ?? 12,
+                                                            'service_charge_id' => 4,
                                                         ]
                                                     )
                                                 </td>
@@ -512,7 +514,8 @@
                 }).get();
 
                 var data = {
-                    number_of_children: numberOfChildren, child_category: child_category
+                    number_of_children: numberOfChildren,
+                    child_category: child_category
                 };
                 $.ajax({
                     method: "get",
@@ -578,14 +581,12 @@
         }
 
         $(document).ready(function() {
-            $(document).on('click', '.btn_remove', function(){
+            $(document).on('click', '.btn_remove', function() {
                 var id = $(this).data('no');
                 $(`#room_type_tab_${id}`).remove();
                 quantitySelectChange();
             })
         });
-
-
     </script>
     {{-- @include('frontend.other_services.partial.property_finding_service.script') --}}
 @endsection

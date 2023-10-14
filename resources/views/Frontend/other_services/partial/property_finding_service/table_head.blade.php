@@ -21,7 +21,7 @@
             <i class="fa fa-star"></i>
             <i class="fa fa-star-o"></i>
         </span>
-        <span class="ptable-price">£{{ $service_charge * 1.7 }}</span>
+        <span class="ptable-price">£{{ $service_charge * 1.4 }}</span>
     </th>
 
 </thead>

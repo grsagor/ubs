@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\PaymentHistory;
-use App\User;
-use Modules\Crm\Entities\ServicePropertyWanted;
 use Stripe;
 use Session;
+use App\User;
+use App\SubCategory;
+use App\PaymentHistory;
+use App\ServiceCategory;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Modules\Crm\Entities\ServicePropertyWanted;
 
 class StripePaymentController extends Controller
 {
@@ -25,12 +28,14 @@ class StripePaymentController extends Controller
 
         $data['product_id']             = session('product_id');
         $data['product_name']           = session('product_name');
-        $data['bill']                   = session('bill');
         $data['plan']                   = session('plan');
+        $data['bill']                   = session('bill');
+        $data['service_charge_id']      = session('service_charge_id');
+        $data['child_category_id']      = session('child_category_id');
         $data['table_name']             = session('table_name');
         $data['upgrade']                = false;
         $data['url']                    = false;
-        $data['meta_description']       = session('description');
+        $data['type']                   = session('type');
         $data['status']                 = session('output');
 
         if (session('upgrade')) {
@@ -71,11 +76,13 @@ class StripePaymentController extends Controller
                 "customer"      =>  $customer["id"],
                 "description"   => "Test payment.",
                 "metadata"      => array(
-                    "bill"                  => $request->bill,
                     "product_id"            => $request->product_id,
                     "product_name"          => $request->product_name,
+                    "plan"                  => $request->plan,
+                    "bill"                  => $request->bill,
+                    "service_charge_id"     => $request->service_charge_id,
+                    "child_category_id"     => $request->child_category_id,
                     "table_name"            => $request->table_name,
-                    "meta_description"      => $request->meta_description,
                 )
             ));
 
@@ -88,6 +95,30 @@ class StripePaymentController extends Controller
             $payment_history->foregn_key = $charge->metadata->product_id;
             $payment_history->table_name = $charge->metadata->table_name;
             $payment_history->save();
+
+            if ($request->type == 'property_wanted') {
+                $category       = ServiceCategory::where('name', 'Property')->first();
+                $sub_category   = SubCategory::where([['category_id', $category->id], ['name', 'buy']])->first();
+                $requestedData['user_id'] = auth()->id();
+
+                $property = new ServicePropertyWanted();
+
+                $property->reference_id = Auth::id() . Str::random(15);
+                $property->user_id =  auth()->id();
+                $property->category_id =  $category->id;
+                $property->sub_category_id =  $sub_category->id;
+                $property->child_category_id =  $request->child_category_id;
+
+
+                if ($request->upgrade  !== 'yes') {
+                    $property->information_complete =  0; //O means information incomplete
+                }
+
+                $property->save();
+            }
+
+
+
 
             // dd($request->product_id, $request->upgrade, $request->url);
             if ($request->upgrade  == 'yes') {

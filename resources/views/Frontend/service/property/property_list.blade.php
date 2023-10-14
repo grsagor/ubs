@@ -54,11 +54,11 @@
                             @if ($item->room_details !== 'null' && $item->room_details !== null)
                                 @php
                                     $roomDetails = json_decode($item->room_details, true);
-                                    
+
                                     // Check if $roomDetails is not null and is an array
                                     if (is_array($roomDetails)) {
                                         $finalData = []; // Initialize an empty array to store the results
-                                    
+
                                         foreach ($roomDetails as $key => $data) {
                                             if ($data == 1) {
                                                 $finalData[] = $key + 1 . '-Single'; // Concatenate key and value
@@ -70,7 +70,7 @@
                                                 $finalData[] = $key + 1 . '-En-suit'; // Concatenate key and value
                                             }
                                         }
-                                    
+
                                         // Join the elements of the array into a string using a comma and space as separators
                                         $output = implode(', ', $finalData);
                                     }
@@ -87,6 +87,19 @@
                                         {{ $output }}
                                     @endif
                                 </p>
+                            </span>
+
+                            <span class=" flex-fill mb-0 text-white">
+                                <p class="lower-section-text mb-0  text-muted"
+                                    style="color: black !important; font-size: 15px;">
+                                    Service
+                                </p>
+                                <p class="mb-0 text-muted">
+                                    @if ($item->plan)
+                                        {{ $item->plan }}
+                                    @else
+                                        Free
+                                    @endif
                                 </p>
                             </span>
                         </div>

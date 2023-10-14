@@ -39,18 +39,18 @@ class OtherServicesController extends Controller
         return view('frontend.other_services.it_solution');
     }
 
-    public function propertyFindingService($service_id = null, $child_category_id = null)
+    public function propertyFindingService($property_id = null, $child_category_id = null)
     {
-        $data['service_id'] = $service_id;
+        $data['property_id'] = $property_id;
         $data['child_category_id'] = $child_category_id;
 
         $category = ServiceCategory::where('name', 'Property')->first();
         $sub_category = SubCategory::where([['category_id', $category->id], ['name', 'rent']])->first();
         $data['child_categories'] = ChildCategory::where([['category_id', $category->id], ['sub_category_id', $sub_category->id],])->latest()->get();
-        $data['room_size'] = ServiceCharge::where([['category_id', $category->id], ['sub_category_id', $sub_category->id],['size', '!=', NULL]])->get();
+        $data['room_size'] = ServiceCharge::where([['category_id', $category->id], ['sub_category_id', $sub_category->id], ['size', '!=', NULL]])->get();
 
         $data['service_charge'] = ServiceCharge::with('childCategory')->get();
-        $data['service_id'] = $service_id;
+        $data['property_id'] = $property_id;
         $data['studio_flat_service_charge'] = null;
         $data['house_service_charge'] = null;
         $data['flat_service_charge'] = null;
@@ -68,6 +68,7 @@ class OtherServicesController extends Controller
                 $data['studio_flat_service_charge'] = $item->service_charge;
             }
         }
+
         return view('frontend.other_services.property_finding_service2', $data);
     }
 
@@ -77,10 +78,11 @@ class OtherServicesController extends Controller
         return $data;
     }
 
-    public function addClilckHandler(Request $request){
+    public function addClilckHandler(Request $request)
+    {
         $category = ServiceCategory::where('name', 'Property')->first();
         $sub_category = SubCategory::where([['category_id', $category->id], ['name', 'rent']])->first();
-        $room_size = ServiceCharge::where([['category_id', $category->id], ['sub_category_id', $sub_category->id],['size', '!=', NULL]])->whereNotIn('id',$request->child_category)->get();
+        $room_size = ServiceCharge::where([['category_id', $category->id], ['sub_category_id', $sub_category->id], ['size', '!=', NULL]])->whereNotIn('id', $request->child_category)->get();
         $number_of_children = $request->number_of_children;
         $compact = [
             'number_of_children' => $number_of_children,
@@ -92,7 +94,8 @@ class OtherServicesController extends Controller
         ];
         return response()->json($response);
     }
-    public function changeQuantityHandler(Request $request){
+    public function changeQuantityHandler(Request $request)
+    {
         $size_id = $request->size_id;
         $quantity = $request->quantity;
         $total_service_charge = 0;
@@ -113,20 +116,23 @@ class OtherServicesController extends Controller
 
     public function propertyFindingPayment(Request $request)
     {
-        $product_id = [];
-        $request->product_quantity = json_decode($request->product_quantity);
-        foreach (json_decode($request->product_id) as $key => $value) {
-            $size = ServiceCharge::find($value)->size;
-            $service_charge = ServiceCharge::find($value)->service_charge;
-            $product_id[] = [
-                'size' => $size,
-                'quantity' => $request->product_quantity[$key],
-                'service_charge' => $service_charge
-            ];
+        if ($request->category_name == 'room') {
+            $product_id = [];
+            $request->product_quantity = json_decode($request->product_quantity);
+            foreach (json_decode($request->product_id) as $key => $value) {
+                $size = ServiceCharge::find($value)->size;
+                $service_charge = ServiceCharge::find($value)->service_charge;
+                $product_id[] = [
+                    'size' => $size,
+                    'quantity' => $request->product_quantity[$key],
+                    'service_charge' => $service_charge
+                ];
+            }
+            $request->merge(['product_id' => $product_id]);
+            $request = $request->except('product_quantity');
+            return $request;
         }
-        $request->merge(['product_id' => $product_id]);
-        $request = $request->except('product_quantity');
-        return $request;
+
 
         // $request['table_name']             = 'propertyFindingService->serviceCharge';
         // $request['description']            = "Service charge id: " . $request->child_category_id_from_backend ?? NULL;
@@ -137,18 +143,19 @@ class OtherServicesController extends Controller
 
         // return redirect('stripe')->with('data', $data);
 
-        $info['product_id']             = $request->service_id;
+        $info['product_id']             = $request->product_id;
         $info['product_name']           = $request->product_name;
         $info['plan']                   = $request->plan;
         $info['bill']                   = $request->bill;
+        $info['child_category_id']      = $request->child_category_id_from_backend;
+        $info['service_charge_id']      = $request->service_charge_id;
         $info['table_name']             = 'propertyFindingService->serviceCharge';
-        $info['description']            = "Service charge id: " . $request->child_category_id_from_backend ?? NULL;
-
 
         $info['upgrade']                = null;
         $info['url']                    = null;
+        $info['type']                   = 'property_wanted';
 
-        if ($request->service_id) {
+        if ($request->product_id) {
             $info['upgrade']            = 'yes';
             $info['url']                = '/contact/property-wanted';
         }
@@ -162,13 +169,15 @@ class OtherServicesController extends Controller
             ->with([
                 'product_id'        => $info['product_id'],
                 'product_name'      => $info['product_name'],
-                'bill'              => $info['bill'],
                 'plan'              => $info['plan'],
+                'bill'              => $info['bill'],
+                'service_charge_id' => $info['service_charge_id'],
+                'child_category_id' => $info['child_category_id'],
                 'table_name'        => $info['table_name'],
-                'description'       => $info['description'],
                 // 'output'            => $info['output'],
                 'upgrade'           => $info['upgrade'],
                 'url'               => $info['url'],
+                'type'              => $info['type'],
             ]);
     }
 }

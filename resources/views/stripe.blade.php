@@ -95,10 +95,12 @@
                                     <input type="hidden" name="email" value="{{ auth()->user()->email }}">
                                     <input type="hidden" name="product_id" value="{{ $product_id }}">
                                     <input type="hidden" name="product_name" value="{{ $product_name }}">
-                                    <input type="hidden" name="bill" value="{{ $bill }}">
                                     <input type="hidden" name="plan" value="{{ $plan }}">
+                                    <input type="hidden" name="bill" value="{{ $bill }}">
+                                    <input type="hidden" name="service_charge_id" value="{{ $service_charge_id }}">
+                                    <input type="hidden" name="child_category_id" value="{{ $child_category_id }}">
                                     <input type="hidden" name="table_name" value="{{ $table_name }}">
-                                    <input type="hidden" name="meta_description" value="{{ $meta_description }}">
+                                    <input type="hidden" name="type" value="{{ $type }}">
                                     @if ($upgrade)
                                         <input type="hidden" name="upgrade" value="yes">
                                     @endif

@@ -71,6 +71,7 @@ class ServicePropertyWanted extends Model
 
         'advert_type',
 
+        'information_complete',
         'status',
         'user_id',
     ];

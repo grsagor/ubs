@@ -62,6 +62,7 @@ class FrontendController extends Controller
                 'ad_title',
                 'ad_text',
                 'images',
+                'plan',
                 'advert_type',
                 'created_at'
             )

@@ -9,7 +9,7 @@
 
     <div class="shop-list-page">
 
-        <div class="full-row bg-light overlay-dark py-5">
+        {{-- <div class="full-row bg-light overlay-dark py-5">
             <div class="container">
                 <div class="row text-center text-white">
                     <div class="col-12">
@@ -24,6 +24,25 @@
                                 <li class="breadcrumb-item active" aria-current="page">Room Wanted</li>
                             </ol>
                         </nav>
+                    </div>
+                </div>
+            </div>
+        </div> --}}
+
+
+        <div class="full-row py-5" style="background: #4d6873;">
+            <div class="container">
+                <div class="row text-center text-white">
+                    <div class="col-12">
+                        @if ($info->plan)
+                            <h3 class="mb-2 text-white" style="text-transform: capitalize;">
+                                Find a property for this tenant get 30% &#163;</h3>
+                        @endif
+                        @if ($info->upgraded !== 1)
+                            <h3 class="mb-2 text-white" style="text-transform: capitalize;">
+                                Help this tenant to get this property</h3>
+                        @endif
+
                     </div>
                 </div>
             </div>
@@ -231,6 +250,11 @@
                                                         {{ $info->user->surname ?? '' }}
                                                         {{ $info->user->first_name ?? '' }}
                                                         {{ $info->user->last_name ?? '' }}
+                                                        @if ($info->plan)
+                                                            ( {{ $info->plan }} )
+                                                        @else
+                                                            ( Free )
+                                                        @endif
                                                     </strong>
 
                                                     <p style="background: #45606b; color: #fff">

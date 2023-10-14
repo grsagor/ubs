@@ -26,6 +26,7 @@
                         <tr>
                             <th>Action</th>
                             <th>Status</th>
+                            <th>Complete</th>
                             <th>Reference No</th>
                             <th>Category</th>
                         </tr>
@@ -108,10 +109,20 @@
                         }
                     },
                     {
+                        data: 'information_complete',
+                        name: 'information_complete',
+                        render: function(data, type, row) {
+                            if (data == 1) {
+                                return '<span class="label bg-green">Complete</span>';
+                            } else {
+                                return '<span class="label bg-yellow">Incomplete</span>';
+                            }
+                        }
+                    },
+                    {
                         data: 'reference_id',
                         name: 'reference_id'
                     },
-
                     {
                         data: 'child_category_name',
                         name: 'child_category_name'
