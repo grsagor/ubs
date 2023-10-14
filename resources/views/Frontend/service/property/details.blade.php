@@ -247,157 +247,10 @@
 
                     </div>
 
-                    <hr class="mt-3" style="width: 100%; height: 2px; margin: 0px;">
+                    <hr class="mt-3 mb-3" style="width: 100%; height: 3px; margin: 0px;">
 
                     <div class="row">
-
-                        <div class="col-lg-7 p-4" style="text-align: justify">
-                            <p class="product-title">{{ $info->ad_text }}</p>
-                        </div>
-
-                        <div class="col-lg-5 mt-3">
-
-                            <h5>Availability</h5>
-
-                            @if ($info->available_form)
-                                <p>
-                                    <strong>Total Budget: </strong>
-                                    £{{ $info->combined_budget }} {{ $info->per }}
-                                </p>
-                            @endif
-
-                            @if ($info->available_form)
-                                <p>
-                                    <strong>Available From: </strong>
-                                    {{ Carbon\Carbon::createFromFormat('Y-m-d', $info->available_form)->format('M d') }}
-                                </p>
-                            @endif
-
-                            @if ($info->min_term)
-                                <p>
-                                    <strong>Minimum term: </strong>
-                                    {{ $info->min_term ?? '' }}
-                                </p>
-                            @endif
-
-                            @if ($info->max_term)
-                                <p>
-                                    <strong>Maximum term: </strong>
-                                    {{ $info->max_term ?? '' }} months
-                                </p>
-                            @endif
-
-                            <hr class="mb-2" style="width: 100%; height: 2px; margin: 0px;">
-
-                            <h5>Preferred Area</h5>
-
-                            @if ($info->wanted_living_area)
-                                <p>
-                                    <strong>Wanted Living Area: </strong>
-                                    {{ $info->wanted_living_area }}
-                                </p>
-                            @endif
-
-                            <hr class="mb-2" style="width: 100%; height: 2px; margin: 0px;">
-
-                            <h5>Preferred Amenities</h5>
-
-                            @if ($info->roomfurnishings != null)
-                                @php
-                                    $amenities = json_decode($info->roomfurnishings, true);
-
-                                    array_walk($amenities, function (&$amenity) {
-                                        $amenity = ucfirst($amenity);
-                                    });
-                                @endphp
-                                <p>
-                                    <strong>Amenities: </strong>
-                                    @foreach ($amenities as $item)
-                                        <span>{{ $item }}, </span>
-                                    @endforeach
-                                </p>
-                            @endif
-
-                            {{-- $info->child_category_id == 11 means child_categories table value Room check child_categories table --}}
-                            @if ($info->child_category_id == 11)
-
-                                <hr class="mb-2" style="width: 100%; height: 2px; margin: 0px;">
-
-                                <h5>Household Preference</h5>
-
-                                @if ($info->age)
-                                    @php
-                                        $old = json_decode($info->age, true);
-                                    @endphp
-                                    <p>
-                                        <strong>Age Range: </strong>
-                                        @foreach ($old as $key => $item)
-                                            {{ $item }}
-                                            @if ($key == 0)
-                                                to
-                                            @endif
-                                        @endforeach
-                                        Years
-                                    </p>
-                                @endif
-
-                                @if ($info->occupation)
-                                    <p>
-                                        <strong>Occupation: </strong>
-                                        {{ $info->occupation ?? '' }}
-                                    </p>
-                                @endif
-
-                                @if ($info->smoking_current)
-                                    <p>
-                                        <strong>Smoking: </strong>
-                                        {{ $info->smoking_current == 1 ? 'Yes' : 'No' }}
-                                    </p>
-                                @endif
-
-                                @if ($info->pets)
-                                    <p>
-                                        <strong>Pets: </strong>
-                                        {{ $info->pets == 1 ? 'Yes' : 'No' }}
-                                    </p>
-                                @endif
-
-                                @if ($info->pets)
-                                    <p>
-                                        <strong>Pets: </strong>
-                                        {{ $info->pets == 1 ? 'Yes' : 'No' }}
-                                    </p>
-                                @endif
-
-                                @if ($info->gay_lesbian)
-                                    <p>
-                                        <strong>Preferred Sex: </strong>
-                                        {{ $info->gay_lesbian }}
-                                    </p>
-                                @endif
-
-                                @if ($info->lang_id)
-                                    <p>
-                                        <strong>Preferred Language: </strong>
-                                        {{ $info->lang_id }}
-                                    </p>
-                                @endif
-
-                                @if ($info->nationality)
-                                    <p>
-                                        <strong>Preferred Nationality: </strong>
-                                        {{ $info->nationality }}
-                                    </p>
-                                @endif
-
-                            @endif
-
-                        </div>
-
-                    </div>
-
-                    <div class="row">
-                        <div class="col-lg-12">
+                        <div class="col-lg-12 table-container">
 
                             <table id="customers">
                                 <tr>
@@ -472,6 +325,155 @@
                             </table>
 
                         </div>
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-lg-7 p-4" style="text-align: justify">
+                            <p class="product-title">{{ $info->ad_text }}</p>
+                        </div>
+
+                        <div class="col-lg-5 mt-3">
+
+                            <hr class="mt-3 mb-3" style="width: 100%; height: 3px; margin: 0px;">
+
+                            <h5>Availability</h5>
+
+                            @if ($info->available_form)
+                                <p>
+                                    <strong>Total Budget: </strong>
+                                    £{{ $info->combined_budget }} {{ $info->per }}
+                                </p>
+                            @endif
+
+                            @if ($info->available_form)
+                                <p>
+                                    <strong>Available From: </strong>
+                                    {{ Carbon\Carbon::createFromFormat('Y-m-d', $info->available_form)->format('M d') }}
+                                </p>
+                            @endif
+
+                            @if ($info->min_term)
+                                <p>
+                                    <strong>Minimum term: </strong>
+                                    {{ $info->min_term ?? '' }}
+                                </p>
+                            @endif
+
+                            @if ($info->max_term)
+                                <p>
+                                    <strong>Maximum term: </strong>
+                                    {{ $info->max_term ?? '' }} months
+                                </p>
+                            @endif
+
+                            <hr class="mt-3 mb-3" style="width: 100%; height: 3px; margin: 0px;">
+
+                            <h5>Preferred Area</h5>
+
+                            @if ($info->wanted_living_area)
+                                <p>
+                                    <strong>Wanted Living Area: </strong>
+                                    {{ $info->wanted_living_area }}
+                                </p>
+                            @endif
+
+                            <hr class="mt-3 mb-3" style="width: 100%; height: 3px; margin: 0px;">
+
+                            <h5>Preferred Amenities</h5>
+
+                            @if ($info->roomfurnishings != null)
+                                @php
+                                    $amenities = json_decode($info->roomfurnishings, true);
+
+                                    array_walk($amenities, function (&$amenity) {
+                                        $amenity = ucfirst($amenity);
+                                    });
+                                @endphp
+                                <p>
+                                    <strong>Amenities: </strong>
+                                    @foreach ($amenities as $item)
+                                        <span>{{ $item }}, </span>
+                                    @endforeach
+                                </p>
+                            @endif
+
+                            {{-- $info->child_category_id == 11 means child_categories table value Room check child_categories table --}}
+                            @if ($info->child_category_id == 11)
+
+                                <hr class="mt-3 mb-3" style="width: 100%; height: 3px; margin: 0px;">
+
+                                <h5>Household Preference</h5>
+
+                                @if ($info->age)
+                                    @php
+                                        $old = json_decode($info->age, true);
+                                    @endphp
+                                    <p>
+                                        <strong>Age Range: </strong>
+                                        @foreach ($old as $key => $item)
+                                            {{ $item }}
+                                            @if ($key == 0)
+                                                to
+                                            @endif
+                                        @endforeach
+                                        Years
+                                    </p>
+                                @endif
+
+                                @if ($info->occupation)
+                                    <p>
+                                        <strong>Occupation: </strong>
+                                        {{ $info->occupation ?? '' }}
+                                    </p>
+                                @endif
+
+                                @if ($info->smoking_current)
+                                    <p>
+                                        <strong>Smoking: </strong>
+                                        {{ $info->smoking_current == 1 ? 'Yes' : 'No' }}
+                                    </p>
+                                @endif
+
+                                @if ($info->pets)
+                                    <p>
+                                        <strong>Pets: </strong>
+                                        {{ $info->pets == 1 ? 'Yes' : 'No' }}
+                                    </p>
+                                @endif
+
+                                @if ($info->pets)
+                                    <p>
+                                        <strong>Pets: </strong>
+                                        {{ $info->pets == 1 ? 'Yes' : 'No' }}
+                                    </p>
+                                @endif
+
+                                @if ($info->gay_lesbian)
+                                    <p>
+                                        <strong>Preferred Sex: </strong>
+                                        {{ $info->gay_lesbian }}
+                                    </p>
+                                @endif
+
+                                @if ($info->lang_id)
+                                    <p>
+                                        <strong>Preferred Language: </strong>
+                                        {{ $info->lang_id }}
+                                    </p>
+                                @endif
+
+                                @if ($info->nationality)
+                                    <p>
+                                        <strong>Preferred Nationality: </strong>
+                                        {{ $info->nationality }}
+                                    </p>
+                                @endif
+
+                            @endif
+
+                        </div>
+
                     </div>
 
                 </div>

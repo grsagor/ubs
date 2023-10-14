@@ -263,7 +263,7 @@
 
                                                     @php
                                                         $businessLocation = $info->business_location;
-                                                        $imageUrl = $businessLocation && File::exists(public_path($businessLocation->logo)) ? asset($businessLocation->logo) : 'https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg';
+                                                        $imageUrl = $businessLocation->logo && File::exists(public_path($businessLocation->logo)) ? asset($businessLocation->logo) : 'https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg';
                                                     @endphp
 
                                                     <a
@@ -303,69 +303,22 @@
 
                             {{-- Room category table --}}
                             @if ($info->child_category_id == 1)
-                                <table id="customers">
-                                    <tr>
-                                        <th>Room No.</th>
-                                        <th>Rent</th>
-                                        <th>Size</th>
-                                        <th>En-suites</th>
-                                        <th>Furnishing</th>
-                                        <th>Deposit</th>
-                                        <th>Available From</th>
-                                    </tr>
-
-                                    @foreach ($roomArray as $i => $item)
+                                <div class="table-container">
+                                    <table id="customers">
                                         <tr>
-                                            <td>{{ $item['room_number'] }}</td>
-                                            <td>{{ $item['room_cost_of_amount'] ?? '' }}</td>
-                                            <td>
-                                                @if ($item['room_amenities'] == 'Y')
-                                                    En-suite
-                                                @else
-                                                    @if ($item['room_size'] == 1)
-                                                        Single
-                                                    @endif
-                                                    @if ($item['room_size'] == 2)
-                                                        Double
-                                                    @endif
-                                                    @if ($item['room_size'] == 3)
-                                                        Semi-double
-                                                    @endif
-                                                @endif
-                                            </td>
-                                            <td>{{ $item['room_amenities'] == 1 ? 'Yes' : 'No' }}</td>
-                                            <td>
-                                                {{ $item['room_furnishings'] == 1 ? 'Furnisihed' : 'Unfurnished' }}
-                                            </td>
-                                            <td>{{ $item['room_security_deposit'] }}</td>
-                                            <td>{{ $item['room_available_from'] }}</td>
+                                            <th>Room No.</th>
+                                            <th>Rent</th>
+                                            <th>Size</th>
+                                            <th>En-suites</th>
+                                            <th>Furnishing</th>
+                                            <th>Deposit</th>
+                                            <th>Available From</th>
                                         </tr>
-                                    @endforeach
-                                </table>
-                            @endif
-                            {{-- Room category table --}}
 
-                            {{-- Falt/House category table --}}
-                            @if ($info->child_category_id == 2 || $info->child_category_id == 6)
-                                <table id="customers">
-                                    <tr>
-                                        <th>Room No.</th>
-                                        <th>Size</th>
-                                        <th>En-suites</th>
-                                        <th>Furnishing</th>
-                                        <th>Rent</th>
-                                        <th>Deposit</th>
-                                        <th>Holding Deposit</th>
-                                        <th>Available From</th>
-                                    </tr>
-
-                                    {{-- {{ dd($roomArray) }} --}}
-
-                                    @foreach ($roomArray as $i => $item)
-                                        @if ($item['room_size'] !== null)
+                                        @foreach ($roomArray as $i => $item)
                                             <tr>
                                                 <td>{{ $item['room_number'] }}</td>
-
+                                                <td>{{ $item['room_cost_of_amount'] ?? '' }}</td>
                                                 <td>
                                                     @if ($item['room_amenities'] == 'Y')
                                                         En-suite
@@ -385,52 +338,105 @@
                                                 <td>
                                                     {{ $item['room_furnishings'] == 1 ? 'Furnisihed' : 'Unfurnished' }}
                                                 </td>
-
-                                                @if ($i == 0)
-                                                    <td rowspan="{{ $room_count }}" style="background: white;">
-                                                        {{ $info->rent ?? '' }}</td>
-                                                    <td rowspan="{{ $room_count }}" style="background: white;">
-                                                        {{ $info->security_deposit ?? '' }}
-                                                    </td>
-                                                    <td rowspan="{{ $room_count }}" style="background: white;">
-                                                        {{ $info->holding_deposit ?? '' }}</td>
-                                                    <td rowspan="{{ $room_count }}" style="background: white;">
-                                                        {{ $info->room_available_from ?? '' }}</td>
-                                                @endif
+                                                <td>{{ $item['room_security_deposit'] }}</td>
+                                                <td>{{ $item['room_available_from'] }}</td>
                                             </tr>
-                                        @endif
-                                    @endforeach
-                                </table>
+                                        @endforeach
+                                    </table>
+                                </div>
+                            @endif
+                            {{-- Room category table --}}
+
+                            {{-- Falt/House category table --}}
+                            @if ($info->child_category_id == 2 || $info->child_category_id == 6)
+                                <div class="table-container">
+                                    <table id="customers">
+                                        <tr>
+                                            <th>Room No.</th>
+                                            <th>Size</th>
+                                            <th>En-suites</th>
+                                            <th>Furnishing</th>
+                                            <th>Rent</th>
+                                            <th>Deposit</th>
+                                            <th>Holding Deposit</th>
+                                            <th>Available From</th>
+                                        </tr>
+
+                                        {{-- {{ dd($roomArray) }} --}}
+
+                                        @foreach ($roomArray as $i => $item)
+                                            @if ($item['room_size'] !== null)
+                                                <tr>
+                                                    <td>{{ $item['room_number'] }}</td>
+
+                                                    <td>
+                                                        @if ($item['room_amenities'] == 'Y')
+                                                            En-suite
+                                                        @else
+                                                            @if ($item['room_size'] == 1)
+                                                                Single
+                                                            @endif
+                                                            @if ($item['room_size'] == 2)
+                                                                Double
+                                                            @endif
+                                                            @if ($item['room_size'] == 3)
+                                                                Semi-double
+                                                            @endif
+                                                        @endif
+                                                    </td>
+                                                    <td>{{ $item['room_amenities'] == 1 ? 'Yes' : 'No' }}</td>
+                                                    <td>
+                                                        {{ $item['room_furnishings'] == 1 ? 'Furnisihed' : 'Unfurnished' }}
+                                                    </td>
+
+                                                    @if ($i == 0)
+                                                        <td rowspan="{{ $room_count }}" style="background: white;">
+                                                            {{ $info->rent ?? '' }}</td>
+                                                        <td rowspan="{{ $room_count }}" style="background: white;">
+                                                            {{ $info->security_deposit ?? '' }}
+                                                        </td>
+                                                        <td rowspan="{{ $room_count }}" style="background: white;">
+                                                            {{ $info->holding_deposit ?? '' }}</td>
+                                                        <td rowspan="{{ $room_count }}" style="background: white;">
+                                                            {{ $info->room_available_from ?? '' }}</td>
+                                                    @endif
+                                                </tr>
+                                            @endif
+                                        @endforeach
+                                    </table>
+                                </div>
                             @endif
                             {{-- Falt/House category table --}}
 
                             {{-- Studio Flat category table --}}
                             @if ($info->child_category_id == 9)
-                                <table id="customers">
-                                    <tr>
-                                        <th>En-suites</th>
-                                        <th>Furnishing</th>
-                                        <th>Rent</th>
-                                        <th>Deposit</th>
-                                        <th>Holding Deposit</th>
-                                        <th>Available From</th>
-                                    </tr>
-
-                                    @foreach ($roomArray as $i => $item)
+                                <div class="table-container">
+                                    <table id="customers">
                                         <tr>
-                                            @if ($i == 0)
-                                                <td>{{ $item['room_amenities'] == 1 ? 'Yes' : 'No' }}</td>
-                                                <td>
-                                                    {{ $item['room_furnishings'] == 1 ? 'Furnisihed' : 'Unfurnished' }}
-                                                </td>
-                                                <td>{{ $info->rent ?? '' }}</td>
-                                                <td>{{ $info->security_deposit ?? '' }}</td>
-                                                <td>{{ $info->holding_deposit ?? '' }}</td>
-                                                <td>{{ $info->room_available_from ?? '' }}</td>
-                                            @endif
+                                            <th>En-suites</th>
+                                            <th>Furnishing</th>
+                                            <th>Rent</th>
+                                            <th>Deposit</th>
+                                            <th>Holding Deposit</th>
+                                            <th>Available From</th>
                                         </tr>
-                                    @endforeach
-                                </table>
+
+                                        @foreach ($roomArray as $i => $item)
+                                            <tr>
+                                                @if ($i == 0)
+                                                    <td>{{ $item['room_amenities'] == 1 ? 'Yes' : 'No' }}</td>
+                                                    <td>
+                                                        {{ $item['room_furnishings'] == 1 ? 'Furnisihed' : 'Unfurnished' }}
+                                                    </td>
+                                                    <td>{{ $info->rent ?? '' }}</td>
+                                                    <td>{{ $info->security_deposit ?? '' }}</td>
+                                                    <td>{{ $info->holding_deposit ?? '' }}</td>
+                                                    <td>{{ $info->room_available_from ?? '' }}</td>
+                                                @endif
+                                            </tr>
+                                        @endforeach
+                                    </table>
+                                </div>
                             @endif
                             {{-- Studio Flat category table --}}
 

@@ -120,4 +120,31 @@
         background-color: #04AA6D;
         color: white;
     }
+
+
+    .table-container {
+        width: 100%;
+        /* Set the desired width for the container */
+        overflow-x: auto;
+        /* Add a horizontal scrollbar when the table overflows */
+    }
+
+    table {
+        width: 100%;
+        /* Set the table width to fill the container */
+        border-collapse: collapse;
+    }
+
+    /* Optional: Style the table with some basic CSS */
+    table,
+    th,
+    td {
+        border: 1px solid #ccc;
+    }
+
+    th,
+    td {
+        padding: 8px;
+        text-align: left;
+    }
 </style>
