@@ -1,6 +1,6 @@
 <div class="estate-section">
     <div class="container-fluid  bg-light content-circle ">
-        <div class="container mt-5" style="z-index: 1111">
+        <div class="container mt-5" style="z-index: 11">
             <div class=" p-0 m-0">
                 <div class="row justify-content-center position-relative ">
                     <div class="col-12">
