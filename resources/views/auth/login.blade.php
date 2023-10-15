@@ -7,16 +7,17 @@
     @if (config('constants.allow_registration'))
         @if (session()->has('from'))
             @if (session()->get('from') == 'customer')
-                <a href="{{ url('customer/register') }}"><button type="button" class="btn dropdown-toggle bg-maroon btn-flat" data-toggle="dropdown"
+                <a href="{{ url('customer/register') }}" class="btn dropdown-toggle bg-maroon btn-flat" role="button"
                     aria-haspopup="true" aria-expanded="false">
                     <b>Register as customer</b>
-                </button></a>
+                </a>
             @endif
+
             @if (session()->get('from') == 'admin')
-                <a href="{{ url('business/register') }}"><button type="button" class="btn dropdown-toggle bg-maroon btn-flat" data-toggle="dropdown"
+                <a href="{{ url('business/register') }}" class="btn dropdown-toggle bg-maroon btn-flat" role="button"
                     aria-haspopup="true" aria-expanded="false">
                     <b>Register as business</b>
-                </button></a>
+                </a>
             @endif
         @else
             <div class="btn-group">
