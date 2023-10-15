@@ -95,11 +95,7 @@
                                     Service
                                 </p>
                                 <p class="mb-0 text-muted">
-                                    @if ($item->plan)
-                                        {{ $item->plan }}
-                                    @else
-                                        Free
-                                    @endif
+                                    {{ $item->plan ?? 'Free' }}
                                 </p>
                             </span>
                         </div>

@@ -34,9 +34,14 @@
                                                 <ul>
                                                     <li><a class="dropdown-item"
                                                             href="{{ route('property.list') }}">Property List</a> </li>
-                                                    <li><a class="dropdown-item"
-                                                            href="{{ route('propertyFindingService') }}">Property
-                                                            Finding Service</a> </li>
+                                                    @auth
+                                                        @if (auth()->user()->id !== 5)
+                                                            <li><a class="dropdown-item"
+                                                                    href="{{ route('propertyFindingService') }}">Property
+                                                                    Finding Service</a></li>
+                                                        @endif
+                                                    @endauth
+
                                                 </ul>
                                             </div>
 
