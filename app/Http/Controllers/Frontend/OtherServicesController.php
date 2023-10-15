@@ -74,7 +74,7 @@ class OtherServicesController extends Controller
             }
         }
 
-        return view('frontend.other_services.property_finding_service2', $data);
+        return view('frontend.other_services.property_finding_service3', $data);
     }
 
     public function propertyFindingServiceCharge($id)
@@ -121,68 +121,87 @@ class OtherServicesController extends Controller
 
     public function propertyFindingPayment(Request $request)
     {
-        if ($request->category_name == 'room') {
-            $product_id = [];
-            $request->product_quantity = json_decode($request->product_quantity);
-            foreach (json_decode($request->product_id) as $key => $value) {
-                $size = ServiceCharge::find($value)->size;
-                $service_charge = ServiceCharge::find($value)->service_charge;
-                $product_id[] = [
-                    'size' => $size,
-                    'quantity' => $request->product_quantity[$key],
-                    'service_charge' => $service_charge
-                ];
-            }
-            $request->merge(['product_id' => $product_id]);
-            $request = $request->except('product_quantity');
-            return $request;
-        }
+        // if ($request->category_name == 'room') {
+        //     $product_id = [];
+        //     $request->product_quantity = json_decode($request->product_quantity);
+        //     foreach (json_decode($request->product_id) as $key => $value) {
+        //         $size = ServiceCharge::find($value)->size;
+        //         $service_charge = ServiceCharge::find($value)->service_charge;
+        //         $product_id[] = [
+        //             'size' => $size,
+        //             'quantity' => $request->product_quantity[$key],
+        //             'service_charge' => $service_charge
+        //         ];
+        //     }
+        //     $request->merge(['product_id' => $product_id]);
+        //     $request = $request->except('product_quantity');
+        //     return $request;
+        // }
 
 
-        // $request['table_name']             = 'propertyFindingService->serviceCharge';
-        // $request['description']            = "Service charge id: " . $request->child_category_id_from_backend ?? NULL;
-        // $request['upgrade']                = 'yes';
-        // $request['url']                    = '/contact/property-wanted';
+        // $info['product_id']             = $request->product_id;
+        // $info['product_name']           = $request->product_name;
+        // $info['plan']                   = $request->plan;
+        // $info['bill']                   = $request->bill;
+        // $info['child_category_id']      = $request->child_category_id_from_backend;
+        // $info['service_charge_id']      = $request->service_charge_id;
+        // $info['table_name']             = 'propertyFindingService->serviceCharge';
 
-        // $data = $this->stripe_payment_service->paymentData($request);
+        // $info['upgrade']                = null;
+        // $info['url']                    = null;
+        // $info['type']                   = 'property_wanted';
 
-        // return redirect('stripe')->with('data', $data);
+        // if ($request->product_id) {
+        //     $info['upgrade']            = 'yes';
+        //     $info['url']                = '/contact/property-wanted';
+        // }
 
-        $info['product_id']             = $request->product_id;
-        $info['product_name']           = $request->product_name;
-        $info['plan']                   = $request->plan;
-        $info['bill']                   = $request->bill;
-        $info['child_category_id']      = $request->child_category_id_from_backend;
-        $info['service_charge_id']      = $request->service_charge_id;
-        $info['table_name']             = 'propertyFindingService->serviceCharge';
+        // $info['output'] = [
+        //     'success'               => true,
+        //     'msg'                   => ('Successfull!'),
+        // ];
 
-        $info['upgrade']                = null;
-        $info['url']                    = null;
-        $info['type']                   = 'property_wanted';
 
-        if ($request->product_id) {
-            $info['upgrade']            = 'yes';
-            $info['url']                = '/contact/property-wanted';
-        }
+        // return redirect('stripe')
+        //     ->with([
+        //         'product_id'        => $info['product_id'],
+        //         'product_name'      => $info['product_name'],
+        //         'plan'              => $info['plan'],
+        //         'bill'              => $info['bill'],
+        //         'service_charge_id' => $info['service_charge_id'],
+        //         'child_category_id' => $info['child_category_id'],
+        //         'table_name'        => $info['table_name'],
+        //         // 'output'            => $info['output'],
+        //         'upgrade'           => $info['upgrade'],
+        //         'url'               => $info['url'],
+        //         'type'              => $info['type'],
+        //     ]);
 
-        $info['output'] = [
-            'success'               => true,
-            'msg'                   => ('Successfull!'),
+
+        $info = [
+            'product_id' => $request->product_id,
+            'product_name' => $request->category_name === 'room' ?
+                json_encode([
+                    'size' => $request->room_size,
+                    'room_quantity' => $request->room_quantity,
+                    'charge' => $request->room_charge,
+                ]) : $request->product_name,
+            'plan' => $request->plan,
+            'bill' => $request->category_name === 'room' ?
+                $request->room_quantity * $request->room_charge : $request->bill,
+            'child_category_id' => $request->child_category_id_from_backend,
+            'service_charge_id' => $request->service_charge_id,
+            'table_name' => 'propertyFindingService->serviceCharge',
+            'upgrade' => $request->product_id ? 'yes' : null,
+            'url' => '/contact/property-wanted',
+            'type' => 'property_wanted',
+            // 'output' => [
+            //     'success' => true,
+            //     'msg' => 'Successful!',
+            // ],
         ];
 
         return redirect('stripe')
-            ->with([
-                'product_id'        => $info['product_id'],
-                'product_name'      => $info['product_name'],
-                'plan'              => $info['plan'],
-                'bill'              => $info['bill'],
-                'service_charge_id' => $info['service_charge_id'],
-                'child_category_id' => $info['child_category_id'],
-                'table_name'        => $info['table_name'],
-                // 'output'            => $info['output'],
-                'upgrade'           => $info['upgrade'],
-                'url'               => $info['url'],
-                'type'              => $info['type'],
-            ]);
+            ->with($info);
     }
 }

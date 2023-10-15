@@ -108,7 +108,8 @@ class StripePaymentController extends Controller
                 $property->category_id =  $category->id;
                 $property->sub_category_id =  $sub_category->id;
                 $property->child_category_id =  $request->child_category_id;
-
+                $property->upgraded =  1;
+                $property->plan = $request->plan;
 
                 if ($request->upgrade  !== 'yes') {
                     $property->information_complete =  0; //O means information incomplete
@@ -117,25 +118,15 @@ class StripePaymentController extends Controller
                 $property->save();
             }
 
-
-
-
-            // dd($request->product_id, $request->upgrade, $request->url);
-            if ($request->upgrade  == 'yes') {
-                $property = ServicePropertyWanted::find($request->product_id);
-                $property->upgraded = 1;
-                $property->plan = $request->plan;
-                $property->save();
-            }
+            // if ($request->upgrade  == 'yes') {
+            //     $property = ServicePropertyWanted::find($request->product_id);
+            //     $property->upgraded = 1;
+            //     $property->plan = $request->plan;
+            //     $property->save();
+            // }
 
             Session::flash('success', 'Payment successful!');
             if ($request->url) {
-                // $output = [
-                //     'success' => true,
-                //     'msg' => ('Created Successfully!!!'),
-                // ];
-
-                // return redirect()->back()->with('status', $output);
                 return redirect($request->url);
             } else {
                 return back();
