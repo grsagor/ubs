@@ -263,7 +263,7 @@
 
                                                     @php
                                                         $businessLocation = $info->business_location;
-                                                        $imageUrl = $businessLocation->logo && File::exists(public_path($businessLocation->logo)) ? asset($businessLocation->logo) : 'https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg';
+                                                        $imageUrl = $businessLocation && File::exists(public_path($businessLocation->logo)) ? asset($businessLocation->logo) : 'https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg';
                                                     @endphp
 
                                                     <a

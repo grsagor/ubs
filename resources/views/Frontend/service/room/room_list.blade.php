@@ -17,7 +17,7 @@
                         @endphp
 
                         @if ($first_image && File::exists($imagePath))
-                            <a href="{{ route('property_show', $item->id) }}" class="woocommerce-LoopProduct-link">
+                            <a href="{{ route('room_show', $item->id) }}" class="woocommerce-LoopProduct-link">
                                 <img class="lazy img-fluid rounded" data-src="{{ asset($first_image) }}" alt="Product Image">
                             </a>
                         @else
