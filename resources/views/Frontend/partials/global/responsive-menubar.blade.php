@@ -34,14 +34,22 @@
                                                 <ul>
                                                     <li><a class="dropdown-item"
                                                             href="{{ route('property.list') }}">Property List</a> </li>
-                                                    @auth
-                                                        @if (auth()->check() && (auth()->user()->id === 5 || auth()->user()->user_type === 'user'))
+                                                    @if (auth()->check())
+                                                        @if (auth()->user()->id == 5 || auth()->user()->user_type === 'user')
+                                                            <li style="display: none;"><a class="dropdown-item"
+                                                                    href="{{ route('propertyFindingService') }}">Property
+                                                                    Finding Service</a></li>
                                                         @else
                                                             <li><a class="dropdown-item"
                                                                     href="{{ route('propertyFindingService') }}">Property
                                                                     Finding Service</a></li>
                                                         @endif
-                                                    @endauth
+                                                    @else
+                                                        <li><a class="dropdown-item"
+                                                                href="{{ route('propertyFindingService') }}">Property
+                                                                Finding Service</a></li>
+                                                    @endif
+
 
                                                 </ul>
                                             </div>
