@@ -46,7 +46,9 @@
                                         <div class="image-carousel">
                                             <div class="carousel-container">
                                                 @foreach ($images as $key => $item)
-                                                    <img class="mySlides" src="{{ asset($item) }}">
+                                                    <div>
+                                                        <img class="mySlides" src="{{ asset($item) }}">
+                                                    </div>
                                                 @endforeach
                                                 <a class="previous" onclick="plusSlides(-1)">❮</a>
                                                 <a class="next" onclick="plusSlides(1)" style="float: right;">❯</a>

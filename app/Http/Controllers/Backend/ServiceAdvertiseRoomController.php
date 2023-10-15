@@ -83,6 +83,7 @@ class ServiceAdvertiseRoomController extends Controller
                     $html =
                         '<div class="btn-group"><button type="button" class="btn btn-info dropdown-toggle btn-xs" data-toggle="dropdown" aria-expanded="false">' . __('messages.actions') . '<span class="caret"></span><span class="sr-only">Toggle Dropdown</span></button><ul class="dropdown-menu dropdown-menu-left" role="menu">';
 
+                    $html .= '<li><a href="/room-show/'.$service->id.'" target="_blank" style="padding: 0;"><button class="btn btn-link" style="color: #525557;"><i class="fas fa-solid fa-eye"></i>View</button></a></li>';
                     $html .= '<li><button type="button" data-id="' . $service->id . '" class="btn btn-link" id="property_rent_edit_btn" data-toggle="tooltip" style="color: #525557;"><i class="glyphicon glyphicon-edit"></i> ' . __('Edit') . '</button></li>';
                     $html .= '<li><button type="button" data-id="' . $service->id . '" class="btn btn-link" id="property_wanted_delete_btn" data-toggle="tooltip" style="color: #525557;"><i class="fas fa-history"></i> ' . __('Change Status') . '</button></li>';
 
@@ -359,24 +360,99 @@ class ServiceAdvertiseRoomController extends Controller
         $data['double'] = ServiceCharge::where([['child_category', 1], ['size', ['double']]])->first()->service_charge;
         $data['semi_double'] = ServiceCharge::where([['child_category', 1], ['size', ['semi-double']]])->first()->service_charge;
         $data['en_suite'] = ServiceCharge::where([['child_category', 1], ['size', ['en-suite']]])->first()->service_charge;
+        $business_id = request()->session()->get('user.business_id');
+        $data['business_locations'] = BusinessLocation::where('business_id', $business_id)
+        ->get();
 
         return view('backend.services.advertise_room.property_rent_edit_modal', $data);
     }
 
     public function updatePropertyRent(Request $request)
     {
-        $property = ServiceAdvertiseRoom::find($request->id);
+        $serviceAdvertiseRoom = ServiceAdvertiseRoom::find($request->id);
 
-        $property->advert_first_name = $request->advert_first_name;
-        $property->advert_last_name = $request->advert_last_name;
+        $requestedData = array_filter($request->all(), fn($value) => $value !== null);
 
-        $property->save();
+        $requestedData['property_amenities'] = json_encode($request->property_amenities);
 
-        $response = [
+        $requestedData['room'] = json_encode([
+            'room_cost_of_amount1' => $request->room_cost_of_amount1 ?? NULL,
+            'room_cost_time1' => $request->room_cost_time1 ?? NULL,
+            'room_size1' => $request->room_size1 ?? NULL,
+            'room_amenities1' => $request->room_amenities1 ?? NULL,
+            'room_furnishings1' => $request->room_furnishings1 ?? NULL,
+            'room_security_deposit1' => $request->room_security_deposit1 ?? NULL,
+            'room_available_from1' => $request->room_available_from1 ?? NULL,
+            'service_charge_room1' => $request->service_charge_room1 ?? NULL,
+            'room_holding_deposit1' => $request->room_holding_deposit1 ?? NULL,
+
+            'room_cost_of_amount2' => $request->room_cost_of_amount2 ?? NULL,
+            'room_cost_time2' => $request->room_cost_time2 ?? NULL,
+            'room_size2' => $request->room_size2 ?? NULL,
+            'room_amenities2' => $request->room_amenities2 ?? NULL,
+            'room_furnishings2' => $request->room_furnishings2 ?? NULL,
+            'room_security_deposit2' => $request->room_security_deposit2 ?? NULL,
+            'room_available_from2' => $request->room_available_from2 ?? NULL,
+            'service_charge_room2' => $request->service_charge_room2 ?? NULL,
+            'room_holding_deposit2' => $request->room_holding_deposit2 ?? NULL,
+
+            'room_cost_of_amount3' => $request->room_cost_of_amount3 ?? NULL,
+            'room_cost_time3' => $request->room_cost_time3 ?? NULL,
+            'room_size3' => $request->room_size3 ?? NULL,
+            'room_amenities3' => $request->room_amenities3 ?? NULL,
+            'room_furnishings3' => $request->room_furnishings3 ?? NULL,
+            'room_security_deposit3' => $request->room_security_deposit3 ?? NULL,
+            'room_available_from3' => $request->room_available_from3 ?? NULL,
+            'service_charge_room3' => $request->service_charge_room3 ?? NULL,
+            'room_holding_deposit3' => $request->room_holding_deposit3 ?? NULL,
+
+            'room_cost_of_amount4' => $request->room_cost_of_amount4 ?? NULL,
+            'room_cost_time4' => $request->room_cost_time4 ?? NULL,
+            'room_size4' => $request->room_size4 ?? NULL,
+            'room_amenities4' => $request->room_amenities4 ?? NULL,
+            'room_furnishings4' => $request->room_furnishings4 ?? NULL,
+            'room_security_deposit4' => $request->room_security_deposit4 ?? NULL,
+            'room_available_from4' => $request->room_available_from4 ?? NULL,
+            'service_charge_room4' => $request->service_charge_room4 ?? NULL,
+            'room_holding_deposit4' => $request->room_holding_deposit4 ?? NULL,
+
+            'room_cost_of_amount5' => $request->room_cost_of_amount5 ?? NULL,
+            'room_cost_time5' => $request->room_cost_time5 ?? NULL,
+            'room_size5' => $request->room_size5 ?? NULL,
+            'room_amenities5' => $request->room_amenities5 ?? NULL,
+            'room_furnishings5' => $request->room_furnishings5 ?? NULL,
+            'room_security_deposit5' => $request->room_security_deposit5 ?? NULL,
+            'room_available_from5' => $request->room_available_from5 ?? NULL,
+            'service_charge_room5' => $request->service_charge_room5 ?? NULL,
+            'room_holding_deposit5' => $request->room_holding_deposit5 ?? NULL,
+        ]);
+
+
+        // $requestedData['advert_photos']              = $this->image($request->file('advert_photos'), 'uploads/service_room/', 800, 500);
+
+        if ($request->hasFile('advert_photos')) {
+            $image_path = public_path('uploads/service_room');
+
+            $images = [];
+
+            foreach ($request->file('advert_photos') as $image) {
+                $image_name = rand(123456, 999999) . '.' . $image->getClientOriginalExtension();
+                $image->move($image_path, $image_name);
+                $images[] = 'uploads/service_room/' . $image_name;
+            }
+
+            $requestedData['advert_photos'] = json_encode($images);
+        }
+        // return $requestedData;
+
+        $serviceAdvertiseRoom->fill($requestedData)->save();
+
+        $output = [
             'success' => true,
-            'message' => 'Property updated successfully.'
+            'msg' => ('Updated Successfully!!!'),
         ];
-        return response()->json($response);
+
+        return response()->json($output);
     }
 
     public function destroy(ServiceAdvertiseRoom $serviceAdvertiseRoom)

@@ -132,6 +132,12 @@ class LoginController extends Controller
 
         $user = \Auth::user();
 
+        if (session()->has('intended_url')) {
+            $intended_url = session()->get('intended_url');
+            session()->forget('intended_url'); // Clear the intended URL from the session
+            return '/'.$intended_url;
+        }
+
         // Check user type and permissions
         if (!$user->can('dashboard.data') && $user->can('sell.create')) {
             return '/pos/create';

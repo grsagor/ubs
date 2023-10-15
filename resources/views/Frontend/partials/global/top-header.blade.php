@@ -1,3 +1,6 @@
+@php
+    $user = Auth::user();
+@endphp
 <div class="top-header font-400 d-none d-lg-block text-general bg-white p-0">
     {{-- <div class="container-fluid">
         <div class="row align-items-center justify-content-end">
@@ -270,33 +273,23 @@
                             </select>
                         </a>
                     </div> --}}
-                    <div class="sign-in my-account-dropdown position-relative">
-                        <a href="{{ url('login') }}"
-                            class="d-flex align-items-center text-white text-decoration-none">
-                            @if (Auth::check())
-                                <img class="img-fluid user lazy"
-                                    data-src="{{ asset('assets/images/users/' . Auth::user()->photo) }}"
-                                    alt="">
-                            @else
-                                <i class="flaticon-user-3 flat-mini mx-auto text-dark"></i>
-                            @endif
+                    <div class="dropdown sign-in my-account-dropdown position-relative">
+                        <a class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
+                            type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fa-solid fa-right-from-bracket"></i>
                         </a>
-                        <ul class="my-account-popup">
-                            @if (Auth::check())
-
-                                <li><a href=""><span
-                                            class="menu-item-text">{{ 'User Panel' }}</span></a></li>
-
-                                <li><a href=""><span
-                                            class="menu-item-text">{{ 'Edit Profile' }}</span></a></li>
-                                <li><a href=""><span
-                                            class="menu-item-text">{{ 'Logout' }}</span></a></li>
-                            @else
-                                <li><a href="{{ url('/user/login') }}"><span
-                                            class="menu-item-text sign-in">{{ 'Sign in' }}</span></a></li>
-
-                                <li><a href="{{ url('/user/register') }}"><span
-                                            class="menu-item-text join">{{ 'Join' }}</span></a></li>
+                        <ul class="dropdown-menu">
+                            @if ($user && $user->user_type == 'user_customer')
+                                <li><a class="dropdown-item"
+                                        href="{{ url('contact/contact-dashboard') }}">Dashboard</a></li>
+                                <li><a class="dropdown-item" href="{{ url('logout') }}">Logout</a></li>
+                            @endif
+                            @if ($user && $user->user_type == 'user')
+                                <li><a class="dropdown-item" href="{{ url('home') }}">Dashboard</a></li>
+                                <li><a class="dropdown-item" href="{{ url('logout') }}">Logout</a></li>
+                            @endif
+                            @if (!$user)
+                                <li><a class="dropdown-item" href="{{ url('login') }}">Login</a></li>
                             @endif
                         </ul>
                     </div>

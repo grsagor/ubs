@@ -19,8 +19,8 @@
 
 
     .mySlides {
-        width: 100%;
         display: none;
+        height: 50vh;
     }
 
     .demo {

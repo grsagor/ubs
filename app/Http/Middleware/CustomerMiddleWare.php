@@ -18,9 +18,8 @@ class CustomerMiddleWare
     public function handle(Request $request, Closure $next)
     {
         $user = Auth::user();
-
+        session(['intended_url' => $request->path()]);
         if (!$user || $user->user_type != 'user_customer') {
-            // return redirect(url('login'))->with('error', 'Please login as a customer.');
             return redirect(url('login'))->with(['from' => 'customer', 'error' => 'Login as customer']);
         }
 
