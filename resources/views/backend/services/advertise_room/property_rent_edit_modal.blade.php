@@ -1,3 +1,4 @@
+@include('backend.services.advertise_room.advertise_style')
 <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
 
@@ -8,11 +9,10 @@
         </div>
 
         <div class="modal-body">
-            <form id="property_rent_edit_form" method="POST"
-                enctype="multipart/form-data">
+            <form id="property_rent_edit_form" method="POST" enctype="multipart/form-data">
                 @csrf
                 <input type="hidden" name="id" value="{{ $property->id }}">
-                <div class="row">
+                {{-- <div class="row">
                     <div class="col-sm-12">
                         <div class="form-group">
                             <label for="custom_field2">Your name</label>
@@ -29,7 +29,25 @@
                         </div>
                     </div>
                 </div>
-                <input type="submit" value="Submit">
+                <input type="submit" value="Submit"> --}}
+
+                <!-- Step 1 -->
+                @include('backend.services.advertise_room.partial.edit_step_1')
+
+                <!-- Step 2 -->
+                @include('backend.services.advertise_room.partial.edit_step_2')
+
+                <!-- Step 3 -->
+                @include('backend.services.advertise_room.partial.edit_step_3')
+
+                <!-- Step 4 -->
+                @include('backend.services.advertise_room.partial.edit_step_4')
+
+                <!-- Step 5 -->
+                @include('backend.services.advertise_room.partial.edit_step_5')
+
+                <!-- Step 6 -->
+                @include('backend.services.advertise_room.partial.edit_step_6')
             </form>
         </div>
 
@@ -124,35 +142,36 @@
 <script>
     $(document).ready(function() {
         $("#property_rent_edit_form").submit(function(event) {
-        event.preventDefault();
+            event.preventDefault();
 
-        var formData = $("#property_rent_edit_form").serializeArray();
-        var jsonData = {};
+            var formData = $("#property_rent_edit_form").serializeArray();
+            var jsonData = {};
 
-        $.each(formData, function() {
-            jsonData[this.name] = this.value;
+            $.each(formData, function() {
+                jsonData[this.name] = this.value;
+            });
+
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                type: "POST",
+                url: "/update-property-rent",
+                data: JSON.stringify(jsonData),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function(response) {
+                    toastr.options = {
+                        "sound": false,
+                    };
+                    toastr.success(response.msg);
+                    $('#property_rent_edit_form').find('input, textarea, select').val(
+                        '');
+                    $('.property_rent_edit_modal').modal('hide');
+                    $('#room_to_rent_share_table').DataTable().ajax.reload();
+                },
+            });
         });
-
-        $.ajax({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            type: "POST",
-            url: "/update-property-rent",
-            data: JSON.stringify(jsonData),
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: function(response) {
-                toastr.options = {
-                    "sound": false,
-                };
-                toastr.success(response.message);
-                $('#property_rent_edit_form').find('input, textarea, select').val(
-                    '');
-                $('.property_rent_edit_modal').modal('hide');
-                $('#room_to_rent_share_table').DataTable().ajax.reload();
-            },
-        });
-    });
     })
 </script>
+@include('backend.services.advertise_room.advertise_script')
