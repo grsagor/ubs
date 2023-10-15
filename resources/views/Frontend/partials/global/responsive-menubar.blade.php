@@ -35,7 +35,8 @@
                                                     <li><a class="dropdown-item"
                                                             href="{{ route('property.list') }}">Property List</a> </li>
                                                     @auth
-                                                        @if (auth()->user()->id !== 5)
+                                                        @if (auth()->check() && (auth()->user()->id === 5 || auth()->user()->user_type === 'user'))
+                                                        @else
                                                             <li><a class="dropdown-item"
                                                                     href="{{ route('propertyFindingService') }}">Property
                                                                     Finding Service</a></li>

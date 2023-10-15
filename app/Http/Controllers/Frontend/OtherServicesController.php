@@ -41,9 +41,10 @@ class OtherServicesController extends Controller
 
     public function propertyFindingService($property_id = null, $child_category_id = null)
     {
-        if (auth()->user() && auth()->user()->id === 5) {
+        if (auth()->check() && (auth()->user()->id === 5 || auth()->user()->user_type === 'user')) {
             abort(403, 'Unauthorized action.');
         }
+
 
         $data['property_id'] = $property_id;
         $data['child_category_id'] = $child_category_id;
