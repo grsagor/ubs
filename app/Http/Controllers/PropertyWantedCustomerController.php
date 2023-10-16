@@ -24,7 +24,9 @@ class PropertyWantedCustomerController extends Controller
         if (!Auth::check()) {
             return redirect()->route('login');
         }
+
         $user = Auth::user();
+
         if (request()->ajax()) {
             $services = ServicePropertyWanted::where('user_id', $user->id)->with('category')->with('sub_category')->with('child_category')->get();
 
@@ -36,6 +38,13 @@ class PropertyWantedCustomerController extends Controller
                     return $service->status;
                 })
                 ->addColumn('action', function ($service) {
+
+                    $room_details_int = null;
+
+                    if ($service->room_details !== null) {
+                        preg_match('/\d+/', $service->room_details, $matches);
+                        $room_details_int = isset($matches[0]) ? intval($matches[0]) : null;
+                    }
 
                     $html =
                         '<div class="btn-group"><button type="button" class="btn btn-info dropdown-toggle btn-xs" data-toggle="dropdown" aria-expanded="false">' . __('messages.actions') . '<span class="caret"></span><span class="sr-only">Toggle Dropdown</span></button><ul class="dropdown-menu dropdown-menu-left" role="menu">';
@@ -55,6 +64,8 @@ class PropertyWantedCustomerController extends Controller
                                             <i class="fa fa-arrow-circle-up"></i>
                                             <input type="hidden" name="property_id" value="' . $service->id . '">
                                             <input type="hidden" name="child_category_id" value="' . $service->child_category_id . '">
+                                            <input type="hidden" name="property_size" value="' . $service->property_size . '">
+                                            <input type="hidden" name="room_details" value="' . $room_details_int . '">
                                             ' . __('Upgrade') . '
                                         </button>
                                     </li>

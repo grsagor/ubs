@@ -45,10 +45,12 @@ class OtherServicesController extends Controller
             abort(403, 'Unauthorized action.');
         }
 
-        return $request->toArray();
-
         $data['property_id'] = $request->property_id;
         $data['child_category_id'] = $request->child_category_id;
+        $data['property_size'] = $request->property_size;
+        $data['room_details'] = $request->room_details;
+
+        // return $data;
 
         $category = ServiceCategory::where('name', 'Property')->first();
         $sub_category = SubCategory::where([['category_id', $category->id], ['name', 'rent']])->first();
@@ -194,12 +196,14 @@ class OtherServicesController extends Controller
             'table_name' => 'propertyFindingService->serviceCharge',
             'upgrade' => $request->product_id ? 'yes' : null,
             'url' => '/contact/property-wanted',
-            'type' => 'property_wanted',
+            'type' => $request->type ?? null,
             // 'output' => [
             //     'success' => true,
             //     'msg' => 'Successful!',
             // ],
         ];
+
+        return $info;
 
         return redirect('stripe')
             ->with($info);

@@ -96,7 +96,8 @@ class StripePaymentController extends Controller
             $payment_history->table_name = $charge->metadata->table_name;
             $payment_history->save();
 
-            if ($request->type == 'property_wanted') {
+            if ($request->type == 'property_wanted_frontend') {
+                dd('frontend');
                 $category       = ServiceCategory::where('name', 'Property')->first();
                 $sub_category   = SubCategory::where([['category_id', $category->id], ['name', 'buy']])->first();
                 $requestedData['user_id'] = auth()->id();
@@ -110,20 +111,16 @@ class StripePaymentController extends Controller
                 $property->child_category_id =  $request->child_category_id;
                 $property->upgraded =  1;
                 $property->plan = $request->plan;
-
-                if ($request->upgrade  !== 'yes') {
-                    $property->information_complete =  0; //O means information incomplete
-                }
-
+                $property->information_complete =  0; //O means information incomplete
                 $property->save();
             }
 
-            // if ($request->upgrade  == 'yes') {
-            //     $property = ServicePropertyWanted::find($request->product_id);
-            //     $property->upgraded = 1;
-            //     $property->plan = $request->plan;
-            //     $property->save();
-            // }
+            if ($request->upgrade  == 'yes') {
+                $property = ServicePropertyWanted::find($request->product_id);
+                $property->upgraded = 1;
+                $property->plan = $request->plan;
+                $property->save();
+            }
 
             Session::flash('success', 'Payment successful!');
             if ($request->url) {
