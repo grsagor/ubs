@@ -482,6 +482,7 @@
                 </ol>
             </div>
 
+
             <div class="row mt-3 mb-5 banking_information">
                 <div class="col-md-3" style="border-style: ridge;">
                     <h6 class="body-heading">Company Bank Details: </h6>
@@ -548,8 +549,8 @@
                     }
                 });
             } else {
-                $regularPrice.text('£ 0').show();
-                $premiumPrice.text('£ 0').show();
+                $regularPrice.text('£0.0').show();
+                $premiumPrice.text('£0.0').show();
 
                 $regularpayButton.prop('disabled', true);
                 $premiumpayButton.prop('disabled', true);

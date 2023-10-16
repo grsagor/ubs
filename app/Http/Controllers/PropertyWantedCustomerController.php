@@ -49,17 +49,21 @@ class PropertyWantedCustomerController extends Controller
                     } elseif ($service->plan == 'Premium') {
                         $html .= '<li><button type="button" class="btn btn-link" id="" data-toggle="tooltip" style="color: #525557;"><i class="fa fa-star"></i> ' . __('Premium') . '</button></li>';
                     } else {
-                        $html .= '<form action="/property-finding-service/' . $service->id . '/' . $service->child_category_id . '" method="GET" enctype="multipart/form-data">
-                    <li><button type="submit" class="btn btn-link" id="" data-toggle="tooltip" style="color: #525557;"><i class="fa fa-arrow-circle-up"></i> ' . __('Upgrade') . '</button></li>
-                    
-                  ';
+                        $html .= '<form action="/property-finding-service/" method="GET" enctype="multipart/form-data">
+                                    <li>
+                                        <button type="submit" class="btn btn-link" id="" data-toggle="tooltip" style="color: #525557;">
+                                            <i class="fa fa-arrow-circle-up"></i>
+                                            <input type="hidden" name="property_id" value="' . $service->id . '">
+                                            <input type="hidden" name="child_category_id" value="' . $service->child_category_id . '">
+                                            ' . __('Upgrade') . '
+                                        </button>
+                                    </li>
+                                </form>';
                     }
-
 
                     $html .= '</ul></div>';
 
                     return $html;
-
 
 
 
@@ -137,7 +141,8 @@ class PropertyWantedCustomerController extends Controller
     }
     public function showRoomDetailsInputs(Request $request)
     {
-        $num = $request->num;
+        // $num = $request->num;
+        $num = 1;
         $html = view('crm::property_wanted.show_room_details_inputs', compact('num'))->render();
         $response = [
             'html' => $html,
