@@ -31,7 +31,7 @@ class FrontendController extends Controller
                 'rent',
                 'created_at'
             )
-                ->search($request)
+                // ->search($request)
                 ->whereNotIn('id', function ($query) {
                     $query->select('foregn_key')
                         ->from('payment_histories')
@@ -66,7 +66,7 @@ class FrontendController extends Controller
                 'advert_type',
                 'created_at'
             )
-                ->search($request)
+                // ->search($request)
                 ->whereNotIn('id', function ($query) {
                     $query->select('foregn_key')
                         ->from('payment_histories')

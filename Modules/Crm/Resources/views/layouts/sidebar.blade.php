@@ -18,14 +18,14 @@
                     <span> &nbsp; Ledger</span></a></li>
             <li><a href="{{ url('/contact/bookings') }}"><i class="fas fa fa-calendar-check"></i>
                     <span>Bookings</span></a></li>
-            <li><a href="{{ url('/contact/order-request') }}"><i class="fa fas fa-arrow-circle-up"></i>
-                    <span>Order Request</span></a></li>
+            {{-- <li><a href="{{ url('/contact/order-request') }}"><i class="fa fas fa-arrow-circle-up"></i>
+                    <span>Order Request</span></a></li> --}}
 
             <li><a href="{{ url('/contact/property-wanted') }}"><i class="fa fas fa-arrow-circle-up"></i>
                     <span>Property Wanted</span></a></li>
 
-            <li><a href="{{ url('/contact/service_wanted') }}"><i class="fas fa fa-calendar-check"></i>
-                    <span>Service Wanted</span></a></li>
+            {{-- <li><a href="{{ url('/contact/service_wanted') }}"><i class="fas fa fa-calendar-check"></i>
+                    <span>Service Wanted</span></a></li> --}}
 
             {{-- <li><a href="{{ url('/contact/education') }}"><i class="fa fas fa-arrow-circle-up"></i>
                     <span>Education</span></a></li> --}}
