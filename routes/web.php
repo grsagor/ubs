@@ -117,41 +117,38 @@ Route::controller(StripePaymentController::class)->group(function () {
 });
 
 // Digital Marketing, Partner Boarding, Business Solution, IT solution
-Route::get('/digital-marketing',                                                    [OtherServicesController::class, 'digitalMarketing'])->name('digitalMarketing');
-Route::get('/partner-boarding',                                                     [OtherServicesController::class, 'partnerBoarding'])->name('partnerBoarding');
-Route::get('/business-solutions',                                                   [OtherServicesController::class, 'businessSolutions'])->name('businessSolutions');
-Route::get('/it-solutions',                                                         [OtherServicesController::class, 'itSolutions'])->name('itSolutions');
-Route::get('/property-finding-service/{property_id?}/{child_category_id?}',         [OtherServicesController::class, 'propertyFindingService'])->name('propertyFindingService');
-Route::get('/property-finding-service-charge/{id}',                                 [OtherServicesController::class, 'propertyFindingServiceCharge'])->name('propertyFindingServiceCharge');
-Route::get('/property-finding-service-add-click-handler', [OtherServicesController::class, 'addClilckHandler']);
-Route::get('/property-finding-service-change-quantity-handler', [OtherServicesController::class, 'changeQuantityHandler']);
-Route::get('/property-finding-payment',                                             [OtherServicesController::class, 'propertyFindingPayment'])->name('propertyFindingPayment');
+Route::get('/digital-marketing',                                    [OtherServicesController::class, 'digitalMarketing'])->name('digitalMarketing');
+Route::get('/partner-boarding',                                     [OtherServicesController::class, 'partnerBoarding'])->name('partnerBoarding');
+Route::get('/business-solutions',                                   [OtherServicesController::class, 'businessSolutions'])->name('businessSolutions');
+Route::get('/it-solutions',                                         [OtherServicesController::class, 'itSolutions'])->name('itSolutions');
+Route::get('/property-finding-service',                             [OtherServicesController::class, 'propertyFindingService'])->name('propertyFindingService');
+Route::get('/property-finding-service-charge/{id}',                 [OtherServicesController::class, 'propertyFindingServiceCharge'])->name('propertyFindingServiceCharge');
+Route::get('/property-finding-service-add-click-handler',           [OtherServicesController::class, 'addClilckHandler']);
+Route::get('/property-finding-service-change-quantity-handler',     [OtherServicesController::class, 'changeQuantityHandler']);
+Route::get('/property-finding-payment',                             [OtherServicesController::class, 'propertyFindingPayment'])->name('propertyFindingPayment');
 
 // Services
-Route::get('/room-list/',                               [RoomListController::class, 'roomList'])->name('room.list');
-Route::get('/room-list/category',                       [RoomListController::class, 'roomListCategory'])->name('room.list.category');
-Route::get('/room-show/{id}',                           [RoomListController::class, 'roomShow'])->name('room_show');
-Route::post('/submit-form', [RoomListController::class, 'showModal']);
-Route::post('/room-booking/', [RoomListController::class, 'propertyRentBooking'])->name('room.propertyRentBooking');
-Route::get('/show-occupants-details-inputs',            [RoomListController::class, 'showOccupantsDetailsInputs']);
+Route::get('/room-list/',                        [RoomListController::class, 'roomList'])->name('room.list');
+Route::get('/room-list/category',                [RoomListController::class, 'roomListCategory'])->name('room.list.category');
+Route::get('/room-show/{id}',                    [RoomListController::class, 'roomShow'])->name('room_show');
+Route::post('/submit-form',                      [RoomListController::class, 'showModal']);
+Route::post('/room-booking/',                    [RoomListController::class, 'propertyRentBooking'])->name('room.propertyRentBooking');
+Route::get('/show-occupants-details-inputs',     [RoomListController::class, 'showOccupantsDetailsInputs']);
+
 
 Route::get('/property/{sub_category_id?}/{child_category_id?}', [PropertyFrontController::class, 'roomList'])->name('property.list');
+Route::get('/property-show/{id}',                               [PropertyController::class, 'propertyShow'])->name('property_show');
+Route::put('/property-reference-number-check/{id}',             [PropertyController::class, 'referenceNumberCheck'])->name('property.referenceNumberCheck');
+Route::get('/property-list-showing/{child_category_id?}',       [PropertyController::class, 'propertyListShowing']);
 
-// Route::get('/property-list',                    [PropertyController::class, 'propertyList'])->name('property.list.a');
-Route::get('/property-show/{id}',               [PropertyController::class, 'propertyShow'])->name('property_show');
-Route::put('/property-reference-number-check/{id}', [PropertyController::class, 'referenceNumberCheck'])->name('property.referenceNumberCheck');
+Route::get('/education-list',           [EducationController::class, 'educationList'])->name('education.list');
+Route::get('/education-show/{id}',      [EducationController::class, 'educationShow'])->name('education_show');
 
-Route::get('/property-list-showing/{child_category_id?}', [PropertyController::class, 'propertyListShowing']);
-
-Route::get('/education-list',                           [EducationController::class, 'educationList'])->name('education.list');
-Route::get('/education-show/{id}',               [EducationController::class, 'educationShow'])->name('education_show');
-
-Route::get('/service-list',  [ServiceController::class, 'serviceList'])->name('service.list');
-Route::get('/service-create', [ServiceController::class, 'serviceCreate'])->name('service.create');
-Route::get('/get-subcategories/{category_id}',  [ServiceController::class, 'getSubcategories'])->name('service.subCategory');
-Route::get('/get-child-subcategories/{category_id}',  [ServiceController::class, 'getChildSubcategories'])->name('service.childSubCategory');
-
-Route::get('/get-service-items/{category_id}',  [ServiceController::class, 'getServiceItems']);
+Route::get('/service-list',                             [ServiceController::class, 'serviceList'])->name('service.list');
+Route::get('/service-create',                           [ServiceController::class, 'serviceCreate'])->name('service.create');
+Route::get('/get-subcategories/{category_id}',          [ServiceController::class, 'getSubcategories'])->name('service.subCategory');
+Route::get('/get-child-subcategories/{category_id}',    [ServiceController::class, 'getChildSubcategories'])->name('service.childSubCategory');
+Route::get('/get-service-items/{category_id}',          [ServiceController::class, 'getServiceItems']);
 
 // FOOTER LINKS DETAIL SECTION
 Route::get('/about',                                    [FrontendController::class, 'footerDetails'])->name('footer.details.about');

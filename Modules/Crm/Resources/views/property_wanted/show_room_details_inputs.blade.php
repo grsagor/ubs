@@ -7,9 +7,9 @@
             <label class="form_input form_radio"><input type="radio" name="room_details[{{ $i }}]"
                     value=2>Double</label>
             <label class="form_input form_radio"><input type="radio" name="room_details[{{ $i }}]"
-                    value=3>Semi-double </label>
+                    value=6>Semi-double </label>
             <label class="form_input form_radio"><input type="radio" name="room_details[{{ $i }}]"
-                    value=3>En-suit</label>
+                    value=7>En-suit</label>
         </div>
     </div>
 @endfor

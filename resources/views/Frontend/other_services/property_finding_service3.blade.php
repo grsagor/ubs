@@ -227,30 +227,41 @@
                                             <th style="width: 30%">
                                                 <div class="room_type_tab3" id="room_type_tab3">
 
+
+
+
                                                     <div class="row p-2">
+
                                                         <div class="col-md-7">
                                                             <select class="form-control"
                                                                 style="background: white; height: auto;"
-                                                                id="child_category_id_room_tab_3" name="child_category">
+                                                                id="child_category_id_room_tab_3" name="child_category"
+                                                                {{ $room_details ? 'disabled' : '' }}>
                                                                 <option value="0">Select</option>
                                                                 @foreach ($room_size as $item)
-                                                                    <option value="{{ $item->id }}">
-                                                                        {{ $item->size }}</option>
+                                                                    <option value="{{ $item->id }}"
+                                                                        {{ $item->id == $room_details ? 'selected' : '' }}>
+                                                                        {{ $item->size }}
+                                                                    </option>
                                                                 @endforeach
                                                             </select>
                                                         </div>
+
+
                                                         <div class="col-md-5">
                                                             <select class="form-control"
                                                                 style="background: white; height: auto;" id="quantity_tab_3"
-                                                                name="quantity">
+                                                                name="quantity" {{ $property_size ? 'disabled' : '' }}>
                                                                 <option value="0">Qty</option>
-                                                                <option value="1">1</option>
-                                                                <option value="2">2</option>
-                                                                <option value="3">3</option>
-                                                                <option value="4">4</option>
-                                                                <option value="5">5</option>
+                                                                @for ($i = 1; $i <= 5; $i++)
+                                                                    <option value="{{ $i }}"
+                                                                        {{ $property_size == $i ? 'selected' : '' }}>
+                                                                        {{ $i }}
+                                                                    </option>
+                                                                @endfor
                                                             </select>
                                                         </div>
+
 
                                                     </div>
                                                 </div>
@@ -293,7 +304,7 @@
                                                     @csrf
                                                     <input type="hidden" name="category_name" value="room">
                                                     <input type="hidden" id="room_regular_product_id" name="product_id"
-                                                        value="">
+                                                        value="{{ $property_id ?? null }}">
                                                     <input type="hidden" name="product_name" value="Room Regular">
 
                                                     <input type="hidden" id="room_regular_size" name="room_size"
@@ -320,7 +331,7 @@
                                                     @csrf
                                                     <input type="hidden" name="category_name" value="room">
                                                     <input type="hidden" id="room_premium_product_id" name="product_id"
-                                                        value="">
+                                                        value="{{ $property_id ?? null }}">
                                                     <input type="hidden" name="product_name" value="Room Premium">
 
                                                     <input type="hidden" id="room_premium_size" name="room_size"
@@ -482,6 +493,7 @@
                 </ol>
             </div>
 
+
             <div class="row mt-3 mb-5 banking_information">
                 <div class="col-md-3" style="border-style: ridge;">
                     <h6 class="body-heading">Company Bank Details: </h6>
@@ -496,7 +508,7 @@
     </div>
 @endsection
 @section('script')
-    <script>
+    {{-- <script>
         const $regularPrice = $('#regular_price_room_tab3');
         const $premiumPrice = $('#premium_price_room_tab3');
         const $regularpayButton = $('#room_regular_pay_btn');
@@ -548,8 +560,8 @@
                     }
                 });
             } else {
-                $regularPrice.text('£ 0').show();
-                $premiumPrice.text('£ 0').show();
+                $regularPrice.text('£0.0').show();
+                $premiumPrice.text('£0.0').show();
 
                 $regularpayButton.prop('disabled', true);
                 $premiumpayButton.prop('disabled', true);
@@ -559,6 +571,74 @@
         $('#child_category_id_room_tab_3, #quantity_tab_3').on('change', function() {
             updatePrices();
         });
+    </script> --}}
+
+
+    <script>
+        const $regularPrice = $('#regular_price_room_tab3');
+        const $premiumPrice = $('#premium_price_room_tab3');
+        const $regularpayButton = $('#room_regular_pay_btn');
+        const $premiumpayButton = $('#room_premium_pay_btn');
+
+        const $room_regular_size = $('#room_regular_size');
+        const $room_regular_quantity = $('#room_regular_quantity');
+        const $room_regular_charge = $('#room_regular_charge');
+        const $room_regular_service_charge_id = $('#room_regular_service_charge_id');
+
+        const $room_premium_size = $('#room_premium_size');
+        const $room_premium_quantity = $('#room_premium_quantity');
+        const $room_premium_charge = $('#room_premium_charge');
+        const $room_premium_service_charge_id = $('#room_premium_service_charge_id');
+
+        // Define a function to update prices
+        function updatePrices() {
+            const selectedCategory = $('#child_category_id_room_tab_3').val();
+            const selectedQuantity = $('#quantity_tab_3').val();
+
+            if (selectedCategory != 0 && selectedQuantity != 0) {
+                $.ajax({
+                    url: '/property-finding-service-charge/' + selectedCategory,
+                    type: 'get',
+                    success: (result) => {
+                        if (result.service_charge) {
+                            const serviceCharge = result.service_charge.service_charge.toFixed(2);
+                            $regularPrice.text('£' + (serviceCharge * selectedQuantity)).show();
+
+                            const premiumServiceCharge = (serviceCharge * 1.4 * selectedQuantity).toFixed(2);
+                            $premiumPrice.text('£' + premiumServiceCharge).show();
+
+                            $room_regular_size.val(result.service_charge.size);
+                            $room_regular_quantity.val(selectedQuantity);
+                            $room_regular_service_charge_id.val(result.service_charge.id);
+                            $room_regular_charge.val(result.service_charge.service_charge);
+
+                            $room_premium_size.val(result.service_charge.size);
+                            $room_premium_quantity.val(selectedQuantity);
+                            $room_premium_service_charge_id.val(result.service_charge.id);
+                            $room_premium_charge.val(result.service_charge.service_charge * 1.4);
+
+                            $regularpayButton.prop('disabled', false);
+                            $premiumpayButton.prop('disabled', false);
+                        }
+                    }
+                });
+            } else {
+                $regularPrice.text('£0.0').show();
+                $premiumPrice.text('£0.0').show();
+
+                $regularpayButton.prop('disabled', true);
+                $premiumpayButton.prop('disabled', true);
+            }
+        }
+
+        // Call the updatePrices function on page load
+        updatePrices();
+
+        // Attach event handlers
+        $('#child_category_id_room_tab_3, #quantity_tab_3').on('change', function() {
+            updatePrices();
+        });
     </script>
+
     {{-- @include('frontend.other_services.partial.property_finding_service.script') --}}
 @endsection

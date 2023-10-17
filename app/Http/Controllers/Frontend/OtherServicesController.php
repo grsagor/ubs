@@ -39,15 +39,18 @@ class OtherServicesController extends Controller
         return view('frontend.other_services.it_solution');
     }
 
-    public function propertyFindingService($property_id = null, $child_category_id = null)
+    public function propertyFindingService(Request $request)
     {
         if (auth()->check() && (auth()->user()->id === 5 || auth()->user()->user_type === 'user')) {
             abort(403, 'Unauthorized action.');
         }
 
+        $data['property_id'] = $request->property_id;
+        $data['child_category_id'] = $request->child_category_id;
+        $data['property_size'] = $request->property_size;
+        $data['room_details'] = $request->room_details;
 
-        $data['property_id'] = $property_id;
-        $data['child_category_id'] = $child_category_id;
+        // return $data;
 
         $category = ServiceCategory::where('name', 'Property')->first();
         $sub_category = SubCategory::where([['category_id', $category->id], ['name', 'rent']])->first();
@@ -55,7 +58,6 @@ class OtherServicesController extends Controller
         $data['room_size'] = ServiceCharge::where([['category_id', $category->id], ['sub_category_id', $sub_category->id], ['size', '!=', NULL]])->get();
 
         $data['service_charge'] = ServiceCharge::with('childCategory')->get();
-        $data['property_id'] = $property_id;
         $data['studio_flat_service_charge'] = null;
         $data['house_service_charge'] = null;
         $data['flat_service_charge'] = null;
@@ -194,12 +196,14 @@ class OtherServicesController extends Controller
             'table_name' => 'propertyFindingService->serviceCharge',
             'upgrade' => $request->product_id ? 'yes' : null,
             'url' => '/contact/property-wanted',
-            'type' => 'property_wanted',
+            'type' => $request->type ?? null,
             // 'output' => [
             //     'success' => true,
             //     'msg' => 'Successful!',
             // ],
         ];
+
+        return $info;
 
         return redirect('stripe')
             ->with($info);
