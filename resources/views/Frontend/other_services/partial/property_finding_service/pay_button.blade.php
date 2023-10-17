@@ -10,6 +10,9 @@
 
     @if ($product_id == null)
         <input type="hidden" name="type" value="property_wanted_frontend">
+    @else
+        <input type="hidden" name="type" value="property_wanted_backend">
     @endif
+
     <button type="submit" class="btn" style="color: white">PAY</button>
 </form>
