@@ -203,7 +203,7 @@ class OtherServicesController extends Controller
             // ],
         ];
 
-        return $info;
+        // return $info;
 
         return redirect('stripe')
             ->with($info);

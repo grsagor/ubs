@@ -70,6 +70,34 @@ class StripePaymentController extends Controller
 
 
         try {
+
+
+            if ($request->type == 'property_wanted_frontend') {
+
+                $category       = ServiceCategory::where('name', 'Property')->first();
+                $sub_category   = SubCategory::where([['category_id', $category->id], ['name', 'buy']])->first();
+
+                $property = new ServicePropertyWanted();
+
+                $property->reference_id = Auth::id() . Str::random(15);
+                $property->user_id =  auth()->id();
+                $property->category_id =  $category->id;
+                $property->sub_category_id =  $sub_category->id;
+                $property->child_category_id =  $request->child_category_id;
+                $property->upgraded =  1;
+                $property->plan = $request->plan;
+                $property->information_complete =  0;
+                $property->save();
+            }
+
+            if ($request->type == 'property_wanted_backend') {
+                $property = ServicePropertyWanted::find($request->product_id);
+                $property->upgraded = 1;
+                $property->plan = $request->plan;
+                $property->save();
+            }
+
+
             $charge = \Stripe\Charge::create(array(
                 "amount"        => $request->bill * 100,
                 "currency"      => "usd",
@@ -86,41 +114,22 @@ class StripePaymentController extends Controller
                 )
             ));
 
+
             $payment_history = new PaymentHistory;
             $payment_history->user_id = Auth::user()->id;
             $payment_history->amount = $request->bill; // Make sure to adjust the amount if needed
             $payment_history->currency = 'usd';
             $payment_history->description = 'Test payment.';
             $payment_history->transaction_id = $charge->id;
-            $payment_history->foregn_key = $charge->metadata->product_id;
             $payment_history->table_name = $charge->metadata->table_name;
+
+            if (isset($charge->metadata->product_id)) {
+                $payment_history->foregn_key = $charge->metadata->product_id;
+            } else {
+                $payment_history->foregn_key = $property->id; // Use the property ID as an alternative
+            }
+
             $payment_history->save();
-
-            if ($request->type == 'property_wanted_frontend') {
-                dd('frontend');
-                $category       = ServiceCategory::where('name', 'Property')->first();
-                $sub_category   = SubCategory::where([['category_id', $category->id], ['name', 'buy']])->first();
-                $requestedData['user_id'] = auth()->id();
-
-                $property = new ServicePropertyWanted();
-
-                $property->reference_id = Auth::id() . Str::random(15);
-                $property->user_id =  auth()->id();
-                $property->category_id =  $category->id;
-                $property->sub_category_id =  $sub_category->id;
-                $property->child_category_id =  $request->child_category_id;
-                $property->upgraded =  1;
-                $property->plan = $request->plan;
-                $property->information_complete =  0; //O means information incomplete
-                $property->save();
-            }
-
-            if ($request->upgrade  == 'yes') {
-                $property = ServicePropertyWanted::find($request->product_id);
-                $property->upgraded = 1;
-                $property->plan = $request->plan;
-                $property->save();
-            }
 
             Session::flash('success', 'Payment successful!');
             if ($request->url) {

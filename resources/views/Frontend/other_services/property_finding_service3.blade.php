@@ -305,6 +305,14 @@
                                                     <input type="hidden" name="category_name" value="room">
                                                     <input type="hidden" id="room_regular_product_id" name="product_id"
                                                         value="{{ $property_id ?? null }}">
+                                                    @if ($property_id == null)
+                                                        <input type="hidden" name="type"
+                                                            value="property_wanted_frontend">
+                                                    @else
+                                                        <input type="hidden" name="type"
+                                                            value="property_wanted_backend">
+                                                    @endif
+
                                                     <input type="hidden" name="product_name" value="Room Regular">
 
                                                     <input type="hidden" id="room_regular_size" name="room_size"
@@ -332,6 +340,14 @@
                                                     <input type="hidden" name="category_name" value="room">
                                                     <input type="hidden" id="room_premium_product_id" name="product_id"
                                                         value="{{ $property_id ?? null }}">
+                                                    @if ($property_id == null)
+                                                        <input type="hidden" name="type"
+                                                            value="property_wanted_frontend">
+                                                    @else
+                                                        <input type="hidden" name="type"
+                                                            value="property_wanted_backend">
+                                                    @endif
+
                                                     <input type="hidden" name="product_name" value="Room Premium">
 
                                                     <input type="hidden" id="room_premium_size" name="room_size"
