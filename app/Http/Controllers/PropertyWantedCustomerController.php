@@ -165,9 +165,7 @@ class PropertyWantedCustomerController extends Controller
     public function store(Request $request)
     {
         try {
-            // dd($request->toArray());
             $request->validate([
-                // 'ad_title'              => 'required|max:92',
                 'why_is_searching'      => 'required|max:100',
             ]);
 
@@ -224,66 +222,6 @@ class PropertyWantedCustomerController extends Controller
 
             return redirect()->back()->with('status', $output);
         }
-    }
-
-    public function storaae(Request $request)
-    {
-        $count = count($request->occupant_name);
-        $occupant_details = [];
-        for ($i = 0; $i < $count; $i++) {
-            $occupant_details[] = [
-                "occupant_name" => $request->occupant_name[$i],
-                "occupant_gender_req" => $request->occupant_gender_req[$i],
-                "occupant_age" => $request->occupant_age[$i],
-                "occupant_relationship" => $request->occupant_relationship[$i],
-                "occupant_occupation" => $request->occupant_occupation[$i],
-                "occupant_university_name" => $request->occupant_university_name[$i],
-                "occupant_degree_name" => $request->occupant_degree_name[$i],
-                "occupant_job" => $request->occupant_job[$i],
-                "occupant_job_type" => $request->occupant_job_type[$i],
-                "occupant_miat" => $request->occupant_miat[$i],
-                "occupant_pay_rent" => $request->occupant_pay_rent[$i],
-                "occupant_nationality" => $request->occupant_nationality[$i],
-                "occupant_visa_status" => $request->occupant_visa_status[$i],
-            ];
-        }
-        // return $request;
-        $property = new ServicePropertyWanted();
-
-        $requestedData = $request->all();
-
-        $requestedData['reference_id'] = strval(Auth::id()) . Str::random(15);
-
-        $requestedData['user_id'] = auth()->id();
-
-        $requestedData['roomfurnishings'] = json_encode($request->roomfurnishings);
-        $requestedData['occupant_details'] = json_encode($occupant_details);
-        $requestedData['room_details'] = json_encode($request->room_size);
-
-        // $requestedData['images'] = $this->image($request->file('images'), 'uploads/service_property/', 800, 500);
-        $requestedData['images'] = null;
-
-        if ($request->hasFile('images')) {
-            $image_path = public_path('uploads/service_property');
-            $image_names = [];
-
-            foreach ($request->file('images') as $file) {
-                $image_name = rand(123456, 999999) . '.' . $file->getClientOriginalExtension();
-                $file->move($image_path, $image_name);
-                $image_names[] = 'uploads/service_property/' . $image_name;
-            }
-
-            $requestedData['images'] = $image_names;
-        }
-
-        $property->fill($requestedData)->save();
-
-        $output = [
-            'success' => true,
-            'msg' => ('Created Successfully!!!'),
-        ];
-
-        return redirect()->back()->with('success', $output);
     }
 
     public function showPropertyDeleteModal(Request $request)
@@ -347,10 +285,35 @@ class PropertyWantedCustomerController extends Controller
     {
         $property = ServicePropertyWanted::find($request->id);
 
-        $property->first_name = $request->first_name;
-        $property->last_name = $request->last_name;
+        if ($request->occupant_name) {
+            $count = count($request->occupant_name);
+            $occupant_details = [];
+            for ($i = 0; $i < $count; $i++) {
+                $occupant_details[] = [
+                    "occupant_name" => $request->occupant_name[$i],
+                    "occupant_gender_req" => $request->occupant_gender_req[$i],
+                    "occupant_age" => $request->occupant_age[$i],
+                    "occupant_relationship" => $request->occupant_relationship[$i],
+                    "occupant_occupation" => $request->occupant_occupation[$i],
+                    "occupant_university_name" => $request->occupant_university_name[$i],
+                    "occupant_degree_name" => $request->occupant_degree_name[$i],
+                    "occupant_job" => $request->occupant_job[$i],
+                    "occupant_job_type" => $request->occupant_job_type[$i],
+                    "occupant_designation" => $request->occupant_designation[$i],
+                    "occupant_miat" => $request->occupant_miat[$i],
+                    "occupant_pay_rent" => $request->occupant_pay_rent[$i],
+                    "occupant_nationality" => $request->occupant_nationality[$i],
+                    "occupant_visa_status" => $request->occupant_visa_status[$i],
+                ];
+            }
+        }
 
-        $property->save();
+        $requestedData = $request->all();
+        if ($request->occupant_name) {
+            $requestedData['occupant_details']      = json_encode($occupant_details);
+        }
+
+        $property->fill($requestedData)->save();
 
         $response = [
             'success' => true,

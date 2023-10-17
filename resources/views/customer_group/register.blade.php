@@ -65,14 +65,14 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="address_line_1">Address line 1:</label>
-                            <input class="form-control" placeholder="Address line 1" rows="3" name="address_line_1"
+                            <input class="form-control" placeholder="Address line 1" rows="3" name="permanent_address"
                                 type="text" id="address_line_1">
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="address_line_2">Address line 2:</label>
-                            <input class="form-control" placeholder="Address line 2" rows="3" name="address_line_2"
+                            <input class="form-control" placeholder="Address line 2" rows="3" name="current_address"
                                 type="text" id="address_line_2">
                         </div>
                     </div>

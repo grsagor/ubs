@@ -797,6 +797,7 @@
         })
 
         $('#occupation').change(function() {
+            console.log('changed')
             var isStudent = $(this).val();
             if (isStudent == 1) {
                 $('#student_info_container input, #student_info_container select, #student_info_container textarea')

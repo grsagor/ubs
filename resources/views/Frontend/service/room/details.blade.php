@@ -558,17 +558,21 @@
                                 @if ($info->property_amenities)
                                     @php
                                         $amenities = json_decode($info->property_amenities, true);
-
-                                        array_walk($amenities, function (&$amenity) {
-                                            $amenity = ucfirst($amenity);
-                                        });
+                                
+                                        if (is_array($amenities)) {
+                                            array_walk($amenities, function (&$amenity) {
+                                                $amenity = ucfirst($amenity);
+                                            });
+                                        }
                                     @endphp
-
+                                
                                     <p>
-                                        <strong>Aminities: </strong>
-                                        @foreach ($amenities as $item)
-                                            <span>{{ $item }}, </span>
-                                        @endforeach
+                                        <strong>Amenities: </strong>
+                                        @if (is_array($amenities))
+                                            @foreach ($amenities as $item)
+                                                <span>{{ $item }}, </span>
+                                            @endforeach
+                                        @endif
                                     </p>
                                 @endif
 

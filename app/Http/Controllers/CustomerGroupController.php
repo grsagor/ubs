@@ -113,7 +113,15 @@ class CustomerGroupController extends Controller
     {
         return User::create([
             'user_type' => 'user_customer',
+            'surname' => $data['surname'],
+            'first_name' => $data['first_name'],
+            'last_name' => $data['last_name'],
             'email' => $data['email'],
+            'contact_number' => $data['contact_number'],
+            'alt_number' => $data['alt_number'],
+            'family_number' => $data['family_number'],
+            'permanent_address' => $data['permanent_address'],
+            'current_address' => $data['current_address'],
             'username' => $data['username'],
             'contact_no' => $data['contact_number'],
             'password' => Hash::make($data['password']),
