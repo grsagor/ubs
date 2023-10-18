@@ -41,16 +41,14 @@ class OtherServicesController extends Controller
 
     public function propertyFindingService(Request $request)
     {
-        if (auth()->check() && (auth()->user()->id === 5 || auth()->user()->user_type === 'user')) {
-            abort(403, 'Unauthorized action.');
-        }
+        // if (auth()->check() && (auth()->user()->id === 5 || auth()->user()->user_type === 'user')) {
+        //     abort(403, 'Unauthorized action.');
+        // }
 
         $data['property_id'] = $request->property_id;
         $data['child_category_id'] = $request->child_category_id;
         $data['property_size'] = $request->property_size;
         $data['room_details'] = $request->room_details;
-
-        // return $data;
 
         $category = ServiceCategory::where('name', 'Property')->first();
         $sub_category = SubCategory::where([['category_id', $category->id], ['name', 'rent']])->first();
@@ -179,6 +177,10 @@ class OtherServicesController extends Controller
         //         'type'              => $info['type'],
         //     ]);
 
+
+        if (auth()->check() && (auth()->user()->id === 5 || auth()->user()->user_type === 'user')) {
+            return view('frontend.other_services.property_finding_service_error');
+        }
 
         $info = [
             'product_id' => $request->product_id,
