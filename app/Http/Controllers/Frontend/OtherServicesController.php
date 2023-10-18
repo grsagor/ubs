@@ -178,6 +178,7 @@ class OtherServicesController extends Controller
         //     ]);
 
 
+
         if (auth()->check() && (auth()->user()->id === 5 || auth()->user()->user_type === 'user')) {
             return view('frontend.other_services.property_finding_service_error');
         }
