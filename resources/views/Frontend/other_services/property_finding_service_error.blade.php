@@ -3,7 +3,7 @@
 @endsection
 @section('content')
     @includeIf('frontend.partials.global.common-header')
-    <div class="container mt-5">
+    <div class="container" style="margin-top: 100px; margin-bottom:200px;">
         <div class="header p-3 bg-danger text-white rounded">
             <div class="error bg-light text-dark p-4 rounded shadow-lg">
                 <h3 class="heading text-danger mb-3">This payment system is only for customers</h3>
