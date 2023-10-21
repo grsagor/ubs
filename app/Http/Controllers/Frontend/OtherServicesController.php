@@ -74,7 +74,7 @@ class OtherServicesController extends Controller
             }
         }
 
-        return view('frontend.other_services.property_finding_service3', $data);
+        return view('frontend.other_services.property_finding_service4', $data);
     }
 
     public function propertyFindingServiceCharge($id)

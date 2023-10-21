@@ -6,7 +6,7 @@
     .pricing .table {
         border-top: 1px solid #ddd;
         background: #fff;
-        width: 75%;
+        width: 80%;
     }
 
     .pricing .table th,
@@ -30,8 +30,6 @@
         color: #EBEDF3;
         text-transform: uppercase;
     }
-
-
 
     .pricing .table tr:nth-child(odd) {
         background: #f0f8ff;
@@ -109,8 +107,6 @@
     }
 
     .pricing tr td i {
-        /* display: block;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            margin-bottom: 12px; */
         font-size: 20px;
     }
 
@@ -158,16 +154,16 @@
     /* Style for the active tab */
     .nav-tabs.custom-tabs .nav-item.show .nav-link,
     .nav-tabs.custom-tabs .nav-link.active {
-        background-color: #0077b6;
+        background-color: #162a34;
         color: #fff;
     }
 
     /* Style for the tab content */
     .tab-content.custom-tab-content {
-        padding: 20px;
-        background-color: #f0f0f0;
-        border: 1px solid #ccc;
-        border-radius: 0.25rem;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        /* padding: 20px; */
+        /* background-color: #f0f0f0; */
+        /* border: 1px solid #ccc; */
+        /* border-radius: 0.25rem; */
+        /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); */
     }
 </style>

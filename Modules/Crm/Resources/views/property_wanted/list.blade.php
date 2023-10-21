@@ -5,13 +5,13 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>Property Wanted
-            <small>Tell what you want</small>
+            <small>Click add button and fill up what you want</small>
         </h1>
     </section>
 
     <!-- Main content -->
     <section class="content">
-        @component('components.widget', ['class' => 'box-primary', 'title' => __('business.all_your_business_locations')])
+        @component('components.widget', ['class' => 'box-primary', 'title' => __('All your adverts')])
             @slot('tool')
                 <div class="box-tools">
                     <button type="button" class="btn btn-block btn-primary btn-modal"
@@ -26,8 +26,9 @@
                         <tr>
                             <th>Action</th>
                             <th>Status</th>
-                            <th>Complete</th>
+                            <th>Action required</th>
                             <th>Reference No</th>
+                            <th>Title</th>
                             <th>Category</th>
                         </tr>
                     </thead>
@@ -102,7 +103,7 @@
                                     '';
                                 return '<span class="cursor-pointer label ' + statusClass +
                                     ' property-wanted-delete-btn" data-id="' +
-                                    row.id + '">' + (data === 1 ? 'Active' : 'Inactive') +
+                                    row.id + '">' + (data === 1 ? 'Published' : 'Private') +
                                     '</span>';
                             }
                             return '';
@@ -113,9 +114,9 @@
                         name: 'information_complete',
                         render: function(data, type, row) {
                             if (data == 1) {
-                                return '<span class="label bg-green">Complete</span>';
+                                return '<span class="label bg-green">Not required</span>';
                             } else {
-                                return '<span class="label bg-yellow">Incomplete</span>';
+                                return '<span class="label bg-yellow">Required</span>';
                             }
                         }
                     },
@@ -124,9 +125,13 @@
                         name: 'reference_id'
                     },
                     {
+                        data: 'ad_title',
+                        name: 'ad_title'
+                    },
+                    {
                         data: 'child_category_name',
                         name: 'child_category_name'
-                    },
+                    }
                 ]
             });
         });

@@ -25,7 +25,7 @@
 
         p.category_text {
             /* min-height: 20px;
-                                                                                                                                                                                                                                                                                                                                                                                                            max-height: 20px; */
+                                                                                                                                                                                                                                                                                                                                                                                                                        max-height: 20px; */
         }
 
         h5.product-title {
@@ -216,9 +216,9 @@
                                 </div>
 
                             </div>
-                            <div class="col-lg-12 mt-3">
+                            {{-- <div class="col-lg-8 mt-3 text-center">
                                 <div class="d-flex align-items-start pt-3" id="custom-pagination">
-                                    <div class="pagination-style-one">
+                                    <div class="pagination-style-one mx-auto">
                                         <nav aria-label="Page navigation example">
                                             <ul class="pagination">
                                                 {{ $rooms->links() }}
@@ -226,7 +226,7 @@
                                         </nav>
                                     </div>
                                 </div>
-                            </div>
+                            </div> --}}
 
                         </div>
 
