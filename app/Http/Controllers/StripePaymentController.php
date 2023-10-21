@@ -100,7 +100,7 @@ class StripePaymentController extends Controller
 
             $charge = \Stripe\Charge::create(array(
                 "amount"        => $request->bill * 100,
-                "currency"      => "usd",
+                "currency"      => "GBP",
                 "customer"      =>  $customer["id"],
                 "description"   => "Test payment.",
                 "metadata"      => array(
@@ -118,7 +118,7 @@ class StripePaymentController extends Controller
             $payment_history = new PaymentHistory;
             $payment_history->user_id = Auth::user()->id;
             $payment_history->amount = $request->bill; // Make sure to adjust the amount if needed
-            $payment_history->currency = 'usd';
+            $payment_history->currency = 'GBP';
             $payment_history->description = 'Test payment.';
             $payment_history->transaction_id = $charge->id;
             $payment_history->table_name = $charge->metadata->table_name;
