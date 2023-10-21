@@ -18,18 +18,18 @@
         }
 
         .card {
-            border-radius: 20px;
+            border-radius: 0.25rem;
             border: 1px solid #EEEEEE;
-            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+            /* box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); */
             padding: 20px;
             background-color: #FFFFFF;
             color: #333333;
-            transition: transform 0.2s;
-            background: linear-gradient(275deg, #f4f4f4, #FFFFFF);
+            /* transition: transform 0.2s; */
+            /* background: linear-gradient(275deg, #f4f4f4, #FFFFFF); */
         }
 
         .card:hover {
-            transform: scale(1.015);
+            /* transform: scale(1.015); */
         }
 
         .edu-comment {
@@ -71,7 +71,7 @@
                     you in getting your property
                 </h5>
                 <div class="text-center">
-                    <img src="{{ asset('assets/frontend/property_finding1.png') }}" alt="digital-marketing.png"
+                    <img src="{{ asset('assets/frontend/property_finding1.png') }}" alt="property_finding.png"
                         style="width: 75%">
 
                 </div>
@@ -268,7 +268,7 @@
                             <div class="pricing">
                                 <div class="container">
                                     <div class="pricing-table table-responsive" style="text-align: -webkit-center">
-                                        <table class="table" style="width: 75%">
+                                        <table class="table" style="width: 80%">
 
                                             <thead>
                                                 <th style="width: 30%">
@@ -511,7 +511,7 @@
                         </h6>
                     </div>
                     <div class="col-md-6 text-center">
-                        <img src="{{ asset('assets/frontend/property_finding2.png') }}" alt="digital-marketing.png"
+                        <img src="{{ asset('assets/frontend/property_finding2.png') }}" alt="property_finding.png"
                             style="width: 75%">
                     </div>
                 </div>
@@ -531,10 +531,9 @@
                                             <img src="{{ asset('assets/frontend/reviewer1.png') }}" alt="Comment Images">
                                         </div>
                                         <div class="comment-content">
-                                            <p style="color: black">Lorem ipsum dolor sit amet, consectetur adipiscing
-                                                elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                                                enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                                                aliquip ex ea commodo consequat.</p>
+                                            <p style="color: black">Unipuller property finding team is very professional
+                                                and responsive to the customer. Their serivce is very flexiable and reliable
+                                                to get property according to my choice. </p>
                                         </div>
                                     </div>
                                     <!-- Comment Box -->
@@ -542,13 +541,15 @@
                                     <!-- Comment Box -->
                                     <div class="edu-comment">
                                         <div class="thumbnail">
-                                            <img src="{{ asset('assets/frontend/reviewer1.png') }}" alt="Comment Images">
+                                            <img src="{{ asset('assets/frontend/reviewer2.jpg') }}" alt="Comment Images">
                                         </div>
                                         <div class="comment-content">
-                                            <p style="color: black">Lorem ipsum dolor sit amet, consectetur adipiscing
-                                                elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                                                enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                                                aliquip ex ea commodo consequat.</p>
+                                            <p style="color: black">The Unipuller Openmarket property-finding service is
+                                                innovative and highly sought after by tenants. When I first heard about it
+                                                from one of my friends, I found it quite interesting. This service is the
+                                                best option for those who are looking for properties but don't have enough
+                                                time or knowledge to handle it.
+                                            </p>
                                         </div>
                                     </div>
                                     <!-- Comment Box -->
@@ -795,8 +796,41 @@
                         </div>
                     </div>
 
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="q12">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#a12" aria-expanded="false" aria-controls="a12"
+                                data-bs-parent="#faqAccordion">
+                                &rarr; What does Unipuller do?
+                            </button>
+                        </h2>
+                        <div id="a12" class="accordion-collapse collapse" aria-labelledby="q12">
+                            <div class="accordion-body">
+                                Unipuller collaborates with numerous agents and Openmarket freelancers to secure properties
+                                for tenants. Unipuller is also committed to ensuring that customers receive their properties
+                                on time, and that their payments are handled securely. Unipuller holds customer payments in
+                                their account until the customer acquires a property from an agent or through Openmarket.
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
+
+
+            <div class="connect_facebook card p-5 mt-2 text-center">
+                <div class="text-center">
+                    <img src="{{ asset('assets/frontend/real_zipper.jpg') }}" alt="real_zipper.png" style="width: 75%">
+                </div>
+                <div class="d-flex justify-content-center">
+                    <a href="https://www.facebook.com/groups/181034591618704" class="btn mt-4"
+                        style="background: #3b5998; color: white; font-size: 16px;" target="_blank">Connect with
+                        Facebook</a>
+                </div>
+            </div>
+
+
 
             {{-- <div class="row mt-3 mb-5 banking_information">
                 <div class="col-md-3" style="border-style: ridge;">

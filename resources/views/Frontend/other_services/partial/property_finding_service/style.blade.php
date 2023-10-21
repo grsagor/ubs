@@ -154,7 +154,7 @@
     /* Style for the active tab */
     .nav-tabs.custom-tabs .nav-item.show .nav-link,
     .nav-tabs.custom-tabs .nav-link.active {
-        background-color: #0077b6;
+        background-color: #162a34;
         color: #fff;
     }
 
@@ -162,8 +162,8 @@
     .tab-content.custom-tab-content {
         /* padding: 20px; */
         /* background-color: #f0f0f0; */
-        border: 1px solid #ccc;
-        border-radius: 0.25rem;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        /* border: 1px solid #ccc; */
+        /* border-radius: 0.25rem; */
+        /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); */
     }
 </style>
