@@ -8,6 +8,9 @@
         {{-- Form will be start here --}}
         <form action="{{ route('customer.postRegister') }}" method="POST" enctype="multipart/form-data">
             @csrf
+
+            <input type="hidden" name="business_id" value="{{ $business_id }}">
+
             <div class="content clearfix">
                 <div class="row" id="add_contact_person_div_0">
                     <div class="col-md-2">
@@ -84,7 +87,8 @@
                                 <span class="input-group-addon">
                                     <i class="fa fa-map-marker"></i>
                                 </span>
-                                <input class="form-control" placeholder="City" name="city" type="text" id="city">
+                                <input class="form-control" placeholder="City" name="city" type="text"
+                                    id="city">
                             </div>
                         </div>
                     </div>

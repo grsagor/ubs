@@ -68,28 +68,35 @@ class CustomerGroupController extends Controller
         return view('customer_group.index');
     }
 
-    public function getRegister()
-    {
-        return view('customer_group.register');
+    public function getRegister($business_id = null)
+    {        // Check if the environment is 'production'
+        if ($business_id !== null) {
+            if (app()->environment('production')) {
+                return view('error.coming_soon');
+            }
+        }
+        return view('customer_group.register', compact('business_id'));
     }
 
     public function postRegister(Request $request)
     {
-
         try {
-            $validator = $this->validator($request->all())->validate();
+            if ($request->has('business_id')) {
+            } else {
+                $validator = $this->validator($request->all())->validate();
 
-            event(new Registered($user = $this->userCreate($request->all())));
+                event(new Registered($user = $this->userCreate($request->all())));
 
-            $output = [
-                'success' => true,
-                'msg' => ('Register successfull!!!'),
-            ];
+                $output = [
+                    'success' => true,
+                    'msg' => ('Register successfull!!!'),
+                ];
 
-            return redirect(url('login'))->with('status', $output);
+                return redirect(url('login'))->with('status', $output);
+            }
         } catch (\Throwable $e) {
 
-            // dd($e->getmessage());
+            dd($e->getmessage());
 
             $output = [
                 'success' => false,
