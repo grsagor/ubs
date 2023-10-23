@@ -11,7 +11,7 @@
         <!-- CSRF Token -->
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>@yield('title') - {{ Session::get('business.name') }}</title>
+        <title>Customer - @yield('title')</title>
         
         @include('layouts.partials.css')
 

@@ -60,8 +60,8 @@
                         <div class="form-group">
                             <label for="invoice_scheme_id">How many people, including yourself, will share the
                                 property?</label>
-                            <select class="form-control" required="" id="number_of_shared_people"
-                                name="number_of_shared_people">
+                            <select class="form-control" id="number_of_shared_people"
+                                name="number_of_shared_people" required>
                                 <option selected value=0>Select....</option>
                                 <option {{ $property->number_of_shared_people == 1 ? 'selected' : '' }} value=1>1</option>
                                 <option {{ $property->number_of_shared_people == 2 ? 'selected' : '' }} value=2>2</option>
@@ -89,7 +89,7 @@
                         <div class="form-group">
                             <label for="invoice_scheme_id">Where do you want to live?</label>
                             <input class="form-control" placeholder="Area name" name="wanted_living_area"
-                                type="text" value="{{ $property->wanted_living_area }}">
+                                type="text" value="{{ $property->wanted_living_area }}" required>
                         </div>
                     </div>
 
@@ -116,7 +116,7 @@
                     <div class="col-sm-12">
                         <div class="form-group">
                             <label for="custom_field1">I am available to move in from</label>
-                            <input class="form-control" name="available_form" type="date" id="date" value="{{ $property->available_form }}">
+                            <input class="form-control" name="available_form" type="date" id="date" value="{{ $property->available_form }}" required>
                         </div>
                     </div>
 
@@ -245,7 +245,7 @@
                     <div class="col-sm-12">
                         <div class="form-group">
                             <label for="selling_price_group_id">Occupation</label>
-                            <select class="form-control" id="occupation" name="occupation">
+                            <select class="form-control" id="occupation" name="occupation" required>
                                 <option {{ $property->occupation == 'Not disclosed' ? 'selected' : '' }} value="Not disclosed" selected="">Not disclosed</option>
                                 <option {{ $property->occupation == 'Student' ? 'selected' : '' }} value="Student">Student</option>
                                 <option {{ $property->occupation == 'Employee' ? 'selected' : '' }} value="Employee">Employee</option>
@@ -273,7 +273,7 @@
                         <div class="col-sm-12">
                             <div class="form-group">
                                 <label for="occupant_job">Do you have job?</label>
-                                <select class="form-control" id="occupant_job" name="occupant_job[]">
+                                <select class="form-control" id="occupant_job" name="occupant_job[]" required>
                                     <option selected="" value="">Select....</option>
                                     <option value="1">Part-time</option>
                                     <option value="2">Full-time</option>
@@ -414,7 +414,7 @@
                         <div class="form-group">
                             <label for="custom_field1">Advert title</label>
                             <p class="sub-heading">(Short description)</p>
-                            <input class="form-control" placeholder="Short description maximum 92 characters" value="{{$property->ad_title}}" name="ad_title" type="text" maxlength="100" id="ad_title">
+                            <input class="form-control" placeholder="Short description maximum 92 characters" value="{{$property->ad_title}}" name="ad_title" type="text" maxlength="100" id="ad_title" required>
                         </div>
                     </div>
 
@@ -423,7 +423,7 @@
                             <label for="custom_field1">Description</label>
                             <p class="sub-heading">(No contact details permitted within description)</p>
                             <textarea rows="30" type="text" class="form-control" name="ad_text" class="input-field"
-                                placeholder="Description">{{$property->ad_text}}</textarea>
+                                placeholder="Description" required>{{$property->ad_text}}</textarea>
                         </div>
                     </div>
 
@@ -438,7 +438,7 @@
                         <div class="form-group">
                             <label for="custom_field1">Telephone</label>
                             <input class="form-control" value="{{$property->tel}}" placeholder="Telephone" name="tel" type="text"
-                                id="tel">
+                                id="tel" required>
                         </div>
                     </div>
                 </div>
