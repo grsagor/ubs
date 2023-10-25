@@ -314,6 +314,8 @@
                                                     Friends
                                                 @elseif ($item['occupant_relationship'] == 4)
                                                     Others
+                                                @elseif ($item['occupant_relationship'] == 5)
+                                                    Contact Person
                                                 @endif
                                             </td>
 

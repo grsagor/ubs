@@ -72,7 +72,7 @@ class ContactController extends Controller
 
         $types = ['supplier', 'customer'];
 
-        if (empty($type) || ! in_array($type, $types)) {
+        if (empty($type) || !in_array($type, $types)) {
             return redirect()->back();
         }
 
@@ -106,7 +106,7 @@ class ContactController extends Controller
      */
     private function indexSupplier()
     {
-        if (! auth()->user()->can('supplier.view') && ! auth()->user()->can('supplier.view_own')) {
+        if (!auth()->user()->can('supplier.view') && !auth()->user()->can('supplier.view_own')) {
             abort(403, 'Unauthorized action.');
         }
 
@@ -130,11 +130,11 @@ class ContactController extends Controller
             $contact->havingRaw('opening_balance > 0');
         }
 
-        if (! empty(request()->input('contact_status'))) {
+        if (!empty(request()->input('contact_status'))) {
             $contact->where('contacts.contact_status', request()->input('contact_status'));
         }
 
-        if (! empty(request()->input('assigned_to'))) {
+        if (!empty(request()->input('assigned_to'))) {
             $contact->join('user_contact_access AS uc', 'contacts.id', 'uc.contact_id')
                 ->where('uc.user_id', request()->input('assigned_to'));
         }
@@ -154,32 +154,32 @@ class ContactController extends Controller
                 function ($row) {
                     $html = '<div class="btn-group">
                     <button type="button" class="btn btn-info dropdown-toggle btn-xs" 
-                        data-toggle="dropdown" aria-expanded="false">'.
-                        __('messages.actions').
+                        data-toggle="dropdown" aria-expanded="false">' .
+                        __('messages.actions') .
                         '<span class="caret"></span><span class="sr-only">Toggle Dropdown
                         </span>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-left" role="menu">';
 
-                    $html .= '<li><a href="'.action([\App\Http\Controllers\TransactionPaymentController::class, 'getPayContactDue'], [$row->id]).'?type=purchase" class="pay_purchase_due"><i class="fas fa-money-bill-alt" aria-hidden="true"></i>'.__('lang_v1.pay').'</a></li>';
+                    $html .= '<li><a href="' . action([\App\Http\Controllers\TransactionPaymentController::class, 'getPayContactDue'], [$row->id]) . '?type=purchase" class="pay_purchase_due"><i class="fas fa-money-bill-alt" aria-hidden="true"></i>' . __('lang_v1.pay') . '</a></li>';
 
                     $return_due = $row->total_purchase_return - $row->purchase_return_paid;
                     if ($return_due > 0) {
-                        $html .= '<li><a href="'.action([\App\Http\Controllers\TransactionPaymentController::class, 'getPayContactDue'], [$row->id]).'?type=purchase_return" class="pay_purchase_due"><i class="fas fa-money-bill-alt" aria-hidden="true"></i>'.__('lang_v1.receive_purchase_return_due').'</a></li>';
+                        $html .= '<li><a href="' . action([\App\Http\Controllers\TransactionPaymentController::class, 'getPayContactDue'], [$row->id]) . '?type=purchase_return" class="pay_purchase_due"><i class="fas fa-money-bill-alt" aria-hidden="true"></i>' . __('lang_v1.receive_purchase_return_due') . '</a></li>';
                     }
 
                     if (auth()->user()->can('supplier.view') || auth()->user()->can('supplier.view_own')) {
-                        $html .= '<li><a href="'.action([\App\Http\Controllers\ContactController::class, 'show'], [$row->id]).'"><i class="fas fa-eye" aria-hidden="true"></i>'.__('messages.view').'</a></li>';
+                        $html .= '<li><a href="' . action([\App\Http\Controllers\ContactController::class, 'show'], [$row->id]) . '"><i class="fas fa-eye" aria-hidden="true"></i>' . __('messages.view') . '</a></li>';
                     }
                     if (auth()->user()->can('supplier.update')) {
-                        $html .= '<li><a href="'.action([\App\Http\Controllers\ContactController::class, 'edit'], [$row->id]).'" class="edit_contact_button"><i class="glyphicon glyphicon-edit"></i>'.__('messages.edit').'</a></li>';
+                        $html .= '<li><a href="' . action([\App\Http\Controllers\ContactController::class, 'edit'], [$row->id]) . '" class="edit_contact_button"><i class="glyphicon glyphicon-edit"></i>' . __('messages.edit') . '</a></li>';
                     }
                     if (auth()->user()->can('supplier.delete')) {
-                        $html .= '<li><a href="'.action([\App\Http\Controllers\ContactController::class, 'destroy'], [$row->id]).'" class="delete_contact_button"><i class="glyphicon glyphicon-trash"></i>'.__('messages.delete').'</a></li>';
+                        $html .= '<li><a href="' . action([\App\Http\Controllers\ContactController::class, 'destroy'], [$row->id]) . '" class="delete_contact_button"><i class="glyphicon glyphicon-trash"></i>' . __('messages.delete') . '</a></li>';
                     }
 
                     if (auth()->user()->can('customer.update')) {
-                        $html .= '<li><a href="'.action([\App\Http\Controllers\ContactController::class, 'updateStatus'], [$row->id]).'"class="update_contact_status"><i class="fas fa-power-off"></i>';
+                        $html .= '<li><a href="' . action([\App\Http\Controllers\ContactController::class, 'updateStatus'], [$row->id]) . '"class="update_contact_status"><i class="fas fa-power-off"></i>';
 
                         if ($row->contact_status == 'active') {
                             $html .= __('messages.deactivate');
@@ -194,40 +194,40 @@ class ContactController extends Controller
                     if (auth()->user()->can('supplier.view')) {
                         $html .= '
                                 <li>
-                                    <a href="'.action([\App\Http\Controllers\ContactController::class, 'show'], [$row->id]).'?view=ledger">
+                                    <a href="' . action([\App\Http\Controllers\ContactController::class, 'show'], [$row->id]) . '?view=ledger">
                                         <i class="fas fa-scroll" aria-hidden="true"></i>
-                                        '.__('lang_v1.ledger').'
+                                        ' . __('lang_v1.ledger') . '
                                     </a>
                                 </li>';
 
                         if (in_array($row->type, ['both', 'supplier'])) {
                             $html .= '<li>
-                                <a href="'.action([\App\Http\Controllers\ContactController::class, 'show'], [$row->id]).'?view=purchase">
+                                <a href="' . action([\App\Http\Controllers\ContactController::class, 'show'], [$row->id]) . '?view=purchase">
                                     <i class="fas fa-arrow-circle-down" aria-hidden="true"></i>
-                                    '.__('purchase.purchases').'
+                                    ' . __('purchase.purchases') . '
                                 </a>
                             </li>
                             <li>
-                                <a href="'.action([\App\Http\Controllers\ContactController::class, 'show'], [$row->id]).'?view=stock_report">
+                                <a href="' . action([\App\Http\Controllers\ContactController::class, 'show'], [$row->id]) . '?view=stock_report">
                                     <i class="fas fa-hourglass-half" aria-hidden="true"></i>
-                                    '.__('report.stock_report').'
+                                    ' . __('report.stock_report') . '
                                 </a>
                             </li>';
                         }
 
                         if (in_array($row->type, ['both', 'customer'])) {
                             $html .= '<li>
-                                <a href="'.action([\App\Http\Controllers\ContactController::class, 'show'], [$row->id]).'?view=sales">
+                                <a href="' . action([\App\Http\Controllers\ContactController::class, 'show'], [$row->id]) . '?view=sales">
                                     <i class="fas fa-arrow-circle-up" aria-hidden="true"></i>
-                                    '.__('sale.sells').'
+                                    ' . __('sale.sells') . '
                                 </a>
                             </li>';
                         }
 
                         $html .= '<li>
-                                <a href="'.action([\App\Http\Controllers\ContactController::class, 'show'], [$row->id]).'?view=documents_and_notes">
+                                <a href="' . action([\App\Http\Controllers\ContactController::class, 'show'], [$row->id]) . '?view=documents_and_notes">
                                     <i class="fas fa-paperclip" aria-hidden="true"></i>
-                                     '.__('lang_v1.documents_and_notes').'
+                                     ' . __('lang_v1.documents_and_notes') . '
                                 </a>
                             </li>';
                     }
@@ -237,12 +237,12 @@ class ContactController extends Controller
                 }
             )
             ->editColumn('opening_balance', function ($row) {
-                $html = '<span data-orig-value="'.$row->opening_balance.'">'.$this->transactionUtil->num_f($row->opening_balance, true).'</span>';
+                $html = '<span data-orig-value="' . $row->opening_balance . '">' . $this->transactionUtil->num_f($row->opening_balance, true) . '</span>';
 
                 return $html;
             })
             ->editColumn('balance', function ($row) {
-                $html = '<span data-orig-value="'.$row->balance.'">'.$this->transactionUtil->num_f($row->balance, true).'</span>';
+                $html = '<span data-orig-value="' . $row->balance . '">' . $this->transactionUtil->num_f($row->balance, true) . '</span>';
 
                 return $html;
             })
@@ -254,7 +254,7 @@ class ContactController extends Controller
             ')
             ->editColumn('name', function ($row) {
                 if ($row->contact_status == 'inactive') {
-                    return $row->name.' <small class="label pull-right bg-red no-print">'.__('lang_v1.inactive').'</small>';
+                    return $row->name . ' <small class="label pull-right bg-red no-print">' . __('lang_v1.inactive') . '</small>';
                 } else {
                     return $row->name;
                 }
@@ -270,12 +270,12 @@ class ContactController extends Controller
             ->filterColumn('address', function ($query, $keyword) {
                 $query->where(function ($q) use ($keyword) {
                     $q->where('address_line_1', 'like', "%{$keyword}%")
-                    ->orWhere('address_line_2', 'like', "%{$keyword}%")
-                    ->orWhere('city', 'like', "%{$keyword}%")
-                    ->orWhere('state', 'like', "%{$keyword}%")
-                    ->orWhere('country', 'like', "%{$keyword}%")
-                    ->orWhere('zip_code', 'like', "%{$keyword}%")
-                    ->orWhereRaw("CONCAT(COALESCE(address_line_1, ''), ', ', COALESCE(address_line_2, ''), ', ', COALESCE(city, ''), ', ', COALESCE(state, ''), ', ', COALESCE(country, '') ) like ?", ["%{$keyword}%"]);
+                        ->orWhere('address_line_2', 'like', "%{$keyword}%")
+                        ->orWhere('city', 'like', "%{$keyword}%")
+                        ->orWhere('state', 'like', "%{$keyword}%")
+                        ->orWhere('country', 'like', "%{$keyword}%")
+                        ->orWhere('zip_code', 'like', "%{$keyword}%")
+                        ->orWhereRaw("CONCAT(COALESCE(address_line_1, ''), ', ', COALESCE(address_line_2, ''), ', ', COALESCE(city, ''), ', ', COALESCE(state, ''), ', ', COALESCE(country, '') ) like ?", ["%{$keyword}%"]);
                 });
             })
             ->rawColumns(['action', 'opening_balance', 'pay_term', 'due', 'return_due', 'name', 'balance'])
@@ -289,8 +289,8 @@ class ContactController extends Controller
      */
     private function indexCustomer()
     {
-        
-        if (! auth()->user()->can('customer.view') && ! auth()->user()->can('customer.view_own')) {
+
+        if (!auth()->user()->can('customer.view') && !auth()->user()->can('customer.view_own')) {
             abort(403, 'Unauthorized action.');
         }
 
@@ -316,7 +316,7 @@ class ContactController extends Controller
             $query->havingRaw('opening_balance > 0');
         }
 
-        if (! empty(request()->input('assigned_to'))) {
+        if (!empty(request()->input('assigned_to'))) {
             $query->join('user_contact_access AS uc', 'contacts.id', 'uc.contact_id')
                 ->where('uc.user_id', request()->input('assigned_to'));
         }
@@ -324,45 +324,45 @@ class ContactController extends Controller
         $has_no_sell_from = request()->input('has_no_sell_from', null);
 
         if (
-            (! $is_admin && auth()->user()->can('customer_with_no_sell_one_month')) ||
+            (!$is_admin && auth()->user()->can('customer_with_no_sell_one_month')) ||
             ($has_no_sell_from == 'one_month' && (auth()->user()->can('customer_with_no_sell_one_month') || auth()->user()->can('customer_irrespective_of_sell')))
-            ) {
+        ) {
             $from_transaction_date = \Carbon::now()->subDays(30)->format('Y-m-d');
             $query->havingRaw("max_transaction_date < '{$from_transaction_date}'")
-                     ->orHavingRaw('transaction_date IS NULL');
+                ->orHavingRaw('transaction_date IS NULL');
         }
 
         if (
-            (! $is_admin && auth()->user()->can('customer_with_no_sell_three_month')) ||
+            (!$is_admin && auth()->user()->can('customer_with_no_sell_three_month')) ||
             ($has_no_sell_from == 'three_months' && (auth()->user()->can('customer_with_no_sell_three_month') || auth()->user()->can('customer_irrespective_of_sell')))
         ) {
             $from_transaction_date = \Carbon::now()->subMonths(3)->format('Y-m-d');
             $query->havingRaw("max_transaction_date < '{$from_transaction_date}'")
-                     ->orHavingRaw('transaction_date IS NULL');
+                ->orHavingRaw('transaction_date IS NULL');
         }
 
         if (
-            (! $is_admin && auth()->user()->can('customer_with_no_sell_six_month')) ||
+            (!$is_admin && auth()->user()->can('customer_with_no_sell_six_month')) ||
             ($has_no_sell_from == 'six_months' && (auth()->user()->can('customer_with_no_sell_six_month') || auth()->user()->can('customer_irrespective_of_sell')))
         ) {
             $from_transaction_date = \Carbon::now()->subMonths(6)->format('Y-m-d');
             $query->havingRaw("max_transaction_date < '{$from_transaction_date}'")
-                     ->orHavingRaw('transaction_date IS NULL');
+                ->orHavingRaw('transaction_date IS NULL');
         }
 
-        if ((! $is_admin && auth()->user()->can('customer_with_no_sell_one_year')) ||
+        if ((!$is_admin && auth()->user()->can('customer_with_no_sell_one_year')) ||
             ($has_no_sell_from == 'one_year' && (auth()->user()->can('customer_with_no_sell_one_year') || auth()->user()->can('customer_irrespective_of_sell')))
         ) {
             $from_transaction_date = \Carbon::now()->subYear()->format('Y-m-d');
             $query->havingRaw("max_transaction_date < '{$from_transaction_date}'")
-                     ->orHavingRaw('transaction_date IS NULL');
+                ->orHavingRaw('transaction_date IS NULL');
         }
 
-        if (! empty(request()->input('customer_group_id'))) {
+        if (!empty(request()->input('customer_group_id'))) {
             $query->where('contacts.customer_group_id', request()->input('customer_group_id'));
         }
 
-        if (! empty(request()->input('contact_status'))) {
+        if (!empty(request()->input('contact_status'))) {
             $query->where('contacts.contact_status', request()->input('contact_status'));
         }
 
@@ -381,31 +381,31 @@ class ContactController extends Controller
                 function ($row) {
                     $html = '<div class="btn-group">
                     <button type="button" class="btn btn-info dropdown-toggle btn-xs" 
-                        data-toggle="dropdown" aria-expanded="false">'.
-                        __('messages.actions').
+                        data-toggle="dropdown" aria-expanded="false">' .
+                        __('messages.actions') .
                         '<span class="caret"></span><span class="sr-only">Toggle Dropdown
                         </span>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-left" role="menu">';
 
-                    $html .= '<li><a href="'.action([\App\Http\Controllers\TransactionPaymentController::class, 'getPayContactDue'], [$row->id]).'?type=sell" class="pay_sale_due"><i class="fas fa-money-bill-alt" aria-hidden="true"></i>'.__('lang_v1.pay').'</a></li>';
+                    $html .= '<li><a href="' . action([\App\Http\Controllers\TransactionPaymentController::class, 'getPayContactDue'], [$row->id]) . '?type=sell" class="pay_sale_due"><i class="fas fa-money-bill-alt" aria-hidden="true"></i>' . __('lang_v1.pay') . '</a></li>';
                     $return_due = $row->total_sell_return - $row->sell_return_paid;
                     if ($return_due > 0) {
-                        $html .= '<li><a href="'.action([\App\Http\Controllers\TransactionPaymentController::class, 'getPayContactDue'], [$row->id]).'?type=sell_return" class="pay_purchase_due"><i class="fas fa-money-bill-alt" aria-hidden="true"></i>'.__('lang_v1.pay_sell_return_due').'</a></li>';
+                        $html .= '<li><a href="' . action([\App\Http\Controllers\TransactionPaymentController::class, 'getPayContactDue'], [$row->id]) . '?type=sell_return" class="pay_purchase_due"><i class="fas fa-money-bill-alt" aria-hidden="true"></i>' . __('lang_v1.pay_sell_return_due') . '</a></li>';
                     }
 
                     if (auth()->user()->can('customer.view') || auth()->user()->can('customer.view_own')) {
-                        $html .= '<li><a href="'.action([\App\Http\Controllers\ContactController::class, 'show'], [$row->id]).'"><i class="fas fa-eye" aria-hidden="true"></i>'.__('messages.view').'</a></li>';
+                        $html .= '<li><a href="' . action([\App\Http\Controllers\ContactController::class, 'show'], [$row->id]) . '"><i class="fas fa-eye" aria-hidden="true"></i>' . __('messages.view') . '</a></li>';
                     }
                     if (auth()->user()->can('customer.update')) {
-                        $html .= '<li><a href="'.action([\App\Http\Controllers\ContactController::class, 'edit'], [$row->id]).'" class="edit_contact_button"><i class="glyphicon glyphicon-edit"></i>'.__('messages.edit').'</a></li>';
+                        $html .= '<li><a href="' . action([\App\Http\Controllers\ContactController::class, 'edit'], [$row->id]) . '" class="edit_contact_button"><i class="glyphicon glyphicon-edit"></i>' . __('messages.edit') . '</a></li>';
                     }
-                    if (! $row->is_default && auth()->user()->can('customer.delete')) {
-                        $html .= '<li><a href="'.action([\App\Http\Controllers\ContactController::class, 'destroy'], [$row->id]).'" class="delete_contact_button"><i class="glyphicon glyphicon-trash"></i>'.__('messages.delete').'</a></li>';
+                    if (!$row->is_default && auth()->user()->can('customer.delete')) {
+                        $html .= '<li><a href="' . action([\App\Http\Controllers\ContactController::class, 'destroy'], [$row->id]) . '" class="delete_contact_button"><i class="glyphicon glyphicon-trash"></i>' . __('messages.delete') . '</a></li>';
                     }
 
                     if (auth()->user()->can('customer.update')) {
-                        $html .= '<li><a href="'.action([\App\Http\Controllers\ContactController::class, 'updateStatus'], [$row->id]).'"class="update_contact_status"><i class="fas fa-power-off"></i>';
+                        $html .= '<li><a href="' . action([\App\Http\Controllers\ContactController::class, 'updateStatus'], [$row->id]) . '"class="update_contact_status"><i class="fas fa-power-off"></i>';
 
                         if ($row->contact_status == 'active') {
                             $html .= __('messages.deactivate');
@@ -420,40 +420,40 @@ class ContactController extends Controller
                     if (auth()->user()->can('customer.view')) {
                         $html .= '
                                 <li>
-                                    <a href="'.action([\App\Http\Controllers\ContactController::class, 'show'], [$row->id]).'?view=ledger">
+                                    <a href="' . action([\App\Http\Controllers\ContactController::class, 'show'], [$row->id]) . '?view=ledger">
                                         <i class="fas fa-scroll" aria-hidden="true"></i>
-                                        '.__('lang_v1.ledger').'
+                                        ' . __('lang_v1.ledger') . '
                                     </a>
                                 </li>';
 
                         if (in_array($row->type, ['both', 'supplier'])) {
                             $html .= '<li>
-                                <a href="'.action([\App\Http\Controllers\ContactController::class, 'show'], [$row->id]).'?view=purchase">
+                                <a href="' . action([\App\Http\Controllers\ContactController::class, 'show'], [$row->id]) . '?view=purchase">
                                     <i class="fas fa-arrow-circle-down" aria-hidden="true"></i>
-                                    '.__('purchase.purchases').'
+                                    ' . __('purchase.purchases') . '
                                 </a>
                             </li>
                             <li>
-                                <a href="'.action([\App\Http\Controllers\ContactController::class, 'show'], [$row->id]).'?view=stock_report">
+                                <a href="' . action([\App\Http\Controllers\ContactController::class, 'show'], [$row->id]) . '?view=stock_report">
                                     <i class="fas fa-hourglass-half" aria-hidden="true"></i>
-                                    '.__('report.stock_report').'
+                                    ' . __('report.stock_report') . '
                                 </a>
                             </li>';
                         }
 
                         if (in_array($row->type, ['both', 'customer'])) {
                             $html .= '<li>
-                                <a href="'.action([\App\Http\Controllers\ContactController::class, 'show'], [$row->id]).'?view=sales">
+                                <a href="' . action([\App\Http\Controllers\ContactController::class, 'show'], [$row->id]) . '?view=sales">
                                     <i class="fas fa-arrow-circle-up" aria-hidden="true"></i>
-                                    '.__('sale.sells').'
+                                    ' . __('sale.sells') . '
                                 </a>
                             </li>';
                         }
 
                         $html .= '<li>
-                                <a href="'.action([\App\Http\Controllers\ContactController::class, 'show'], [$row->id]).'?view=documents_and_notes">
+                                <a href="' . action([\App\Http\Controllers\ContactController::class, 'show'], [$row->id]) . '?view=documents_and_notes">
                                     <i class="fas fa-paperclip" aria-hidden="true"></i>
-                                     '.__('lang_v1.documents_and_notes').'
+                                     ' . __('lang_v1.documents_and_notes') . '
                                 </a>
                             </li>';
                     }
@@ -463,19 +463,19 @@ class ContactController extends Controller
                 }
             )
             ->editColumn('opening_balance', function ($row) {
-                $html = '<span data-orig-value="'.$row->opening_balance.'">'.$this->transactionUtil->num_f($row->opening_balance, true).'</span>';
+                $html = '<span data-orig-value="' . $row->opening_balance . '">' . $this->transactionUtil->num_f($row->opening_balance, true) . '</span>';
 
                 return $html;
             })
             ->editColumn('balance', function ($row) {
-                $html = '<span data-orig-value="'.$row->balance.'">'.$this->transactionUtil->num_f($row->balance, true).'</span>';
+                $html = '<span data-orig-value="' . $row->balance . '">' . $this->transactionUtil->num_f($row->balance, true) . '</span>';
 
                 return $html;
             })
             ->editColumn('credit_limit', function ($row) {
                 $html = __('lang_v1.no_limit');
-                if (! is_null($row->credit_limit)) {
-                    $html = '<span data-orig-value="'.$row->credit_limit.'">'.$this->transactionUtil->num_f($row->credit_limit, true).'</span>';
+                if (!is_null($row->credit_limit)) {
+                    $html = '<span data-orig-value="' . $row->credit_limit . '">' . $this->transactionUtil->num_f($row->credit_limit, true) . '</span>';
                 }
 
                 return $html;
@@ -489,10 +489,10 @@ class ContactController extends Controller
             ->editColumn('name', function ($row) {
                 $name = $row->name;
                 if ($row->contact_status == 'inactive') {
-                    $name = $row->name.' <small class="label pull-right bg-red no-print">'.__('lang_v1.inactive').'</small>';
+                    $name = $row->name . ' <small class="label pull-right bg-red no-print">' . __('lang_v1.inactive') . '</small>';
                 }
 
-                if (! empty($row->converted_by)) {
+                if (!empty($row->converted_by)) {
                     $name .= '<span class="label bg-info label-round no-print" data-toggle="tooltip" title="Converted from leads"><i class="fas fa-sync-alt"></i></span>';
                 }
 
@@ -514,21 +514,21 @@ class ContactController extends Controller
             ->filterColumn('address', function ($query, $keyword) {
                 $query->where(function ($q) use ($keyword) {
                     $q->where('address_line_1', 'like', "%{$keyword}%")
-                    ->orWhere('address_line_2', 'like', "%{$keyword}%")
-                    ->orWhere('city', 'like', "%{$keyword}%")
-                    ->orWhere('state', 'like', "%{$keyword}%")
-                    ->orWhere('country', 'like', "%{$keyword}%")
-                    ->orWhere('zip_code', 'like', "%{$keyword}%")
-                    ->orWhereRaw("CONCAT(COALESCE(address_line_1, ''), ', ', COALESCE(address_line_2, ''), ', ', COALESCE(city, ''), ', ', COALESCE(state, ''), ', ', COALESCE(country, '') ) like ?", ["%{$keyword}%"]);
+                        ->orWhere('address_line_2', 'like', "%{$keyword}%")
+                        ->orWhere('city', 'like', "%{$keyword}%")
+                        ->orWhere('state', 'like', "%{$keyword}%")
+                        ->orWhere('country', 'like', "%{$keyword}%")
+                        ->orWhere('zip_code', 'like', "%{$keyword}%")
+                        ->orWhereRaw("CONCAT(COALESCE(address_line_1, ''), ', ', COALESCE(address_line_2, ''), ', ', COALESCE(city, ''), ', ', COALESCE(state, ''), ', ', COALESCE(country, '') ) like ?", ["%{$keyword}%"]);
                 });
             });
         $reward_enabled = (request()->session()->get('business.enable_rp') == 1) ? true : false;
-        if (! $reward_enabled) {
+        if (!$reward_enabled) {
             $contacts->removeColumn('total_rp');
         }
 
         return $contacts->rawColumns(['action', 'opening_balance', 'credit_limit', 'pay_term', 'due', 'return_due', 'name', 'balance'])
-                        ->make(true);
+            ->make(true);
     }
 
     /**
@@ -538,14 +538,14 @@ class ContactController extends Controller
      */
     public function create()
     {
-        if (! auth()->user()->can('supplier.create') && ! auth()->user()->can('customer.create') && ! auth()->user()->can('customer.view_own') && ! auth()->user()->can('supplier.view_own')) {
+        if (!auth()->user()->can('supplier.create') && !auth()->user()->can('customer.create') && !auth()->user()->can('customer.view_own') && !auth()->user()->can('supplier.view_own')) {
             abort(403, 'Unauthorized action.');
         }
 
         $business_id = request()->session()->get('user.business_id');
 
         //Check if subscribed or not
-        if (! $this->moduleUtil->isSubscribed($business_id)) {
+        if (!$this->moduleUtil->isSubscribed($business_id)) {
             return $this->moduleUtil->expiredResponse();
         }
 
@@ -580,38 +580,40 @@ class ContactController extends Controller
      */
     public function store(Request $request)
     {
-        if (! auth()->user()->can('supplier.create') && ! auth()->user()->can('customer.create') && ! auth()->user()->can('customer.view_own') && ! auth()->user()->can('supplier.view_own')) {
+        if (!auth()->user()->can('supplier.create') && !auth()->user()->can('customer.create') && !auth()->user()->can('customer.view_own') && !auth()->user()->can('supplier.view_own')) {
             abort(403, 'Unauthorized action.');
         }
 
         try {
             $business_id = $request->session()->get('user.business_id');
 
-            if (! $this->moduleUtil->isSubscribed($business_id)) {
+            if (!$this->moduleUtil->isSubscribed($business_id)) {
                 return $this->moduleUtil->expiredResponse();
             }
 
-            $input = $request->only(['type', 'supplier_business_name',
-                'prefix', 'first_name', 'middle_name', 'last_name', 'tax_number', 'pay_term_number', 'pay_term_type', 'mobile', 'landline', 'alternate_number', 'city', 'state', 'country', 'address_line_1', 'address_line_2', 'customer_group_id', 'zip_code', 'contact_id', 'custom_field1', 'custom_field2', 'custom_field3', 'custom_field4', 'custom_field5', 'custom_field6', 'custom_field7', 'custom_field8', 'custom_field9', 'custom_field10', 'email', 'shipping_address', 'position', 'dob', 'shipping_custom_field_details', 'assigned_to_users', ]);
+            $input = $request->only([
+                'type', 'supplier_business_name',
+                'prefix', 'first_name', 'middle_name', 'last_name', 'tax_number', 'pay_term_number', 'pay_term_type', 'mobile', 'landline', 'alternate_number', 'city', 'state', 'country', 'address_line_1', 'address_line_2', 'customer_group_id', 'zip_code', 'contact_id', 'custom_field1', 'custom_field2', 'custom_field3', 'custom_field4', 'custom_field5', 'custom_field6', 'custom_field7', 'custom_field8', 'custom_field9', 'custom_field10', 'email', 'shipping_address', 'position', 'dob', 'shipping_custom_field_details', 'assigned_to_users',
+            ]);
 
             $name_array = [];
 
-            if (! empty($input['prefix'])) {
+            if (!empty($input['prefix'])) {
                 $name_array[] = $input['prefix'];
             }
-            if (! empty($input['first_name'])) {
+            if (!empty($input['first_name'])) {
                 $name_array[] = $input['first_name'];
             }
-            if (! empty($input['middle_name'])) {
+            if (!empty($input['middle_name'])) {
                 $name_array[] = $input['middle_name'];
             }
-            if (! empty($input['last_name'])) {
+            if (!empty($input['last_name'])) {
                 $name_array[] = $input['last_name'];
             }
 
             $input['name'] = trim(implode(' ', $name_array));
 
-            if (! empty($request->input('is_export'))) {
+            if (!empty($request->input('is_export'))) {
                 $input['is_export'] = true;
                 $input['export_custom_field_1'] = $request->input('export_custom_field_1');
                 $input['export_custom_field_2'] = $request->input('export_custom_field_2');
@@ -621,7 +623,7 @@ class ContactController extends Controller
                 $input['export_custom_field_6'] = $request->input('export_custom_field_6');
             }
 
-            if (! empty($input['dob'])) {
+            if (!empty($input['dob'])) {
                 $input['dob'] = $this->commonUtil->uf_date($input['dob']);
             }
 
@@ -633,15 +635,15 @@ class ContactController extends Controller
 
             DB::beginTransaction();
             $output = $this->contactUtil->createNewContact($input);
-            if($request->contact_persons && is_array($request->contact_persons)){
-                foreach($request->contact_persons as $cp){
+            if ($request->contact_persons && is_array($request->contact_persons)) {
+                foreach ($request->contact_persons as $cp) {
                     $cp['crm_contact_id '] = $output['data']['id'];
-                    if($cp['first_name'] && $cp['email'] || $cp['last_name'] && $cp['email']){
+                    if ($cp['first_name'] && $cp['email'] || $cp['last_name'] && $cp['email']) {
                         $this->crmUtil->creatContactPerson($cp);
                     }
                 }
             }
-            
+
 
             $this->moduleUtil->getModuleData('after_contact_saved', ['contact' => $output['data'], 'input' => $request->input()]);
 
@@ -650,9 +652,10 @@ class ContactController extends Controller
             DB::commit();
         } catch (\Exception $e) {
             DB::rollBack();
-            \Log::emergency('File:'.$e->getFile().'Line:'.$e->getLine().'Message:'.$e->getMessage());
+            \Log::emergency('File:' . $e->getFile() . 'Line:' . $e->getLine() . 'Message:' . $e->getMessage());
 
-            $output = ['success' => false,
+            $output = [
+                'success' => false,
                 'msg' => __('messages.something_went_wrong'),
             ];
         }
@@ -668,7 +671,7 @@ class ContactController extends Controller
      */
     public function show($id)
     {
-        if (! auth()->user()->can('supplier.view') && ! auth()->user()->can('customer.view') && ! auth()->user()->can('customer.view_own') && ! auth()->user()->can('supplier.view_own')) {
+        if (!auth()->user()->can('supplier.view') && !auth()->user()->can('customer.view') && !auth()->user()->can('customer.view_own') && !auth()->user()->can('supplier.view_own')) {
             abort(403, 'Unauthorized action.');
         }
 
@@ -681,13 +684,13 @@ class ContactController extends Controller
             $user_contacts = auth()->user()->contactAccess->pluck('id')->toArray();
         }
 
-        if (! auth()->user()->can('supplier.view') && auth()->user()->can('supplier.view_own')) {
-            if ($contact->created_by != auth()->user()->id & ! in_array($contact->id, $user_contacts)) {
+        if (!auth()->user()->can('supplier.view') && auth()->user()->can('supplier.view_own')) {
+            if ($contact->created_by != auth()->user()->id & !in_array($contact->id, $user_contacts)) {
                 abort(403, 'Unauthorized action.');
             }
         }
-        if (! auth()->user()->can('customer.view') && auth()->user()->can('customer.view_own')) {
-            if ($contact->created_by != auth()->user()->id & ! in_array($contact->id, $user_contacts)) {
+        if (!auth()->user()->can('customer.view') && auth()->user()->can('customer.view_own')) {
+            if ($contact->created_by != auth()->user()->id & !in_array($contact->id, $user_contacts)) {
                 abort(403, 'Unauthorized action.');
             }
         }
@@ -707,12 +710,12 @@ class ContactController extends Controller
         $contact_view_tabs = $this->moduleUtil->getModuleData('get_contact_view_tabs');
 
         $activities = Activity::forSubject($contact)
-           ->with(['causer', 'subject'])
-           ->latest()
-           ->get();
+            ->with(['causer', 'subject'])
+            ->latest()
+            ->get();
 
         return view('contact.show')
-             ->with(compact('contact', 'reward_enabled', 'contact_dropdown', 'business_locations', 'view_type', 'contact_view_tabs', 'activities'));
+            ->with(compact('contact', 'reward_enabled', 'contact_dropdown', 'business_locations', 'view_type', 'contact_view_tabs', 'activities'));
     }
 
     /**
@@ -723,7 +726,7 @@ class ContactController extends Controller
      */
     public function edit($id)
     {
-        if (! auth()->user()->can('supplier.update') && ! auth()->user()->can('customer.update') && ! auth()->user()->can('customer.view_own') && ! auth()->user()->can('supplier.view_own')) {
+        if (!auth()->user()->can('supplier.update') && !auth()->user()->can('customer.update') && !auth()->user()->can('customer.view_own') && !auth()->user()->can('supplier.view_own')) {
             abort(403, 'Unauthorized action.');
         }
 
@@ -731,7 +734,7 @@ class ContactController extends Controller
             $business_id = request()->session()->get('user.business_id');
             $contact = Contact::where('business_id', $business_id)->find($id);
 
-            if (! $this->moduleUtil->isSubscribed($business_id)) {
+            if (!$this->moduleUtil->isSubscribed($business_id)) {
                 return $this->moduleUtil->expiredResponse();
             }
 
@@ -749,14 +752,14 @@ class ContactController extends Controller
             $customer_groups = CustomerGroup::forDropdown($business_id);
 
             $ob_transaction = Transaction::where('contact_id', $id)
-                                            ->where('type', 'opening_balance')
-                                            ->first();
-            $opening_balance = ! empty($ob_transaction->final_total) ? $ob_transaction->final_total : 0;
+                ->where('type', 'opening_balance')
+                ->first();
+            $opening_balance = !empty($ob_transaction->final_total) ? $ob_transaction->final_total : 0;
 
             //Deduct paid amount from opening balance.
-            if (! empty($opening_balance)) {
+            if (!empty($opening_balance)) {
                 $opening_balance_paid = $this->transactionUtil->getTotalAmountPaid($ob_transaction->id);
-                if (! empty($opening_balance_paid)) {
+                if (!empty($opening_balance_paid)) {
                     $opening_balance = $opening_balance - $opening_balance_paid;
                 }
 
@@ -780,39 +783,41 @@ class ContactController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if (! auth()->user()->can('supplier.update') && ! auth()->user()->can('customer.update') && ! auth()->user()->can('customer.view_own') && ! auth()->user()->can('supplier.view_own')) {
+        if (!auth()->user()->can('supplier.update') && !auth()->user()->can('customer.update') && !auth()->user()->can('customer.view_own') && !auth()->user()->can('supplier.view_own')) {
             abort(403, 'Unauthorized action.');
         }
 
         if (request()->ajax()) {
             try {
-                $input = $request->only(['type', 'supplier_business_name', 'prefix', 'first_name', 'middle_name', 'last_name', 'tax_number', 'pay_term_number', 'pay_term_type', 'mobile', 'address_line_1', 'address_line_2', 'zip_code', 'dob', 'alternate_number', 'city', 'state', 'country', 'landline', 'customer_group_id', 'contact_id', 'custom_field1', 'custom_field2', 'custom_field3', 'custom_field4', 'custom_field5', 'custom_field6', 'custom_field7', 'custom_field8', 'custom_field9', 'custom_field10', 'email', 'shipping_address', 'position', 'shipping_custom_field_details', 'export_custom_field_1', 'export_custom_field_2', 'export_custom_field_3', 'export_custom_field_4', 'export_custom_field_5',
-                    'export_custom_field_6', 'assigned_to_users', ]);
+                $input = $request->only([
+                    'type', 'supplier_business_name', 'prefix', 'first_name', 'middle_name', 'last_name', 'tax_number', 'pay_term_number', 'pay_term_type', 'mobile', 'address_line_1', 'address_line_2', 'zip_code', 'dob', 'alternate_number', 'city', 'state', 'country', 'landline', 'customer_group_id', 'contact_id', 'custom_field1', 'custom_field2', 'custom_field3', 'custom_field4', 'custom_field5', 'custom_field6', 'custom_field7', 'custom_field8', 'custom_field9', 'custom_field10', 'email', 'shipping_address', 'position', 'shipping_custom_field_details', 'export_custom_field_1', 'export_custom_field_2', 'export_custom_field_3', 'export_custom_field_4', 'export_custom_field_5',
+                    'export_custom_field_6', 'assigned_to_users',
+                ]);
 
                 $name_array = [];
 
-                if (! empty($input['prefix'])) {
+                if (!empty($input['prefix'])) {
                     $name_array[] = $input['prefix'];
                 }
-                if (! empty($input['first_name'])) {
+                if (!empty($input['first_name'])) {
                     $name_array[] = $input['first_name'];
                 }
-                if (! empty($input['middle_name'])) {
+                if (!empty($input['middle_name'])) {
                     $name_array[] = $input['middle_name'];
                 }
-                if (! empty($input['last_name'])) {
+                if (!empty($input['last_name'])) {
                     $name_array[] = $input['last_name'];
                 }
 
                 $input['name'] = trim(implode(' ', $name_array));
 
-                $input['is_export'] = ! empty($request->input('is_export')) ? 1 : 0;
+                $input['is_export'] = !empty($request->input('is_export')) ? 1 : 0;
 
-                if (! $input['is_export']) {
+                if (!$input['is_export']) {
                     unset($input['export_custom_field_1'], $input['export_custom_field_2'], $input['export_custom_field_3'], $input['export_custom_field_4'], $input['export_custom_field_5'], $input['export_custom_field_6']);
                 }
 
-                if (! empty($input['dob'])) {
+                if (!empty($input['dob'])) {
                     $input['dob'] = $this->commonUtil->uf_date($input['dob']);
                 }
 
@@ -822,7 +827,7 @@ class ContactController extends Controller
 
                 $input['opening_balance'] = $this->commonUtil->num_uf($request->input('opening_balance'));
 
-                if (! $this->moduleUtil->isSubscribed($business_id)) {
+                if (!$this->moduleUtil->isSubscribed($business_id)) {
                     return $this->moduleUtil->expiredResponse();
                 }
 
@@ -830,9 +835,10 @@ class ContactController extends Controller
 
                 $this->contactUtil->activityLog($output['data'], 'edited');
             } catch (\Exception $e) {
-                \Log::emergency('File:'.$e->getFile().'Line:'.$e->getLine().'Message:'.$e->getMessage());
+                \Log::emergency('File:' . $e->getFile() . 'Line:' . $e->getLine() . 'Message:' . $e->getMessage());
 
-                $output = ['success' => false,
+                $output = [
+                    'success' => false,
                     'msg' => __('messages.something_went_wrong'),
                 ];
             }
@@ -849,7 +855,7 @@ class ContactController extends Controller
      */
     public function destroy($id)
     {
-        if (! auth()->user()->can('supplier.delete') && ! auth()->user()->can('customer.delete') && ! auth()->user()->can('customer.view_own') && ! auth()->user()->can('supplier.view_own')) {
+        if (!auth()->user()->can('supplier.delete') && !auth()->user()->can('customer.delete') && !auth()->user()->can('customer.view_own') && !auth()->user()->can('supplier.view_own')) {
             abort(403, 'Unauthorized action.');
         }
 
@@ -859,11 +865,11 @@ class ContactController extends Controller
 
                 //Check if any transaction related to this contact exists
                 $count = Transaction::where('business_id', $business_id)
-                                    ->where('contact_id', $id)
-                                    ->count();
+                    ->where('contact_id', $id)
+                    ->count();
                 if ($count == 0) {
                     $contact = Contact::where('business_id', $business_id)->findOrFail($id);
-                    if (! $contact->is_default) {
+                    if (!$contact->is_default) {
                         $log_properities = [
                             'id' => $contact->id,
                             'name' => $contact->name,
@@ -877,18 +883,21 @@ class ContactController extends Controller
 
                         $contact->delete();
                     }
-                    $output = ['success' => true,
+                    $output = [
+                        'success' => true,
                         'msg' => __('contact.deleted_success'),
                     ];
                 } else {
-                    $output = ['success' => false,
+                    $output = [
+                        'success' => false,
                         'msg' => __('lang_v1.you_cannot_delete_this_contact'),
                     ];
                 }
             } catch (\Exception $e) {
-                \Log::emergency('File:'.$e->getFile().'Line:'.$e->getLine().'Message:'.$e->getMessage());
+                \Log::emergency('File:' . $e->getFile() . 'Line:' . $e->getLine() . 'Message:' . $e->getMessage());
 
-                $output = ['success' => false,
+                $output = [
+                    'success' => false,
                     'msg' => __('messages.something_went_wrong'),
                 ];
             }
@@ -912,19 +921,19 @@ class ContactController extends Controller
             $user_id = request()->session()->get('user.id');
 
             $contacts = Contact::where('contacts.business_id', $business_id)
-                            ->leftjoin('customer_groups as cg', 'cg.id', '=', 'contacts.customer_group_id')
-                            ->active();
+                ->leftjoin('customer_groups as cg', 'cg.id', '=', 'contacts.customer_group_id')
+                ->active();
 
-            if (! request()->has('all_contact')) {
+            if (!request()->has('all_contact')) {
                 $contacts->onlyCustomers();
             }
 
-            if (! empty($term)) {
+            if (!empty($term)) {
                 $contacts->where(function ($query) use ($term) {
-                    $query->where('contacts.name', 'like', '%'.$term.'%')
-                            ->orWhere('supplier_business_name', 'like', '%'.$term.'%')
-                            ->orWhere('mobile', 'like', '%'.$term.'%')
-                            ->orWhere('contacts.contact_id', 'like', '%'.$term.'%');
+                    $query->where('contacts.name', 'like', '%' . $term . '%')
+                        ->orWhere('supplier_business_name', 'like', '%' . $term . '%')
+                        ->orWhere('mobile', 'like', '%' . $term . '%')
+                        ->orWhere('contacts.contact_id', 'like', '%' . $term . '%');
                 });
             }
 
@@ -976,13 +985,13 @@ class ContactController extends Controller
         $contact_id = $request->input('contact_id');
 
         $valid = 'true';
-        if (! empty($contact_id)) {
+        if (!empty($contact_id)) {
             $business_id = $request->session()->get('user.business_id');
             $hidden_id = $request->input('hidden_id');
 
             $query = Contact::where('business_id', $business_id)
-                            ->where('contact_id', $contact_id);
-            if (! empty($hidden_id)) {
+                ->where('contact_id', $contact_id);
+            if (!empty($hidden_id)) {
                 $query->where('id', '!=', $hidden_id);
             }
             $count = $query->count();
@@ -1002,7 +1011,7 @@ class ContactController extends Controller
      */
     public function getImportContacts()
     {
-        if (! auth()->user()->can('supplier.create') && ! auth()->user()->can('customer.create')) {
+        if (!auth()->user()->can('supplier.create') && !auth()->user()->can('customer.create')) {
             abort(403, 'Unauthorized action.');
         }
 
@@ -1010,7 +1019,8 @@ class ContactController extends Controller
 
         //Check if zip extension it loaded or not.
         if ($zip_loaded === false) {
-            $output = ['success' => 0,
+            $output = [
+                'success' => 0,
                 'msg' => 'Please install/enable PHP Zip archive for import',
             ];
 
@@ -1029,13 +1039,13 @@ class ContactController extends Controller
      */
     public function postImportContacts(Request $request)
     {
-        if (! auth()->user()->can('supplier.create') && ! auth()->user()->can('customer.create')) {
+        if (!auth()->user()->can('supplier.create') && !auth()->user()->can('customer.create')) {
             abort(403, 'Unauthorized action.');
         }
 
         try {
             $notAllowed = $this->commonUtil->notAllowedInDemo();
-            if (! empty($notAllowed)) {
+            if (!empty($notAllowed)) {
                 return $notAllowed;
             }
 
@@ -1075,7 +1085,7 @@ class ContactController extends Controller
                         2 => 'supplier',
                         3 => 'both',
                     ];
-                    if (! empty($value[0])) {
+                    if (!empty($value[0])) {
                         $contact_type = strtolower(trim($value[0]));
                         if (in_array($contact_type, [1, 2, 3])) {
                             $contact_array['type'] = $contact_types[$contact_type];
@@ -1093,7 +1103,7 @@ class ContactController extends Controller
 
                     $contact_array['prefix'] = $value[1];
                     //Check contact name
-                    if (! empty($value[2])) {
+                    if (!empty($value[2])) {
                         $contact_array['first_name'] = $value[2];
                     } else {
                         $is_valid = false;
@@ -1105,7 +1115,7 @@ class ContactController extends Controller
                     $contact_array['name'] = implode(' ', [$contact_array['prefix'], $contact_array['first_name'], $contact_array['middle_name'], $contact_array['last_name']]);
 
                     //Check business name
-                    if (! empty(trim($value[5]))) {
+                    if (!empty(trim($value[5]))) {
                         $contact_array['supplier_business_name'] = $value[5];
                     }
 
@@ -1132,10 +1142,10 @@ class ContactController extends Controller
                     }
 
                     //Check contact ID
-                    if (! empty(trim($value[6]))) {
+                    if (!empty(trim($value[6]))) {
                         $count = Contact::where('business_id', $business_id)
-                                    ->where('contact_id', $value[6])
-                                    ->count();
+                            ->where('contact_id', $value[6])
+                            ->count();
 
                         if ($count == 0) {
                             $contact_array['contact_id'] = $value[6];
@@ -1147,12 +1157,12 @@ class ContactController extends Controller
                     }
 
                     //Tax number
-                    if (! empty(trim($value[7]))) {
+                    if (!empty(trim($value[7]))) {
                         $contact_array['tax_number'] = $value[7];
                     }
 
                     //Check opening balance
-                    if (! empty(trim($value[8])) && $value[8] != 0) {
+                    if (!empty(trim($value[8])) && $value[8] != 0) {
                         $contact_array['opening_balance'] = trim($value[8]);
                     }
 
@@ -1162,7 +1172,7 @@ class ContactController extends Controller
                     }
 
                     //Check email
-                    if (! empty(trim($value[12]))) {
+                    if (!empty(trim($value[12]))) {
                         if (filter_var(trim($value[12]), FILTER_VALIDATE_EMAIL)) {
                             $contact_array['email'] = $value[12];
                         } else {
@@ -1173,7 +1183,7 @@ class ContactController extends Controller
                     }
 
                     //Mobile number
-                    if (! empty(trim($value[13]))) {
+                    if (!empty(trim($value[13]))) {
                         $contact_array['mobile'] = $value[13];
                     } else {
                         $is_valid = false;
@@ -1211,11 +1221,11 @@ class ContactController extends Controller
 
                     $formated_data[] = $contact_array;
                 }
-                if (! $is_valid) {
+                if (!$is_valid) {
                     throw new \Exception($error_msg);
                 }
 
-                if (! empty($formated_data)) {
+                if (!empty($formated_data)) {
                     foreach ($formated_data as $contact_data) {
                         $ref_count = $this->transactionUtil->setAndGetReferenceCount('contacts');
                         //Set contact id if empty
@@ -1234,7 +1244,7 @@ class ContactController extends Controller
 
                         $contact = Contact::create($contact_data);
 
-                        if (! empty($opening_balance)) {
+                        if (!empty($opening_balance)) {
                             $this->transactionUtil->createOpeningBalanceTransaction($business_id, $contact->id, $opening_balance, $user_id, false);
                         }
 
@@ -1242,7 +1252,8 @@ class ContactController extends Controller
                     }
                 }
 
-                $output = ['success' => 1,
+                $output = [
+                    'success' => 1,
                     'msg' => __('product.file_imported_successfully'),
                 ];
 
@@ -1250,15 +1261,16 @@ class ContactController extends Controller
             }
         } catch (\Exception $e) {
             DB::rollBack();
-            \Log::emergency('File:'.$e->getFile().'Line:'.$e->getLine().'Message:'.$e->getMessage());
+            \Log::emergency('File:' . $e->getFile() . 'Line:' . $e->getLine() . 'Message:' . $e->getMessage());
 
-            $output = ['success' => 0,
+            $output = [
+                'success' => 0,
                 'msg' => $e->getMessage(),
             ];
 
             return redirect()->route('contacts.import')->with('notification', $output);
         }
-        $type = ! empty($contact->type) && $contact->type != 'both' ? $contact->type : 'supplier';
+        $type = !empty($contact->type) && $contact->type != 'both' ? $contact->type : 'supplier';
 
         return redirect()->action([\App\Http\Controllers\ContactController::class, 'index'], ['type' => $type])->with('status', $output);
     }
@@ -1271,7 +1283,7 @@ class ContactController extends Controller
      */
     public function getLedger()
     {
-        if (! auth()->user()->can('supplier.view') && ! auth()->user()->can('customer.view') && ! auth()->user()->can('supplier.view_own') && ! auth()->user()->can('customer.view_own')) {
+        if (!auth()->user()->can('supplier.view') && !auth()->user()->can('customer.view') && !auth()->user()->can('supplier.view_own') && !auth()->user()->can('customer.view_own')) {
             abort(403, 'Unauthorized action.');
         }
 
@@ -1293,13 +1305,13 @@ class ContactController extends Controller
             $user_contacts = auth()->user()->contactAccess->pluck('id')->toArray();
         }
 
-        if (! auth()->user()->can('supplier.view') && auth()->user()->can('supplier.view_own')) {
-            if ($contact->created_by != auth()->user()->id & ! in_array($contact->id, $user_contacts)) {
+        if (!auth()->user()->can('supplier.view') && auth()->user()->can('supplier.view_own')) {
+            if ($contact->created_by != auth()->user()->id & !in_array($contact->id, $user_contacts)) {
                 abort(403, 'Unauthorized action.');
             }
         }
-        if (! auth()->user()->can('customer.view') && auth()->user()->can('customer.view_own')) {
-            if ($contact->created_by != auth()->user()->id & ! in_array($contact->id, $user_contacts)) {
+        if (!auth()->user()->can('customer.view') && auth()->user()->can('customer.view_own')) {
+            if ($contact->created_by != auth()->user()->id & !in_array($contact->id, $user_contacts)) {
                 abort(403, 'Unauthorized action.');
             }
         }
@@ -1309,15 +1321,15 @@ class ContactController extends Controller
         $ledger_details = $this->transactionUtil->getLedgerDetails($contact_id, $start_date, $end_date, $format, $location_id, $line_details);
 
         $location = null;
-        if (! empty($location_id)) {
+        if (!empty($location_id)) {
             $location = BusinessLocation::where('business_id', $business_id)->find($location_id);
         }
         if (request()->input('action') == 'pdf') {
-            $output_file_name = 'Ledger-'.str_replace(' ', '-', $contact->name).'-'.$start_date.'-'.$end_date.'.pdf';
+            $output_file_name = 'Ledger-' . str_replace(' ', '-', $contact->name) . '-' . $start_date . '-' . $end_date . '.pdf';
             $for_pdf = true;
             if ($format == 'format_2') {
                 $html = view('contact.ledger_format_2')
-                        ->with(compact('ledger_details', 'contact', 'for_pdf', 'location'))->render();
+                    ->with(compact('ledger_details', 'contact', 'for_pdf', 'location'))->render();
             } elseif ($format == 'format_3') {
                 $html = view('contact.ledger_format_3')
                     ->with(compact('ledger_details', 'contact', 'location', 'is_admin', 'for_pdf'))->render();
@@ -1333,13 +1345,13 @@ class ContactController extends Controller
 
         if ($format == 'format_2') {
             return view('contact.ledger_format_2')
-             ->with(compact('ledger_details', 'contact', 'location'));
+                ->with(compact('ledger_details', 'contact', 'location'));
         } elseif ($format == 'format_3') {
             return view('contact.ledger_format_3')
-             ->with(compact('ledger_details', 'contact', 'location', 'is_admin'));
+                ->with(compact('ledger_details', 'contact', 'location', 'is_admin'));
         } else {
             return view('contact.ledger')
-             ->with(compact('ledger_details', 'contact', 'location', 'is_admin'));
+                ->with(compact('ledger_details', 'contact', 'location', 'is_admin'));
         }
     }
 
@@ -1355,9 +1367,9 @@ class ContactController extends Controller
             $data = $request->only(['name', 'email']);
 
             $customer = Contact::where('business_id', $api_settings->business_id)
-                                ->where('email', $data['email'])
-                                ->whereIn('type', ['customer', 'both'])
-                                ->first();
+                ->where('email', $data['email'])
+                ->whereIn('type', ['customer', 'both'])
+                ->first();
 
             if (empty($customer)) {
                 $data['type'] = 'customer';
@@ -1372,7 +1384,7 @@ class ContactController extends Controller
                 $customer = Contact::create($data);
             }
         } catch (\Exception $e) {
-            \Log::emergency('File:'.$e->getFile().'Line:'.$e->getLine().'Message:'.$e->getMessage());
+            \Log::emergency('File:' . $e->getFile() . 'Line:' . $e->getLine() . 'Message:' . $e->getMessage());
 
             return $this->respondWentWrong($e);
         }
@@ -1386,7 +1398,7 @@ class ContactController extends Controller
     public function sendLedger(Request $request)
     {
         $notAllowed = $this->notificationUtil->notAllowedInDemo();
-        if (! empty($notAllowed)) {
+        if (!empty($notAllowed)) {
             return $notAllowed;
         }
 
@@ -1422,27 +1434,27 @@ class ContactController extends Controller
             $for_pdf = true;
             if ($data['ledger_format'] == 'format_2') {
                 $html = view('contact.ledger_format_2')
-                        ->with(compact('ledger_details', 'contact', 'for_pdf'))->render();
+                    ->with(compact('ledger_details', 'contact', 'for_pdf'))->render();
             } else {
                 $html = view('contact.ledger')
-                        ->with(compact('ledger_details', 'contact', 'for_pdf'))->render();
+                    ->with(compact('ledger_details', 'contact', 'for_pdf'))->render();
             }
 
             $mpdf = $this->getMpdf();
             $mpdf->WriteHTML($html);
 
             $path = config('constants.mpdf_temp_path');
-            if (! file_exists($path)) {
+            if (!file_exists($path)) {
                 mkdir($path, 0777, true);
             }
 
-            $file = $path.'/'.time().'_ledger.pdf';
+            $file = $path . '/' . time() . '_ledger.pdf';
             $mpdf->Output($file, 'F');
 
             $data['attachment'] = $file;
             $data['attachment_name'] = 'ledger.pdf';
             \Notification::route('mail', $emails_array)
-                    ->notify(new CustomerNotification($data));
+                ->notify(new CustomerNotification($data));
 
             if (file_exists($file)) {
                 unlink($file);
@@ -1450,10 +1462,11 @@ class ContactController extends Controller
 
             $output = ['success' => 1, 'msg' => __('lang_v1.notification_sent_successfully')];
         } catch (\Exception $e) {
-            \Log::emergency('File:'.$e->getFile().'Line:'.$e->getLine().'Message:'.$e->getMessage());
+            \Log::emergency('File:' . $e->getFile() . 'Line:' . $e->getLine() . 'Message:' . $e->getMessage());
 
-            $output = ['success' => 0,
-                'msg' => 'File:'.$e->getFile().'Line:'.$e->getLine().'Message:'.$e->getMessage(),
+            $output = [
+                'success' => 0,
+                'msg' => 'File:' . $e->getFile() . 'Line:' . $e->getLine() . 'Message:' . $e->getMessage(),
             ];
         }
 
@@ -1468,95 +1481,95 @@ class ContactController extends Controller
         //TODO: current stock not calculating stock transferred from other location
         $pl_query_string = $this->commonUtil->get_pl_quantity_sum_string();
         $query = PurchaseLine::join('transactions as t', 't.id', '=', 'purchase_lines.transaction_id')
-                        ->join('products as p', 'p.id', '=', 'purchase_lines.product_id')
-                        ->join('variations as v', 'v.id', '=', 'purchase_lines.variation_id')
-                        ->join('product_variations as pv', 'v.product_variation_id', '=', 'pv.id')
-                        ->join('units as u', 'p.unit_id', '=', 'u.id')
-                        ->whereIn('t.type', ['purchase', 'purchase_return'])
-                        ->where('t.contact_id', $supplier_id)
-                        ->select(
-                            'p.name as product_name',
-                            'v.name as variation_name',
-                            'pv.name as product_variation_name',
-                            'p.type as product_type',
-                            'u.short_name as product_unit',
-                            'v.sub_sku',
-                            DB::raw('SUM(quantity) as purchase_quantity'),
-                            DB::raw('SUM(quantity_returned) as total_quantity_returned'),
-                            DB::raw("SUM((SELECT SUM(TSL.quantity - TSL.quantity_returned) FROM transaction_sell_lines_purchase_lines as TSLPL 
+            ->join('products as p', 'p.id', '=', 'purchase_lines.product_id')
+            ->join('variations as v', 'v.id', '=', 'purchase_lines.variation_id')
+            ->join('product_variations as pv', 'v.product_variation_id', '=', 'pv.id')
+            ->join('units as u', 'p.unit_id', '=', 'u.id')
+            ->whereIn('t.type', ['purchase', 'purchase_return'])
+            ->where('t.contact_id', $supplier_id)
+            ->select(
+                'p.name as product_name',
+                'v.name as variation_name',
+                'pv.name as product_variation_name',
+                'p.type as product_type',
+                'u.short_name as product_unit',
+                'v.sub_sku',
+                DB::raw('SUM(quantity) as purchase_quantity'),
+                DB::raw('SUM(quantity_returned) as total_quantity_returned'),
+                DB::raw("SUM((SELECT SUM(TSL.quantity - TSL.quantity_returned) FROM transaction_sell_lines_purchase_lines as TSLPL 
                               JOIN transaction_sell_lines AS TSL ON TSLPL.sell_line_id=TSL.id
                               JOIN transactions AS sell ON sell.id=TSL.transaction_id
                               WHERE sell.status='final' AND sell.type='sell'
                               AND TSLPL.purchase_line_id=purchase_lines.id)) as total_quantity_sold"),
-                            DB::raw("SUM((SELECT SUM(TSL.quantity - TSL.quantity_returned) FROM transaction_sell_lines_purchase_lines as TSLPL 
+                DB::raw("SUM((SELECT SUM(TSL.quantity - TSL.quantity_returned) FROM transaction_sell_lines_purchase_lines as TSLPL 
                               JOIN transaction_sell_lines AS TSL ON TSLPL.sell_line_id=TSL.id
                               JOIN transactions AS sell ON sell.id=TSL.transaction_id
                               WHERE sell.status='final' AND sell.type='sell_transfer'
                               AND TSLPL.purchase_line_id=purchase_lines.id)) as total_quantity_transfered"),
-                            DB::raw("SUM( COALESCE(quantity - ($pl_query_string), 0) * purchase_price_inc_tax) as stock_price"),
-                            DB::raw("SUM( COALESCE(quantity - ($pl_query_string), 0)) as current_stock")
-                        )->groupBy('purchase_lines.variation_id');
+                DB::raw("SUM( COALESCE(quantity - ($pl_query_string), 0) * purchase_price_inc_tax) as stock_price"),
+                DB::raw("SUM( COALESCE(quantity - ($pl_query_string), 0)) as current_stock")
+            )->groupBy('purchase_lines.variation_id');
 
-        if (! empty(request()->location_id)) {
+        if (!empty(request()->location_id)) {
             $query->where('t.location_id', request()->location_id);
         }
 
         $product_stocks = Datatables::of($query)
-                            ->editColumn('product_name', function ($row) {
-                                $name = $row->product_name;
-                                if ($row->product_type == 'variable') {
-                                    $name .= ' - '.$row->product_variation_name.'-'.$row->variation_name;
-                                }
+            ->editColumn('product_name', function ($row) {
+                $name = $row->product_name;
+                if ($row->product_type == 'variable') {
+                    $name .= ' - ' . $row->product_variation_name . '-' . $row->variation_name;
+                }
 
-                                return $name.' ('.$row->sub_sku.')';
-                            })
-                            ->editColumn('purchase_quantity', function ($row) {
-                                $purchase_quantity = 0;
-                                if ($row->purchase_quantity) {
-                                    $purchase_quantity = (float) $row->purchase_quantity;
-                                }
+                return $name . ' (' . $row->sub_sku . ')';
+            })
+            ->editColumn('purchase_quantity', function ($row) {
+                $purchase_quantity = 0;
+                if ($row->purchase_quantity) {
+                    $purchase_quantity = (float) $row->purchase_quantity;
+                }
 
-                                return '<span data-is_quantity="true" class="display_currency" data-currency_symbol=false  data-orig-value="'.$purchase_quantity.'" data-unit="'.$row->product_unit.'" >'.$purchase_quantity.'</span> '.$row->product_unit;
-                            })
-                            ->editColumn('total_quantity_sold', function ($row) {
-                                $total_quantity_sold = 0;
-                                if ($row->total_quantity_sold) {
-                                    $total_quantity_sold = (float) $row->total_quantity_sold;
-                                }
+                return '<span data-is_quantity="true" class="display_currency" data-currency_symbol=false  data-orig-value="' . $purchase_quantity . '" data-unit="' . $row->product_unit . '" >' . $purchase_quantity . '</span> ' . $row->product_unit;
+            })
+            ->editColumn('total_quantity_sold', function ($row) {
+                $total_quantity_sold = 0;
+                if ($row->total_quantity_sold) {
+                    $total_quantity_sold = (float) $row->total_quantity_sold;
+                }
 
-                                return '<span data-is_quantity="true" class="display_currency" data-currency_symbol=false  data-orig-value="'.$total_quantity_sold.'" data-unit="'.$row->product_unit.'" >'.$total_quantity_sold.'</span> '.$row->product_unit;
-                            })
-                            ->editColumn('total_quantity_transfered', function ($row) {
-                                $total_quantity_transfered = 0;
-                                if ($row->total_quantity_transfered) {
-                                    $total_quantity_transfered = (float) $row->total_quantity_transfered;
-                                }
+                return '<span data-is_quantity="true" class="display_currency" data-currency_symbol=false  data-orig-value="' . $total_quantity_sold . '" data-unit="' . $row->product_unit . '" >' . $total_quantity_sold . '</span> ' . $row->product_unit;
+            })
+            ->editColumn('total_quantity_transfered', function ($row) {
+                $total_quantity_transfered = 0;
+                if ($row->total_quantity_transfered) {
+                    $total_quantity_transfered = (float) $row->total_quantity_transfered;
+                }
 
-                                return '<span data-is_quantity="true" class="display_currency" data-currency_symbol=false  data-orig-value="'.$total_quantity_transfered.'" data-unit="'.$row->product_unit.'" >'.$total_quantity_transfered.'</span> '.$row->product_unit;
-                            })
-                            ->editColumn('stock_price', function ($row) {
-                                $stock_price = 0;
-                                if ($row->stock_price) {
-                                    $stock_price = (float) $row->stock_price;
-                                }
+                return '<span data-is_quantity="true" class="display_currency" data-currency_symbol=false  data-orig-value="' . $total_quantity_transfered . '" data-unit="' . $row->product_unit . '" >' . $total_quantity_transfered . '</span> ' . $row->product_unit;
+            })
+            ->editColumn('stock_price', function ($row) {
+                $stock_price = 0;
+                if ($row->stock_price) {
+                    $stock_price = (float) $row->stock_price;
+                }
 
-                                return '<span class="display_currency" data-currency_symbol=true >'.$stock_price.'</span> ';
-                            })
-                            ->editColumn('current_stock', function ($row) {
-                                $current_stock = 0;
-                                if ($row->current_stock) {
-                                    $current_stock = (float) $row->current_stock;
-                                }
+                return '<span class="display_currency" data-currency_symbol=true >' . $stock_price . '</span> ';
+            })
+            ->editColumn('current_stock', function ($row) {
+                $current_stock = 0;
+                if ($row->current_stock) {
+                    $current_stock = (float) $row->current_stock;
+                }
 
-                                return '<span data-is_quantity="true" class="display_currency" data-currency_symbol=false  data-orig-value="'.$current_stock.'" data-unit="'.$row->product_unit.'" >'.$current_stock.'</span> '.$row->product_unit;
-                            });
+                return '<span data-is_quantity="true" class="display_currency" data-currency_symbol=false  data-orig-value="' . $current_stock . '" data-unit="' . $row->product_unit . '" >' . $current_stock . '</span> ' . $row->product_unit;
+            });
 
         return $product_stocks->rawColumns(['current_stock', 'stock_price', 'total_quantity_sold', 'purchase_quantity', 'total_quantity_transfered'])->make(true);
     }
 
     public function updateStatus($id)
     {
-        if (! auth()->user()->can('supplier.update') && ! auth()->user()->can('customer.update')) {
+        if (!auth()->user()->can('supplier.update') && !auth()->user()->can('customer.update')) {
             abort(403, 'Unauthorized action.');
         }
 
@@ -1566,7 +1579,8 @@ class ContactController extends Controller
             $contact->contact_status = $contact->contact_status == 'active' ? 'inactive' : 'active';
             $contact->save();
 
-            $output = ['success' => true,
+            $output = [
+                'success' => true,
                 'msg' => __('contact.updated_success'),
             ];
 
@@ -1579,27 +1593,27 @@ class ContactController extends Controller
      */
     public function contactMap()
     {
-        if (! auth()->user()->can('supplier.view') && ! auth()->user()->can('customer.view')) {
+        if (!auth()->user()->can('supplier.view') && !auth()->user()->can('customer.view')) {
             abort(403, 'Unauthorized action.');
         }
 
         $business_id = request()->session()->get('user.business_id');
 
         $query = Contact::where('business_id', $business_id)
-                        ->active()
-                        ->whereNotNull('position');
+            ->active()
+            ->whereNotNull('position');
 
-        if (! empty(request()->input('contacts'))) {
+        if (!empty(request()->input('contacts'))) {
             $query->whereIn('id', request()->input('contacts'));
         }
         $contacts = $query->get();
 
         $all_contacts = Contact::where('business_id', $business_id)
-                        ->active()
-                        ->get();
+            ->active()
+            ->get();
 
         return view('contact.contact_map')
-             ->with(compact('contacts', 'all_contacts'));
+            ->with(compact('contacts', 'all_contacts'));
     }
 
     public function getContactPayments($contact_id)
@@ -1607,11 +1621,11 @@ class ContactController extends Controller
         $business_id = request()->session()->get('user.business_id');
         if (request()->ajax()) {
             $payments = TransactionPayment::leftjoin('transactions as t', 'transaction_payments.transaction_id', '=', 't.id')
-            ->leftjoin('transaction_payments as parent_payment', 'transaction_payments.parent_id', '=', 'parent_payment.id')
-            ->where('transaction_payments.business_id', $business_id)
-            ->whereNull('transaction_payments.parent_id')
-            ->with(['child_payments', 'child_payments.transaction'])
-            ->where('transaction_payments.payment_for', $contact_id)
+                ->leftjoin('transaction_payments as parent_payment', 'transaction_payments.parent_id', '=', 'parent_payment.id')
+                ->where('transaction_payments.business_id', $business_id)
+                ->whereNull('transaction_payments.parent_id')
+                ->with(['child_payments', 'child_payments.transaction'])
+                ->where('transaction_payments.payment_for', $contact_id)
                 ->select(
                     'transaction_payments.id',
                     'transaction_payments.amount',
@@ -1639,7 +1653,7 @@ class ContactController extends Controller
             $payment_types = $this->transactionUtil->payment_types(null, true, $business_id);
 
             return view('contact.partials.contact_payments_tab')
-                    ->with(compact('payments', 'payment_types'));
+                ->with(compact('payments', 'payment_types'));
         }
     }
 
@@ -1662,16 +1676,16 @@ class ContactController extends Controller
         $mobile_number = $request->input('mobile_number');
 
         $query = Contact::where('business_id', $business_id)
-                        ->where('mobile', 'like', "%{$mobile_number}");
+            ->where('mobile', 'like', "%{$mobile_number}");
 
-        if (! empty($request->input('contact_id'))) {
+        if (!empty($request->input('contact_id'))) {
             $query->where('id', '!=', $request->input('contact_id'));
         }
 
         $contacts = $query->pluck('name')->toArray();
 
         return [
-            'is_mobile_exists' => ! empty($contacts),
+            'is_mobile_exists' => !empty($contacts),
             'msg' => __('lang_v1.mobile_already_registered', ['contacts' => implode(', ', $contacts), 'mobile' => $mobile_number]),
         ];
     }
