@@ -79,12 +79,7 @@ class CustomerGroupController extends Controller
     }
 
     public function getRegister($business_id = null)
-    {   // Check if the environment is 'production'
-        if ($business_id !== null) {
-            if (app()->environment('production')) {
-                return view('error.coming_soon');
-            }
-        }
+    {
         return view('customer_group.register', compact('business_id'));
     }
 
