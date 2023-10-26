@@ -1,84 +1,359 @@
 @extends('frontend.layouts.master_layout')
+@section('css')
+    <style>
+        p {
+            color: black;
+            text-align: justify;
+        }
 
+        .font-black {
+            color: black;
+        }
+
+        .margin_left_45 {
+            margin-left: 45px;
+        }
+
+        .sub-details li {
+            font-size: 15px;
+        }
+    </style>
+@endsection
 @section('content')
     @includeIf('frontend.partials.global.common-header')
 
     <div class="container">
         <div class="header m-3 p-3">
-            <h3 class="heading ">IT solutions:</h3>
-            <p class="heading-details">Information and technology service that being provided by Unipuller is a part of its
-                wide range consultancy
-                business. Unipuller is providing all types of supports that a business needed. B2B is more sophisticated
-                and special to manage its operations. Advanced technology to manage divergent industries taking place
-                to a new era where advance Knowledge playing a key role in developing advanced technology for the
-                future of businesses. In many cases, business demands are different from industry to industry. The
-                complexity of businesses demanding higher technological solution. To adopt with the changing needs of
-                businesses, and to meet with the advance technology requirements, unipuller is committed to bring new
-                technologies through its informational and technology services. From data mining to big data, software
-                architecture to software development, Unipuller providing cutting edge solutions. Unipuller offers is very
-                user friendly and affordable solutions for all stakeholders. Unipuller develops software by its brilliant
-                developing teams. Unipuller also giving options to other developers in selling their ready-made and read
-                to use software through its marketplace. To see all ready made and ready to use softwires visit our
-                software category.
-            </p>
 
-            <div class="row">
-                <div class="col-md-6 m-auto">
+            <div class="welcome">
+                <h4 class="fw-bold">
+                    Welcome to UIT (Unipuller Information and Technology) - Your Trusted IT Solution Provider
+                </h4>
+                <p>
+                    &nbsp; &nbsp; &nbsp; At UIT, we recognize that modern businesses increasingly rely
+                    on technology to drive
+                    their
+                    operations
+                    and fuel their growth. This understanding has fueled our mission to become your trusted partner in
+                    navigating the intricate world of Information Technology (IT). UIT is proud to offer a comprehensive
+                    suite of IT solution services designed to empower your organization in a digital-first world.
 
-                    <h6 class="body-heading" style="margin-left: 220px;">Benefits of ready-made software:</h6>
-                    <ol style="margin-left: 220px;">
-                        <li> Cost saving </li>
-                        <li> Time saving </li>
-                        <li> 24/7 days supports </li>
-                        <li> Testified software </li>
-                        <li> Error free software </li>
-                        <li> Ease of use </li>
-                    </ol>
-                    <a href="https://shop.unipuller.com/" target="__blank" style="margin-left: 251px;">Click here</a>
-                </div>
-                <div class="col-md-6 mt-5">
-                    <img src="{{ asset('assets/frontend/it-solutions.png') }}" alt="digital-marketing.png"
-                        style="width: 75%">
-                </div>
-            </div>
-        </div>
-
-        <div class="body m-3 p-3">
-
-
-            <h6 class="body-footer ">Industry to industry, business to business policy, strategy and operation always
-                varies. To bring the right
-                solution industries and businesses most frequently chose to make their custom softwires. Our developing
-                teams are divergent in perspective of their knowledge, culture, and skills to bring right solutions for
-                right
-                industry. To meet our IT developing team click below, they will bring your required solutions withing your
-                limits meeting right quality and quantity.
-            </h6>
-
-
-            <div class="row">
-                <div class="col-md-6 m-auto">
-
-                    <h6 class="body-heading" style="margin-left: 220px;">Benefits of custom software:</h6>
-                    <ol style="margin-left: 220px;">
-                        <li> Meets required features </li>
-                        <li> Unique codes </li>
-                        <li> Unique design </li>
-                        <li> Easy to control </li>
-                        <li> Best output </li>
-                        <li> Industry friendly </li>
-                    </ol>
-                    <!-- This link forwarded to Contact us page -->
-                    <a href="" target="__blank" style="margin-left: 251px;">Click here</a>
-                </div>
-                <div class="col-md-6 mt-5">
-                    <img src="{{ asset('assets/frontend/it-solutions2.jpg') }}" alt="digital-marketing.png"
-                        style="width: 75%">
-                </div>
+                </p>
             </div>
 
+            <div class="why_choose_uit mt-4">
+                <h4 class="fw-bold">
+                    Why Choose UIT?
+                </h4>
+                <div class="details">
+                    <p>
+                        &nbsp; &nbsp; &nbsp; UIT is more than just an IT service provider; we are your strategic ally in
+                        harnessing the power of
+                        technology. Here's why you should choose us:
+                    </p>
 
+                    <div class="margin_left_45">
+                        <p>
+                            <b>Expertise:</b> Our team comprises seasoned IT professionals who bring a wealth of knowledge
+                            and
+                            hands-on experience to the table. We stay ahead of technology trends, ensuring that you receive
+                            innovative and effective solutions.
+                        </p>
+
+                        <p>
+                            <b>Customization:</b> We understand that one size doesn't fit all. That's why our services are
+                            tailored to match your unique requirements and objectives. Whether you're a small business, a
+                            large
+                            corporation,
+                            or somewhere in between, we'll customize our solutions to meet your needs.
+                        </p>
+
+                        <p>
+                            <b>Reliability:</b> In the ever-changing landscape of IT, you need a partner you can rely on.
+                            UIT
+                            is
+                            committed to providing you with dependable support, robust security, and consistent uptime. Your
+                            business continuity is our priority.
+                        </p>
+
+                        <p>
+                            <b>Scalability:</b> Your business is constantly evolving, and your IT solutions should evolve
+                            with
+                            it.
+                            Our services are designed to scale, ensuring that your long-term success is always within reach.
+                        </p>
+                        <p>
+                            <b>Cost-Efficiency:</b> We recognize the importance of maximizing your IT investment. UIT's
+                            solutions
+                            are
+                            not only effective but also cost-efficient, helping you achieve your goals without breaking the
+                            bank.
+                        </p>
+                        <p>
+                            <b>Customer-Centric:</b> At UIT, we put our customers first. Your satisfaction and success are
+                            our
+                            driving forces. We are committed to working closely with you, understanding your pain points,
+                            and
+                            delivering solutions that truly make a difference.
+                        </p>
+
+                    </div>
+                    <p>
+                        &nbsp; &nbsp; &nbsp; Explore our comprehensive range of IT services, all meticulously crafted to
+                        empower your
+                        organization
+                        for the digital age. From IT consulting and managed services to cybersecurity, cloud solutions,
+                        and
+                    </p>
+                </div>
+            </div>
+
+            <div class="discover mt-4">
+                <h4 class="fw-bold">
+                    Discover UIT's IT Solutions
+                </h4>
+
+                <div class="details">
+
+                    <div class="mt-2">
+
+                        <div class="font-black margin_left_45">
+                            1. IT Consulting:
+                            <div class="sub-details mt-1 margin_left_45">
+                                <ul>
+                                    <li class="mt-1"> Strategic IT planning and guidance.
+                                    </li>
+                                    <li class="mt-1"> Technology assessments and audits.</li>
+                                    <li class="mt-1"> IT infrastructure optimization. </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="font-black margin_left_45 mt-3">
+                            2. Managed IT Services
+                            <div class="sub-details mt-1 margin_left_45">
+                                <ul>
+                                    <li class="mt-1">24/7 monitoring and support.</li>
+                                    <li class="mt-1">Proactive maintenance and updates.</li>
+                                    <li class="mt-1">Helpdesk support for end-users.</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="font-black margin_left_45 mt-3">
+                            3. Cybersecurity Services:
+                            <div class="sub-details mt-1 margin_left_45">
+                                <ul>
+                                    <li class="mt-1">Threat assessment and mitigation.</li>
+                                    <li class="mt-1">Firewall and network security.</li>
+                                    <li class="mt-1">Security policy development</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="font-black mt-3 margin_left_45">
+                            4. Cloud Solutions:
+                            <div class="sub-details mt-1 margin_left_45">
+                                <ul>
+                                    <li class="mt-1">Cloud strategy and migration.</li>
+                                    <li class="mt-1">Cloud infrastructure management.</li>
+                                    <li class="mt-1">Data backup and disaster recovery.</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="font-black mt-3 margin_left_45">
+                            5. Network Solutions:
+                            <div class="sub-details mt-1 margin_left_45">
+                                <ul>
+                                    <li class="mt-1">Network design and configuration.</li>
+                                    <li class="mt-1">Wireless network setup.</li>
+                                    <li class="mt-1">VPN and remote access solutions.</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="font-black mt-3 margin_left_45">
+                            6. Software Development:
+                            <div class="sub-details mt-1 margin_left_45">
+                                <ul>
+                                    <li class="mt-1">Custom software applications.</li>
+                                    <li class="mt-1">Web and mobile app development.</li>
+                                    <li class="mt-1">Legacy system modernization.</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="font-black mt-3 margin_left_45">
+                            7. Data Analytics:
+                            <div class="sub-details mt-1 margin_left_45">
+                                <ul>
+                                    <li class="mt-1">Data collection and analysis.</li>
+                                    <li class="mt-1">Business intelligence solutions.</li>
+                                    <li class="mt-1">Data visualization and reporting.</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="font-black mt-3 margin_left_45">
+                            8. Database Management:
+                            <div class="sub-details mt-1 margin_left_45">
+                                <ul>
+                                    <li class="mt-1">Database design and optimization.</li>
+                                    <li class="mt-1">Database administration.</li>
+                                    <li class="mt-1">Data migration and integration.</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="font-black mt-3 margin_left_45">
+                            9. IT Infrastructure:
+                            <div class="sub-details mt-1 margin_left_45">
+                                <ul>
+                                    <li class="mt-1">Hardware procurement and setup.</li>
+                                    <li class="mt-1">Server and data center management.</li>
+                                    <li class="mt-1">Virtualization and cloud infrastructure.</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="font-black mt-3 margin_left_45">
+                            10. ERP Solutions:
+                            <div class="sub-details mt-1 margin_left_45">
+                                <ul>
+                                    <li class="mt-1">Enterprise Resource Planning implementation.</li>
+                                    <li class="mt-1">ERP customization and support.</li>
+                                    <li class="mt-1">ERP training and user support.</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="font-black mt-3 margin_left_45">
+                            11. IoT Services:
+                            <div class="sub-details mt-1 margin_left_45">
+                                <ul>
+                                    <li class="mt-1">Internet of Things strategy and implementation.</li>
+                                    <li class="mt-1">IoT device management.</li>
+                                    <li class="mt-1">IoT data analysis and insights.</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="font-black mt-3 margin_left_45">
+                            12. VoIP and Unified Communications:
+                            <div class="sub-details mt-1 margin_left_45">
+                                <ul>
+                                    <li class="mt-1">VoIP phone system setup.</li>
+                                    <li class="mt-1">Unified communications platforms.</li>
+                                    <li class="mt-1">Video conferencing solutions.</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="font-black mt-3 margin_left_45">
+                            13. IT Training and Workshops:
+                            <div class="sub-details mt-1 margin_left_45">
+                                <ul>
+                                    <li class="mt-1">Customized IT training programs.</li>
+                                    <li class="mt-1">Technology workshops and seminars.</li>
+                                    <li class="mt-1">IT certifications and skill development.</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="font-black mt-3 margin_left_45">
+                            14. IT Project Management:
+                            <div class="sub-details mt-1 margin_left_45">
+                                <ul>
+                                    <li class="mt-1">Project planning and execution.</li>
+                                    <li class="mt-1">Budget and resource management.</li>
+                                    <li class="mt-1">Quality assurance and project delivery.</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="font-black mt-3 margin_left_45">
+                            15. Technical Support:
+                            <div class="sub-details mt-1 margin_left_45">
+                                <ul>
+                                    <li class="mt-1">On-site and remote technical support.</li>
+                                    <li class="mt-1">Hardware and software troubleshooting.</li>
+                                    <li class="mt-1">IT ticketing and service desk.</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="font-black mt-3 margin_left_45">
+                            16. IT Compliance and Regulations:
+                            <div class="sub-details mt-1 margin_left_45">
+                                <ul>
+                                    <li class="mt-1">Compliance assessments and audits.</li>
+                                    <li class="mt-1">GDPR and data protection services.</li>
+                                    <li class="mt-1">Regulatory advisory and solutions.</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="font-black mt-3 margin_left_45">
+                            17. Business Continuity and Disaster Recovery:
+                            <div class="sub-details mt-1 margin_left_45">
+                                <ul>
+                                    <li class="mt-1">Disaster recovery planning.</li>
+                                    <li class="mt-1">Backup and data restoration services.</li>
+                                    <li class="mt-1">Business continuity strategy.</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="font-black mt-3 margin_left_45">
+                            18. Virtualization Solutions:
+                            <div class="sub-details mt-1 margin_left_45">
+                                <ul>
+                                    <li class="mt-1">Virtual server and desktop solutions.</li>
+                                    <li class="mt-1">Virtualization platform management.</li>
+                                    <li class="mt-1">Virtualization consulting and implementation.</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="font-black mt-3 margin_left_45">
+                            19. AI and Machine Learning Services:
+                            <div class="sub-details mt-1 margin_left_45">
+                                <ul>
+                                    <li>AI strategy and implementation.</li>
+                                    <li>Machine learning model development.</li>
+                                    <li>AI-powered software solutions.</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="font-black mt-3 margin_left_45">
+                            20. Digital Transformation:
+                            <div class="sub-details mt-1 margin_left_45">
+                                <ul>
+                                    <li>Digital strategy development.</li>
+                                    <li>Digital process automation.</li>
+                                    <li>Digital innovation and optimization.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <p class="mt-3">
+                        &nbsp; &nbsp; &nbsp; UIT is your strategic partner in embracing the future of business technology.
+                        Embark on this
+                        transformative journey with us and empower your organization to be more efficient, secure, and agile
+                        than ever before. Discover the digital transformation that sets your business apart in the digital
+                        age.
+                    </p>
+                    <p>
+                        &nbsp; &nbsp; &nbsp; Ready to unlock your organization's full potential? Contact UIT today, where
+                        your success is our
+                        mission.
+
+                    </p>
+                </div>
+            </div>
 
         </div>
-    </div>
-@endsection
+    @endsection
