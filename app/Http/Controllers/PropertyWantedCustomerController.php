@@ -76,38 +76,6 @@ class PropertyWantedCustomerController extends Controller
                     $html .= '</ul></div>';
 
                     return $html;
-
-
-
-
-                    // $buttons = '<div class="d-flex gap-1">';
-
-                    // // Edit button
-                    // $buttons .= '<button type="button" data-id="' . $service->id . '" class="btn btn-xs btn-success property_wanted_edit_btn">Edit</button>';
-
-                    // // Change status button
-                    // $buttons .= '<button type="button" class="btn btn-xs btn-primary property_wanted_delete_btn" data-id="' . $service->id . '">Change Status</button>';
-
-                    // // Check the upgraded status and add the appropriate button
-                    // if ($service->upgraded && $service->plan == 'Regular') {
-                    //     $buttons .= '<button>Regular </button>';
-                    // } elseif ($service->plan == 'Premium') {
-                    //     $buttons .= '<button>Premium </button>';
-                    // } else {
-                    //     // $buttons .= '<form action="/contact/property-wanted/upgrade" method="POST" enctype="multipart/form-data">
-                    //     // <input type="hidden" name="_token" value="' . csrf_token() . '">
-                    //     // <input type="hidden" name="product_id" value="' . $service->id . '">
-                    //     //                 <input type="submit" value="Upgrade" class="btn btn-xs btn-primary">
-                    //     //             </form>';
-
-                    //     $buttons .= '<form action="/property-finding-service/' . $service->id . '/' . $service->child_category_id . '" method="GET" enctype="multipart/form-data">
-                    //                     <input type="submit" value="Upgrade" class="btn btn-xs btn-primary">
-                    //                 </form>';
-                    // }
-
-                    // $buttons .= '</div>';
-
-                    // return $buttons;
                 })
                 ->rawColumns(['action'])
                 ->toJson();

@@ -23,8 +23,8 @@
                     <div class="col-md-5">
                         <div class="form-group">
                             <label for="first_name">First Name:*</label>
-                            <input class="form-control" required="" placeholder="First Name" id="first_name"
-                                name="first_name" type="text" aria-required="true">
+                            <input class="form-control" placeholder="First Name" id="first_name"
+                                name="first_name" type="text" aria-required="true" required>
                         </div>
                     </div>
                     <div class="col-md-5">
@@ -38,14 +38,14 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="email">Email:*</label>
-                            <input class="form-control" placeholder="Email" id="email" name="email" type="text">
+                            <input class="form-control" placeholder="Email" id="email" name="email" type="email" required>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="contact_number">Mobile Number:*</label>
                             <input class="form-control" placeholder="Mobile Number" id="contact_number"
-                                name="contact_number" type="text">
+                                name="contact_number" type="text" required>
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -135,15 +135,15 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="username">Username:*</label>
-                            <input class="form-control" placeholder="Username" required="" id="username"
-                                name="username" type="text" aria-required="true">
+                            <input class="form-control" placeholder="Username" id="username"
+                                name="username" type="text" aria-required="true" required>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="password">Password:*</label>
                             <input class="form-control" required="" placeholder="Password" id="password"
-                                name="password" type="password" value="" aria-required="true">
+                                name="password" type="password" value="" aria-required="true" required>
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -151,7 +151,7 @@
                             <label for="password_confirmation">Confirm Password:*</label>
                             <input class="form-control" required="" placeholder="Confirm Password"
                                 id="password_confirmation" data-rule-equalto="#password0" name="password_confirmation"
-                                type="password" value="" aria-required="true">
+                                type="password" value="" aria-required="true" required>
                         </div>
                     </div>
                 </div>

@@ -1,5 +1,5 @@
 @extends('crm::layouts.app')
-@section('title', __('restaurant.bookings'))
+@section('title', 'Property Wanted')
 
 @section('content')
     <!-- Content Header (Page header) -->
