@@ -1,59 +1,162 @@
 @extends('frontend.layouts.master_layout')
+@section('css')
+    <style>
+        p,
+        li {
+            color: black;
+            text-align: justify;
+        }
 
+        .font-black {
+            color: black;
+        }
+
+        .margin_left_45 {
+            margin-left: 45px;
+        }
+
+        .sub-details li {
+            font-size: 15px;
+        }
+    </style>
+@endsection
 @section('content')
     @includeIf('frontend.partials.global.common-header')
 
     <div class="container">
         <div class="header m-3 p-3">
-            <h3 class="heading ">Business solutions:</h3>
-            <p class="heading-details">Business solution is one of the great services that Unipuller is committed to provide.
-                Sourcing raw
-                materials, production, operations, marketing, sales, and so on are main parts of a businesses. A business
-                needs to involve in all areas to become an independent and successful company. All those areas are very
-                different in their nature and activities which all takes different skills and investments.
-                To meet all those complexities and problems, Unipuller is working rigorously to bring a sustainable
-                business system. Unipuller has introduced a unique and exceptional marketing and sales model which will
-                give businesses ease of operations. In Unipuller’s business solutions, businesses do not need to focus on
-                sales and marketing anymore. In our business solution sales and marketing are automated. Now
-                businesses just need to fucus on their product development, production and operation system. Unipuller
-                will sale their products and do marketing all over countries with free of cost.</p>
 
-            <div class="row">
-                <div class="col-md-7 m-auto text-center">
-                    <p> Join us with our business solution to get an automated-
-                        sales and marketing solutions.</p>
-                    <a href="{{ route('login') }}" target="__blank">Click here</a>
-                </div>
-                <div class="col-md-5 mt-5">
-                    <img src="{{ asset('assets/frontend/business-solutions.png') }}" alt="digital-marketing.png"
-                        style="width: 100%">
+            <div class="welcome">
+                <h4 class="fw-bold">
+                    Welcome to Unipuller Business Solutions - Your Partner for Success!
+                </h4>
+
+                <p>
+                    &nbsp; &nbsp; &nbsp;In the dynamic world of business, where adaptability and innovation are key,
+                    Unipuller, a dynamic consultancy firm, emerges as your trusted ally. Our unwavering mission is to
+                    empower your business journey, not just for survival but for sustainable growth and lasting success. As
+                    the architects of your business's transformation, we're here to provide you with cutting-edge solutions
+                    and take your organization to new heights.
+                </p>
+            </div>
+
+            <div class="welcome">
+                <h4 class="fw-bold">
+                    A Network of Expertise: Partnering for Your Success"
+                </h4>
+
+                <p>
+                    &nbsp; &nbsp; &nbsp; At Unipuller Business Solutions, we've built a dynamic network of partnerships with
+                    expert service providers to craft tailor-made solutions to cater to your unique needs. Our collaborative
+                    approach empowers us to deliver a versatile array of services, ensuring your organization is fully
+                    prepared to excel in the ever-evolving business landscape. Our services span across a spectrum of key
+                    areas:
+
+                </p>
+            </div>
+
+            <div class="why_choose_uit mt-4">
+                <div class="details">
+                    <div class="">
+                        <p>
+                            <b>Strategic Planning:</b> Crafting your path to success.
+                        </p>
+                        <p>
+                            <b>Technology Integration:</b> Seamlessly incorporating the latest tech solutions.
+                        </p>
+                        <p>
+                            <b>Process Optimization:</b> Enhancing efficiency and productivity.
+                        </p>
+                        <p>
+                            <b>Financial Advisory:</b> Guiding you towards sound financial decisions.
+                        </p>
+                        <p>
+                            <b>Marketing and Branding:</b> Elevating your brand's visibility.
+                        </p>
+                        <p>
+                            <b>IT Consulting:</b> Leveraging technology for your advantage.
+                        </p>
+                        <p>
+                            <b>Human Resources Management:</b> Nurturing your most valuable assets.
+                        </p>
+                        <p>
+                            <b>Legal and Compliance Support:</b> Keeping your operations in check.
+                        </p>
+                        <p>
+                            <b>Supply Chain Management:</b> Streamlining your logistics.
+                        </p>
+                        <p>
+                            <b>Market Research:</b> Providing insights to make informed decisions.
+                        </p>
+                        <p>
+                            <b>Sales and Distribution Strategy:</b> Maximizing your reach.
+                        </p>
+                        <p>
+                            <b>Customer Relationship Management (CRM):</b> Building lasting connections.
+                        </p>
+                        <p>
+                            <b>Business Analytics and Reporting:</b> Data-driven decision-making.
+                        </p>
+                        <p>
+                            <b>Product Development and Innovation:</b> Staying at the forefront of your industry.
+                        </p>
+                        <p>
+                            <b>Sustainability and Environmental Solutions:</b> Meeting eco-friendly standards.
+                        </p>
+                        <p>
+                            <b>Quality Control and Assurance:</b> Ensuring the best for your customers.
+                        </p>
+                        <p>
+                            <b>Project Management:</b> Executing initiatives with precision.
+                        </p>
+                        <p>
+                            <b>Training and Skill Development:</b> Growing your team's capabilities.
+                        </p>
+                        <p>
+                            <b>Risk Assessment and Management:</b> Safeguarding against uncertainties.
+                        </p>
+                        <p>
+                            <b>Digital Transformation:</b> Embracing the digital age effectively.
+                        </p>
+                    </div>
+                    <p>
+                        &nbsp; &nbsp; &nbsp; Unipuller is dedicated to ensuring that your organization is not just prepared
+                        but primed for
+                        success, no matter the changes in the business landscape. We're your collaborative partner,
+                        providing a full spectrum of services to drive your achievements.
+                    </p>
                 </div>
             </div>
-        </div>
 
-        <div class="body m-3 p-3">
-            <h6 class="body-heading ">Facilities in Business solution:</h6>
-            <ol>
-                <li> Automated sales </li>
-                <li> Automated marketing </li>
-                <li> 24/7 customer service </li>
-                <li> Free business management technology </li>
-                <li> Free partner boarding solution </li>
-                <li> Free sales agent sourcing </li>
-                <li> Free partnership management dashboard </li>
-                <li> Free CRM and Project management solution </li>
-                <li> Free HRM and recruitment solution </li>
-                <li> No extra costs </li>
-                <li> Pay after only if you sold </li>
-                <li> Full business control </li>
-                <li> Fast business growth system </li>
-            </ol>
+            <div class="why_choose_uit mt-4">
+                <h4 class="fw-bold">
+                    Empowering New Businesses with Free Technology Services and Seamless Supply Chain Integration
+                </h4>
+                <p>
+                    &nbsp; &nbsp; &nbsp; Unipuller's distinctive commitment lies in the accessibility of technology services
+                    for emerging businesses, seamlessly integrating them with corporate supply chain networks. We extend
+                    complimentary technology services to bolster your operations, presenting manufacturers with an automatic
+                    sales solution and providing businesses with the simplest sourcing system. Our mission is to pave the
+                    way for your success, without the hindrance of high costs, making innovation and efficiency the
+                    cornerstones of your business's journey towards excellence.
 
-            <h6 class="body-footer ">Business is nothing rather than managing it perfectly. A secured sales and
-                marketing are main factors for a successful company. Join us and start selling instantly. No need to worry
-                abut all those technology, sales, and marketing. We are here ready to go----</h6>
-            <div class="footer-img mb-3 text-center">
-                <img src="{{ asset('assets/frontend/business-solutions2.png') }}" alt="" style="width: 35%">
+
+                </p>
+
+            </div>
+
+
+            <div class="discover mt-4">
+                <h5 class="fw-bold">Fulfilling Dreams of Success: Unipuller's Vision for Your Business</h5>
+                <p>
+                    &nbsp; &nbsp; &nbsp;Our belief is that success should not be hindered by the lack of investment, and
+                    Unipuller's business solutions turn this dream into a reality. We're here to help you shape a brighter
+                    future for your business, where innovation and efficiency go hand in hand.
+                </p>
+                <p>
+                    &nbsp; &nbsp; &nbsp;Discover Unipuller Business Solutions and experience a transformative approach to
+                    business growth. Your success is our mission.
+                </p>
             </div>
         </div>
     </div>
