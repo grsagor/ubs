@@ -118,7 +118,7 @@
                     <div class="mt-2">
 
                         <div class="font-black margin_left_45">
-                            1. IT Consulting:
+                            <b> 1. IT Consulting:</b>
                             <div class="sub-details mt-1 margin_left_45">
                                 <ul>
                                     <li class="mt-1"> Strategic IT planning and guidance.
@@ -130,7 +130,7 @@
                         </div>
 
                         <div class="font-black margin_left_45 mt-3">
-                            2. Managed IT Services
+                            <b> 2. Managed IT Services:</b>
                             <div class="sub-details mt-1 margin_left_45">
                                 <ul>
                                     <li class="mt-1">24/7 monitoring and support.</li>
@@ -141,7 +141,7 @@
                         </div>
 
                         <div class="font-black margin_left_45 mt-3">
-                            3. Cybersecurity Services:
+                            <b>3. Cybersecurity Services:</b>
                             <div class="sub-details mt-1 margin_left_45">
                                 <ul>
                                     <li class="mt-1">Threat assessment and mitigation.</li>
@@ -152,7 +152,7 @@
                         </div>
 
                         <div class="font-black mt-3 margin_left_45">
-                            4. Cloud Solutions:
+                            <b> 4. Cloud Solutions:</b>
                             <div class="sub-details mt-1 margin_left_45">
                                 <ul>
                                     <li class="mt-1">Cloud strategy and migration.</li>
@@ -163,7 +163,7 @@
                         </div>
 
                         <div class="font-black mt-3 margin_left_45">
-                            5. Network Solutions:
+                            <b> 5. Network Solutions:</b>
                             <div class="sub-details mt-1 margin_left_45">
                                 <ul>
                                     <li class="mt-1">Network design and configuration.</li>
@@ -174,7 +174,7 @@
                         </div>
 
                         <div class="font-black mt-3 margin_left_45">
-                            6. Software Development:
+                            <b> 6. Software Development:</b>
                             <div class="sub-details mt-1 margin_left_45">
                                 <ul>
                                     <li class="mt-1">Custom software applications.</li>
@@ -185,7 +185,7 @@
                         </div>
 
                         <div class="font-black mt-3 margin_left_45">
-                            7. Data Analytics:
+                            <b>7. Data Analytics:</b>
                             <div class="sub-details mt-1 margin_left_45">
                                 <ul>
                                     <li class="mt-1">Data collection and analysis.</li>
@@ -196,7 +196,7 @@
                         </div>
 
                         <div class="font-black mt-3 margin_left_45">
-                            8. Database Management:
+                            <b> 8. Database Management:</b>
                             <div class="sub-details mt-1 margin_left_45">
                                 <ul>
                                     <li class="mt-1">Database design and optimization.</li>
@@ -207,7 +207,7 @@
                         </div>
 
                         <div class="font-black mt-3 margin_left_45">
-                            9. IT Infrastructure:
+                            <b> 9. IT Infrastructure:</b>
                             <div class="sub-details mt-1 margin_left_45">
                                 <ul>
                                     <li class="mt-1">Hardware procurement and setup.</li>
@@ -218,7 +218,7 @@
                         </div>
 
                         <div class="font-black mt-3 margin_left_45">
-                            10. ERP Solutions:
+                            <b> 10. ERP Solutions:</b>
                             <div class="sub-details mt-1 margin_left_45">
                                 <ul>
                                     <li class="mt-1">Enterprise Resource Planning implementation.</li>
@@ -229,7 +229,7 @@
                         </div>
 
                         <div class="font-black mt-3 margin_left_45">
-                            11. IoT Services:
+                            <b> 11. IoT Services:</b>
                             <div class="sub-details mt-1 margin_left_45">
                                 <ul>
                                     <li class="mt-1">Internet of Things strategy and implementation.</li>
@@ -240,7 +240,7 @@
                         </div>
 
                         <div class="font-black mt-3 margin_left_45">
-                            12. VoIP and Unified Communications:
+                            <b> 12. VoIP and Unified Communications:</b>
                             <div class="sub-details mt-1 margin_left_45">
                                 <ul>
                                     <li class="mt-1">VoIP phone system setup.</li>
@@ -251,7 +251,7 @@
                         </div>
 
                         <div class="font-black mt-3 margin_left_45">
-                            13. IT Training and Workshops:
+                            <b> 13. IT Training and Workshops:</b>
                             <div class="sub-details mt-1 margin_left_45">
                                 <ul>
                                     <li class="mt-1">Customized IT training programs.</li>
@@ -262,7 +262,7 @@
                         </div>
 
                         <div class="font-black mt-3 margin_left_45">
-                            14. IT Project Management:
+                            <b> 14. IT Project Management:</b>
                             <div class="sub-details mt-1 margin_left_45">
                                 <ul>
                                     <li class="mt-1">Project planning and execution.</li>
@@ -273,7 +273,7 @@
                         </div>
 
                         <div class="font-black mt-3 margin_left_45">
-                            15. Technical Support:
+                            <b> 15. Technical Support:</b>
                             <div class="sub-details mt-1 margin_left_45">
                                 <ul>
                                     <li class="mt-1">On-site and remote technical support.</li>
@@ -284,7 +284,7 @@
                         </div>
 
                         <div class="font-black mt-3 margin_left_45">
-                            16. IT Compliance and Regulations:
+                            <b> 16. IT Compliance and Regulations:</b>
                             <div class="sub-details mt-1 margin_left_45">
                                 <ul>
                                     <li class="mt-1">Compliance assessments and audits.</li>
@@ -295,7 +295,7 @@
                         </div>
 
                         <div class="font-black mt-3 margin_left_45">
-                            17. Business Continuity and Disaster Recovery:
+                            <b> 17. Business Continuity and Disaster Recovery:</b>
                             <div class="sub-details mt-1 margin_left_45">
                                 <ul>
                                     <li class="mt-1">Disaster recovery planning.</li>
@@ -306,7 +306,7 @@
                         </div>
 
                         <div class="font-black mt-3 margin_left_45">
-                            18. Virtualization Solutions:
+                            <b> 18. Virtualization Solutions:</b>
                             <div class="sub-details mt-1 margin_left_45">
                                 <ul>
                                     <li class="mt-1">Virtual server and desktop solutions.</li>
@@ -317,7 +317,7 @@
                         </div>
 
                         <div class="font-black mt-3 margin_left_45">
-                            19. AI and Machine Learning Services:
+                            <b> 19. AI and Machine Learning Services:</b>
                             <div class="sub-details mt-1 margin_left_45">
                                 <ul>
                                     <li>AI strategy and implementation.</li>
@@ -328,7 +328,7 @@
                         </div>
 
                         <div class="font-black mt-3 margin_left_45">
-                            20. Digital Transformation:
+                            <b> 20. Digital Transformation:</b>
                             <div class="sub-details mt-1 margin_left_45">
                                 <ul>
                                     <li>Digital strategy development.</li>
