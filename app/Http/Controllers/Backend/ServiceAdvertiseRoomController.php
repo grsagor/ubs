@@ -482,4 +482,10 @@ class ServiceAdvertiseRoomController extends Controller
         // dd($data);
         return view('backend.services.advertise_room.property_booking_details_modal', $data);
     }
+
+    // $files = [];
+    // if ($request->file('inpiut_fieldName')) {
+    //     $files = FileHelper::saveFiles($request->file('files'));
+    // }
+    // $model->columnName = json_encode($files);
 }
