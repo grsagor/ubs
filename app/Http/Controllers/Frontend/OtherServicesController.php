@@ -39,6 +39,11 @@ class OtherServicesController extends Controller
         return view('frontend.other_services.it_solution');
     }
 
+    public function landlordeService()
+    {
+        return view('frontend.other_services.landlord_service');
+    }
+
     public function propertyFindingService(Request $request)
     {
         // if (auth()->check() && (auth()->user()->id === 5 || auth()->user()->user_type === 'user')) {

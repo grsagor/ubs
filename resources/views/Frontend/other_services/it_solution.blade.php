@@ -1,7 +1,8 @@
 @extends('frontend.layouts.master_layout')
 @section('css')
     <style>
-        p {
+        p,
+        li {
             color: black;
             text-align: justify;
         }
