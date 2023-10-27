@@ -43,13 +43,17 @@
                                     <label>Size of room-{{ $index + 1 }}</label>
                                     <div class="form_inputs">
                                         <label class="form_input form_radio"><input type="radio"
-                                                name="room_details[{{ $index }}]" {{ $item == 1 ? 'checked' : '' }} value=1>Single</label>
+                                                name="room_details[{{ $index }}]"
+                                                {{ $item == 1 ? 'checked' : '' }} value=1>Single</label>
                                         <label class="form_input form_radio"><input type="radio"
-                                                name="room_details[{{ $index }}]" {{ $item == 2 ? 'checked' : '' }} value=2>Double</label>
+                                                name="room_details[{{ $index }}]"
+                                                {{ $item == 2 ? 'checked' : '' }} value=2>Double</label>
                                         <label class="form_input form_radio"><input type="radio"
-                                                name="room_details[{{ $index }}]" {{ $item == 6 ? 'checked' : '' }} value=6>Semi-double </label>
+                                                name="room_details[{{ $index }}]"
+                                                {{ $item == 6 ? 'checked' : '' }} value=6>Semi-double </label>
                                         <label class="form_input form_radio"><input type="radio"
-                                                name="room_details[{{ $index }}]" {{ $item == 7 ? 'checked' : '' }} value=7>En-suit</label>
+                                                name="room_details[{{ $index }}]"
+                                                {{ $item == 7 ? 'checked' : '' }} value=7>En-suit</label>
                                     </div>
                                 </div>
                             @endforeach
@@ -60,20 +64,31 @@
                         <div class="form-group">
                             <label for="invoice_scheme_id">How many people, including yourself, will share the
                                 property?</label>
-                            <select class="form-control" id="number_of_shared_people"
-                                name="number_of_shared_people" required>
+                            <select class="form-control" id="number_of_shared_people" name="number_of_shared_people"
+                                required>
                                 <option selected value=0>Select....</option>
-                                <option {{ $property->number_of_shared_people == 1 ? 'selected' : '' }} value=1>1</option>
-                                <option {{ $property->number_of_shared_people == 2 ? 'selected' : '' }} value=2>2</option>
-                                <option {{ $property->number_of_shared_people == 3 ? 'selected' : '' }} value=3>3</option>
-                                <option {{ $property->number_of_shared_people == 4 ? 'selected' : '' }} value=4>4</option>
-                                <option {{ $property->number_of_shared_people == 5 ? 'selected' : '' }} value=5>5</option>
-                                <option {{ $property->number_of_shared_people == 6 ? 'selected' : '' }} value=6>6</option>
-                                <option {{ $property->number_of_shared_people == 7 ? 'selected' : '' }} value=7>7</option>
-                                <option {{ $property->number_of_shared_people == 8 ? 'selected' : '' }} value=8>8</option>
-                                <option {{ $property->number_of_shared_people == 9 ? 'selected' : '' }} value=9>9</option>
-                                <option {{ $property->number_of_shared_people == 10 ? 'selected' : '' }} value=10>10</option>
+                                <option {{ $property->number_of_shared_people == 1 ? 'selected' : '' }} value=1>1
+                                </option>
+                                <option {{ $property->number_of_shared_people == 2 ? 'selected' : '' }} value=2>2
+                                </option>
+                                <option {{ $property->number_of_shared_people == 3 ? 'selected' : '' }} value=3>3
+                                </option>
+                                <option {{ $property->number_of_shared_people == 4 ? 'selected' : '' }} value=4>4
+                                </option>
+                                <option {{ $property->number_of_shared_people == 5 ? 'selected' : '' }} value=5>5
+                                </option>
+                                <option {{ $property->number_of_shared_people == 6 ? 'selected' : '' }} value=6>6
+                                </option>
+                                <option {{ $property->number_of_shared_people == 7 ? 'selected' : '' }} value=7>7
+                                </option>
+                                <option {{ $property->number_of_shared_people == 8 ? 'selected' : '' }} value=8>8
+                                </option>
+                                <option {{ $property->number_of_shared_people == 9 ? 'selected' : '' }} value=9>9
+                                </option>
+                                <option {{ $property->number_of_shared_people == 10 ? 'selected' : '' }} value=10>10
+                                </option>
                             </select>
+                            <span class="error text-danger" id="number_of_shared_people-error"></span>
                         </div>
                     </div>
 
@@ -88,8 +103,9 @@
                     <div class="col-sm-12">
                         <div class="form-group">
                             <label for="invoice_scheme_id">Where do you want to live?</label>
-                            <input class="form-control" placeholder="Area name" name="wanted_living_area"
-                                type="text" value="{{ $property->wanted_living_area }}" required>
+                            <input class="form-control" placeholder="Area name" name="wanted_living_area" type="text"
+                                value="{{ $property->wanted_living_area }}" required>
+                            <span class="error text-danger" id="wanted_living_area-error"></span>
                         </div>
                     </div>
 
@@ -105,8 +121,12 @@
                                 <div class="col-sm-4">
                                     <select class="form-control" id="per" name="per">
                                         <option value="" selected="">Per week or month</option>
-                                        <option {{ $property->number_of_shared_people == 'per week' ? 'selected' : '' }} value="per week">per week</option>
-                                        <option {{ $property->number_of_shared_people == 'per month' ? 'selected' : '' }} value="per month">per month</option>
+                                        <option
+                                            {{ $property->number_of_shared_people == 'per week' ? 'selected' : '' }}
+                                            value="per week">per week</option>
+                                        <option
+                                            {{ $property->number_of_shared_people == 'per month' ? 'selected' : '' }}
+                                            value="per month">per month</option>
                                     </select>
                                 </div>
                             </div>
@@ -116,7 +136,9 @@
                     <div class="col-sm-12">
                         <div class="form-group">
                             <label for="custom_field1">I am available to move in from</label>
-                            <input class="form-control" name="available_form" type="date" id="date" value="{{ $property->available_form }}" required>
+                            <input class="form-control" name="available_form" type="date" id="date"
+                                value="{{ $property->available_form }}" required>
+                            <span class="error text-danger" id="available_form-error"></span>
                         </div>
                     </div>
 
@@ -149,10 +171,12 @@
                                 <option value="0" selected>No maximum
                                 </option>
                                 @foreach ($months as $value => $label)
-                                    <option {{ $property->min_term == $value ? 'selected' : '' }} value="{{ $value }}">
+                                    <option {{ $property->min_term == $value ? 'selected' : '' }}
+                                        value="{{ $value }}">
                                         {{ $label }}</option>
                                 @endforeach
                             </select>
+                            <span class="error text-danger" id="aaaaaaaaaaaaaa-error"></span>
                         </div>
                     </div>
 
@@ -161,11 +185,14 @@
                             <label for="invoice_scheme_id">I want to stay in the accommodation</label>
                             <select class="form-control" required="" id="days_of_wk_available"
                                 name="days_of_wk_available">
-                                <option {{ $property->days_of_wk_available == '7 days a week' ? 'selected' : '' }} value="7 days a week">7 days a week
+                                <option {{ $property->days_of_wk_available == '7 days a week' ? 'selected' : '' }}
+                                    value="7 days a week">7 days a week
                                 </option>
-                                <option {{ $property->days_of_wk_available == 'Mon to Fri only' ? 'selected' : '' }} value="Mon to Fri only">Mon to Fri only
+                                <option {{ $property->days_of_wk_available == 'Mon to Fri only' ? 'selected' : '' }}
+                                    value="Mon to Fri only">Mon to Fri only
                                 </option>
-                                <option {{ $property->days_of_wk_available == 'Weekends only' ? 'selected' : '' }} value="Weekends only">Weekends only
+                                <option {{ $property->days_of_wk_available == 'Weekends only' ? 'selected' : '' }}
+                                    value="Weekends only">Weekends only
                                 </option>
                             </select>
                         </div>
@@ -176,23 +203,25 @@
                             <label>I would prefer these amenities</label>
                             <div class="row">
                                 <div class="col-sm-6">
-                                    @foreach(["furnished","living_room","washing_machine","garden","balcony"] as $option)
+                                    @foreach (['furnished', 'living_room', 'washing_machine', 'garden', 'balcony'] as $option)
                                         <div>
                                             <label for="{{ $option }}">
-                                                <input type="checkbox" name="roomfurnishings[]" value="{{ $option }}" id="{{ $option }}" 
-                                                @if(in_array($option, $property->roomfurnishings)) checked @endif>
-                                                {{ ucfirst(str_replace("_", " ", $option)) }}
+                                                <input type="checkbox" name="roomfurnishings[]"
+                                                    value="{{ $option }}" id="{{ $option }}"
+                                                    @if (in_array($option, $property->roomfurnishings)) checked @endif>
+                                                {{ ucfirst(str_replace('_', ' ', $option)) }}
                                             </label>
                                         </div>
                                     @endforeach
                                 </div>
                                 <div class="col-sm-6">
-                                    @foreach(["off_street_parking","garage","disabled_access","broadband","ensuite"] as $option)
+                                    @foreach (['off_street_parking', 'garage', 'disabled_access', 'broadband', 'ensuite'] as $option)
                                         <div>
                                             <label for="{{ $option }}">
-                                                <input type="checkbox" name="roomfurnishings[]" value="{{ $option }}" id="{{ $option }}" 
-                                                @if(in_array($option, $property->roomfurnishings)) checked @endif>
-                                                {{ ucfirst(str_replace("_", " ", $option)) }}
+                                                <input type="checkbox" name="roomfurnishings[]"
+                                                    value="{{ $option }}" id="{{ $option }}"
+                                                    @if (in_array($option, $property->roomfurnishings)) checked @endif>
+                                                {{ ucfirst(str_replace('_', ' ', $option)) }}
                                             </label>
                                         </div>
                                     @endforeach
@@ -210,35 +239,37 @@
                     <h4 class="modal-title" style="padding: 12px;">Your Household preferences</h4>
 
                     @if ($property->age)
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label for="invoice_scheme_id">Age range</label>
-                            <div class="row">
-                                <div class="col-sm-4">
-                                    <select class="form-control" id="age" name="age[]">
-                                        <option value="">Select...</option>
-                                        @foreach (range(18, 99) as $age)
-                                            <option {{ $property->age[0] == $age ? 'selected' : '' }} value="{{ $age }}">
-                                                {{ $age }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label for="invoice_scheme_id">Age range</label>
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <select class="form-control" id="age" name="age[]">
+                                            <option value="">Select...</option>
+                                            @foreach (range(18, 99) as $age)
+                                                <option {{ $property->age[0] == $age ? 'selected' : '' }}
+                                                    value="{{ $age }}">
+                                                    {{ $age }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
 
-                                <div class="col-sm-1" style="width: 5%">
-                                    <p class="text-center" style="font-size: 15px; margin-top: 5px;">To</p>
-                                </div>
-                                <div class="col-sm-4">
-                                    <select class="form-control" id="age" name="age[]">
-                                        <option value="">Select...</option>
-                                        @foreach (range(18, 99) as $age)
-                                            <option {{ $property->age[1] == $age ? 'selected' : '' }} value="{{ $age }}">
-                                                {{ $age }}</option>
-                                        @endforeach
-                                    </select>
+                                    <div class="col-sm-1" style="width: 5%">
+                                        <p class="text-center" style="font-size: 15px; margin-top: 5px;">To</p>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <select class="form-control" id="age" name="age[]">
+                                            <option value="">Select...</option>
+                                            @foreach (range(18, 99) as $age)
+                                                <option {{ $property->age[1] == $age ? 'selected' : '' }}
+                                                    value="{{ $age }}">
+                                                    {{ $age }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
                     @endif
 
 
@@ -246,12 +277,18 @@
                         <div class="form-group">
                             <label for="selling_price_group_id">Occupation</label>
                             <select class="form-control" id="occupation" name="occupation" required>
-                                <option {{ $property->occupation == 'Not disclosed' ? 'selected' : '' }} value="Not disclosed" selected="">Not disclosed</option>
-                                <option {{ $property->occupation == 'Student' ? 'selected' : '' }} value="Student">Student</option>
-                                <option {{ $property->occupation == 'Employee' ? 'selected' : '' }} value="Employee">Employee</option>
-                                <option {{ $property->occupation == 'Others' ? 'selected' : '' }} value="Others">Others</option>
-                                <option {{ $property->occupation == "I don't mind" ? 'selected' : '' }} value="I don't mind">I don't mind</option>
+                                <option {{ $property->occupation == 'Not disclosed' ? 'selected' : '' }}
+                                    value="Not disclosed" selected="">Not disclosed</option>
+                                <option {{ $property->occupation == 'Student' ? 'selected' : '' }} value="Student">
+                                    Student</option>
+                                <option {{ $property->occupation == 'Employee' ? 'selected' : '' }} value="Employee">
+                                    Employee</option>
+                                <option {{ $property->occupation == 'Others' ? 'selected' : '' }} value="Others">
+                                    Others</option>
+                                <option {{ $property->occupation == "I don't mind" ? 'selected' : '' }}
+                                    value="I don't mind">I don't mind</option>
                             </select>
+                            <span class="error text-danger" id="occupation-error"></span>
                         </div>
                     </div>
 
@@ -279,6 +316,7 @@
                                     <option value="2">Full-time</option>
                                     <option value="3">Self-employed</option>
                                 </select>
+                                <span class="error text-danger" id="occupant_job-error"></span>
                             </div>
                         </div>
                     </div>
@@ -286,11 +324,13 @@
                     <div class="col-sm-12">
                         <div class="form-group">
                             <label for="selling_price_group_id">Smoking?</label>
-                            <select class="form-control"
-                                id="smoking_current" name="smoking_current">
-                                <option {{ $property->smoking_current == '2' ? 'selected' : '' }} value="2">no</option>
-                                <option {{ $property->smoking_current == '1' ? 'selected' : '' }} value="1">yes</option>
-                                <option {{ $property->smoking_current == "I don't mind" ? 'selected' : '' }} value="I don't mind">I don't mind</option>
+                            <select class="form-control" id="smoking_current" name="smoking_current">
+                                <option {{ $property->smoking_current == '2' ? 'selected' : '' }} value="2">no
+                                </option>
+                                <option {{ $property->smoking_current == '1' ? 'selected' : '' }} value="1">yes
+                                </option>
+                                <option {{ $property->smoking_current == "I don't mind" ? 'selected' : '' }}
+                                    value="I don't mind">I don't mind</option>
                             </select>
                         </div>
                     </div>
@@ -298,11 +338,13 @@
                     <div class="col-sm-12">
                         <div class="form-group">
                             <label for="selling_price_group_id">Pets?</label>
-                            <select class="form-control"
-                                id="pets" name="pets">
-                                <option {{ $property->smoking_current == '2' ? 'selected' : '' }} value="2" selected="">no</option>
-                                <option {{ $property->smoking_current == '1' ? 'selected' : '' }} value="1">yes</option>
-                                <option {{ $property->smoking_current == "I don't mind" ? 'selected' : '' }} value="I don't mind">I don't mind</option>
+                            <select class="form-control" id="pets" name="pets">
+                                <option {{ $property->smoking_current == '2' ? 'selected' : '' }} value="2"
+                                    selected="">no</option>
+                                <option {{ $property->smoking_current == '1' ? 'selected' : '' }} value="1">yes
+                                </option>
+                                <option {{ $property->smoking_current == "I don't mind" ? 'selected' : '' }}
+                                    value="I don't mind">I don't mind</option>
                             </select>
                         </div>
                     </div>
@@ -310,16 +352,21 @@
                     <div class="col-sm-12">
                         <div class="form-group">
                             <label for="selling_price_group_id">Preferred sex</label>
-                            <select class="form-control"
-                                id="gay_lesbian" name="gay_lesbian">
-                                <option {{ $property->gay_lesbian == 'Undisclosed' ? 'selected' : '' }} value="Undisclosed" selected="">Undisclosed</option>
-                                <option {{ $property->gay_lesbian == 'Straight' ? 'selected' : '' }} value="Straight">Straight</option>
-                                <option {{ $property->gay_lesbian == 'Gay/Lesbian' ? 'selected' : '' }} value="Gay/Lesbian">Gay/Lesbian</option>
-                                <option {{ $property->gay_lesbian == 'Bisexual' ? 'selected' : '' }} value="Bisexual">Bisexual</option>
-                                <option {{ $property->gay_lesbian == "I don't mind" ? 'selected' : '' }} value="I don't mind">I don't mind</option>
+                            <select class="form-control" id="gay_lesbian" name="gay_lesbian">
+                                <option {{ $property->gay_lesbian == 'Undisclosed' ? 'selected' : '' }}
+                                    value="Undisclosed" selected="">Undisclosed</option>
+                                <option {{ $property->gay_lesbian == 'Straight' ? 'selected' : '' }} value="Straight">
+                                    Straight</option>
+                                <option {{ $property->gay_lesbian == 'Gay/Lesbian' ? 'selected' : '' }}
+                                    value="Gay/Lesbian">Gay/Lesbian</option>
+                                <option {{ $property->gay_lesbian == 'Bisexual' ? 'selected' : '' }} value="Bisexual">
+                                    Bisexual</option>
+                                <option {{ $property->gay_lesbian == "I don't mind" ? 'selected' : '' }}
+                                    value="I don't mind">I don't mind</option>
                             </select>
                             <label class="form_input form_checkbox">
-                                <input {{ $property->gay_consent ? '1' == 'checked' : '' }} type="checkbox" name="gay_consent" value="1">
+                                <input {{ $property->gay_consent ? '1' == 'checked' : '' }} type="checkbox"
+                                    name="gay_consent" value="1">
                                 Yes, Check this strictly
                             </label>
                         </div>
@@ -330,7 +377,8 @@
                             <label for="selling_price_group_id">Preferred language</label>
                             <select class="form-control" id="lang_id" name="lang_id">
                                 @foreach ($languages as $item)
-                                    <option {{ $property->lang_id == $item ? 'selected' : '' }} value="{{ $item }}">{{ $item }}</option>
+                                    <option {{ $property->lang_id == $item ? 'selected' : '' }}
+                                        value="{{ $item }}">{{ $item }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -347,7 +395,8 @@
 
                                 <option value="---">Select country</option>
                                 @foreach ($countries as $item)
-                                    <option {{ $property->nationality == $item ? 'selected' : '' }} value="{{ $item }}">{{ $item }}</option>
+                                    <option {{ $property->nationality == $item ? 'selected' : '' }}
+                                        value="{{ $item }}">{{ $item }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -367,7 +416,7 @@
                                 <option selected="" value="">Select....</option>
                                 @foreach (getSex() as $item)
                                     <option value="{{ $item['value'] }}"
-                                        {{$property->gender_req == $item['value'] ? 'selected' : '' }}>
+                                        {{ $property->gender_req == $item['value'] ? 'selected' : '' }}>
                                         {{ $item['label'] }}
                                     </option>
                                 @endforeach
@@ -380,8 +429,10 @@
                         <div class="form-group">
                             <label for="selling_price_group_id">Smoking</label>
                             <select class="form-control" id="smoking" name="smoking">
-                                <option {{ $property->smoking == "Don't mind" ? 'selected' : '' }} value="Don't mind">Don't mind</option>
-                                <option {{ $property->smoking == "No thanks" ? 'selected' : '' }} value="No thanks">No thanks</option>
+                                <option {{ $property->smoking == "Don't mind" ? 'selected' : '' }} value="Don't mind">
+                                    Don't mind</option>
+                                <option {{ $property->smoking == 'No thanks' ? 'selected' : '' }} value="No thanks">No
+                                    thanks</option>
                             </select>
                         </div>
                     </div>
@@ -390,8 +441,10 @@
                         <div class="form-group">
                             <label for="selling_price_group_id">Pets</label>
                             <select class="form-control" id="pets_req" name="pets_req">
-                                <option {{ $property->pets_req == "Don't mind" ? 'selected' : '' }} value="Don't mind">Don't mind</option>
-                                <option {{ $property->pets_req == "No thanks" ? 'selected' : '' }} value="No thanks">No thanks</option>
+                                <option {{ $property->pets_req == "Don't mind" ? 'selected' : '' }}
+                                    value="Don't mind">Don't mind</option>
+                                <option {{ $property->pets_req == 'No thanks' ? 'selected' : '' }} value="No thanks">
+                                    No thanks</option>
                             </select>
                         </div>
                     </div>
@@ -400,10 +453,14 @@
                         <div class="form-group">
                             <label for="selling_price_group_id">Orientation</label>
                             <select class="form-control" id="gay_lesbian_req" name="gay_lesbian_req">
-                                <option {{ $property->gay_lesbian_req == "Not important" ? 'selected' : '' }} value="Not important" selected="">Not important</option>
-                                <option {{ $property->gay_lesbian_req == "Straight" ? 'selected' : '' }} value="Straight">Straight</option>
-                                <option {{ $property->gay_lesbian_req == "Gay/Lesbian" ? 'selected' : '' }} value="Gay/Lesbian">Gay/Lesbian</option>
-                                <option {{ $property->gay_lesbian_req == "Bisexual" ? 'selected' : '' }} value="Bisexual">Bisexual</option>
+                                <option {{ $property->gay_lesbian_req == 'Not important' ? 'selected' : '' }}
+                                    value="Not important" selected="">Not important</option>
+                                <option {{ $property->gay_lesbian_req == 'Straight' ? 'selected' : '' }}
+                                    value="Straight">Straight</option>
+                                <option {{ $property->gay_lesbian_req == 'Gay/Lesbian' ? 'selected' : '' }}
+                                    value="Gay/Lesbian">Gay/Lesbian</option>
+                                <option {{ $property->gay_lesbian_req == 'Bisexual' ? 'selected' : '' }}
+                                    value="Bisexual">Bisexual</option>
                             </select>
                         </div>
                     </div>
@@ -414,7 +471,10 @@
                         <div class="form-group">
                             <label for="custom_field1">Advert title</label>
                             <p class="sub-heading">(Short description)</p>
-                            <input class="form-control" placeholder="Short description maximum 92 characters" value="{{$property->ad_title}}" name="ad_title" type="text" maxlength="100" id="ad_title" required>
+                            <input class="form-control" placeholder="Short description maximum 92 characters"
+                                value="{{ $property->ad_title }}" name="ad_title" type="text" maxlength="100"
+                                id="ad_title" required>
+                            <span class="error text-danger" id="ad_title-error"></span>
                         </div>
                     </div>
 
@@ -423,7 +483,8 @@
                             <label for="custom_field1">Description</label>
                             <p class="sub-heading">(No contact details permitted within description)</p>
                             <textarea rows="30" type="text" class="form-control" name="ad_text" class="input-field"
-                                placeholder="Description" required>{{$property->ad_text}}</textarea>
+                                placeholder="Description" required>{{ $property->ad_text }}</textarea>
+                            <span class="error text-danger" id="ad_text-error"></span>
                         </div>
                     </div>
 
@@ -437,8 +498,9 @@
                     <div class="col-sm-12">
                         <div class="form-group">
                             <label for="custom_field1">Telephone</label>
-                            <input class="form-control" value="{{$property->tel}}" placeholder="Telephone" name="tel" type="text"
-                                id="tel" required>
+                            <input class="form-control" value="{{ $property->tel }}" placeholder="Telephone"
+                                name="tel" type="text" id="tel" required>
+                            <span class="error text-danger" id="tel-error"></span>
                         </div>
                     </div>
                 </div>
@@ -622,32 +684,32 @@
     });
 
     $(document).ready(function() {
-        $("#next1").click(function() {
-            if ($('#child_category_id').val() == 11) {
-                $("#showingbtn1").css('display', 'none');
-                $("#showingbtn2").css('display', 'block');
-                $("#nextprev1").css('display', 'none');
-                $("#nextprev2").css('display', 'block');
-            } else {
-                $("#showingbtn1").css('display', 'none');
-                $("#showingbtn3").css('display', 'block');
-                $("#nextprev1").css('display', 'none');
-                $("#nextprev3").css('display', 'block');
-            }
-        });
+        // $("#next1").click(function() {
+        //     if ($('#child_category_id').val() == 11) {
+        //         $("#showingbtn1").css('display', 'none');
+        //         $("#showingbtn2").css('display', 'block');
+        //         $("#nextprev1").css('display', 'none');
+        //         $("#nextprev2").css('display', 'block');
+        //     } else {
+        //         $("#showingbtn1").css('display', 'none');
+        //         $("#showingbtn3").css('display', 'block');
+        //         $("#nextprev1").css('display', 'none');
+        //         $("#nextprev3").css('display', 'block');
+        //     }
+        // });
 
-        $("#next2").click(function() {
-            $("#showingbtn2").css('display', 'none');
-            $("#showingbtn3").css('display', 'block');
-            $("#nextprev2").css('display', 'none');
-            $("#nextprev3").css('display', 'block');
-        });
-        $("#next3").click(function() {
-            $("#showingbtn3").css('display', 'none');
-            $("#showingbtn4").css('display', 'block');
-            $("#nextprev3").css('display', 'none');
-            $("#nextprev4").css('display', 'block');
-        });
+        // $("#next2").click(function() {
+        //     $("#showingbtn2").css('display', 'none');
+        //     $("#showingbtn3").css('display', 'block');
+        //     $("#nextprev2").css('display', 'none');
+        //     $("#nextprev3").css('display', 'block');
+        // });
+        // $("#next3").click(function() {
+        //     $("#showingbtn3").css('display', 'none');
+        //     $("#showingbtn4").css('display', 'block');
+        //     $("#nextprev3").css('display', 'none');
+        //     $("#nextprev4").css('display', 'block');
+        // });
 
         $("#prev2").click(function() {
             $("#showingbtn1").css('display', 'block');
@@ -767,4 +829,109 @@
             }
         })
     });
+</script>
+<script>
+    $(document).ready(function() {
+        $("#next1").click(function(event) {
+            event.preventDefault();
+
+            var formData = $("#property_wanted_edit_form #showingbtn1 input[required]").serializeArray();
+            var jsonData = {};
+
+            $.each(formData, function() {
+                jsonData[this.name] = this.value;
+            });
+
+            var isValid = true;
+
+            $.each(formData, function(index, field) {
+                if (!field.value) {
+                    isValid = false;
+                    $('#' + field.name.replace(/[\[\]]/g, '\\$&') + '-error').text('This field is required.');
+                    $('#' + field.name.replace(/[\[\]]/g, '\\$&') + '-error').show();
+                } else {
+                    $('#' + field.name.replace(/[\[\]]/g, '\\$&') + '-error').hide();
+                }
+            });
+
+            console.log(jsonData)
+
+            if (isValid) {
+                if ($('#child_category_id').val() == 11) {
+                    $("#showingbtn1").css('display', 'none');
+                    $("#showingbtn2").css('display', 'block');
+                    $("#nextprev1").css('display', 'none');
+                    $("#nextprev2").css('display', 'block');
+                } else {
+                    $("#showingbtn1").css('display', 'none');
+                    $("#showingbtn3").css('display', 'block');
+                    $("#nextprev1").css('display', 'none');
+                    $("#nextprev3").css('display', 'block');
+                }
+            }
+        });
+        $("#next2").click(function(event) {
+            event.preventDefault();
+
+            if ($('#child_category_id').val() == 11) {
+                var formData = $("#property_wanted_edit_form #showingbtn2 input[required]").serializeArray();
+                } else {
+                    var formData = $("#property_wanted_edit_form #showingbtn3 input[required]").serializeArray();
+                }
+
+            var jsonData = {};
+
+            $.each(formData, function() {
+                jsonData[this.name] = this.value;
+            });
+
+            var isValid = true;
+
+            $.each(formData, function(index, field) {
+                if (!field.value) {
+                    isValid = false;
+                    $('#' + field.name.replace(/[\[\]]/g, '\\$&') + '-error').text('This field is required.');
+                    $('#' + field.name.replace(/[\[\]]/g, '\\$&') + '-error').show();
+                } else {
+                    $('#' + field.name.replace(/[\[\]]/g, '\\$&') + '-error').hide();
+                }
+            });
+
+            if (isValid) {
+                $("#showingbtn2").css('display', 'none');
+                $("#showingbtn3").css('display', 'block');
+                $("#nextprev2").css('display', 'none');
+                $("#nextprev3").css('display', 'block');
+            }
+        });
+        $("#next3").click(function(event) {
+            event.preventDefault();
+
+            var formData = $("#property_wanted_edit_form #showingbtn3 input[required]").serializeArray();
+            var jsonData = {};
+
+            $.each(formData, function() {
+                jsonData[this.name] = this.value;
+            });
+
+            var isValid = true;
+
+            $.each(formData, function(index, field) {
+                if (!field.value) {
+                    isValid = false;
+                    $('#' + field.name.replace(/[\[\]]/g, '\\$&') + '-error').text('This field is required.');
+                    $('#' + field.name.replace(/[\[\]]/g, '\\$&') + '-error').show();
+                } else {
+                    $('#' + field.name.replace(/[\[\]]/g, '\\$&') + '-error').hide();
+                }
+            });
+
+            if (isValid) {
+                $("#showingbtn3").css('display', 'none');
+                $("#showingbtn4").css('display', 'block');
+                $("#nextprev3").css('display', 'none');
+                $("#nextprev4").css('display', 'block');
+            }
+        });
+    })
 </script>
