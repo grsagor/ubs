@@ -77,8 +77,8 @@
                         <div class="form-group">
                             <label for="invoice_scheme_id">How many people, including yourself, will share the
                                 property?</label>
-                            <select class="form-control" required="" id="number_of_shared_people"
-                                name="number_of_shared_people">
+                            <select class="form-control" id="number_of_shared_people"
+                                name="number_of_shared_people" required>
                                 <option selected value=0>Select....</option>
                                 <option value=1>1</option>
                                 <option value=2>2</option>
@@ -91,6 +91,7 @@
                                 <option value=9>9</option>
                                 <option value=10>10</option>
                             </select>
+                            <span class="error text-danger" id="number_of_shared_people-error"></span>
                         </div>
                     </div>
 
@@ -106,7 +107,8 @@
                         <div class="form-group">
                             <label for="invoice_scheme_id">Where do you want to live?</label>
                             <input class="form-control" placeholder="Area name" name="wanted_living_area"
-                                type="text">
+                                type="text" required>
+                                <span class="error text-danger" id="wanted_living_area-error"></span>
                         </div>
                     </div>
 
@@ -133,7 +135,8 @@
                     <div class="col-sm-12">
                         <div class="form-group">
                             <label for="custom_field1">I am available to move in from</label>
-                            <input class="form-control" name="available_form" type="date" id="date">
+                            <input class="form-control" name="available_form" type="date" id="date" required>
+                            <span class="error text-danger" id="available_form-error"></span>
                         </div>
                     </div>
 
@@ -265,17 +268,14 @@
                     <div class="col-sm-12">
                         <div class="form-group">
                             <label for="selling_price_group_id">Occupation</label>
-                            <i class="fa fa-info-circle text-info hover-q no-print " aria-hidden="true"
-                                data-container="body" data-toggle="popover" data-placement="auto bottom"
-                                data-content="This price group will be used as the default price group in this location."
-                                data-html="true" data-trigger="hover"></i>
-                            <select class="form-control" id="occupation" name="occupation">
+                            <select class="form-control" id="occupation" name="occupation" required>
                                 <option value="Not disclosed" selected="">Not disclosed</option>
                                 <option value="Student">Student</option>
                                 <option value="Employee">Employee</option>
                                 <option value="Others">Others</option>
                                 <option value="I don't mind">I don't mind</option>
                             </select>
+                            <span class="error text-danger" id="occupation-error"></span>
                         </div>
                     </div>
 
@@ -297,12 +297,13 @@
                         <div class="col-sm-12">
                             <div class="form-group">
                                 <label for="occupant_job">Do you have job?</label>
-                                <select class="form-control" id="occupant_job" name="occupant_job[]">
+                                <select class="form-control" id="occupant_job" name="occupant_job[]" required>
                                     <option selected="" value="">Select....</option>
                                     <option value="1">Part-time</option>
                                     <option value="2">Full-time</option>
                                     <option value="3">Self-employed</option>
                                 </select>
+                                <span class="error text-danger" id="occupant_job-error"></span>
                             </div>
                         </div>
                     </div>
@@ -468,7 +469,8 @@
                             <label for="custom_field1">Advert title</label>
                             <p class="sub-heading">(Short description)</p>
                             <input class="form-control" placeholder="Short description maximum 92 characters"
-                                name="ad_title" type="text" maxlength="100" id="ad_title">
+                                name="ad_title" type="text" maxlength="100" id="ad_title" required>
+                                <span class="error text-danger" id="ad_title-error"></span>
                         </div>
                     </div>
 
@@ -477,7 +479,8 @@
                             <label for="custom_field1">Description</label>
                             <p class="sub-heading">(No contact details permitted within description)</p>
                             <textarea rows="30" type="text" class="form-control" name="ad_text" class="input-field"
-                                placeholder="Description"></textarea>
+                                placeholder="Description" required></textarea>
+                                <span class="error text-danger" id="ad_text-error"></span>
                         </div>
                     </div>
 
@@ -492,7 +495,8 @@
                         <div class="form-group">
                             <label for="custom_field1">Telephone</label>
                             <input class="form-control" placeholder="Telephone" name="tel" type="text"
-                                id="tel">
+                                id="tel" required>
+                                <span class="error text-danger" id="tel-error"></span>
                         </div>
                     </div>
                 </div>
@@ -665,32 +669,32 @@
     });
 
     $(document).ready(function() {
-        $("#next1").click(function() {
-            if ($('#child_category_id').val() == 11) {
-                $("#showingbtn1").css('display', 'none');
-                $("#showingbtn2").css('display', 'block');
-                $("#nextprev1").css('display', 'none');
-                $("#nextprev2").css('display', 'block');
-            } else {
-                $("#showingbtn1").css('display', 'none');
-                $("#showingbtn3").css('display', 'block');
-                $("#nextprev1").css('display', 'none');
-                $("#nextprev3").css('display', 'block');
-            }
-        });
+        // $("#next1").click(function() {
+        //     if ($('#child_category_id').val() == 11) {
+        //         $("#showingbtn1").css('display', 'none');
+        //         $("#showingbtn2").css('display', 'block');
+        //         $("#nextprev1").css('display', 'none');
+        //         $("#nextprev2").css('display', 'block');
+        //     } else {
+        //         $("#showingbtn1").css('display', 'none');
+        //         $("#showingbtn3").css('display', 'block');
+        //         $("#nextprev1").css('display', 'none');
+        //         $("#nextprev3").css('display', 'block');
+        //     }
+        // });
 
-        $("#next2").click(function() {
-            $("#showingbtn2").css('display', 'none');
-            $("#showingbtn3").css('display', 'block');
-            $("#nextprev2").css('display', 'none');
-            $("#nextprev3").css('display', 'block');
-        });
-        $("#next3").click(function() {
-            $("#showingbtn3").css('display', 'none');
-            $("#showingbtn4").css('display', 'block');
-            $("#nextprev3").css('display', 'none');
-            $("#nextprev4").css('display', 'block');
-        });
+        // $("#next2").click(function() {
+        //     $("#showingbtn2").css('display', 'none');
+        //     $("#showingbtn3").css('display', 'block');
+        //     $("#nextprev2").css('display', 'none');
+        //     $("#nextprev3").css('display', 'block');
+        // });
+        // $("#next3").click(function() {
+        //     $("#showingbtn3").css('display', 'none');
+        //     $("#showingbtn4").css('display', 'block');
+        //     $("#nextprev3").css('display', 'none');
+        //     $("#nextprev4").css('display', 'block');
+        // });
 
         $("#prev2").click(function() {
             $("#showingbtn1").css('display', 'block');
@@ -810,4 +814,109 @@
             }
         })
     });
+</script>
+<script>
+    $(document).ready(function() {
+        $("#next1").click(function(event) {
+            event.preventDefault();
+
+            var formData = $("#property_wanted_form #showingbtn1 input[required]").serializeArray();
+            var jsonData = {};
+
+            $.each(formData, function() {
+                jsonData[this.name] = this.value;
+            });
+
+            var isValid = true;
+
+            $.each(formData, function(index, field) {
+                if (!field.value) {
+                    isValid = false;
+                    $('#' + field.name.replace(/[\[\]]/g, '\\$&') + '-error').text('This field is required.');
+                    $('#' + field.name.replace(/[\[\]]/g, '\\$&') + '-error').show();
+                } else {
+                    $('#' + field.name.replace(/[\[\]]/g, '\\$&') + '-error').hide();
+                }
+            });
+
+            console.log(jsonData)
+
+            if (isValid) {
+                if ($('#child_category_id').val() == 11) {
+                    $("#showingbtn1").css('display', 'none');
+                    $("#showingbtn2").css('display', 'block');
+                    $("#nextprev1").css('display', 'none');
+                    $("#nextprev2").css('display', 'block');
+                } else {
+                    $("#showingbtn1").css('display', 'none');
+                    $("#showingbtn3").css('display', 'block');
+                    $("#nextprev1").css('display', 'none');
+                    $("#nextprev3").css('display', 'block');
+                }
+            }
+        });
+        $("#next2").click(function(event) {
+            event.preventDefault();
+
+            if ($('#child_category_id').val() == 11) {
+                var formData = $("#property_wanted_form #showingbtn2 input[required]").serializeArray();
+                } else {
+                    var formData = $("#property_wanted_form #showingbtn3 input[required]").serializeArray();
+                }
+
+            var jsonData = {};
+
+            $.each(formData, function() {
+                jsonData[this.name] = this.value;
+            });
+
+            var isValid = true;
+
+            $.each(formData, function(index, field) {
+                if (!field.value) {
+                    isValid = false;
+                    $('#' + field.name.replace(/[\[\]]/g, '\\$&') + '-error').text('This field is required.');
+                    $('#' + field.name.replace(/[\[\]]/g, '\\$&') + '-error').show();
+                } else {
+                    $('#' + field.name.replace(/[\[\]]/g, '\\$&') + '-error').hide();
+                }
+            });
+
+            if (isValid) {
+                $("#showingbtn2").css('display', 'none');
+                $("#showingbtn3").css('display', 'block');
+                $("#nextprev2").css('display', 'none');
+                $("#nextprev3").css('display', 'block');
+            }
+        });
+        $("#next3").click(function(event) {
+            event.preventDefault();
+
+            var formData = $("#property_wanted_form #showingbtn3 input[required]").serializeArray();
+            var jsonData = {};
+
+            $.each(formData, function() {
+                jsonData[this.name] = this.value;
+            });
+
+            var isValid = true;
+
+            $.each(formData, function(index, field) {
+                if (!field.value) {
+                    isValid = false;
+                    $('#' + field.name.replace(/[\[\]]/g, '\\$&') + '-error').text('This field is required.');
+                    $('#' + field.name.replace(/[\[\]]/g, '\\$&') + '-error').show();
+                } else {
+                    $('#' + field.name.replace(/[\[\]]/g, '\\$&') + '-error').hide();
+                }
+            });
+
+            if (isValid) {
+                $("#showingbtn3").css('display', 'none');
+                $("#showingbtn4").css('display', 'block');
+                $("#nextprev3").css('display', 'none');
+                $("#nextprev4").css('display', 'block');
+            }
+        });
+    })
 </script>
