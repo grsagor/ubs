@@ -31,8 +31,7 @@
                     Unipuller, as a dedicated management consultancy firm, is committed to simplifying the landlord-tenant
                     connection process. We understand the unique needs of landlords and are devoted to making your
                     experience as seamless and stress-free as possible. Here's an in-depth look at the comprehensive
-                    services that make Unipuller the ideal choice for landlords like you:
-
+                    services that make Unipuller the ideal choice for landlords like you
                 </p>
             </div>
 
