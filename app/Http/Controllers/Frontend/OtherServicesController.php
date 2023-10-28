@@ -49,6 +49,11 @@ class OtherServicesController extends Controller
         return view('frontend.other_services.unipuller_service');
     }
 
+    public function sustainability()
+    {
+        return view('frontend.other_services.sustainability');
+    }
+
     public function propertyFindingService(Request $request)
     {
         // if (auth()->check() && (auth()->user()->id === 5 || auth()->user()->user_type === 'user')) {

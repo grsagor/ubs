@@ -123,6 +123,7 @@ Route::get('/business-solutions',                                   [OtherServic
 Route::get('/it-solutions',                                         [OtherServicesController::class, 'itSolutions'])->name('itSolutions');
 Route::get('/landlord-service',                                     [OtherServicesController::class, 'landlordeService'])->name('landlordeService');
 Route::get('/unipuller-service',                                    [OtherServicesController::class, 'unipullerService'])->name('unipullerService');
+Route::get('/sustainability',                                       [OtherServicesController::class, 'sustainability'])->name('sustainability');
 Route::get('/property-finding-service',                             [OtherServicesController::class, 'propertyFindingService'])->name('propertyFindingService');
 Route::get('/property-finding-service-charge/{id}',                 [OtherServicesController::class, 'propertyFindingServiceCharge'])->name('propertyFindingServiceCharge');
 Route::get('/property-finding-service-add-click-handler',           [OtherServicesController::class, 'addClilckHandler']);
