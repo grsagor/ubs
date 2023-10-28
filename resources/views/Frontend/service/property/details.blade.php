@@ -294,7 +294,9 @@
                                         $total_monthly_income_before_tax = 0;
 
                                         foreach ($occupantDetails as $item) {
-                                            $total_monthly_income_before_tax += $item['occupant_miat'];
+                                            if ($item['occupant_pay_rent'] == 1) {
+                                                $total_monthly_income_before_tax += $item['occupant_miat'];
+                                            }
                                         }
                                         // dd($total_monthly_income_before_tax);
                                     @endphp
@@ -382,12 +384,10 @@
                                 </p>
                             @endif
 
-                            @if ($total_monthly_income_before_tax)
-                                <p>
-                                    <strong>Combined Income Before Tax: </strong>
-                                    £{{ $total_monthly_income_before_tax }} Per month
-                                </p>
-                            @endif
+                            <p>
+                                <strong>Combined Income Before Tax: </strong>
+                                £{{ $total_monthly_income_before_tax }} Per month
+                            </p>
 
                             @if ($info->available_form)
                                 <p>
