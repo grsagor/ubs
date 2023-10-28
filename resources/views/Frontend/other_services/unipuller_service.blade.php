@@ -28,7 +28,7 @@
 
             <div class="welcome">
                 <h4 class="fw-bold">
-                    A Network of Expertise: Partnering for Your Success"
+                    A Network of Expertise: Partnering for Your Success
                 </h4>
                 <p>
                     &nbsp; &nbsp; &nbsp; At Unipuller Business Solutions, we've forged a dynamic network of partnerships
