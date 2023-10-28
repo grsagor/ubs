@@ -125,6 +125,7 @@ Route::get('/landlord-service',                                     [OtherServic
 Route::get('/unipuller-service',                                    [OtherServicesController::class, 'unipullerService'])->name('unipullerService');
 Route::get('/about-content',                                        [OtherServicesController::class, 'aboutContent'])->name('aboutContent');
 Route::get('/statement',                                            [OtherServicesController::class, 'statement'])->name('statement');
+Route::get('/sell-on-unipuller-technology',                         [OtherServicesController::class, 'sellOnUnipullerTech'])->name('sellOnUnipullerTech');
 Route::get('/sustainability',                                       [OtherServicesController::class, 'sustainability'])->name('sustainability');
 Route::get('/property-finding-service',                             [OtherServicesController::class, 'propertyFindingService'])->name('propertyFindingService');
 Route::get('/property-finding-service-charge/{id}',                 [OtherServicesController::class, 'propertyFindingServiceCharge'])->name('propertyFindingServiceCharge');

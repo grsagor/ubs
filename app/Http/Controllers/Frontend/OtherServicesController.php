@@ -64,6 +64,11 @@ class OtherServicesController extends Controller
         return view('frontend.other_services.statement');
     }
 
+    public function sellOnUnipullerTech()
+    {
+        return view('frontend.other_services.sell_on_unipuller_tech');
+    }
+
     public function propertyFindingService(Request $request)
     {
         // if (auth()->check() && (auth()->user()->id === 5 || auth()->user()->user_type === 'user')) {
