@@ -290,6 +290,13 @@
                                 @if ($info->occupant_details != null)
                                     @php
                                         $occupantDetails = json_decode($info->occupant_details, true);
+
+                                        $total_monthly_income_before_tax = 0;
+
+                                        foreach ($occupantDetails as $item) {
+                                            $total_monthly_income_before_tax += $item['occupant_miat'];
+                                        }
+                                        // dd($total_monthly_income_before_tax);
                                     @endphp
 
                                     @foreach ($occupantDetails as $item)
@@ -322,13 +329,16 @@
                                             <td>
                                                 @if ($item['occupant_occupation'] == 1)
                                                     Student
-                                                    <br>
-                                                    <span style="font-size: 12ggggpx;">
+                                                    <span style="font-size: 12px;">
                                                         {{ $item['occupant_degree_name'] }}</span>
                                                 @elseif ($item['occupant_occupation'] == 2)
                                                     Employee
                                                 @elseif ($item['occupant_occupation'] == 3)
                                                     Others
+                                                @endif
+
+                                                @if ($item['occupant_designation'])
+                                                    ({{ $item['occupant_designation'] }})
                                                 @endif
                                             </td>
 
@@ -369,6 +379,13 @@
                                 <p>
                                     <strong>Total Budget: </strong>
                                     £{{ $info->combined_budget }} {{ $info->per }}
+                                </p>
+                            @endif
+
+                            @if ($total_monthly_income_before_tax)
+                                <p>
+                                    <strong>Combined Income Before Tax: </strong>
+                                    £{{ $total_monthly_income_before_tax }} Per month
                                 </p>
                             @endif
 
