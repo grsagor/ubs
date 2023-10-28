@@ -59,6 +59,11 @@ class OtherServicesController extends Controller
         return view('frontend.other_services.about');
     }
 
+    public function statement()
+    {
+        return view('frontend.other_services.statement');
+    }
+
     public function propertyFindingService(Request $request)
     {
         // if (auth()->check() && (auth()->user()->id === 5 || auth()->user()->user_type === 'user')) {
