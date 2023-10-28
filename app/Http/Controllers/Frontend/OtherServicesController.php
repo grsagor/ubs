@@ -54,6 +54,11 @@ class OtherServicesController extends Controller
         return view('frontend.other_services.sustainability');
     }
 
+    public function aboutContent()
+    {
+        return view('frontend.other_services.about');
+    }
+
     public function propertyFindingService(Request $request)
     {
         // if (auth()->check() && (auth()->user()->id === 5 || auth()->user()->user_type === 'user')) {
