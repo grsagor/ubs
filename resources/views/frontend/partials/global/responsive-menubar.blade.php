@@ -53,8 +53,9 @@
                                                     <li><a class="dropdown-item"
                                                             href="{{ route('propertyFindingService') }}">Property
                                                             Finding Service</a></li>
-
-
+                                                    <li><a class="dropdown-item"
+                                                            href="{{ route('landlordeService') }}">Landlord
+                                                            Service</a></li>
                                                 </ul>
                                             </div>
 
@@ -179,6 +180,10 @@
                                                             <li><a class="dropdown-item"
                                                                     href="{{ route('propertyFindingService') }}">Property
                                                                     Finding Service</a>
+                                                            </li>
+                                                            <li><a class="dropdown-item"
+                                                                    href="{{ route('landlordeService') }}">Landlord
+                                                                    Service</a>
                                                             </li>
                                                         </ul>
                                                     </li>

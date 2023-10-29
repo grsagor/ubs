@@ -122,11 +122,6 @@ Route::get('/partner-boarding',                                     [OtherServic
 Route::get('/business-solutions',                                   [OtherServicesController::class, 'businessSolutions'])->name('businessSolutions');
 Route::get('/it-solutions',                                         [OtherServicesController::class, 'itSolutions'])->name('itSolutions');
 Route::get('/landlord-service',                                     [OtherServicesController::class, 'landlordeService'])->name('landlordeService');
-Route::get('/unipuller-service',                                    [OtherServicesController::class, 'unipullerService'])->name('unipullerService');
-Route::get('/about-content',                                        [OtherServicesController::class, 'aboutContent'])->name('aboutContent');
-Route::get('/statement',                                            [OtherServicesController::class, 'statement'])->name('statement');
-Route::get('/sell-on-unipuller-technology',                         [OtherServicesController::class, 'sellOnUnipullerTech'])->name('sellOnUnipullerTech');
-Route::get('/sustainability',                                       [OtherServicesController::class, 'sustainability'])->name('sustainability');
 Route::get('/property-finding-service',                             [OtherServicesController::class, 'propertyFindingService'])->name('propertyFindingService');
 Route::get('/property-finding-service-charge/{id}',                 [OtherServicesController::class, 'propertyFindingServiceCharge'])->name('propertyFindingServiceCharge');
 Route::get('/property-finding-service-add-click-handler',           [OtherServicesController::class, 'addClilckHandler']);
