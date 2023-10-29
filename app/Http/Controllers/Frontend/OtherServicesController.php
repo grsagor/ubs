@@ -44,30 +44,6 @@ class OtherServicesController extends Controller
         return view('frontend.other_services.landlord_service');
     }
 
-    public function unipullerService()
-    {
-        return view('frontend.other_services.unipuller_service');
-    }
-
-    public function sustainability()
-    {
-        return view('frontend.other_services.sustainability');
-    }
-
-    public function aboutContent()
-    {
-        return view('frontend.other_services.about');
-    }
-
-    public function statement()
-    {
-        return view('frontend.other_services.statement');
-    }
-
-    public function sellOnUnipullerTech()
-    {
-        return view('frontend.other_services.sell_on_unipuller_tech');
-    }
 
     public function propertyFindingService(Request $request)
     {

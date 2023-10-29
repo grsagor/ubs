@@ -25,7 +25,7 @@
 
         p.category_text {
             /* min-height: 20px;
-                                                                                                                                                                                                                                                                                                                                                                                                                        max-height: 20px; */
+                                                                                                                                                                                                                                                                                                                                                                                                                                max-height: 20px; */
         }
 
         h5.product-title {
@@ -198,6 +198,17 @@
 
                                                     <a href="{{ route('propertyFindingService') }}"
                                                         class="button-31">Add</a>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="card">
+                                                {{-- <img class="card-img-top" src="..." alt="Card image cap"> --}}
+                                                <div class="card-body">
+                                                    <h5 class="card-title">Landlord Service</h5>
+                                                    <p class="card-text">Simplifying Landlord-Tenant Connections for
+                                                        Stress-Free Management.</p>
+                                                    <a href="{{ route('landlordeService') }}" class="button-31">Details</a>
                                                 </div>
                                             </div>
 
