@@ -56,6 +56,7 @@
                                     <option value="{{ $item->id }}">{{ $item->name }}</option>
                                 @endforeach
                             </select>
+                            <span class="error text-danger" id="child_category_id-error--property_wanted_create"></span>
                         </div>
                     </div>
                     <div class="col-sm-12" id="number_of_bed_rooms_id">
@@ -67,6 +68,7 @@
                                 </option>
                             @endforeach
                         </select>
+                        <span class="error text-danger" id="property_size-error--property_wanted_create"></span>
                     </div>
 
                     <div id="rooms_inputs_container">
@@ -91,7 +93,7 @@
                                 <option value=9>9</option>
                                 <option value=10>10</option>
                             </select>
-                            <span class="error text-danger" id="number_of_shared_people-error"></span>
+                            <span class="error text-danger" id="number_of_shared_people-error--property_wanted_create"></span>
                         </div>
                     </div>
 
@@ -108,7 +110,7 @@
                             <label for="invoice_scheme_id">Where do you want to live?</label>
                             <input class="form-control" placeholder="Area name" name="wanted_living_area" type="text"
                                 required>
-                            <span class="error text-danger" id="wanted_living_area-error"></span>
+                            <span class="error text-danger" id="wanted_living_area-error--property_wanted_create"></span>
                         </div>
                     </div>
 
@@ -120,7 +122,7 @@
                                 <div class="col-sm-7">
                                     <input class="form-control" placeholder="4" name="combined_budget" type="number"
                                         id="custom_field1" required>
-                                        <span class="error text-danger" id="combined_budget-error"></span>
+                                        <span class="error text-danger" id="combined_budget-error--property_wanted_create"></span>
                                 </div>
                                 <div class="col-sm-4">
                                     <select class="form-control" id="per" name="per">
@@ -137,7 +139,7 @@
                         <div class="form-group">
                             <label for="custom_field1">I am available to move in from</label>
                             <input class="form-control" name="available_form" type="date" id="date" required>
-                            <span class="error text-danger" id="available_form-error"></span>
+                            <span class="error text-danger" id="available_form-error--property_wanted_create"></span>
                         </div>
                     </div>
 
@@ -174,13 +176,14 @@
                                         {{ $label }}</option>
                                 @endforeach
                             </select>
+                            <span class="error text-danger" id="min_term-error--property_wanted_create"></span>
                         </div>
                     </div>
 
                     <div class="col-sm-12">
                         <div class="form-group">
                             <label for="invoice_scheme_id">I want to stay in the accommodation</label>
-                            <select class="form-control" required="" id="days_of_wk_available"
+                            <select class="form-control" id="days_of_wk_available"
                                 name="days_of_wk_available">
                                 <option value="7 days a week">7 days a week
                                 </option>
@@ -276,7 +279,7 @@
                                 <option value="Others">Others</option>
                                 <option value="I don't mind">I don't mind</option>
                             </select>
-                            <span class="error text-danger" id="occupation-error"></span>
+                            <span class="error text-danger" id="occupation-error--property_wanted_create"></span>
                         </div>
                     </div>
 
@@ -446,7 +449,7 @@
                             <p class="sub-heading">(Short description)</p>
                             <input class="form-control" placeholder="Short description maximum 92 characters"
                                 name="ad_title" type="text" maxlength="100" id="ad_title" required>
-                            <span class="error text-danger" id="ad_title-error"></span>
+                            <span class="error text-danger" id="ad_title-error--property_wanted_create"></span>
                         </div>
                     </div>
 
@@ -456,7 +459,7 @@
                             <p class="sub-heading">(No contact details permitted within description)</p>
                             <textarea rows="30" type="text" class="form-control" name="ad_text" class="input-field"
                                 placeholder="Description" required></textarea>
-                            <span class="error text-danger" id="ad_text-error"></span>
+                            <span class="error text-danger" id="ad_text-error--property_wanted_create"></span>
                         </div>
                     </div>
 
@@ -464,6 +467,7 @@
                         <div class="form-group">
                             <label for="custom_field1">Upload your profile picture</label>
                             <input class="form-control" name="images[]" type="file" id="imageUpload" required>
+                            <span class="error text-danger" id="images-error--property_wanted_create"></span>
                         </div>
                     </div>
 
@@ -472,7 +476,7 @@
                             <label for="custom_field1">Telephone</label>
                             <input class="form-control" placeholder="Telephone" name="tel" type="text"
                                 id="tel" required>
-                            <span class="error text-danger" id="tel-error"></span>
+                            <span class="error text-danger" id="tel-error--property_wanted_create"></span>
                         </div>
                     </div>
                 </div>
@@ -813,11 +817,11 @@
             $.each(formData, function(index, field) {
                 if (!field.value) {
                     isValid = false;
-                    $('#' + field.name.replace(/[\[\]]/g, '\\$&') + '-error').text(
+                    $('#' + field.name.replace(/[\[\]]/g, '\\$&') + '-error--property_wanted_create').text(
                         'This field is required.');
-                    $('#' + field.name.replace(/[\[\]]/g, '\\$&') + '-error').show();
+                    $('#' + field.name.replace(/[\[\]]/g, '\\$&') + '-error--property_wanted_create').show();
                 } else {
-                    $('#' + field.name.replace(/[\[\]]/g, '\\$&') + '-error').hide();
+                    $('#' + field.name.replace(/[\[\]]/g, '\\$&') + '-error--property_wanted_create').hide();
                 }
             });
 
@@ -857,11 +861,11 @@
             $.each(formData, function(index, field) {
                 if (!field.value) {
                     isValid = false;
-                    $('#' + field.name.replace(/[\[\]]/g, '\\$&') + '-error').text(
+                    $('#' + field.name.replace(/[\[\]]/g, '\\$&') + '-error--property_wanted_create').text(
                         'This field is required.');
-                    $('#' + field.name.replace(/[\[\]]/g, '\\$&') + '-error').show();
+                    $('#' + field.name.replace(/[\[\]]/g, '\\$&') + '-error--property_wanted_create').show();
                 } else {
-                    $('#' + field.name.replace(/[\[\]]/g, '\\$&') + '-error').hide();
+                    $('#' + field.name.replace(/[\[\]]/g, '\\$&') + '-error--property_wanted_create').hide();
                 }
             });
 
@@ -884,14 +888,24 @@
 
             var isValid = true;
 
+            var fileInputField = $("#property_wanted_form #showingbtn3 input[type='file']");
+            if (!fileInputField[0].value) {
+                isValid = false;
+                $('#' + fileInputField[0].name.replace(/\[\]/g, '') + '-error--property_wanted_create').text(
+                    'This field is required.');
+                $('#' + fileInputField[0].name.replace(/\[\]/g, '') + '-error--property_wanted_create').show();
+            } else {
+                $('#' + fileInputField[0].name.replace(/\[\]/g, '') + '-error--property_wanted_create').hide();
+            }
+
             $.each(formData, function(index, field) {
                 if (!field.value) {
                     isValid = false;
-                    $('#' + field.name.replace(/[\[\]]/g, '\\$&') + '-error').text(
+                    $('#' + field.name.replace(/[\[\]]/g, '\\$&') + '-error--property_wanted_create').text(
                         'This field is required.');
-                    $('#' + field.name.replace(/[\[\]]/g, '\\$&') + '-error').show();
+                    $('#' + field.name.replace(/[\[\]]/g, '\\$&') + '-error--property_wanted_create').show();
                 } else {
-                    $('#' + field.name.replace(/[\[\]]/g, '\\$&') + '-error').hide();
+                    $('#' + field.name.replace(/[\[\]]/g, '\\$&') + '-error--property_wanted_create').hide();
                 }
             });
 
