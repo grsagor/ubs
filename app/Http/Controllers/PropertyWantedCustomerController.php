@@ -326,6 +326,25 @@ class PropertyWantedCustomerController extends Controller
             ]);
     }
 
+    public function showStudentInfoContainerEdit() {
+        $html = view('crm::property_wanted.edit_student_info_container')->render();
+
+        $response = [
+            'html' => $html
+        ];
+
+        return response()->json($response);
+    }
+    public function showStudentInfoContainerCreate() {
+        $html = view('crm::property_wanted.create_student_info_container')->render();
+
+        $response = [
+            'html' => $html
+        ];
+
+        return response()->json($response);
+    }
+
     private function languages() {
         $languages = [
             'English',
