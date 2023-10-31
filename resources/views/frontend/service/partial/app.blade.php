@@ -64,14 +64,14 @@
             <div class="mt-2 content-circle">
 
                 <div class="container">
-                    <div class="row mobile-reverse">
+                    <div class="row">
 
                         {{-- Left Side --}}
-                        <div class="col-xl-3 col-lg-3">
+                        <div class="col-12 col-xl-3 col-lg-3">
                             <div id="sidebar" class="widget-title-bordered-full">
-                                <div class="dashbaord-sidebar-close d-xl-none d-lg-none">
+                                {{-- <div class="dashbaord-sidebar-close d-xl-none d-lg-none">
                                     <i class="fas fa-times"></i>
-                                </div>
+                                </div> --}}
 
                                 <div id="woocommerce_product_categories-4"
                                     class="widget woocommerce widget_product_categories widget-toggle">
@@ -105,7 +105,7 @@
 
 
                                 <div id="woocommerce_product_categories-4"
-                                    class="widget woocommerce widget_product_categories widget-toggle">
+                                    class="widget woocommerce widget_product_categories widget-toggle mb-3 mb-lg-0">
 
                                     <h2 class="widget-title">Property Type</h2>
 
@@ -126,7 +126,7 @@
                         </div>
 
                         {{-- Right Side --}}
-                        <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12" style="padding: 0px !important;">
+                        <div class="col-12 col-xl-9 col-lg-9 col-md-12 col-sm-12" style="padding: 0px !important;">
                             <div class="product-search-one">
                                 <form id="searchForm" class="search-form form-inline search-pill-shape bg-white"
                                     action="{{ route('property.list') }}" method="GET">
@@ -348,4 +348,21 @@
             document.querySelector('#categoryForm').submit();
         }
     </script>
+
+<script>
+    function handleMinWidth992px() {
+        if (window.innerWidth <= 992) {
+            $('.widget-toggle').addClass('closed')
+        } else {
+            $('.widget-toggle').removeClass('closed')
+        }
+    }
+
+    // Attach the event listener to the window's resize event
+    window.addEventListener('resize', handleMinWidth992px);
+
+    // Call the function initially to check the condition
+    handleMinWidth992px();
+</script>
+
 @endsection

@@ -15,7 +15,7 @@
                     <div class="col-sm-12">
                         <div class="form-group">
                             <label for="selling_price_group_id">Property Type</label>
-                            <select class="form-control" id="child_category_id" name="child_category_id">
+                            <select class="form-control" id="child_category_id" name="child_category_id" required>
                                 <option selected="" value="">Select....</option>
                                 @foreach ($child_categories as $item)
                                     <option {{ $property->child_category_id == $item->id ? 'selected' : '' }}
@@ -26,7 +26,7 @@
                     </div>
                     <div class="col-sm-12" id="number_of_bed_rooms_id">
                         <label for="selling_price_group_id">Number of bed rooms</label>
-                        <select class="form-control" id="property_size" name="property_size">
+                        <select class="form-control" id="property_size" name="property_size" required>
                             <option selected="" value="">Select....</option>
                             @foreach (['1 Bed Room', '2 Bed Rooms', '3 Bed Rooms', '4 Bed Rooms', '5+ Bed Rooms'] as $key => $item)
                                 <option {{ $property->property_size == $key + 1 ? 'selected' : '' }}
@@ -116,16 +116,16 @@
                             <div class="row">
                                 <div class="col-sm-7">
                                     <input class="form-control" placeholder="4" name="combined_budget" type="number"
-                                        id="custom_field1">
+                                        id="custom_field1" required>
                                 </div>
                                 <div class="col-sm-4">
                                     <select class="form-control" id="per" name="per">
                                         <option value="" selected="">Per week or month</option>
                                         <option
-                                            {{ $property->number_of_shared_people == 'per week' ? 'selected' : '' }}
+                                            {{ $property->per == 'per week' ? 'selected' : '' }}
                                             value="per week">per week</option>
                                         <option
-                                            {{ $property->number_of_shared_people == 'per month' ? 'selected' : '' }}
+                                            {{ $property->per == 'per month' ? 'selected' : '' }}
                                             value="per month">per month</option>
                                     </select>
                                 </div>
@@ -167,7 +167,7 @@
                     <div class="col-sm-12">
                         <div class="form-group">
                             <label for="invoice_scheme_id">Period accommodation needed for</label>
-                            <select class="form-control" required="" id="min_term" name="min_term">
+                            <select class="form-control" id="min_term" name="min_term" required>
                                 <option value="0" selected>No maximum
                                 </option>
                                 @foreach ($months as $value => $label)
@@ -292,33 +292,8 @@
                         </div>
                     </div>
 
-                    <div id="student_info_container" style="display: none;">
-                        <div class="col-sm-12">
-                            <div class="form-group">
-                                <label for="occupant_university_name">University Name</label>
-                                <input class="form-control" name="occupant_university_name[]" type="text"
-                                    id="occupant_university_name">
-                            </div>
-                        </div>
-                        <div class="col-sm-12">
-                            <div class="form-group">
-                                <label for="occupant_degree_name">Degree Name</label>
-                                <input class="form-control" name="occupant_degree_name[]" type="text"
-                                    id="occupant_degree_name">
-                            </div>
-                        </div>
-                        <div class="col-sm-12">
-                            <div class="form-group">
-                                <label for="occupant_job">Do you have job?</label>
-                                <select class="form-control" id="occupant_job" name="occupant_job[]" required>
-                                    <option selected="" value="">Select....</option>
-                                    <option value="1">Part-time</option>
-                                    <option value="2">Full-time</option>
-                                    <option value="3">Self-employed</option>
-                                </select>
-                                <span class="error text-danger" id="occupant_job-error"></span>
-                            </div>
-                        </div>
+                    <div id="student_info_container">
+
                     </div>
 
                     <div class="col-sm-12">
@@ -404,7 +379,7 @@
 
                 </div>
 
-                <div id="showingbtn2" class="row" style="display:none;">
+                {{-- <div id="showingbtn2" class="row" style="display:none;">
                     <div class="col-sm-12 input_group_title_container">
                         <h6>Your flatmate preference</h6>
                     </div>
@@ -464,7 +439,7 @@
                             </select>
                         </div>
                     </div>
-                </div>
+                </div> --}}
                 <div id="showingbtn3" class="row" style="display:none;">
 
                     <div class="col-sm-12">
@@ -491,7 +466,7 @@
                     <div class="col-sm-12">
                         <div class="form-group">
                             <label for="custom_field1">Upload your profile picture</label>
-                            <input class="form-control" name="images[]" type="file" id="imageUpload" multiple>
+                            <input class="form-control" name="images[]" type="file" id="imageUpload" required>
                         </div>
                     </div>
 
@@ -818,14 +793,18 @@
         $('#occupation').change(function() {
             console.log('changed')
             var isStudent = $(this).val();
-            if (isStudent == 1) {
-                $('#student_info_container input, #student_info_container select, #student_info_container textarea')
-                    .prop('disabled', false);
-                $('#student_info_container').show();
+            if (isStudent == 'Student') {
+                $.ajax({
+                url: "/contact/show-student-info-container-edit",
+                type: "get",
+                dataType: "json",
+                success: function(data) {
+                    $('#student_info_container').empty()
+                    $('#student_info_container').html(data.html)
+                }
+            });
             } else {
-                $('#student_info_container input, #student_info_container select, #student_info_container textarea')
-                    .prop('disabled', true);
-                $('#student_info_container').hide();
+                $('#student_info_container').empty()
             }
         })
     });

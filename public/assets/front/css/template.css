@@ -1791,7 +1791,8 @@ ul.product_list_widget li a:hover,
 
 .widget_product_categories {
 	border: 1px solid #e1e1e1;
-	padding: 30px 20px;
+	padding: 20px 20px;
+	padding-bottom: 10px;
 }
 
 .sidebar-blog .widget-title,
@@ -1799,11 +1800,6 @@ ul.product_list_widget li a:hover,
 	font-size: 18px;
 	text-transform: uppercase;
 }
-
-#sidebar .widget-title {
-	margin-bottom: 20px;
-}
-
 #sidebar .widget {
 	margin-bottom: 35px;
 }

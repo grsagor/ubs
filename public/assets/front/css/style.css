@@ -6069,8 +6069,17 @@ table.shop_attributes tr:nth-child(2n) th {
 }
 
 /*==================================================================== Left sidebar Style Start =====================================================================*/
+#sidebar .widget:first-child {
+    margin-top: 20px !important;
+}
 #sidebar .widget:last-child {
     margin-bottom: 0 !important;
+}
+
+@media screen and (max-width: 992px) {
+    #sidebar .widget:last-child {
+        margin-bottom: 35px !important;
+    }
 }
 
 .widget_search input,
@@ -6186,7 +6195,6 @@ table.shop_attributes tr:nth-child(2n) th {
 
 .widget-title-bordered-full .widget-title {
     font-size: 18px;
-    margin-bottom: 20px;
     position: relative;
     font-weight: 500;
     border-bottom: 2px solid var(--theme-gray-color);
@@ -11158,7 +11166,7 @@ select.form-control {
 }
 
 @media screen and (max-width: 991px) {
-    #sidebar {
+    /* #sidebar {
         position: fixed;
         top: 0;
         left: 0;
@@ -11171,7 +11179,7 @@ select.form-control {
         border-right: 1px solid #e5e5e5;
         background: #fff;
         overflow-y: auto;
-    }
+    } */
 
     #sidebar.active {
         transform: translateX(0);

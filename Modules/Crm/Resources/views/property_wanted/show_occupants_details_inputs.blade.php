@@ -9,35 +9,38 @@
         <div class="col-sm-12">
             <div class="form-group">
                 <label for="occupant_name">Name</label>
-                <input class="form-control" name="occupant_name[]" type="text" id="occupant_name">
+                <input class="form-control" name="occupant_name[]" type="text" id="occupant_name[]" required>
+                <span class="error text-danger" id="occupant_name-error"></span>
             </div>
         </div>
         <div class="col-sm-12">
             <div class="form-group">
                 <label for="occupant_gender_req">Gender</label>
-                <select class="form-control" id="occupant_gender_req" name="occupant_gender_req[]">
+                <select class="form-control" id="occupant_gender_req" name="occupant_gender_req[]" required>
                     <option selected="" value="">Select....</option>
                     <option value="1">Male</option>
                     <option value="2">Female</option>
                     <option value="3">Others</option>
                 </select>
+                <span class="error text-danger" id="occupant_gender_req-error"></span>
             </div>
         </div>
         <div class="col-sm-12">
             <div class="form-group">
                 <label for="occupant_age">Age</label>
-                <select class="form-control" id="occupant_age" name="occupant_age[]">
+                <select class="form-control" id="occupant_age" name="occupant_age[]" required>
                     <option value="" selected>Select...</option>
                     @foreach (range(0, 99) as $age)
                         <option value="{{ $age }}">{{ $age }}</option>
                     @endforeach
                 </select>
+                <span class="error text-danger" id="occupant_age-error"></span>
             </div>
         </div>
         <div class="col-sm-12">
             <div class="form-group">
                 <label for="occupant_relationship">Relationship</label>
-                <select class="form-control" id="occupant_relationship" name="occupant_relationship[]">
+                <select class="form-control" id="occupant_relationship" name="occupant_relationship[]" required>
                     <option selected="" value="">Select....</option>
                     <option value="5">Contact Person(The person as the point of contact or responsible party.)
                     </option>
@@ -47,18 +50,20 @@
                     <option value="3">Friends</option>
                     <option value="4">Others</option>
                 </select>
+                <span class="error text-danger" id="occupant_relationship-error"></span>
             </div>
         </div>
         <div class="col-sm-12">
             <div class="form-group">
                 <label for="occupant_occupation">Profession</label>
                 <select class="form-control" id="occupant_occupation_{{ $i }}"
-                    onchange="showStudentInfo({{ $i }})" name="occupant_occupation[]">
+                    onchange="showStudentInfo({{ $i }})" name="occupant_occupation[]" required>
                     <option selected="" value=0>Select....</option>
                     <option value="1">Student</option>
                     <option value="2">Employee</option>
                     <option value="3">Others</option>
                 </select>
+                <span class="error text-danger" id="occupant_occupation-error"></span>
             </div>
         </div>
 
@@ -122,11 +127,12 @@
         <div class="col-sm-12">
             <div class="form-group">
                 <label for="occupant_pay_rent">Will he/she pay the rent?</label>
-                <select class="form-control" id="occupant_pay_rent" name="occupant_pay_rent[]">
+                <select class="form-control" id="occupant_pay_rent" name="occupant_pay_rent[]" required>
                     <option selected="" value="">Select....</option>
                     <option value="1">Yes</option>
                     <option value="0">No</option>
                 </select>
+                <span class="error text-danger" id="occupant_pay_rent-error"></span>
             </div>
         </div>
         <div class="col-sm-12">
@@ -134,11 +140,10 @@
                 <label for="occupant_nationality">Nationality</label>
                 {{-- <input class="form-control" name="occupant_nationality[]" type="text" id="occupant_nationality"> --}}
 
-                <select class="form-control" id="occupant_nationality" name="occupant_nationality[]">
-
+                <select class="form-control" id="occupant_nationality" name="occupant_nationality[]" required>
                     @include('partial.nationality')
-
                 </select>
+                <span class="error text-danger" id="occupant_nationality-error"></span>
 
             </div>
         </div>
