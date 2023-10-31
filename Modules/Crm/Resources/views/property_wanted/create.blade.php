@@ -50,7 +50,7 @@
                     <div class="col-sm-12">
                         <div class="form-group">
                             <label for="selling_price_group_id">Property Type</label>
-                            <select class="form-control" id="child_category_id" name="child_category_id">
+                            <select class="form-control" id="child_category_id" name="child_category_id" required>
                                 <option selected="" value="">Select....</option>
                                 @foreach ($child_categories as $item)
                                     <option value="{{ $item->id }}">{{ $item->name }}</option>
@@ -60,7 +60,7 @@
                     </div>
                     <div class="col-sm-12" id="number_of_bed_rooms_id">
                         <label for="selling_price_group_id">Number of bed rooms</label>
-                        <select class="form-control" id="property_size" name="property_size">
+                        <select class="form-control" id="property_size" name="property_size" required>
                             <option selected="" value="">Select....</option>
                             @foreach (['1 Bed Room', '2 Bed Rooms', '3 Bed Rooms', '4 Bed Rooms', '5+ Bed Rooms'] as $key => $item)
                                 <option value="{{ $key + 1 }}">{{ $item }}
@@ -77,8 +77,8 @@
                         <div class="form-group">
                             <label for="invoice_scheme_id">How many people, including yourself, will share the
                                 property?</label>
-                            <select class="form-control" id="number_of_shared_people"
-                                name="number_of_shared_people" required>
+                            <select class="form-control" id="number_of_shared_people" name="number_of_shared_people"
+                                required>
                                 <option selected value=0>Select....</option>
                                 <option value=1>1</option>
                                 <option value=2>2</option>
@@ -106,9 +106,9 @@
                     <div class="col-sm-12">
                         <div class="form-group">
                             <label for="invoice_scheme_id">Where do you want to live?</label>
-                            <input class="form-control" placeholder="Area name" name="wanted_living_area"
-                                type="text" required>
-                                <span class="error text-danger" id="wanted_living_area-error"></span>
+                            <input class="form-control" placeholder="Area name" name="wanted_living_area" type="text"
+                                required>
+                            <span class="error text-danger" id="wanted_living_area-error"></span>
                         </div>
                     </div>
 
@@ -119,7 +119,8 @@
                             <div class="row">
                                 <div class="col-sm-7">
                                     <input class="form-control" placeholder="4" name="combined_budget" type="number"
-                                        id="custom_field1">
+                                        id="custom_field1" required>
+                                        <span class="error text-danger" id="combined_budget-error"></span>
                                 </div>
                                 <div class="col-sm-4">
                                     <select class="form-control" id="per" name="per">
@@ -165,7 +166,7 @@
                     <div class="col-sm-12">
                         <div class="form-group">
                             <label for="invoice_scheme_id">Period accommodation needed for</label>
-                            <select class="form-control" required="" id="min_term" name="min_term">
+                            <select class="form-control" id="min_term" name="min_term" required>
                                 <option value="0" selected>No maximum
                                 </option>
                                 @foreach ($months as $value => $label)
@@ -279,33 +280,8 @@
                         </div>
                     </div>
 
-                    <div id="student_info_container" style="display: none;">
-                        <div class="col-sm-12">
-                            <div class="form-group">
-                                <label for="occupant_university_name">University Name</label>
-                                <input class="form-control" name="occupant_university_name[]" type="text"
-                                    id="occupant_university_name">
-                            </div>
-                        </div>
-                        <div class="col-sm-12">
-                            <div class="form-group">
-                                <label for="occupant_degree_name">Degree Name</label>
-                                <input class="form-control" name="occupant_degree_name[]" type="text"
-                                    id="occupant_degree_name">
-                            </div>
-                        </div>
-                        <div class="col-sm-12">
-                            <div class="form-group">
-                                <label for="occupant_job">Do you have job?</label>
-                                <select class="form-control" id="occupant_job" name="occupant_job[]" required>
-                                    <option selected="" value="">Select....</option>
-                                    <option value="1">Part-time</option>
-                                    <option value="2">Full-time</option>
-                                    <option value="3">Self-employed</option>
-                                </select>
-                                <span class="error text-danger" id="occupant_job-error"></span>
-                            </div>
-                        </div>
+                    <div id="student_info_container">
+
                     </div>
 
                     <div class="col-sm-12">
@@ -394,7 +370,7 @@
 
                 </div>
 
-                <div id="showingbtn2" class="row" style="display:none;">
+                {{-- <div id="showingbtn2" class="row" style="display:none;">
                     <div class="col-sm-12 input_group_title_container">
                         <h6>Your flatmate preference</h6>
                     </div>
@@ -461,7 +437,7 @@
                             </select>
                         </div>
                     </div>
-                </div>
+                </div> --}}
                 <div id="showingbtn3" class="row" style="display:none;">
 
                     <div class="col-sm-12">
@@ -470,7 +446,7 @@
                             <p class="sub-heading">(Short description)</p>
                             <input class="form-control" placeholder="Short description maximum 92 characters"
                                 name="ad_title" type="text" maxlength="100" id="ad_title" required>
-                                <span class="error text-danger" id="ad_title-error"></span>
+                            <span class="error text-danger" id="ad_title-error"></span>
                         </div>
                     </div>
 
@@ -480,14 +456,14 @@
                             <p class="sub-heading">(No contact details permitted within description)</p>
                             <textarea rows="30" type="text" class="form-control" name="ad_text" class="input-field"
                                 placeholder="Description" required></textarea>
-                                <span class="error text-danger" id="ad_text-error"></span>
+                            <span class="error text-danger" id="ad_text-error"></span>
                         </div>
                     </div>
 
                     <div class="col-sm-12">
                         <div class="form-group">
                             <label for="custom_field1">Upload your profile picture</label>
-                            <input class="form-control" name="images[]" type="file" id="imageUpload" multiple>
+                            <input class="form-control" name="images[]" type="file" id="imageUpload" required>
                         </div>
                     </div>
 
@@ -496,7 +472,7 @@
                             <label for="custom_field1">Telephone</label>
                             <input class="form-control" placeholder="Telephone" name="tel" type="text"
                                 id="tel" required>
-                                <span class="error text-danger" id="tel-error"></span>
+                            <span class="error text-danger" id="tel-error"></span>
                         </div>
                     </div>
                 </div>
@@ -801,18 +777,23 @@
         })
 
         $('#occupation').change(function() {
-            console.log('changed')
+            console.log('changed');
             var isStudent = $(this).val();
-            if (isStudent == 1) {
-                $('#student_info_container input, #student_info_container select, #student_info_container textarea')
-                    .prop('disabled', false);
-                $('#student_info_container').show();
+            if (isStudent == 'Student') {
+                $.ajax({
+                url: "/contact/show-student-info-container-create",
+                type: "get",
+                dataType: "json",
+                success: function(data) {
+                    $('#student_info_container').empty()
+                    $('#student_info_container').html(data.html)
+                }
+            });
             } else {
-                $('#student_info_container input, #student_info_container select, #student_info_container textarea')
-                    .prop('disabled', true);
-                $('#student_info_container').hide();
+                $('#student_info_container').empty()
             }
-        })
+        });
+
     });
 </script>
 <script>
@@ -832,7 +813,8 @@
             $.each(formData, function(index, field) {
                 if (!field.value) {
                     isValid = false;
-                    $('#' + field.name.replace(/[\[\]]/g, '\\$&') + '-error').text('This field is required.');
+                    $('#' + field.name.replace(/[\[\]]/g, '\\$&') + '-error').text(
+                        'This field is required.');
                     $('#' + field.name.replace(/[\[\]]/g, '\\$&') + '-error').show();
                 } else {
                     $('#' + field.name.replace(/[\[\]]/g, '\\$&') + '-error').hide();
@@ -860,9 +842,9 @@
 
             if ($('#child_category_id').val() == 11) {
                 var formData = $("#property_wanted_form #showingbtn2 input[required]").serializeArray();
-                } else {
-                    var formData = $("#property_wanted_form #showingbtn3 input[required]").serializeArray();
-                }
+            } else {
+                var formData = $("#property_wanted_form #showingbtn3 input[required]").serializeArray();
+            }
 
             var jsonData = {};
 
@@ -875,7 +857,8 @@
             $.each(formData, function(index, field) {
                 if (!field.value) {
                     isValid = false;
-                    $('#' + field.name.replace(/[\[\]]/g, '\\$&') + '-error').text('This field is required.');
+                    $('#' + field.name.replace(/[\[\]]/g, '\\$&') + '-error').text(
+                        'This field is required.');
                     $('#' + field.name.replace(/[\[\]]/g, '\\$&') + '-error').show();
                 } else {
                     $('#' + field.name.replace(/[\[\]]/g, '\\$&') + '-error').hide();
@@ -904,7 +887,8 @@
             $.each(formData, function(index, field) {
                 if (!field.value) {
                     isValid = false;
-                    $('#' + field.name.replace(/[\[\]]/g, '\\$&') + '-error').text('This field is required.');
+                    $('#' + field.name.replace(/[\[\]]/g, '\\$&') + '-error').text(
+                        'This field is required.');
                     $('#' + field.name.replace(/[\[\]]/g, '\\$&') + '-error').show();
                 } else {
                     $('#' + field.name.replace(/[\[\]]/g, '\\$&') + '-error').hide();

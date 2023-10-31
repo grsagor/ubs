@@ -22,6 +22,9 @@ Route::group(['middleware' => ['checkCustomer'], 'prefix' => 'contact',], functi
     Route::post('/property-wanted/upgrade', [PropertyWantedCustomerController::class, 'propertyWantedUpgradePage']);
 
 
+    Route::get('/show-student-info-container-edit', [PropertyWantedCustomerController::class, 'showStudentInfoContainerEdit']);
+    Route::get('/show-student-info-container-create', [PropertyWantedCustomerController::class, 'showStudentInfoContainerCreate']);
+
     Route::get('/rough-test', function () {
         return view('rough.rough');
     });
