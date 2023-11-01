@@ -17,8 +17,9 @@
                         @endphp
                         @if ($first_image && File::exists($imagePath))
                             <a href="{{ route('property_show', $item->id) }}" class="woocommerce-LoopProduct-link">
-                                <img class="lazy img-fluid rounded" data-src="{{ asset($first_image) }}" alt="Product Image"
-                                    style="height: 270px;">
+                                {{-- <img class="lazy img-fluid rounded" data-src="{{ asset($first_image) }}" alt="Product Image"
+                                    style="height: 270px;"> --}}
+                                <img class="lazy img-fluid rounded" data-src="{{ asset($first_image) }}" alt="Product Image">
                             </a>
                         @else
                             <img src="https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg"
