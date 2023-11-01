@@ -119,6 +119,15 @@ class PropertyWantedCustomerController extends Controller
         ];
         return $response;
     }
+    public function showOccupantsDetailsInputsCreate(Request $request)
+    {
+        $num = $request->num;
+        $html = view('crm::property_wanted.create_show_occupants_details_inputs', compact('num'))->render();
+        $response = [
+            'html' => $html,
+        ];
+        return $response;
+    }
     public function showRoomDetailsInputs(Request $request)
     {
         // $num = $request->num;
@@ -133,29 +142,31 @@ class PropertyWantedCustomerController extends Controller
     public function store(Request $request)
     {
         try {
-            $request->validate([
-                'why_is_searching'      => 'required|max:100',
-            ]);
-
-            $count = count($request->occupant_name);
+            // $request->validate([
+            //     'why_is_searching'      => 'required|max:100',
+            // ]);
             $occupant_details = [];
-            for ($i = 0; $i < $count; $i++) {
-                $occupant_details[] = [
-                    "occupant_name" => $request->occupant_name[$i],
-                    "occupant_gender_req" => $request->occupant_gender_req[$i],
-                    "occupant_age" => $request->occupant_age[$i],
-                    "occupant_relationship" => $request->occupant_relationship[$i],
-                    "occupant_occupation" => $request->occupant_occupation[$i],
-                    "occupant_university_name" => $request->occupant_university_name[$i],
-                    "occupant_degree_name" => $request->occupant_degree_name[$i],
-                    "occupant_job" => $request->occupant_job[$i],
-                    "occupant_job_type" => $request->occupant_job_type[$i],
-                    "occupant_designation" => $request->occupant_designation[$i],
-                    "occupant_miat" => $request->occupant_miat[$i],
-                    "occupant_pay_rent" => $request->occupant_pay_rent[$i],
-                    "occupant_nationality" => $request->occupant_nationality[$i],
-                    "occupant_visa_status" => $request->occupant_visa_status[$i],
-                ];
+
+            if (is_array($request->occupant_name) && !is_null($request->occupant_name)) {
+                $count = count($request->occupant_name);
+                for ($i = 0; $i < $count; $i++) {
+                    $occupant_details[] = [
+                        "occupant_name" => $request->occupant_name[$i],
+                        "occupant_gender_req" => $request->occupant_gender_req[$i],
+                        "occupant_age" => $request->occupant_age[$i],
+                        "occupant_relationship" => $request->occupant_relationship[$i],
+                        "occupant_occupation" => $request->occupant_occupation[$i],
+                        "occupant_university_name" => $request->occupant_university_name[$i],
+                        "occupant_degree_name" => $request->occupant_degree_name[$i],
+                        "occupant_job" => $request->occupant_job[$i],
+                        "occupant_job_type" => $request->occupant_job_type[$i],
+                        "occupant_designation" => $request->occupant_designation[$i],
+                        "occupant_miat" => $request->occupant_miat[$i],
+                        "occupant_pay_rent" => $request->occupant_pay_rent[$i],
+                        "occupant_nationality" => $request->occupant_nationality[$i],
+                        "occupant_visa_status" => $request->occupant_visa_status[$i],
+                    ];
+                }
             }
 
             $property = new ServicePropertyWanted();
@@ -180,7 +191,7 @@ class PropertyWantedCustomerController extends Controller
                 'msg' => ('Created Successfully!!!'),
             ];
 
-            return redirect()->back()->with('status', $output);
+            return response()->json($output);
         } catch (\Throwable $e) {
             dd($e->getmessage());
             $output = [
@@ -340,6 +351,18 @@ class PropertyWantedCustomerController extends Controller
 
         $response = [
             'html' => $html
+        ];
+
+        return response()->json($response);
+    }
+
+    public function showSecondStep(Request $request) {
+        $child_category = $request->child_category_id;
+        $html = view('crm::property_wanted.show_second_step', compact('child_category'))->render();
+
+        $response = [
+            'html' => $html,
+            'child' => $child_category
         ];
 
         return response()->json($response);

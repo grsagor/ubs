@@ -11166,21 +11166,6 @@ select.form-control {
 }
 
 @media screen and (max-width: 991px) {
-    /* #sidebar {
-        position: fixed;
-        top: 0;
-        left: 0;
-        height: 100%;
-        width: 100%;
-        max-width: 340px;
-        z-index: 99999;
-        transform: translateX(-101%);
-        transition: all ease 0.3s;
-        border-right: 1px solid #e5e5e5;
-        background: #fff;
-        overflow-y: auto;
-    } */
-
     #sidebar.active {
         transform: translateX(0);
     }
