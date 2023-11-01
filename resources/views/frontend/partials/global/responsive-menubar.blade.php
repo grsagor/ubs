@@ -215,10 +215,10 @@
                                                             href="{{ url('/partner-boarding') }}">Partner
                                                             Boarding</a>
                                                     </li>
-                                                    <li class="nav-item">
+                                                    {{-- <li class="nav-item">
                                                         <a class="nav-link"
                                                             href="{{ url('/education-list') }}">Education</a>
-                                                    </li>
+                                                    </li> --}}
                                                 </ul>
 
                                             </div>
