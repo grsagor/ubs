@@ -22,18 +22,20 @@
                                         value="{{ $item->id }}">{{ $item->name }}</option>
                                 @endforeach
                             </select>
+                            <span class="error text-danger" id="child_category_id-error"></span>
                         </div>
                     </div>
                     <div class="col-sm-12" id="number_of_bed_rooms_id">
                         <label for="selling_price_group_id">Number of bed rooms</label>
                         <select class="form-control" id="property_size" name="property_size" required>
-                            <option selected="" value="">Select....</option>
+                            <option>Select....</option>
                             @foreach (['1 Bed Room', '2 Bed Rooms', '3 Bed Rooms', '4 Bed Rooms', '5+ Bed Rooms'] as $key => $item)
                                 <option {{ $property->property_size == $key + 1 ? 'selected' : '' }}
                                     value="{{ $key + 1 }}">{{ $item }}
                                 </option>
                             @endforeach
                         </select>
+                        <span class="error text-danger" id="property_size-error"></span>
                     </div>
 
                     <div id="rooms_inputs_container">
@@ -117,15 +119,14 @@
                                 <div class="col-sm-7">
                                     <input class="form-control" placeholder="4" name="combined_budget" type="number"
                                         id="custom_field1" required>
+                                    <span class="error text-danger" id="combined_budget-error"></span>
                                 </div>
                                 <div class="col-sm-4">
                                     <select class="form-control" id="per" name="per">
                                         <option value="" selected="">Per week or month</option>
-                                        <option
-                                            {{ $property->per == 'per week' ? 'selected' : '' }}
-                                            value="per week">per week</option>
-                                        <option
-                                            {{ $property->per == 'per month' ? 'selected' : '' }}
+                                        <option {{ $property->per == 'per week' ? 'selected' : '' }} value="per week">
+                                            per week</option>
+                                        <option {{ $property->per == 'per month' ? 'selected' : '' }}
                                             value="per month">per month</option>
                                     </select>
                                 </div>
@@ -176,15 +177,14 @@
                                         {{ $label }}</option>
                                 @endforeach
                             </select>
-                            <span class="error text-danger" id="aaaaaaaaaaaaaa-error"></span>
+                            <span class="error text-danger" id="min_term-error"></span>
                         </div>
                     </div>
 
                     <div class="col-sm-12">
                         <div class="form-group">
                             <label for="invoice_scheme_id">I want to stay in the accommodation</label>
-                            <select class="form-control" required="" id="days_of_wk_available"
-                                name="days_of_wk_available">
+                            <select class="form-control" id="days_of_wk_available" name="days_of_wk_available">
                                 <option {{ $property->days_of_wk_available == '7 days a week' ? 'selected' : '' }}
                                     value="7 days a week">7 days a week
                                 </option>
@@ -467,6 +467,7 @@
                         <div class="form-group">
                             <label for="custom_field1">Upload your profile picture</label>
                             <input class="form-control" name="images[]" type="file" id="imageUpload" required>
+                            <span class="error text-danger" id="images-error"></span>
                         </div>
                     </div>
 
@@ -791,18 +792,17 @@
         })
 
         $('#occupation').change(function() {
-            console.log('changed')
             var isStudent = $(this).val();
             if (isStudent == 'Student') {
                 $.ajax({
-                url: "/contact/show-student-info-container-edit",
-                type: "get",
-                dataType: "json",
-                success: function(data) {
-                    $('#student_info_container').empty()
-                    $('#student_info_container').html(data.html)
-                }
-            });
+                    url: "/contact/show-student-info-container-edit",
+                    type: "get",
+                    dataType: "json",
+                    success: function(data) {
+                        $('#student_info_container').empty()
+                        $('#student_info_container').html(data.html)
+                    }
+                });
             } else {
                 $('#student_info_container').empty()
             }
@@ -814,7 +814,8 @@
         $("#next1").click(function(event) {
             event.preventDefault();
 
-            var formData = $("#property_wanted_edit_form #showingbtn1 input[required]").serializeArray();
+            var formData = $("#property_wanted_edit_form #showingbtn1 input[required]")
+                .serializeArray();
             var jsonData = {};
 
             $.each(formData, function() {
@@ -826,14 +827,13 @@
             $.each(formData, function(index, field) {
                 if (!field.value) {
                     isValid = false;
-                    $('#' + field.name.replace(/[\[\]]/g, '\\$&') + '-error').text('This field is required.');
-                    $('#' + field.name.replace(/[\[\]]/g, '\\$&') + '-error').show();
+                    $('#' + field.name.replace(/\[\]/g, '') + '-error').text(
+                        'This field is required.');
+                    $('#' + field.name.replace(/\[\]/g, '') + '-error').show();
                 } else {
-                    $('#' + field.name.replace(/[\[\]]/g, '\\$&') + '-error').hide();
+                    $('#' + field.name.replace(/\[\]/g, '') + '-error').hide();
                 }
             });
-
-            console.log(jsonData)
 
             if (isValid) {
                 if ($('#child_category_id').val() == 11) {
@@ -853,10 +853,12 @@
             event.preventDefault();
 
             if ($('#child_category_id').val() == 11) {
-                var formData = $("#property_wanted_edit_form #showingbtn2 input[required]").serializeArray();
-                } else {
-                    var formData = $("#property_wanted_edit_form #showingbtn3 input[required]").serializeArray();
-                }
+                var formData = $("#property_wanted_edit_form #showingbtn2 input[required]")
+                    .serializeArray();
+            } else {
+                var formData = $("#property_wanted_edit_form #showingbtn3 input[required]")
+                    .serializeArray();
+            }
 
             var jsonData = {};
 
@@ -869,10 +871,11 @@
             $.each(formData, function(index, field) {
                 if (!field.value) {
                     isValid = false;
-                    $('#' + field.name.replace(/[\[\]]/g, '\\$&') + '-error').text('This field is required.');
-                    $('#' + field.name.replace(/[\[\]]/g, '\\$&') + '-error').show();
+                    $('#' + field.name.replace(/\[\]/g, '') + '-error').text(
+                        'This field is required.');
+                    $('#' + field.name.replace(/\[\]/g, '') + '-error').show();
                 } else {
-                    $('#' + field.name.replace(/[\[\]]/g, '\\$&') + '-error').hide();
+                    $('#' + field.name.replace(/\[\]/g, '') + '-error').hide();
                 }
             });
 
@@ -886,7 +889,8 @@
         $("#next3").click(function(event) {
             event.preventDefault();
 
-            var formData = $("#property_wanted_edit_form #showingbtn3 input[required]").serializeArray();
+            var formData = $("#property_wanted_edit_form #showingbtn3 input[required]")
+        .serializeArray();
             var jsonData = {};
 
             $.each(formData, function() {
@@ -895,13 +899,24 @@
 
             var isValid = true;
 
+            var fileInputField = $("#property_wanted_edit_form #showingbtn3 input[type='file']");
+            if (!fileInputField[0].value) {
+                isValid = false;
+                $('#' + fileInputField[0].name.replace(/\[\]/g, '') + '-error').text(
+                    'This field is required.');
+                $('#' + fileInputField[0].name.replace(/\[\]/g, '') + '-error').show();
+            } else {
+                $('#' + fileInputField[0].name.replace(/\[\]/g, '') + '-error').hide();
+            }
+
             $.each(formData, function(index, field) {
                 if (!field.value) {
                     isValid = false;
-                    $('#' + field.name.replace(/[\[\]]/g, '\\$&') + '-error').text('This field is required.');
-                    $('#' + field.name.replace(/[\[\]]/g, '\\$&') + '-error').show();
+                    $('#' + field.name.replace(/\[\]/g, '') + '-error').text(
+                        'This field is required.');
+                    $('#' + field.name.replace(/\[\]/g, '') + '-error').show();
                 } else {
-                    $('#' + field.name.replace(/[\[\]]/g, '\\$&') + '-error').hide();
+                    $('#' + field.name.replace(/\[\]/g, '') + '-error').hide();
                 }
             });
 

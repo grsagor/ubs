@@ -39,7 +39,7 @@
         </div>
 
         <div class="modal-body">
-            <form action="{{ url('contact/property-wanted') }}" id="property_wanted_form" method="POST"
+            <form id="property_wanted_form" method="POST"
                 enctype="multipart/form-data">
                 @csrf
                 <div id="showingbtn1" class="row">
@@ -51,22 +51,24 @@
                         <div class="form-group">
                             <label for="selling_price_group_id">Property Type</label>
                             <select class="form-control" id="child_category_id" name="child_category_id" required>
-                                <option selected="" value="">Select....</option>
+                                <option value="">Select....</option>
                                 @foreach ($child_categories as $item)
                                     <option value="{{ $item->id }}">{{ $item->name }}</option>
                                 @endforeach
                             </select>
+                            <span class="error text-danger" id="child_category_id-error--property_wanted_create"></span>
                         </div>
                     </div>
                     <div class="col-sm-12" id="number_of_bed_rooms_id">
                         <label for="selling_price_group_id">Number of bed rooms</label>
                         <select class="form-control" id="property_size" name="property_size" required>
-                            <option selected="" value="">Select....</option>
+                            <option value="">Select....</option>
                             @foreach (['1 Bed Room', '2 Bed Rooms', '3 Bed Rooms', '4 Bed Rooms', '5+ Bed Rooms'] as $key => $item)
                                 <option value="{{ $key + 1 }}">{{ $item }}
                                 </option>
                             @endforeach
                         </select>
+                        <span class="error text-danger" id="property_size-error--property_wanted_create"></span>
                     </div>
 
                     <div id="rooms_inputs_container">
@@ -91,7 +93,8 @@
                                 <option value=9>9</option>
                                 <option value=10>10</option>
                             </select>
-                            <span class="error text-danger" id="number_of_shared_people-error"></span>
+                            <span class="error text-danger"
+                                id="number_of_shared_people-error--property_wanted_create"></span>
                         </div>
                     </div>
 
@@ -108,7 +111,8 @@
                             <label for="invoice_scheme_id">Where do you want to live?</label>
                             <input class="form-control" placeholder="Area name" name="wanted_living_area" type="text"
                                 required>
-                            <span class="error text-danger" id="wanted_living_area-error"></span>
+                            <span class="error text-danger"
+                                id="wanted_living_area-error--property_wanted_create"></span>
                         </div>
                     </div>
 
@@ -120,11 +124,12 @@
                                 <div class="col-sm-7">
                                     <input class="form-control" placeholder="4" name="combined_budget" type="number"
                                         id="custom_field1" required>
-                                        <span class="error text-danger" id="combined_budget-error"></span>
+                                    <span class="error text-danger"
+                                        id="combined_budget-error--property_wanted_create"></span>
                                 </div>
                                 <div class="col-sm-4">
                                     <select class="form-control" id="per" name="per">
-                                        <option value="" selected="">Per week or month</option>
+                                        <option value="">Per week or month</option>
                                         <option value="per week">per week</option>
                                         <option value="per month">per month</option>
                                     </select>
@@ -137,7 +142,7 @@
                         <div class="form-group">
                             <label for="custom_field1">I am available to move in from</label>
                             <input class="form-control" name="available_form" type="date" id="date" required>
-                            <span class="error text-danger" id="available_form-error"></span>
+                            <span class="error text-danger" id="available_form-error--property_wanted_create"></span>
                         </div>
                     </div>
 
@@ -174,14 +179,14 @@
                                         {{ $label }}</option>
                                 @endforeach
                             </select>
+                            <span class="error text-danger" id="min_term-error--property_wanted_create"></span>
                         </div>
                     </div>
 
                     <div class="col-sm-12">
                         <div class="form-group">
                             <label for="invoice_scheme_id">I want to stay in the accommodation</label>
-                            <select class="form-control" required="" id="days_of_wk_available"
-                                name="days_of_wk_available">
+                            <select class="form-control" id="days_of_wk_available" name="days_of_wk_available">
                                 <option value="7 days a week">7 days a week
                                 </option>
                                 <option value="Mon to Fri only">Mon to Fri only
@@ -233,249 +238,14 @@
                 </div>
 
                 <div id="showingbtn2" class="d-none row" style="display:none;">
-                    <h4 class="modal-title" style="padding: 12px;">Your Household preferences</h4>
 
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label for="invoice_scheme_id">Age range</label>
-                            <div class="row">
-                                <div class="col-sm-4">
-                                    <select class="form-control" id="age" name="age[]">
-                                        <option value="">Select...</option>
-                                        @foreach (range(18, 99) as $age)
-                                            <option value="{{ $age }}">
-                                                {{ $age }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-
-                                <div class="col-sm-1" style="width: 5%">
-                                    <p class="text-center" style="font-size: 15px; margin-top: 5px;">To</p>
-                                </div>
-                                <div class="col-sm-4">
-                                    <select class="form-control" id="age" name="age[]">
-                                        <option value="">Select...</option>
-                                        @foreach (range(18, 99) as $age)
-                                            <option value="{{ $age }}">
-                                                {{ $age }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label for="selling_price_group_id">Occupation</label>
-                            <select class="form-control" id="occupation" name="occupation" required>
-                                <option value="Not disclosed" selected="">Not disclosed</option>
-                                <option value="Student">Student</option>
-                                <option value="Employee">Employee</option>
-                                <option value="Others">Others</option>
-                                <option value="I don't mind">I don't mind</option>
-                            </select>
-                            <span class="error text-danger" id="occupation-error"></span>
-                        </div>
-                    </div>
-
-                    <div id="student_info_container">
-
-                    </div>
-
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label for="selling_price_group_id">Smoking?</label> <i
-                                class="fa fa-info-circle text-info hover-q no-print " aria-hidden="true"
-                                data-container="body" data-toggle="popover" data-placement="auto bottom"
-                                data-content="This price group will be used as the default price group in this location."
-                                data-html="true" data-trigger="hover"></i> <select class="form-control"
-                                id="smoking_current" name="smoking_current">
-                                <option value="2">no</option>
-                                <option value="1">yes</option>
-                                <option value="I don't mind">I don't mind</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label for="selling_price_group_id">Pets?</label> <i
-                                class="fa fa-info-circle text-info hover-q no-print " aria-hidden="true"
-                                data-container="body" data-toggle="popover" data-placement="auto bottom"
-                                data-content="This price group will be used as the default price group in this location."
-                                data-html="true" data-trigger="hover"></i> <select class="form-control"
-                                id="pets" name="pets">
-                                <option value="2" selected="">no</option>
-                                <option value="1">yes</option>
-                                <option value="I don't mind">I don't mind</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label for="selling_price_group_id">Preferred sex</label> <i
-                                class="fa fa-info-circle text-info hover-q no-print " aria-hidden="true"
-                                data-container="body" data-toggle="popover" data-placement="auto bottom"
-                                data-content="This price group will be used as the default price group in this location."
-                                data-html="true" data-trigger="hover"></i> <select class="form-control"
-                                id="gay_lesbian" name="gay_lesbian">
-                                <option value="Undisclosed" selected="">
-                                    Undisclosed
-                                </option>
-                                <option value="Straight">Straight</option>
-                                <option value="Gay/Lesbian">Gay/Lesbian</option>
-                                <option value="Bisexual">Bisexual</option>
-                                <option value="I don't mind">I don't mind</option>
-                            </select>
-                            <label class="form_input form_checkbox">
-                                <input type="checkbox" name="gay_consent" value="1">
-                                Yes, Check this strictly
-                            </label>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label for="selling_price_group_id">Preferred language</label> <i
-                                class="fa fa-info-circle text-info hover-q no-print " aria-hidden="true"
-                                data-container="body" data-toggle="popover" data-placement="auto bottom"
-                                data-content="This price group will be used as the default price group in this location."
-                                data-html="true" data-trigger="hover"></i>
-                            <select class="form-control" id="lang_id" name="lang_id">
-
-                                @include('partial.language')
-
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label for="selling_price_group_id">Preferred nationality</label> <i
-                                class="fa fa-info-circle text-info hover-q no-print " aria-hidden="true"
-                                data-container="body" data-toggle="popover" data-placement="auto bottom"
-                                data-content="This price group will be used as the default price group in this location."
-                                data-html="true" data-trigger="hover"></i>
-                            <select class="form-control" id="nationality" name="nationality">
-
-                                <option value="---">Select country</option>
-                                @include('partial.nationality')
-
-                            </select>
-                        </div>
-                    </div>
 
                 </div>
 
-                {{-- <div id="showingbtn2" class="row" style="display:none;">
-                    <div class="col-sm-12 input_group_title_container">
-                        <h6>Your flatmate preference</h6>
-                    </div>
-
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label for="selling_price_group_id">Gender</label>
-                            <select class="form-control" id="gender_req" name="gender_req">
-                                <option selected="" value="">Select
-                                    ....</option>
-                                @foreach (getSex() as $item)
-                                    <option value="{{ $item['value'] }}"
-                                        {{ old('sex') == $item['value'] ? 'selected' : '' }}>
-                                        {{ $item['label'] }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-
-
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label for="selling_price_group_id">Smoking</label> <i
-                                class="fa fa-info-circle text-info hover-q no-print " aria-hidden="true"
-                                data-container="body" data-toggle="popover" data-placement="auto bottom"
-                                data-content="This price group will be used as the default price group in this location."
-                                data-html="true" data-trigger="hover"></i>
-                            <select class="form-control" id="smoking" name="smoking">
-                                <option value="Don't mind">Don't mind</option>
-                                <option value="No thanks">No thanks</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label for="selling_price_group_id">Pets</label> <i
-                                class="fa fa-info-circle text-info hover-q no-print " aria-hidden="true"
-                                data-container="body" data-toggle="popover" data-placement="auto bottom"
-                                data-content="This price group will be used as the default price group in this location."
-                                data-html="true" data-trigger="hover"></i>
-                            <select class="form-control" id="pets_req" name="pets_req">
-                                <option value="Don't mind">Don't mind</option>
-                                <option value="No thanks">No thanks</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label for="selling_price_group_id">Orientation</label> <i
-                                class="fa fa-info-circle text-info hover-q no-print " aria-hidden="true"
-                                data-container="body" data-toggle="popover" data-placement="auto bottom"
-                                data-content="This price group will be used as the default price group in this location."
-                                data-html="true" data-trigger="hover"></i>
-                            <select class="form-control" id="gay_lesbian_req" name="gay_lesbian_req">
-                                <option value="Not important" selected="">Not
-                                    important
-                                </option>
-                                <option value="Straight">Straight</option>
-                                <option value="Gay/Lesbian">Gay/Lesbian</option>
-                                <option value="Bisexual">Bisexual</option>
-                            </select>
-                        </div>
-                    </div>
-                </div> --}}
                 <div id="showingbtn3" class="row" style="display:none;">
 
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label for="custom_field1">Advert title</label>
-                            <p class="sub-heading">(Short description)</p>
-                            <input class="form-control" placeholder="Short description maximum 92 characters"
-                                name="ad_title" type="text" maxlength="100" id="ad_title" required>
-                            <span class="error text-danger" id="ad_title-error"></span>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label for="custom_field1">Description</label>
-                            <p class="sub-heading">(No contact details permitted within description)</p>
-                            <textarea rows="30" type="text" class="form-control" name="ad_text" class="input-field"
-                                placeholder="Description" required></textarea>
-                            <span class="error text-danger" id="ad_text-error"></span>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label for="custom_field1">Upload your profile picture</label>
-                            <input class="form-control" name="images[]" type="file" id="imageUpload" required>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label for="custom_field1">Telephone</label>
-                            <input class="form-control" placeholder="Telephone" name="tel" type="text"
-                                id="tel" required>
-                            <span class="error text-danger" id="tel-error"></span>
-                        </div>
-                    </div>
                 </div>
+
                 <div id="showingbtn4" class="row" style="display:none;">
                     <div id="occupants_inputs_container">
 
@@ -645,33 +415,6 @@
     });
 
     $(document).ready(function() {
-        // $("#next1").click(function() {
-        //     if ($('#child_category_id').val() == 11) {
-        //         $("#showingbtn1").css('display', 'none');
-        //         $("#showingbtn2").css('display', 'block');
-        //         $("#nextprev1").css('display', 'none');
-        //         $("#nextprev2").css('display', 'block');
-        //     } else {
-        //         $("#showingbtn1").css('display', 'none');
-        //         $("#showingbtn3").css('display', 'block');
-        //         $("#nextprev1").css('display', 'none');
-        //         $("#nextprev3").css('display', 'block');
-        //     }
-        // });
-
-        // $("#next2").click(function() {
-        //     $("#showingbtn2").css('display', 'none');
-        //     $("#showingbtn3").css('display', 'block');
-        //     $("#nextprev2").css('display', 'none');
-        //     $("#nextprev3").css('display', 'block');
-        // });
-        // $("#next3").click(function() {
-        //     $("#showingbtn3").css('display', 'none');
-        //     $("#showingbtn4").css('display', 'block');
-        //     $("#nextprev3").css('display', 'none');
-        //     $("#nextprev4").css('display', 'block');
-        // });
-
         $("#prev2").click(function() {
             $("#showingbtn1").css('display', 'block');
             $("#showingbtn2").css('display', 'none');
@@ -729,7 +472,7 @@
         $('#number_of_shared_people').change(function() {
             var num = $(this).val();
             $.ajax({
-                url: "/contact/show-occupants-details-inputs",
+                url: "/contact/show-occupants-details-inputs-create",
                 type: "get",
                 data: {
                     num: num
@@ -781,14 +524,14 @@
             var isStudent = $(this).val();
             if (isStudent == 'Student') {
                 $.ajax({
-                url: "/contact/show-student-info-container-create",
-                type: "get",
-                dataType: "json",
-                success: function(data) {
-                    $('#student_info_container').empty()
-                    $('#student_info_container').html(data.html)
-                }
-            });
+                    url: "/contact/show-student-info-container-create",
+                    type: "get",
+                    dataType: "json",
+                    success: function(data) {
+                        $('#student_info_container').empty()
+                        $('#student_info_container').html(data.html)
+                    }
+                });
             } else {
                 $('#student_info_container').empty()
             }
@@ -799,9 +542,12 @@
 <script>
     $(document).ready(function() {
         $("#next1").click(function(event) {
+            console.log($('#child_category_id').val())
             event.preventDefault();
 
-            var formData = $("#property_wanted_form #showingbtn1 input[required]").serializeArray();
+            var formData = $(
+                "#property_wanted_form #showingbtn1 input[required], #property_wanted_form #showingbtn1 select[required]"
+            ).serializeArray();
             var jsonData = {};
 
             $.each(formData, function() {
@@ -813,38 +559,63 @@
             $.each(formData, function(index, field) {
                 if (!field.value) {
                     isValid = false;
-                    $('#' + field.name.replace(/[\[\]]/g, '\\$&') + '-error').text(
-                        'This field is required.');
-                    $('#' + field.name.replace(/[\[\]]/g, '\\$&') + '-error').show();
+                    $('#' + field.name.replace(/\[\]/g, '') + '-error--property_wanted_create')
+                        .text(
+                            'This field is required.');
+                    $('#' + field.name.replace(/\[\]/g, '') + '-error--property_wanted_create')
+                        .show();
                 } else {
-                    $('#' + field.name.replace(/[\[\]]/g, '\\$&') + '-error').hide();
+                    $('#' + field.name.replace(/\[\]/g, '') + '-error--property_wanted_create')
+                        .hide();
                 }
             });
 
-            console.log(jsonData)
-
             if (isValid) {
-                if ($('#child_category_id').val() == 11) {
-                    $("#showingbtn1").css('display', 'none');
-                    $("#showingbtn2").css('display', 'block');
-                    $("#nextprev1").css('display', 'none');
-                    $("#nextprev2").css('display', 'block');
-                } else {
-                    $("#showingbtn1").css('display', 'none');
-                    $("#showingbtn3").css('display', 'block');
-                    $("#nextprev1").css('display', 'none');
-                    $("#nextprev3").css('display', 'block');
+                var data = {
+                    child_category_id: $('#child_category_id').val(),
                 }
+                $.ajax({
+                    url: "/contact/show-second-step",
+                    type: "get",
+                    data: data,
+                    dataType: "json",
+                    success: function(data) {
+                        if ($('#child_category_id').val() == 11) {
+                            $("#showingbtn2").html(data.html)
+                            $("#showingbtn1").css('display', 'none');
+                            $("#showingbtn2").css('display', 'block');
+                            $("#nextprev1").css('display', 'none');
+                            $("#nextprev2").css('display', 'block');
+                            $("#showingbtn3").empty();
+                        } else {
+                            $("#showingbtn3").html(data.html)
+                            $("#showingbtn1").css('display', 'none');
+                            $("#showingbtn3").css('display', 'block');
+                            $("#nextprev1").css('display', 'none');
+                            $("#nextprev3").css('display', 'block');
+                            $("#showingbtn2").empty();
+                        }
+                    }
+                });
             }
         });
         $("#next2").click(function(event) {
+            console.log('click 2')
+            console.log($('#child_category_id').val())
             event.preventDefault();
 
             if ($('#child_category_id').val() == 11) {
-                var formData = $("#property_wanted_form #showingbtn2 input[required]").serializeArray();
+                var formData = $(
+                    "#property_wanted_form #showingbtn2 input[required], #property_wanted_form #showingbtn2 select[required]"
+                ).serializeArray();
             } else {
-                var formData = $("#property_wanted_form #showingbtn3 input[required]").serializeArray();
+                var formData = $(
+                    "#property_wanted_form #showingbtn3 input[required], #property_wanted_form #showingbtn3 select[required]"
+                ).serializeArray();
             }
+
+            console.log(formData)
+
 
             var jsonData = {};
 
@@ -857,25 +628,45 @@
             $.each(formData, function(index, field) {
                 if (!field.value) {
                     isValid = false;
-                    $('#' + field.name.replace(/[\[\]]/g, '\\$&') + '-error').text(
-                        'This field is required.');
-                    $('#' + field.name.replace(/[\[\]]/g, '\\$&') + '-error').show();
+                    $('#' + field.name.replace(/\[\]/g, '') + '-error--property_wanted_create')
+                        .text(
+                            'This field is required.');
+                    $('#' + field.name.replace(/\[\]/g, '') + '-error--property_wanted_create')
+                        .show();
                 } else {
-                    $('#' + field.name.replace(/[\[\]]/g, '\\$&') + '-error').hide();
+                    $('#' + field.name.replace(/\[\]/g, '') + '-error--property_wanted_create')
+                        .hide();
                 }
             });
 
+
+
             if (isValid) {
-                $("#showingbtn2").css('display', 'none');
-                $("#showingbtn3").css('display', 'block');
-                $("#nextprev2").css('display', 'none');
-                $("#nextprev3").css('display', 'block');
+                var data = {
+                    child_category_id: 1111111111111
+                }
+                $.ajax({
+                    url: "/contact/show-second-step",
+                    type: "get",
+                    data: data,
+                    dataType: "json",
+                    success: function(data) {
+                        $("#showingbtn3").html(data.html)
+                        $("#showingbtn2").css('display', 'none');
+                        $("#showingbtn3").css('display', 'block');
+                        $("#nextprev2").css('display', 'none');
+                        $("#nextprev3").css('display', 'block');
+                    }
+                });
             }
         });
         $("#next3").click(function(event) {
+            console.log('click 3')
             event.preventDefault();
 
-            var formData = $("#property_wanted_form #showingbtn3 input[required]").serializeArray();
+            var formData = $(
+                "#property_wanted_form #showingbtn3 input[required], #property_wanted_form #showingbtn3 select[required]"
+            ).serializeArray();
             var jsonData = {};
 
             $.each(formData, function() {
@@ -884,14 +675,30 @@
 
             var isValid = true;
 
+            var fileInputField = $("#property_wanted_form #showingbtn3 input[type='file']");
+            if (!fileInputField[0].value) {
+                isValid = false;
+                $('#' + fileInputField[0].name.replace(/\[\]/g, '') + '-error--property_wanted_create')
+                    .text(
+                        'This field is required.');
+                $('#' + fileInputField[0].name.replace(/\[\]/g, '') + '-error--property_wanted_create')
+                    .show();
+            } else {
+                $('#' + fileInputField[0].name.replace(/\[\]/g, '') + '-error--property_wanted_create')
+                    .hide();
+            }
+
             $.each(formData, function(index, field) {
                 if (!field.value) {
                     isValid = false;
-                    $('#' + field.name.replace(/[\[\]]/g, '\\$&') + '-error').text(
-                        'This field is required.');
-                    $('#' + field.name.replace(/[\[\]]/g, '\\$&') + '-error').show();
+                    $('#' + field.name.replace(/\[\]/g, '') + '-error--property_wanted_create')
+                        .text(
+                            'This field is required.');
+                    $('#' + field.name.replace(/\[\]/g, '') + '-error--property_wanted_create')
+                        .show();
                 } else {
-                    $('#' + field.name.replace(/[\[\]]/g, '\\$&') + '-error').hide();
+                    $('#' + field.name.replace(/\[\]/g, '') + '-error--property_wanted_create')
+                        .hide();
                 }
             });
 
@@ -903,4 +710,61 @@
             }
         });
     })
+</script>
+<script>
+    $(document).ready(function() {
+        $("#property_wanted_form").submit(function(event) {
+            event.preventDefault();
+            var formData = $("#property_wanted_form").serializeArray();
+            var jsonData = {};
+            $.each(formData, function() {
+                jsonData[this.name] = this.value;
+            });
+            
+            var formDataCheck = $(
+                "#property_wanted_form #showingbtn4 input[required], #property_wanted_form #showingbtn4 select[required]"
+            ).serializeArray();
+            console.log(formDataCheck)
+            var jsonDataCheck = {};
+            $.each(formDataCheck, function() {
+                jsonDataCheck[this.name] = this.value;
+            });
+            var isValid = true;
+            $.each(formDataCheck, function(index, field) {
+                if (!field.value) {
+                    isValid = false;
+                    $('#' + field.name.replace(/\[\]/g, '') + '-error--property_wanted_create')
+                        .text(
+                            'This field is required.');
+                    $('#' + field.name.replace(/\[\]/g, '') + '-error--property_wanted_create')
+                        .show();
+                } else {
+                    $('#' + field.name.replace(/\[\]/g, '') + '-error--property_wanted_create')
+                        .hide();
+                }
+            });
+            if (isValid) {
+                $.ajax({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    type: "POST",
+                    url: "/contact/property-wanted-store",
+                    data: JSON.stringify(jsonData),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function(response) {
+                        toastr.options = {
+                            "sound": false,
+                        };
+                        toastr.success(response.msg);
+                        $('#property_wanted_form').find('input, textarea, select').val(
+                            '');
+                        $('.property_wanted_add_modal').modal('hide');
+                        $('#room_to_rent_share_table').DataTable().ajax.reload();
+                    },
+                });
+            }
+        });
+    });
 </script>
