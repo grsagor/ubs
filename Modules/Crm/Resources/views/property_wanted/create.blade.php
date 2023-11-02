@@ -679,7 +679,6 @@
 <script>
     $(document).ready(function() {
         $(document).on('click', '#addProductSubmit-btn', function() {
-            console.log('clicked')
             var form = document.getElementById("showingbtn4");
             var inputs = form.querySelectorAll("[required]");
 
@@ -698,19 +697,19 @@
                 var formData = $("#property_wanted_forms").serializeArray();
                 var jsonData = {};
                 $.each(formData, function() {
-                    var fieldName = this.name.replace("[]", ""); // Remove the square brackets
+                    var fieldName = this.name;
                     var fieldValue = this.value;
 
-                    if (jsonData[fieldName] !== undefined) {
-                        if (!Array.isArray(jsonData[fieldName])) {
-                            jsonData[fieldName] = [jsonData[fieldName]];
+                    if (fieldName.endsWith("[]")) {
+                        fieldName = fieldName.slice(0, -2);
+                        if (!jsonData[fieldName]) {
+                            jsonData[fieldName] = [];
                         }
                         jsonData[fieldName].push(fieldValue);
                     } else {
                         jsonData[fieldName] = fieldValue;
                     }
                 });
-                console.log(formData)
                 $.ajax({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

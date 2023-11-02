@@ -148,6 +148,10 @@ class PropertyWantedCustomerController extends Controller
         try {
             $occupant_details = [];
 
+            if (!is_array($request->occupant_name)) {
+                $request->occupant_name = json_decode($request->occupant_name);
+            }
+
                 $count = count($request->occupant_name);
                 for ($i = 0; $i < $count; $i++) {
                     $occupant_details[] = [
