@@ -39,10 +39,11 @@
         </div>
 
         <div class="modal-body">
-            <form id="property_wanted_forms">
+            <form id="property_wanted_form" method="POST"
+                enctype="multipart/form-data">
                 @csrf
                 <div id="showingbtn1" class="row">
-<fieldset>
+
                     <input type="hidden" value="{{ $category->id }}" name="category_id">
                     <input type="hidden" value="{{ $sub_category->id }}" name="sub_category_id">
 
@@ -230,7 +231,10 @@
                             </div>
                         </div>
                     </div>
-</fieldset>
+
+
+
+
                 </div>
 
                 <div id="showingbtn2" class="d-none row" style="display:none;">
@@ -243,11 +247,9 @@
                 </div>
 
                 <div id="showingbtn4" class="row" style="display:none;">
-                    <fieldset>
                     <div id="occupants_inputs_container">
 
                     </div>
-                    </fieldset>
                 </div>
 
 
@@ -328,7 +330,7 @@
         margin-bottom: 0px;
     }
 
-    #property_wanted_forms select {
+    #property_wanted_form select {
         width: 100%;
         padding: 0 20px 0px;
         border-radius: 0px;
@@ -538,26 +540,37 @@
     });
 </script>
 <script>
-    var ajaxSecondStep = true;
-    var ajaxThirdStep = true;
     $(document).ready(function() {
         $("#next1").click(function(event) {
-            var form = document.getElementById("showingbtn1");
-            var inputs = form.querySelectorAll("[required]");
+            console.log($('#child_category_id').val())
+            event.preventDefault();
+
+            var formData = $(
+                "#property_wanted_form #showingbtn1 input[required], #property_wanted_form #showingbtn1 select[required]"
+            ).serializeArray();
+            var jsonData = {};
+
+            $.each(formData, function() {
+                jsonData[this.name] = this.value;
+            });
 
             var isValid = true;
 
-            for (var i = 0; i < inputs.length; i++) {
-                if (inputs[i].value.trim() === "") {
+            $.each(formData, function(index, field) {
+                if (!field.value) {
                     isValid = false;
-                    inputs[i].setCustomValidity('');
-                    inputs[i].reportValidity();
-                    return;
+                    $('#' + field.name.replace(/\[\]/g, '') + '-error--property_wanted_create')
+                        .text(
+                            'This field is required.');
+                    $('#' + field.name.replace(/\[\]/g, '') + '-error--property_wanted_create')
+                        .show();
+                } else {
+                    $('#' + field.name.replace(/\[\]/g, '') + '-error--property_wanted_create')
+                        .hide();
                 }
-            }
+            });
 
-            var childCategory = $('#child_category_id').val();
-            if (isValid && (childCategory == 11 && (ajaxSecondStep) || (childCategory != 11 && ajaxThirdStep))) {
+            if (isValid) {
                 var data = {
                     child_category_id: $('#child_category_id').val(),
                 }
@@ -568,7 +581,6 @@
                     dataType: "json",
                     success: function(data) {
                         if ($('#child_category_id').val() == 11) {
-                            ajaxSecondStep = false;
                             $("#showingbtn2").html(data.html)
                             $("#showingbtn1").css('display', 'none');
                             $("#showingbtn2").css('display', 'block');
@@ -576,7 +588,6 @@
                             $("#nextprev2").css('display', 'block');
                             $("#showingbtn3").empty();
                         } else {
-                            ajaxThirdStep = false;
                             $("#showingbtn3").html(data.html)
                             $("#showingbtn1").css('display', 'none');
                             $("#showingbtn3").css('display', 'block');
@@ -586,41 +597,51 @@
                         }
                     }
                 });
-            } else {
-                if ($('#child_category_id').val() == 11) {
-                    $("#showingbtn1").css('display', 'none');
-                    $("#showingbtn2").css('display', 'block');
-                    $("#nextprev1").css('display', 'none');
-                    $("#nextprev2").css('display', 'block');
-                } else {
-                    $("#showingbtn1").css('display', 'none');
-                    $("#showingbtn3").css('display', 'block');
-                    $("#nextprev1").css('display', 'none');
-                    $("#nextprev3").css('display', 'block');
-                }
             }
         });
         $("#next2").click(function(event) {
+            console.log('click 2')
+            console.log($('#child_category_id').val())
+            event.preventDefault();
+
             if ($('#child_category_id').val() == 11) {
-                var form = document.getElementById("showingbtn2");
+                var formData = $(
+                    "#property_wanted_form #showingbtn2 input[required], #property_wanted_form #showingbtn2 select[required]"
+                ).serializeArray();
             } else {
-                var form = document.getElementById("showingbtn3");
+                var formData = $(
+                    "#property_wanted_form #showingbtn3 input[required], #property_wanted_form #showingbtn3 select[required]"
+                ).serializeArray();
             }
-            
-            var inputs = form.querySelectorAll("[required]");
+
+            console.log(formData)
+
+
+            var jsonData = {};
+
+            $.each(formData, function() {
+                jsonData[this.name] = this.value;
+            });
 
             var isValid = true;
 
-            for (var i = 0; i < inputs.length; i++) {
-                if (inputs[i].value.trim() === "") {
+            $.each(formData, function(index, field) {
+                if (!field.value) {
                     isValid = false;
-                    inputs[i].setCustomValidity('');
-                    inputs[i].reportValidity();
-                    return;
+                    $('#' + field.name.replace(/\[\]/g, '') + '-error--property_wanted_create')
+                        .text(
+                            'This field is required.');
+                    $('#' + field.name.replace(/\[\]/g, '') + '-error--property_wanted_create')
+                        .show();
+                } else {
+                    $('#' + field.name.replace(/\[\]/g, '') + '-error--property_wanted_create')
+                        .hide();
                 }
-            }
+            });
 
-            if (isValid && ajaxThirdStep) {
+
+
+            if (isValid) {
                 var data = {
                     child_category_id: 1111111111111
                 }
@@ -630,7 +651,6 @@
                     data: data,
                     dataType: "json",
                     success: function(data) {
-                        ajaxThirdStep = false;
                         $("#showingbtn3").html(data.html)
                         $("#showingbtn2").css('display', 'none');
                         $("#showingbtn3").css('display', 'block');
@@ -638,27 +658,49 @@
                         $("#nextprev3").css('display', 'block');
                     }
                 });
-            } else {
-                $("#showingbtn2").css('display', 'none');
-                $("#showingbtn3").css('display', 'block');
-                $("#nextprev2").css('display', 'none');
-                $("#nextprev3").css('display', 'block');
             }
         });
         $("#next3").click(function(event) {
-            var form = document.getElementById("showingbtn3");
-            var inputs = form.querySelectorAll("[required]");
+            console.log('click 3')
+            event.preventDefault();
+
+            var formData = $(
+                "#property_wanted_form #showingbtn3 input[required], #property_wanted_form #showingbtn3 select[required]"
+            ).serializeArray();
+            var jsonData = {};
+
+            $.each(formData, function() {
+                jsonData[this.name] = this.value;
+            });
 
             var isValid = true;
 
-            for (var i = 0; i < inputs.length; i++) {
-                if (inputs[i].value.trim() === "") {
-                    isValid = false;
-                    inputs[i].setCustomValidity('');
-                    inputs[i].reportValidity();
-                    return;
-                }
+            var fileInputField = $("#property_wanted_form #showingbtn3 input[type='file']");
+            if (!fileInputField[0].value) {
+                isValid = false;
+                $('#' + fileInputField[0].name.replace(/\[\]/g, '') + '-error--property_wanted_create')
+                    .text(
+                        'This field is required.');
+                $('#' + fileInputField[0].name.replace(/\[\]/g, '') + '-error--property_wanted_create')
+                    .show();
+            } else {
+                $('#' + fileInputField[0].name.replace(/\[\]/g, '') + '-error--property_wanted_create')
+                    .hide();
             }
+
+            $.each(formData, function(index, field) {
+                if (!field.value) {
+                    isValid = false;
+                    $('#' + field.name.replace(/\[\]/g, '') + '-error--property_wanted_create')
+                        .text(
+                            'This field is required.');
+                    $('#' + field.name.replace(/\[\]/g, '') + '-error--property_wanted_create')
+                        .show();
+                } else {
+                    $('#' + field.name.replace(/\[\]/g, '') + '-error--property_wanted_create')
+                        .hide();
+                }
+            });
 
             if (isValid) {
                 $("#showingbtn3").css('display', 'none');
@@ -671,20 +713,36 @@
 </script>
 <script>
     $(document).ready(function() {
-        $("#addProductSubmit-btn").click(function(event) {
-            var form = document.getElementById("showingbtn4");
-            var inputs = form.querySelectorAll("[required]");
-
+        $("#property_wanted_form").submit(function(event) {
+            event.preventDefault();
+            var formData = $("#property_wanted_form").serializeArray();
+            var jsonData = {};
+            $.each(formData, function() {
+                jsonData[this.name] = this.value;
+            });
+            
+            var formDataCheck = $(
+                "#property_wanted_form #showingbtn4 input[required], #property_wanted_form #showingbtn4 select[required]"
+            ).serializeArray();
+            console.log(formDataCheck)
+            var jsonDataCheck = {};
+            $.each(formDataCheck, function() {
+                jsonDataCheck[this.name] = this.value;
+            });
             var isValid = true;
-
-            for (var i = 0; i < inputs.length; i++) {
-                if (inputs[i].value.trim() === "") {
+            $.each(formDataCheck, function(index, field) {
+                if (!field.value) {
                     isValid = false;
-                    inputs[i].setCustomValidity('');
-                    inputs[i].reportValidity();
-                    return;
+                    $('#' + field.name.replace(/\[\]/g, '') + '-error--property_wanted_create')
+                        .text(
+                            'This field is required.');
+                    $('#' + field.name.replace(/\[\]/g, '') + '-error--property_wanted_create')
+                        .show();
+                } else {
+                    $('#' + field.name.replace(/\[\]/g, '') + '-error--property_wanted_create')
+                        .hide();
                 }
-            }
+            });
             if (isValid) {
                 $.ajax({
                     headers: {
@@ -700,7 +758,7 @@
                             "sound": false,
                         };
                         toastr.success(response.msg);
-                        $('#property_wanted_forms').find('input, textarea, select').val(
+                        $('#property_wanted_form').find('input, textarea, select').val(
                             '');
                         $('.property_wanted_add_modal').modal('hide');
                         $('#room_to_rent_share_table').DataTable().ajax.reload();

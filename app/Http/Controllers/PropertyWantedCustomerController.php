@@ -139,12 +139,9 @@ class PropertyWantedCustomerController extends Controller
         return $response;
     }
 
-    public function store(Request $request)
+    public function storeProperty(Request $request)
     {
         try {
-            // $request->validate([
-            //     'why_is_searching'      => 'required|max:100',
-            // ]);
             $occupant_details = [];
 
             if (is_array($request->occupant_name) && !is_null($request->occupant_name)) {

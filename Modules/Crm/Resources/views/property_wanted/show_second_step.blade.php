@@ -1,3 +1,4 @@
+<fieldset>
 @if ($child_category == 11)
     <h4 class="modal-title" style="padding: 12px;">Your Household preferences</h4>
 
@@ -170,7 +171,7 @@
     </div>
 
 @endif
-
+</fieldset>
 
 <script>
         $(document).ready(function() 
