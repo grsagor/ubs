@@ -26,6 +26,9 @@ class PropertyWantedCustomerController extends Controller
         }
 
         $user = Auth::user();
+        // $services = ServicePropertyWanted::where('user_id', $user->id)->with('category')->with('sub_category')->with('child_category')->get();
+
+        // return $services;
 
         if (request()->ajax()) {
             $services = ServicePropertyWanted::where('user_id', $user->id)->with('category')->with('sub_category')->with('child_category')->get();
@@ -141,10 +144,10 @@ class PropertyWantedCustomerController extends Controller
 
     public function storeProperty(Request $request)
     {
+        // return response()->json($request);
         try {
             $occupant_details = [];
 
-            if (is_array($request->occupant_name) && !is_null($request->occupant_name)) {
                 $count = count($request->occupant_name);
                 for ($i = 0; $i < $count; $i++) {
                     $occupant_details[] = [
@@ -164,7 +167,6 @@ class PropertyWantedCustomerController extends Controller
                         "occupant_visa_status" => $request->occupant_visa_status[$i],
                     ];
                 }
-            }
 
             $property = new ServicePropertyWanted();
 
