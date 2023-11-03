@@ -147,7 +147,7 @@
         <div class="form-group">
             <label for="custom_field1">Description</label>
             <p class="sub-heading">(No contact details permitted within description)</p>
-            <textarea rows="30" type="text" class="form-control" name="ad_text" class="input-field"
+            <textarea rows="5" type="text" class="form-control" name="ad_text" class="input-field"
                 placeholder="Description" required></textarea>
             <span class="error text-danger" id="ad_text-error--property_wanted_create"></span>
         </div>

@@ -425,19 +425,24 @@
 
                             <h5>Preferred Amenities</h5>
 
-                            @if ($info->roomfurnishings != null)
+                            @if ($info->roomfurnishings)
                                 @php
                                     $amenities = json_decode($info->roomfurnishings, true);
-
-                                    array_walk($amenities, function (&$amenity) {
-                                        $amenity = ucfirst($amenity);
-                                    });
+                            
+                                    if (is_array($amenities)) {
+                                        array_walk($amenities, function (&$amenity) {
+                                            $amenity = ucfirst($amenity);
+                                        });
+                                    }
                                 @endphp
+                            
                                 <p>
                                     <strong>Amenities: </strong>
-                                    @foreach ($amenities as $item)
-                                        <span>{{ $item }}, </span>
-                                    @endforeach
+                                    @if (is_array($amenities))
+                                        @foreach ($amenities as $item)
+                                            <span>{{ $item }}, </span>
+                                        @endforeach
+                                    @endif
                                 </p>
                             @endif
 

@@ -81,7 +81,7 @@
                                     property?</label>
                                 <select class="form-control" id="number_of_shared_people" name="number_of_shared_people"
                                     required>
-                                    <option selected value=0>Select....</option>
+                                    <option selected value="">Select....</option>
                                     <option value=1>1</option>
                                     <option value=2>2</option>
                                     <option value=3>3</option>
@@ -100,9 +100,9 @@
 
                         <div class="col-sm-12">
                             <div class="form-group">
-                                <label>Why is searching?</label>
+                                <label>Why are you searching new property?</label>
                                 <textarea name="why_is_searching" class="form-control" type="text" rows="6"
-                                    placeholder="Maximum 100 characters"></textarea>
+                                    placeholder="Maximum 100 characters" required></textarea>
                             </div>
                         </div>
 
