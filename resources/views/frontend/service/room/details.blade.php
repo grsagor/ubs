@@ -203,43 +203,7 @@
                                                     {{ $info->advert_telephone }}</p>
 
 
-                                                <div class="my-2 social-linkss social-sharing a2a_kit a2a_kit_size_32"
-                                                    style="line-height: 32px;">
-                                                    <h5 class="mb-2">Share Now</h5>
-                                                    <ul class="social-icons py-1 share-product social-linkss py-md-0">
-                                                        <li>
-                                                            <a class="facebook a2a_button_facebook" href="/#facebook"
-                                                                target="_blank" rel="nofollow noopener">
-                                                                <i class="fab fa-facebook-f"></i>
-                                                            </a>
-                                                        </li>
-                                                        <li>
-                                                            <a class="twitter a2a_button_twitter" href="/#twitter"
-                                                                target="_blank" rel="nofollow noopener">
-                                                                <i class="fab fa-twitter"></i>
-                                                            </a>
-                                                        </li>
-                                                        <li>
-                                                            <a class="linkedin a2a_button_linkedin" href="/#linkedin"
-                                                                target="_blank" rel="nofollow noopener">
-                                                                <i class="fab fa-linkedin-in"></i>
-                                                            </a>
-                                                        </li>
-                                                        <li>
-                                                            <a class="pinterest a2a_button_pinterest" href="/#pinterest"
-                                                                target="_blank" rel="nofollow noopener">
-                                                                <i class="fab fa-pinterest-p"></i>
-                                                            </a>
-                                                        </li>
-                                                        <li>
-                                                            <a class="instagram a2a_button_whatsapp" href="/#whatsapp"
-                                                                target="_blank" rel="nofollow noopener">
-                                                                <i class="fab fa-whatsapp"></i>
-                                                            </a>
-                                                        </li>
-                                                    </ul>
-
-                                                </div>
+                                                @include('frontend.social_media_share.social_media')
 
                                                 <div class="yith-wcwl-add-to-wishlist wishlist-fragment mt-3">
                                                     <div class="wishlist-button">
@@ -558,14 +522,14 @@
                                 @if ($info->property_amenities)
                                     @php
                                         $amenities = json_decode($info->property_amenities, true);
-                                
+
                                         if (is_array($amenities)) {
                                             array_walk($amenities, function (&$amenity) {
                                                 $amenity = ucfirst($amenity);
                                             });
                                         }
                                     @endphp
-                                
+
                                     <p>
                                         <strong>Amenities: </strong>
                                         @if (is_array($amenities))
