@@ -366,6 +366,18 @@ class PropertyWantedCustomerController extends Controller
 
         return response()->json($response);
     }
+    public function showEditSecondStep(Request $request) {
+        $child_category = $request->child_category_id;
+        $property = ServicePropertyWanted::find($request->id);
+        $html = view('crm::property_wanted.show_edit_second_step', compact('child_category', 'property'))->render();
+
+        $response = [
+            'html' => $html,
+            'child' => $child_category
+        ];
+
+        return response()->json($response);
+    }
 
     private function languages() {
         $languages = [

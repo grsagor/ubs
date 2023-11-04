@@ -128,7 +128,7 @@
                                             id="combined_budget-error--property_wanted_create"></span>
                                     </div>
                                     <div class="col-sm-4">
-                                        <select class="form-control" id="per" name="per">
+                                        <select class="form-control" id="per" name="per" required>
                                             <option value="">Per week or month</option>
                                             <option value="per week">per week</option>
                                             <option value="per month">per month</option>

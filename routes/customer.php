@@ -27,6 +27,7 @@ Route::group(['middleware' => ['checkCustomer'], 'prefix' => 'contact',], functi
     Route::get('/show-student-info-container-edit', [PropertyWantedCustomerController::class, 'showStudentInfoContainerEdit']);
     Route::get('/show-student-info-container-create', [PropertyWantedCustomerController::class, 'showStudentInfoContainerCreate']);
     Route::get('/show-second-step', [PropertyWantedCustomerController::class, 'showSecondStep']);
+    Route::get('/show-edit-second-step', [PropertyWantedCustomerController::class, 'showEditSecondStep']);
 
     Route::get('/rough-test', function () {
         return view('rough.rough');

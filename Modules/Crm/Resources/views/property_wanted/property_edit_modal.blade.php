@@ -1,489 +1,269 @@
+<script>
+    // Get the input element by its ID
+    var roomAvailableFromInput = document.getElementById('room_available_from');
+
+    // Get the current date in the format YYYY-MM-DD
+    var currentDate = new Date().toISOString().split('T')[0];
+
+    // Set the min attribute of the input to the current date
+    roomAvailableFromInput.min = currentDate;
+
+    $(document).ready(function() {
+        // Show "Room 1" by default
+        $("#room1").show();
+
+        // Hide additional rooms initially
+        $(".form_room_fieldset:not(#room1)").hide();
+
+        // Show the selected number of additional rooms
+        $("#roomQuantitySelect").change(function() {
+            var selectedQuantity = parseInt($(this).val());
+
+            // Hide all additional rooms
+            $(".form_room_fieldset:not(#room1)").hide();
+
+            // Show only the selected number of additional rooms
+            for (var i = 2; i <= selectedQuantity; i++) {
+                $("#room" + i).show();
+            }
+        });
+    });
+</script>
 <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
 
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                     aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title">Edit property wanted</h4>
+            <h4 class="modal-title">Property wanted form</h4>
         </div>
 
         <div class="modal-body">
-            <form id="property_wanted_edit_form" method="POST" enctype="multipart/form-data">
+            <form id="property_wanted_forms">
                 @csrf
-                <input type="hidden" name="id" value="{{ $property->id }}">
                 <div id="showingbtn1" class="row">
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label for="selling_price_group_id">Property Type</label>
-                            <select class="form-control" id="child_category_id" name="child_category_id" required>
-                                <option selected="" value="">Select....</option>
-                                @foreach ($child_categories as $item)
-                                    <option {{ $property->child_category_id == $item->id ? 'selected' : '' }}
-                                        value="{{ $item->id }}">{{ $item->name }}</option>
-                                @endforeach
-                            </select>
-                            <span class="error text-danger" id="child_category_id-error"></span>
-                        </div>
-                    </div>
-                    <div class="col-sm-12" id="number_of_bed_rooms_id">
-                        <label for="selling_price_group_id">Number of bed rooms</label>
-                        <select class="form-control" id="property_size" name="property_size" required>
-                            <option>Select....</option>
-                            @foreach (['1 Bed Room', '2 Bed Rooms', '3 Bed Rooms', '4 Bed Rooms', '5+ Bed Rooms'] as $key => $item)
-                                <option {{ $property->property_size == $key + 1 ? 'selected' : '' }}
-                                    value="{{ $key + 1 }}">{{ $item }}
-                                </option>
-                            @endforeach
-                        </select>
-                        <span class="error text-danger" id="property_size-error"></span>
-                    </div>
+                    <fieldset>
+                        <input type="hidden" value="{{ $property->id }}" name="property_id" id="property_id">
+                        <input type="hidden" value="{{ $category->id }}" name="category_id">
+                        <input type="hidden" value="{{ $sub_category->id }}" name="sub_category_id">
 
-                    <div id="rooms_inputs_container">
-                        @if ($property && $property->room_details)
-                            @foreach ($property->room_details as $index => $item)
-                                <div class="col-sm-12" style="margin-bottom: 15px;">
-                                    <label>Size of room-{{ $index + 1 }}</label>
-                                    <div class="form_inputs">
-                                        <label class="form_input form_radio"><input type="radio"
-                                                name="room_details[{{ $index }}]"
-                                                {{ $item == 1 ? 'checked' : '' }} value=1>Single</label>
-                                        <label class="form_input form_radio"><input type="radio"
-                                                name="room_details[{{ $index }}]"
-                                                {{ $item == 2 ? 'checked' : '' }} value=2>Double</label>
-                                        <label class="form_input form_radio"><input type="radio"
-                                                name="room_details[{{ $index }}]"
-                                                {{ $item == 6 ? 'checked' : '' }} value=6>Semi-double </label>
-                                        <label class="form_input form_radio"><input type="radio"
-                                                name="room_details[{{ $index }}]"
-                                                {{ $item == 7 ? 'checked' : '' }} value=7>En-suit</label>
-                                    </div>
-                                </div>
-                            @endforeach
-                        @endif
-                    </div>
-
-                    <div class="col-sm-12" id="number_of_shared_people_container">
-                        <div class="form-group">
-                            <label for="invoice_scheme_id">How many people, including yourself, will share the
-                                property?</label>
-                            <select class="form-control" id="number_of_shared_people" name="number_of_shared_people"
-                                required>
-                                <option selected value=0>Select....</option>
-                                <option {{ $property->number_of_shared_people == 1 ? 'selected' : '' }} value=1>1
-                                </option>
-                                <option {{ $property->number_of_shared_people == 2 ? 'selected' : '' }} value=2>2
-                                </option>
-                                <option {{ $property->number_of_shared_people == 3 ? 'selected' : '' }} value=3>3
-                                </option>
-                                <option {{ $property->number_of_shared_people == 4 ? 'selected' : '' }} value=4>4
-                                </option>
-                                <option {{ $property->number_of_shared_people == 5 ? 'selected' : '' }} value=5>5
-                                </option>
-                                <option {{ $property->number_of_shared_people == 6 ? 'selected' : '' }} value=6>6
-                                </option>
-                                <option {{ $property->number_of_shared_people == 7 ? 'selected' : '' }} value=7>7
-                                </option>
-                                <option {{ $property->number_of_shared_people == 8 ? 'selected' : '' }} value=8>8
-                                </option>
-                                <option {{ $property->number_of_shared_people == 9 ? 'selected' : '' }} value=9>9
-                                </option>
-                                <option {{ $property->number_of_shared_people == 10 ? 'selected' : '' }} value=10>10
-                                </option>
-                            </select>
-                            <span class="error text-danger" id="number_of_shared_people-error"></span>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label>Why is searching?</label>
-                            <textarea name="why_is_searching" class="form-control" type="text" rows="6"
-                                placeholder="Maximum 100 characters">{{ $property->why_is_searching }}</textarea>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label for="invoice_scheme_id">Where do you want to live?</label>
-                            <input class="form-control" placeholder="Area name" name="wanted_living_area" type="text"
-                                value="{{ $property->wanted_living_area }}" required>
-                            <span class="error text-danger" id="wanted_living_area-error"></span>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label for="invoice_scheme_id">Your budget</label>
-                            <p class="">(total rental amount you can afford)</p>
-                            <div class="row">
-                                <div class="col-sm-7">
-                                    <input class="form-control" placeholder="4" name="combined_budget" type="number"
-                                        id="custom_field1" required>
-                                    <span class="error text-danger" id="combined_budget-error"></span>
-                                </div>
-                                <div class="col-sm-4">
-                                    <select class="form-control" id="per" name="per">
-                                        <option value="" selected="">Per week or month</option>
-                                        <option {{ $property->per == 'per week' ? 'selected' : '' }} value="per week">
-                                            per week</option>
-                                        <option {{ $property->per == 'per month' ? 'selected' : '' }}
-                                            value="per month">per month</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label for="custom_field1">I am available to move in from</label>
-                            <input class="form-control" name="available_form" type="date" id="date"
-                                value="{{ $property->available_form }}" required>
-                            <span class="error text-danger" id="available_form-error"></span>
-                        </div>
-                    </div>
-
-                    @php
-                        $months = [
-                            '1 month' => '1 month',
-                            '2 months' => '2 months',
-                            '3 months' => '3 months',
-                            '4 months' => '4 months',
-                            '5 months' => '5 months',
-                            '6 months' => '6 months',
-                            '7 months' => '7 months',
-                            '8 months' => '8 months',
-                            '9 months' => '9 months',
-                            '10 months' => '10 months',
-                            '11 months' => '11 months',
-                            '1 year' => '1 year',
-                            '1 year 3 months' => '1 year 3 months',
-                            '1 year 6 months' => '1 year 6 months',
-                            '1 year 9 months' => '1 year 9 months',
-                            '2 years' => '2 years',
-                            '3 years' => '3 years',
-                        ];
-                    @endphp
-
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label for="invoice_scheme_id">Period accommodation needed for</label>
-                            <select class="form-control" id="min_term" name="min_term" required>
-                                <option value="0" selected>No maximum
-                                </option>
-                                @foreach ($months as $value => $label)
-                                    <option {{ $property->min_term == $value ? 'selected' : '' }}
-                                        value="{{ $value }}">
-                                        {{ $label }}</option>
-                                @endforeach
-                            </select>
-                            <span class="error text-danger" id="min_term-error"></span>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label for="invoice_scheme_id">I want to stay in the accommodation</label>
-                            <select class="form-control" id="days_of_wk_available" name="days_of_wk_available">
-                                <option {{ $property->days_of_wk_available == '7 days a week' ? 'selected' : '' }}
-                                    value="7 days a week">7 days a week
-                                </option>
-                                <option {{ $property->days_of_wk_available == 'Mon to Fri only' ? 'selected' : '' }}
-                                    value="Mon to Fri only">Mon to Fri only
-                                </option>
-                                <option {{ $property->days_of_wk_available == 'Weekends only' ? 'selected' : '' }}
-                                    value="Weekends only">Weekends only
-                                </option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label>I would prefer these amenities</label>
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    @foreach (['furnished', 'living_room', 'washing_machine', 'garden', 'balcony'] as $option)
-                                        <div>
-                                            <label for="{{ $option }}">
-                                                <input type="checkbox" name="roomfurnishings[]"
-                                                    value="{{ $option }}" id="{{ $option }}"
-                                                    @if (in_array($option, $property->roomfurnishings)) checked @endif>
-                                                {{ ucfirst(str_replace('_', ' ', $option)) }}
-                                            </label>
-                                        </div>
-                                    @endforeach
-                                </div>
-                                <div class="col-sm-6">
-                                    @foreach (['off_street_parking', 'garage', 'disabled_access', 'broadband', 'ensuite'] as $option)
-                                        <div>
-                                            <label for="{{ $option }}">
-                                                <input type="checkbox" name="roomfurnishings[]"
-                                                    value="{{ $option }}" id="{{ $option }}"
-                                                    @if (in_array($option, $property->roomfurnishings)) checked @endif>
-                                                {{ ucfirst(str_replace('_', ' ', $option)) }}
-                                            </label>
-                                        </div>
-                                    @endforeach
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-
-
-
-                </div>
-
-                <div id="showingbtn2" class="d-none row" style="display:none;">
-                    <h4 class="modal-title" style="padding: 12px;">Your Household preferences</h4>
-
-                    @if ($property->age)
                         <div class="col-sm-12">
                             <div class="form-group">
-                                <label for="invoice_scheme_id">Age range</label>
-                                <div class="row">
-                                    <div class="col-sm-4">
-                                        <select class="form-control" id="age" name="age[]">
-                                            <option value="">Select...</option>
-                                            @foreach (range(18, 99) as $age)
-                                                <option {{ $property->age[0] == $age ? 'selected' : '' }}
-                                                    value="{{ $age }}">
-                                                    {{ $age }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-
-                                    <div class="col-sm-1" style="width: 5%">
-                                        <p class="text-center" style="font-size: 15px; margin-top: 5px;">To</p>
-                                    </div>
-                                    <div class="col-sm-4">
-                                        <select class="form-control" id="age" name="age[]">
-                                            <option value="">Select...</option>
-                                            @foreach (range(18, 99) as $age)
-                                                <option {{ $property->age[1] == $age ? 'selected' : '' }}
-                                                    value="{{ $age }}">
-                                                    {{ $age }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
+                                <label for="selling_price_group_id">Property Type</label>
+                                <select class="form-control" id="child_category_id" name="child_category_id" required>
+                                    <option value="">Select....</option>
+                                    @foreach ($child_categories as $item)
+                                        <option {{ $property->child_category_id == $item->id ? 'selected' : '' }}
+                                            value="{{ $item->id }}">{{ $item->name }}</option>
+                                    @endforeach
+                                </select>
+                                <span class="error text-danger"
+                                    id="child_category_id-error--property_wanted_create"></span>
                             </div>
                         </div>
-                    @endif
-
-
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label for="selling_price_group_id">Occupation</label>
-                            <select class="form-control" id="occupation" name="occupation" required>
-                                <option {{ $property->occupation == 'Not disclosed' ? 'selected' : '' }}
-                                    value="Not disclosed" selected="">Not disclosed</option>
-                                <option {{ $property->occupation == 'Student' ? 'selected' : '' }} value="Student">
-                                    Student</option>
-                                <option {{ $property->occupation == 'Employee' ? 'selected' : '' }} value="Employee">
-                                    Employee</option>
-                                <option {{ $property->occupation == 'Others' ? 'selected' : '' }} value="Others">
-                                    Others</option>
-                                <option {{ $property->occupation == "I don't mind" ? 'selected' : '' }}
-                                    value="I don't mind">I don't mind</option>
-                            </select>
-                            <span class="error text-danger" id="occupation-error"></span>
-                        </div>
-                    </div>
-
-                    <div id="student_info_container">
-
-                    </div>
-
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label for="selling_price_group_id">Smoking?</label>
-                            <select class="form-control" id="smoking_current" name="smoking_current">
-                                <option {{ $property->smoking_current == '2' ? 'selected' : '' }} value="2">no
-                                </option>
-                                <option {{ $property->smoking_current == '1' ? 'selected' : '' }} value="1">yes
-                                </option>
-                                <option {{ $property->smoking_current == "I don't mind" ? 'selected' : '' }}
-                                    value="I don't mind">I don't mind</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label for="selling_price_group_id">Pets?</label>
-                            <select class="form-control" id="pets" name="pets">
-                                <option {{ $property->smoking_current == '2' ? 'selected' : '' }} value="2"
-                                    selected="">no</option>
-                                <option {{ $property->smoking_current == '1' ? 'selected' : '' }} value="1">yes
-                                </option>
-                                <option {{ $property->smoking_current == "I don't mind" ? 'selected' : '' }}
-                                    value="I don't mind">I don't mind</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label for="selling_price_group_id">Preferred sex</label>
-                            <select class="form-control" id="gay_lesbian" name="gay_lesbian">
-                                <option {{ $property->gay_lesbian == 'Undisclosed' ? 'selected' : '' }}
-                                    value="Undisclosed" selected="">Undisclosed</option>
-                                <option {{ $property->gay_lesbian == 'Straight' ? 'selected' : '' }} value="Straight">
-                                    Straight</option>
-                                <option {{ $property->gay_lesbian == 'Gay/Lesbian' ? 'selected' : '' }}
-                                    value="Gay/Lesbian">Gay/Lesbian</option>
-                                <option {{ $property->gay_lesbian == 'Bisexual' ? 'selected' : '' }} value="Bisexual">
-                                    Bisexual</option>
-                                <option {{ $property->gay_lesbian == "I don't mind" ? 'selected' : '' }}
-                                    value="I don't mind">I don't mind</option>
-                            </select>
-                            <label class="form_input form_checkbox">
-                                <input {{ $property->gay_consent ? '1' == 'checked' : '' }} type="checkbox"
-                                    name="gay_consent" value="1">
-                                Yes, Check this strictly
-                            </label>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label for="selling_price_group_id">Preferred language</label>
-                            <select class="form-control" id="lang_id" name="lang_id">
-                                @foreach ($languages as $item)
-                                    <option {{ $property->lang_id == $item ? 'selected' : '' }}
-                                        value="{{ $item }}">{{ $item }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label for="selling_price_group_id">Preferred nationality</label> <i
-                                class="fa fa-info-circle text-info hover-q no-print " aria-hidden="true"
-                                data-container="body" data-toggle="popover" data-placement="auto bottom"
-                                data-content="This price group will be used as the default price group in this location."
-                                data-html="true" data-trigger="hover"></i>
-                            <select class="form-control" id="nationality" name="nationality">
-
-                                <option value="---">Select country</option>
-                                @foreach ($countries as $item)
-                                    <option {{ $property->nationality == $item ? 'selected' : '' }}
-                                        value="{{ $item }}">{{ $item }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-
-                </div>
-
-                {{-- <div id="showingbtn2" class="row" style="display:none;">
-                    <div class="col-sm-12 input_group_title_container">
-                        <h6>Your flatmate preference</h6>
-                    </div>
-
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label for="selling_price_group_id">Gender</label>
-                            <select class="form-control" id="gender_req" name="gender_req">
-                                <option selected="" value="">Select....</option>
-                                @foreach (getSex() as $item)
-                                    <option value="{{ $item['value'] }}"
-                                        {{ $property->gender_req == $item['value'] ? 'selected' : '' }}>
-                                        {{ $item['label'] }}
+                        <div class="col-sm-12" id="number_of_bed_rooms_id">
+                            <label for="selling_price_group_id">Number of bed rooms</label>
+                            <select class="form-control" id="property_size" name="property_size" required>
+                                <option value="">Select....</option>
+                                @foreach (['1 Bed Room', '2 Bed Rooms', '3 Bed Rooms', '4 Bed Rooms', '5+ Bed Rooms'] as $key => $item)
+                                    <option {{ $property->property_size == $key + 1 ? 'selected' : '' }}
+                                        value="{{ $key + 1 }}">{{ $item }}
                                     </option>
                                 @endforeach
                             </select>
+                            <span class="error text-danger" id="property_size-error--property_wanted_create"></span>
                         </div>
-                    </div>
+
+                        <div id="rooms_inputs_container">
+                            @if ($property && $property->room_details)
+                                @foreach ($property->room_details as $index => $item)
+                                    <div class="col-sm-12" style="margin-bottom: 15px;">
+                                        <label>Size of room-{{ $index + 1 }}</label>
+                                        <div class="form_inputs">
+                                            <label class="form_input form_radio"><input type="radio"
+                                                    name="room_details[{{ $index }}]"
+                                                    {{ $item == 1 ? 'checked' : '' }} value=1 required>Single</label>
+                                            <label class="form_input form_radio"><input type="radio"
+                                                    name="room_details[{{ $index }}]"
+                                                    {{ $item == 2 ? 'checked' : '' }} value=2 required>Double</label>
+                                            <label class="form_input form_radio"><input type="radio"
+                                                    name="room_details[{{ $index }}]"
+                                                    {{ $item == 6 ? 'checked' : '' }} value=6 required>Semi-double </label>
+                                            <label class="form_input form_radio"><input type="radio"
+                                                    name="room_details[{{ $index }}]"
+                                                    {{ $item == 7 ? 'checked' : '' }} value=7 required>En-suit</label>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            @endif
+                        </div>
+
+                        <div class="col-sm-12" id="number_of_shared_people_container">
+                            <div class="form-group">
+                                <label for="invoice_scheme_id">How many people, including yourself, will share the
+                                    property?</label>
+                                <select class="form-control" id="number_of_shared_people" name="number_of_shared_people"
+                                    required>
+                                    <option selected value="">Select....</option>
+                                    @for ($i = 1; $i <= 10; $i++)
+                                        <option {{ $property->number_of_shared_people == $i ? 'selected' : '' }}
+                                            value="{{ $i }}">{{ $i }}</option>
+                                    @endfor
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label>Why are you searching new property?</label>
+                                <textarea name="why_is_searching" class="form-control" type="text" rows="6"
+                                    placeholder="Maximum 100 characters" required>{{ $property->why_is_searching }}</textarea>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label for="invoice_scheme_id">Where do you want to live?</label>
+                                <input class="form-control" placeholder="Area name" name="wanted_living_area" value="{{ $property->wanted_living_area }}"
+                                    type="text" required>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label for="invoice_scheme_id">Your budget</label>
+                                <p class="">(total rental amount you can afford)</p>
+                                <div class="row">
+                                    <div class="col-sm-7">
+                                        <input class="form-control" placeholder="4" name="combined_budget" value="{{ $property->combined_budget }}"
+                                            type="number" id="custom_field1" required>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <select class="form-control" id="per" name="per" required>
+                                            <option value="">Per week or month</option>
+                                            <option {{ $property->per == 'per week' ? 'selected' : '' }} value="per week">
+                                                per week</option>
+                                            <option {{ $property->per == 'per month' ? 'selected' : '' }}
+                                                value="per month">per month</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label for="custom_field1">I am available to move in from</label>
+                                <input class="form-control" name="available_form" type="date" id="date"
+                                value="{{ $property->available_form }}" required>
+                                <span class="error text-danger"
+                                    id="available_form-error--property_wanted_create"></span>
+                            </div>
+                        </div>
+
+                        @php
+                            $months = [
+                                '1 month' => '1 month',
+                                '2 months' => '2 months',
+                                '3 months' => '3 months',
+                                '4 months' => '4 months',
+                                '5 months' => '5 months',
+                                '6 months' => '6 months',
+                                '7 months' => '7 months',
+                                '8 months' => '8 months',
+                                '9 months' => '9 months',
+                                '10 months' => '10 months',
+                                '11 months' => '11 months',
+                                '1 year' => '1 year',
+                                '1 year 3 months' => '1 year 3 months',
+                                '1 year 6 months' => '1 year 6 months',
+                                '1 year 9 months' => '1 year 9 months',
+                                '2 years' => '2 years',
+                                '3 years' => '3 years',
+                            ];
+                        @endphp
+
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label for="invoice_scheme_id">Period accommodation needed for</label>
+                                <select class="form-control" id="min_term" name="min_term" required>
+                                    <option value="0" selected>No maximum
+                                    </option>
+                                    @foreach ($months as $value => $label)
+                                        <option {{ $property->min_term == $value ? 'selected' : '' }} value="{{ $value }}">
+                                            {{ $label }}</option>
+                                    @endforeach
+                                </select>
+                                <span class="error text-danger" id="min_term-error--property_wanted_create"></span>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label for="invoice_scheme_id">I want to stay in the accommodation</label>
+                                <select class="form-control" id="days_of_wk_available" name="days_of_wk_available">
+                                    <option {{ $property->days_of_wk_available == '7 days a week' ? 'selected' : '' }}
+                                        value="7 days a week">7 days a week
+                                    </option>
+                                    <option {{ $property->days_of_wk_available == 'Mon to Fri only' ? 'selected' : '' }}
+                                        value="Mon to Fri only">Mon to Fri only
+                                    </option>
+                                    <option {{ $property->days_of_wk_available == 'Weekends only' ? 'selected' : '' }}
+                                        value="Weekends only">Weekends only
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label>I would prefer these amenities</label>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        @foreach (['furnished', 'living_room', 'washing_machine', 'garden', 'balcony'] as $option)
+                                        <div>
+                                            <label for="{{ $option }}">
+                                                <input type="checkbox" name="roomfurnishings[]"
+                                                    value="{{ $option }}" id="{{ $option }}"
+                                                    @if (in_array($option, $property->roomfurnishings)) checked @endif>
+                                                {{ ucfirst(str_replace('_', ' ', $option)) }}
+                                            </label>
+                                        </div>
+                                    @endforeach
+                                    </div>
+                                    <div class="col-sm-6">
+                                        @foreach (['off_street_parking', 'garage', 'disabled_access', 'broadband', 'ensuite'] as $option)
+                                        <div>
+                                            <label for="{{ $option }}">
+                                                <input type="checkbox" name="roomfurnishings[]"
+                                                    value="{{ $option }}" id="{{ $option }}"
+                                                    @if (in_array($option, $property->roomfurnishings)) checked @endif>
+                                                {{ ucfirst(str_replace('_', ' ', $option)) }}
+                                            </label>
+                                        </div>
+                                    @endforeach
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+
+                <div id="showingbtn2" class="d-none row" style="display:none;">
 
 
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label for="selling_price_group_id">Smoking</label>
-                            <select class="form-control" id="smoking" name="smoking">
-                                <option {{ $property->smoking == "Don't mind" ? 'selected' : '' }} value="Don't mind">
-                                    Don't mind</option>
-                                <option {{ $property->smoking == 'No thanks' ? 'selected' : '' }} value="No thanks">No
-                                    thanks</option>
-                            </select>
-                        </div>
-                    </div>
+                </div>
 
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label for="selling_price_group_id">Pets</label>
-                            <select class="form-control" id="pets_req" name="pets_req">
-                                <option {{ $property->pets_req == "Don't mind" ? 'selected' : '' }}
-                                    value="Don't mind">Don't mind</option>
-                                <option {{ $property->pets_req == 'No thanks' ? 'selected' : '' }} value="No thanks">
-                                    No thanks</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label for="selling_price_group_id">Orientation</label>
-                            <select class="form-control" id="gay_lesbian_req" name="gay_lesbian_req">
-                                <option {{ $property->gay_lesbian_req == 'Not important' ? 'selected' : '' }}
-                                    value="Not important" selected="">Not important</option>
-                                <option {{ $property->gay_lesbian_req == 'Straight' ? 'selected' : '' }}
-                                    value="Straight">Straight</option>
-                                <option {{ $property->gay_lesbian_req == 'Gay/Lesbian' ? 'selected' : '' }}
-                                    value="Gay/Lesbian">Gay/Lesbian</option>
-                                <option {{ $property->gay_lesbian_req == 'Bisexual' ? 'selected' : '' }}
-                                    value="Bisexual">Bisexual</option>
-                            </select>
-                        </div>
-                    </div>
-                </div> --}}
                 <div id="showingbtn3" class="row" style="display:none;">
 
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label for="custom_field1">Advert title</label>
-                            <p class="sub-heading">(Short description)</p>
-                            <input class="form-control" placeholder="Short description maximum 92 characters"
-                                value="{{ $property->ad_title }}" name="ad_title" type="text" maxlength="100"
-                                id="ad_title" required>
-                            <span class="error text-danger" id="ad_title-error"></span>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label for="custom_field1">Description</label>
-                            <p class="sub-heading">(No contact details permitted within description)</p>
-                            <textarea rows="30" type="text" class="form-control" name="ad_text" class="input-field"
-                                placeholder="Description" required>{{ $property->ad_text }}</textarea>
-                            <span class="error text-danger" id="ad_text-error"></span>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label for="custom_field1">Upload your profile picture</label>
-                            <input class="form-control" name="images[]" type="file" id="imageUpload" required>
-                            <span class="error text-danger" id="images-error"></span>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label for="custom_field1">Telephone</label>
-                            <input class="form-control" value="{{ $property->tel }}" placeholder="Telephone"
-                                name="tel" type="text" id="tel" required>
-                            <span class="error text-danger" id="tel-error"></span>
-                        </div>
-                    </div>
                 </div>
-                <div id="showingbtn4" class="row" style="display:none;">
-                    <div id="occupants_inputs_container">
 
-                    </div>
+                <div id="showingbtn4" class="row" style="display:none;">
+                    <fieldset>
+                        <div id="occupants_inputs_container">
+
+                        </div>
+                    </fieldset>
                 </div>
 
 
@@ -514,7 +294,7 @@
                         <button id="prev4" type="button"
                             class="btn btn-primary float-none w-25 rounded-0 submit-btn ">Previous</button>
                         <button style="margin-top: 0;" class="addProductSubmit-btn w-25 btn btn-success"
-                            type="submit">Submit</button>
+                            type="button" id="addProductSubmit-btn">Submit</button>
                     </div>
                 </div>
             </form>
@@ -528,6 +308,30 @@
     </div><!-- /.modal-content -->
 </div><!-- /.modal-dialog -->
 
+
+<!-- Selected sports will be displayed here -->
+</div>
+<!--==================== Blog Section End ====================-->
+{{-- Modal --}}
+<div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="modal1"
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header d-block text-center">
+                <h4 class="modal-title d-inline-block">{{ __('License Key') }}</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p class="text-center">{{ __('The Licenes Key is :') }} <span id="key"></span></p>
+            </div>
+            <div class="modal-footer justify-content-center">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">{{ __('Close') }}</button>
+            </div>
+        </div>
+    </div>
+</div>
 <style>
     .left-area {
         text-align: right;
@@ -540,7 +344,7 @@
         margin-bottom: 0px;
     }
 
-    #property_wanted_form select {
+    #property_wanted_forms select {
         width: 100%;
         padding: 0 20px 0px;
         border-radius: 0px;
@@ -610,41 +414,6 @@
 </style>
 <script>
     $(document).ready(function() {
-        $("#property_wanted_edit_form").submit(function(event) {
-            event.preventDefault();
-
-            var formData = $("#property_wanted_edit_form").serializeArray();
-            var jsonData = {};
-
-            $.each(formData, function() {
-                jsonData[this.name] = this.value;
-            });
-
-            $.ajax({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                type: "POST",
-                url: "/contact/update-property-wanted",
-                data: JSON.stringify(jsonData),
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function(response) {
-                    toastr.options = {
-                        "sound": false,
-                    };
-                    toastr.success(response.message);
-                    $('#property_wanted_edit_form').find('input, textarea, select').val(
-                        '');
-                    $('.property_wanted_edit_modal').modal('hide');
-                    $('#room_to_rent_share_table').DataTable().ajax.reload();
-                },
-            });
-        });
-    })
-</script>
-<script>
-    $(document).ready(function() {
         $('#imageUpload').on('change', function(e) {
             var previewContainer = $('#previewContainer');
             previewContainer.empty();
@@ -660,33 +429,6 @@
     });
 
     $(document).ready(function() {
-        // $("#next1").click(function() {
-        //     if ($('#child_category_id').val() == 11) {
-        //         $("#showingbtn1").css('display', 'none');
-        //         $("#showingbtn2").css('display', 'block');
-        //         $("#nextprev1").css('display', 'none');
-        //         $("#nextprev2").css('display', 'block');
-        //     } else {
-        //         $("#showingbtn1").css('display', 'none');
-        //         $("#showingbtn3").css('display', 'block');
-        //         $("#nextprev1").css('display', 'none');
-        //         $("#nextprev3").css('display', 'block');
-        //     }
-        // });
-
-        // $("#next2").click(function() {
-        //     $("#showingbtn2").css('display', 'none');
-        //     $("#showingbtn3").css('display', 'block');
-        //     $("#nextprev2").css('display', 'none');
-        //     $("#nextprev3").css('display', 'block');
-        // });
-        // $("#next3").click(function() {
-        //     $("#showingbtn3").css('display', 'none');
-        //     $("#showingbtn4").css('display', 'block');
-        //     $("#nextprev3").css('display', 'none');
-        //     $("#nextprev4").css('display', 'block');
-        // });
-
         $("#prev2").click(function() {
             $("#showingbtn1").css('display', 'block');
             $("#showingbtn2").css('display', 'none');
@@ -744,7 +486,7 @@
         $('#number_of_shared_people').change(function() {
             var num = $(this).val();
             $.ajax({
-                url: "/contact/show-occupants-details-inputs",
+                url: "/contact/show-occupants-details-inputs-create",
                 type: "get",
                 data: {
                     num: num
@@ -792,10 +534,11 @@
         })
 
         $('#occupation').change(function() {
+            console.log('changed');
             var isStudent = $(this).val();
             if (isStudent == 'Student') {
                 $.ajax({
-                    url: "/contact/show-student-info-container-edit",
+                    url: "/contact/show-student-info-container-create",
                     type: "get",
                     dataType: "json",
                     success: function(data) {
@@ -806,36 +549,62 @@
             } else {
                 $('#student_info_container').empty()
             }
-        })
+        });
+
     });
 </script>
 <script>
+    var ajaxSecondStep = true;
+    var ajaxThirdStep = true;
     $(document).ready(function() {
         $("#next1").click(function(event) {
-            event.preventDefault();
-
-            var formData = $("#property_wanted_edit_form #showingbtn1 input[required]")
-                .serializeArray();
-            var jsonData = {};
-
-            $.each(formData, function() {
-                jsonData[this.name] = this.value;
-            });
+            var form = document.getElementById("showingbtn1");
+            var inputs = form.querySelectorAll("[required]");
 
             var isValid = true;
 
-            $.each(formData, function(index, field) {
-                if (!field.value) {
+            for (var i = 0; i < inputs.length; i++) {
+                if (inputs[i].value.trim() === "") {
                     isValid = false;
-                    $('#' + field.name.replace(/\[\]/g, '') + '-error').text(
-                        'This field is required.');
-                    $('#' + field.name.replace(/\[\]/g, '') + '-error').show();
-                } else {
-                    $('#' + field.name.replace(/\[\]/g, '') + '-error').hide();
+                    inputs[i].setCustomValidity('');
+                    inputs[i].reportValidity();
+                    return;
                 }
-            });
+            }
 
-            if (isValid) {
+            var childCategory = $('#child_category_id').val();
+            if (isValid && (childCategory == 11 && (ajaxSecondStep) || (childCategory != 11 &&
+                    ajaxThirdStep))) {
+                var data = {
+                    child_category_id: $('#child_category_id').val(),
+                    id: $('#property_id').val()
+                }
+                $.ajax({
+                    url: "/contact/show-edit-second-step",
+                    type: "get",
+                    data: data,
+                    dataType: "json",
+                    success: function(data) {
+                        if ($('#child_category_id').val() == 11) {
+                            ajaxSecondStep = false;
+                            $("#showingbtn2").html(data.html)
+                            $("#showingbtn1").css('display', 'none');
+                            $("#showingbtn2").css('display', 'block');
+                            $("#nextprev1").css('display', 'none');
+                            $("#nextprev2").css('display', 'block');
+                            $("#showingbtn3").empty();
+                        } else {
+                            ajaxThirdStep = false;
+                            $("#showingbtn3").html(data.html)
+                            $("#showingbtn1").css('display', 'none');
+                            $("#showingbtn3").css('display', 'block');
+                            $("#nextprev1").css('display', 'none');
+                            $("#nextprev3").css('display', 'block');
+                            $("#showingbtn2").empty();
+                        }
+                    }
+                });
+            } else {
                 if ($('#child_category_id').val() == 11) {
                     $("#showingbtn1").css('display', 'none');
                     $("#showingbtn2").css('display', 'block');
@@ -850,36 +619,44 @@
             }
         });
         $("#next2").click(function(event) {
-            event.preventDefault();
-
             if ($('#child_category_id').val() == 11) {
-                var formData = $("#property_wanted_edit_form #showingbtn2 input[required]")
-                    .serializeArray();
+                var form = document.getElementById("showingbtn2");
             } else {
-                var formData = $("#property_wanted_edit_form #showingbtn3 input[required]")
-                    .serializeArray();
+                var form = document.getElementById("showingbtn3");
             }
 
-            var jsonData = {};
-
-            $.each(formData, function() {
-                jsonData[this.name] = this.value;
-            });
+            var inputs = form.querySelectorAll("[required]");
 
             var isValid = true;
 
-            $.each(formData, function(index, field) {
-                if (!field.value) {
+            for (var i = 0; i < inputs.length; i++) {
+                if (inputs[i].value.trim() === "") {
                     isValid = false;
-                    $('#' + field.name.replace(/\[\]/g, '') + '-error').text(
-                        'This field is required.');
-                    $('#' + field.name.replace(/\[\]/g, '') + '-error').show();
-                } else {
-                    $('#' + field.name.replace(/\[\]/g, '') + '-error').hide();
+                    inputs[i].setCustomValidity('');
+                    inputs[i].reportValidity();
+                    return;
                 }
-            });
+            }
 
-            if (isValid) {
+            if (isValid && ajaxThirdStep) {
+                var data = {
+                    child_category_id: 1111111111111
+                }
+                $.ajax({
+                    url: "/contact/show-second-step",
+                    type: "get",
+                    data: data,
+                    dataType: "json",
+                    success: function(data) {
+                        ajaxThirdStep = false;
+                        $("#showingbtn3").html(data.html)
+                        $("#showingbtn2").css('display', 'none');
+                        $("#showingbtn3").css('display', 'block');
+                        $("#nextprev2").css('display', 'none');
+                        $("#nextprev3").css('display', 'block');
+                    }
+                });
+            } else {
                 $("#showingbtn2").css('display', 'none');
                 $("#showingbtn3").css('display', 'block');
                 $("#nextprev2").css('display', 'none');
@@ -887,38 +664,19 @@
             }
         });
         $("#next3").click(function(event) {
-            event.preventDefault();
-
-            var formData = $("#property_wanted_edit_form #showingbtn3 input[required]")
-        .serializeArray();
-            var jsonData = {};
-
-            $.each(formData, function() {
-                jsonData[this.name] = this.value;
-            });
+            var form = document.getElementById("showingbtn3");
+            var inputs = form.querySelectorAll("[required]");
 
             var isValid = true;
 
-            var fileInputField = $("#property_wanted_edit_form #showingbtn3 input[type='file']");
-            if (!fileInputField[0].value) {
-                isValid = false;
-                $('#' + fileInputField[0].name.replace(/\[\]/g, '') + '-error').text(
-                    'This field is required.');
-                $('#' + fileInputField[0].name.replace(/\[\]/g, '') + '-error').show();
-            } else {
-                $('#' + fileInputField[0].name.replace(/\[\]/g, '') + '-error').hide();
-            }
-
-            $.each(formData, function(index, field) {
-                if (!field.value) {
+            for (var i = 0; i < inputs.length; i++) {
+                if (inputs[i].value.trim() === "") {
                     isValid = false;
-                    $('#' + field.name.replace(/\[\]/g, '') + '-error').text(
-                        'This field is required.');
-                    $('#' + field.name.replace(/\[\]/g, '') + '-error').show();
-                } else {
-                    $('#' + field.name.replace(/\[\]/g, '') + '-error').hide();
+                    inputs[i].setCustomValidity('');
+                    inputs[i].reportValidity();
+                    return;
                 }
-            });
+            }
 
             if (isValid) {
                 $("#showingbtn3").css('display', 'none');
@@ -928,4 +686,63 @@
             }
         });
     })
+</script>
+<script>
+    $(document).ready(function() {
+        $(document).on('click', '#addProductSubmit-btn', function() {
+            console.log('clicked')
+            var form = document.getElementById("showingbtn4");
+            var inputs = form.querySelectorAll("[required]");
+
+            var isValid = true;
+
+            for (var i = 0; i < inputs.length; i++) {
+                if (inputs[i].value.trim() === "") {
+                    isValid = false;
+                    inputs[i].setCustomValidity('');
+                    inputs[i].reportValidity();
+                    return;
+                }
+            }
+
+            if (isValid) {
+                var formData = $("#property_wanted_forms").serializeArray();
+                var jsonData = {};
+                $.each(formData, function() {
+                    var fieldName = this.name.replace("[]", ""); // Remove the square brackets
+                    var fieldValue = this.value;
+
+                    if (jsonData[fieldName] !== undefined) {
+                        if (!Array.isArray(jsonData[fieldName])) {
+                            jsonData[fieldName] = [jsonData[fieldName]];
+                        }
+                        jsonData[fieldName].push(fieldValue);
+                    } else {
+                        jsonData[fieldName] = fieldValue;
+                    }
+                });
+                console.log(formData)
+                $.ajax({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    type: "POST",
+                    url: "/contact/property-wanted-store",
+                    data: JSON.stringify(jsonData),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function(response) {
+                        toastr.options = {
+                            "sound": false,
+                        };
+                        toastr.success(response.msg);
+                        $('#property_wanted_forms').find('input, textarea, select').val(
+                            '');
+                        $('.property_wanted_add_modal').modal('hide');
+                        $('#room_to_rent_share_table').DataTable().ajax.reload();
+                    },
+                });
+            }
+        });
+    });
 </script>
