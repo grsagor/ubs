@@ -36,7 +36,7 @@
                     <div class="col-12">
                         @if ($info->plan)
                             <h3 class="mb-2 text-white" style="text-transform: capitalize;">
-                                Find a property for this tenant get 30% &#163;</h3>
+                                Find a property for this tenant get 30% &#163;{{ $info->payment_check->amount * 0.3 }}</h3>
                         @endif
                         @if ($info->upgraded !== 1)
                             <h3 class="mb-2 text-white" style="text-transform: capitalize;">
