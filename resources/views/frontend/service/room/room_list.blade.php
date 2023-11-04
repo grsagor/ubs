@@ -1,4 +1,75 @@
 @extends('frontend.service.partial.app')
+@section('css')
+    <style>
+        .image-carousel {
+            position: relative;
+        }
+
+        /* .carousel-container {
+                    position: relative !important;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                } */
+
+        .mySlides {
+            display: none;
+        }
+
+        .demo {
+            width: 100px;
+            cursor: pointer;
+        }
+
+
+        .image-carousel {
+            position: relative;
+        }
+
+        .carousel-container {
+            position: relative !important;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .previous,
+        .next {
+            font-size: 24px;
+            cursor: pointer;
+            padding: 8px;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            position: absolute !important;
+            top: 33%;
+            z-index: 1;
+        }
+
+        .previous {
+            left: 0;
+        }
+
+        .next {
+            right: 0;
+        }
+
+        .image-slide {
+            position: relative;
+        }
+
+        .image-slide img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .active {
+            background-color: #333;
+        }
+    </style>
+@endsection
 @section('property_list_content')
     @foreach ($rooms as $item)
         <div class="col mb-5">
@@ -17,9 +88,25 @@
                         @endphp
 
                         @if ($first_image && File::exists($imagePath))
-                            <a href="{{ route('room_show', $item->id) }}" class="woocommerce-LoopProduct-link">
+                            {{-- <a href="{{ route('room_show', $item->id) }}" class="woocommerce-LoopProduct-link">
                                 <img class="lazy img-fluid rounded" data-src="{{ asset($first_image) }}" alt="Product Image">
-                            </a>
+                            </a> --}}
+
+
+                            <div class="slideShow">
+                                <!-- Images in the slideshow -->
+                                <div class="image-carousel">
+                                    <div class="carousel-container">
+                                        @foreach ($images as $key => $val)
+                                            <div>
+                                                <img class="mySlides" src="{{ asset($val) }}">
+                                            </div>
+                                        @endforeach
+                                        <a class="previous" onclick="plusSlides(-1)">❮</a>
+                                        <a class="next" onclick="plusSlides(1)" style="float: right;">❯</a>
+                                    </div>
+                                </div>
+                            </div>
                         @else
                             <img src="https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg"
                                 class="swiper-lazy" alt="" style="height: 270px;">
@@ -148,4 +235,41 @@
             </div>
         </div>
     </div>
+@endsection
+@section('script')
+    <script>
+        var slideIndex = 1;
+        showDivs(slideIndex);
+
+        function plusSlides(n) {
+            showDivs(slideIndex += n);
+        }
+
+        function currentDiv(n) {
+            showDivs(slideIndex = n);
+        }
+
+        function showDivs(n) {
+            var i;
+            var x = document.getElementsByClassName("mySlides");
+            var dots = document.getElementsByClassName("demo");
+
+            if (n > x.length) {
+                slideIndex = 1;
+            }
+            if (n < 1) {
+                slideIndex = x.length;
+            }
+
+            for (i = 0; i < x.length; i++) {
+                x[i].style.display = "none";
+            }
+            for (i = 0; i < dots.length; i++) {
+                dots[i].className = dots[i].className.replace(" w3-opacity-off", "");
+            }
+
+            x[slideIndex - 1].style.display = "block";
+            dots[slideIndex - 1].className += " w3-opacity-off";
+        }
+    </script>
 @endsection
