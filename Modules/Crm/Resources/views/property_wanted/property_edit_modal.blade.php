@@ -230,7 +230,7 @@
                                                 <label for="{{ $option }}">
                                                     <input type="checkbox" name="roomfurnishings[]"
                                                         value="{{ $option }}" id="{{ $option }}"
-                                                        @if (in_array($option, $property->roomfurnishings)) checked @endif>
+                                                        @if (is_array($property->roomfurnishings) && in_array($option, $property->roomfurnishings)) checked @endif>
                                                     {{ ucfirst(str_replace('_', ' ', $option)) }}
                                                 </label>
                                             </div>
@@ -242,7 +242,7 @@
                                                 <label for="{{ $option }}">
                                                     <input type="checkbox" name="roomfurnishings[]"
                                                         value="{{ $option }}" id="{{ $option }}"
-                                                        @if (in_array($option, $property->roomfurnishings)) checked @endif>
+                                                        @if (is_array($property->roomfurnishings) && in_array($option, $property->roomfurnishings)) checked @endif>
                                                     {{ ucfirst(str_replace('_', ' ', $option)) }}
                                                 </label>
                                             </div>

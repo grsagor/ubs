@@ -1,3 +1,4 @@
+@if (is_array($property->occupant_details))
 @foreach ($property->occupant_details as $i => $item)
 <div class="each_occupant_container">
     <div class="col-sm-12" style="{{ $i != 0 ? 'margin-top: 20px;' : '' }}">
@@ -155,6 +156,7 @@
     </div>
 </div>
 @endforeach
+@endif
 
 <script>
     function showStudentInfo(i) {
