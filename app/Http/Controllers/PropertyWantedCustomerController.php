@@ -141,6 +141,7 @@ class PropertyWantedCustomerController extends Controller
 
     public function store(Request $request)
     {
+        dd($request->toArray());
         try {
             // $request->validate([
             //     'why_is_searching'      => 'required|max:100',
@@ -229,10 +230,10 @@ class PropertyWantedCustomerController extends Controller
     {
         $id = $request->id;
         $property = ServicePropertyWanted::find($id);
-        $property->room_details = $property->room_details ? json_decode($property->room_details): null;
-        $property->roomfurnishings = $property->roomfurnishings ? json_decode($property->roomfurnishings): null;
-        $property->age = $property->age ? json_decode($property->age): null;
-        
+        $property->room_details = $property->room_details ? json_decode($property->room_details) : null;
+        $property->roomfurnishings = $property->roomfurnishings ? json_decode($property->roomfurnishings) : null;
+        $property->age = $property->age ? json_decode($property->age) : null;
+
         // return $property->roomfurnishings;
 
         $business_id = request()->session()->get('user.business_id');
@@ -298,15 +299,15 @@ class PropertyWantedCustomerController extends Controller
         if (isset($request->roomfurnishings)) {
             $requestedData['roomfurnishings'] = json_encode($request->roomfurnishings);
         }
-        
+
         if (isset($occupant_details)) {
             $requestedData['occupant_details'] = json_encode($occupant_details);
         }
-        
+
         if (isset($request->room_details)) {
             $requestedData['room_details'] = json_encode($request->room_details);
         }
-        
+
         if (isset($request->age)) {
             $requestedData['age'] = json_encode($request->age);
         }
@@ -337,7 +338,8 @@ class PropertyWantedCustomerController extends Controller
             ]);
     }
 
-    public function showStudentInfoContainerEdit() {
+    public function showStudentInfoContainerEdit()
+    {
         $html = view('crm::property_wanted.edit_student_info_container')->render();
 
         $response = [
@@ -346,7 +348,8 @@ class PropertyWantedCustomerController extends Controller
 
         return response()->json($response);
     }
-    public function showStudentInfoContainerCreate() {
+    public function showStudentInfoContainerCreate()
+    {
         $html = view('crm::property_wanted.create_student_info_container')->render();
 
         $response = [
@@ -356,7 +359,8 @@ class PropertyWantedCustomerController extends Controller
         return response()->json($response);
     }
 
-    public function showSecondStep(Request $request) {
+    public function showSecondStep(Request $request)
+    {
         $child_category = $request->child_category_id;
         $html = view('crm::property_wanted.show_second_step', compact('child_category'))->render();
 
@@ -368,7 +372,8 @@ class PropertyWantedCustomerController extends Controller
         return response()->json($response);
     }
 
-    private function languages() {
+    private function languages()
+    {
         $languages = [
             'English',
             'Mixed',
@@ -473,7 +478,8 @@ class PropertyWantedCustomerController extends Controller
 
         return $languages;
     }
-    private function countries() {
+    private function countries()
+    {
         $countries = [
             'Not disclosed',
             'Afghan',
@@ -702,7 +708,7 @@ class PropertyWantedCustomerController extends Controller
             'Zambian',
             'Zimbabwean',
         ];
-        
+
 
         return $countries;
     }

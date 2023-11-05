@@ -34,10 +34,12 @@
             <div class="container">
                 <div class="row text-center text-white">
                     <div class="col-12">
-                        @if ($info->plan)
+                        @if ($info->plan && $info->payment_check)
                             <h3 class="mb-2 text-white" style="text-transform: capitalize;">
-                                Find a property for this tenant get 30% &#163;{{ $info->payment_check->amount * 0.3 }}</h3>
+                                Find a property for this tenant and get 30% &#163;{{ $info->payment_check->amount * 0.3 }}
+                            </h3>
                         @endif
+
                         @if ($info->upgraded !== 1)
                             <h3 class="mb-2 text-white" style="text-transform: capitalize;">
                                 Help this tenant to get this property</h3>
@@ -388,21 +390,26 @@
 
                             <h5>Preferred Amenities</h5>
 
-                            @if ($info->roomfurnishings != null)
+                            @if ($info->roomfurnishings !== null)
                                 @php
                                     $amenities = json_decode($info->roomfurnishings, true);
 
-                                    array_walk($amenities, function (&$amenity) {
-                                        $amenity = ucfirst($amenity);
-                                    });
+                                    if ($amenities !== null) {
+                                        array_walk($amenities, function (&$amenity) {
+                                            $amenity = ucfirst($amenity);
+                                        });
+                                    }
                                 @endphp
-                                <p>
-                                    <strong>Amenities: </strong>
-                                    @foreach ($amenities as $item)
-                                        <span>{{ $item }}, </span>
-                                    @endforeach
-                                </p>
+                                @if ($amenities !== null)
+                                    <p>
+                                        <strong>Amenities: </strong>
+                                        @foreach ($amenities as $item)
+                                            <span>{{ $item }}, </span>
+                                        @endforeach
+                                    </p>
+                                @endif
                             @endif
+
 
                             {{-- $info->child_category_id == 11 means child_categories table value Room check child_categories table --}}
                             @if ($info->child_category_id == 11)
@@ -411,21 +418,26 @@
 
                                 <h5>Household Preference</h5>
 
-                                @if ($info->age)
+                                {{-- {{ dd($info->age) }} --}}
+
+                                @if ($info->age !== null)
                                     @php
-                                        $old = json_decode($info->age, true);
+                                        $ageRange = json_decode($info->age, true);
                                     @endphp
-                                    <p>
-                                        <strong>Age Range: </strong>
-                                        @foreach ($old as $key => $item)
-                                            {{ $item }}
-                                            @if ($key == 0)
-                                                to
-                                            @endif
-                                        @endforeach
-                                        Years
-                                    </p>
+                                    @if (is_array($ageRange) && count($ageRange) > 0)
+                                        <p>
+                                            <strong>Age Range: </strong>
+                                            @foreach ($ageRange as $key => $item)
+                                                {{ $item }}
+                                                @if ($key === 0 && count($ageRange) > 1)
+                                                    to
+                                                @endif
+                                            @endforeach
+                                            Years
+                                        </p>
+                                    @endif
                                 @endif
+
 
                                 @if ($info->occupation)
                                     <p>
