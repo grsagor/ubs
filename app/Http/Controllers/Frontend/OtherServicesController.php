@@ -202,7 +202,7 @@ class OtherServicesController extends Controller
                 $request->room_quantity * $request->room_charge : $request->bill,
             'child_category_id' => $request->child_category_id_from_backend,
             'service_charge_id' => $request->service_charge_id,
-            'table_name' => 'propertyFindingService->serviceCharge',
+            'table_name' => 'service_property_wanted',
             'upgrade' => $request->product_id ? 'yes' : null,
             'url' => '/contact/property-wanted',
             'type' => $request->type ?? null,
