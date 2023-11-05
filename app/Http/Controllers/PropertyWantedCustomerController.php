@@ -140,7 +140,7 @@ class PropertyWantedCustomerController extends Controller
     public function showRoomDetailsInputs(Request $request)
     {
         $num = $request->num;
-        // $num = 1;
+        $num = 1;
         $html = view('crm::property_wanted.show_room_details_inputs', compact('num'))->render();
         $response = [
             'html' => $html,
@@ -150,11 +150,7 @@ class PropertyWantedCustomerController extends Controller
 
     public function storeProperty(Request $request)
     {
-<<<<<<< HEAD
-        dd($request->toArray());
-=======
         // return response()->json($request);
->>>>>>> main
         try {
             $occupant_details = [];
 
@@ -162,25 +158,25 @@ class PropertyWantedCustomerController extends Controller
                 $request->occupant_name = json_decode($request->occupant_name);
             }
 
-                $count = count($request->occupant_name);
-                for ($i = 0; $i < $count; $i++) {
-                    $occupant_details[] = [
-                        "occupant_name" => $request->occupant_name[$i],
-                        "occupant_gender_req" => $request->occupant_gender_req[$i],
-                        "occupant_age" => $request->occupant_age[$i],
-                        "occupant_relationship" => $request->occupant_relationship[$i],
-                        "occupant_occupation" => $request->occupant_occupation[$i],
-                        "occupant_university_name" => $request->occupant_university_name[$i],
-                        "occupant_degree_name" => $request->occupant_degree_name[$i],
-                        "occupant_job" => $request->occupant_job[$i],
-                        "occupant_job_type" => $request->occupant_job_type[$i],
-                        "occupant_designation" => $request->occupant_designation[$i],
-                        "occupant_miat" => $request->occupant_miat[$i],
-                        "occupant_pay_rent" => $request->occupant_pay_rent[$i],
-                        "occupant_nationality" => $request->occupant_nationality[$i],
-                        "occupant_visa_status" => $request->occupant_visa_status[$i],
-                    ];
-                }
+            $count = count($request->occupant_name);
+            for ($i = 0; $i < $count; $i++) {
+                $occupant_details[] = [
+                    "occupant_name" => $request->occupant_name[$i],
+                    "occupant_gender_req" => $request->occupant_gender_req[$i],
+                    "occupant_age" => $request->occupant_age[$i],
+                    "occupant_relationship" => $request->occupant_relationship[$i],
+                    "occupant_occupation" => $request->occupant_occupation[$i],
+                    "occupant_university_name" => $request->occupant_university_name[$i],
+                    "occupant_degree_name" => $request->occupant_degree_name[$i],
+                    "occupant_job" => $request->occupant_job[$i],
+                    "occupant_job_type" => $request->occupant_job_type[$i],
+                    "occupant_designation" => $request->occupant_designation[$i],
+                    "occupant_miat" => $request->occupant_miat[$i],
+                    "occupant_pay_rent" => $request->occupant_pay_rent[$i],
+                    "occupant_nationality" => $request->occupant_nationality[$i],
+                    "occupant_visa_status" => $request->occupant_visa_status[$i],
+                ];
+            }
 
             $property = new ServicePropertyWanted();
 
@@ -244,11 +240,11 @@ class PropertyWantedCustomerController extends Controller
     {
         $id = $request->id;
         $property = ServicePropertyWanted::find($id);
-        $property->room_details = $property->room_details ? json_decode($property->room_details): null;
-        $property->roomfurnishings = $property->roomfurnishings ? json_decode($property->roomfurnishings): null;
-        $property->age = $property->age ? json_decode($property->age): null;
-        $property->occupant_details = $property->occupant_details ? json_decode($property->occupant_details): null;
-        
+        $property->room_details = $property->room_details ? json_decode($property->room_details) : null;
+        $property->roomfurnishings = $property->roomfurnishings ? json_decode($property->roomfurnishings) : null;
+        $property->age = $property->age ? json_decode($property->age) : null;
+        $property->occupant_details = $property->occupant_details ? json_decode($property->occupant_details) : null;
+
         $business_id = request()->session()->get('user.business_id');
 
         $business_locations = BusinessLocation::where('business_id', $business_id)->get(['id', 'name', 'business_id']);
@@ -391,10 +387,11 @@ class PropertyWantedCustomerController extends Controller
 
         return response()->json($response);
     }
-    public function showEditSecondStep(Request $request) {
+    public function showEditSecondStep(Request $request)
+    {
         $child_category = $request->child_category_id;
         $property = ServicePropertyWanted::find($request->id);
-        $property->images = $property->images ? json_decode($property->images): null;
+        $property->images = $property->images ? json_decode($property->images) : null;
 
         $languages = $this->languages();
         $countries = $this->countries();
