@@ -10,7 +10,8 @@
                         <select class="form-control" id="age" name="age[]">
                             <option value="">Select...</option>
                             @foreach (range(18, 99) as $age)
-                                <option value="{{ $age }}">
+                                <option value="{{ $age }}"
+                                    {{ $property->age && $property->age[0] == $age ? 'selected' : '' }}>
                                     {{ $age }}</option>
                             @endforeach
                         </select>
@@ -20,7 +21,8 @@
                         <p class="text-center" style="font-size: 15px; margin-top: 5px;">To</p>
                     </div>
                     <div class="col-sm-4">
-                        <select class="form-control" id="age" name="age[]">
+                        <select class="form-control" id="age" name="age[]"
+                            {{ $property->age && $property->age[0] == $age ? 'selected' : '' }}>
                             <option value="">Select...</option>
                             @foreach (range(18, 99) as $age)
                                 <option value="{{ $age }}">
@@ -37,13 +39,18 @@
             <div class="form-group">
                 <label for="selling_price_group_id">Occupation</label>
                 <select class="form-control" id="occupation" name="occupation" required>
-                    <option value="">Not disclosed</option>
-                    <option value="Student">Student</option>
-                    <option value="Employee">Employee</option>
-                    <option value="Others">Others</option>
-                    <option value="I don't mind">I don't mind</option>
+                    <option {{ $property->occupation == 'Not disclosed' ? 'selected' : '' }} value="" selected=>
+                        Not disclosed</option>
+                    <option {{ $property->occupation == 'Student' ? 'selected' : '' }} value="Student">
+                        Student</option>
+                    <option {{ $property->occupation == 'Employee' ? 'selected' : '' }} value="Employee">
+                        Employee</option>
+                    <option {{ $property->occupation == 'Others' ? 'selected' : '' }} value="Others">
+                        Others</option>
+                    <option {{ $property->occupation == "I don't mind" ? 'selected' : '' }} value="I don't mind">I
+                        don't mind</option>
                 </select>
-                <span class="error text-danger" id="occupation-error--property_wanted_create"></span>
+                <span class="error text-danger" id="occupation-error"></span>
             </div>
         </div>
 
@@ -53,52 +60,46 @@
 
         <div class="col-sm-12">
             <div class="form-group">
-                <label for="selling_price_group_id">Smoking?</label> <i
-                    class="fa fa-info-circle text-info hover-q no-print " aria-hidden="true" data-container="body"
-                    data-toggle="popover" data-placement="auto bottom"
-                    data-content="This price group will be used as the default price group in this location."
-                    data-html="true" data-trigger="hover"></i> <select class="form-control" id="smoking_current"
-                    name="smoking_current">
-                    <option value="2">no</option>
-                    <option value="1">yes</option>
-                    <option value="I don't mind">I don't mind</option>
+                <label for="selling_price_group_id">Smoking?</label>
+                <select class="form-control" id="smoking_current" name="smoking_current">
+                    <option {{ $property->smoking_current == '2' ? 'selected' : '' }} value="2">no</option>
+                    <option {{ $property->smoking_current == '1' ? 'selected' : '' }} value="1">yes</option>
+                    <option {{ $property->smoking_current == "I don't mind" ? 'selected' : '' }} value="I don't mind">I
+                        don't mind</option>
                 </select>
             </div>
         </div>
 
         <div class="col-sm-12">
             <div class="form-group">
-                <label for="selling_price_group_id">Pets?</label> <i
-                    class="fa fa-info-circle text-info hover-q no-print " aria-hidden="true" data-container="body"
-                    data-toggle="popover" data-placement="auto bottom"
-                    data-content="This price group will be used as the default price group in this location."
-                    data-html="true" data-trigger="hover"></i> <select class="form-control" id="pets"
-                    name="pets">
-                    <option value="2">no</option>
-                    <option value="1">yes</option>
-                    <option value="I don't mind">I don't mind</option>
-                </select>
-            </div>
-        </div>
-
-        <div class="col-sm-12">
-            <div class="form-group">
-                <label for="selling_price_group_id">Preferred sex</label> <i
-                    class="fa fa-info-circle text-info hover-q no-print " aria-hidden="true" data-container="body"
-                    data-toggle="popover" data-placement="auto bottom"
-                    data-content="This price group will be used as the default price group in this location."
-                    data-html="true" data-trigger="hover"></i> <select class="form-control" id="gay_lesbian"
-                    name="gay_lesbian">
-                    <option value="Undisclosed">
-                        Undisclosed
+                <label for="selling_price_group_id">Pets?</label>
+                <select class="form-control" id="pets" name="pets">
+                    <option {{ $property->pets == '2' ? 'selected' : '' }} value="2">no</option>
+                    <option {{ $property->pets == '1' ? 'selected' : '' }} value="1">yes</option>
+                    <option {{ $property->pets == "I don't mind" ? 'selected' : '' }} value="I don't mind">I don't mind
                     </option>
-                    <option value="Straight">Straight</option>
-                    <option value="Gay/Lesbian">Gay/Lesbian</option>
-                    <option value="Bisexual">Bisexual</option>
-                    <option value="I don't mind">I don't mind</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="col-sm-12">
+            <div class="form-group">
+                <label for="selling_price_group_id">Preferred sex</label>
+                <select class="form-control" id="gay_lesbian" name="gay_lesbian">
+                    <option {{ $property->gay_lesbian == 'Undisclosed' ? 'selected' : '' }} value="Undisclosed">
+                        Undisclosed</option>
+                    <option {{ $property->gay_lesbian == 'Straight' ? 'selected' : '' }} value="Straight">Straight
+                    </option>
+                    <option {{ $property->gay_lesbian == 'Gay/Lesbian' ? 'selected' : '' }} value="Gay/Lesbian">
+                        Gay/Lesbian</option>
+                    <option {{ $property->gay_lesbian == 'Bisexual' ? 'selected' : '' }} value="Bisexual">Bisexual
+                    </option>
+                    <option {{ $property->gay_lesbian == "I don't mind" ? 'selected' : '' }} value="I don't mind">I
+                        don't mind</option>
                 </select>
                 <label class="form_input form_checkbox">
-                    <input type="checkbox" name="gay_consent" value="1">
+                    <input type="checkbox" name="gay_consent" value="1"
+                        {{ $property->gay_consent == '1' ? 'checked' : '' }}>
                     Yes, Check this strictly
                 </label>
             </div>
@@ -106,11 +107,7 @@
 
         <div class="col-sm-12">
             <div class="form-group">
-                <label for="selling_price_group_id">Preferred language</label> <i
-                    class="fa fa-info-circle text-info hover-q no-print " aria-hidden="true" data-container="body"
-                    data-toggle="popover" data-placement="auto bottom"
-                    data-content="This price group will be used as the default price group in this location."
-                    data-html="true" data-trigger="hover"></i>
+                <label for="selling_price_group_id">Preferred language</label>
                 <select class="form-control" id="lang_id" name="lang_id">
 
                     @include('partial.language')
@@ -129,8 +126,10 @@
                 <select class="form-control" id="nationality" name="nationality">
 
                     <option value="---">Select country</option>
-                    @include('partial.nationality')
-
+                    @foreach ($countries as $item)
+                        <option {{ $property->nationality == $item ? 'selected' : '' }} value="{{ $item }}">
+                            {{ $item }}</option>
+                    @endforeach
                 </select>
             </div>
         </div>
@@ -140,8 +139,7 @@
                 <label for="custom_field1">Advert title</label>
                 <p class="sub-heading">(Short description)</p>
                 <input class="form-control" placeholder="Short description maximum 92 characters" name="ad_title"
-                    type="text" maxlength="100" id="ad_title" required>
-                <span class="error text-danger" id="ad_title-error--property_wanted_create"></span>
+                    type="text" maxlength="100" id="ad_title" required value="{{ $property->ad_title }}">
             </div>
         </div>
 
@@ -150,24 +148,30 @@
                 <label for="custom_field1">Description</label>
                 <p class="sub-heading">(No contact details permitted within description)</p>
                 <textarea rows="5" type="text" class="form-control" name="ad_text" class="input-field"
-                    placeholder="Description" required></textarea>
-                <span class="error text-danger" id="ad_text-error--property_wanted_create"></span>
+                    placeholder="Description" required>{{ $property->ad_text }}</textarea>
             </div>
         </div>
 
         <div class="col-sm-12">
             <div class="form-group">
                 <label for="custom_field1">Upload your profile picture</label>
-                <input class="form-control" name="images" type="file" id="imageUpload--create" required>
+                <input class="form-control" name="images" type="file" id="imageUpload--edit">
             </div>
-            <div id="create--imagePreview" class="w-100"></div>
+            <div id="edit--imagePreview" class="w-100">
+                @if ($property->images)
+                @foreach ($property->images as $item)
+                <img class="preview-image" src="{{ asset($item) }}" alt="">
+                @endforeach
+                    
+                @endif
+            </div>
         </div>
 
         <div class="col-sm-12">
             <div class="form-group">
                 <label for="custom_field1">Telephone</label>
-                <input class="form-control" placeholder="Telephone" name="tel" type="text" id="tel"
-                    required>
+                <input class="form-control" placeholder="Telephone" name="tel" value="{{ $property->tel }}"
+                    type="text" id="tel" required>
                 <span class="error text-danger" id="tel-error--property_wanted_create"></span>
             </div>
         </div>
@@ -195,9 +199,9 @@
             }
         });
 
-        $('#imageUpload--create').on('change', function(e) {
+        $('#imageUpload--edit').on('change', function(e) {
             var files = e.target.files;
-            var imagePreview = $('#create--imagePreview');
+            var imagePreview = $('#edit--imagePreview');
             imagePreview.empty();
 
             for (var i = 0; i < files.length; i++) {

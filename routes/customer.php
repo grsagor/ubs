@@ -11,7 +11,7 @@ use App\Http\Controllers\ServiceWantedCustomerController;
 
 // Route::group(['middleware' => ['web', 'authh', 'SetSessionData', 'auth', 'language', 'timezone', 'ContactSidebarMenu', 'CheckContactLogin'], 'prefix' => 'contact',], function () {
 Route::group(['middleware' => ['checkCustomer'], 'prefix' => 'contact',], function () {
-    Route::post('/property-wanted-store', [PropertyWantedCustomerController::class, 'store']);
+    Route::post('/property-wanted-store', [PropertyWantedCustomerController::class, 'storeProperty']);
     Route::resource('/property-wanted',     PropertyWantedCustomerController::class);
     Route::resource('/service_wanted',     ServiceWantedCustomerController::class);
     Route::get('/show-occupants-details-inputs', [PropertyWantedCustomerController::class, 'showOccupantsDetailsInputs']);
@@ -27,6 +27,7 @@ Route::group(['middleware' => ['checkCustomer'], 'prefix' => 'contact',], functi
     Route::get('/show-student-info-container-edit', [PropertyWantedCustomerController::class, 'showStudentInfoContainerEdit']);
     Route::get('/show-student-info-container-create', [PropertyWantedCustomerController::class, 'showStudentInfoContainerCreate']);
     Route::get('/show-second-step', [PropertyWantedCustomerController::class, 'showSecondStep']);
+    Route::get('/show-edit-second-step', [PropertyWantedCustomerController::class, 'showEditSecondStep']);
 
     Route::get('/rough-test', function () {
         return view('rough.rough');

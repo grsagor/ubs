@@ -71,7 +71,7 @@
     </style>
 @endsection
 @section('property_list_content')
-    @foreach ($rooms as $item)
+    @foreach ($rooms as $index => $item)
         <div class="col mb-5">
             <div class="product type-product rounded ">
                 <div class=" row m-0">
@@ -99,14 +99,47 @@
                                     <div class="carousel-container">
                                         @foreach ($images as $key => $val)
                                             <div>
-                                                <img class="mySlides" src="{{ asset($val) }}">
+                                                <img class="mySlides mySlides-{{ $index }}" src="{{ asset($val) }}">
                                             </div>
                                         @endforeach
-                                        <a class="previous" onclick="plusSlides(-1)">❮</a>
-                                        <a class="next" onclick="plusSlides(1)" style="float: right;">❯</a>
+                                        <a class="previous" onclick="plusSlides(-1,'mySlides-{{ $index }}')">❮</a>
+                                        <a class="next" onclick="plusSlides(1,'mySlides-{{ $index }}')" style="float: right;">❯</a>
                                     </div>
                                 </div>
                             </div>
+
+                            <script>
+                                var slideIndex = 1;
+                                showDivs(slideIndex, 'mySlides-{{ $index }}');
+                        
+                                function plusSlides(n, id) {
+                                    showDivs(slideIndex += n, id);
+                                }
+                        
+                                function showDivs(n, id) {
+                                    var i;
+                                    var x = document.getElementsByClassName(id);
+                                    var dots = document.getElementsByClassName("demo");
+                                    console.log(id)
+                        
+                                    if (n > x.length) {
+                                        slideIndex = 1;
+                                    }
+                                    if (n < 1) {
+                                        slideIndex = x.length;
+                                    }
+                        
+                                    for (i = 0; i < x.length; i++) {
+                                        x[i].style.display = "none";
+                                    }
+                                    for (i = 0; i < dots.length; i++) {
+                                        dots[i].className = dots[i].className.replace(" w3-opacity-off", "");
+                                    }
+                        
+                                    x[slideIndex - 1].style.display = "block";
+                                    dots[slideIndex - 1].className += " w3-opacity-off";
+                                }
+                            </script>
                         @else
                             <img src="https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg"
                                 class="swiper-lazy" alt="" style="height: 270px;">
@@ -237,39 +270,4 @@
     </div>
 @endsection
 @section('script')
-    <script>
-        var slideIndex = 1;
-        showDivs(slideIndex);
-
-        function plusSlides(n) {
-            showDivs(slideIndex += n);
-        }
-
-        function currentDiv(n) {
-            showDivs(slideIndex = n);
-        }
-
-        function showDivs(n) {
-            var i;
-            var x = document.getElementsByClassName("mySlides");
-            var dots = document.getElementsByClassName("demo");
-
-            if (n > x.length) {
-                slideIndex = 1;
-            }
-            if (n < 1) {
-                slideIndex = x.length;
-            }
-
-            for (i = 0; i < x.length; i++) {
-                x[i].style.display = "none";
-            }
-            for (i = 0; i < dots.length; i++) {
-                dots[i].className = dots[i].className.replace(" w3-opacity-off", "");
-            }
-
-            x[slideIndex - 1].style.display = "block";
-            dots[slideIndex - 1].className += " w3-opacity-off";
-        }
-    </script>
 @endsection
