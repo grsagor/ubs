@@ -40,7 +40,7 @@
 
     <link rel="icon" type="image/x-icon" href="{{ asset('assets/images/logo.png') }}" />
     <!-- Google Font -->
-    <!-- 2:23 AM -->
+    <!-- 7:24 PM -->
     {{-- @if ($default_font->font_value)
         <link href="https://fonts.cdnfonts.com/css/amazon-ember" rel="stylesheet">
 
