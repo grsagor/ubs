@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\FileHelper;
 use App\User;
 use App\BusinessLocation;
 use App\ChildCategory;
@@ -99,7 +100,12 @@ class PropertyWantedCustomerController extends Controller
 
         $child_categories = ChildCategory::where([['category_id', $category->id], ['sub_category_id', $sub_category->id],])->get();
 
+        $languages = $this->languages();
+        $countries = $this->countries();
+
         $data = [];
+        $data['countries'] = $countries;
+        $data['languages'] = $languages;
         $data['category'] = $category;
         $data['sub_category'] = $sub_category;
         $data['child_categories'] = $child_categories;
@@ -133,8 +139,8 @@ class PropertyWantedCustomerController extends Controller
     }
     public function showRoomDetailsInputs(Request $request)
     {
-        // $num = $request->num;
-        $num = 1;
+        $num = $request->num;
+        // $num = 1;
         $html = view('crm::property_wanted.show_room_details_inputs', compact('num'))->render();
         $response = [
             'html' => $html,
@@ -185,8 +191,10 @@ class PropertyWantedCustomerController extends Controller
             $requestedData['room_details']          = json_encode($request->room_details);
             $requestedData['age']                   = json_encode($request->age);
 
-            $requestedData['images'] = $this->image($request->file('images'), '', 800, 500);
-
+            // $requestedData['images'] = $this->image($request->file('images'), '', 800, 500);
+            if ($request->hasFile('images')) {
+                $requestedData['images'] = FileHelper::saveImages($request->file('images'));
+            }
             $property->fill($requestedData)->save();
 
             $output = [
@@ -235,14 +243,12 @@ class PropertyWantedCustomerController extends Controller
         $property->room_details = $property->room_details ? json_decode($property->room_details): null;
         $property->roomfurnishings = $property->roomfurnishings ? json_decode($property->roomfurnishings): null;
         $property->age = $property->age ? json_decode($property->age): null;
+        $property->occupant_details = $property->occupant_details ? json_decode($property->occupant_details): null;
         
-        // return $property->roomfurnishings;
-
         $business_id = request()->session()->get('user.business_id');
 
         $business_locations = BusinessLocation::where('business_id', $business_id)->get(['id', 'name', 'business_id']);
 
-        // return $business_locations;
         $category = ServiceCategory::where('name', 'Property')->first();
         $sub_category = SubCategory::where([['category_id', $category->id], ['name', 'buy']])->first();
         //$sub_category = SubCategory::where(['category_id',$category->id])->get();
@@ -271,7 +277,7 @@ class PropertyWantedCustomerController extends Controller
 
     public function updatePropertyWanted(Request $request)
     {
-        $property = ServicePropertyWanted::find($request->id);
+        $property = ServicePropertyWanted::find($request->property_id);
 
         if ($request->occupant_name) {
             $count = count($request->occupant_name);
@@ -313,14 +319,15 @@ class PropertyWantedCustomerController extends Controller
         if (isset($request->age)) {
             $requestedData['age'] = json_encode($request->age);
         }
-
-        $requestedData['images'] = $this->image($request->file('images'), '', 800, 500);
+        if ($request->hasFile('images')) {
+            $requestedData['images'] = FileHelper::saveImages($request->file('images'));
+        }
 
         $property->fill($requestedData)->save();
 
         $response = [
             'success' => true,
-            'message' => 'Property updated successfully.'
+            'msg' => 'Property updated successfully.'
         ];
         return response()->json($response);
     }
@@ -361,7 +368,14 @@ class PropertyWantedCustomerController extends Controller
 
     public function showSecondStep(Request $request) {
         $child_category = $request->child_category_id;
-        $html = view('crm::property_wanted.show_second_step', compact('child_category'))->render();
+        $languages = $this->languages();
+        $countries = $this->countries();
+
+        $data = [];
+        $data['child_category'] = $child_category;
+        $data['countries'] = $countries;
+        $data['languages'] = $languages;
+        $html = view('crm::property_wanted.show_second_step', $data)->render();
 
         $response = [
             'html' => $html,
@@ -373,11 +387,22 @@ class PropertyWantedCustomerController extends Controller
     public function showEditSecondStep(Request $request) {
         $child_category = $request->child_category_id;
         $property = ServicePropertyWanted::find($request->id);
-        $html = view('crm::property_wanted.show_edit_second_step', compact('child_category', 'property'))->render();
+        $property->images = $property->images ? json_decode($property->images): null;
+
+        $languages = $this->languages();
+        $countries = $this->countries();
+
+        $data = [];
+        $data['child_category'] = $child_category;
+        $data['property'] = $property;
+        $data['countries'] = $countries;
+        $data['languages'] = $languages;
+        $html = view('crm::property_wanted.show_edit_second_step', $data)->render();
 
         $response = [
             'html' => $html,
-            'child' => $child_category
+            'child' => $child_category,
+            'images' => $property->images
         ];
 
         return response()->json($response);
@@ -490,7 +515,6 @@ class PropertyWantedCustomerController extends Controller
     }
     private function countries() {
         $countries = [
-            'Not disclosed',
             'Afghan',
             'Albanian',
             'Algerian',

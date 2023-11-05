@@ -39,7 +39,7 @@
         </div>
 
         <div class="modal-body">
-            <form id="property_wanted_forms">
+            <form id="property_wanted_edit_form">
                 @csrf
                 <div id="showingbtn1" class="row">
                     <fieldset>
@@ -88,7 +88,8 @@
                                                     {{ $item == 2 ? 'checked' : '' }} value=2 required>Double</label>
                                             <label class="form_input form_radio"><input type="radio"
                                                     name="room_details[{{ $index }}]"
-                                                    {{ $item == 6 ? 'checked' : '' }} value=6 required>Semi-double </label>
+                                                    {{ $item == 6 ? 'checked' : '' }} value=6 required>Semi-double
+                                            </label>
                                             <label class="form_input form_radio"><input type="radio"
                                                     name="room_details[{{ $index }}]"
                                                     {{ $item == 7 ? 'checked' : '' }} value=7 required>En-suit</label>
@@ -124,8 +125,8 @@
                         <div class="col-sm-12">
                             <div class="form-group">
                                 <label for="invoice_scheme_id">Where do you want to live?</label>
-                                <input class="form-control" placeholder="Area name" name="wanted_living_area" value="{{ $property->wanted_living_area }}"
-                                    type="text" required>
+                                <input class="form-control" placeholder="Area name" name="wanted_living_area"
+                                    value="{{ $property->wanted_living_area }}" type="text" required>
                             </div>
                         </div>
 
@@ -135,15 +136,17 @@
                                 <p class="">(total rental amount you can afford)</p>
                                 <div class="row">
                                     <div class="col-sm-7">
-                                        <input class="form-control" placeholder="4" name="combined_budget" value="{{ $property->combined_budget }}"
-                                            type="number" id="custom_field1" required>
+                                        <input class="form-control" placeholder="4" name="combined_budget"
+                                            value="{{ $property->combined_budget }}" type="number" id="custom_field1"
+                                            required>
                                     </div>
                                     <div class="col-sm-4">
                                         <select class="form-control" id="per" name="per" required>
                                             <option value="">Per week or month</option>
-                                            <option {{ $property->per == 'per week' ? 'selected' : '' }} value="per week">
+                                            <option {{ $property->per == 'Per week' ? 'selected' : '' }}
+                                                value="per week">
                                                 per week</option>
-                                            <option {{ $property->per == 'per month' ? 'selected' : '' }}
+                                            <option {{ $property->per == 'Per month' ? 'selected' : '' }}
                                                 value="per month">per month</option>
                                         </select>
                                     </div>
@@ -155,7 +158,7 @@
                             <div class="form-group">
                                 <label for="custom_field1">I am available to move in from</label>
                                 <input class="form-control" name="available_form" type="date" id="date"
-                                value="{{ $property->available_form }}" required>
+                                    value="{{ $property->available_form }}" required>
                                 <span class="error text-danger"
                                     id="available_form-error--property_wanted_create"></span>
                             </div>
@@ -190,7 +193,8 @@
                                     <option value="0" selected>No maximum
                                     </option>
                                     @foreach ($months as $value => $label)
-                                        <option {{ $property->min_term == $value ? 'selected' : '' }} value="{{ $value }}">
+                                        <option {{ $property->min_term == $value ? 'selected' : '' }}
+                                            value="{{ $value }}">
                                             {{ $label }}</option>
                                     @endforeach
                                 </select>
@@ -205,7 +209,8 @@
                                     <option {{ $property->days_of_wk_available == '7 days a week' ? 'selected' : '' }}
                                         value="7 days a week">7 days a week
                                     </option>
-                                    <option {{ $property->days_of_wk_available == 'Mon to Fri only' ? 'selected' : '' }}
+                                    <option
+                                        {{ $property->days_of_wk_available == 'Mon to Fri only' ? 'selected' : '' }}
                                         value="Mon to Fri only">Mon to Fri only
                                     </option>
                                     <option {{ $property->days_of_wk_available == 'Weekends only' ? 'selected' : '' }}
@@ -221,27 +226,27 @@
                                 <div class="row">
                                     <div class="col-sm-6">
                                         @foreach (['furnished', 'living_room', 'washing_machine', 'garden', 'balcony'] as $option)
-                                        <div>
-                                            <label for="{{ $option }}">
-                                                <input type="checkbox" name="roomfurnishings[]"
-                                                    value="{{ $option }}" id="{{ $option }}"
-                                                    @if (in_array($option, $property->roomfurnishings)) checked @endif>
-                                                {{ ucfirst(str_replace('_', ' ', $option)) }}
-                                            </label>
-                                        </div>
-                                    @endforeach
+                                            <div>
+                                                <label for="{{ $option }}">
+                                                    <input type="checkbox" name="roomfurnishings[]"
+                                                        value="{{ $option }}" id="{{ $option }}"
+                                                        @if (in_array($option, $property->roomfurnishings)) checked @endif>
+                                                    {{ ucfirst(str_replace('_', ' ', $option)) }}
+                                                </label>
+                                            </div>
+                                        @endforeach
                                     </div>
                                     <div class="col-sm-6">
                                         @foreach (['off_street_parking', 'garage', 'disabled_access', 'broadband', 'ensuite'] as $option)
-                                        <div>
-                                            <label for="{{ $option }}">
-                                                <input type="checkbox" name="roomfurnishings[]"
-                                                    value="{{ $option }}" id="{{ $option }}"
-                                                    @if (in_array($option, $property->roomfurnishings)) checked @endif>
-                                                {{ ucfirst(str_replace('_', ' ', $option)) }}
-                                            </label>
-                                        </div>
-                                    @endforeach
+                                            <div>
+                                                <label for="{{ $option }}">
+                                                    <input type="checkbox" name="roomfurnishings[]"
+                                                        value="{{ $option }}" id="{{ $option }}"
+                                                        @if (in_array($option, $property->roomfurnishings)) checked @endif>
+                                                    {{ ucfirst(str_replace('_', ' ', $option)) }}
+                                                </label>
+                                            </div>
+                                        @endforeach
                                     </div>
                                 </div>
                             </div>
@@ -261,7 +266,16 @@
                 <div id="showingbtn4" class="row" style="display:none;">
                     <fieldset>
                         <div id="occupants_inputs_container">
-
+                            @include('crm::property_wanted.edit_occupants_details_input')
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value=""
+                                    id="accept-data-policy-add" required>
+                                <label class="form-check-label" for="accept-data-policy-add">
+                                    Accept data and policy?
+                                </label>
+                            </div>
                         </div>
                     </fieldset>
                 </div>
@@ -344,7 +358,7 @@
         margin-bottom: 0px;
     }
 
-    #property_wanted_forms select {
+    #property_wanted_edit_form select {
         width: 100%;
         padding: 0 20px 0px;
         border-radius: 0px;
@@ -640,10 +654,11 @@
 
             if (isValid && ajaxThirdStep) {
                 var data = {
-                    child_category_id: 1111111111111
+                    child_category_id: 1111111111111,
+                    id: $('#property_id').val()
                 }
                 $.ajax({
-                    url: "/contact/show-second-step",
+                    url: "/contact/show-edit-second-step",
                     type: "get",
                     data: data,
                     dataType: "json",
@@ -695,10 +710,16 @@
             var inputs = form.querySelectorAll("[required]");
 
             var isValid = true;
+            if ($('#accept-data-policy-add').prop('checked')) {
+                $('#accept-data-policy-add').val('on');
+            } else {
+                $('#accept-data-policy-add').val('');
+            }
 
             for (var i = 0; i < inputs.length; i++) {
                 if (inputs[i].value.trim() === "") {
                     isValid = false;
+                    console.log('false')
                     inputs[i].setCustomValidity('');
                     inputs[i].reportValidity();
                     return;
@@ -706,43 +727,41 @@
             }
 
             if (isValid) {
-                var formData = $("#property_wanted_forms").serializeArray();
-                var jsonData = {};
-                $.each(formData, function() {
-                    var fieldName = this.name.replace("[]", ""); // Remove the square brackets
-                    var fieldValue = this.value;
-
-                    if (jsonData[fieldName] !== undefined) {
-                        if (!Array.isArray(jsonData[fieldName])) {
-                            jsonData[fieldName] = [jsonData[fieldName]];
-                        }
-                        jsonData[fieldName].push(fieldValue);
-                    } else {
-                        jsonData[fieldName] = fieldValue;
-                    }
-                });
-                console.log(formData)
-                $.ajax({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    type: "POST",
-                    url: "/contact/property-wanted-store",
-                    data: JSON.stringify(jsonData),
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    success: function(response) {
-                        toastr.options = {
-                            "sound": false,
-                        };
-                        toastr.success(response.msg);
-                        $('#property_wanted_forms').find('input, textarea, select').val(
-                            '');
-                        $('.property_wanted_add_modal').modal('hide');
-                        $('#room_to_rent_share_table').DataTable().ajax.reload();
-                    },
-                });
+                console.log('valid');
+                $('#property_wanted_edit_form').submit();
             }
+        });
+
+
+        $("#property_wanted_edit_form").submit(function(e) {
+            e.preventDefault();
+
+            var formData = new FormData(this);
+
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                type: "POST",
+                url: "/contact/update-property-wanted",
+                data: formData,
+                processData: false,
+                contentType: false,
+                dataType: "json",
+                success: function(response) {
+                    toastr.options = {
+                        "sound": false,
+                    };
+                    toastr.success(response.msg);
+                    $('#property_wanted_edit_form').find('input, textarea, select').val(
+                        '');
+                    $('.property_wanted_edit_modal').modal('hide');
+                    $('#room_to_rent_share_table').DataTable().ajax.reload();
+                },
+                error: function(xhr, status, error) {
+                    // Handle the error
+                }
+            });
         });
     });
 </script>

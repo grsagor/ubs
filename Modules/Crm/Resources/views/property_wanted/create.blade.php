@@ -253,6 +253,14 @@
                         <div id="occupants_inputs_container">
 
                         </div>
+                        <div class="col-sm-12">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="accept-data-policy-edit" required>
+                                <label class="form-check-label" for="accept-data-policy-edit">
+                                  Accept data and policy?
+                                </label>
+                              </div>
+                        </div>
                     </fieldset>
                 </div>
 
@@ -284,7 +292,7 @@
                         <button id="prev4" type="button"
                             class="btn btn-primary float-none w-25 rounded-0 submit-btn ">Previous</button>
                         <button style="margin-top: 0;" class="addProductSubmit-btn w-25 btn btn-success"
-                            type="button" id="addProductSubmit-btn">Submit</button>
+                            type="button" id="add_ProductSubmit-btn">Submit</button>
                     </div>
                 </div>
             </form>
@@ -678,11 +686,16 @@
 </script>
 <script>
     $(document).ready(function() {
-        $(document).on('click', '#addProductSubmit-btn', function() {
+        $(document).on('click', '#add_ProductSubmit-btn', function() {
             var form = document.getElementById("showingbtn4");
             var inputs = form.querySelectorAll("[required]");
 
             var isValid = true;
+            if ($('#accept-data-policy-edit').prop('checked')) {
+                $('#accept-data-policy-edit').val('on');
+            } else {
+                $('#accept-data-policy-edit').val('');
+            }
 
             for (var i = 0; i < inputs.length; i++) {
                 if (inputs[i].value.trim() === "") {
@@ -694,43 +707,40 @@
             }
 
             if (isValid) {
-                var formData = $("#property_wanted_forms").serializeArray();
-                var jsonData = {};
-                $.each(formData, function() {
-                    var fieldName = this.name;
-                    var fieldValue = this.value;
+                $('#property_wanted_forms').submit();
+            }
+        });
 
-                    if (fieldName.endsWith("[]")) {
-                        fieldName = fieldName.slice(0, -2);
-                        if (!jsonData[fieldName]) {
-                            jsonData[fieldName] = [];
-                        }
-                        jsonData[fieldName].push(fieldValue);
-                    } else {
-                        jsonData[fieldName] = fieldValue;
-                    }
-                });
-                $.ajax({
-                    headers: {
+
+        
+        $("#property_wanted_forms").submit(function (e) {
+            e.preventDefault();
+
+            var formData = new FormData(this);
+
+            $.ajax({
+                headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
-                    type: "POST",
-                    url: "/contact/property-wanted-store",
-                    data: JSON.stringify(jsonData),
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    success: function(response) {
-                        toastr.options = {
+                type: "POST",
+                url: "/contact/property-wanted-store",
+                data: formData,
+                processData: false,
+                contentType: false,
+                dataType: "json",
+                success: function (response) {
+                    toastr.options = {
                             "sound": false,
                         };
                         toastr.success(response.msg);
                         $('#property_wanted_forms').find('input, textarea, select').val(
                             '');
                         $('.property_wanted_add_modal').modal('hide');
-                        $('#room_to_rent_share_table').DataTable().ajax.reload();
-                    },
-                });
-            }
+                        $('#room_to_rent_share_table').DataTable().ajax.reload();                },
+                error: function (xhr, status, error) {
+                    // Handle the error
+                }
+            });
         });
     });
 </script>

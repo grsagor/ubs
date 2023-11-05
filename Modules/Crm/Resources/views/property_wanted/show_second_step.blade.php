@@ -158,8 +158,7 @@
         <div class="col-sm-12">
             <div class="form-group">
                 <label for="custom_field1">Upload your profile picture</label>
-                <input class="form-control" name="images[]" type="file" id="imageUpload--create" required>
-                <span class="error text-danger" id="images-error--property_wanted_create"></span>
+                <input class="form-control" name="images" type="file" id="imageUpload--create" required>
             </div>
             <div id="create--imagePreview" class="w-100"></div>
         </div>
@@ -199,11 +198,8 @@
         $('#imageUpload--create').on('change', function(e) {
             var files = e.target.files;
             var imagePreview = $('#create--imagePreview');
-
-            // Clear the previous preview
             imagePreview.empty();
 
-            // Loop through the selected files and display them
             for (var i = 0; i < files.length; i++) {
                 var reader = new FileReader();
                 reader.onload = function(e) {
