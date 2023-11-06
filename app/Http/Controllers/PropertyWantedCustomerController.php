@@ -87,6 +87,38 @@ class PropertyWantedCustomerController extends Controller
         return view('crm::property_wanted.list');
     }
 
+    public function createPropertyPage()
+    {
+        $business_id = request()->session()->get('user.business_id');
+
+        $business_locations = BusinessLocation::where('business_id', $business_id)->get(['id', 'name', 'business_id']);
+
+        // return $business_locations;
+        $category = ServiceCategory::where('name', 'Property')->first();
+        $sub_category = SubCategory::where([['category_id', $category->id], ['name', 'buy']])->first();
+        //$sub_category = SubCategory::where(['category_id',$category->id])->get();
+
+        $child_categories = ChildCategory::where([['category_id', $category->id], ['sub_category_id', $sub_category->id],])->get();
+
+        $languages = $this->languages();
+        $countries = $this->countries();
+
+        $data = [];
+        $data['countries'] = $countries;
+        $data['languages'] = $languages;
+        $data['category'] = $category;
+        $data['sub_category'] = $sub_category;
+        $data['child_categories'] = $child_categories;
+        $data['house'] = ServiceCharge::where('child_category', 2)->first()->service_charge;
+        $data['Flat'] = ServiceCharge::where('child_category', 6)->first()->service_charge;
+        $data['studio_flat'] = ServiceCharge::where('child_category', 9)->first()->service_charge;
+        $data['single'] = ServiceCharge::where([['child_category', 1], ['size', ['single']]])->first()->service_charge;
+        $data['double'] = ServiceCharge::where([['child_category', 1], ['size', ['double']]])->first()->service_charge;
+        $data['semi_double'] = ServiceCharge::where([['child_category', 1], ['size', ['semi-double']]])->first()->service_charge;
+        $data['en_suite'] = ServiceCharge::where([['child_category', 1], ['size', ['en-suite']]])->first()->service_charge;
+        
+        return view('crm::property_wanted.property_add_page', compact('business_locations'), $data);
+    }
     public function create()
     {
         $business_id = request()->session()->get('user.business_id');

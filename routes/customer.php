@@ -11,6 +11,7 @@ use App\Http\Controllers\ServiceWantedCustomerController;
 
 // Route::group(['middleware' => ['web', 'authh', 'SetSessionData', 'auth', 'language', 'timezone', 'ContactSidebarMenu', 'CheckContactLogin'], 'prefix' => 'contact',], function () {
 Route::group(['middleware' => ['checkCustomer'], 'prefix' => 'contact',], function () {
+    Route::get('/property-wanted-create', [PropertyWantedCustomerController::class, 'createPropertyPage'])->name('property.add.page');
     Route::post('/property-wanted-store', [PropertyWantedCustomerController::class, 'storeProperty']);
     Route::resource('/property-wanted',     PropertyWantedCustomerController::class);
     Route::resource('/service_wanted',     ServiceWantedCustomerController::class);
