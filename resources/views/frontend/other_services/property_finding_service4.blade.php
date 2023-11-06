@@ -54,6 +54,108 @@
             padding-top: 30px;
             margin-top: 30px;
         }
+
+
+
+        @media (max-width: 767px) {
+            .header {
+                padding: 0px !important;
+                margin: 0px !important;
+            }
+
+            .p-5 {
+                padding: 15px !important;
+            }
+
+            .property_finding_service h3 {
+                font-size: 18px;
+            }
+
+            .property_finding_service img {
+                width: 75%;
+            }
+
+            .property_finding_service h5,
+            h6,
+            p,
+            .accordion-body {
+                font-size: 14px;
+            }
+
+            .accordion-button {
+                text-align: left;
+            }
+
+            .edu-comment {
+                padding-top: 5px !important;
+                margin-top: 5px !important;
+            }
+
+            .pt--25 {
+                padding-top: 5px !important;
+            }
+
+            .mt-5 {
+                margin-top: 15px !important;
+            }
+
+            .facebook_btn {
+                padding: 0px 10px !important;
+                font-size: 14px !important;
+                line-height: 30px !important;
+            }
+
+            .nav_link_m {
+                font-size: 13px !important;
+                padding: 8px !important;
+            }
+
+            th {
+                font-size: 18px !important;
+            }
+
+            td,
+            .ptable-title,
+            .pricing tr td i {
+                font-size: 16px !important;
+            }
+
+            .pricing .table td:first-child {
+                padding-left: 5px !important;
+            }
+
+            .pricing tr td {
+                line-height: 26px !important;
+                padding: 4px !important;
+            }
+
+            .pricing {
+                margin: 15px 0px !important;
+            }
+
+            .pricing .table {
+                width: 100% !important;
+                margin-bottom: 5px !important;
+            }
+
+            .pricing .container {
+                width: 100% !important;
+                padding-left: 0px !important;
+            }
+
+            .quantity_m {
+                margin-top: 8px !important;
+            }
+
+            .form-control {
+                padding: 3px !important;
+
+            }
+
+            select.form-control {
+                font-size: 12px !important;
+            }
+        }
     </style>
 
     @include('frontend.other_services.partial.property_finding_service.style')
@@ -89,37 +191,37 @@
                     {{-- child_category_id == 11, 12, 13, 14 this value check child categories table --}}
                     @if ($child_category_id !== null)
                         <li class="nav-item">
-                            <a class="nav-link {{ $child_category_id == 14 || $child_category_id === null ? 'active' : 'd-none' }}"
+                            <a class="nav-link nav_link_m {{ $child_category_id == 14 || $child_category_id === null ? 'active' : 'd-none' }}"
                                 data-bs-toggle="tab" href="#tab1">Studio Flat</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {{ $child_category_id == 13 ? 'active' : 'd-none' }}" data-bs-toggle="tab"
-                                href="#tab2">Flat</a>
+                            <a class="nav-link nav_link_m {{ $child_category_id == 13 ? 'active' : 'd-none' }}"
+                                data-bs-toggle="tab" href="#tab2">Flat</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {{ $child_category_id == 11 ? 'active' : 'd-none' }}" data-bs-toggle="tab"
-                                href="#tab3">Room</a>
+                            <a class="nav-link nav_link_m {{ $child_category_id == 11 ? 'active' : 'd-none' }}"
+                                data-bs-toggle="tab" href="#tab3">Room</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {{ $child_category_id == 12 ? 'active' : 'd-none' }}" data-bs-toggle="tab"
-                                href="#tab4">House</a>
+                            <a class="nav-link nav_link_m {{ $child_category_id == 12 ? 'active' : 'd-none' }}"
+                                data-bs-toggle="tab" href="#tab4">House</a>
                         </li>
                     @else
                         <li class="nav-item">
-                            <a class="nav-link {{ $child_category_id == 14 || $child_category_id === null ? 'active' : '' }}"
+                            <a class="nav-link nav_link_m {{ $child_category_id == 14 || $child_category_id === null ? 'active' : '' }}"
                                 data-bs-toggle="tab" href="#tab1">Studio Flat</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {{ $child_category_id == 13 ? 'active' : '' }}" data-bs-toggle="tab"
-                                href="#tab2">Flat</a>
+                            <a class="nav-link nav_link_m {{ $child_category_id == 13 ? 'active' : '' }}"
+                                data-bs-toggle="tab" href="#tab2">Flat</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {{ $child_category_id == 11 ? 'active' : '' }}" data-bs-toggle="tab"
-                                href="#tab3">Room</a>
+                            <a class="nav-link nav_link_m {{ $child_category_id == 11 ? 'active' : '' }}"
+                                data-bs-toggle="tab" href="#tab3">Room</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {{ $child_category_id == 12 ? 'active' : '' }}" data-bs-toggle="tab"
-                                href="#tab4">House</a>
+                            <a class="nav-link nav_link_m {{ $child_category_id == 12 ? 'active' : '' }}"
+                                data-bs-toggle="tab" href="#tab4">House</a>
                         </li>
                     @endif
 
@@ -295,7 +397,7 @@
                                                             </div>
 
 
-                                                            <div class="col-md-5">
+                                                            <div class="col-md-5 quantity_m">
                                                                 <select class="form-control"
                                                                     style="background: white; height: auto;"
                                                                     id="quantity_tab_3" name="quantity"
@@ -824,7 +926,7 @@
                     <img src="{{ asset('assets/frontend/real_zipper.jpg') }}" alt="real_zipper.png" style="width: 75%">
                 </div>
                 <div class="d-flex justify-content-center">
-                    <a href="https://www.facebook.com/groups/181034591618704" class="btn mt-4"
+                    <a href="https://www.facebook.com/groups/181034591618704" class="btn mt-4 facebook_btn"
                         style="background: #3b5998; color: white; font-size: 16px;" target="_blank">Connect with
                         Facebook</a>
                 </div>
