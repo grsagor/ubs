@@ -108,8 +108,10 @@
         <div class="row align-items-center d-flex justify-content-between">
             <div class="col-xxl-2 col-xl-2 col-lg-2 col-12 order-lg-1">
                 <div class="d-flex align-items-center justify-content-between h-100 md-py-10">
-                    <img class="d-block d-md-none" src="{{ asset('assets/images/logo.png') }}" alt=""
-                        style="width: 170px;">
+                    <a href="{{ url('/') }}">
+                        <img class="d-block d-md-none" src="{{ asset('assets/images/logo.png') }}" alt=""
+                            style="width: 170px;">
+                    </a>
                     <div class="nav-leftpush-overlay">
                         <nav class="navbar navbar-expand-lg nav-general nav-primary-hover">
                             <button type="button" class="push-nav-toggle d-lg-none border-0">
