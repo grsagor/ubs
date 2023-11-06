@@ -14,10 +14,12 @@
         @component('components.widget', ['class' => 'box-primary', 'title' => __('All your adverts')])
             @slot('tool')
                 <div class="box-tools">
-                    <button type="button" class="btn btn-block btn-primary btn-modal"
+                    <a href="{{ url('contact/property-wanted-create') }}" class="btn btn-block btn-primary">
+                        <i class="fa fa-plus"></i> @lang('messages.add')</a>
+                    {{-- <button type="button" class="btn btn-block btn-primary btn-modal"
                         data-href="{{ action([\App\Http\Controllers\PropertyWantedCustomerController::class, 'create']) }}"
                         data-container=".property_wanted_add_modal">
-                        <i class="fa fa-plus"></i> @lang('messages.add')</button>
+                        <i class="fa fa-plus"></i> @lang('messages.add')</button> --}}
                 </div>
             @endslot
             <div class="table-responsive">
