@@ -188,6 +188,10 @@ Route::middleware(['setData'])->group(function () {
     Route::get('/shop/business/service/{id}',       [ShopController::class, 'BusinessShopService'])->name('business.shop.service');
 
 
+    //Product
+    Route::get('/product/list', [ProductController::class, 'productList'])->name('product.list');
+    Route::get('/product-show/{id}', [ProductController::class, 'productShow'])->name('product.show');
+
     // CATEGORY SECTION
 
     Route::get('/categories',                       [CatalogController::class, 'categories'])->name('front.categories');
