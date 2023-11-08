@@ -1,100 +1,116 @@
 @extends('frontend.product.partial.app')
+@push('css')
+    <style>
+        .custom-border-color {
+            border-color: #38b2ac;
+        }
+    </style>
+@endpush
 @section('property_list_content')
     @foreach ($products as $item)
         <div class="col mb-3">
             <div class="product type-product rounded ">
-                <div class=" row m-0">
+                <div class="row">
                     @if ($item->image)
-                        <a href="{{ route('product.show', $item->id) }}" class="woocommerce-LoopProduct-link col-lg-4 col-md-4 col-sm-12 d-flex align-items-center card-image">
+                        <a href="{{ route('product.show', $item->id) }}" class="woocommerce-LoopProduct-link col-lg-4 col-md-4 col-sm-12 d-flex p-0">
                             <img class="lazy img-fluid rounded w-100" src="{{ asset('upload/'.$item->image) }}" alt="Product Image">
                         </a>
                     @else
-                        <a href="{{ route('product.show', $item->id) }}" class="woocommerce-LoopProduct-link col-lg-4 col-md-4 col-sm-12 d-flex align-items-center card-image">
+                        <a href="{{ route('product.show', $item->id) }}" class="woocommerce-LoopProduct-link col-lg-4 col-md-4 col-sm-12 d-flex">
                             <img src="https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg"
                                  class="swiper-lazy" alt="" style="height: 270px;">
                         </a>
                     @endif
-                    <div class=" col-lg-8 col-md-8 col-sm-12 p-0 d-flex flex-column">
-                        <div class="p-2 flex-grow-1">
-                            <h5 class="product-title" style="padding: 2px 2px 2px 2px;">
-                                <a class="text-dark" href="{{ route('product.show', $item->id) }}">
-                                    <span style="font-weight: 600;">
+                        <div class="col-lg-8 col-md-8 col-sm-12 p-0 d-flex flex-column">
+                            <div class="p-1 flex-grow-1">
+                                <h5 class="product-title" style="padding: 0; margin: 0;">
+                                    <a class="text-dark" href="{{ route('product.show', $item->id) }}" style="font-weight: 600;">
                                         {{ Str::limit($item->name, $limit = 92, $end = '...') }}
-                                    </span>
-                                </a>
-                            </h5>
-                            <h6>
-                                {{ Str::limit($item->category ? $item->category->name : '', $limit = 375, $end = '...') }}
-                            </h6>
-                            <hr class="mt-0" style="height: 2px; width: 100% !important;">
-                            <p class="category_text text-dark"
-                               style="margin-bottom: 0rem; text-align: justify; padding: 0px 10px 0px 10px">
-                                {!! Str::limit($item->product_description, $limit = 375, $end = '...') !!}
-                            </p>
-                        </div>
-                        <div class="d-flex text-center"
-                             style="background-color: whitesmoke; border-top: 3px solid var(--green);">
-                            <span class="flex-fill mt-1">
-                                <a href="javascript:;" id="addcrt" role="button" style="color: black;" >{{ __('Add to Cart')}}</a>
-                            </span>
-
-                            <div class="yith-wcwl-add-to-wishlist wishlist-fragment mt-3">
-                                <div class="wishlist-button">
-                                    <a class="add_to_wishlist" href=""></a>
+                                    </a>
+                                </h5>
+                                <div class="text-center">
+                                    <hr style="color: #38b2ac; height: 1px; width: 100% !important; margin: 0rem 0">
+                                    @if($item->category)
+                                        <div style="display: inline-block; padding: 6px; background-color: #fff; border-radius: 6%; box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);">
+                                            <h6 style="margin: 0;">
+                                                {{ Str::limit($item->category ? $item->category->name : '', $limit = 375, $end = '...') }}
+                                            </h6>
+                                        </div>
+                                    @endif
                                 </div>
-                                {{--<div class="compare-button">
-                                    <a class="compare button" href="">Compare</a>
-                                </div>--}}
 
+                                <p class="text-dark"
+                                   style="margin: 0; text-align: justify; padding: 0; line-height: 1.2;">
+                                    {!! Str::limit($item->product_description, $limit = 180, $end = '...') !!}
+                                </p>
                             </div>
+                            <div class="d-flex text-center" style="background-color: white; padding: 1px">
+                                <div class="col division" style="border: 1px  solid var(--green);">
+                                    <button type="button" class="btn-outline-secondary btn-sm">Add to Cart</button>
+                                </div>
+                                <div class="col division" style="border: 1px solid var(--green);">
+                                    <a href="#" style="color: inherit">
+                                        <i class="fa-regular fa-heart mt-2"></i>
+                                    </a>
+                                </div>
+                                <div class="col division" style="border: 1px solid var(--green);">Discount %</div>
+                                <div class="col division" style="border: 1px solid var(--green);">Price &pound;</div>
+                            </div>
+                            {{--<div class="d-flex text-center"
+                                 style="background-color: whitesmoke; border-top: 2px solid var(--green); padding: 1px">
+                                <span class="flex-fill mt-2">
+                                    <button type="button" class="btn-outline-secondary btn-sm">Add to Cart</button>
+                                </span>
+                                <div class="yith-wcwl-add-to-wishlist wishlist-fragment mt-4">
+                                    <div class="wishlist-button">
+                                        <a class="add_to_wishlist" href=""></a>
+                                    </div>
+                                </div>
+                                @if ($item->room_details !== 'null' && $item->room_details !== null)
+                                    @php
+                                        $roomDetails = json_decode($item->room_details, true);
 
-                            @if ($item->room_details !== 'null' && $item->room_details !== null)
-                                @php
-                                    $roomDetails = json_decode($item->room_details, true);
+                                        // Check if $roomDetails is not null and is an array
+                                        if (is_array($roomDetails)) {
+                                            $finalData = []; // Initialize an empty array to store the results
 
-                                    // Check if $roomDetails is not null and is an array
-                                    if (is_array($roomDetails)) {
-                                        $finalData = []; // Initialize an empty array to store the results
-
-                                        foreach ($roomDetails as $key => $data) {
-                                            if ($data == 1) {
-                                                $finalData[] = $key + 1 . '-Single'; // Concatenate key and value
-                                            } elseif ($data == 2) {
-                                                $finalData[] = $key + 1 . '-Double'; // Concatenate key and value
-                                            } elseif ($data == 3) {
-                                                $finalData[] = $key + 1 . '-Semi-double'; // Concatenate key and value
-                                            } elseif ($data == 4) {
-                                                $finalData[] = $key + 1 . '-En-suit'; // Concatenate key and value
+                                            foreach ($roomDetails as $key => $data) {
+                                                if ($data == 1) {
+                                                    $finalData[] = $key + 1 . '-Single'; // Concatenate key and value
+                                                } elseif ($data == 2) {
+                                                    $finalData[] = $key + 1 . '-Double'; // Concatenate key and value
+                                                } elseif ($data == 3) {
+                                                    $finalData[] = $key + 1 . '-Semi-double'; // Concatenate key and value
+                                                } elseif ($data == 4) {
+                                                    $finalData[] = $key + 1 . '-En-suit'; // Concatenate key and value
+                                                }
                                             }
+
+                                            // Join the elements of the array into a string using a comma and space as separators
+                                            $output = implode(', ', $finalData);
                                         }
-
-                                        // Join the elements of the array into a string using a comma and space as separators
-                                        $output = implode(', ', $finalData);
-                                    }
-                                @endphp
-                            @endif
-
-                            <span class=" flex-fill mb-0 text-white">
-                                <p class="lower-section-text mb-0  text-muted"
-                                   style="color: black !important; font-size: 15px;">
-                                    Discount Price
-                                </p>
-                                <p class="mb-0 text-muted">
-                                    &pound; {{ $item->price }}
-                                </p>
-                            </span>
-
-                            <span class=" flex-fill mb-0 text-white">
-                                <p class="lower-section-text mb-0  text-muted"
-                                   style="color: black !important; font-size: 15px;">
-                                    Price
-                                </p>
-                                <p class="mb-0 text-muted">
-                                   &pound; {{ $item->price }}
-                                </p>
-                            </span>
+                                    @endphp
+                                @endif
+                                <span class="flex-fill mb-0 text-white">
+                                    <p class="lower-section-text mb-0 text-muted"
+                                       style="color: black !important; font-size: 15px;">
+                                        Discount Price
+                                    </p>
+                                    <p class="mb-0 text-muted">
+                                        &pound; {{ $item->price }}
+                                    </p>
+                                </span>
+                                <span class="flex-fill mb-0 text-white">
+                                    <p class="lower-section-text mb-0 text-muted"
+                                       style="color: black !important; font-size: 15px;">
+                                        Price
+                                    </p>
+                                    <p class="mb-0 text-muted">
+                                       &pound; {{ $item->price }}
+                                    </p>
+                                </span>
+                            </div>--}}
                         </div>
-                    </div>
                 </div>
             </div>
         </div>
