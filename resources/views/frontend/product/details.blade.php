@@ -8,19 +8,25 @@
     @includeIf('frontend.partials.global.common-header')
 
     <div class="shop-list-page">
-        <div class="full-row py-5" style="background: #4d6873;">
+        <div class="p-6" style="background: #4d6873; margin: 0px 100px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
             <div class="container">
                 <div class="row text-center text-white">
-                    <div class="col-12">
-                        {{--@if ($info->plan)
-                            <h3 class="mb-2 text-white" style="text-transform: capitalize;">
-                                Find a property for this tenant get 30% &#163;{{ $info->payment_check->amount * 0.3 }}</h3>
-                        @endif
-                        @if ($info->upgraded !== 1)
-                            <h3 class="mb-2 text-white" style="text-transform: capitalize;">
-                                Help this tenant to get this property</h3>
-                        @endif--}}
-
+                    <div class="col-md-4">
+                        @php
+                            $imageUrl = $user_info && $user_info->file_name && File::exists(public_path("uploads/media/{$user_info->file_name}")) ? asset("uploads/media/{$user_info->file_name}") : 'https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg';
+                        @endphp
+                        <img class="rounded-circle" src="{{ $imageUrl }}" alt="Seller Image" width="100" height="100">
+                    </div>
+                    <div class="col-md-4 d-flex flex-column align-items-center justify-content-center">
+                        <h3>Seller</h3>
+                        <strong>
+                            {{ $info->user->surname ?? '' }}
+                            {{ $info->user->first_name ?? '' }}
+                            {{ $info->user->last_name ?? '' }}
+                        </strong>
+                    </div>
+                    <div class="col-md-4 d-flex align-items-center justify-content-center">
+                        <button type="button" class="btn btn-success">Contact</button>
                     </div>
                 </div>
             </div>
@@ -80,20 +86,19 @@
                                             <div class="col-lg-5">
                                                 <div class="pro-details">
                                                     <section class="row">
+
+                                                        <div class="col-lg-12 call-button mb-2" style="display: flex; align-items: center;">
+                                                            <a href="tel:{{ $info->tel }}" class="button-31" id="call_button_id" style="width: 180px; margin-left: 9px;">Add To Cart</a>
+                                                            <span id="call_id" style="display: none; margin-left: 10px;">{{ $info->tel }}</span>
+                                                        </div>
+
                                                         <div class="col-lg-12">
-                                                            <div class="button-31 mb-2"
+                                                            <div class="button-31"
                                                                  style="display:block; align-items: center; margin-left: 9px; width: 180px; background: #e0892f;">
                                                                 Order Now
                                                             </div>
                                                         </div>
 
-                                                        <div class="col-lg-12 call-button" style="display: flex; align-items: center;">
-                                                            <a href="tel:{{ $info->tel }}" class="button-31"
-                                                               id="call_button_id"
-                                                               style="width: 180px; margin-left: 9px;">Call</a>
-                                                            <span id="call_id"
-                                                                  style="display: none; margin-left: 10px;">{{ $info->tel }}</span>
-                                                        </div>
                                                     </section>
                                                 </div>
 
@@ -160,6 +165,8 @@
                         <p>{!! @$info->product_description !!} </p>
                     </div>
 
+                    <hr class="mt-3 mb-3" style="width: 100%; height: 3px; margin: 0px;">
+
                     <div class="row">
 
                         <div class="col-lg-7 p-4" style="text-align: justify">
@@ -168,7 +175,7 @@
 
                         <div class="col-lg-5 mt-3">
 
-                            <hr class="mt-3 mb-3" style="width: 100%; height: 3px; margin: 0px;">
+{{--                            <hr class="mt-3 mb-3" style="width: 100%; height: 3px; margin: 0px;">--}}
 
                             <div class="property_details">
 
