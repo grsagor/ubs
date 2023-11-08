@@ -6,12 +6,14 @@ use App\Brands;
 use App\Business;
 use App\BusinessLocation;
 use App\Category;
+use App\ChildCategory;
 use App\Exports\ProductsExport;
 use App\Media;
 use App\Product;
 use App\ProductVariation;
 use App\PurchaseLine;
 use App\SellingPriceGroup;
+use App\SubCategory;
 use App\TaxRate;
 use App\Unit;
 use App\Utils\ModuleUtil;
@@ -2374,4 +2376,44 @@ class ProductController extends Controller
 
         return Excel::download(new ProductsExport, $filename);
     }
+
+
+
+
+    public function productList(Request $request)
+    {
+        $data['per_page'] = 10;
+        $data['products'] = Product::active()->with('category')->latest();
+
+        if ($request->category_id !== null) {
+            $data['products'] = $data['products']->where('category_id', $request->category_id);
+            $data['sub_categories'] = Category::query()->where('parent_id',$request->category_id)->pluck('name', 'id');
+        }
+        if ($request->sub_category_id !== null) {
+            $data['products'] = $data['products']->where('sub_category_id', $request->sub_category_id);
+        }
+
+        $data['products'] = $data['products']->paginate($data['per_page']);
+
+        $data['categories'] = Category::query()->where('category_type','product')->pluck('name', 'id');
+        $data['category_id'] = $request->category_id;
+
+        $data['child_categories'] = ChildCategory::query()->pluck('name', 'id');
+        return view('frontend.product.product_list', $data);
+    }
+
+
+    public function productShow($id)
+    {
+        $data['info']                   = Product::with('unit','brand')->findOrFail($id);
+        $data['user_info']              = Media::where('uploaded_by', $data['info']->user_id)
+            ->where('model_type', 'App\\User')->first();
+        $data['first_image'] = 'https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg';
+
+        return view('frontend.product.details',$data);
+    }
+
+
+
+
 }
