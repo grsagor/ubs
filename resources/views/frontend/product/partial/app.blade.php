@@ -82,7 +82,7 @@
                                         @foreach ($categories as $key=>$item)
                                             <li class="cat-item cat-parent">
                                                 <a href="{{ route('product.list', ['category_id' => @$key]) }}">
-                                                    <span class="{{ Route::currentRouteName() === 'product.list' && request()->route('category_id') == $key}}">{{ $item }}</span>
+                                                    <span class="{{ Route::currentRouteName() === 'product.list' && request()->category_id == $key ? 'text-danger' : ''}}">{{ $item }}</span>
                                                 </a>
                                             </li>
                                         @endforeach
@@ -128,7 +128,7 @@
                                             @foreach ($sub_categories as $key=>$item)
                                                 <li class="cat-item cat-parent">
                                                     <a href="{{ route('product.list', ['category_id' => @$category_id,'sub_category_id' => @$key]) }}">
-                                                        <span class="{{ Route::currentRouteName() === 'product.list' && request()->route('sub_category_id') == $key}}">{{ $item }}</span>
+                                                        <span class="{{ Route::currentRouteName() === 'product.list' && request()->sub_category_id == $key ? 'text-danger' : ''}}">{{ $item }}</span>
                                                     </a>
                                                 </li>
                                             @endforeach
