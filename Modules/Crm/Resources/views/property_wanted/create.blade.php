@@ -387,6 +387,7 @@
         justify-content: center;
     }
 </style>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $(document).ready(function() {
         $('#imageUpload').on('change', function(e) {
@@ -706,6 +707,7 @@
                 contentType: false,
                 dataType: "json",
                 success: function(response) {
+                    window.location.href = '/contact/property-wanted';
                     toastr.options = {
                         "sound": false,
                     };

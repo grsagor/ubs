@@ -34,7 +34,6 @@
                         <option value="{{ $age }}">{{ $age }}</option>
                     @endforeach
                 </select>
-                <span class="error text-danger" id="occupant_age-error"></span>
             </div>
         </div>
         <div class="col-sm-12">

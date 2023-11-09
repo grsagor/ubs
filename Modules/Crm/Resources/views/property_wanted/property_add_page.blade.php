@@ -28,7 +28,8 @@
     </section>
 
 @endsection
-@section('javascript')
+{{-- @section('javascript')
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function() {
             $('#imageUpload').on('change', function(e) {
@@ -40,7 +41,7 @@
                         var image = $('<img>').attr('src', event.target.result);
                         previewContainer.append(image);
                     };
-                    reader.readAsDataURL(file);
+                    reader.readAsDataURL(file);//
                 });
             });
         });
@@ -365,4 +366,4 @@
             });
         });
     </script>
-@endsection
+@endsection --}}

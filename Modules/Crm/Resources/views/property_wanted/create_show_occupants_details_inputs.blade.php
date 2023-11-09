@@ -28,7 +28,7 @@
         <div class="col-sm-12">
             <div class="form-group">
                 <label for="occupant_age">Age</label>
-                <select class="form-control" id="occupant_age" name="occupant_age[]" required>
+                <select class="form-control" id="occupant_age_{{ $i }}" onchange="showingProfession('{{ $i }}')" name="occupant_age[]" required>
                     <option value="" selected>Select...</option>
                     @foreach (range(0, 99) as $age)
                         <option value="{{ $age }}">{{ $age }}</option>
@@ -53,7 +53,7 @@
                 <span class="error text-danger" id="occupant_relationship-error--property_wanted_create"></span>
             </div>
         </div>
-        <div class="col-sm-12">
+        <div class="col-sm-12" id="occupant_occupation_container_{{ $i }}">
             <div class="form-group">
                 <label for="occupant_occupation">Profession</label>
                 <select class="form-control" id="occupant_occupation_{{ $i }}"
@@ -71,7 +71,7 @@
             <div class="form-group">
                 <label for="occupant_job">Do you have job?</label>
                 <select onchange="showJobInfo({{ $i }})" class="form-control"
-                    id="occupant_job_{{ $i }}" name="occupant_job[]">
+                    id="occupant_job_{{ $i }}" name="occupant_job[]" required>
                     <option selected="" value="-1">Select....</option>
                     <option value="1">Yes</option>
                     <option value="0">No</option>
@@ -83,7 +83,7 @@
             <div class="col-sm-12">
                 <div class="form-group">
                     <label for="occupant_job_type">Job Type</label>
-                    <select class="form-control" id="occupant_job_type" name="occupant_job_type[]">
+                    <select class="form-control" id="occupant_job_type" name="occupant_job_type[]" required>
                         <option selected="" value="">Select....</option>
                         <option value="1">Part-time</option>
                         <option value="2">Full-time</option>
@@ -94,13 +94,13 @@
             <div class="col-sm-12">
                 <div class="form-group">
                     <label for="occupant_designation">Designation</label>
-                    <input class="form-control" type="text" name="occupant_designation[]" id="occupant_designation">
+                    <input class="form-control" type="text" name="occupant_designation[]" id="occupant_designation" required>
                 </div>
             </div>
             <div class="col-sm-12">
                 <div class="form-group">
                     <label for="occupant_miat">Monthly income before tax</label>
-                    <input class="form-control" name="occupant_miat[]" type="text" id="occupant_miat">
+                    <input class="form-control" name="occupant_miat[]" type="text" id="occupant_miat" required>
                 </div>
             </div>
         </div>
@@ -110,14 +110,14 @@
                 <div class="form-group">
                     <label for="occupant_university_name">University Name</label>
                     <input class="form-control" name="occupant_university_name[]" type="text"
-                        id="occupant_university_name">
+                        id="occupant_university_name" required>
                 </div>
             </div>
             <div class="col-sm-12">
                 <div class="form-group">
                     <label for="occupant_degree_name">Degree Name</label>
                     <input class="form-control" name="occupant_degree_name[]" type="text"
-                        id="occupant_degree_name">
+                        id="occupant_degree_name" required>
                 </div>
             </div>
 
@@ -193,6 +193,14 @@
             $(`#job_info_${i}`).show();
         } else {
             $(`#job_info_${i}`).hide();
+        }
+    }
+
+    function showingProfession(i) {
+        if ($(`#occupant_age_${i}`).val() < 12 ) {
+            $(`#occupant_occupation_container_${i}`).hide();
+        } else {
+            $(`#occupant_occupation_container_${i}`).show();
         }
     }
 </script>
