@@ -49,20 +49,25 @@
                                                         <img class="mySlides" src="{{ asset($item) }}">
                                                     </div>
                                                 @endforeach
-                                                <a class="previous" onclick="plusSlides(-1)">❮</a>
-                                                <a class="next" onclick="plusSlides(1)" style="float: right;">❯</a>
+
+                                                @if ($img_count > 1)
+                                                    <a class="previous" onclick="plusSlides(-1)">❮</a>
+                                                    <a class="next" onclick="plusSlides(1)" style="float: right;">❯</a>
+                                                @endif
                                             </div>
                                         </div>
                                     </div>
 
-                                    <div class="row p-2">
-                                        @foreach ($images as $key => $item)
-                                            <div class="col-lg-{{ $div_value }} p-2">
-                                                <img class="demo w3-opacity w3-hover-opacity-off" src="{{ asset($item) }}"
-                                                    onclick="currentDiv({{ $key + 1 }})">
-                                            </div>
-                                        @endforeach
-                                    </div>
+                                    @if ($img_count > 1)
+                                        <div class="row p-2">
+                                            @foreach ($images as $key => $item)
+                                                <div class="col-lg-{{ $div_value }} p-2">
+                                                    <img class="demo w3-opacity w3-hover-opacity-off"
+                                                        src="{{ asset($item) }}" onclick="currentDiv({{ $key + 1 }})">
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    @endif
                                 @else
                                     <figure class="woocommerce-product-gallery__wrapper">
                                         <div class="bg-light">
