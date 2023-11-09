@@ -83,7 +83,7 @@
             <div class="col-sm-12">
                 <div class="form-group">
                     <label for="occupant_job_type">Job Type</label>
-                    <select class="form-control" id="occupant_job_type" name="occupant_job_type[]" required>
+                    <select class="form-control" id="occupant_job_type" name="occupant_job_type[]">
                         <option selected="" value="">Select....</option>
                         <option value="1">Part-time</option>
                         <option value="2">Full-time</option>
@@ -94,13 +94,13 @@
             <div class="col-sm-12">
                 <div class="form-group">
                     <label for="occupant_designation">Designation</label>
-                    <input class="form-control" type="text" name="occupant_designation[]" id="occupant_designation" required>
+                    <input class="form-control" type="text" name="occupant_designation[]" id="occupant_designation">
                 </div>
             </div>
             <div class="col-sm-12">
                 <div class="form-group">
                     <label for="occupant_miat">Monthly income before tax</label>
-                    <input class="form-control" name="occupant_miat[]" type="text" id="occupant_miat" required>
+                    <input class="form-control" name="occupant_miat[]" type="text" id="occupant_miat">
                 </div>
             </div>
         </div>
@@ -110,17 +110,16 @@
                 <div class="form-group">
                     <label for="occupant_university_name">University Name</label>
                     <input class="form-control" name="occupant_university_name[]" type="text"
-                        id="occupant_university_name" required>
+                        id="occupant_university_name">
                 </div>
             </div>
             <div class="col-sm-12">
                 <div class="form-group">
                     <label for="occupant_degree_name">Degree Name</label>
                     <input class="form-control" name="occupant_degree_name[]" type="text"
-                        id="occupant_degree_name" required>
+                        id="occupant_degree_name">
                 </div>
             </div>
-
         </div>
 
 
@@ -169,8 +168,10 @@
         var isStudent = $(`#occupant_occupation_${i}`).val();
         if (isStudent == 1) {
             $(`#student_info_container_${i}`).show();
+            $(`#student_info_container_${i} input`).prop('required', true);
         } else {
             $(`#student_info_container_${i}`).hide();
+            $(`#student_info_container_${i} input`).prop('required', false);
         }
 
         if (isStudent == 0) {
@@ -178,11 +179,16 @@
             $(`#occupant_job_${i}`).val('0');
 
             $(`#have_job${i}`).hide();
+            $(`#have_job${i} input, #have_job${i} select`).prop('required', false);
+            $(`#have_job${i}`).hide();
             $(`#job_info_${i}`).hide();
+            $(`#job_info_${i} input, #job_info_${i} select`).prop('required', false);
         } else if (isStudent) {
             $(`#have_job${i}`).show();
+            $(`#have_job${i} input, #have_job${i} select`).prop('required', true);
         } else {
             $(`#have_job${i}`).hide();
+            $(`#have_job${i} input, #have_job${i} select`).prop('required', false);
         }
 
     }
@@ -191,16 +197,20 @@
         var haveJob = $(`#occupant_job_${i}`).val();
         if (haveJob == 1) {
             $(`#job_info_${i}`).show();
+            $(`#job_info_${i} input, #job_info_${i} select`).prop('required', true);
         } else {
             $(`#job_info_${i}`).hide();
+            $(`#job_info_${i} input, #job_info_${i} select`).prop('required', false);
         }
     }
 
     function showingProfession(i) {
         if ($(`#occupant_age_${i}`).val() < 12 ) {
             $(`#occupant_occupation_container_${i}`).hide();
+            $(`#occupant_occupation_container_${i} input, #occupant_occupation_container_${i} select`).prop('required', true);
         } else {
             $(`#occupant_occupation_container_${i}`).show();
+            $(`#occupant_occupation_container_${i} input, #occupant_occupation_container_${i} select`).prop('required', false);
         }
     }
 </script>

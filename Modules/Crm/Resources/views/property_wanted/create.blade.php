@@ -534,6 +534,7 @@
     var ajaxThirdStep = true;
     $(document).ready(function() {
         $("#next1").click(function(event) {
+            console.log('next 1 button clicked')
             var form = document.getElementById("showingbtn1");
             var inputs = form.querySelectorAll("[required]");
 
@@ -594,6 +595,7 @@
             }
         });
         $("#next2").click(function(event) {
+            console.log('next 2 button clicked')
             if ($('#child_category_id').val() == 11) {
                 var form = document.getElementById("showingbtn2");
             } else {
@@ -639,6 +641,7 @@
             }
         });
         $("#next3").click(function(event) {
+            console.log('next 3 button clicked')
             var form = document.getElementById("showingbtn3");
             var inputs = form.querySelectorAll("[required]");
 
@@ -665,18 +668,23 @@
 <script>
     $(document).ready(function() {
         $(document).on('click', '#add_ProductSubmit-btn', function() {
+            console.log('submit button clicked')
+
             var form = document.getElementById("showingbtn4");
             var inputs = form.querySelectorAll("[required]");
 
             var isValid = true;
             if ($('#accept-data-policy-edit').prop('checked')) {
                 $('#accept-data-policy-edit').val('on');
+                console.log('checked');
             } else {
                 $('#accept-data-policy-edit').val('');
+                console.log('unchecked');
             }
 
             for (var i = 0; i < inputs.length; i++) {
                 if (inputs[i].value.trim() === "") {
+                    console.log(inputs[i])
                     isValid = false;
                     inputs[i].setCustomValidity('');
                     inputs[i].reportValidity();
@@ -685,13 +693,17 @@
             }
 
             if (isValid) {
+            console.log('valid')
                 $('#property_wanted_forms').submit();
+            } else {
+                console.log('invalid')
             }
         });
 
 
 
         $("#property_wanted_forms").submit(function(e) {
+            console.log('submit function called')
             e.preventDefault();
 
             var formData = new FormData(this);
