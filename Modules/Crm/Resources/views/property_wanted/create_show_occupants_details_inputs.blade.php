@@ -71,7 +71,7 @@
             <div class="form-group">
                 <label for="occupant_job">Do you have job?</label>
                 <select onchange="showJobInfo({{ $i }})" class="form-control"
-                    id="occupant_job_{{ $i }}" name="occupant_job[]" required>
+                    id="occupant_job_{{ $i }}" name="occupant_job[]">
                     <option selected="" value="-1">Select....</option>
                     <option value="1">Yes</option>
                     <option value="0">No</option>
@@ -180,7 +180,6 @@
 
             $(`#have_job${i}`).hide();
             $(`#have_job${i} input, #have_job${i} select`).prop('required', false);
-            $(`#have_job${i}`).hide();
             $(`#job_info_${i}`).hide();
             $(`#job_info_${i} input, #job_info_${i} select`).prop('required', false);
         } else if (isStudent) {
@@ -207,10 +206,10 @@
     function showingProfession(i) {
         if ($(`#occupant_age_${i}`).val() < 12 ) {
             $(`#occupant_occupation_container_${i}`).hide();
-            $(`#occupant_occupation_container_${i} input, #occupant_occupation_container_${i} select`).prop('required', true);
+            $(`#occupant_occupation_container_${i} input, #occupant_occupation_container_${i} select`).prop('required', false);
         } else {
             $(`#occupant_occupation_container_${i}`).show();
-            $(`#occupant_occupation_container_${i} input, #occupant_occupation_container_${i} select`).prop('required', false);
+            $(`#occupant_occupation_container_${i} input, #occupant_occupation_container_${i} select`).prop('required', true);
         }
     }
 </script>

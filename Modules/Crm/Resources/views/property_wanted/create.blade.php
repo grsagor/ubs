@@ -538,12 +538,24 @@
             var form = document.getElementById("showingbtn1");
             var inputs = form.querySelectorAll("[required]");
 
+            var radioButton = document.querySelector('.room_details');
+
+// Check validity for the radio button
+var isValid = radioButton.checkValidity();
+
+// Report validity for the radio button
+if (!isValid) {
+    // Display the browser's default validation error message for the radio button
+    radioButton.reportValidity();
+    console.log('not valid');
+}
+
             var isValid = true;
 
             for (var i = 0; i < inputs.length; i++) {
                 if (inputs[i].value.trim() === "") {
                     isValid = false;
-                    inputs[i].setCustomValidity('');
+                    // inputs[i].setCustomValidity('');
                     inputs[i].reportValidity();
                     return;
                 }
@@ -692,8 +704,18 @@
                 }
             }
 
+            var radioButtons = document.getElementsByName('room_details');
+            var defaultValue = "";
+            for (var i = 0; i < radioButtons.length; i++) {
+                if (radioButtons[i].checked) {
+                    // If a radio button is checked, set the default value to its value
+                    defaultValue = radioButtons[i].value;
+                    break; // Exit the loop since we found the selected option
+                }
+            }
+
             if (isValid) {
-            console.log('valid')
+                console.log('valid')
                 $('#property_wanted_forms').submit();
             } else {
                 console.log('invalid')
