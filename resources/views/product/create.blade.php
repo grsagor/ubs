@@ -22,156 +22,307 @@
     'id' => 'product_add_form','class' => 'product_form ' . $form_class, 'files' => true ]) !!}
     @component('components.widget', ['class' => 'box-primary'])
         <div class="row">
-        <div class="col-sm-4">
-          <div class="form-group">
-            {!! Form::label('name', __('product.product_name') . ':*') !!}
-              {!! Form::text('name', !empty($duplicate_product->name) ? $duplicate_product->name : null, ['class' => 'form-control', 'required',
-              'placeholder' => __('product.product_name')]); !!}
-          </div>
-        </div>
-
-        <div class="col-sm-4">
-          <div class="form-group">
-            {!! Form::label('sku', __('product.sku') . ':') !!} @show_tooltip(__('tooltip.sku'))
-            {!! Form::text('sku', null, ['class' => 'form-control',
-              'placeholder' => __('product.sku')]); !!}
-          </div>
-        </div>
-        <div class="col-sm-4">
-          <div class="form-group">
-            {!! Form::label('barcode_type', __('product.barcode_type') . ':*') !!}
-              {!! Form::select('barcode_type', $barcode_types, !empty($duplicate_product->barcode_type) ? $duplicate_product->barcode_type : $barcode_default, ['class' => 'form-control select2', 'required']); !!}
-          </div>
-        </div>
-
-      <div class="clearfix"></div>
-        <div class="col-sm-4">
-          <div class="form-group">
-            {!! Form::label('unit_id', __('product.unit') . ':*') !!}
-            <div class="input-group">
-              {!! Form::select('unit_id', $units, !empty($duplicate_product->unit_id) ? $duplicate_product->unit_id : session('business.default_unit'), ['class' => 'form-control select2', 'required']); !!}
-              <span class="input-group-btn">
-                <button type="button" @if(!auth()->user()->can('unit.create')) disabled @endif class="btn btn-default bg-white btn-flat btn-modal" data-href="{{action([\App\Http\Controllers\UnitController::class, 'create'], ['quick_add' => true])}}" title="@lang('unit.add_unit')" data-container=".view_modal"><i class="fa fa-plus-circle text-primary fa-lg"></i></button>
-              </span>
+            <div class="col-sm-4">
+              <div class="form-group">
+                {!! Form::label('name', __('product.type') . ':*') !!}
+                  {!! Form::select('type', ['Product','Service'], !empty($duplicate_product->type) ? $duplicate_product->type : null, ['class' => 'form-control select2', 'required']); !!}
+              </div>
             </div>
-          </div>
-        </div>
-        
-        <div class="col-sm-4 @if(!session('business.enable_sub_units')) hide @endif">
-          <div class="form-group">
-            {!! Form::label('sub_unit_ids', __('lang_v1.related_sub_units') . ':') !!} @show_tooltip(__('lang_v1.sub_units_tooltip'))
+            <div class="col-sm-4">
+              <div class="form-group">
+                {!! Form::label('name', __('product.product_name') . ':*') !!}
+                  {!! Form::text('name', !empty($duplicate_product->name) ? $duplicate_product->name : null, ['class' => 'form-control', 'required',
+                  'placeholder' => __('product.product_name')]); !!}
+              </div>
+            </div>
 
-            {!! Form::select('sub_unit_ids[]', [], !empty($duplicate_product->sub_unit_ids) ? $duplicate_product->sub_unit_ids : null, ['class' => 'form-control select2', 'multiple', 'id' => 'sub_unit_ids']); !!}
-          </div>
-        </div>
-        @if(!empty($common_settings['enable_secondary_unit']))
-        <div class="col-sm-4">
-            <div class="form-group">
-                {!! Form::label('secondary_unit_id', __('lang_v1.secondary_unit') . ':') !!} @show_tooltip(__('lang_v1.secondary_unit_help'))
-                {!! Form::select('secondary_unit_id', $units, !empty($duplicate_product->secondary_unit_id) ? $duplicate_product->secondary_unit_id : null, ['class' => 'form-control select2']); !!}
+            <div class="col-sm-4">
+              <div class="form-group">
+                {!! Form::label('sku', __('product.sku') . ':') !!} @show_tooltip(__('tooltip.sku'))
+                {!! Form::text('sku', null, ['class' => 'form-control',
+                  'placeholder' => __('product.sku')]); !!}
+              </div>
+            </div>
+
+            <div class="clearfix"></div>
+            <div class="col-sm-4">
+              <div class="form-group">
+                {!! Form::label('unit_id', __('product.unit') . ':*') !!}
+                <div class="input-group">
+                  {!! Form::select('unit_id', $units, !empty($duplicate_product->unit_id) ? $duplicate_product->unit_id : session('business.default_unit'), ['class' => 'form-control select2', 'required']); !!}
+                  <span class="input-group-btn">
+                    <button type="button" @if(!auth()->user()->can('unit.create')) disabled @endif class="btn btn-default bg-white btn-flat btn-modal" data-href="{{action([\App\Http\Controllers\UnitController::class, 'create'], ['quick_add' => true])}}" title="@lang('unit.add_unit')" data-container=".view_modal"><i class="fa fa-plus-circle text-primary fa-lg"></i></button>
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-sm-4 @if(!session('business.enable_sub_units')) hide @endif">
+              <div class="form-group">
+                {!! Form::label('sub_unit_ids', __('lang_v1.related_sub_units') . ':') !!} @show_tooltip(__('lang_v1.sub_units_tooltip'))
+
+                {!! Form::select('sub_unit_ids[]', [], !empty($duplicate_product->sub_unit_ids) ? $duplicate_product->sub_unit_ids : null, ['class' => 'form-control select2', 'multiple', 'id' => 'sub_unit_ids']); !!}
+              </div>
+            </div>
+            @if(!empty($common_settings['enable_secondary_unit']))
+            <div class="col-sm-4">
+                <div class="form-group">
+                    {!! Form::label('secondary_unit_id', __('lang_v1.secondary_unit') . ':') !!} @show_tooltip(__('lang_v1.secondary_unit_help'))
+                    {!! Form::select('secondary_unit_id', $units, !empty($duplicate_product->secondary_unit_id) ? $duplicate_product->secondary_unit_id : null, ['class' => 'form-control select2']); !!}
+                </div>
+            </div>
+            @endif
+
+            <div class="col-sm-4 @if(!session('business.enable_brand')) hide @endif">
+              <div class="form-group">
+                {!! Form::label('brand_id', __('product.brand') . ':') !!}
+                <div class="input-group">
+                  {!! Form::select('brand_id', $brands, !empty($duplicate_product->brand_id) ? $duplicate_product->brand_id : null, ['placeholder' => __('messages.please_select'), 'class' => 'form-control select2']); !!}
+                <span class="input-group-btn">
+                    <button type="button" @if(!auth()->user()->can('brand.create')) disabled @endif class="btn btn-default bg-white btn-flat btn-modal" data-href="{{action([\App\Http\Controllers\BrandController::class, 'create'], ['quick_add' => true])}}" title="@lang('brand.add_brand')" data-container=".view_modal"><i class="fa fa-plus-circle text-primary fa-lg"></i></button>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-4 @if(!session('business.enable_category')) hide @endif">
+              <div class="form-group">
+                {!! Form::label('category_id', __('product.category') . ':') !!}
+                  {!! Form::select('category_id', $categories, !empty($duplicate_product->category_id) ? $duplicate_product->category_id : null, ['placeholder' => __('messages.please_select'), 'class' => 'form-control select2']); !!}
+              </div>
+            </div>
+
+            <div class="col-sm-4 @if(!(session('business.enable_category') && session('business.enable_sub_category'))) hide @endif">
+              <div class="form-group">
+                {!! Form::label('sub_category_id', __('product.sub_category') . ':') !!}
+                  {!! Form::select('sub_category_id', $sub_categories, !empty($duplicate_product->sub_category_id) ? $duplicate_product->sub_category_id : null, ['placeholder' => __('messages.please_select'), 'class' => 'form-control select2']); !!}
+              </div>
+            </div>
+
+            @php
+              $default_location = null;
+              if(count($business_locations) == 1){
+                $default_location = array_key_first($business_locations->toArray());
+              }
+            @endphp
+            <div class="col-sm-4">
+              <div class="form-group">
+                {!! Form::label('product_locations', __('business.business_locations') . ':') !!} @show_tooltip(__('lang_v1.product_location_help'))
+                  {!! Form::select('product_locations[]', $business_locations, $default_location, ['class' => 'form-control select2', 'multiple', 'id' => 'product_locations']); !!}
+              </div>
+            </div>
+
+            <div class="col-sm-4">
+                <div class="form-group">
+                    {!! Form::label('barcode_type', __('product.barcode_type') . ':*') !!}
+                    {!! Form::select('barcode_type', $barcode_types, !empty($duplicate_product->barcode_type) ? $duplicate_product->barcode_type : $barcode_default, ['class' => 'form-control select2', 'required']); !!}
+                </div>
             </div>
         </div>
-        @endif
+    @endcomponent
 
-        <div class="col-sm-4 @if(!session('business.enable_brand')) hide @endif">
-          <div class="form-group">
-            {!! Form::label('brand_id', __('product.brand') . ':') !!}
-            <div class="input-group">
-              {!! Form::select('brand_id', $brands, !empty($duplicate_product->brand_id) ? $duplicate_product->brand_id : null, ['placeholder' => __('messages.please_select'), 'class' => 'form-control select2']); !!}
-            <span class="input-group-btn">
-                <button type="button" @if(!auth()->user()->can('brand.create')) disabled @endif class="btn btn-default bg-white btn-flat btn-modal" data-href="{{action([\App\Http\Controllers\BrandController::class, 'create'], ['quick_add' => true])}}" title="@lang('brand.add_brand')" data-container=".view_modal"><i class="fa fa-plus-circle text-primary fa-lg"></i></button>
-              </span>
+    @component('components.widget', ['class' => 'box-primary'])
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="form-group">
+                    {!! Form::label('name', __('product.study_time') . ':*') !!}
+                    {!! Form::select('type', ['Part Time','Full Time'], !empty($duplicate_product->name) ? $duplicate_product->name : null, ['class' => 'form-control select2', 'required']); !!}
+                </div>
             </div>
-          </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    {!! Form::label('start_type', 'Starts:*') !!}
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="everyYearCheckbox" name="every_year" value="1">
+                                <label class="form-check-label" for="everyYearCheckbox">Every year</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="selectYearCheckbox" name="select_year" value="1">
+                                <label class="form-check-label" for="selectYearCheckbox">Select year</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <select id="yearSelect" name="selected_years[]" class="form-control select2" multiple>
+                                    <option disabled selected value="">Select Year</option>
+                                    @php
+                                        $currentYear = date('Y');
+                                        for ($year = $currentYear; $year <= $currentYear + 5; $year++) {
+                                            echo "<option value='$year'>$year</option>";
+                                        }
+                                    @endphp
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <select id="monthSelect" name="selected_months[]" class="form-control select2" multiple>
+                                    <option disabled selected value="">Select Month</option>
+                                    @php
+                                        $months = [
+                                            'January', 'February', 'March', 'April', 'May', 'June',
+                                            'July', 'August', 'September', 'October', 'November', 'December'
+                                        ];
+                                        foreach ($months as $month) {
+                                            echo "<option value='$month'>$month</option>";
+                                        }
+                                    @endphp
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    {!! Form::label('name', __('product.name_of_institution') . ':') !!}
+                    {!! Form::text('name_of_institution', !empty($duplicate_product->name_of_institution) ? $duplicate_product->name_of_institution : null, ['class' => 'form-control', 'required',
+                    'placeholder' => __('product.name_of_institution')]); !!}
+                </div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    {!! Form::label('name', __('product.duration') . ':*') !!}
+                    <div class="row">
+                        <div class="col-md-6">
+                            {!! Form::select('duration', ['1','2','3','4','5'], !empty($duplicate_product->duration) ? $duplicate_product->duration : null, ['class' => 'form-control select2', 'required', 'placeholder' => 'Year']); !!}
+                        </div>
+                        <div class="col-md-6">
+                            {!! Form::select('duration', ['1','2','3','4','5','7','8','9','10','11'], !empty($duplicate_product->duration) ? $duplicate_product->duration : null, ['class' => 'form-control select2', 'required', 'placeholder' => 'Month']); !!}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    {!! Form::label('name', __('product.tuition_fees') . ':') !!}
+                    <div class="row">
+                        <div class="col-md-5">
+                            {!! Form::text('home_students_fees', !empty($duplicate_product->home_students_fees) ? $duplicate_product->home_students_fees : null, ['class' => 'form-control', 'required',
+                                'placeholder' => __('product.home_students_fees')]); !!}
+                        </div>
+                        <div class="col-md-7">
+                            {!! Form::text('int_students_fees', !empty($duplicate_product->int_students_fees) ? $duplicate_product->int_students_fees : null, ['class' => 'form-control', 'required',
+                                'placeholder' => __('product.int_students_fees')]); !!}
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="col-sm-4 @if(!session('business.enable_category')) hide @endif">
-          <div class="form-group">
-            {!! Form::label('category_id', __('product.category') . ':') !!}
-              {!! Form::select('category_id', $categories, !empty($duplicate_product->category_id) ? $duplicate_product->category_id : null, ['placeholder' => __('messages.please_select'), 'class' => 'form-control select2']); !!}
-          </div>
-        </div>
+    @endcomponent
 
-        <div class="col-sm-4 @if(!(session('business.enable_category') && session('business.enable_sub_category'))) hide @endif">
-          <div class="form-group">
-            {!! Form::label('sub_category_id', __('product.sub_category') . ':') !!}
-              {!! Form::select('sub_category_id', $sub_categories, !empty($duplicate_product->sub_category_id) ? $duplicate_product->sub_category_id : null, ['placeholder' => __('messages.please_select'), 'class' => 'form-control select2']); !!}
-          </div>
-        </div>
 
-        @php
-          $default_location = null;
-          if(count($business_locations) == 1){
-            $default_location = array_key_first($business_locations->toArray());
-          }
-        @endphp
-        <div class="col-sm-4">
-          <div class="form-group">
-            {!! Form::label('product_locations', __('business.business_locations') . ':') !!} @show_tooltip(__('lang_v1.product_location_help'))
-              {!! Form::select('product_locations[]', $business_locations, $default_location, ['class' => 'form-control select2', 'multiple', 'id' => 'product_locations']); !!}
-          </div>
-        </div>
+    @component('components.widget', ['class' => 'box-primary'])
+        <div class="row">
+            <div class="col-sm-8">
+                <div class="form-group">
+                    {!! Form::label('product_description', __('lang_v1.general_facilities') . ':') !!}
+                    {!! Form::textarea('product_description', !empty($duplicate_product->product_description) ? $duplicate_product->product_description : null, ['class' => 'form-control']); !!}
+                </div>
+            </div>
 
-        
-        <div class="clearfix"></div>
-        
-        <div class="col-sm-4">
-          <div class="form-group">
-          <br>
-            <label>
-              {!! Form::checkbox('enable_stock', 1, !empty($duplicate_product) ? $duplicate_product->enable_stock : true, ['class' => 'input-icheck', 'id' => 'enable_stock']); !!} <strong>@lang('product.manage_stock')</strong>
-            </label>@show_tooltip(__('tooltip.enable_stock')) <p class="help-block"><i>@lang('product.enable_stock_help')</i></p>
-          </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    {!! Form::label('name', __('product.work_placement') . ':*') !!}
+                    {!! Form::select('work_placement', ['Available','Unavailable'], !empty($duplicate_product->work_placement) ? $duplicate_product->work_placement : null, ['class' => 'form-control select2', 'required']); !!}
+                </div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    {!! Form::label('name', __('product.tuition_fee_installment') . ':*') !!}
+                    {!! Form::select('tuition_fee_installment', ['Available','Unavailable'], !empty($duplicate_product->tuition_fee_installment) ? $duplicate_product->tuition_fee_installment : null, ['class' => 'form-control select2', 'required']); !!}
+                </div>
+            </div>
         </div>
-        <div class="col-sm-4 @if(!empty($duplicate_product) && $duplicate_product->enable_stock == 0) hide @endif" id="alert_quantity_div">
-          <div class="form-group">
-            {!! Form::label('alert_quantity',  __('product.alert_quantity') . ':') !!} @show_tooltip(__('tooltip.alert_quantity'))
-            {!! Form::text('alert_quantity', !empty($duplicate_product->alert_quantity) ? @format_quantity($duplicate_product->alert_quantity) : null , ['class' => 'form-control input_number',
-            'placeholder' => __('product.alert_quantity'), 'min' => '0']); !!}
-          </div>
+    @endcomponent
+
+    @component('components.widget', ['class' => 'box-primary'])
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="form-group">
+                    {!! Form::label('requirement', __('product.requirements') . ':') !!}
+                    {!! Form::select('requirements',['English Language','Education','General Requirements'], !empty($duplicate_product->requirements) ? $duplicate_product->requirements : null, ['class' => 'form-control']); !!}
+                </div>
+            </div>
+            <div class="col-sm-8">
+                <div class="form-group">
+                    {!! Form::label('requirements', __('product.requirement_details') . ':') !!}
+                    {!! Form::textarea('requirement_details', !empty($duplicate_product->requirement_details) ? $duplicate_product->requirement_details : null, ['class' => 'form-control']); !!}
+                </div>
+            </div>
         </div>
-        @if(!empty($common_settings['enable_product_warranty']))
-        <div class="col-sm-4">
-          <div class="form-group">
-            {!! Form::label('warranty_id', __('lang_v1.warranty') . ':') !!}
-            {!! Form::select('warranty_id', $warranties, null, ['class' => 'form-control select2', 'placeholder' => __('messages.please_select')]); !!}
-          </div>
-        </div>
-        @endif
+    @endcomponent
+
+    @component('components.widget', ['class' => 'box-primary'])
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <br>
+                    <label>
+                        {!! Form::checkbox('enable_stock', 1, !empty($duplicate_product) ? $duplicate_product->enable_stock : true, ['class' => 'input-icheck', 'id' => 'enable_stock']); !!} <strong>@lang('product.manage_stock')</strong>
+                    </label>@show_tooltip(__('tooltip.enable_stock')) <p class="help-block"><i>@lang('product.enable_stock_help')</i></p>
+                </div>
+            </div>
+            <div class="col-sm-4 @if(!empty($duplicate_product) && $duplicate_product->enable_stock == 0) hide @endif" id="alert_quantity_div">
+                <div class="form-group">
+                    {!! Form::label('alert_quantity',  __('product.alert_quantity') . ':') !!} @show_tooltip(__('tooltip.alert_quantity'))
+                    {!! Form::text('alert_quantity', !empty($duplicate_product->alert_quantity) ? @format_quantity($duplicate_product->alert_quantity) : null , ['class' => 'form-control input_number',
+                    'placeholder' => __('product.alert_quantity'), 'min' => '0']); !!}
+                </div>
+            </div>
+            @if(!empty($common_settings['enable_product_warranty']))
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        {!! Form::label('warranty_id', __('lang_v1.warranty') . ':') !!}
+                        {!! Form::select('warranty_id', $warranties, null, ['class' => 'form-control select2', 'placeholder' => __('messages.please_select')]); !!}
+                    </div>
+                </div>
+            @endif
         <!-- include module fields -->
-        @if(!empty($pos_module_data))
-            @foreach($pos_module_data as $key => $value)
-                @if(!empty($value['view_path']))
-                    @includeIf($value['view_path'], ['view_data' => $value['view_data']])
-                @endif
-            @endforeach
-        @endif
-        <div class="clearfix"></div>
-        <div class="col-sm-8">
-          <div class="form-group">
-            {!! Form::label('product_description', __('lang_v1.product_description') . ':') !!}
-              {!! Form::textarea('product_description', !empty($duplicate_product->product_description) ? $duplicate_product->product_description : null, ['class' => 'form-control']); !!}
-          </div>
-        </div>
-        <div class="col-sm-4">
-          <div class="form-group">
-            {!! Form::label('image', __('lang_v1.product_image') . ':') !!}
-            {!! Form::file('image', ['id' => 'upload_image', 'accept' => 'image/*', 
-                'required' => $is_image_required, 'class' => 'upload-element']); !!}
-            <small><p class="help-block">@lang('purchase.max_file_size', ['size' => (config('constants.document_size_limit') / 1000000)]) <br> @lang('lang_v1.aspect_ratio_should_be_1_1')</p></small>
-          </div>
-        </div>
-        </div>
-        <div class="col-sm-4">
-          <div class="form-group">
-            {!! Form::label('product_brochure', __('lang_v1.product_brochure') . ':') !!}
-            {!! Form::file('product_brochure', ['id' => 'product_brochure', 'accept' => implode(',', array_keys(config('constants.document_upload_mimes_types')))]); !!}
-            <small>
-                <p class="help-block">
-                    @lang('purchase.max_file_size', ['size' => (config('constants.document_size_limit') / 1000000)])
-                    @includeIf('components.document_help_text')
-                </p>
-            </small>
-          </div>
+            @if(!empty($pos_module_data))
+                @foreach($pos_module_data as $key => $value)
+                    @if(!empty($value['view_path']))
+                        @includeIf($value['view_path'], ['view_data' => $value['view_data']])
+                    @endif
+                @endforeach
+            @endif
+            <div class="clearfix"></div>
+            <div class="col-sm-8">
+                <div class="form-group">
+                    {!! Form::label('product_description', __('lang_v1.product_description') . ':') !!}
+                    {!! Form::textarea('product_description', !empty($duplicate_product->product_description) ? $duplicate_product->product_description : null, ['class' => 'form-control']); !!}
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    {!! Form::label('image', __('lang_v1.product_image') . ':') !!}
+                    {!! Form::file('image', ['id' => 'upload_image', 'accept' => 'image/*',
+                        'required' => $is_image_required, 'class' => 'upload-element']); !!}
+                    <small><p class="help-block">@lang('purchase.max_file_size', ['size' => (config('constants.document_size_limit') / 1000000)]) <br> @lang('lang_v1.aspect_ratio_should_be_1_1')</p></small>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    {!! Form::label('product_brochure', __('lang_v1.product_brochure') . ':') !!}
+                    {!! Form::file('product_brochure', ['id' => 'product_brochure', 'accept' => implode(',', array_keys(config('constants.document_upload_mimes_types')))]); !!}
+                    <small>
+                        <p class="help-block">
+                            @lang('purchase.max_file_size', ['size' => (config('constants.document_size_limit') / 1000000)])
+                            @includeIf('components.document_help_text')
+                        </p>
+                    </small>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    {!! Form::label('youtube_link', __('product.youtube_link') . ':*') !!}
+                    {!! Form::text('youtube_link', !empty($duplicate_product->youtube_link) ? $duplicate_product->youtube_link : null, ['class' => 'form-control', 'required',
+                    'placeholder' => __('product.youtube_link')]); !!}
+                </div>
+            </div>
         </div>
     @endcomponent
 
@@ -394,6 +545,15 @@
                 //     console.log('Pressed: ' + iKeyCode);
                 // }
             });
+
+            /*$("#selectYearCheckbox").change(function() {
+                if ($(this).is(":checked")) {
+                    $("#monthSelect").show();
+                    alert('HI');
+                } else {
+                    $("#monthSelect").hide();
+                }
+            });*/
         });
     </script>
 @endsection
