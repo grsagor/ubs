@@ -78,10 +78,10 @@ class ServicePropertyWanted extends Model
         'user_id',
     ];
 
-    protected $casts = [
-        'occupant_details'      => 'array',
-        'age'                   => 'array',
-    ];
+    // protected $casts = [
+    //     'occupant_details'      => 'array',
+    //     'age'                   => 'array',
+    // ];
 
     public function getPerAttribute($value)
     {

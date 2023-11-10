@@ -28,7 +28,7 @@
         <div class="col-sm-12">
             <div class="form-group">
                 <label for="occupant_age">Age</label>
-                <select class="form-control" id="occupant_age" name="occupant_age[]" required>
+                <select class="form-control" id="occupant_age_{{ $i }}" onchange="showingProfession('{{ $i }}')" name="occupant_age[]" required>
                     <option value="" selected>Select...</option>
                     @foreach (range(0, 99) as $age)
                         <option value="{{ $age }}">{{ $age }}</option>
@@ -53,7 +53,7 @@
                 <span class="error text-danger" id="occupant_relationship-error--property_wanted_create"></span>
             </div>
         </div>
-        <div class="col-sm-12">
+        <div class="col-sm-12" id="occupant_occupation_container_{{ $i }}">
             <div class="form-group">
                 <label for="occupant_occupation">Profession</label>
                 <select class="form-control" id="occupant_occupation_{{ $i }}"
@@ -120,7 +120,6 @@
                         id="occupant_degree_name">
                 </div>
             </div>
-
         </div>
 
 
@@ -169,8 +168,10 @@
         var isStudent = $(`#occupant_occupation_${i}`).val();
         if (isStudent == 1) {
             $(`#student_info_container_${i}`).show();
+            $(`#student_info_container_${i} input`).prop('required', true);
         } else {
             $(`#student_info_container_${i}`).hide();
+            $(`#student_info_container_${i} input`).prop('required', false);
         }
 
         if (isStudent == 0) {
@@ -178,11 +179,15 @@
             $(`#occupant_job_${i}`).val('0');
 
             $(`#have_job${i}`).hide();
+            $(`#have_job${i} input, #have_job${i} select`).prop('required', false);
             $(`#job_info_${i}`).hide();
+            $(`#job_info_${i} input, #job_info_${i} select`).prop('required', false);
         } else if (isStudent) {
             $(`#have_job${i}`).show();
+            $(`#have_job${i} input, #have_job${i} select`).prop('required', true);
         } else {
             $(`#have_job${i}`).hide();
+            $(`#have_job${i} input, #have_job${i} select`).prop('required', false);
         }
 
     }
@@ -191,8 +196,20 @@
         var haveJob = $(`#occupant_job_${i}`).val();
         if (haveJob == 1) {
             $(`#job_info_${i}`).show();
+            $(`#job_info_${i} input, #job_info_${i} select`).prop('required', true);
         } else {
             $(`#job_info_${i}`).hide();
+            $(`#job_info_${i} input, #job_info_${i} select`).prop('required', false);
+        }
+    }
+
+    function showingProfession(i) {
+        if ($(`#occupant_age_${i}`).val() < 12 ) {
+            $(`#occupant_occupation_container_${i}`).hide();
+            $(`#occupant_occupation_container_${i} input, #occupant_occupation_container_${i} select`).prop('required', false);
+        } else {
+            $(`#occupant_occupation_container_${i}`).show();
+            $(`#occupant_occupation_container_${i} input, #occupant_occupation_container_${i} select`).prop('required', true);
         }
     }
 </script>

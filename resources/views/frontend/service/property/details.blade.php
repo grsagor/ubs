@@ -252,19 +252,8 @@
                                     <th>Nationality</th>
                                 </tr>
 
-                                @if ($info->occupant_details != null)
-                                    @php
-                                        $occupantDetails = json_decode($info->occupant_details, true);
+                                @if ($occupantDetails != null)
 
-                                        $total_monthly_income_before_tax = 0;
-
-                                        foreach ($occupantDetails as $item) {
-                                            if ($item['occupant_pay_rent'] == 1) {
-                                                $total_monthly_income_before_tax += $item['occupant_miat'];
-                                            }
-                                        }
-                                        // dd($total_monthly_income_before_tax);
-                                    @endphp
 
                                     @foreach ($occupantDetails as $item)
                                         <tr>

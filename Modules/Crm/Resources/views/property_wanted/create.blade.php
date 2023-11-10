@@ -387,6 +387,7 @@
         justify-content: center;
     }
 </style>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $(document).ready(function() {
         $('#imageUpload').on('change', function(e) {
@@ -533,15 +534,28 @@
     var ajaxThirdStep = true;
     $(document).ready(function() {
         $("#next1").click(function(event) {
+            console.log('next 1 button clicked')
             var form = document.getElementById("showingbtn1");
             var inputs = form.querySelectorAll("[required]");
+
+            var radioButton = document.querySelector('.room_details');
+
+// Check validity for the radio button
+var isValid = radioButton.checkValidity();
+
+// Report validity for the radio button
+if (!isValid) {
+    // Display the browser's default validation error message for the radio button
+    radioButton.reportValidity();
+    console.log('not valid');
+}
 
             var isValid = true;
 
             for (var i = 0; i < inputs.length; i++) {
                 if (inputs[i].value.trim() === "") {
                     isValid = false;
-                    inputs[i].setCustomValidity('');
+                    // inputs[i].setCustomValidity('');
                     inputs[i].reportValidity();
                     return;
                 }
@@ -593,6 +607,7 @@
             }
         });
         $("#next2").click(function(event) {
+            console.log('next 2 button clicked')
             if ($('#child_category_id').val() == 11) {
                 var form = document.getElementById("showingbtn2");
             } else {
@@ -638,6 +653,7 @@
             }
         });
         $("#next3").click(function(event) {
+            console.log('next 3 button clicked')
             var form = document.getElementById("showingbtn3");
             var inputs = form.querySelectorAll("[required]");
 
@@ -664,18 +680,23 @@
 <script>
     $(document).ready(function() {
         $(document).on('click', '#add_ProductSubmit-btn', function() {
+            console.log('submit button clicked')
+
             var form = document.getElementById("showingbtn4");
             var inputs = form.querySelectorAll("[required]");
 
             var isValid = true;
             if ($('#accept-data-policy-edit').prop('checked')) {
                 $('#accept-data-policy-edit').val('on');
+                console.log('checked');
             } else {
                 $('#accept-data-policy-edit').val('');
+                console.log('unchecked');
             }
 
             for (var i = 0; i < inputs.length; i++) {
                 if (inputs[i].value.trim() === "") {
+                    console.log(inputs[i])
                     isValid = false;
                     inputs[i].setCustomValidity('');
                     inputs[i].reportValidity();
@@ -683,14 +704,28 @@
                 }
             }
 
+            var radioButtons = document.getElementsByName('room_details');
+            var defaultValue = "";
+            for (var i = 0; i < radioButtons.length; i++) {
+                if (radioButtons[i].checked) {
+                    // If a radio button is checked, set the default value to its value
+                    defaultValue = radioButtons[i].value;
+                    break; // Exit the loop since we found the selected option
+                }
+            }
+
             if (isValid) {
+                console.log('valid')
                 $('#property_wanted_forms').submit();
+            } else {
+                console.log('invalid')
             }
         });
 
 
 
         $("#property_wanted_forms").submit(function(e) {
+            console.log('submit function called')
             e.preventDefault();
 
             var formData = new FormData(this);
@@ -706,6 +741,7 @@
                 contentType: false,
                 dataType: "json",
                 success: function(response) {
+                    window.location.href = '/contact/property-wanted';
                     toastr.options = {
                         "sound": false,
                     };

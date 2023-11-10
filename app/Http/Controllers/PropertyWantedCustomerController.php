@@ -182,7 +182,6 @@ class PropertyWantedCustomerController extends Controller
 
     public function storeProperty(Request $request)
     {
-        // return response()->json($request);
         try {
             $occupant_details = [];
 
@@ -223,11 +222,11 @@ class PropertyWantedCustomerController extends Controller
             $requestedData['room_details']          = json_encode($request->room_details);
             $requestedData['age']                   = json_encode($request->age);
 
-            // $requestedData['images'] = $this->image($request->file('images'), '', 800, 500);
             if ($request->hasFile('images')) {
                 $requestedData['images'] = FileHelper::saveImages($request->file('images'));
             }
-            $property->fill($requestedData)->save();
+            $property->fill($requestedData);
+            $property->save();
 
             $output = [
                 'success' => true,

@@ -2,14 +2,14 @@
     <div class="col-sm-12" style="margin-bottom: 15px;">
         <label>Size of room-{{ $i + 1 }}</label>
         <div class="form_inputs">
-            <label class="form_input form_radio"><input type="radio" name="room_details[{{ $i }}]"
+            <label class="form_input form_radio"><input type="radio" class="room_details" name="room_details"
                     value=1 required>Single</label>
-            <label class="form_input form_radio"><input type="radio" name="room_details[{{ $i }}]"
-                    value=2 required>Double</label>
-            <label class="form_input form_radio"><input type="radio" name="room_details[{{ $i }}]"
-                    value=6 required>Semi-double </label>
-            <label class="form_input form_radio"><input type="radio" name="room_details[{{ $i }}]"
-                    value=7 required>En-suit</label>
+            <label class="form_input form_radio"><input type="radio" class="room_details" name="room_details"
+                    value=2 >Double</label>
+            <label class="form_input form_radio"><input type="radio" class="room_details" name="room_details"
+                    value=6 >Semi-double </label>
+            <label class="form_input form_radio"><input type="radio" class="room_details" name="room_details"
+                    value=7 >En-suit</label>
         </div>
     </div>
 @endfor
