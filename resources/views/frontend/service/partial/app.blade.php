@@ -25,7 +25,7 @@
 
         p.category_text {
             /* min-height: 20px;
-                                                                                                                                                                                                                                                                                                                                                                                                                                            max-height: 20px; */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                max-height: 20px; */
         }
 
         h5.product-title {
@@ -113,9 +113,9 @@
                                         @foreach ($child_categories as $item)
                                             <li class="cat-item cat-parent">
                                                 <a
-                                                    href="{{ route('property.list', ['sub_category_id' => $sub_category_id, 'child_category_id' => $item->id]) }}">
+                                                    href="{{ route('property.list', ['sub_category_id' => $sub_category_id, 'child_category_id' => strtolower(str_replace(' ', '-', $item->name))]) }}">
                                                     <span
-                                                        class="{{ Route::currentRouteName() === 'property.list' && request()->route('sub_category_id') == $sub_category_id && request()->route('child_category_id') == $item->id ? 'active_child_category' : '' }}">{{ $item->name }}</span>
+                                                        class="{{ Route::currentRouteName() === 'property.list' && request()->route('sub_category_id') == $sub_category_id && request()->route('child_category_id') == strtolower(str_replace(' ', '-', $item->name)) ? 'active_child_category' : '' }}">{{ $item->name }}</span>
                                                 </a>
                                             </li>
                                         @endforeach

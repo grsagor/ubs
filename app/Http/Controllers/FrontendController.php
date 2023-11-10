@@ -41,6 +41,15 @@ class FrontendController extends Controller
                 ->latest();
 
             if ($child_category_id !== null) {
+                if ($child_category_id == 'room') {
+                    $child_category_id = 1;
+                } elseif ($child_category_id == 'house') {
+                    $child_category_id = 2;
+                } elseif ($child_category_id == 'flat') {
+                    $child_category_id = 6;
+                } elseif ($child_category_id == 'studio-flat') {
+                    $child_category_id = 9;
+                }
                 $data['rooms'] = $data['rooms']->where('child_category_id', $child_category_id);
             }
 
@@ -76,7 +85,17 @@ class FrontendController extends Controller
                 })
                 ->latest();
 
+
             if ($child_category_id !== null) {
+                if ($child_category_id == 'room') {
+                    $child_category_id = 11;
+                } elseif ($child_category_id == 'house') {
+                    $child_category_id = 12;
+                } elseif ($child_category_id == 'flat') {
+                    $child_category_id = 13;
+                } elseif ($child_category_id == 'studio-flat') {
+                    $child_category_id = 14;
+                }
                 $data['rooms'] = $data['rooms']->where('child_category_id', $child_category_id);
             }
 
