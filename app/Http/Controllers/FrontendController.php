@@ -9,9 +9,9 @@ use Modules\Crm\Entities\ServicePropertyWanted;
 
 class FrontendController extends Controller
 {
-    public function roomList(Request $request, $sub_category_id = 2, $child_category_id = null)
+    public function roomList(Request $request, $sub_category_id = 'property-to-rent', $child_category_id = null)
     {
-        if ($sub_category_id == 2) {
+        if ($sub_category_id == 'property-to-rent') {
             $data['per_page'] = 10;
             $data['rooms']         = ServiceAdvertiseRoom::active()->select(
                 'id',
@@ -46,12 +46,12 @@ class FrontendController extends Controller
 
             $data['rooms'] = $data['rooms']->paginate($data['per_page']);
 
-            $data['child_categories']               = ChildCategory::where('sub_category_id', $sub_category_id)->get();
+            $data['child_categories']               = ChildCategory::where('sub_category_id', 2)->get();
             $data['sub_category_id']                = $sub_category_id;
 
             return view('frontend.service.room.room_list', $data);
         }
-        if ($sub_category_id == 1) {
+        if ($sub_category_id == 'property-wanted') {
             $data['per_page'] = 10;
 
             $data['rooms']          = ServicePropertyWanted::active()->select(
@@ -82,7 +82,7 @@ class FrontendController extends Controller
 
             $data['rooms'] = $data['rooms']->paginate($data['per_page']);
 
-            $data['child_categories']             = ChildCategory::where('sub_category_id', $sub_category_id)->get();
+            $data['child_categories']             = ChildCategory::where('sub_category_id', 1)->get();
             $data['sub_category_id']             = $sub_category_id;
 
             // return $data;
