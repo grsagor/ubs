@@ -35,10 +35,10 @@
                                     </span>
                                 </a>
                             </h5>
-                            <hr class="mt-0" style="height: 2px; width: 100% !important;">
+                            <hr class="mt-0" style="height: 2px; width: 100% !important; margin-bottom: 6px;">
                             <p class="category_text text-dark"
                                 style="margin-bottom: 0rem; text-align: justify; padding: 0px 10px 0px 10px">
-                                {{ Str::limit($item->ad_text, $limit = 375, $end = '...') }}
+                                {{ Str::limit($item->ad_text, $limit = 170, $end = '...') }}
                             </p>
                         </div>
                         <div class="d-flex text-center"
