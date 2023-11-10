@@ -20,6 +20,7 @@ return [
     'add_as_sub_category' => 'Add as sub-category',
     'select_parent_category' => 'Select parent category',
     'added_success' => 'Category added successfully',
+    'added_sub_success' => 'Sub-Category added successfully',
     'updated_success' => 'Category updated successfully',
     'deleted_success' => 'Category deleted successfully',
     'add_category' => 'Add Category',

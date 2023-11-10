@@ -194,6 +194,11 @@ class Product extends Model
         return $this->belongsToMany(\App\BusinessLocation::class, 'product_locations', 'product_id', 'location_id');
     }
 
+    public function business_location()
+    {
+        return $this->belongsTo(BusinessLocation::class, 'business_id');
+    }
+
     /**
      * Scope a query to only include products available for a location.
      *

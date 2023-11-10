@@ -57,6 +57,7 @@
             success: function(result) {
                 if (result.success === true) {
                     $('div.category_modal').modal('hide');
+                    $('div.sub_category_modal').modal('hide');
                     toastr.success(result.msg);
                     if(typeof category_table !== 'undefined') {
                         category_table.ajax.reload();

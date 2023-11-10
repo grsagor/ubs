@@ -552,6 +552,8 @@ return [
     'multi_unit_help' => 'Define this unit as the multiple of other units <br><strong>Ex: 1 dozen = 12 pieces</strong>',
     'add_as_multiple_of_base_unit' => 'Add as multiple of other unit',
     'product_description' => 'Product Description',
+    'general_facilities' => 'General Facilities',
+    'english_language' => 'English Language',
     'click_here' => 'Click here',
     'for_more_info' => 'for more info',
     'username_help' => 'Leave blank to auto generate username',

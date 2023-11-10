@@ -8,7 +8,7 @@
     </div>
 
     <div class="modal-body">
-      <input type="hidden" name="category_type" value="{{$category_type}}">
+{{--      <input type="hidden" name="category_type" value="{{$category_type}}">--}}
       @php
         $name_label = !empty($module_category_data['taxonomy_label']) ? $module_category_data['taxonomy_label'] : __( 'category.category_name' );
         $cat_code_enabled = isset($module_category_data['enable_taxonomy_code']) && !$module_category_data['enable_taxonomy_code'] ? false : true;
@@ -20,12 +20,23 @@
         $category_code_help_text = !empty($module_category_data['taxonomy_code_help_text']) ? $module_category_data['taxonomy_code_help_text'] : __('lang_v1.category_code_help');
       @endphp
       <div class="form-group">
-        {!! Form::label('name', $name_label . ':*') !!}
+        {!! Form::label('name', 'Type' . ':*') !!}
+        {!! Form::Select('category_type',['product'=>'Product','service'=>'Service'], null, ['class' => 'form-control', 'required']); !!}
+      </div>
+      @if($mode == "sub_category")
+        <input type="hidden" name="add_as_sub_cat" value="1">
+        <div class="form-group">
+          {!! Form::label('parent_id', __( 'category.select_parent_category' ) . ':*') !!}
+          {!! Form::select('parent_id', ['' => 'Select One'] + $parent_categories, null, ['class' => 'form-control', ($mode == 'sub_category' ? ' required' : '')]); !!}
+        </div>
+      @endif
+      <div class="form-group">
+        {!! Form::label('name',$mode == 'sub_category' ? 'Sub '.$name_label : $name_label . ':*') !!}
           {!! Form::text('name', null, ['class' => 'form-control', 'required', 'placeholder' => $name_label]); !!}
       </div>
       @if($cat_code_enabled)
       <div class="form-group">
-        {!! Form::label('short_code', $cat_code_label . ':') !!}
+        {!! Form::label('short_code', $mode == 'sub_category' ? 'Sub '.$cat_code_label : $cat_code_label . ':') !!}
         {!! Form::text('short_code', null, ['class' => 'form-control', 'placeholder' => $cat_code_label]); !!}
         <p class="help-block">{!! $category_code_help_text !!}</p>
       </div>
@@ -34,7 +45,7 @@
         {!! Form::label('description', __( 'lang_v1.description' ) . ':') !!}
         {!! Form::textarea('description', null, ['class' => 'form-control', 'placeholder' => __( 'lang_v1.description'), 'rows' => 3]); !!}
       </div>
-      @if(!empty($parent_categories) && $enable_sub_category)
+      {{--@if(!empty($parent_categories) && $enable_sub_category)
         <div class="form-group">
             <div class="checkbox">
               <label>
@@ -46,7 +57,7 @@
           {!! Form::label('parent_id', __( 'category.select_parent_category' ) . ':') !!}
           {!! Form::select('parent_id', $parent_categories, null, ['class' => 'form-control']); !!}
         </div>
-      @endif
+      @endif--}}
     </div>
 
     <div class="modal-footer">
