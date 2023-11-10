@@ -64,8 +64,10 @@ class FrontendController extends Controller
                 'images',
                 'plan',
                 'advert_type',
+                'child_category_id',
                 'created_at'
             )
+                ->with('child_category')
                 // ->search($request)
                 ->whereNotIn('id', function ($query) {
                     $query->select('foregn_key')
@@ -83,6 +85,7 @@ class FrontendController extends Controller
             $data['child_categories']             = ChildCategory::where('sub_category_id', $sub_category_id)->get();
             $data['sub_category_id']             = $sub_category_id;
 
+            // return $data;
             return view('frontend.service.property.property_list', $data);
         }
     }

@@ -81,11 +81,13 @@
                             <span class=" flex-fill mb-0 text-white">
                                 <p class="lower-section-text mb-0  text-muted"
                                     style="color: black !important; font-size: 15px;">
-                                    Room Size
+                                    Wanted
                                 </p>
                                 <p class="mb-0 text-muted">
-                                    @if ($item->room_details !== 'null' && $item->room_details !== null)
+                                    @if ($item->child_category_id == 11)
                                         {{ $output }}
+                                    @else
+                                        {{ $item->child_category->name }}
                                     @endif
                                 </p>
                             </span>
