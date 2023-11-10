@@ -191,7 +191,7 @@
                     <hr class="mt-3" style="width: 100%; height: 3px; margin: 0px;">
 
                     <div class="row">
-                        <p>{!! @$info->product_description !!} </p>
+                        <p style="margin-bottom: 0px; margin-top: 5px;">{!! @$info->product_description !!} </p>
                     </div>
 
                     <hr class="mb-3" style="width: 100%; height: 3px; margin: 0px;">

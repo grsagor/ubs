@@ -44,7 +44,7 @@
                                     {!! Str::limit($item->product_description, $limit = 180, $end = '...') !!}
                                 </p>
                             </div>
-                            <div class="d-flex text-center" style="background-color: white; padding: 1px">
+                            <div class="d-flex mr-10 text-center" style="background-color: white; padding: 1px">
                                 <div class="col division" style="border: 1px  solid var(--green);">
                                     <button type="button" class="btn-sm">Add to Cart</button>
                                 </div>
