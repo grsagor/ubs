@@ -396,24 +396,15 @@
                             @if ($info->roomfurnishings)
                                 @php
                                     $amenities = json_decode($info->roomfurnishings, true);
-
-                                    if (is_array($amenities)) {
-                                        array_walk($amenities, function (&$amenity) {
-                                            $amenity = ucfirst($amenity);
-                                        });
-                                    }
                                 @endphp
 
-                                <p>
-                                    <strong>Amenities: </strong>
-                                    @if (is_array($amenities))
-                                        @foreach ($amenities as $item)
-                                            <span>{{ $item }}, </span>
-                                        @endforeach
-                                    @endif
-                                </p>
+                                @if (is_array($amenities) && count($amenities) > 0)
+                                    <p>
+                                        <strong>Amenities: </strong>
+                                        {{ implode(', ', array_map('ucfirst', $amenities)) }}
+                                    </p>
+                                @endif
                             @endif
-
 
                             {{-- $info->child_category_id == 11 means child_categories table value Room check child_categories table --}}
                             @if ($info->child_category_id == 11)
@@ -421,8 +412,6 @@
                                 <hr class="mt-3 mb-3" style="width: 100%; height: 3px; margin: 0px;">
 
                                 <h5>Household Preference</h5>
-
-                                {{-- {{ dd($info->age) }} --}}
 
                                 @if ($info->age !== null)
                                     @php
@@ -441,7 +430,6 @@
                                         </p>
                                     @endif
                                 @endif
-
 
                                 @if ($info->occupation)
                                     <p>
