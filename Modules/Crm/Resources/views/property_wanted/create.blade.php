@@ -538,26 +538,38 @@
             var form = document.getElementById("showingbtn1");
             var inputs = form.querySelectorAll("[required]");
 
-            var radioButton = document.querySelector('.room_details');
-
-// Check validity for the radio button
-var isValid = radioButton.checkValidity();
-
-// Report validity for the radio button
-if (!isValid) {
-    // Display the browser's default validation error message for the radio button
-    radioButton.reportValidity();
-    console.log('not valid');
-}
+            var roomDetails = $('input[name="room_details"]:checked').val();
+            console.log(roomDetails);
 
             var isValid = true;
 
             for (var i = 0; i < inputs.length; i++) {
-                if (inputs[i].value.trim() === "") {
-                    isValid = false;
-                    // inputs[i].setCustomValidity('');
-                    inputs[i].reportValidity();
-                    return;
+                var input = inputs[i];
+
+                if (input.type === "radio") {
+                    var radioGroup = document.getElementsByName(input.name);
+                    var radioChecked = false;
+
+                    for (var j = 0; j < radioGroup.length; j++) {
+                        if (radioGroup[j].checked) {
+                            radioChecked = true;
+                            break;
+                        }
+                    }
+
+                    if (!radioChecked) {
+                        isValid = false;
+                        input.setCustomValidity('Please select an option for');
+                        input.reportValidity();
+                        return;
+                    }
+                } else {
+                    if (input.value.trim() === "") {
+                        isValid = false;
+                        input.setCustomValidity('');
+                        input.reportValidity();
+                        return;
+                    }
                 }
             }
 
