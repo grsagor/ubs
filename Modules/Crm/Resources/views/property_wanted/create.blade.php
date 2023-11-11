@@ -559,7 +559,7 @@
 
                     if (!radioChecked) {
                         isValid = false;
-                        input.setCustomValidity('Please select an option for');
+                        input.setCustomValidity('Please select an option');
                         input.reportValidity();
                         return;
                     }
