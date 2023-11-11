@@ -94,6 +94,7 @@ class TaxonomyController extends Controller
      */
     public function create()
     {
+        $mode = request()->mode;
         $category_type = request()->get('type');
         if ($category_type == 'product' && ! auth()->user()->can('category.create')) {
             abort(403, 'Unauthorized action.');
@@ -116,7 +117,7 @@ class TaxonomyController extends Controller
         }
 
         return view('taxonomy.create')
-                    ->with(compact('parent_categories', 'module_category_data', 'category_type'));
+                    ->with(compact('parent_categories', 'module_category_data', 'category_type','mode'));
     }
 
     /**
@@ -134,7 +135,7 @@ class TaxonomyController extends Controller
 
         try {
             $input = $request->only(['name', 'short_code', 'category_type', 'description']);
-            if (! empty($request->input('add_as_sub_cat')) && $request->input('add_as_sub_cat') == 1 && ! empty($request->input('parent_id'))) {
+            if (! empty($request->input('add_as_sub_cat')) && $request->input('add_as_sub_cat') == 1 && !empty($request->input('parent_id'))) {
                 $input['parent_id'] = $request->input('parent_id');
             } else {
                 $input['parent_id'] = 0;
@@ -145,7 +146,7 @@ class TaxonomyController extends Controller
             $category = Category::create($input);
             $output = ['success' => true,
                 'data' => $category,
-                'msg' => __('category.added_success'),
+                'msg' => $request->input('add_as_sub_cat') == 1 ? __('category.added_sub_success') : __('category.added_success') ,
             ];
         } catch (\Exception $e) {
             \Log::emergency('File:'.$e->getFile().'Line:'.$e->getLine().'Message:'.$e->getMessage());

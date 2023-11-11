@@ -177,23 +177,23 @@
 
 <script>
     $(document).ready(function() {
-        $('#occupation').change(function() {
-            console.log('changed');
-            var isStudent = $(this).val();
-            if (isStudent == 'Student') {
-                $.ajax({
-                    url: "/contact/show-student-info-container-create",
-                    type: "get",
-                    dataType: "json",
-                    success: function(data) {
-                        $('#student_info_container').empty()
-                        $('#student_info_container').html(data.html)
-                    }
-                });
-            } else {
-                $('#student_info_container').empty()
-            }
-        });
+        // $('#occupation').change(function() {
+        //     console.log('changed');
+        //     var isStudent = $(this).val();
+        //     if (isStudent == 'Student') {
+        //         $.ajax({
+        //             url: "/contact/show-student-info-container-create",
+        //             type: "get",
+        //             dataType: "json",
+        //             success: function(data) {
+        //                 $('#student_info_container').empty()
+        //                 $('#student_info_container').html(data.html)
+        //             }
+        //         });
+        //     } else {
+        //         $('#student_info_container').empty()
+        //     }
+        // });
 
         $('#imageUpload--create').on('change', function(e) {
             var files = e.target.files;

@@ -7,26 +7,55 @@
 @section('content')
     @includeIf('frontend.partials.global.common-header')
 
+    {{--<div class="pro-details-sidebar-item mb-4">
+        <span> Contact </span>
+
+        @php
+            $businessLocation = $info->business_location;
+            $imageUrl = $businessLocation && File::exists(public_path($businessLocation->logo)) ? asset($businessLocation->logo) : 'https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg';
+        @endphp
+
+                <a
+                        href="{{ $businessLocation ? route('shop.service', $businessLocation->id) : '#' }}">
+                    <div>
+                        <img class="" src="{{ $imageUrl }}" alt=""
+                             width="100" height="100">
+                    </div>
+                    <strong
+                            style="font-size: 24px;">{{ $businessLocation ? $businessLocation->name : '' }}</strong>
+                </a>
+
+        <p style="background: #45606b; color: #fff">
+            {{ $info->property_user_title }}</p>
+
+    </div>--}}
+
     <div class="shop-list-page">
-        <div class="p-6" style="background: #4d6873; margin: 0px 100px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+        <div class="p-6" style="/*background: #4d6873;*/background: #38b2ac; margin: 0px 200px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
             <div class="container">
                 <div class="row text-center text-white">
-                    <div class="col-md-4">
+                    <div class="col-md-2" style="text-align: left">
                         @php
                             $imageUrl = $user_info && $user_info->file_name && File::exists(public_path("uploads/media/{$user_info->file_name}")) ? asset("uploads/media/{$user_info->file_name}") : 'https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg';
                         @endphp
-                        <img class="rounded-circle" src="{{ $imageUrl }}" alt="Seller Image" width="100" height="100">
+                        <img style="margin: 5px 0" src="{{ $imageUrl }}" alt="Seller Image" width="100" height="100">
                     </div>
-                    <div class="col-md-4 d-flex flex-column align-items-center justify-content-center">
-                        <h3>Seller</h3>
-                        <strong>
-                            {{ $info->user->surname ?? '' }}
+                    <div class="col-md-6 d-flex flex-column" style="text-align: left;">
+                        <h5 class="align-items-center justify-content-center mb-0 mt-1">Seller</h5>
+                        <strong style="line-height: 1.2">
+                            <h3 class="mb-0 mt-0">{{ $info->business_location ? $info->business_location->name : '' }}</h3>
+                            <h6 class="p-0 m-0 text-white">Category 1</h6>
+                            <h6 class="p-0 m-0">{{$info->business_location->landmark}}, {{$info->business_location->city}}, {{$info->business_location->zip_code}},
+                                {{$info->business_location->country}}
+                            </h6>
+                            {{--{{ $info->user->surname ?? '' }}
                             {{ $info->user->first_name ?? '' }}
-                            {{ $info->user->last_name ?? '' }}
+                            {{ $info->user->last_name ?? '' }}--}}
                         </strong>
                     </div>
                     <div class="col-md-4 d-flex align-items-center justify-content-center">
-                        <button type="button" class="btn btn-success">Contact</button>
+{{--                        <button type="button" class="btn btn-success">Contact</button>--}}
+                        <a href="{{ $info->business_location ? route('shop.service', $info->business_location->id) : '#' }}" class="btn btn-success">Contact Now</a>
                     </div>
                 </div>
             </div>
@@ -122,7 +151,7 @@
                                             </div>
 
                                             <div class="col-lg-7 mt-3">
-                                                <div class="pro-details-sidebar-item mb-4">
+                                                {{--<div class="pro-details-sidebar-item mb-4">
                                                     <span> Contact </span>
 
                                                     @php
@@ -148,7 +177,7 @@
                                                     <p style="background: #45606b; color: #fff">
                                                         {{ $info->why_is_searching }}</p>
 
-                                                </div>
+                                                </div>--}}
                                             </div>
                                         </div>
 
@@ -159,17 +188,17 @@
 
                     </div>
 
-                    <hr class="mt-3 mb-3" style="width: 100%; height: 3px; margin: 0px;">
+                    <hr class="mt-3" style="width: 100%; height: 3px; margin: 0px;">
 
                     <div class="row">
-                        <p>{!! @$info->product_description !!} </p>
+                        <p style="margin-bottom: 0px; margin-top: 5px;">{!! @$info->product_description !!} </p>
                     </div>
 
-                    <hr class="mt-3 mb-3" style="width: 100%; height: 3px; margin: 0px;">
+                    <hr class="mb-3" style="width: 100%; height: 3px; margin: 0px;">
 
                     <div class="row">
 
-                        <div class="col-lg-7 p-4" style="text-align: justify">
+                        <div class="col-lg-7" style="text-align: justify">
                             <p class="product-title">{!! @$info->product_description !!} </p>
                         </div>
 
