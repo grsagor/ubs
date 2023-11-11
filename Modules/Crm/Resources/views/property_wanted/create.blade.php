@@ -538,9 +538,6 @@
             var form = document.getElementById("showingbtn1");
             var inputs = form.querySelectorAll("[required]");
 
-            var roomDetails = $('input[name="room_details"]:checked').val();
-            console.log(roomDetails);
-
             var isValid = true;
 
             for (var i = 0; i < inputs.length; i++) {

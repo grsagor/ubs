@@ -219,13 +219,13 @@ class PropertyWantedCustomerController extends Controller
 
             $requestedData['roomfurnishings']       = json_encode($request->roomfurnishings);
             $requestedData['occupant_details']      = json_encode($occupant_details);
-            $requestedData['room_details']          = json_encode($request->room_details);
             $requestedData['age']                   = json_encode($request->age);
 
             if ($request->hasFile('images')) {
                 $requestedData['images'] = FileHelper::saveImages($request->file('images'));
             }
             $property->fill($requestedData);
+            $property->room_details = json_encode($request->room_details);
             $property->save();
 
             $output = [
