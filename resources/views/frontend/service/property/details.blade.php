@@ -69,20 +69,24 @@
                                                 @foreach ($images as $key => $item)
                                                     <img class="mySlides" src="{{ asset($item) }}">
                                                 @endforeach
-                                                <a class="previous" onclick="plusSlides(-1)">❮</a>
-                                                <a class="next" onclick="plusSlides(1)" style="float: right;">❯</a>
+                                                @if ($img_count > 1)
+                                                    <a class="previous" onclick="plusSlides(-1)">❮</a>
+                                                    <a class="next" onclick="plusSlides(1)" style="float: right;">❯</a>
+                                                @endif
                                             </div>
                                         </div>
                                     </div>
 
-                                    <div class="row p-2">
-                                        @foreach ($images as $key => $item)
-                                            <div class="col-lg-{{ $div_value }} text-center p-2">
-                                                <img class="demo w3-opacity w3-hover-opacity-off" src="{{ asset($item) }}"
-                                                    onclick="currentDiv({{ $key + 1 }})">
-                                            </div>
-                                        @endforeach
-                                    </div>
+                                    @if ($img_count > 1)
+                                        <div class="row p-2">
+                                            @foreach ($images as $key => $item)
+                                                <div class="col-lg-{{ $div_value }} text-center p-2">
+                                                    <img class="demo w3-opacity w3-hover-opacity-off"
+                                                        src="{{ asset($item) }}" onclick="currentDiv({{ $key + 1 }})">
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    @endif
                                 @else
                                     <figure class="woocommerce-product-gallery__wrapper">
                                         <div class="bg-light">
@@ -111,6 +115,17 @@
 
                                                         <div class="pro-info">
                                                             <strong class="room-list__price">
+                                                                @foreach ($roomDetails as $item)
+                                                                    @if ($item == 1)
+                                                                        Single
+                                                                    @elseif($item == 2)
+                                                                        Double
+                                                                    @elseif($item == 6)
+                                                                        Semi-Double
+                                                                    @elseif($item == 7)
+                                                                        En-suit
+                                                                    @endif
+                                                                @endforeach
                                                                 {{-- $info->child_category_id == 11 means child_categories table value Room check child_categories table --}}
                                                                 @if ($info->child_category_id == 11)
                                                                     {{ $countRoom }}
@@ -253,8 +268,6 @@
                                 </tr>
 
                                 @if ($occupantDetails != null)
-
-
                                     @foreach ($occupantDetails as $item)
                                         <tr>
                                             <td>{{ $item['occupant_name'] }}</td>
@@ -293,9 +306,10 @@
                                                     Others
                                                 @endif
 
-                                                @if ($item['occupant_designation'])
+                                                @if (isset($item['occupant_designation']))
                                                     ({{ $item['occupant_designation'] }})
                                                 @endif
+
                                             </td>
 
                                             <td>
