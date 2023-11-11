@@ -25,7 +25,7 @@
 
         p.category_text {
             /* min-height: 20px;
-                                                                                                                                                                                                                                                                                                                                                                                                                                max-height: 20px; */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                max-height: 20px; */
         }
 
         h5.product-title {
@@ -81,19 +81,19 @@
                                     <ul class="product-categories">
 
                                         <li class="cat-item cat-parent">
-                                            <a href="{{ route('property.list', ['sub_category_id' => 2]) }}"
+                                            <a href="{{ route('property.list', ['sub_category_id' => 'property-to-rent']) }}"
                                                 class="category-link" id="cat">
                                                 <span
-                                                    class="{{ Route::currentRouteName() === 'property.list' && request()->route('sub_category_id') == 2 ? 'text-danger' : '' }}">Properties
+                                                    class="{{ Route::currentRouteName() === 'property.list' && request()->route('sub_category_id') == 'property-to-rent' ? 'text-danger' : '' }}">Properties
                                                     To Rent </span>
                                             </a>
                                         </li>
 
                                         <li class="cat-item cat-parent">
-                                            <a href="{{ route('property.list', ['sub_category_id' => 1]) }}"
+                                            <a href="{{ route('property.list', ['sub_category_id' => 'property-wanted']) }}"
                                                 class="category-link" id="cat">
                                                 <span
-                                                    class="{{ Route::currentRouteName() === 'property.list' && request()->route('sub_category_id') == 1 ? 'text-danger' : '' }}">Properties
+                                                    class="{{ Route::currentRouteName() === 'property.list' && request()->route('sub_category_id') == 'property-wanted' ? 'text-danger' : '' }}">Properties
                                                     Wanted</span>
                                             </a>
                                         </li>
@@ -113,9 +113,9 @@
                                         @foreach ($child_categories as $item)
                                             <li class="cat-item cat-parent">
                                                 <a
-                                                    href="{{ route('property.list', ['sub_category_id' => $sub_category_id, 'child_category_id' => $item->id]) }}">
+                                                    href="{{ route('property.list', ['sub_category_id' => $sub_category_id, 'child_category_id' => strtolower(str_replace(' ', '-', $item->name))]) }}">
                                                     <span
-                                                        class="{{ Route::currentRouteName() === 'property.list' && request()->route('sub_category_id') == $sub_category_id && request()->route('child_category_id') == $item->id ? 'active_child_category' : '' }}">{{ $item->name }}</span>
+                                                        class="{{ Route::currentRouteName() === 'property.list' && request()->route('sub_category_id') == $sub_category_id && request()->route('child_category_id') == strtolower(str_replace(' ', '-', $item->name)) ? 'active_child_category' : '' }}">{{ $item->name }}</span>
                                                 </a>
                                             </li>
                                         @endforeach
@@ -349,20 +349,19 @@
         }
     </script>
 
-<script>
-    function handleMinWidth992px() {
-        if (window.innerWidth <= 992) {
-            $('.widget-toggle').addClass('closed')
-        } else {
-            $('.widget-toggle').removeClass('closed')
+    <script>
+        function handleMinWidth992px() {
+            if (window.innerWidth <= 992) {
+                $('.widget-toggle').addClass('closed')
+            } else {
+                $('.widget-toggle').removeClass('closed')
+            }
         }
-    }
 
-    // Attach the event listener to the window's resize event
-    window.addEventListener('resize', handleMinWidth992px);
+        // Attach the event listener to the window's resize event
+        window.addEventListener('resize', handleMinWidth992px);
 
-    // Call the function initially to check the condition
-    handleMinWidth992px();
-</script>
-
+        // Call the function initially to check the condition
+        handleMinWidth992px();
+    </script>
 @endsection

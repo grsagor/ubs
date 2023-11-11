@@ -35,10 +35,10 @@
                                     </span>
                                 </a>
                             </h5>
-                            <hr class="mt-0" style="height: 2px; width: 100% !important;">
+                            <hr class="mt-0" style="height: 2px; width: 100% !important; margin-bottom: 6px;">
                             <p class="category_text text-dark"
                                 style="margin-bottom: 0rem; text-align: justify; padding: 0px 10px 0px 10px">
-                                {{ Str::limit($item->ad_text, $limit = 375, $end = '...') }}
+                                {{ Str::limit($item->ad_text, $limit = 170, $end = '...') }}
                             </p>
                         </div>
                         <div class="d-flex text-center"
@@ -81,11 +81,13 @@
                             <span class=" flex-fill mb-0 text-white">
                                 <p class="lower-section-text mb-0  text-muted"
                                     style="color: black !important; font-size: 15px;">
-                                    Room Size
+                                    Wanted
                                 </p>
                                 <p class="mb-0 text-muted">
-                                    @if ($item->room_details !== 'null' && $item->room_details !== null)
+                                    @if ($item->child_category_id == 11)
                                         {{ $output }}
+                                    @else
+                                        {{ $item->child_category->name }}
                                     @endif
                                 </p>
                             </span>

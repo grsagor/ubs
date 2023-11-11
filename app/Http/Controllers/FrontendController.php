@@ -9,9 +9,9 @@ use Modules\Crm\Entities\ServicePropertyWanted;
 
 class FrontendController extends Controller
 {
-    public function roomList(Request $request, $sub_category_id = 2, $child_category_id = null)
+    public function roomList(Request $request, $sub_category_id = 'property-to-rent', $child_category_id = null)
     {
-        if ($sub_category_id == 2) {
+        if ($sub_category_id == 'property-to-rent') {
             $data['per_page'] = 10;
             $data['rooms']         = ServiceAdvertiseRoom::active()->select(
                 'id',
@@ -41,17 +41,26 @@ class FrontendController extends Controller
                 ->latest();
 
             if ($child_category_id !== null) {
+                if ($child_category_id == 'room') {
+                    $child_category_id = 1;
+                } elseif ($child_category_id == 'house') {
+                    $child_category_id = 2;
+                } elseif ($child_category_id == 'flat') {
+                    $child_category_id = 6;
+                } elseif ($child_category_id == 'studio-flat') {
+                    $child_category_id = 9;
+                }
                 $data['rooms'] = $data['rooms']->where('child_category_id', $child_category_id);
             }
 
             $data['rooms'] = $data['rooms']->paginate($data['per_page']);
 
-            $data['child_categories']               = ChildCategory::where('sub_category_id', $sub_category_id)->get();
+            $data['child_categories']               = ChildCategory::where('sub_category_id', 2)->get();
             $data['sub_category_id']                = $sub_category_id;
 
             return view('frontend.service.room.room_list', $data);
         }
-        if ($sub_category_id == 1) {
+        if ($sub_category_id == 'property-wanted') {
             $data['per_page'] = 10;
 
             $data['rooms']          = ServicePropertyWanted::active()->select(
@@ -64,8 +73,10 @@ class FrontendController extends Controller
                 'images',
                 'plan',
                 'advert_type',
+                'child_category_id',
                 'created_at'
             )
+                ->with('child_category')
                 // ->search($request)
                 ->whereNotIn('id', function ($query) {
                     $query->select('foregn_key')
@@ -74,15 +85,26 @@ class FrontendController extends Controller
                 })
                 ->latest();
 
+
             if ($child_category_id !== null) {
+                if ($child_category_id == 'room') {
+                    $child_category_id = 11;
+                } elseif ($child_category_id == 'house') {
+                    $child_category_id = 12;
+                } elseif ($child_category_id == 'flat') {
+                    $child_category_id = 13;
+                } elseif ($child_category_id == 'studio-flat') {
+                    $child_category_id = 14;
+                }
                 $data['rooms'] = $data['rooms']->where('child_category_id', $child_category_id);
             }
 
             $data['rooms'] = $data['rooms']->paginate($data['per_page']);
 
-            $data['child_categories']             = ChildCategory::where('sub_category_id', $sub_category_id)->get();
+            $data['child_categories']             = ChildCategory::where('sub_category_id', 1)->get();
             $data['sub_category_id']             = $sub_category_id;
 
+            // return $data;
             return view('frontend.service.property.property_list', $data);
         }
     }
