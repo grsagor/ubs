@@ -48,7 +48,7 @@ class PropertyController extends Controller
     {
         $property = ServicePropertyWanted::find($id);
         $occupantDetails = json_decode($property->occupant_details, true);
-        if(!is_array($occupantDetails)) {
+        if (!is_array($occupantDetails)) {
             $occupantDetails = json_decode($occupantDetails, true);
         }
         // return $property;
@@ -61,7 +61,7 @@ class PropertyController extends Controller
             }
         }
         $data['total_monthly_income_before_tax'] = $total_monthly_income_before_tax;
-        
+
         $data['user_info']              = Media::where('uploaded_by', $data['info']->user_id)
             ->where('model_type', 'App\\User')->first();
 
