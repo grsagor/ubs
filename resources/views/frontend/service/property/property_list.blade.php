@@ -1,10 +1,10 @@
 @extends('frontend.service.partial.app')
 @section('property_list_content')
     @foreach ($rooms as $item)
-        <div class="col mb-5">
-            <div class="product type-product rounded ">
-                <div class=" row m-0">
-                    <div class="  col-lg-4 col-md-4 col-sm-12 d-flex align-items-center card-image">
+        <div class="col mb-5 mobile_view_card">
+            <div class="product type-product rounded">
+                <div class="row m-0">
+                    <div class="col-lg-4 col-md-4 col-sm-12 d-flex align-items-center card-image justify-content-center">
                         @php
                             $images = json_decode($item->images, true);
                             $first_image = null;
@@ -19,26 +19,27 @@
                             <a href="{{ route('property_show', $item->id) }}" class="woocommerce-LoopProduct-link">
                                 {{-- <img class="lazy img-fluid rounded" data-src="{{ asset($first_image) }}" alt="Product Image"
                                     style="height: 270px;"> --}}
-                                <img class="lazy img-fluid rounded" data-src="{{ asset($first_image) }}" alt="Product Image">
+                                <img class="lazy img-fluid rounded" data-src="{{ asset($first_image) }}" alt="Product Image"
+                                    style="height: 218px;">
                             </a>
                         @else
                             <img src="https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg"
-                                class="swiper-lazy" alt="" style="height: 270px;">
+                                class="swiper-lazy" alt="" style="height: 218px;">
                         @endif
                     </div>
-                    <div class=" col-lg-8 col-md-8 col-sm-12 p-0 d-flex flex-column">
+                    <div class="col-lg-8 col-md-8 col-sm-12 p-0 d-flex flex-column">
                         <div class="p-2 flex-grow-1">
                             <h5 class="product-title" style="padding: 2px 2px 2px 2px;">
                                 <a class="text-dark" href="{{ route('property_show', $item->id) }}">
                                     <span style="font-weight: 600;">
-                                        {{ Str::limit($item->ad_title, $limit = 92, $end = '...') }}
+                                        {{ Str::limit($item->ad_title, $limit = 100, $end = '...') }}
                                     </span>
                                 </a>
                             </h5>
-                            <hr class="mt-0" style="height: 2px; width: 100% !important; margin-bottom: 6px;">
+                            <hr class="mt-0" style="height: 2px; width: 100% !important;">
                             <p class="category_text text-dark"
                                 style="margin-bottom: 0rem; text-align: justify; padding: 0px 10px 0px 10px">
-                                {{ Str::limit($item->ad_text, $limit = 170, $end = '...') }}
+                                {{ Str::limit($item->ad_text, $limit = 182, $end = '...') }}
                             </p>
                         </div>
                         <div class="d-flex text-center"

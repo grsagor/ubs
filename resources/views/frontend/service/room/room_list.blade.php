@@ -6,11 +6,11 @@
         }
 
         /* .carousel-container {
-                                position: relative !important;
-                                display: flex;
-                                justify-content: center;
-                                align-items: center;
-                            } */
+                                    position: relative !important;
+                                    display: flex;
+                                    justify-content: center;
+                                    align-items: center;
+                                } */
 
         .mySlides {
             display: none;
