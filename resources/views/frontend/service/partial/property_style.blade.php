@@ -147,4 +147,16 @@
         padding: 8px;
         text-align: left;
     }
+
+    @media (max-width: 767px) {
+        .full-row {
+            padding-top: 1.5rem !important;
+            padding-bottom: 1.5rem !important;
+        }
+
+        .mySlides {
+            width: 50% !important;
+            height: 0% !important;
+        }
+    }
 </style>

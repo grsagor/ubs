@@ -101,11 +101,12 @@
                                 <div class="summary entry-summary">
                                     <div class="summary-inner">
 
-                                        <h1 class="product_title entry-title">{{ $info->ad_title }}</h1>
+                                        <h1 class="product_title entry-title" style="margin-bottom: 0px;">
+                                            {{ $info->ad_title }}</h1>
 
                                         <div class="row">
                                             <div class="col-lg-5">
-                                                <div class="pro-details">
+                                                <div class="pro-details" style="margin: 0px -10px 5px;">
 
                                                     @if ($info->room_details !== 'null' && $info->room_details !== null)
                                                         @php
