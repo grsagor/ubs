@@ -1,5 +1,5 @@
 @extends('frontend.layouts.master_layout')
-@push('css')
+@section('css')
     <style>
         .category_text {
             color: #225db5;
@@ -25,13 +25,13 @@
 
         p.category_text {
             /* min-height: 20px;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                max-height: 20px; */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                max-height: 20px; */
         }
 
-        h5.product-title {
-            min-height: 35px;
-            max-height: 35px;
-        }
+        /* h5.product-title {
+                                min-height: 35px;
+                                max-height: 35px;
+                            } */
 
         .product-info .product-title a {
             font-size: 18px !important;
@@ -52,8 +52,20 @@
         .active_child_category {
             color: red !important;
         }
+
+
+
+        @media (max-width: 767px) {
+            .all_list {
+                padding: 15px !important;
+            }
+
+            .mobile_view_card {
+                margin-bottom: 25px !important;
+            }
+        }
     </style>
-@endpush
+@endsection
 @section('content')
     @includeIf('frontend.partials.global.common-header')
 
@@ -126,7 +138,7 @@
                         </div>
 
                         {{-- Right Side --}}
-                        <div class="col-12 col-xl-9 col-lg-9 col-md-12 col-sm-12" style="padding: 0px !important;">
+                        <div class="col-12 col-xl-9 col-lg-9 col-md-12 col-sm-12 all_list" style="padding: 0px;">
                             <div class="product-search-one">
                                 <form id="searchForm" class="search-form form-inline search-pill-shape bg-white"
                                     action="{{ route('property.list') }}" method="GET">
