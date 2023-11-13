@@ -6,11 +6,11 @@
         }
 
         /* .carousel-container {
-                                    position: relative !important;
-                                    display: flex;
-                                    justify-content: center;
-                                    align-items: center;
-                                } */
+                                            position: relative !important;
+                                            display: flex;
+                                            justify-content: center;
+                                            align-items: center;
+                                        } */
 
         .mySlides {
             display: none;
@@ -65,9 +65,9 @@
             display: block;
         }
 
-        .active {
-            background-color: #333;
-        }
+        /* .active {
+                background-color: #333;
+            } */
     </style>
 @endsection
 @section('property_list_content')
