@@ -294,7 +294,7 @@
                     </div>
                 @endif --}}
             </div>
-            <div class="col-xxl-7 col-xl-6 col-lg-6 col-12 order-lg-2">
+            <div class="col-xxl-7 col-xl-6 col-lg-6 col-12 order-lg-2 search-bar-mobile-view">
                 <div class="product-search-one">
                     <form id="searchForm" class="search-form form-inline search-pill-shape" action=""
                         method="GET">

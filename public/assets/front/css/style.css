@@ -6072,6 +6072,7 @@ table.shop_attributes tr:nth-child(2n) th {
 #sidebar .widget:first-child {
     margin-top: 20px !important;
 }
+
 #sidebar .widget:last-child {
     margin-bottom: 0 !important;
 }
@@ -11344,4 +11345,17 @@ select.form-control {
 .button-31:hover,
 .button-31:focus {
     opacity: .75;
+}
+
+
+@media (max-width: 767px) {
+    .header-sticky {
+        position: fixed !important;
+        z-index: 99;
+        width: 100%;
+    }
+
+    .search-bar-mobile-view {
+        display: none;
+    }
 }
