@@ -77,13 +77,18 @@ class FrontendController extends Controller
                 'created_at'
             )
                 ->with('child_category')
+                ->where('information_complete', '<>', 0)
+                ->whereNotNull('ad_title')
                 // ->search($request)
-                ->whereNotIn('id', function ($query) {
-                    $query->select('foregn_key')
-                        ->from('payment_histories')
-                        ->where('table_name', 'service_property_wanted');
-                })
+                // ->whereNotIn('id', function ($query) {
+                //     $query->select('foregn_key')
+                //         ->from('payment_histories')
+                //         ->where('table_name', 'service_property_wanted');
+                // })
                 ->latest();
+
+            // $counts = $data['rooms']->count();
+            // dd($counts);
 
 
             if ($child_category_id !== null) {

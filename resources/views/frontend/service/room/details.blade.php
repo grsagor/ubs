@@ -485,10 +485,12 @@
                                 <h5>Availability</h5>
 
                                 @if ($info->child_category_id != 1)
-                                    <p>
-                                        <strong>Available: </strong>
-                                        {{ Carbon\Carbon::createFromFormat('Y-m-d', $info->room_available_from)->format('M d') }}
-                                    </p>
+                                    @if ($info->room_available_from)
+                                        <p>
+                                            <strong>Available: </strong>
+                                            {{ Carbon\Carbon::createFromFormat('Y-m-d', $info->room_available_from)->format('M d') }}
+                                        </p>
+                                    @endif
                                 @endif
 
                                 @if ($info->room_min_stay)
