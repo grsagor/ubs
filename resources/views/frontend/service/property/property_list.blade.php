@@ -61,15 +61,27 @@
                                     if (is_array($roomDetails)) {
                                         $finalData = []; // Initialize an empty array to store the results
 
+                                        // foreach ($roomDetails as $key => $data) {
+                                        //     if ($data == 1) {
+                                        //         $finalData[] = $key + 1 . '-Single'; // Concatenate key and value
+                                        //     } elseif ($data == 2) {
+                                        //         $finalData[] = $key + 1 . '-Double'; // Concatenate key and value
+                                        //     } elseif ($data == 3) {
+                                        //         $finalData[] = $key + 1 . '-Semi-double'; // Concatenate key and value
+                                        //     } elseif ($data == 4) {
+                                        //         $finalData[] = $key + 1 . '-En-suit'; // Concatenate key and value
+                                        //     }
+                                        // }
+
                                         foreach ($roomDetails as $key => $data) {
                                             if ($data == 1) {
-                                                $finalData[] = $key + 1 . '-Single'; // Concatenate key and value
+                                                $finalData[] = 'Single'; // Concatenate key and value
                                             } elseif ($data == 2) {
-                                                $finalData[] = $key + 1 . '-Double'; // Concatenate key and value
-                                            } elseif ($data == 3) {
-                                                $finalData[] = $key + 1 . '-Semi-double'; // Concatenate key and value
-                                            } elseif ($data == 4) {
-                                                $finalData[] = $key + 1 . '-En-suit'; // Concatenate key and value
+                                                $finalData[] = 'Double'; // Concatenate key and value
+                                            } elseif ($data == 6) {
+                                                $finalData[] = 'Semi-double'; // Concatenate key and value
+                                            } elseif ($data == 7) {
+                                                $finalData[] = 'En-suit'; // Concatenate key and value
                                             }
                                         }
 
@@ -84,6 +96,7 @@
                                     style="color: black !important; font-size: 15px;">
                                     Wanted
                                 </p>
+                                {{-- {{ dd($roomDetails) }} --}}
                                 <p class="mb-0 text-muted">
                                     @if ($item->child_category_id == 11)
                                         {{ $output }}
