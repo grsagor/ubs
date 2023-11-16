@@ -272,9 +272,15 @@ class PropertyWantedCustomerController extends Controller
         $id = $request->id;
         $property = ServicePropertyWanted::find($id);
         $property->room_details = $property->room_details ? json_decode($property->room_details) : null;
+        $property->images = $property->images ? json_decode($property->images) : null;
         $property->roomfurnishings = $property->roomfurnishings ? json_decode($property->roomfurnishings) : null;
         $property->age = $property->age ? json_decode($property->age) : null;
-        $property->occupant_details = $property->occupant_details ? json_decode($property->occupant_details) : null;
+        if ($property->occupant_details && !is_array($property->occupant_details)) {
+            $property->occupant_details = json_decode($property->occupant_details);
+            if (!is_array($property->occupant_details)) {
+                $property->occupant_details = json_decode($property->occupant_details);
+            }
+        }
 
         $business_id = request()->session()->get('user.business_id');
 

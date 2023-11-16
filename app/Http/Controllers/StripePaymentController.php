@@ -29,7 +29,8 @@ class StripePaymentController extends Controller
         $data['product_id']             = session('product_id');
         $data['product_name']           = session('product_name');
         $data['plan']                   = session('plan');
-        $data['bill']                   = session('bill');
+        // $data['bill']                   = session('bill');
+        $data['bill']                   = 1;
         $data['service_charge_id']      = session('service_charge_id');
         $data['child_category_id']      = session('child_category_id');
         $data['table_name']             = session('table_name');
@@ -96,7 +97,6 @@ class StripePaymentController extends Controller
                 $property->plan = $request->plan;
                 $property->save();
             }
-
 
             $charge = \Stripe\Charge::create(array(
                 "amount"        => $request->bill * 100,

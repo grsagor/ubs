@@ -308,7 +308,7 @@
                         <button id="prev4" type="button"
                             class="btn btn-primary float-none w-25 rounded-0 submit-btn ">Previous</button>
                         <button style="margin-top: 0;" class="addProductSubmit-btn w-25 btn btn-success"
-                            type="button" id="addProductSubmit-btn">Submit</button>
+                            type="button" id="editProductSubmit-btn">Submit</button>
                     </div>
                 </div>
             </form>
@@ -578,11 +578,32 @@
             var isValid = true;
 
             for (var i = 0; i < inputs.length; i++) {
-                if (inputs[i].value.trim() === "") {
-                    isValid = false;
-                    inputs[i].setCustomValidity('');
-                    inputs[i].reportValidity();
-                    return;
+                var input = inputs[i];
+
+                if (input.type === "radio") {
+                    var radioGroup = document.getElementsByName(input.name);
+                    var radioChecked = false;
+
+                    for (var j = 0; j < radioGroup.length; j++) {
+                        if (radioGroup[j].checked) {
+                            radioChecked = true;
+                            break;
+                        }
+                    }
+
+                    if (!radioChecked) {
+                        isValid = false;
+                        input.setCustomValidity('Please select an option');
+                        input.reportValidity();
+                        return;
+                    }
+                } else {
+                    if (input.value.trim() === "") {
+                        isValid = false;
+                        input.setCustomValidity('');
+                        input.reportValidity();
+                        return;
+                    }
                 }
             }
 
@@ -704,7 +725,7 @@
 </script>
 <script>
     $(document).ready(function() {
-        $(document).on('click', '#addProductSubmit-btn', function() {
+        $(document).on('click', '#editProductSubmit-btn', function() {
             console.log('clicked')
             var form = document.getElementById("showingbtn4");
             var inputs = form.querySelectorAll("[required]");
