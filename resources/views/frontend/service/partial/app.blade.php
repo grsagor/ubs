@@ -25,13 +25,13 @@
 
         p.category_text {
             /* min-height: 20px;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    max-height: 20px; */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        max-height: 20px; */
         }
 
         /* h5.product-title {
-                                    min-height: 35px;
-                                    max-height: 35px;
-                                } */
+                                        min-height: 35px;
+                                        max-height: 35px;
+                                    } */
 
         .product-info .product-title a {
             font-size: 18px !important;
@@ -56,16 +56,6 @@
 
 
         @media (max-width: 767px) {
-            .all_list {
-                padding: 15px !important;
-            }
-
-            .mobile_view_card {
-                margin-bottom: 25px !important;
-            }
-        }
-
-        @media only screen and (max-width: 428px) {
             .all_list {
                 padding: 15px !important;
             }

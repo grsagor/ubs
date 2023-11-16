@@ -11348,7 +11348,7 @@ select.form-control {
 }
 
 
-@media (max-width: 767px) {
+/* @media (max-width: 767px) {
     .header-sticky {
         position: fixed !important;
         z-index: 99;
@@ -11358,4 +11358,4 @@ select.form-control {
     .search-bar-mobile-view {
         display: none;
     }
-}
+} */
