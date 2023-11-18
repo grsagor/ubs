@@ -25,13 +25,13 @@
 
         p.category_text {
             /* min-height: 20px;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                max-height: 20px; */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    max-height: 20px; */
         }
 
         /* h5.product-title {
-                                                min-height: 35px;
-                                                max-height: 35px;
-                                            } */
+                                                    min-height: 35px;
+                                                    max-height: 35px;
+                                                } */
 
         .product-info .product-title a {
             font-size: 18px !important;
@@ -55,17 +55,20 @@
 
 
 
-        @media (max-width: 767px) {
+        @media only screen and (device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3) {
             .all_list {
-                padding: 15px !important;
+                padding: 20px !important;
+                /* Adjust padding for iPhone 12 Pro Max */
             }
 
             .mobile_view_card {
-                margin-bottom: 25px !important;
+                margin-bottom: 30px !important;
+                /* Adjust margin for iPhone 12 Pro Max */
             }
 
             .img-mobile {
-                height: 218px !important;
+                height: 250px !important;
+                /* Adjust image height for iPhone 12 Pro Max */
             }
         }
     </style>
