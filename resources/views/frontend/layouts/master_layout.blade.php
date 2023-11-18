@@ -3,10 +3,11 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {{-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> --}}
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="description" content="Unipuller-New - Multivendor Ecommerce system">
     <meta name="author" content="Unipuller">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
     @if (isset($page->meta_tag) && isset($page->meta_description))
         <meta name="keywords" content="{{ $page->meta_tag }}">
