@@ -19,8 +19,8 @@
                             <a href="{{ route('property_show', $item->id) }}" class="woocommerce-LoopProduct-link">
                                 {{-- <img class="lazy img-fluid rounded" data-src="{{ asset($first_image) }}" alt="Product Image"
                                     style="height: 270px;"> --}}
-                                <img class="lazy img-fluid rounded" data-src="{{ asset($first_image) }}" alt="Product Image"
-                                    style="height: 218px;">
+                                <img class="lazy img-fluid rounded img-mobile" data-src="{{ asset($first_image) }}"
+                                    alt="Product Image" style="height: 218px;">
                             </a>
 
 
@@ -48,7 +48,7 @@
                             </a> --}}
                         @else
                             <img src="https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg"
-                                class="swiper-lazy" alt="" style="height: 218px;">
+                                class="swiper-lazy img-mobile" alt="" style="height: 218px;">
                         @endif
                     </div>
                     <div class="col-lg-8 col-md-8 col-sm-12 p-0 d-flex flex-column">
