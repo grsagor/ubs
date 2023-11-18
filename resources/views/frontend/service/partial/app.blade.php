@@ -55,20 +55,17 @@
 
 
 
-        @media only screen and (device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3) {
+        @media (max-width: 767px) {
             .all_list {
-                padding: 20px !important;
-                /* Adjust padding for iPhone 12 Pro Max */
+                padding: 15px !important;
             }
 
             .mobile_view_card {
-                margin-bottom: 30px !important;
-                /* Adjust margin for iPhone 12 Pro Max */
+                margin-bottom: 25px !important;
             }
 
             .img-mobile {
-                height: 250px !important;
-                /* Adjust image height for iPhone 12 Pro Max */
+                height: 218px !important;
             }
         }
     </style>
