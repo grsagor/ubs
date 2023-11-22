@@ -17,35 +17,9 @@
                         @endphp
                         @if ($first_image && File::exists($imagePath))
                             <a href="{{ route('property_show', $item->id) }}" class="woocommerce-LoopProduct-link">
-                                {{-- <img class="lazy img-fluid rounded" data-src="{{ asset($first_image) }}" alt="Product Image"
-                                    style="height: 270px;"> --}}
                                 <img class="lazy img-fluid rounded img-mobile" data-src="{{ asset($first_image) }}"
                                     alt="Product Image" style="height: 218px;">
                             </a>
-
-
-
-                            {{-- <a href="{{ route('property_show', $item->id) }}" class="woocommerce-LoopProduct-link">
-                                @if ($first_image && File::exists($imagePath))
-                                    @php
-                                        $imageInfo = @getimagesize($imagePath); // Use @ to suppress warnings
-                                        $isSupportedFormat = $imageInfo !== false && in_array($imageInfo['mime'], ['image/jpeg', 'image/png', 'image/jpg']);
-    
-                                        // Check if the image is in a supported format (JPG, JPEG, PNG)
-    
-                                    @endphp
-                                    @if ($isSupportedFormat)
-                                        <img class="lazy img-fluid rounded" data-src="{{ asset($first_image) }}"
-                                            alt="Product Image" style="height: 218px;">
-                                    @else
-                                        <img src="https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg"
-                                            class="swiper-lazy" alt="" style="height: 218px;">
-                                    @endif
-                                @else
-                                    <img src="https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg"
-                                        class="swiper-lazy" alt="" style="height: 218px;">
-                                @endif
-                            </a> --}}
                         @else
                             <img src="https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg"
                                 class="swiper-lazy img-mobile" alt="" style="height: 218px;">
@@ -123,7 +97,7 @@
                                 {{-- {{ dd($roomDetails) }} --}}
                                 <p class="mb-0 text-muted">
                                     @if ($item->child_category_id == 11)
-                                        {{ $output }}
+                                        {{ $output ?? '' }}
                                     @else
                                         {{ $item->child_category->name }}
                                     @endif
@@ -160,7 +134,7 @@
     </div>
 @endsection
 
-@section('script')
+{{-- @section('script')
     <script>
         setTimeout(function() {
             if ($(window).width() < 1350) {
@@ -244,4 +218,4 @@
 
         });
     </script>
-@endsection
+@endsection --}}
