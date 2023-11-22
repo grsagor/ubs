@@ -79,6 +79,7 @@ class FrontendController extends Controller
                 ->with('child_category')
                 ->where('information_complete', '<>', 0)
                 ->whereNotNull('ad_title')
+                ->whereBetween('created_at', [now()->subDays(45), now()])
                 // ->search($request)
                 // ->whereNotIn('id', function ($query) {
                 //     $query->select('foregn_key')
