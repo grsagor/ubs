@@ -9,27 +9,6 @@
 
     <div class="shop-list-page">
 
-        {{-- <div class="full-row bg-light overlay-dark py-5">
-            <div class="container">
-                <div class="row text-center text-white">
-                    <div class="col-12">
-                        <h3 class="mb-2 text-white"></h3>
-                    </div>
-                    <div class="col-12">
-                        <nav aria-label="breadcrumb">
-                            <ol class="breadcrumb mb-0 d-inline-flex bg-transparent p-0">
-                                <li class="breadcrumb-item"><a href="{{ url('/') }}">Home</a>
-                                </li>
-                                <li class="breadcrumb-item active" aria-current="page">Service</li>
-                                <li class="breadcrumb-item active" aria-current="page">Room Wanted</li>
-                            </ol>
-                        </nav>
-                    </div>
-                </div>
-            </div>
-        </div> --}}
-
-
         <div class="full-row py-5" style="background: #4d6873;">
             <div class="container">
                 <div class="row text-center text-white">
@@ -61,6 +40,7 @@
                         <div class="row single-product-wrapper mt-3">
                             <div class="col-lg-5 mb-4 mb-lg-0">
 
+                                {{-- {{ dd($info->images) }} --}}
                                 @if ($info->images != null)
                                     <div class="slideShow">
                                         <!-- Images in the slideshow -->
@@ -327,7 +307,6 @@
                                         </tr>
                                     @endforeach
                                 @endif
-
 
                             </table>
 
