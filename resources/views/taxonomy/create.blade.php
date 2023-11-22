@@ -23,13 +23,19 @@
         {!! Form::label('name', 'Type' . ':*') !!}
         {!! Form::Select('category_type',['product'=>'Product','service'=>'Service'], null, ['class' => 'form-control', 'required']); !!}
       </div>
-      @if($mode == "sub_category")
+      @if($mode == "sub_category" || $mode == "child_category")
         <input type="hidden" name="add_as_sub_cat" value="1">
         <div class="form-group">
           {!! Form::label('parent_id', __( 'category.select_parent_category' ) . ':*') !!}
-          {!! Form::select('parent_id', ['' => 'Select One'] + $parent_categories, null, ['class' => 'form-control', ($mode == 'sub_category' ? ' required' : '')]); !!}
+          {!! Form::select('parent_id', ['' => 'Select One'] + $parent_categories, null, ['class' => 'form-control', 'id' => 'parentCategorySelect', ($mode == 'sub_category' ? ' required' : '')]); !!}
         </div>
       @endif
+
+      <div class="form-group" id="subcategoryContainer" style="display: none;">
+        {!! Form::label('sub_category_id', __('category.select_sub_category') . ':*') !!}
+        {!! Form::select('sub_category_id', ['' => 'Select One'], null, ['class' => 'form-control', 'id' => 'subCategorySelect']); !!}
+      </div>
+
       <div class="form-group">
         {!! Form::label('name',$mode == 'sub_category' ? 'Sub '.$name_label : $name_label . ':*') !!}
           {!! Form::text('name', null, ['class' => 'form-control', 'required', 'placeholder' => $name_label]); !!}
@@ -69,3 +75,42 @@
 
   </div><!-- /.modal-content -->
 </div><!-- /.modal-dialog -->
+
+<script>
+  $(document).ready(function () {
+    $('#parentCategorySelect').on('change', function () {
+      var category_id = $(this).val();
+      if (category_id) {
+        $.ajax({
+          url: '/get-subcategories/' + category_id,
+          type: 'GET',
+          success: function (data) {
+            // Populate subcategory select box
+            var subCategorySelect = $('#subCategorySelect');
+            subCategorySelect.empty();
+            subCategorySelect.append($('<option>', {
+              value: '',
+              text: 'Select One'
+            }));
+            $.each(data, function (key, value) {
+              subCategorySelect.append($('<option>', {
+                value: key,
+                text: value
+              }));
+            });
+
+            // Show the subcategory container
+            $('#subcategoryContainer').show();
+          },
+          error: function (xhr, status, error) {
+            // Handle errors
+          }
+        });
+      } else {
+        // Hide subcategory container if no category selected
+        $('#subcategoryContainer').hide();
+      }
+    });
+  });
+
+</script>

@@ -31,3 +31,6 @@
 
 <div class="modal fade sub_category_modal" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel">
 </div>
+
+<div class="modal fade child_category_modal" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel">
+</div>

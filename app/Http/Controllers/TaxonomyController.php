@@ -52,7 +52,7 @@ class TaxonomyController extends Controller
 
             $category = Category::where('business_id', $business_id)
                             ->where('category_type', $category_type)
-                            ->select(['name', 'short_code', 'description', 'id', 'parent_id']);
+                            ->select(['name', 'short_code', 'description', 'id', 'parent_id','sub_category_id']);
 
             return Datatables::of($category)
                 ->addColumn(
@@ -70,8 +70,10 @@ class TaxonomyController extends Controller
                     }
                 )
                 ->editColumn('name', function ($row) {
-                    if ($row->parent_id != 0) {
+                    if ($row->parent_id != 0 && $row->sub_category_id == null) {
                         return '--'.$row->name;
+                    } elseif($row->sub_category_id){
+                        return '---'.$row->name;
                     } else {
                         return $row->name;
                     }
@@ -134,7 +136,7 @@ class TaxonomyController extends Controller
         }
 
         try {
-            $input = $request->only(['name', 'short_code', 'category_type', 'description']);
+            $input = $request->only(['name', 'short_code', 'category_type', 'description', 'sub_category_id']);
             if (! empty($request->input('add_as_sub_cat')) && $request->input('add_as_sub_cat') == 1 && !empty($request->input('parent_id'))) {
                 $input['parent_id'] = $request->input('parent_id');
             } else {
@@ -321,5 +323,15 @@ class TaxonomyController extends Controller
             return view('taxonomy.ajax_index')
                 ->with(compact('module_category_data', 'category_type'));
         }
+    }
+
+    public function getSubcategories($category_id)
+    {
+        $subcategories = [];
+        $subcategories = Category::where('parent_id', $category_id)
+            ->pluck('name', 'id')
+            ->toArray();
+
+        return response()->json($subcategories);
     }
 }
