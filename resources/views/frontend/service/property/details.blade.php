@@ -453,13 +453,6 @@
                                     </p>
                                 @endif
 
-                                @if ($info->pets)
-                                    <p>
-                                        <strong>Pets: </strong>
-                                        {{ $info->pets == 1 ? 'Yes' : 'No' }}
-                                    </p>
-                                @endif
-
                                 @if ($info->gay_lesbian)
                                     <p>
                                         <strong>Preferred Sex: </strong>
