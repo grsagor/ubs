@@ -83,6 +83,33 @@
 							<b>@lang('lang_v1.warranty'): </b>
 							{{$product->warranty->display_name }}
 						@endif
+
+
+						@if(!empty($product->name_of_institution))
+							<br>
+							<b>@lang('product.name_of_institution'): </b>
+							{{$product->name_of_institution }}
+						@endif
+
+
+						@if(!empty($product->duration))
+							<br>
+							<b>Course Duration: </b>
+							{{$product->duration }} Years
+						@endif
+
+
+						@if(!empty($product->home_students_fees))
+							<br>
+							<b>@lang('product.home_students_fees'): </b>
+							{{$product->home_students_fees }}
+						@endif
+
+						@if(!empty($product->int_students_fees))
+							<br>
+							<b>@lang('product.int_students_fees'): </b>
+							{{$product->int_students_fees }}
+						@endif
 	      			</div>
 					
 	      			<div class="col-sm-4 invoice-col">

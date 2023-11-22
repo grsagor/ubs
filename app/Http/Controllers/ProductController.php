@@ -391,6 +391,7 @@ class ProductController extends Controller
         $rack_details = null;
 
         $sub_categories = [];
+        $child_categories = [];
         if (!empty(request()->input('d'))) {
             $duplicate_product = Product::where('business_id', $business_id)->find(request()->input('d'));
             $duplicate_product->name .= ' (copy)';
@@ -398,6 +399,12 @@ class ProductController extends Controller
             if (!empty($duplicate_product->category_id)) {
                 $sub_categories = Category::where('business_id', $business_id)
                     ->where('parent_id', $duplicate_product->category_id)
+                    ->pluck('name', 'id')
+                    ->toArray();
+            }
+            if (!empty($duplicate_product->sub_category_id)) {
+                $child_categories = Category::where('business_id', $business_id)
+                    ->where('sub_category_id', $duplicate_product->sub_category_id)
                     ->pluck('name', 'id')
                     ->toArray();
             }
@@ -420,7 +427,7 @@ class ProductController extends Controller
         $pos_module_data = $this->moduleUtil->getModuleData('get_product_screen_top_view');
 
         return view('product.create')
-            ->with(compact('categories', 'brands', 'units', 'taxes', 'barcode_types', 'default_profit_percent', 'tax_attributes', 'barcode_default', 'business_locations', 'duplicate_product', 'sub_categories', 'rack_details', 'selling_price_group_count', 'module_form_parts', 'product_types', 'common_settings', 'warranties', 'pos_module_data'));
+            ->with(compact('categories', 'brands', 'units', 'taxes', 'barcode_types', 'default_profit_percent', 'tax_attributes', 'barcode_default', 'business_locations', 'duplicate_product', 'sub_categories', 'child_categories', 'rack_details', 'selling_price_group_count', 'module_form_parts', 'product_types', 'common_settings', 'warranties', 'pos_module_data'));
     }
 
     private function product_types()
@@ -491,6 +498,34 @@ class ProductController extends Controller
             $common_settings = session()->get('business.common_settings');
 
             $product_details['warranty_id'] = !empty($request->input('warranty_id')) ? $request->input('warranty_id') : null;
+            $product_details['class'] = $request->class;
+            $product_details['child_category_id'] = $request->child_category_id;
+            $product_details['select_year'] = $request->select_year;
+            $product_details['every_years'] = $request->every_years;
+            $product_details['selected_years'] = $request->selected_years;
+            $product_details['selected_months'] = $request->selected_months;
+            $product_details['name_of_institution'] = $request->name_of_institution;
+            $product_details['duration'] = $request->duration;
+            $product_details['home_students_fees'] = $request->home_students_fees;
+            $product_details['int_students_fees'] = $request->int_students_fees;
+            $product_details['general_facilities'] = $request->general_facilities;
+            $product_details['work_placement'] = $request->work_placement;
+            $product_details['tuition_fee_installment'] = $request->tuition_fee_installment;
+            $product_details['requirements'] = $request->requirements;
+            $product_details['requirement_details'] = $request->requirement_details;
+            $product_details['youtube_link'] = $request->youtube_link;
+            $product_details['service_features'] = $request->service_features;
+            $product_details['experiences'] = $request->experiences;
+            $product_details['specializations'] = $request->specializations;
+            $product_details['disable_reselling'] = $request->disable_reselling;
+            $product_details['reselling_price'] = $request->reselling_price;
+            $product_details['reselling_commission'] = $request->reselling_commission;
+            $product_details['reselling_commission_tuition'] = $request->reselling_commission_tuition;
+            $product_details['price_changeable'] = $request->price_changeable;
+            $product_details['delivery_mode'] = $request->delivery_mode;
+            $product_details['delivery_area'] = $request->delivery_area;
+            $product_details['policy'] = $request->policy;
+            $product_details['unipuller_data_policy'] = $request->unipuller_data_policy;
 
             DB::beginTransaction();
 
@@ -639,6 +674,13 @@ class ProductController extends Controller
             ->toArray();
         $sub_categories = ['' => 'None'] + $sub_categories;
 
+        $child_categories = [];
+        $child_categories = Category::where('business_id', $business_id)
+            ->where('sub_category_id', $product->sub_category_id)
+            ->pluck('name', 'id')
+            ->toArray();
+        $child_categories = ['' => 'None'] + $child_categories;
+
         $default_profit_percent = request()->session()->get('business.default_profit_percent');
 
         //Get units.
@@ -663,7 +705,7 @@ class ProductController extends Controller
         $alert_quantity = !is_null($product->alert_quantity) ? $this->productUtil->num_f($product->alert_quantity, false, null, true) : null;
 
         return view('product.edit')
-            ->with(compact('categories', 'brands', 'units', 'sub_units', 'taxes', 'tax_attributes', 'barcode_types', 'product', 'sub_categories', 'default_profit_percent', 'business_locations', 'rack_details', 'selling_price_group_count', 'module_form_parts', 'product_types', 'common_settings', 'warranties', 'pos_module_data', 'alert_quantity'));
+            ->with(compact('categories', 'brands', 'units', 'sub_units', 'taxes', 'tax_attributes', 'barcode_types', 'product', 'sub_categories', 'child_categories','default_profit_percent', 'business_locations', 'rack_details', 'selling_price_group_count', 'module_form_parts', 'product_types', 'common_settings', 'warranties', 'pos_module_data', 'alert_quantity'));
     }
 
     /**
@@ -681,7 +723,11 @@ class ProductController extends Controller
 
         try {
             $business_id = $request->session()->get('user.business_id');
-            $product_details = $request->only(['name', 'brand_id', 'unit_id', 'category_id', 'tax', 'barcode_type', 'sku', 'alert_quantity', 'tax_type', 'weight', 'product_custom_field1', 'product_custom_field2', 'product_custom_field3', 'product_custom_field4', 'product_description', 'sub_unit_ids', 'preparation_time_in_minutes']);
+            $product_details = $request->only(['name', 'brand_id', 'unit_id', 'category_id', 'sub_category_id', 'tax', 'barcode_type', 'sku', 'alert_quantity',
+                'class','child_category_id','select_year','every_years','selected_years','selected_months','name_of_institution','duration','home_students_fees','int_students_fees','general_facilities','work_placement','tuition_fee_installment','requirements','requirement_details','youtube_link','service_features','experiences','specializations','disable_reselling','reselling_price',
+                'reselling_commission','reselling_commission_tuition','price_changeable','delivery_mode','delivery_area','policy','unipuller_data_policy',
+                'tax_type', 'weight', 'product_custom_field1', 'product_custom_field2', 'product_custom_field3', 'product_custom_field4', 'product_description', 'sub_unit_ids', 'preparation_time_in_minutes']);
+
 
             DB::beginTransaction();
 
@@ -716,6 +762,38 @@ class ProductController extends Controller
             $product->preparation_time_in_minutes = $product_details['preparation_time_in_minutes'];
             $product->warranty_id = !empty($request->input('warranty_id')) ? $request->input('warranty_id') : null;
             $product->secondary_unit_id = !empty($request->input('secondary_unit_id')) ? $request->input('secondary_unit_id') : null;
+
+
+            $product->warranty_id = !empty($request->input('warranty_id')) ? $request->input('warranty_id') : null;
+            $product->class = $product_details['class'];
+            $product->child_category_id = $product_details['child_category_id'];
+            $product->select_year = !empty($product_details['select_year']) ? $product_details['select_year'] : null;
+            $product->every_years = !empty($product_details['every_years']) ? $product_details['every_years'] : null;
+            $product->selected_years = !empty($product_details['selected_years']) ? $product_details['selected_years'] : null;
+            $product->selected_months = !empty($product_details['selected_months']) ? $product_details['selected_months'] : null;
+            $product->name_of_institution = $product_details['name_of_institution'];
+            $product->duration = $product_details['duration'];
+            $product->home_students_fees = $product_details['home_students_fees'];
+            $product->int_students_fees = $product_details['int_students_fees'];
+            $product->general_facilities = $product_details['general_facilities'];
+            $product->work_placement = $product_details['work_placement'];
+            $product->tuition_fee_installment = $product_details['tuition_fee_installment'];
+            $product->requirements = $product_details['requirements'];
+            $product->requirement_details = $product_details['requirement_details'];
+            $product->youtube_link = $product_details['youtube_link'];
+            $product->service_features = $product_details['service_features'];
+            $product->experiences = $product_details['experiences'];
+            $product->specializations = $product_details['specializations'];
+            $product->disable_reselling = $product_details['disable_reselling'];
+            $product->reselling_price = $product_details['reselling_price'];
+            $product->reselling_commission = $product_details['reselling_commission'];
+            $product->reselling_commission_tuition = $product_details['reselling_commission_tuition'];
+            $product->price_changeable = $product_details['price_changeable'];
+            $product->delivery_mode = $product_details['delivery_mode'];
+            $product->delivery_area = $product_details['delivery_area'];
+            $product->policy = $product_details['policy'];
+            $product->unipuller_data_policy = $product_details['unipuller_data_policy'];
+
 
             if (!empty($request->input('enable_stock')) && $request->input('enable_stock') == 1) {
                 $product->enable_stock = 1;
@@ -1037,6 +1115,25 @@ class ProductController extends Controller
         }
     }
 
+    public function getChildCategories(Request $request)
+    {
+        if (!empty($request->input('sub_cat_id'))) {
+            $sub_category_id = $request->input('sub_cat_id');
+            $business_id = $request->session()->get('user.business_id');
+            $child_categories = Category::where('business_id', $business_id)
+                ->where('sub_category_id', $sub_category_id)
+                ->select(['name', 'id'])
+                ->get();
+            $html = '<option value="">None</option>';
+            if (!empty($child_categories)) {
+                foreach ($child_categories as $child_category) {
+                    $html .= '<option value="' . $child_category->id . '">' . $child_category->name . '</option>';
+                }
+            }
+            echo $html;
+            exit;
+        }
+    }
     /**
      * Get product form parts.
      *

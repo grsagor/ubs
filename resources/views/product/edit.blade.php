@@ -25,6 +25,13 @@
     @component('components.widget', ['class' => 'box-primary'])
         <div class="row">
             <div class="col-sm-4">
+                <div class="form-group">
+                    {!! Form::label('class', __('product.type') . ':*') !!}
+                    {!! Form::select('class', ['Product','Service'], !empty($product->class) ? $product->class : null, ['placeholder' => __('messages.please_select'), 'class' => 'form-control select2', 'required']); !!}
+                </div>
+            </div>
+
+            <div class="col-sm-4">
               <div class="form-group">
                 {!! Form::label('name', __('product.product_name') . ':*') !!}
                   {!! Form::text('name', $product->name, ['class' => 'form-control', 'required',
@@ -40,15 +47,8 @@
               </div>
             </div>
 
-            <div class="col-sm-4">
-              <div class="form-group">
-                {!! Form::label('barcode_type', __('product.barcode_type') . ':*') !!}
-                  {!! Form::select('barcode_type', $barcode_types, $product->barcode_type, ['placeholder' => __('messages.please_select'), 'class' => 'form-control select2', 'required']); !!}
-              </div>
-            </div>
-
             <div class="clearfix"></div>
-            
+
             <div class="col-sm-4">
               <div class="form-group">
                 {!! Form::label('unit_id', __('product.unit') . ':*') !!}
@@ -95,18 +95,28 @@
                 </div>
               </div>
             </div>
+
             <div class="col-sm-4 @if(!session('business.enable_category')) hide @endif">
-              <div class="form-group">
-                {!! Form::label('category_id', __('product.category') . ':') !!}
-                  {!! Form::select('category_id', $categories, $product->category_id, ['placeholder' => __('messages.please_select'), 'class' => 'form-control select2']); !!}
-              </div>
+                <div class="form-group">
+                    {!! Form::label('category_id', __('product.category') . ':') !!}
+                    {!! Form::select('category_id', $categories, $product->category_id, ['placeholder' => __('messages.please_select'), 'class' => 'form-control select2']); !!}
+                </div>
             </div>
+
+            <div class="clearfix"></div>
 
             <div class="col-sm-4 @if(!(session('business.enable_category') && session('business.enable_sub_category'))) hide @endif">
               <div class="form-group">
                 {!! Form::label('sub_category_id', __('product.sub_category')  . ':') !!}
                   {!! Form::select('sub_category_id', $sub_categories, $product->sub_category_id, ['placeholder' => __('messages.please_select'), 'class' => 'form-control select2']); !!}
               </div>
+            </div>
+
+            <div class="col-sm-4 @if(!(session('business.enable_category') && session('business.enable_sub_category'))) hide @endif">
+                <div class="form-group">
+                    {!! Form::label('child_category_id', __('product.child_category') . ':') !!}
+                    {!! Form::select('child_category_id', $child_categories, !empty($product->child_category_id) ? $product->child_category_id : null, ['placeholder' => __('messages.please_select'), 'class' => 'form-control select2']); !!}
+                </div>
             </div>
 
             <div class="col-sm-4">
@@ -117,7 +127,153 @@
             </div>
 
             <div class="clearfix"></div>
-            
+
+            <div class="col-sm-4">
+                <div class="form-group">
+                    {!! Form::label('barcode_type', __('product.barcode_type') . ':*') !!}
+                    {!! Form::select('barcode_type', $barcode_types, $product->barcode_type, ['placeholder' => __('messages.please_select'), 'class' => 'form-control select2', 'required']); !!}
+                </div>
+            </div>
+        </div>
+        @endcomponent
+
+        @component('components.widget', ['class' => 'box-primary'])
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            {!! Form::label('name', __('product.study_time') . ':*') !!}
+                            {!! Form::select('study_time', ['Part Time','Full Time'], !empty($product->name) ? $product->name : null, ['class' => 'form-control select2', 'required']); !!}
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            {!! Form::label('start_type', 'Starts:*') !!}
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="everyYearCheckbox" name="every_year" value="1">
+                                        <label class="form-check-label" for="everyYearCheckbox">Every year</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="selectYearCheckbox" name="select_year" value="1">
+                                        <label class="form-check-label" for="selectYearCheckbox">Select year</label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <select id="yearSelect" name="selected_years[]" class="form-control select2" multiple>
+                                            <option disabled selected value="">Select Year</option>
+                                            @php
+                                                $currentYear = date('Y');
+                                                for ($year = $currentYear; $year <= $currentYear + 5; $year++) {
+                                                    echo "<option value='$year'>$year</option>";
+                                                }
+                                            @endphp
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <select id="monthSelect" name="selected_months[]" class="form-control select2" multiple>
+                                            <option disabled selected value="">Select Month</option>
+                                            @php
+                                                $months = [
+                                                    'January', 'February', 'March', 'April', 'May', 'June',
+                                                    'July', 'August', 'September', 'October', 'November', 'December'
+                                                ];
+                                                foreach ($months as $month) {
+                                                    echo "<option value='$month'>$month</option>";
+                                                }
+                                            @endphp
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            {!! Form::label('name', __('product.name_of_institution') . ':') !!}
+                            {!! Form::text('name_of_institution', !empty($product->name_of_institution) ? $product->name_of_institution : null, ['class' => 'form-control', 'required',
+                            'placeholder' => __('product.name_of_institution')]); !!}
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            {!! Form::label('name', __('product.duration') . ':*') !!}
+                            <div class="row">
+                                <div class="col-md-6">
+                                    {!! Form::select('duration', ['1','2','3','4','5'], !empty($product->duration) ? $product->duration : null, ['class' => 'form-control select2', 'required', 'placeholder' => 'Year']); !!}
+                                </div>
+                                <div class="col-md-6">
+                                    {!! Form::select('duration', ['1','2','3','4','5','7','8','9','10','11'], !empty($product->duration) ? $product->duration : null, ['class' => 'form-control select2', 'required', 'placeholder' => 'Month']); !!}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            {!! Form::label('name', __('product.tuition_fees') . ':') !!}
+                            <div class="row">
+                                <div class="col-md-5">
+                                    {!! Form::text('home_students_fees', !empty($product->home_students_fees) ? $product->home_students_fees : null, ['class' => 'form-control', 'required',
+                                        'placeholder' => __('product.home_students_fees')]); !!}
+                                </div>
+                                <div class="col-md-7">
+                                    {!! Form::text('int_students_fees', !empty($product->int_students_fees) ? $product->int_students_fees : null, ['class' => 'form-control', 'required',
+                                        'placeholder' => __('product.int_students_fees')]); !!}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endcomponent
+
+        @component('components.widget', ['class' => 'box-primary'])
+                <div class="row">
+                    <div class="col-sm-8">
+                        <div class="form-group">
+                            {!! Form::label('general_facilities', __('lang_v1.general_facilities') . ':') !!}
+                            {!! Form::textarea('general_facilities', !empty($product->general_facilities) ? $product->general_facilities : null, ['class' => 'form-control']); !!}
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            {!! Form::label('work_placement', __('product.work_placement') . ':*') !!}
+                            {!! Form::select('work_placement', ['Available'=>'Available','Unavailable'=>'Unavailable'], !empty($product->work_placement) ? $product->work_placement : null, ['placeholder' => __('messages.please_select'), 'class' => 'form-control select2', 'required']); !!}
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            {!! Form::label('tuition_fee_installment', __('product.tuition_fee_installment') . ':*') !!}
+                            {!! Form::select('tuition_fee_installment', ['Available'=>'Available','Unavailable'=>'Unavailable'], !empty($product->tuition_fee_installment) ? $product->tuition_fee_installment : null, ['placeholder' => __('messages.please_select'), 'class' => 'form-control select2', 'required']); !!}
+                        </div>
+                    </div>
+                </div>
+            @endcomponent
+
+        @component('components.widget', ['class' => 'box-primary'])
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            {!! Form::label('requirement', __('product.requirements') . ':') !!}
+                            {!! Form::select('requirements',['English Language'=>'English Language','Education'=>'Education','General Requirements'=>'General Requirements'], !empty($product->requirements) ? $product->requirements : null, ['class' => 'form-control', 'placeholder' => __('messages.please_select'),]); !!}
+                        </div>
+                    </div>
+                    <div class="col-sm-8">
+                        <div class="form-group">
+                            {!! Form::label('requirement_details', __('product.requirement_details') . ':') !!}
+                            {!! Form::textarea('requirement_details', !empty($product->requirement_details) ? $product->requirement_details : null, ['class' => 'form-control']); !!}
+                        </div>
+                    </div>
+                </div>
+            @endcomponent
+
+        @component('components.widget', ['class' => 'box-primary'])
+        <div class="row">
             <div class="col-sm-4">
               <div class="form-group">
               <br>
@@ -177,6 +333,128 @@
                 </small>
               </div>
             </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    {!! Form::label('youtube_link', __('product.youtube_link') . ':*') !!}
+                    {!! Form::text('youtube_link', !empty($product->youtube_link) ? $product->youtube_link : null, ['class' => 'form-control', 'required',
+                    'placeholder' => __('product.youtube_link')]); !!}
+                </div>
+            </div>
+    @endcomponent
+
+    @component('components.widget', ['class' => 'box-primary'])
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    {!! Form::label('service_features', __('product.service_features') . ':') !!}
+                    {!! Form::textarea('service_features', !empty($product->service_features) ? $product->service_features : null, ['class' => 'form-control']); !!}
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    {!! Form::label('experiences', __('product.experiences') . ':') !!}
+                    {!! Form::textarea('experiences', !empty($product->experiences) ? $product->experiences : null, ['class' => 'form-control']); !!}
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    {!! Form::label('specializations', __('product.specializations') . ':') !!}
+                    {!! Form::textarea('specializations', !empty($product->specializations) ? $product->specializations : null, ['class' => 'form-control']); !!}
+                </div>
+            </div>
+            {{-- @if(!empty($common_settings['enable_product_warranty']))
+             <div class="col-sm-6">
+                 <div class="form-group">
+                     {!! Form::label('warranty_id', __('lang_v1.warranty') . ':') !!}
+                     {!! Form::select('warranty_id', $warranties, null, ['class' => 'form-control select2', 'placeholder' => __('messages.please_select')]); !!}
+                 </div>
+             </div>
+             @endif--}}
+        </div>
+    @endcomponent
+
+    @component('components.widget', ['class' => 'box-primary'])
+        <div class="row">
+            <div class="col-sm-4 @if(!session('business.enable_price_tax')) hide @endif">
+                <div class="form-group">
+                    {!! Form::label('tax', __('product.applicable_tax') . ':') !!}
+                    {!! Form::select('tax', $taxes, $product->tax, ['placeholder' => __('messages.please_select'), 'class' => 'form-control select2'], $tax_attributes); !!}
+                </div>
+            </div>
+
+            <div class="col-sm-4 @if(!session('business.enable_price_tax')) hide @endif">
+                <div class="form-group">
+                    {!! Form::label('tax_type', __('product.selling_price_tax_type') . ':*') !!}
+                    {!! Form::select('tax_type',['inclusive' => __('product.inclusive'), 'exclusive' => __('product.exclusive')], $product->tax_type,
+                    ['class' => 'form-control select2', 'required']); !!}
+                </div>
+            </div>
+
+            <div class="clearfix"></div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    {!! Form::label('type', __('product.product_type') . ':*') !!} @show_tooltip(__('tooltip.product_type'))
+                    {!! Form::select('type', $product_types, $product->type, ['class' => 'form-control select2',
+                      'required','disabled', 'data-action' => 'edit', 'data-product_id' => $product->id ]); !!}
+                </div>
+            </div>
+
+            <div class="form-group col-sm-12" id="product_form_part"></div>
+            <input type="hidden" id="variation_counter" value="0">
+            <input type="hidden" id="default_profit_percent" value="{{ $default_profit_percent }}">
+        </div>
+    @endcomponent
+
+    @component('components.widget', ['class' => 'box-primary'])
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <br>
+                    <label>
+                        {!! Form::checkbox('disable_reselling', 1, !(empty($product)) ? $product->disable_reselling : false, ['class' => 'input-icheck']); !!} <strong>@lang('product.disable_reselling')</strong>
+                    </label> @show_tooltip(__('product.disable_reselling'))
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    {!! Form::label('reselling_price', __('product.reselling_price') . ':*') !!}
+                    {!! Form::select('reselling_price', ['Percentage','Fixed'], null, ['class' => 'form-control select2','required', 'placeholder' => __('messages.please_select')]); !!}
+                </div>
+            </div>
+            <div class="col-sm-4">
+                {!! Form::label('reselling_commission', __('product.reselling_commission') . ':') !!}
+                {!! Form::text('reselling_commission', !empty($product->reselling_commission) ? $product->reselling_commission : null, ['class' => 'form-control', 'required',
+                    'placeholder' => __('product.reselling_commission')]); !!}
+            </div>
+            <div class="clearfix"></div>
+            <div class="col-sm-4">
+                {!! Form::label('reselling_commission_tuition', __('product.reselling_commission_tuition') . ':') !!}
+                {!! Form::text('reselling_commission_tuition', !empty($product->reselling_commission_tuition) ? $product->reselling_commission_tuition : null, ['class' => 'form-control', 'required',
+                    'placeholder' => __('product.reselling_commission_tuition')]); !!}
+            </div>
+            <div class="col-sm-4">
+                {!! Form::label('price_changeable', __('product.price_changeable') . ':*') !!}
+                {!! Form::select('price_changeable',['Yes','No'], !empty($product->price_changeable) ? $product->price_changeable : null, ['class' => 'form-control', 'required',
+                    'placeholder' => __('messages.please_select')]); !!}
+            </div>
+        </div>
+    @endcomponent
+
+    @component('components.widget', ['class' => 'box-primary'])
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="form-group">
+                    {!! Form::label('delivery_mode', __('product.delivery_mode') . ':*') !!}
+                    {!! Form::select('delivery_mode', ['Online','Offline','Online & Offline'], null, ['class' => 'form-control select2', 'required', 'placeholder' => __('messages.please_select')]); !!}
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    {!! Form::label('delivery_area', __('product.delivery_area') . ':*') !!}
+                    {!! Form::select('delivery_area', ['National','International'], null, ['class' => 'form-control select2', 'required', 'placeholder' => __('messages.please_select')]); !!}
+                </div>
+            </div>
+        </div>
     @endcomponent
 
     @component('components.widget', ['class' => 'box-primary'])
@@ -329,34 +607,20 @@
 
     @component('components.widget', ['class' => 'box-primary'])
         <div class="row">
-            <div class="col-sm-4 @if(!session('business.enable_price_tax')) hide @endif">
-              <div class="form-group">
-                {!! Form::label('tax', __('product.applicable_tax') . ':') !!}
-                  {!! Form::select('tax', $taxes, $product->tax, ['placeholder' => __('messages.please_select'), 'class' => 'form-control select2'], $tax_attributes); !!}
-              </div>
+            <div class="col-sm-8">
+                <div class="form-group">
+                    {!! Form::label('policy', __('product.policy') . ':') !!}
+                    {!! Form::textarea('policy', !empty($product->policy) ? $product->policy : null, ['class' => 'form-control']); !!}
+                </div>
             </div>
-
-            <div class="col-sm-4 @if(!session('business.enable_price_tax')) hide @endif">
-              <div class="form-group">
-                {!! Form::label('tax_type', __('product.selling_price_tax_type') . ':*') !!}
-                  {!! Form::select('tax_type',['inclusive' => __('product.inclusive'), 'exclusive' => __('product.exclusive')], $product->tax_type,
-                  ['class' => 'form-control select2', 'required']); !!}
-              </div>
-            </div>
-
-            <div class="clearfix"></div>
             <div class="col-sm-4">
-              <div class="form-group">
-                {!! Form::label('type', __('product.product_type') . ':*') !!} @show_tooltip(__('tooltip.product_type'))
-                {!! Form::select('type', $product_types, $product->type, ['class' => 'form-control select2',
-                  'required','disabled', 'data-action' => 'edit', 'data-product_id' => $product->id ]); !!}
-              </div>
+                <div class="form-group">
+                    <label>
+                        {!! Form::checkbox('unipuller_data_policy', 1, !(empty($product)) ? $product->unipuller_data_policy : false, ['class' => 'input-icheck', 'required']); !!} <strong>@lang('product.unipuller_data_policy')*</strong>
+                    </label> @show_tooltip(__('product.unipuller_data_policy'))
+                </div>
             </div>
-
-            <div class="form-group col-sm-12" id="product_form_part"></div>
-            <input type="hidden" id="variation_counter" value="0">
-            <input type="hidden" id="default_profit_percent" value="{{ $default_profit_percent }}">
-            </div>
+        </div>
     @endcomponent
 
   <div class="row">

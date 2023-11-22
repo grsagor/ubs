@@ -325,6 +325,7 @@ Route::middleware(['checkAdmin', 'SetSessionData'])->group(function () {
 
     Route::get('taxonomies-ajax-index-page', [TaxonomyController::class, 'getTaxonomyIndexPage']);
     Route::resource('taxonomies', TaxonomyController::class);
+    Route::get('/get-subcategories/{category_id}', [TaxonomyController::class, 'getSubcategories']);
 
     Route::resource('variation-templates', VariationTemplateController::class);
 
@@ -347,6 +348,7 @@ Route::middleware(['checkAdmin', 'SetSessionData'])->group(function () {
     Route::get('/products/get-product-to-edit/{product_id}', [ProductController::class, 'getProductToEdit']);
 
     Route::post('/products/get_sub_categories', [ProductController::class, 'getSubCategories']);
+    Route::post('/products/get_child_categories', [ProductController::class, 'getChildCategories']);
     Route::get('/products/get_sub_units', [ProductController::class, 'getSubUnits']);
     Route::post('/products/product_form_part', [ProductController::class, 'getProductVariationFormPart']);
     Route::post('/products/get_product_variation_row', [ProductController::class, 'getProductVariationRow']);

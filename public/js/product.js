@@ -1,6 +1,25 @@
 //This file contains all functions used products tab
 
 $(document).ready(function() {
+
+    // On change of sub_category_id dropdown
+    $('#sub_category_id').on('change', function () {
+        var subCategoryId = $(this).val();
+
+        // Make an Ajax request to get child categories based on the selected subcategory
+        $.ajax({
+            url: '/get-child-categories/' + subCategoryId, // Replace with your route
+            type: 'GET',
+            success: function (data) {
+                // Update the child_category_id dropdown options
+                $('#child_category_id').html(data);
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+    });
+
     $(document).on('ifChecked', 'input#enable_stock', function() {
         $('div#alert_quantity_div').show();
         $('div#quick_product_opening_stock_div').show();
@@ -556,6 +575,42 @@ $(document).ready(function() {
     if ($('textarea#product_description').length > 0) {
         tinymce.init({
             selector: 'textarea#product_description',
+            height:250
+        });
+    }
+    if ($('textarea#requirement_details').length > 0) {
+        tinymce.init({
+            selector: 'textarea#requirement_details',
+            height:250
+        });
+    }
+    if ($('textarea#service_features').length > 0) {
+        tinymce.init({
+            selector: 'textarea#service_features',
+            height:250
+        });
+    }
+    if ($('textarea#experiences').length > 0) {
+        tinymce.init({
+            selector: 'textarea#experiences',
+            height:250
+        });
+    }
+    if ($('textarea#specializations').length > 0) {
+        tinymce.init({
+            selector: 'textarea#specializations',
+            height:250
+        });
+    }
+    if ($('textarea#general_facilities').length > 0) {
+        tinymce.init({
+            selector: 'textarea#general_facilities',
+            height:250
+        });
+    }
+    if ($('textarea#policy').length > 0) {
+        tinymce.init({
+            selector: 'textarea#policy',
             height:250
         });
     }

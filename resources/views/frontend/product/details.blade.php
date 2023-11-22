@@ -109,7 +109,7 @@
                                     <div class="summary-inner">
 
                                         <h1 class="product_title entry-title">{{ $info->name }}</h1>
-                                        <h3 class="product_title entry-title">&pound; {{ $info->price }}</h3>
+                                        <h3 class="product_title entry-title">&pound; {{ $info->reselling_price }}</h3>
 
                                         <div class="row">
                                             <div class="col-lg-5">

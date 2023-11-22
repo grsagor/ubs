@@ -852,6 +852,9 @@ $(document).ready(function() {
     $(document).on('change', '#category_id', function() {
         get_sub_categories();
     });
+    $(document).on('change', '#sub_category_id', function() {
+        get_child_categories();
+    });
     $(document).on('change', '#unit_id', function() {
         get_sub_units();
     });
@@ -2166,6 +2169,20 @@ function get_sub_categories() {
         success: function(result) {
             if (result) {
                 $('#sub_category_id').html(result);
+            }
+        },
+    });
+}
+function get_child_categories() {
+    var sub_cat = $('#sub_category_id').val();
+    $.ajax({
+        method: 'POST',
+        url: '/products/get_child_categories',
+        dataType: 'html',
+        data: { sub_cat_id: sub_cat },
+        success: function(result) {
+            if (result) {
+                $('#child_category_id').html(result);
             }
         },
     });

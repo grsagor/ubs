@@ -13,7 +13,7 @@
                 <div class="row">
                     @if ($item->image)
                         <a href="{{ route('product.show', $item->id) }}" class="woocommerce-LoopProduct-link col-lg-4 col-md-4 col-sm-12 d-flex p-0">
-                            <img class="lazy img-fluid rounded w-100" src="{{ asset('upload/'.$item->image) }}" alt="Product Image">
+                            <img class="lazy img-fluid rounded w-100" src="{{ asset('uploads/img/'.$item->image) }}" alt="Product Image">
                         </a>
                     @else
                         <a href="{{ route('product.show', $item->id) }}" class="woocommerce-LoopProduct-link col-lg-4 col-md-4 col-sm-12 d-flex">
@@ -54,7 +54,7 @@
                                     </a>
                                 </div>
                                 <div class="col division" style="border: 1px solid var(--green);">Discount %</div>
-                                <div class="col division" style="border: 1px solid var(--green);">Price &pound;</div>
+                                <div class="col division" style="border: 1px solid var(--green);">&pound; {{$item->reselling_price}}</div>
                             </div>
                             {{--<div class="d-flex text-center"
                                  style="background-color: whitesmoke; border-top: 2px solid var(--green); padding: 1px">

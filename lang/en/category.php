@@ -19,6 +19,7 @@ return [
     'code' => 'Category Code',
     'add_as_sub_category' => 'Add as sub-category',
     'select_parent_category' => 'Select parent category',
+    'select_sub_category' => 'Select Sub Category',
     'added_success' => 'Category added successfully',
     'added_sub_success' => 'Sub-Category added successfully',
     'updated_success' => 'Category updated successfully',
