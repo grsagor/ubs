@@ -57,7 +57,7 @@ class PropertyController extends Controller
         $total_monthly_income_before_tax = 0;
         foreach ($occupantDetails as $item) {
             if ($item['occupant_pay_rent'] == 1) {
-                $total_monthly_income_before_tax += $item['occupant_miat'];
+                $total_monthly_income_before_tax += (int)$item['occupant_miat'];
             }
         }
         $data['total_monthly_income_before_tax'] = $total_monthly_income_before_tax;
