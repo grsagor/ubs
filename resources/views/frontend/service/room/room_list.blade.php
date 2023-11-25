@@ -6,11 +6,11 @@
         }
 
         /* .carousel-container {
-                                            position: relative !important;
-                                            display: flex;
-                                            justify-content: center;
-                                            align-items: center;
-                                        } */
+                                                                                        position: relative !important;
+                                                                                        display: flex;
+                                                                                        justify-content: center;
+                                                                                        align-items: center;
+                                                                                    } */
 
         .mySlides {
             display: none;
@@ -66,8 +66,8 @@
         }
 
         /* .active {
-                background-color: #333;
-            } */
+                                                            background-color: #333;
+                                                        } */
     </style>
 @endsection
 @section('property_list_content')
@@ -91,7 +91,7 @@
                             @if ($img_count == 1)
                                 <a href="{{ route('room_show', $item->id) }}" class="woocommerce-LoopProduct-link">
                                     <img class="lazy img-fluid rounded" data-src="{{ asset($first_image) }}"
-                                        alt="Product Image">
+                                        alt="Product Image" style="height: 200px;">
                                 </a>
                             @else
                                 <div class="slideShow">
@@ -150,7 +150,7 @@
                             </script>
                         @else
                             <img src="https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg"
-                                class="swiper-lazy" alt="" style="height: 270px;">
+                                class="swiper-lazy" alt="" style="height: 200px;">
                         @endif
                     </div>
                     <div class=" col-lg-8 col-md-8 col-sm-12 p-0 d-flex flex-column">
@@ -162,10 +162,10 @@
                                     </span>
                                 </a>
                             </h5>
-                            <hr class="mt-0" style="height: 2px; width: 100% !important;">
+                            <hr class="mt-0" style="height: 2px; width: 100% !important; margin-bottom: 10px;">
                             <p class="category_text text-dark"
                                 style="margin-bottom: 0rem; text-align: justify; padding: 0px 10px 0px 10px">
-                                {{ Str::limit($item->advert_description, $limit = 368, $end = '...') }}
+                                {{ Str::limit($item->advert_description, $limit = 168, $end = '...') }}
                             </p>
                         </div>
 
