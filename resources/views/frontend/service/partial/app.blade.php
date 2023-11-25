@@ -25,13 +25,13 @@
 
         p.category_text {
             /* min-height: 20px;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    max-height: 20px; */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            max-height: 20px; */
         }
 
         /* h5.product-title {
-                                                    min-height: 35px;
-                                                    max-height: 35px;
-                                                } */
+                                                            min-height: 35px;
+                                                            max-height: 35px;
+                                                        } */
 
         .product-info .product-title a {
             font-size: 18px !important;
@@ -217,6 +217,7 @@
                                                 </div>
                                             </div>
 
+                                            <br>
 
                                             <div class="card">
                                                 {{-- <img class="card-img-top" src="..." alt="Card image cap"> --}}

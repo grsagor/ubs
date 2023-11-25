@@ -1,7 +1,7 @@
 @extends('frontend.service.partial.app')
 @section('property_list_content')
     @foreach ($rooms as $item)
-        <div class="col mb-5 mobile_view_card">
+        <div class="col mb-4 mobile_view_card">
             <div class="product type-product rounded">
                 <div class="row m-0">
                     <div class="col-lg-4 col-md-4 col-sm-12 d-flex align-items-center card-image justify-content-center">
