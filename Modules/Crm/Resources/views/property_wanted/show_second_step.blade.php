@@ -195,6 +195,34 @@
         //     }
         // });
 
+
+        $('#ad_title').change(function() {
+            var data = $(this).val();
+            $('#ad_title-error--property_wanted_create').hide();
+
+            if (data) {
+                $.ajax({
+                    url: "/contact/check-advert-title/" + data,
+                    type: "get",
+                    dataType: "json",
+                    success: function(response) {
+                        console.log(response);
+                        if (response == 1) {
+                            $('#ad_title-error--property_wanted_create').show();
+                            // Advert title already exists, show error
+                            $('#ad_title-error--property_wanted_create').text(
+                                '"' + data + '" title already exists');
+
+                            // Clear the input field
+                            $('#ad_title').val('');
+                        }
+                    }
+                });
+            }
+        });
+
+
+
         $('#imageUpload--create').on('change', function(e) {
             var files = e.target.files;
             var imagePreview = $('#create--imagePreview');
@@ -204,7 +232,7 @@
                 var reader = new FileReader();
                 reader.onload = function(e) {
                     var image = $('<img>')
-                        .addClass('preview-image') 
+                        .addClass('preview-image')
                         .attr('src', e.target.result)
                     imagePreview.append(image);
                 };

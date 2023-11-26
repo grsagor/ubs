@@ -30,6 +30,8 @@ Route::group(['middleware' => ['checkCustomer'], 'prefix' => 'contact',], functi
     Route::get('/show-second-step', [PropertyWantedCustomerController::class, 'showSecondStep']);
     Route::get('/show-edit-second-step', [PropertyWantedCustomerController::class, 'showEditSecondStep']);
 
+    Route::get('/check-advert-title/{data}', [PropertyWantedCustomerController::class, 'checkAdvertTitle']);
+
     Route::get('/rough-test', function () {
         return view('rough.rough');
     });
