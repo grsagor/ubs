@@ -6,11 +6,11 @@
         }
 
         /* .carousel-container {
-                                                                                                position: relative !important;
-                                                                                                display: flex;
-                                                                                                justify-content: center;
-                                                                                                align-items: center;
-                                                                                            } */
+                                                                                                        position: relative !important;
+                                                                                                        display: flex;
+                                                                                                        justify-content: center;
+                                                                                                        align-items: center;
+                                                                                                    } */
 
         .mySlides {
             display: none;
@@ -66,8 +66,8 @@
         }
 
         /* .active {
-                                                                    background-color: #333;
-                                                                } */
+                                                                            background-color: #333;
+                                                                        } */
     </style>
 @endsection
 @section('property_list_content')
@@ -75,7 +75,8 @@
         <div class="col mb-4">
             <div class="product type-product rounded ">
                 <div class=" row m-0">
-                    <div class="col-lg-4 col-md-4 col-sm-12 d-flex align-items-center card-image">
+                    <div class="col-lg-4 col-md-4 col-sm-12 d-flex align-items-center card-image"
+                        style="justify-content: center">
                         @php
                             $images = json_decode($item->advert_photos, true);
                             $first_image = null;
@@ -91,7 +92,7 @@
                             @if ($img_count == 1)
                                 <a href="{{ route('room_show', $item->id) }}" class="woocommerce-LoopProduct-link">
                                     <img class="lazy img-fluid rounded" data-src="{{ asset($first_image) }}"
-                                        alt="Product Image" style="height: 200px;">
+                                        alt="Product Image" style="height: 194px;">
                                 </a>
                             @else
                                 <div class="slideShow">
@@ -101,7 +102,7 @@
                                             @foreach ($images as $key => $val)
                                                 <div>
                                                     <img class="mySlides mySlides-{{ $index }}"
-                                                        src="{{ asset($val) }}">
+                                                        src="{{ asset($val) }}" style="height: 194px;">
                                                 </div>
                                             @endforeach
                                             <a class="previous"
@@ -112,8 +113,6 @@
                                     </div>
                                 </div>
                             @endif
-
-
 
 
                             <script>
