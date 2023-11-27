@@ -28,7 +28,8 @@
         <div class="col-sm-12">
             <div class="form-group">
                 <label for="occupant_age">Age</label>
-                <select class="form-control" id="occupant_age_{{ $i }}" onchange="showingProfession('{{ $i }}')" name="occupant_age[]" required>
+                <select class="form-control" id="occupant_age_{{ $i }}"
+                    onchange="showingProfession('{{ $i }}')" name="occupant_age[]" required>
                     <option value="" selected>Select...</option>
                     @foreach (range(0, 99) as $age)
                         <option value="{{ $age }}">{{ $age }}</option>
@@ -100,7 +101,7 @@
             <div class="col-sm-12">
                 <div class="form-group">
                     <label for="occupant_miat">Monthly income before tax</label>
-                    <input class="form-control" name="occupant_miat[]" type="text" id="occupant_miat">
+                    <input class="form-control" name="occupant_miat[]" type="number" id="occupant_miat">
                 </div>
             </div>
         </div>
@@ -204,12 +205,14 @@
     }
 
     function showingProfession(i) {
-        if ($(`#occupant_age_${i}`).val() < 12 ) {
+        if ($(`#occupant_age_${i}`).val() < 12) {
             $(`#occupant_occupation_container_${i}`).hide();
-            $(`#occupant_occupation_container_${i} input, #occupant_occupation_container_${i} select`).prop('required', false);
+            $(`#occupant_occupation_container_${i} input, #occupant_occupation_container_${i} select`).prop('required',
+                false);
         } else {
             $(`#occupant_occupation_container_${i}`).show();
-            $(`#occupant_occupation_container_${i} input, #occupant_occupation_container_${i} select`).prop('required', true);
+            $(`#occupant_occupation_container_${i} input, #occupant_occupation_container_${i} select`).prop('required',
+                true);
         }
     }
 </script>
