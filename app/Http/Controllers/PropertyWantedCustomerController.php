@@ -51,7 +51,7 @@ class PropertyWantedCustomerController extends Controller
                     }
 
                     $html =
-                        '<div class="btn-group"><button type="button" class="btn btn-info dropdown-toggle btn-xs" data-toggle="dropdown" aria-expanded="false">' . __('messages.actions') . '<span class="caret"></span><span class="sr-only">Toggle Dropdown</span></button><ul class="dropdown-menu dropdown-menu-left" role="menu">';
+                        '<div class="btn-group"><button type="button" class="btn btn-info dropdown-toggle btn-xs" data-toggle="dropdown" aria-expanded="false">' . __('messages.actions') . '<span class="caret"></span><span class="sr-only">Toggle Dropdown</span></button><ul class="dropdown-menu dropdown-menu-left" style="position: relative" role="menu">';
 
                     $html .= '<li><a href="/property-show/' . $service->id . '" target="_blank" style="padding: 0;"><button class="btn btn-link" style="color: #525557;"><i class="fas fa-solid fa-eye"></i>View</button></a></li>';
                     $html .= '<li><button type="button" data-id="' . $service->id . '" class="btn btn-link" id="property_wanted_edit_btn" data-toggle="tooltip" style="color: #525557;"><i class="glyphicon glyphicon-edit"></i> ' . __('Edit') . '</button></li>';

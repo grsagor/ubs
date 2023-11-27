@@ -141,9 +141,10 @@
         <div class="d-flex align-items-start pt-3" id="custom-pagination">
             <div class="pagination-style-one mx-auto">
                 <nav aria-label="Page navigation example">
-                    <ul class="pagination">
-                        {{ $rooms->links() }}
-                    </ul>
+                    {{-- <ul class="pagination"> --}}
+                    {{-- {{ $rooms->links() }} --}}
+                    {{ $rooms->onEachSide(0)->links() }}
+                    {{-- </ul> --}}
                 </nav>
             </div>
         </div>
