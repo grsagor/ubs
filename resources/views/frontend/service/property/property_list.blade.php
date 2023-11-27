@@ -54,6 +54,7 @@
                             @if ($item->room_details !== 'null' && $item->room_details !== null)
                                 @php
                                     $roomDetails = json_decode($item->room_details, true);
+                                    $countRoom = count($roomDetails);
 
                                     // Check if $roomDetails is not null and is an array
                                     if (is_array($roomDetails)) {
@@ -96,11 +97,26 @@
                                 </p>
                                 {{-- {{ dd($roomDetails) }} --}}
                                 <p class="mb-0 text-muted">
-                                    @if ($item->child_category_id == 11)
+                                    {{-- @if ($item->child_category_id == 11)
                                         {{ $output ?? '' }}
                                     @else
                                         {{ $item->child_category->name }}
-                                    @endif
+                                    @endif --}}
+                                    {{ $countRoom }}
+
+                                    @foreach ($roomDetails as $val)
+                                        @if ($val == 1)
+                                            Single Bed
+                                        @elseif($val == 2)
+                                            Double Bed
+                                        @elseif($val == 6)
+                                            Semi-Double Bed
+                                        @elseif($val == 7)
+                                            En-suit Bed
+                                        @endif
+                                    @endforeach
+
+                                    {{ $item->child_category->name }}
                                 </p>
                             </span>
 

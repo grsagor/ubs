@@ -95,22 +95,24 @@
                                                         @endphp
 
                                                         <div class="pro-info">
+                                                            {{-- $info->child_category_id == 11 means child_categories table value Room check child_categories table --}}
+
+                                                            {{-- @if ($info->child_category_id == 11) --}}
+                                                            {{ $countRoom }}
+                                                            {{-- @endif --}}
                                                             <strong class="room-list__price">
                                                                 @foreach ($roomDetails as $item)
                                                                     @if ($item == 1)
-                                                                        Single
+                                                                        Single Bed
                                                                     @elseif($item == 2)
-                                                                        Double
+                                                                        Double Bed
                                                                     @elseif($item == 6)
-                                                                        Semi-Double
+                                                                        Semi-Double Bed
                                                                     @elseif($item == 7)
-                                                                        En-suit
+                                                                        En-suit Bed
                                                                     @endif
                                                                 @endforeach
-                                                                {{-- $info->child_category_id == 11 means child_categories table value Room check child_categories table --}}
-                                                                @if ($info->child_category_id == 11)
-                                                                    {{ $countRoom }}
-                                                                @endif
+
                                                                 {{ $info->child_category->name . ' Wanted' ?? '' }}
                                                             </strong>
                                                         </div>

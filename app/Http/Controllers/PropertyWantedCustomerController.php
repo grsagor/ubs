@@ -116,7 +116,7 @@ class PropertyWantedCustomerController extends Controller
         $data['double'] = ServiceCharge::where([['child_category', 1], ['size', ['double']]])->first()->service_charge;
         $data['semi_double'] = ServiceCharge::where([['child_category', 1], ['size', ['semi-double']]])->first()->service_charge;
         $data['en_suite'] = ServiceCharge::where([['child_category', 1], ['size', ['en-suite']]])->first()->service_charge;
-        
+
         return view('crm::property_wanted.property_add_page', compact('business_locations'), $data);
     }
     public function create()
@@ -447,6 +447,22 @@ class PropertyWantedCustomerController extends Controller
         ];
 
         return response()->json($response);
+    }
+
+    public function checkAdvertTitle($data)
+    {
+        $auth_id = Auth::id();
+
+        $checking_advert_title = ServicePropertyWanted::where('user_id', $auth_id)
+            ->where('ad_title', $data)
+            ->first();
+
+        // Check if $checking_advert_title is not null
+        if ($checking_advert_title) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     private function languages()
