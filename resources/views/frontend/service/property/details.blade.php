@@ -45,9 +45,9 @@
                                     <div class="slideShow">
                                         <!-- Images in the slideshow -->
                                         <div class="image-carousel">
-                                            <div class="carousel-container">
+                                            <div class="carousel-container" id="containerrrr">
                                                 @foreach ($images as $key => $item)
-                                                    <img class="mySlides" src="{{ asset($item) }}">
+                                                    <img id="imggg" class="mySlides" src="{{ asset($item) }}">
                                                 @endforeach
                                                 @if ($img_count > 1)
                                                     <a class="previous" onclick="plusSlides(-1)">❮</a>
@@ -469,5 +469,28 @@
     </div>
 @endsection
 @section('script')
+    <script>
+        const container = document.getElementById("containerrrr");
+        const img = document.getElementById("imggg");
+
+        container.addEventListener("mousemove", onZoom);
+        container.addEventListener("mouseover", onZoom);
+        container.addEventListener("mouseleave", offZoom);
+
+        function onZoom(e) {
+            const x = e.clientX - e.target.offsetLeft;
+            const y = e.clientY - e.target.offsetTop;
+
+            // console.log(x, y)
+
+            img.style.transformOrigin = `${x}px ${y}px`;
+            img.style.transform = "scale(1.3)";
+        }
+
+        function offZoom(e) {
+            img.style.transformOrigin = `center center`;
+            img.style.transform = "scale(1)";
+        }
+    </script>
     @include('frontend.service.partial.property_script')
 @endsection
