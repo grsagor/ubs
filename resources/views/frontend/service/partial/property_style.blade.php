@@ -148,6 +148,21 @@
         text-align: left;
     }
 
+    #containerrrr {
+        /* box-shadow: 3px 3px 4px rgba(0, 0, 0, 0.3); */
+        /* height: 400px; */
+        /* width: 400px; */
+        overflow: hidden;
+    }
+
+    #imggg {
+        transform-origin: center center;
+        /* object-fit: cover; */
+        /* height: 100%; */
+        /* width: 100%; */
+        cursor: all-scroll;
+    }
+
     @media (max-width: 767px) {
         .full-row {
             padding-top: 1.5rem !important;
