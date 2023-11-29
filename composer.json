@@ -23,7 +23,6 @@
         "giggsey/libphonenumber-for-php": "^8.12",
         "guzzlehttp/guzzle": "^7.2",
         "intervention/image": "^2.7",
-        "jorenvanhocht/laravel-share": "^4.2",
         "knox/pesapal": "1.0.0",
         "laravel/framework": "^9.51",
         "laravel/legacy-factories": "^1.3",

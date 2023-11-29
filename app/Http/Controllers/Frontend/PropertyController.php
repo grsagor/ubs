@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Media;
-use Jorenvh\Share\Share;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Modules\Crm\Entities\ServicePropertyWanted;
@@ -94,17 +93,6 @@ class PropertyController extends Controller
                 $data['div_value'] = 4;
             }
         }
-
-        $data['shareButtons'] = \Share::page(
-            url("/property-show/{$id}"),
-            'Your share text comes here',
-        )
-            ->facebook()
-            ->twitter()
-            ->linkedin()
-            ->telegram()
-            ->whatsapp()
-            ->reddit();
 
         return view('frontend.service.property.details', $data);
     }
