@@ -1,6 +1,27 @@
 @extends('frontend.layouts.master_layout')
 
 @section('css')
+    <style>
+        #social-links ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            /* Make the list items display in a row */
+        }
+
+        #social-links li {
+            margin-right: 10px;
+            /* Adjust the spacing between icons */
+        }
+
+        #social-links a {
+            display: inline-block;
+            font-size: 24px;
+            /* Adjust the font size as needed */
+            text-decoration: none;
+        }
+    </style>
     @include('frontend.service.partial.property_style')
 @endsection
 
@@ -28,6 +49,7 @@
                 </div>
             </div>
         </div>
+
 
         <!-- breadcrumb -->
         <div class="shop-list-page">
@@ -177,7 +199,12 @@
 
                                                 </div>
 
-                                                @include('frontend.social_media_share.social_media')
+                                                <div class="social-btn-sp">
+                                                    <h5 class="mb-2">Share Now</h5>
+                                                    {!! $shareButtons !!}
+                                                </div>
+
+                                                {{-- @include('frontend.social_media_share.social_media') --}}
 
                                                 <div class="yith-wcwl-add-to-wishlist wishlist-fragment mt-3">
                                                     <div class="wishlist-button">
