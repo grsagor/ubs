@@ -182,6 +182,7 @@ class PropertyWantedCustomerController extends Controller
 
     public function storeProperty(Request $request)
     {
+        // dd($request->toArray());
         try {
             $occupant_details = [];
 
