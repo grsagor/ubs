@@ -149,8 +149,8 @@
             <div class="form-group">
                 <label for="custom_field1">Description</label>
                 <p class="sub-heading">(No contact details permitted within description)</p>
-                <textarea rows="5" type="text" class="form-control" name="ad_text" class="input-field"
-                    placeholder="Description" required></textarea>
+                <textarea rows="5" type="text" class="form-control" name="ad_text" id="ad_text" class="input-field"
+                    placeholder="Description"></textarea>
                 <span class="error text-danger" id="ad_text-error--property_wanted_create"></span>
             </div>
         </div>
@@ -195,50 +195,56 @@
         //     }
         // });
 
+        // if ($("textarea#ad_text").length > 0) {
+        //     tinymce.init({
+        //         selector: "textarea#ad_text",
+        //         height: 250,
+        //     });
+    }
 
-        $('#ad_title').change(function() {
-            var data = $(this).val();
-            $('#ad_title-error--property_wanted_create').hide();
+    $('#ad_title').change(function() {
+        var data = $(this).val();
+        $('#ad_title-error--property_wanted_create').hide();
 
-            if (data) {
-                $.ajax({
-                    url: "/contact/check-advert-title/" + data,
-                    type: "get",
-                    dataType: "json",
-                    success: function(response) {
-                        console.log(response);
-                        if (response == 1) {
-                            $('#ad_title-error--property_wanted_create').show();
-                            // Advert title already exists, show error
-                            $('#ad_title-error--property_wanted_create').text(
-                                '"' + data + '" title already exists');
+        if (data) {
+            $.ajax({
+                url: "/contact/check-advert-title/" + data,
+                type: "get",
+                dataType: "json",
+                success: function(response) {
+                    console.log(response);
+                    if (response == 1) {
+                        $('#ad_title-error--property_wanted_create').show();
+                        // Advert title already exists, show error
+                        $('#ad_title-error--property_wanted_create').text(
+                            '"' + data + '" title already exists');
 
-                            // Clear the input field
-                            $('#ad_title').val('');
-                        }
+                        // Clear the input field
+                        $('#ad_title').val('');
                     }
-                });
-            }
-        });
+                }
+            });
+        }
+    });
 
 
 
-        $('#imageUpload--create').on('change', function(e) {
-            var files = e.target.files;
-            var imagePreview = $('#create--imagePreview');
-            imagePreview.empty();
+    $('#imageUpload--create').on('change', function(e) {
+        var files = e.target.files;
+        var imagePreview = $('#create--imagePreview');
+        imagePreview.empty();
 
-            for (var i = 0; i < files.length; i++) {
-                var reader = new FileReader();
-                reader.onload = function(e) {
-                    var image = $('<img>')
-                        .addClass('preview-image')
-                        .attr('src', e.target.result)
-                    imagePreview.append(image);
-                };
-                reader.readAsDataURL(files[i]);
-            }
-        });
+        for (var i = 0; i < files.length; i++) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                var image = $('<img>')
+                    .addClass('preview-image')
+                    .attr('src', e.target.result)
+                imagePreview.append(image);
+            };
+            reader.readAsDataURL(files[i]);
+        }
+    });
     })
 </script>
 <style>
