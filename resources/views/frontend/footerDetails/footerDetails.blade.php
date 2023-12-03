@@ -1,10 +1,56 @@
 @include('frontend.footerDetails.partial.style')
 
 @extends('frontend.layouts.master_layout')
+@section('css')
+    <style>
+        .mobile_tab {
+            display: none;
+        }
+
+        @media (max-width: 767px) {
+            .laptop_view {
+                display: none !important;
+            }
+
+            .mobile_tab {
+                display: block;
+                /* or display: inline; depending on your layout */
+            }
+
+            .footer-details-container {
+                display: grid;
+                grid-template-columns: auto;
+                gap: 0px;
+                padding: 0 3px;
+                margin-top: 3px;
+
+            }
+
+            .footer-details-content {
+                padding: 10px !important;
+                border: 1px solid #ddd;
+            }
+
+            .mv {
+                margin: 0rem !important;
+                padding: 0px !important;
+            }
+        }
+    </style>
+@endsection
+
 @section('content')
     @includeIf('frontend.partials.global.common-header')
     <div class="footer-details-container">
-        <div class="footer-details-sidebar nav nav-tabs flex-column" id="nav-tab" role="tablist">
+
+
+
+
+
+
+
+
+        <div class="footer-details-sidebar nav nav-tabs flex-column laptop_view" id="nav-tab" role="tablist">
 
             <ul class="{{ Route::is('footer.details.about') ? 'd-block' : 'd-none' }}">
                 <li>
@@ -122,7 +168,7 @@
                         data-bs-target="#nav-payment-terms" type="button" role="tab"
                         aria-controls="nav-payment-terms" aria-selected="false">Payment terms</button></li>
             </ul>
-            <ul class="mt-3">
+            <ul class="mt-3 laptop_view">
                 <li>
                     <h6>More Links</h6>
                 </li>
