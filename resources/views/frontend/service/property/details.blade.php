@@ -199,12 +199,12 @@
 
                                                 </div>
 
-                                                <div class="social-btn-sp">
+                                                {{-- <div class="social-btn-sp">
                                                     <h5 class="mb-2">Share Now</h5>
                                                     {!! $shareButtons !!}
-                                                </div>
+                                                </div> --}}
 
-                                                {{-- @include('frontend.social_media_share.social_media') --}}
+                                                @include('frontend.social_media_share.social_media')
 
                                                 <div class="yith-wcwl-add-to-wishlist wishlist-fragment mt-3">
                                                     <div class="wishlist-button">
