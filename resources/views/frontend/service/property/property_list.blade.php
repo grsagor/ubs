@@ -102,19 +102,21 @@
                                     @else
                                         {{ $item->child_category->name }}
                                     @endif --}}
-                                    {{ $countRoom }}
+                                    @if ($item->child_category_id !== 14)
+                                        {{ $countRoom }}
 
-                                    @foreach ($roomDetails as $val)
-                                        @if ($val == 1)
-                                            Single Bed
-                                        @elseif($val == 2)
-                                            Double Bed
-                                        @elseif($val == 6)
-                                            Semi-Double Bed
-                                        @elseif($val == 7)
-                                            En-suit Bed
-                                        @endif
-                                    @endforeach
+                                        @foreach ($roomDetails as $val)
+                                            @if ($val == 1)
+                                                Single Bed
+                                            @elseif($val == 2)
+                                                Double Bed
+                                            @elseif($val == 6)
+                                                Semi-Double Bed
+                                            @elseif($val == 7)
+                                                En-suit Bed
+                                            @endif
+                                        @endforeach
+                                    @endif
 
                                     {{ $item->child_category->name }}
                                 </p>
