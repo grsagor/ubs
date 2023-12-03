@@ -1,14 +1,14 @@
 <div class="tab-pane fade show active {{ Route::is('footer.details.about') ? '' : 'd-none' }}" id="nav-about"
     role="tabpanel" aria-labelledby="nav-about-tab" tabindex="0">
-    <h3 class="footer-details-title">About Us</h3>
-    <div class="header m-3 p-3">
+    <h4 class="footer-details-title"><u>About Us</u></h4>
+    <div class="header mv">
 
         <div class="welcome">
-            <h4 class="fw-bold">
+            <h5 class="fw-bold">
                 Welcome to Unipuller Limited: Pioneering Excellence and Innovation
-            </h4>
+            </h5>
             <p>
-                &nbsp; &nbsp; &nbsp; Unipuller Limited, a registered Private Ltd. company with a strong presence
+                Unipuller Limited, a registered Private Ltd. company with a strong presence
                 in the
                 United Kingdom and Bangladesh, extends a warm welcome to all our visitors. We are renowned for
                 our
@@ -21,11 +21,11 @@
         </div>
 
         <div class="welcome">
-            <h4 class="fw-bold">
+            <h5 class="fw-bold">
                 Our Vision: Shaping a Better Tomorrow
-            </h4>
+            </h5>
             <p>
-                &nbsp; &nbsp; &nbsp; Our vision at Unipuller is nothing short of revolutionary. We aim to
+                Our vision at Unipuller is nothing short of revolutionary. We aim to
                 reshape
                 industries by introducing cutting-edge solutions that not only meet but exceed the ever-evolving
                 needs
@@ -35,11 +35,11 @@
             </p>
         </div>
         <div class="welcome">
-            <h4 class="fw-bold">
+            <h5 class="fw-bold">
                 Our Mission: Transforming Ambitions into Achievements
-            </h4>
+            </h5>
             <p>
-                &nbsp; &nbsp; &nbsp; Our mission at Unipuller is clear and unwavering: to transform ambitious
+                Our mission at Unipuller is clear and unwavering: to transform ambitious
                 business
                 goals into remarkable achievements. We are dedicated to empowering businesses across a diverse
                 spectrum
@@ -47,11 +47,11 @@
             </p>
         </div>
         <div class="welcome">
-            <h4 class="fw-bold">
+            <h5 class="fw-bold">
                 A Customer-Centric Approach
-            </h4>
+            </h5>
             <p>
-                &nbsp; &nbsp; &nbsp; At Unipuller, our compass is always directed toward our customers. We are
+                At Unipuller, our compass is always directed toward our customers. We are
                 here to
                 provide solutions that align perfectly with your unique needs and aspirations. Our unwavering
                 dedication
@@ -61,11 +61,11 @@
             </p>
         </div>
         <div class="welcome">
-            <h4 class="fw-bold">
+            <h5 class="fw-bold">
                 Dedication to Continuous Improvement
-            </h4>
+            </h5>
             <p>
-                &nbsp; &nbsp; &nbsp; In our relentless pursuit of excellence, we perpetually seek improvement
+                In our relentless pursuit of excellence, we perpetually seek improvement
                 and
                 refinement. The pursuit of perfection is at the core of Unipuller's culture. We understand that
                 innovation is an ongoing journey, and we are committed to staying at the forefront of the
@@ -74,11 +74,11 @@
             </p>
         </div>
         <div class="welcome">
-            <h4 class="fw-bold">
+            <h5 class="fw-bold">
                 Your Preferred Choice for Reliable Innovation
-            </h4>
+            </h5>
             <p>
-                &nbsp; &nbsp; &nbsp; Unipuller Limited aspires to be the top choice for businesses seeking
+                Unipuller Limited aspires to be the top choice for businesses seeking
                 solutions
                 that are both reliable and innovative. Our track record of success, combined with a team of
                 experts who
@@ -88,11 +88,11 @@
             </p>
         </div>
         <div class="welcome">
-            <h4 class="fw-bold">
+            <h5 class="fw-bold">
                 Driving Progress and Delivering Value
-            </h4>
+            </h5>
             <p>
-                &nbsp; &nbsp; &nbsp; With our team of experts and a dedication to exceeding your expectations,
+                With our team of experts and a dedication to exceeding your expectations,
                 Unipuller
                 Limited is more than a service provider – we are your partner in driving progress. Together, we
                 will
@@ -104,7 +104,7 @@
 
         <div class="welcome">
             <p>
-                &nbsp; &nbsp; &nbsp; Thank you for visiting Unipuller Limited. We invite you to explore our
+                Thank you for visiting Unipuller Limited. We invite you to explore our
                 offerings
                 and join us on this exciting journey towards a brighter, more efficient future.
             </p>
@@ -128,7 +128,7 @@
                 consistently exceed the evolving demands of businesses.
             </p>
             <p>
-                &nbsp; &nbsp; &nbsp; Our commitment to excellence, sustainability, and a customer-centric
+                Our commitment to excellence, sustainability, and a customer-centric
                 approach forms
                 the very essence of our existence. We are on a perpetual journey of refinement and improvement,
                 with the
@@ -137,7 +137,7 @@
             </p>
 
             <p>
-                &nbsp; &nbsp; &nbsp; Our team of passionate experts is resolute in driving progress and
+                Our team of passionate experts is resolute in driving progress and
                 delivering
                 exceptional value. We don't merely provide services; we forge strong partnerships with our
                 clients,
@@ -148,7 +148,7 @@
             </p>
 
             <p>
-                &nbsp; &nbsp; &nbsp; Unipuller is more than a service provider – we are your dedicated companion
+                Unipuller is more than a service provider – we are your dedicated companion
                 on the
                 path to a brighter, more efficient future. Your aspirations are our fuel, and your success is
                 our
@@ -237,7 +237,7 @@
             </div>
 
             <p class="mt-3">
-                &nbsp; &nbsp; &nbsp; Unipuller Limited is more than just a business solutions provider; we are a
+                Unipuller Limited is more than just a business solutions provider; we are a
                 responsible corporate citizen. Sustainability is not a buzzword for us; it's a fundamental
                 aspect of how
                 we operate. Our aim is to lead by example, showing that business success and environmental
@@ -259,7 +259,7 @@
                 A Network of Expertise: Partnering for Your Success
             </h4>
             <p>
-                &nbsp; &nbsp; &nbsp; At Unipuller Business Solutions, we've forged a dynamic network of
+                At Unipuller Business Solutions, we've forged a dynamic network of
                 partnerships
                 with expert third-party service providers, crafting tailor-made solutions to cater to your
                 unique needs.
@@ -267,7 +267,7 @@
                 organization is fully prepared to excel in the ever-evolving business landscape.
             </p>
             <p>
-                &nbsp; &nbsp; &nbsp; We understand the paramount importance of dedicated expertise in various
+                We understand the paramount importance of dedicated expertise in various
                 domains.
                 To achieve this, we have established partnerships with specialist service providers in each of
                 the
@@ -422,7 +422,7 @@
             </div>
 
             <p class="mt-3">
-                &nbsp; &nbsp; &nbsp; Unipuller is dedicated to ensuring that your organization is not just
+                Unipuller is dedicated to ensuring that your organization is not just
                 prepared but
                 primed for success, no matter the changes in the business landscape. We're your collaborative
                 partner,

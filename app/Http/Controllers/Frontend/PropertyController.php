@@ -94,16 +94,16 @@ class PropertyController extends Controller
             }
         }
 
-        $data['shareButtons'] = \Share::page(
-            url("/property-show/{$id}"),
-            'Your share text comes here',
-        )
-            ->facebook()
-            ->twitter()
-            ->linkedin()
-            ->telegram()
-            ->whatsapp()
-            ->reddit();
+        // $data['shareButtons'] = \Share::page(
+        //     url("/property-show/{$id}"),
+        //     'Your share text comes here',
+        // )
+        //     ->facebook()
+        //     ->twitter()
+        //     ->linkedin()
+        //     ->telegram()
+        //     ->whatsapp()
+        //     ->reddit();
 
         return view('frontend.service.property.details', $data);
     }
