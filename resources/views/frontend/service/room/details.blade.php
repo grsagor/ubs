@@ -59,7 +59,7 @@
                                     </div>
 
                                     @if ($img_count > 1)
-                                        <div class="row p-2">
+                                        <div class="row p-2 mobile_view_slider">
                                             @foreach ($images as $key => $item)
                                                 <div class="col-lg-{{ $div_value }} p-2">
                                                     <img class="demo w3-opacity w3-hover-opacity-off"

@@ -170,8 +170,12 @@
         }
 
         .mySlides {
-            width: 50% !important;
+            width: 80% !important;
             height: 0% !important;
+        }
+
+        .mobile_view_slider {
+            display: none;
         }
     }
 </style>
