@@ -169,10 +169,39 @@ Route::get('/about-us',                                 [FrontendController::cla
 Route::get('/statement',                                [FrontendController::class, 'statement'])->name('footer.details.statement');
 Route::get('/sustainability',                           [FrontendController::class, 'sustainability'])->name('footer.details.sustainability');
 Route::get('/unipuller-service',                        [FrontendController::class, 'unipuller_service'])->name('footer.details.unipuller_service');
+
 Route::get('/make-money',                               [FrontendController::class, 'footerDetails'])->name('footer.details.make.money');
+Route::get('/sell-on-unipuller',                        [FrontendController::class, 'sell_on_unipuller'])->name('footer.details.sell_on_unipuller');
+Route::get('/sell-on-unipuller-technology',             [FrontendController::class, 'sell_on_technology'])->name('footer.details.sell_on_technology');
+Route::get('/associate-program',                        [FrontendController::class, 'associate_program'])->name('footer.details.associate_program');
+Route::get('/delivery-partner',                         [FrontendController::class, 'delivery_partner'])->name('footer.details.delivery_partner');
+
+
 Route::get('/our-services',                             [FrontendController::class, 'footerDetails'])->name('footer.details.our.services');
+Route::get('/advertising',                              [FrontendController::class, 'advertising'])->name('footer.details.our.advertising');
+Route::get('/marketing',                                [FrontendController::class, 'marketing'])->name('footer.details.our.marketing');
+Route::get('/website-devlopment',                       [FrontendController::class, 'website_devlopment'])->name('footer.details.our.website_devlopment');
+Route::get('/software-devlopment',                      [FrontendController::class, 'software_devlopment'])->name('footer.details.our.software_devlopment');
+Route::get('/seo',                                      [FrontendController::class, 'seo'])->name('footer.details.our.seo');
+Route::get('/video-production',                         [FrontendController::class, 'video_production'])->name('footer.details.our.video_production');
+
 Route::get('/quick-links',                              [FrontendController::class, 'footerDetails'])->name('footer.details.quick.links');
+Route::get('/software',                                 [FrontendController::class, 'software'])->name('footer.details.quick.software');
+Route::get('/ready-website',                            [FrontendController::class, 'ready_website'])->name('footer.details.quick.ready_website');
+Route::get('/form-generator',                           [FrontendController::class, 'form_generator'])->name('footer.details.quick.form_generator');
+Route::get('/qr-code-generator',                        [FrontendController::class, 'qr_code_generator'])->name('footer.details.quick.qr_code_generator');
+Route::get('/content-creator',                          [FrontendController::class, 'content_creator'])->name('footer.details.quick.content_creator');
+
 Route::get('/policies',                                 [FrontendController::class, 'footerDetails'])->name('footer.details.policies');
+Route::get('/privacy',                                  [FrontendController::class, 'privacy'])->name('footer.details.policies.privacy');
+Route::get('/cookies',                                  [FrontendController::class, 'cookies'])->name('footer.details.policies.cookies');
+Route::get('/condition-of-sale',                        [FrontendController::class, 'condition_of_sale'])->name('footer.details.policies.condition_of_sale');
+Route::get('/condition-of-use',                         [FrontendController::class, 'condition_of_use'])->name('footer.details.policies.condition_of_use');
+Route::get('/return-policies',                          [FrontendController::class, 'return_policies'])->name('footer.details.policies.return_policies');
+Route::get('/refund-policies',                          [FrontendController::class, 'refund_policies'])->name('footer.details.policies.refund_policies');
+Route::get('/refund-policies',                          [FrontendController::class, 'refund_policies'])->name('footer.details.policies.refund_policies');
+Route::get('/seller-statement',                         [FrontendController::class, 'seller_statement'])->name('footer.details.policies.seller_statement');
+Route::get('/payment-terms',                            [FrontendController::class, 'payment_terms'])->name('footer.details.policies.payment_terms');
 
 // CART SECTION
 Route::get('/carts',                    [CartController::class, 'cart'])->name('front.cart');
