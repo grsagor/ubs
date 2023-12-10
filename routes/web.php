@@ -165,6 +165,10 @@ Route::get('/get-service-items/{category_id}',          [ServiceController::clas
 
 // FOOTER LINKS DETAIL SECTION
 Route::get('/about',                                    [FrontendController::class, 'footerDetails'])->name('footer.details.about');
+Route::get('/about-us',                                 [FrontendController::class, 'about_us'])->name('footer.details.about_us');
+Route::get('/statement',                                [FrontendController::class, 'statement'])->name('footer.details.statement');
+Route::get('/sustainability',                           [FrontendController::class, 'sustainability'])->name('footer.details.sustainability');
+Route::get('/unipuller-service',                        [FrontendController::class, 'unipuller_service'])->name('footer.details.unipuller_service');
 Route::get('/make-money',                               [FrontendController::class, 'footerDetails'])->name('footer.details.make.money');
 Route::get('/our-services',                             [FrontendController::class, 'footerDetails'])->name('footer.details.our.services');
 Route::get('/quick-links',                              [FrontendController::class, 'footerDetails'])->name('footer.details.quick.links');

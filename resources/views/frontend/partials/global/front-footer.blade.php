@@ -84,12 +84,20 @@
         </div>
     </div>
     <div class="footer-mid">
-        <ul>
+        {{-- <ul>
             <li><a href="{{ route('footer.details.about') }}"><span>About</span></a></li>
             <li><a href="{{ route('footer.details.about') }}">About us</a></li>
             <li><a href="{{ route('footer.details.about') }}">Statement</a></li>
             <li><a href="{{ route('footer.details.about') }}">Sustainability</a></li>
             <li><a href="{{ route('footer.details.about') }}">Unipuller service</a></li>
+        </ul> --}}
+
+        <ul>
+            <li><a href="{{ route('footer.details.about_us') }}"><span>About Us</span></a></li>
+            {{-- <li><a href="{{ route('footer.details.about_us') }}">About us</a></li> --}}
+            <li><a href="{{ route('footer.details.statement') }}"><span>Statement</span></a></li>
+            <li><a href="{{ route('footer.details.sustainability') }}"><span>Sustainability</span></a></li>
+            <li><a href="{{ route('footer.details.unipuller_service') }}"><span>Unipuller service</span></a></li>
         </ul>
         <ul>
             <li><a href="{{ route('footer.details.make.money') }}"><span>Make money with us</span></a></li>
