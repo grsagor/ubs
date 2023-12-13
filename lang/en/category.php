@@ -16,6 +16,7 @@ return [
     'all_your_categories' => 'All your categories',
     'category' => 'Category',
     'category_name' => 'Category name',
+    'type' => 'Type',
     'code' => 'Category Code',
     'add_as_sub_category' => 'Add as sub-category',
     'select_parent_category' => 'Select parent category',

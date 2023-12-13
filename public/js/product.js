@@ -2,6 +2,138 @@
 
 $(document).ready(function() {
 
+    // Event listener for the Add button
+    $('#addRequirement').on('click', function () {
+        // Clone the first requirements section and append it to the container
+        let clonedSection = $('.requirements-section:first').clone();
+
+        // Disable options that are already selected in previous sections
+        $('.requirements-section').each(function() {
+            let selectedOption = $(this).find('.requirement-select').val();
+            if (selectedOption) {
+                clonedSection.find('.requirement-select option[value="'+selectedOption+'"]').prop('disabled', true);
+            }
+        });
+
+        $('#requirements-container').append(clonedSection);
+
+        // Enable the "Remove" button after adding a section
+        $('#removeRequirement').removeClass('hide');
+    });
+
+    // Event listener for the Remove button
+    $('#removeRequirement').on('click', function () {
+        // Remove the last requirements section
+        if ($('.requirements-section').length > 1) {
+            $('.requirements-section:last').remove();
+        }
+
+        // Disable the "Remove" button if there's only one section
+        if ($('.requirements-section').length === 1) {
+            $('#removeRequirement').addClass('hide');
+        }
+    });
+
+    // On change of workPlacement Available
+    $('#work_placement').on('change', function () {
+        let workPlacementValue = $(this).val();
+        if (workPlacementValue == 'Available'){
+            $('#work-placement-description-section').removeClass('hide');
+            $('#work-placement-description-clearfix').removeClass('hide');
+        } else{
+            $('#work-placement-description-section').addClass('hide');
+            $('#work-placement-description-clearfix').addClass('hide');
+        }
+    });
+
+    // On change of feeInstallment  Available
+    $('#fee_installment').on('change', function () {
+        let feeInstallment = $(this).val();
+        if (feeInstallment == 'Available'){
+            $('#fee-installment-description-section').removeClass('hide');
+            $('#fee-installment-description-clearfix').removeClass('hide');
+        } else{
+            $('#fee-installment-description-section').addClass('hide');
+            $('#fee-installment-description-clearfix').addClass('hide');
+        }
+    });
+
+    // On change of resellingPrice  fixed or percentage validation
+    $('#reselling_price').on('change', function () {
+        let resellingPrice = $(this).val();
+
+        if (resellingPrice === 'Percentage') {
+            // Add validation for percentage (1-100)
+            $('#resellingCommissionAmount').attr('max', 100);
+            $('#resellingCommissionAmount').attr('min', 0);
+            $('#resellingCommissionAmount').attr('type', 'number');
+
+            $('#resellingCommissionAmountPercentageSection').removeClass('hide');
+            $('#resellingCommissionAmountFixedSection').addClass('hide');
+        } else if (resellingPrice === 'Fixed') {
+            // Add validation for fixed amount (any)
+            $('#resellingCommissionAmount').removeAttr('max');
+            $('#resellingCommissionAmount').removeAttr('min');
+            $('#resellingCommissionAmount').attr('type', 'number');
+            $('#resellingCommissionAmountFixed').attr('min', 0);
+
+            $('#resellingCommissionAmountFixedSection').removeClass('hide');
+            $('#resellingCommissionAmountPercentageSection').addClass('hide');
+        }
+    });
+
+    // On change of delivery area
+    $('#delivery_area').on('change', function () {
+        let deliveryArea = $(this).val();
+
+        if (deliveryArea === 'National'){
+            $('#delivery_cities_section').removeClass('hide');
+            $('#delivery_countries_section').addClass('hide');
+
+            $('#delivery_countries_excluded_section').addClass('hide');
+
+        } else if(deliveryArea === 'International'){
+            $('#delivery_cities_section').addClass('hide');
+            $('#delivery_countries_section').removeClass('hide');
+
+            $('#delivery_cities_excluded_section').addClass('hide');
+        }
+    });
+    $('#delivery_cities').on('change', function () {
+        let cityArea = $(this).val();
+        if (cityArea === 'All Cities'){
+            $('#delivery_cities_excluded_section').removeClass('hide');
+        } else{
+            $('#delivery_cities_excluded_section').addClass('hide');
+        }
+    });
+    $('#delivery_countries').on('change', function () {
+        let countryArea = $(this).val();
+        if (countryArea === 'All Countries'){
+            $('#delivery_countries_excluded_section').removeClass('hide');
+        } else{
+            $('#delivery_countries_excluded_section').addClass('hide');
+            $('#delivery_countries_excluded_cities_section').addClass('hide');
+        }
+    });
+
+    $('#delivery_excluded_countries').on('change', function () {
+        $('#delivery_countries_excluded_cities_section').removeClass('hide');
+    });
+
+    $('#deliveryAreaWiseNational').on('change', function () {
+        let selectedValue  = $(this).val();
+        var options = this.options;
+        for (var i = 2; i < options.length; i++) {
+            // options[i].disabled = false;  // Enable all options
+
+            if (selectedValue === 'Excluding' || selectedValue === 'Including') {
+                options[i].disabled = false;  // Disable options if "Excluding" is selected
+            }
+        }
+    });
+
+
     // On change of sub_category_id dropdown
     $('#sub_category_id').on('change', function () {
         var subCategoryId = $(this).val();
@@ -49,6 +181,23 @@ $(document).ready(function() {
             $('#opening_stock_button').attr('disabled', true);
         }
     });
+
+    $(document).on('ifChecked', 'input#select_year', function() {
+        $('#select-year-section').removeClass('hide');
+        $('#every-year-div').addClass('hide');
+    });
+    $(document).on('ifUnchecked', 'input#select_year', function() {
+        $('#select-year-section').addClass('hide');
+        $('#every-year-div').removeClass('hide');
+    });
+
+    $(document).on('ifChecked', 'input#every_year', function() {
+        $('#select-year-div').addClass('hide');
+    });
+    $(document).on('ifUnchecked', 'input#every_year', function() {
+        $('#select-year-div').removeClass('hide');
+    });
+    
 
     //Start For product type single
 
@@ -393,6 +542,8 @@ $(document).ready(function() {
             .find('tr:last .variation_row_index')
             .val();
 
+        var variationValueId = $('input[name="product_variation[' + variation_row_index + '][variations]['+variation_value_row_index+'][variation_value_id]"]').val();
+
         if (
             $(this)
                 .closest('.variation_row')
@@ -412,6 +563,7 @@ $(document).ready(function() {
                 variation_row_index: variation_row_index,
                 value_index: variation_value_row_index,
                 row_type: row_type,
+                variationValueId: variationValueId,
             },
             dataType: 'html',
             success: function(result) {
@@ -476,6 +628,34 @@ $(document).ready(function() {
                 },
             });
         }
+    });
+
+    $(document).on('change', '.variation_name_others', function() {
+        var currentElement = $(this);
+        let variationId = $(this).val();
+        var variation_row_index = $(this)
+            .closest('.variation_row')
+            .find('.row_index')
+            .val();
+        var variation_value_row_index = $(this)
+            .closest('table')
+            .find('tr:last .variation_row_index')
+            .val();
+
+        $.ajax({
+            method: 'GET',
+            url: '/products/get_variation_values',
+            data: {
+                variation_row_index: variation_row_index,
+                value_index: variation_value_row_index,
+                variationId: variationId,
+            },
+            dataType: 'html',
+            success: function(result) {
+                currentElement.next('select').html(result);
+            },
+        });
+
     });
 
     $(document).on('click', '.remove_variation_value_row', function() {
@@ -572,10 +752,14 @@ $(document).ready(function() {
     };
     $('#upload_image').fileinput(img_fileinput_setting);
 
+    $('#thumbnail_image').fileinput(img_fileinput_setting);
+
+    $('#brochure_image').fileinput(img_fileinput_setting);
+
     if ($('textarea#product_description').length > 0) {
         tinymce.init({
             selector: 'textarea#product_description',
-            height:250
+            height:320
         });
     }
     if ($('textarea#requirement_details').length > 0) {
@@ -599,6 +783,18 @@ $(document).ready(function() {
     if ($('textarea#specializations').length > 0) {
         tinymce.init({
             selector: 'textarea#specializations',
+            height:250
+        });
+    }
+    if ($('textarea#work_placement_description').length > 0) {
+        tinymce.init({
+            selector: 'textarea#work_placement_description',
+            height:250
+        });
+    }
+    if ($('textarea#fee_installment_description').length > 0) {
+        tinymce.init({
+            selector: 'textarea#fee_installment_description',
             height:250
         });
     }

@@ -69,6 +69,10 @@
                             </li>
 
                             <li class="nav-item">
+                                <a class="nav-link" href="{{ route('service.list') }}">Service</a>
+                            </li>
+
+                            <li class="nav-item">
                                 <a class="nav-link" href="{{ route('shop.list') }}">Shop</a>
                             </li>
                             <li class="nav-item">

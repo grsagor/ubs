@@ -21,7 +21,7 @@
       @endphp
       <div class="form-group">
         {!! Form::label('name', 'Type' . ':*') !!}
-        {!! Form::Select('category_type',['product'=>'Product','service'=>'Service'], null, ['class' => 'form-control', 'required']); !!}
+        {!! Form::Select('category_type',['product'=>'Product','service'=>'Service','product_service'=>'Both'], null, ['class' => 'form-control', 'required']); !!}
       </div>
       @if($mode == "sub_category" || $mode == "child_category")
         <input type="hidden" name="add_as_sub_cat" value="1">

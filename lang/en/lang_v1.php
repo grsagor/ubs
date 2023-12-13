@@ -322,6 +322,7 @@ return [
     'remove_from_stock' => 'Remove from stock',
     'stock_removed_successfully' => 'Stock removed successfully',
     'product_image' => 'Product image',
+    'product_thumbnail' => 'Product Thumbnail',
     'aspect_ratio_should_be_1_1' => 'Aspect ratio should be 1:1',
     'previous_image_will_be_replaced' => 'Previously uploaded image will be replaced',
     'all_category' => 'All Categories',

@@ -40,4 +40,8 @@ class CartController extends Controller
         }
         return view('frontend.cart.cart', compact('products', 'totalPrice', 'mainTotal'));
     }
+
+    public function checkout(){
+        return view('frontend.cart.checkout');
+    }
 }

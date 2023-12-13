@@ -22,6 +22,7 @@ use App\Variation;
 use App\VariationGroupPrice;
 use App\VariationLocationDetails;
 use App\VariationTemplate;
+use App\VariationValueTemplate;
 use App\Warranty;
 use Excel;
 use Illuminate\Http\Request;
@@ -369,7 +370,7 @@ class ProductController extends Controller
             return $this->moduleUtil->quotaExpiredResponse('products', $business_id, action([\App\Http\Controllers\ProductController::class, 'index']));
         }
 
-        $categories = Category::forDropdown($business_id, 'product');
+//        $categories = Category::forDropdown($business_id, 'product');
 
         $brands = Brands::forDropdown($business_id);
         $units = Unit::forDropdown($business_id, true);
@@ -390,12 +391,25 @@ class ProductController extends Controller
         $duplicate_product = null;
         $rack_details = null;
 
+        /*$categories = Category::where('business_id', $business_id)
+            ->where('category_type', 'Product')
+            ->pluck('name', 'id')
+            ->toArray();*/
+
+        $categories = [];
         $sub_categories = [];
         $child_categories = [];
         if (!empty(request()->input('d'))) {
             $duplicate_product = Product::where('business_id', $business_id)->find(request()->input('d'));
             $duplicate_product->name .= ' (copy)';
 
+            if (!empty($duplicate_product->class)) {
+                $categories = Category::where('business_id', $business_id)
+                    ->where('category_type', $duplicate_product->class)
+                    ->where('parent_id', 0)
+                    ->pluck('name', 'id')
+                    ->toArray();
+            }
             if (!empty($duplicate_product->category_id)) {
                 $sub_categories = Category::where('business_id', $business_id)
                     ->where('parent_id', $duplicate_product->category_id)
@@ -494,43 +508,60 @@ class ProductController extends Controller
             }
 
             //upload document
-            $product_details['image'] = $this->productUtil->uploadFile($request, 'image', config('constants.product_img_path'), 'image');
+            $product_details['thumbnail'] = $this->productUtil->uploadFile($request, 'thumbnail', config('constants.product_img_path'), 'thumbnail');
+//            $product_details['product_brochure'] = $this->productUtil->uploadFile($request, 'product_brochure', config('constants.product_img_path'), 'product_brochure');
+
+            if ($request->hasFile('image')) {
+                $image_path = public_path('uploads/img');
+
+                $images = [];
+
+                foreach ($request->file('image') as $image) {
+                    $image_name = rand(123456, 999999) . '.' . $image->getClientOriginalExtension();
+                    $image->move($image_path, $image_name);
+                    $images[] = 'uploads/service_room/' . $image_name;
+                }
+
+                $product_details['image'] = json_encode($images);
+            }
+
             $common_settings = session()->get('business.common_settings');
 
             $product_details['warranty_id'] = !empty($request->input('warranty_id')) ? $request->input('warranty_id') : null;
-            $product_details['class'] = $request->class;
-            $product_details['child_category_id'] = $request->child_category_id;
-            $product_details['select_year'] = $request->select_year;
-            $product_details['every_years'] = $request->every_years;
-            $product_details['selected_years'] = $request->selected_years;
-            $product_details['selected_months'] = $request->selected_months;
-            $product_details['name_of_institution'] = $request->name_of_institution;
-            $product_details['duration'] = $request->duration;
-            $product_details['home_students_fees'] = $request->home_students_fees;
-            $product_details['int_students_fees'] = $request->int_students_fees;
-            $product_details['general_facilities'] = $request->general_facilities;
-            $product_details['work_placement'] = $request->work_placement;
-            $product_details['tuition_fee_installment'] = $request->tuition_fee_installment;
-            $product_details['requirements'] = $request->requirements;
-            $product_details['requirement_details'] = $request->requirement_details;
-            $product_details['youtube_link'] = $request->youtube_link;
-            $product_details['service_features'] = $request->service_features;
-            $product_details['experiences'] = $request->experiences;
-            $product_details['specializations'] = $request->specializations;
-            $product_details['disable_reselling'] = $request->disable_reselling;
-            $product_details['reselling_price'] = $request->reselling_price;
-            $product_details['reselling_commission'] = $request->reselling_commission;
-            $product_details['reselling_commission_tuition'] = $request->reselling_commission_tuition;
-            $product_details['price_changeable'] = $request->price_changeable;
-            $product_details['delivery_mode'] = $request->delivery_mode;
-            $product_details['delivery_area'] = $request->delivery_area;
-            $product_details['policy'] = $request->policy;
-            $product_details['unipuller_data_policy'] = $request->unipuller_data_policy;
-
-            DB::beginTransaction();
+            $product_details['class'] = $request->class ? $request->class : null;
+            $product_details['child_category_id'] = $request->child_category_id ? $request->child_category_id : null;
+            $product_details['select_year'] = $request->select_year ? $request->select_year : null;
+            $product_details['every_years'] = $request->every_years ? $request->every_years : null;
+            $product_details['selected_years'] = $request->selected_years ? $request->selected_years : null;
+            $product_details['selected_months'] = $request->selected_months ? $request->selected_months : null;
+            $product_details['name_of_institution'] = $request->name_of_institution ? $request->name_of_institution : null;
+            $product_details['duration_year'] = $request->duration_year ? $request->duration_year : null;
+            $product_details['duration_month'] = $request->duration_month ? $request->duration_month : null;
+            $product_details['home_students_fees'] = $request->home_students_fees ? $request->home_students_fees : null;
+            $product_details['int_students_fees'] = $request->int_students_fees ? $request->int_students_fees : null;
+            $product_details['general_facilities'] = $request->general_facilities ? $request->general_facilities : null;
+            $product_details['work_placement'] = $request->work_placement ? $request->work_placement : null;
+            $product_details['work_placement_description'] = $request->work_placement_description ? $request->work_placement_description : null;
+            $product_details['tuition_fee_installment'] = $request->tuition_fee_installment ? $request->tuition_fee_installment : null;
+            $product_details['fee_installment_description'] = $request->fee_installment_description ? $request->fee_installment_description : null;
+            $product_details['requirements'] = $request->requirements ? $request->requirements : null;
+            $product_details['requirement_details'] = $request->requirement_details ? $request->requirement_details : null;
+            $product_details['youtube_link'] = $request->youtube_link ? $request->youtube_link : null;
+            $product_details['service_features'] = $request->service_features ? $request->service_features : null;
+            $product_details['experiences'] = $request->experiences ? $request->experiences : null;
+            $product_details['specializations'] = $request->specializations ? $request->specializations : null;
+            $product_details['disable_reselling'] = $request->disable_reselling ? $request->disable_reselling : null;
+            $product_details['reselling_price'] = $request->reselling_price ? $request->reselling_price : null;
+            $product_details['reselling_commission_amount'] = $request->reselling_commission_amount ? $request->reselling_commission_amount : null;
+            $product_details['extra_commission'] = $request->extra_commission ? $request->extra_commission : null;
+            $product_details['price_changeable'] = $request->price_changeable ? $request->price_changeable : null;
+            $product_details['delivery_mode'] = $request->delivery_mode ? $request->delivery_mode : null;
+            $product_details['delivery_area'] = $request->delivery_area ? $request->delivery_area : null;
+            $product_details['delivery_area_type'] = $request->delivery_area_type ? $request->delivery_area_type : null;
+            $product_details['policy'] = $request->policy ? $request->policy : null;
+            $product_details['unipuller_data_policy'] = $request->unipuller_data_policy ? $request->unipuller_data_policy : null;
 
             $product = Product::create($product_details);
-
             if (empty(trim($request->input('sku')))) {
                 $sku = $this->productUtil->generateProductSku($product->id);
                 $product->sku = $sku;
@@ -543,6 +574,10 @@ class ProductController extends Controller
                 $product->product_locations()->sync($product_locations);
             }
 
+            if ($request->input('single_dpp')) {
+                $this->productUtil->createSingleProductVariation($product->id, $product->sku, $request->input('single_dpp'), $request->input('single_dpp_inc_tax'), $request->input('profit_percent'), $request->input('single_dsp'), $request->input('single_dsp_inc_tax'));
+            }
+
             if ($product->type == 'single') {
                 $this->productUtil->createSingleProductVariation($product->id, $product->sku, $request->input('single_dpp'), $request->input('single_dpp_inc_tax'), $request->input('profit_percent'), $request->input('single_dsp'), $request->input('single_dsp_inc_tax'));
             } elseif ($product->type == 'variable') {
@@ -550,6 +585,8 @@ class ProductController extends Controller
                     $input_variations = $request->input('product_variation');
                     $this->productUtil->createVariableProductVariations($product->id, $input_variations);
                 }
+                dd($product->type);
+
             } elseif ($product->type == 'combo') {
 
                 //Create combo_variations array by combining variation_id and quantity.
@@ -1095,6 +1132,27 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+    public function getCategories(Request $request)
+    {
+        if (!empty($request->input('type'))) {
+            $type = $request->input('type');
+            $business_id = $request->session()->get('user.business_id');
+            $categories = Category::where('business_id', $business_id)
+                ->where('category_type', $type)
+                ->where('parent_id', 0)
+                ->where('sub_category_id', NULL)
+                ->select(['name', 'id'])
+                ->get();
+            $html = '<option value="">None</option>';
+            if (!empty($categories)) {
+                foreach ($categories as $category) {
+                    $html .= '<option value="' . $category->id . '">' . $category->name . '</option>';
+                }
+            }
+            echo $html;
+            exit;
+        }
+    }
     public function getSubCategories(Request $request)
     {
         if (!empty($request->input('cat_id'))) {
@@ -1134,6 +1192,13 @@ class ProductController extends Controller
             exit;
         }
     }
+
+    //get category by product class
+    public function getCategoryByClass(){
+
+    }
+
+
     /**
      * Get product form parts.
      *
@@ -1199,6 +1264,21 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+    public function getVariationValues(Request $request)
+    {
+        $html = '';
+        if (!empty($request->input('variationId'))) {
+            $variationValues = VariationValueTemplate::where('variation_template_id',$request->input('variationId'))->pluck('name','id');
+            $html = '<option value="">Select One</option>';
+            if (!empty($variationValues)) {
+                foreach ($variationValues as $key=>$variationValue) {
+                    $html .= '<option value="' . $key . '">' . $variationValue . '</option>';
+                }
+            }
+            echo $html;
+            exit;
+        }
+    }
     public function getVariationValueRow(Request $request)
     {
         $business_id = $request->session()->get('user.business_id');
@@ -1210,8 +1290,12 @@ class ProductController extends Controller
 
         $row_type = $request->input('row_type', 'add');
 
+        $templateValue = VariationValueTemplate::find($request->input('variationValueId'));
+        $otherTemplateOnly = VariationTemplate::whereNotIn('id', [$templateValue->variation_template_id])->pluck('name', 'id')->toArray();
+        $otherTemplateValues = [];
+
         return view('product.partials.variation_value_row')
-            ->with(compact('profit_percent', 'variation_index', 'value_index', 'row_type'));
+            ->with(compact('profit_percent', 'variation_index', 'value_index', 'row_type','otherTemplateOnly','otherTemplateValues'));
     }
 
     /**
@@ -1261,10 +1345,19 @@ class ProductController extends Controller
                 'text' => $v->name,
             ];
         }
+//        $values = ['' => __('messages.please_select')] + $values;
+
+        $otherTemplateOnly = VariationTemplate::whereNotIn('id', [$request->input('template_id')])->pluck('name', 'id')->toArray();
+
+        $otherTemplates = VariationTemplate::with(['values'])->whereNotIn('id', [$request->input('template_id')])->get();
+        $otherTemplateValues = [];
+        foreach ($otherTemplates as $temp) {
+            $otherTemplateValues = array_merge($otherTemplateValues, $temp->values->pluck('name', 'id')->toArray());
+        }
 
         return [
             'html' => view('product.partials.product_variation_template')
-                ->with(compact('template', 'row_index', 'profit_percent'))->render(),
+                ->with(compact('template','otherTemplates','otherTemplateValues', 'otherTemplateOnly', 'row_index', 'profit_percent'))->render(),
             'values' => $values,
         ];
     }
@@ -2488,14 +2581,16 @@ class ProductController extends Controller
         }
         if ($request->sub_category_id !== null) {
             $data['products'] = $data['products']->where('sub_category_id', $request->sub_category_id);
+            $data['child_categories'] = Category::query()->where('sub_category_id',$request->sub_category_id)->pluck('name', 'id');
         }
 
         $data['products'] = $data['products']->paginate($data['per_page']);
 
         $data['categories'] = Category::query()->where('category_type','product')->pluck('name', 'id');
         $data['category_id'] = $request->category_id;
+        $data['sub_category_id'] = $request->sub_category_id;
 
-        $data['child_categories'] = ChildCategory::query()->pluck('name', 'id');
+//        $data['child_categories'] = ChildCategory::query()->pluck('name', 'id');
         return view('frontend.product.product_list', $data);
     }
 

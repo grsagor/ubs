@@ -80,15 +80,63 @@
 
                 <div class="container">
                     <div class="row mobile-reverse">
-
                         {{-- Left Side --}}
                         <div class="col-xl-3 col-lg-3">
+                            <div id="sidebar" class="widget-title-bordered-full">
+                                <div id="woocommerce_product_categories-4"
+                                     class="widget woocommerce widget_product_categories widget-toggle">
+
+                                    <h2 class="widget-title">Categories</h2>
+
+                                    <ul class="product-categories">
+                                        @foreach ($categories as $key=>$item)
+                                            <li class="cat-item cat-parent">
+                                                <a href="{{ route('product.list', ['category_id' => @$key]) }}">
+                                                    <span class="{{ Route::currentRouteName() === 'product.list' && request()->category_id == $key ? 'text-danger' : ''}}">{{ $item }}</span>
+                                                </a>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+
+                                <div id="woocommerce_product_categories-4"
+                                     class="widget woocommerce widget_product_categories widget-toggle mb-3 mb-lg-0">
+
+                                    <h2 class="widget-title">Sub-Categories</h2>
+
+                                    <ul>
+                                        @if(@$sub_categories)
+                                            @foreach ($sub_categories as $key=>$item)
+                                                <li class="cat-item cat-parent">
+                                                    <a href="{{ route('product.list', ['category_id' => @$category_id,'sub_category_id' => @$key]) }}">
+                                                        <span class="{{ Route::currentRouteName() === 'product.list' && request()->sub_category_id == $key ? 'text-danger' : ''}}">{{ $item }}</span>
+                                                    </a>
+                                                </li>
+                                            @endforeach
+                                        @endif
+                                        {{--@foreach ($child_categories as $item)
+                                            <li class="cat-item cat-parent">
+                                                <a
+                                                        href="{{ route('property.list', ['sub_category_id' => @$sub_category_id, 'child_category_id' => $item->id]) }}">
+                                                    <span
+                                                            class="{{ Route::currentRouteName() === 'property.list' && request()->route('sub_category_id') == $sub_category_id && request()->route('child_category_id') == $item->id ? 'active_child_category' : '' }}">{{ $item->name }}</span>
+                                                </a>
+                                            </li>
+                                        @endforeach--}}
+                                    </ul>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        {{-- Left Side --}}
+                        {{--<div class="col-xl-3 col-lg-3">
                             <div id="sidebar" class="widget-title-bordered-full">
                                 <div class="dashbaord-sidebar-close d-xl-none d-lg-none">
                                     <i class="fas fa-times"></i>
                                 </div>
 
-                                {{-- categories --}}
+                                --}}{{-- categories --}}{{--
                                 <div id="woocommerce_product_categories-4"
                                     class="widget woocommerce widget_product_categories">
                                     <h2 class="widget-title">Service Categories</h2>
@@ -102,7 +150,7 @@
                                     </div>
                                 </div>
 
-                                {{-- sub categories --}}
+                                --}}{{-- sub categories --}}{{--
                                 <div id="woocommerce_product_categories-4"
                                     class="widget woocommerce widget_product_categories widget-toggle">
                                     <h2 class="widget-title">Service Sub-Categories</h2>
@@ -113,7 +161,7 @@
                                     </div>
                                 </div>
 
-                                {{-- child categories --}}
+                                --}}{{-- child categories --}}{{--
                                 <div id="woocommerce_product_categories-4"
                                     class="widget woocommerce widget_product_categories widget-toggle">
 
@@ -127,7 +175,7 @@
                                 </div>
 
                             </div>
-                            {{-- <select id="category" name="category">
+                            --}}{{-- <select id="category" name="category">
                                 <option value="">Select Category</option>
                                 @foreach ($service_categories as $key => $category)
                                     <option value="{{ $key }}">{{ $category }}</option>
@@ -136,9 +184,9 @@
 
                             <select id="subcategory" name="subcategory">
                                 <option value="">Select Subcategory</option>
-                            </select> --}}
+                            </select> --}}{{--
 
-                        </div>
+                        </div>--}}
 
                         {{-- Right Side --}}
                         <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12">

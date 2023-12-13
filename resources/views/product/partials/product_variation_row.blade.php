@@ -17,7 +17,7 @@
         <input type="hidden" class="row_index" value="{{$row_index}}">
         <div class="form-group variation_template_values_div mt-15 hide">
             <label>@lang('lang_v1.select_variation_values')</label>
-            {!! Form::select('product_variation[' . $row_index .'][variation_template_values][]', [], null, ['class' => 'form-control input-sm variation_template_values', 'multiple', 'style' => 'width: 100%;']); !!}
+            {!! Form::select('product_variation[' . $row_index .'][variation_template_values]', [], null, ['class' => 'form-control input-sm variation_template_values', 'style' => 'width: 100%;']); !!}
         </div>
     </td>
 
@@ -27,14 +27,14 @@
             <tr>
                 <th>@lang('product.sku') @show_tooltip(__('tooltip.sub_sku'))</th>
                 <th>@lang('product.value')</th>
-                <th class="{{$class}}">@lang('product.default_purchase_price')
+                <th class="{{$class}}">@lang('product.additional_price')
                     <br/>
                     <span class="pull-left"><small><i>@lang('product.exc_of_tax')</i></small></span>
 
                     <span class="pull-right"><small><i>@lang('product.inc_of_tax')</i></small></span>
                 </th>
                 <th class="{{$class}}">@lang('product.profit_percent')</th>
-                <th class="{{$class}}">@lang('product.default_selling_price')
+                <th class="{{$class}}">@lang('product.additional_selling_price')
                 <br/>
                 <small><i><span class="dsp_label"></span></i></small>
                     <!-- &nbsp;&nbsp;<b><i class="fa fa-info-circle" aria-hidden="true" data-toggle="popover" data-html="true" data-trigger="hover" data-content="<p class='text-primary'>Drag the mouse over the table cells to copy input values</p>" data-placement="top"></i></b> -->

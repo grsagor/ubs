@@ -74,7 +74,7 @@
                                 </div> --}}
 
                                 <div id="woocommerce_product_categories-4"
-                                     class="widget woocommerce widget_product_categories widget-toggle">
+                                     class="widget woocommerce widget_product_categories widget-toggle closed">
 
                                     <h2 class="widget-title">Categories</h2>
 
@@ -119,7 +119,7 @@
 
 
                                 <div id="woocommerce_product_categories-4"
-                                     class="widget woocommerce widget_product_categories widget-toggle mb-3 mb-lg-0">
+                                     class="widget woocommerce widget_product_categories widget-toggle closed mb-3 mb-lg-0">
 
                                     <h2 class="widget-title">Sub-Categories</h2>
 
@@ -142,6 +142,23 @@
                                                 </a>
                                             </li>
                                         @endforeach--}}
+                                    </ul>
+                                </div>
+
+
+                                <div id="woocommerce_product_categories-4"
+                                     class="widget woocommerce widget_product_categories widget-toggle closed mb-3 mb-lg-0 mt-40">
+                                    <h2 class="widget-title">Child-Categories</h2>
+                                    <ul>
+                                        @if(@$child_categories)
+                                            @foreach ($child_categories as $key=>$item)
+                                                <li class="cat-item cat-parent">
+                                                    <a href="{{ route('product.list', ['category_id' => @$category_id,'sub_category_id' => @$sub_category_id,'child_category_id' => @$key]) }}">
+                                                        <span class="{{ Route::currentRouteName() === 'product.list' && request()->child_category_id == $key ? 'text-danger' : ''}}">{{ $item }}</span>
+                                                    </a>
+                                                </li>
+                                            @endforeach
+                                        @endif
                                     </ul>
                                 </div>
 

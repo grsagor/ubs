@@ -20,6 +20,22 @@
         $category_code_help_text = !empty($module_category_data['taxonomy_code_help_text']) ? $module_category_data['taxonomy_code_help_text'] : __('lang_v1.category_code_help');
       @endphp
       <div class="form-group">
+        {!! Form::label('name', 'Type' . ':*') !!}
+        {!! Form::Select('category_type',['product'=>'Product','service'=>'Service','product_service'=>'Both'], $category->type, ['class' => 'form-control', 'required']); !!}
+      </div>
+      @if($category->parent_id || $category->sub_category_id)
+      <div class="form-group">
+        {!! Form::label('parent_id', __( 'category.select_parent_category' ) . ':*') !!}
+        {!! Form::select('parent_id', ['' => 'Select One'] + $parent_categories, $category->parent_id, ['class' => 'form-control']); !!}
+      </div>
+      @endif
+      @if($category->sub_category_id)
+      <div class="form-group">
+        {!! Form::label('parent_id', __( 'category.select_parent_category' ) . ':*') !!}{{$category->sub_category_id}}
+        {!! Form::select('parent_id', ['' => 'Select One'] + $sub_categories, $category->sub_category_id, ['class' => 'form-control']); !!}
+      </div>
+      @endif
+      <div class="form-group">
         {!! Form::label('name', $name_label . ':*') !!}
         {!! Form::text('name', $category->name, ['class' => 'form-control', 'required', 'placeholder' => $name_label]); !!}
       </div>
@@ -34,7 +50,7 @@
         {!! Form::label('description', __( 'lang_v1.description' ) . ':') !!}
         {!! Form::textarea('description', $category->description, ['class' => 'form-control', 'placeholder' => __( 'lang_v1.description'), 'rows' => 3]); !!}
       </div>
-      @if(!empty($parent_categories) && $enable_sub_category)
+      {{--@if(!empty($parent_categories) && $enable_sub_category)
           <div class="form-group">
             <div class="checkbox">
               <label>
@@ -46,7 +62,7 @@
             {!! Form::label('parent_id', __( 'lang_v1.select_parent_taxonomy' ) . ':') !!}
             {!! Form::select('parent_id', $parent_categories, $selected_parent, ['class' => 'form-control']); !!}
           </div>
-      @endif
+      @endif--}}
     </div>
 
     <div class="modal-footer">

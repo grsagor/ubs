@@ -103,7 +103,7 @@
                                                     <div class="pro-info">
 
                                                         <form method="POST"
-                                                            action="{{ route('room.referenceNumberCheck', $info->id) }}"
+{{--                                                            action="{{ route('room.referenceNumberCheck', $info->id) }}"--}}
                                                             style="margin: 0px;">
                                                             @csrf
                                                             @method('PUT')
@@ -140,8 +140,8 @@
                                                                                 Number</h5>
                                                                         </div>
                                                                         <div class="modal-body">
-                                                                            <p>Please call <a
-                                                                                    href="callto:{{ $info->user->contact_no }}">{{ $info->user->contact_no }}</a>
+                                                                            <p>Please call {{--<a
+                                                                                    href="callto:{{ $info->user->contact_no }}">{{ $info->user->contact_no }}</a>--}}
                                                                                 to get the reference id.</p>
                                                                             <div class="mb-3">
                                                                                 <input type="text" class="form-control"

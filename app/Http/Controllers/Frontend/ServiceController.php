@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\BusinessLocation;
+use App\Category;
 use App\Http\Controllers\Controller;
 use App\ServiceCategory;
 use App\ServiceChildCategories;
@@ -16,7 +17,7 @@ class ServiceController extends Controller
     public function serviceList(Request $request)
     {
         $data['per_page'] = 10;
-
+        $business_id = request()->session()->get('user.business_id');
         $data['education']          = ServiceEducation::active()->select(
             'id',
             'course_name',
@@ -30,10 +31,8 @@ class ServiceController extends Controller
         )
             ->search($request)
             ->latest()->paginate($data['per_page']);
-
-        $data['service_categories'] = ServiceCategory::query()->pluck('name', 'id');
-        $data['service_sub_categories'] = ServiceSubCategories::query()->pluck('name', 'id');
-        $data['service_child_categories'] = ServiceChildCategories::query()->pluck('name', 'id');
+        
+        $data['categories'] = Category::forDropdown($business_id, 'product');
 
         return view('frontend.service.service_list', $data);
     }

@@ -157,7 +157,7 @@ Route::get('/property-list-showing/{child_category_id?}',       [PropertyControl
 Route::get('/education-list',           [EducationController::class, 'educationList'])->name('education.list');
 Route::get('/education-show/{id}',      [EducationController::class, 'educationShow'])->name('education_show');
 
-Route::get('/service-list',                             [ServiceController::class, 'serviceList'])->name('service.list');
+Route::get('/product.list',                             [ServiceController::class, 'serviceList'])->name('service.list');
 Route::get('/service-create',                           [ServiceController::class, 'serviceCreate'])->name('service.create');
 Route::get('/get-subcategories/{category_id}',          [ServiceController::class, 'getSubcategories'])->name('service.subCategory');
 Route::get('/get-child-subcategories/{category_id}',    [ServiceController::class, 'getChildSubcategories'])->name('service.childSubCategory');
@@ -172,6 +172,7 @@ Route::get('/policies',                                 [FrontendController::cla
 
 // CART SECTION
 Route::get('/carts',                    [CartController::class, 'cart'])->name('front.cart');
+Route::get('/checkout',                    [CartController::class, 'checkout'])->name('front.checkout');
 Route::get('/addcart/{id}',             [CartController::class, 'addcart'])->name('product.cart.add');
 Route::get('/addtocart/{id}',           [CartController::class, 'addtocart'])->name('product.cart.quickadd');
 Route::get('/addnumcart', 'Front\CartController@addnumcart')->name('details.cart');
@@ -347,12 +348,14 @@ Route::middleware(['checkAdmin', 'SetSessionData'])->group(function () {
     Route::post('/products/bulk-update-location', [ProductController::class, 'updateProductLocation']);
     Route::get('/products/get-product-to-edit/{product_id}', [ProductController::class, 'getProductToEdit']);
 
+    Route::post('/products/get_categories', [ProductController::class, 'getCategories']);
     Route::post('/products/get_sub_categories', [ProductController::class, 'getSubCategories']);
     Route::post('/products/get_child_categories', [ProductController::class, 'getChildCategories']);
     Route::get('/products/get_sub_units', [ProductController::class, 'getSubUnits']);
     Route::post('/products/product_form_part', [ProductController::class, 'getProductVariationFormPart']);
     Route::post('/products/get_product_variation_row', [ProductController::class, 'getProductVariationRow']);
     Route::post('/products/get_variation_template', [ProductController::class, 'getVariationTemplate']);
+    Route::get('/products/get_variation_values', [ProductController::class, 'getVariationValues']);
     Route::get('/products/get_variation_value_row', [ProductController::class, 'getVariationValueRow']);
     Route::post('/products/check_product_sku', [ProductController::class, 'checkProductSku']);
     Route::post('/products/validate_variation_skus', [ProductController::class, 'validateVaritionSkus']); //validates multiple skus at once

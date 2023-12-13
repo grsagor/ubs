@@ -849,6 +849,9 @@ $(document).ready(function() {
         }
     });
     //Start: CRUD for products
+    $(document).on('change', '#product_class', function() {
+        get_categories();
+    });
     $(document).on('change', '#category_id', function() {
         get_sub_categories();
     });
@@ -2158,6 +2161,20 @@ function show_invoice_preview() {
 function pad_zero(str, max) {
     str = str.toString();
     return str.length < max ? pad_zero('0' + str, max) : str;
+}
+function get_categories() {
+    let type = $('#product_class').val();
+    $.ajax({
+        method: 'POST',
+        url: '/products/get_categories',
+        dataType: 'html',
+        data: { type: type },
+        success: function(result) {
+            if (result) {
+                $('#category_id').html(result);
+            }
+        },
+    });
 }
 function get_sub_categories() {
     var cat = $('#category_id').val();

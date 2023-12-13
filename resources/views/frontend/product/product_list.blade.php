@@ -4,6 +4,10 @@
         .custom-border-color {
             border-color: #38b2ac;
         }
+        .card-button-section{
+            background-color: darkred; /* Change this to your desired hover background color */
+            cursor: pointer;
+        }
     </style>
 @endpush
 @section('property_list_content')
@@ -44,8 +48,8 @@
                                     {!! Str::limit($item->product_description, $limit = 180, $end = '...') !!}
                                 </p>
                             </div>
-                            <div class="d-flex mr-10 text-center" style="background-color: white; padding: 1px">
-                                <div class="col division" style="border: 1px  solid var(--green);">
+                            <div class="d-flex mr-10 mb-2 text-center card-button-section" style="background-color: white; padding: 1px">
+                                <div class="col division" style="border: 1px  solid var(--green); transition: background-color 0.3s;">
                                     <button type="button" class="btn-sm">Add to Cart</button>
                                 </div>
                                 <div class="col division" style="border: 1px solid var(--green);">

@@ -32,10 +32,15 @@
         {!! Form::hidden($name . '[' . $variation_index . '][variations][' . $value_index . '][is_hidden]', 
             $is_variation_value_hidden , ['class' => 'is_variation_value_hidden']) !!}
 
-        {!! Form::hidden($name . '[' . $variation_index . '][variations][' . $value_index . '][variation_value_id]', $variation_value_id) !!}
+        {!! Form::hidden($name . '[' . $variation_index . '][variations][' . $value_index . '][variation_value_id]', $variation_value_id,['class'=>'variation_value_id']) !!}
     </td>
     <td>
-        {!! Form::text($name . '[' . $variation_index . '][variations][' . $value_index . '][value]', $variation_name, ['class' => 'form-control input-sm variation_value_name', 'required', $readonly]); !!}
+        @if(!empty($variation_name))
+            {!! Form::text($name . '[' . $variation_index . '][variations][' . $value_index . '][value]', $variation_name, ['class' => 'form-control input-sm variation_value_name', 'required', $readonly]); !!}
+        @else
+            {!! Form::select($name . '[' . $variation_index . '][variations][' . $value_index . '][variation_name_other_id]', $otherTemplateOnly, null, ['class' => 'form-control input-sm variation_name_others', 'placeholder' => __('messages.please_select')]); !!}
+            {!! Form::select($name . '[' . $variation_index . '][variations][' . $value_index . '][variation_other_value_id]', $otherTemplateValues, null, ['class' => 'form-control input-sm variation_value_name_others', 'placeholder' => __('messages.please_select')]); !!}
+        @endif
     </td>
     <td class="{{$class}}">
         <div class="width-50 f-left">

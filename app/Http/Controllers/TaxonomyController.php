@@ -52,7 +52,7 @@ class TaxonomyController extends Controller
 
             $category = Category::where('business_id', $business_id)
                             ->where('category_type', $category_type)
-                            ->select(['name', 'short_code', 'description', 'id', 'parent_id','sub_category_id']);
+                            ->select(['name', 'category_type', 'short_code', 'description', 'id', 'parent_id','sub_category_id']);
 
             return Datatables::of($category)
                 ->addColumn(
@@ -195,7 +195,12 @@ class TaxonomyController extends Controller
                                         ->where('parent_id', 0)
                                         ->where('category_type', $category_type)
                                         ->where('id', '!=', $id)
-                                        ->pluck('name', 'id');
+                                        ->pluck('name', 'id')->toArray();
+
+            $sub_categories = Category::where('parent_id', $category->parent_id)
+                ->pluck('name', 'id')
+                ->toArray();
+
             $is_parent = false;
 
             if ($category->parent_id == 0) {
@@ -206,7 +211,7 @@ class TaxonomyController extends Controller
             }
 
             return view('taxonomy.edit')
-                ->with(compact('category', 'parent_categories', 'is_parent', 'selected_parent', 'module_category_data'));
+                ->with(compact('category', 'sub_categories','parent_categories', 'is_parent', 'selected_parent', 'module_category_data'));
         }
     }
 
