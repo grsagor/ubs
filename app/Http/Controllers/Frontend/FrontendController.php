@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Frontend;
 
-use App\Http\Controllers\Controller;
+use App\Footer;
 
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class FrontendController extends Controller
 {
@@ -125,7 +126,9 @@ class FrontendController extends Controller
 
     public function condition_of_use()
     {
-        return view('frontend.footerDetails.policies.condition_of_use');
+        $data = Footer::where('slug', 'condition_of_use_and_sale')->first();
+        // dd($data);
+        return view('frontend.footerDetails.policies.condition_of_use', compact('data'));
     }
 
     public function return_policies()
