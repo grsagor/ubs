@@ -109,45 +109,29 @@ class FrontendController extends Controller
         return view('frontend.footerDetails.quick-link.content_creator');
     }
 
-    public function privacy()
+    // Privacy
+
+    public function privacy_cookies()
     {
-        return view('frontend.footerDetails.policies.privacy');
+        $data = Footer::where('slug', 'privacy-and-cookies')->first();
+        return view('frontend.footerDetails.policies.privacy', compact('data'));
     }
 
-    public function cookies()
+    public function condition_of_use_sale()
     {
-        return view('frontend.footerDetails.policies.cookies');
-    }
-
-    public function condition_of_sale()
-    {
-        return view('frontend.footerDetails.policies.condition_of_sale');
-    }
-
-    public function condition_of_use()
-    {
-        $data = Footer::where('slug', 'condition_of_use_and_sale')->first();
-        // dd($data);
+        $data = Footer::where('slug', 'condition-of-use-and-sale')->first();
         return view('frontend.footerDetails.policies.condition_of_use', compact('data'));
     }
 
-    public function return_policies()
+    public function return_refund_policies()
     {
-        return view('frontend.footerDetails.policies.return_policies');
-    }
-
-    public function refund_policies()
-    {
-        return view('frontend.footerDetails.policies.refund_policies');
-    }
-
-    public function seller_statement()
-    {
-        return view('frontend.footerDetails.policies.seller_statement');
+        $data = Footer::where('slug', 'returns-and-refund-policies')->first();
+        return view('frontend.footerDetails.policies.refund_policies', compact('data'));
     }
 
     public function payment_terms()
     {
-        return view('frontend.footerDetails.policies.payment_terms');
+        $data = Footer::where('slug', 'payments-terms')->first();
+        return view('frontend.footerDetails.policies.payment_terms', compact('data'));
     }
 }

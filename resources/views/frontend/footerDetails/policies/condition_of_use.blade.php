@@ -7,7 +7,7 @@
 
     <div class="container">
 
-        <h4 class="footer-details-title mt-4"><u>Condition Of Use</u></h4>
+        <h4 class="footer-details-title mt-4"><u>Condition Of Use and Sale</u></h4>
 
         <div class="header mv">
             <div class="welcome">

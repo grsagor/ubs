@@ -194,14 +194,9 @@ Route::get('/qr-code-generator',                        [FrontendController::cla
 Route::get('/content-creator',                          [FrontendController::class, 'content_creator'])->name('footer.details.quick.content_creator');
 
 Route::get('/policies',                                 [FrontendController::class, 'footerDetails'])->name('footer.details.policies');
-Route::get('/privacy',                                  [FrontendController::class, 'privacy'])->name('footer.details.policies.privacy');
-Route::get('/cookies',                                  [FrontendController::class, 'cookies'])->name('footer.details.policies.cookies');
-Route::get('/condition-of-use-and-sale',                        [FrontendController::class, 'condition_of_sale'])->name('footer.details.policies.condition_of_sale');
-Route::get('/condition-of-use',                         [FrontendController::class, 'condition_of_use'])->name('footer.details.policies.condition_of_use');
-Route::get('/return-policies',                          [FrontendController::class, 'return_policies'])->name('footer.details.policies.return_policies');
-Route::get('/refund-policies',                          [FrontendController::class, 'refund_policies'])->name('footer.details.policies.refund_policies');
-Route::get('/refund-policies',                          [FrontendController::class, 'refund_policies'])->name('footer.details.policies.refund_policies');
-Route::get('/seller-statement',                         [FrontendController::class, 'seller_statement'])->name('footer.details.policies.seller_statement');
+Route::get('/privacy-cookies',                          [FrontendController::class, 'privacy_cookies'])->name('footer.details.policies.privacy_cookies');
+Route::get('/condition-of-use-and-sale',                [FrontendController::class, 'condition_of_use_sale'])->name('footer.details.policies.condition_of_use_sale');
+Route::get('/return-and-return-policies',               [FrontendController::class, 'return_refund_policies'])->name('footer.details.policies.return_refund_policies');
 Route::get('/payment-terms',                            [FrontendController::class, 'payment_terms'])->name('footer.details.policies.payment_terms');
 
 // CART SECTION

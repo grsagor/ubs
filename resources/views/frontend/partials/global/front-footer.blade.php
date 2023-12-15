@@ -183,13 +183,11 @@
 
         <ul>
             <li><span>Policies</span></li>
-            <li><a href="{{ route('footer.details.policies.privacy') }}">Privacy</a></li>
-            <li><a href="{{ route('footer.details.policies.cookies') }}">Cookies</a></li>
-            <li><a href="{{ route('footer.details.policies.condition_of_sale') }}">Condition of sale</a></li>
-            <li><a href="{{ route('footer.details.policies.condition_of_use') }}">Condition of use</a></li>
-            <li><a href="{{ route('footer.details.policies.return_policies') }}">Return policies</a></li>
-            <li><a href="{{ route('footer.details.policies.refund_policies') }}">Refund policies</a></li>
-            <li><a href="{{ route('footer.details.policies.seller_statement') }}">Seller statement</a></li>
+            <li><a href="{{ route('footer.details.policies.privacy_cookies') }}">Privacy and Cookies</a></li>
+            <li><a href="{{ route('footer.details.policies.condition_of_use_sale') }}">Condition of use and sale</a>
+            </li>
+            <li><a href="{{ route('footer.details.policies.return_refund_policies') }}">Returns and Refund Policies</a>
+            </li>
             <li><a href="{{ route('footer.details.policies.payment_terms') }}">Payment terms</a></li>
         </ul>
 

@@ -2,7 +2,7 @@
 @section('title', 'Advertise-Room')
 @section('content')
     <section class="content-header">
-        <h1>Footer
+        <h1>Footer Create
             {{-- <small>Fill up what you want</small> --}}
         </h1>
     </section>
@@ -10,14 +10,27 @@
     <section class="content">
         <div class="form-container box box-primary">
             <div class="box-body">
-                <form action="{{ route('footer.store') }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('footer.update', $footer->id) }}" method="POST" enctype="multipart/form-data">
                     @csrf
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label for="custom_field1">Category Name</label>
+                            {{ $footer->category_name ?? '' }}
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label for="custom_field1">Name</label>
+                            {{ ucwords(str_replace('-', ' ', $footer->slug)) }}
+                        </div>
+                    </div>
+
                     <div class="col-sm-12">
                         <div class="form-group">
                             <label for="custom_field1">Description</label>
                             <p class="sub-heading">(No contact details permitted within description)</p>
                             <textarea rows="5" type="text" class="form-control" name="description" id="footer_details" class="input-field"
-                                placeholder="Description"></textarea>
+                                placeholder="Description">{!! $footer->description ?? '' !!}</textarea>
                             <span class="error text-danger" id="footer_details-error--property_wanted_create"></span>
                         </div>
                     </div>
@@ -25,7 +38,7 @@
                     <!-- Add Submit Button -->
                     <div class="col-sm-12">
                         <div class="form-group">
-                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <button type="submit" class="btn btn-primary">Update</button>
                         </div>
                     </div>
                 </form>

@@ -6,11 +6,14 @@ namespace App\Http\Controllers\Backend;
 use App\Footer;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UpdateFooterRequest;
 
 class FooterController extends Controller
 {
     public function index(Request $request)
     {
+        $data = Footer::query()->get();
+        return view('backend.footer.index', compact('data'));
     }
 
     public function create()
@@ -39,11 +42,13 @@ class FooterController extends Controller
         }
     }
 
-    public function edit()
+    public function edit(Footer $footer)
     {
+        return view('backend.footer.edit', compact('footer'));
     }
 
-    public function update()
+    public function update(UpdateFooterRequest $request, Footer $footer)
     {
+        dd($request->toArray());
     }
 }

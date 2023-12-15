@@ -8,7 +8,7 @@
         <ul class="sidebar-menu tree" data-widget="tree">
             <li><a href="{{ url('superadmin') }}"><i class="fa fas fa-users-cog"></i> <span>Superadmin</span></a></li>
             <li><a href="{{ route('home') }}"><i class="fa fas fa-tachometer-alt"></i> <span>Home</span></a></li>
-            <li><a href="{{ route('footer.create') }}"><i class="fa fas fa-tachometer-alt"></i> <span>Footer</span></a>
+            <li><a href="{{ route('footer.index') }}"><i class="fa fas fa-tachometer-alt"></i> <span>Footer</span></a>
             </li>
             <li class="treeview">
                 <a href="#">

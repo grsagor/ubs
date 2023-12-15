@@ -11,7 +11,7 @@
 
         <div class="header mv">
             <div class="welcome">
-                <p>Content</p>
+                {!! $data->description ?? '' !!}
             </div>
         </div>
     </div>
