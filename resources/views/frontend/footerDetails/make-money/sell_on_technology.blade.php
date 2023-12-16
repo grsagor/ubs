@@ -10,6 +10,11 @@
         <h4 class="footer-details-title mt-4"><u>Sell on unipuller technology</u></h4>
 
         <div class="header mv">
+            <div class="welcome">
+                {!! $data->description ?? '' !!}
+            </div>
+        </div>
+        {{-- <div class="header mv">
 
             <div class="welcome">
                 <h5 class="fw-bold">
@@ -144,6 +149,6 @@
                     with Unipuller today.
                 </p>
             </div>
-        </div>
+        </div> --}}
     </div>
 @endsection

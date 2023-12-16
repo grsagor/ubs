@@ -6,7 +6,6 @@ namespace App\Http\Controllers\Backend;
 use App\Footer;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\UpdateFooterRequest;
 
 class FooterController extends Controller
 {
@@ -35,20 +34,39 @@ class FooterController extends Controller
 
             return redirect()->back()->with('status', $output);
         } catch (\Throwable $e) {
-
             dd($e->getmessage());
-
             return redirect()->back();
         }
     }
 
-    public function edit(Footer $footer)
+    public function edit($id)
     {
+        $footer = Footer::find($id);
         return view('backend.footer.edit', compact('footer'));
     }
 
-    public function update(UpdateFooterRequest $request, Footer $footer)
+    public function update(Request $request, $id)
     {
-        dd($request->toArray());
+        try {
+            $validatedData = $request->validate([
+                'description' => 'required',
+            ], [
+                'description.required' => 'The description field is required.',
+            ]);
+            $footer = Footer::findOrFail($id);
+            $footer->description = $validatedData['description'];
+            $footer->save();
+
+            $output = [
+                'success' => true,
+                'msg' => 'Updated Successfully!!!',
+            ];
+            return redirect()->back()->with('status', $output);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return redirect()->back()->withErrors($e->errors())->withInput();
+        } catch (\Throwable $e) {
+            dd($e->getMessage());
+            return redirect()->back();
+        }
     }
 }

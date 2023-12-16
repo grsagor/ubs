@@ -10,6 +10,12 @@
         <h4 class="footer-details-title mt-4"><u>Unipuller Service</u></h4>
 
         <div class="header mv">
+            <div class="welcome">
+                {!! $data->description ?? '' !!}
+            </div>
+        </div>
+
+        {{-- <div class="header mv">
             <div class="welcome mt-3">
                 <h5 class="fw-bold">
                     A Network of Expertise: Partnering for Your Success
@@ -263,7 +269,7 @@
                     the path to lasting success is illuminated by expertise and innovation.
                 </p>
             </div>
-        </div>
+        </div> --}}
 
     </div>
 @endsection

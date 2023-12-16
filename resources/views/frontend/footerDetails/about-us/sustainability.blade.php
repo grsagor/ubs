@@ -7,7 +7,14 @@
 
     <div class="container">
         <h4 class="footer-details-title mt-4"><u>Sustainability</u></h4>
+
         <div class="header mv">
+            <div class="welcome">
+                {!! $data->description ?? '' !!}
+            </div>
+        </div>
+
+        {{-- <div class="header mv">
             <div class="welcome mt-3">
 
                 <h5 class="fw-bold">
@@ -121,6 +128,6 @@
                     can go hand in hand, and to inspire positive change within the industries we serve.
                 </p>
             </div>
-        </div>
+        </div> --}}
     </div>
 @endsection

@@ -8,7 +8,10 @@
     <div class="container">
         <h4 class="footer-details-title mt-4"><u>Statement</u></h4>
         <div class="header mv">
-            <div class="welcome mt-3">
+            <div class="welcome">
+                {!! $data->description ?? '' !!}
+            </div>
+            {{-- <div class="welcome mt-3">
                 <p>
                     At Unipuller, we are unwavering in our dedication to pioneering excellence,
                     driving
@@ -45,7 +48,7 @@
                     our
                     ultimate reward. Welcome to Unipuller, where your journey towards a thriving future begins.
                 </p>
-            </div>
+            </div> --}}
         </div>
     </div>
 @endsection

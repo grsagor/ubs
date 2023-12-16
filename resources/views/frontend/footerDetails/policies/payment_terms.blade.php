@@ -7,7 +7,7 @@
 
     <div class="container">
 
-        <h4 class="footer-details-title mt-4"><u>Payment Terms</u></h4>
+        <h4 class="footer-details-title mt-4"><u>{{ ucwords(str_replace('-', ' ', $data->slug)) }}</u></h4>
 
         <div class="header mv">
             <div class="welcome">

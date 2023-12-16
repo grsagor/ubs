@@ -167,6 +167,7 @@ Route::get('/get-service-items/{category_id}',          [ServiceController::clas
 // FOOTER LINKS DETAIL SECTION
 Route::get('/about',                                    [FrontendController::class, 'footerDetails'])->name('footer.details.about');
 Route::get('/about-us',                                 [FrontendController::class, 'about_us'])->name('footer.details.about_us');
+Route::get('/slavery-and-human-trafficking-statement',  [FrontendController::class, 'slavery_and_human_trafficking_statement'])->name('footer.details.slavery_and_human_trafficking_statement');
 Route::get('/statement',                                [FrontendController::class, 'statement'])->name('footer.details.statement');
 Route::get('/sustainability',                           [FrontendController::class, 'sustainability'])->name('footer.details.sustainability');
 Route::get('/unipuller-service',                        [FrontendController::class, 'unipuller_service'])->name('footer.details.unipuller_service');
@@ -267,8 +268,11 @@ Route::middleware(['setData'])->group(function () {
 // Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 'AdminSidebarMenu', 'CheckUserLogin'])->group(function () {
 Route::middleware(['checkAdmin', 'SetSessionData'])->group(function () {
 
-    //Footer
-    Route::resource('footer', FooterController::class);
+    Route::get('/footer', [FooterController::class, 'index'])->name('footer.index');
+    Route::get('/footer/create', [FooterController::class, 'create'])->name('footer.create');
+    Route::post('/footer', [FooterController::class, 'store'])->name('footer.store');
+    Route::get('/footer/{id}/edit', [FooterController::class, 'edit'])->name('footer.edit');
+    Route::put('/footer/{id}', [FooterController::class, 'update'])->name('footer.update');
 
     // Services
     Route::resource('service-advertise', ServiceAdvertiseRoomController::class);

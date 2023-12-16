@@ -7,11 +7,11 @@
 
     <div class="container">
 
-        <h4 class="footer-details-title mt-4"><u>Ready Website</u></h4>
+        <h4 class="footer-details-title mt-4"><u>Parnter Boarding</u></h4>
 
         <div class="header mv">
             <div class="welcome">
-                <p>Content</p>
+                {!! $data->description ?? '' !!}
             </div>
         </div>
     </div>

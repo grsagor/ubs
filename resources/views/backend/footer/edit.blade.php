@@ -2,7 +2,7 @@
 @section('title', 'Advertise-Room')
 @section('content')
     <section class="content-header">
-        <h1>Footer Create
+        <h1>Footer Edit
             {{-- <small>Fill up what you want</small> --}}
         </h1>
     </section>
@@ -12,18 +12,25 @@
             <div class="box-body">
                 <form action="{{ route('footer.update', $footer->id) }}" method="POST" enctype="multipart/form-data">
                     @csrf
+                    @method('PUT')
                     <div class="col-sm-12">
                         <div class="form-group">
-                            <label for="custom_field1">Category Name</label>
-                            {{ $footer->category_name ?? '' }}
+                            {{-- <label for="custom_field1">Title</label> --}}
+                            <span class="text-success fw-bold">
+                                <b>{{ $footer->category_name ?? '' }} →
+                                    {{ ucwords(str_replace('-', ' ', $footer->slug)) }}
+                                </b>
+                            </span>
+
                         </div>
                     </div>
-                    <div class="col-sm-12">
+                    {{-- <div class="col-sm-12">
                         <div class="form-group">
                             <label for="custom_field1">Name</label>
-                            {{ ucwords(str_replace('-', ' ', $footer->slug)) }}
+                            <span class="text-success fw-bold"><b>
+                                    {{ ucwords(str_replace('-', ' ', $footer->slug)) }}</b></span>
                         </div>
-                    </div>
+                    </div> --}}
 
                     <div class="col-sm-12">
                         <div class="form-group">
@@ -31,7 +38,10 @@
                             <p class="sub-heading">(No contact details permitted within description)</p>
                             <textarea rows="5" type="text" class="form-control" name="description" id="footer_details" class="input-field"
                                 placeholder="Description">{!! $footer->description ?? '' !!}</textarea>
-                            <span class="error text-danger" id="footer_details-error--property_wanted_create"></span>
+
+                            @error('description')
+                                <span class="error text-danger">{{ $message }}</span>
+                            @enderror
                         </div>
                     </div>
 
