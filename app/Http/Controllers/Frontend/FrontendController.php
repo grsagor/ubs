@@ -3,8 +3,6 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Footer;
-
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 class FrontendController extends Controller
@@ -44,12 +42,12 @@ class FrontendController extends Controller
     // Make money with us
     public function sell_on_unipuller()
     {
-        return $this->footer_Details('sell-on-unipuller-technology');
+        return $this->footer_Details('sell-on-unipuller');
     }
 
     public function sell_on_technology()
     {
-        return $this->footer_Details('sell-on-unipuller');
+        return $this->footer_Details('sell-on-unipuller-technology');
     }
 
     public function associate_program()
