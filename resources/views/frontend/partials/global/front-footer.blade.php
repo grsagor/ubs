@@ -101,7 +101,7 @@
             </li>
             <li><a href="{{ route('footer.details.sell_on_unipuller') }}">Sell on unipuller</a></li>
             <li><a href="{{ route('footer.details.associate_program') }}">Associate program</a></li>
-            <li><a href="{{ route('footer.details.delivery_partner') }}">Service Delivery partner</a></li>
+            <li><a href="{{ route('footer.details.delivery_partner') }}">Service Delivery parntership</a></li>
         </ul>
 
         <ul>

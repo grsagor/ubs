@@ -118,7 +118,7 @@ Route::get('send-mail', function () {
         'body' => 'This is for testing email using smtp'
     ];
 
-    \Mail::to('abshakib91@gmail.com')->send(new \App\Mail\MyTestMail($details));
+    \Mail::to('test@gmail.com')->send(new \App\Mail\MyTestMail($details));
 
     dd("Email is Sent.");
 });
@@ -176,7 +176,7 @@ Route::get('/make-money',                               [FrontendController::cla
 Route::get('/sell-on-unipuller',                        [FrontendController::class, 'sell_on_unipuller'])->name('footer.details.sell_on_unipuller');
 Route::get('/sell-on-unipuller-technology',             [FrontendController::class, 'sell_on_technology'])->name('footer.details.sell_on_technology');
 Route::get('/associate-program',                        [FrontendController::class, 'associate_program'])->name('footer.details.associate_program');
-Route::get('/delivery-partner',                         [FrontendController::class, 'delivery_partner'])->name('footer.details.delivery_partner');
+Route::get('/service-delivery-partnership',             [FrontendController::class, 'delivery_partner'])->name('footer.details.delivery_partner');
 
 
 Route::get('/our-services',                             [FrontendController::class, 'footerDetails'])->name('footer.details.our.services');

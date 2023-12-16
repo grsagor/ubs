@@ -61,7 +61,7 @@ class FooterController extends Controller
                 'success' => true,
                 'msg' => 'Updated Successfully!!!',
             ];
-            return redirect()->back()->with('status', $output);
+            return redirect()->route('footer.index')->with('status', $output);
         } catch (\Illuminate\Validation\ValidationException $e) {
             return redirect()->back()->withErrors($e->errors())->withInput();
         } catch (\Throwable $e) {
