@@ -7,8 +7,14 @@
 
     <div class="container">
 
-        <h4 class="footer-details-title mt-4"><u>Delivery partnership</u></h4>
+        <h4 class="footer-details-title mt-4"><u>Service Delivery Partnership</u></h4>
+
         <div class="header mv">
+            <div class="welcome">
+                {!! $data->description ?? '' !!}
+            </div>
+        </div>
+        {{-- <div class="header mv">
 
             <div class="welcome">
                 <h4 class="fw-bold">
@@ -105,6 +111,6 @@
                     us in redefining the future of service delivery and let Unipuller be your partner in growth.
                 </p>
             </div>
-        </div>
+        </div> --}}
     </div>
 @endsection

@@ -16,9 +16,9 @@
         background-color: #131A22;
         color: #ddd;
         display: grid;
-        grid-template-columns: repeat(6, 1fr);
+        grid-template-columns: repeat(5, 1fr);
         gap: 10px;
-        padding: 30px 10%;
+        padding: 30px 8%;
         font-size: 12px;
     }
 
@@ -83,49 +83,27 @@
             <span>Bangladesh</span>
         </div>
     </div>
-    <div class="footer-mid">
-        {{-- <ul>
-            <li><a href="{{ route('footer.details.about') }}"><span>About</span></a></li>
-            <li><a href="{{ route('footer.details.about') }}">About us</a></li>
-            <li><a href="{{ route('footer.details.about') }}">Statement</a></li>
-            <li><a href="{{ route('footer.details.about') }}">Sustainability</a></li>
-            <li><a href="{{ route('footer.details.about') }}">Unipuller service</a></li>
-        </ul> --}}
+    <div class="footer-mid ">
 
         <ul>
             <li><span>About</span></li>
             <li><a href="{{ route('footer.details.about_us') }}">About Us</a></li>
-            {{-- <li><a href="{{ route('footer.details.about_us') }}">About us</a></li> --}}
+            <li><a href="{{ route('footer.details.slavery_and_human_trafficking_statement') }}">Slavery and Human
+                    Trafficking</a></li>
             <li><a href="{{ route('footer.details.statement') }}">Statement</a></li>
             <li><a href="{{ route('footer.details.sustainability') }}">Sustainability</a></li>
             <li><a href="{{ route('footer.details.unipuller_service') }}">Unipuller service</a></li>
         </ul>
 
-        {{-- <ul>
-            <li><a href="{{ route('footer.details.make.money') }}"><span>Make money with us</span></a></li>
-            <li><a href="{{ route('footer.details.make.money') }}">Sell on unipuller</a></li>
-            <li><a href="{{ route('footer.details.make.money') }}">Sell on unipuller technology</a></li>
-            <li><a href="{{ route('footer.details.make.money') }}">Associate program</a></li>
-            <li><a href="{{ route('footer.details.make.money') }}">Delivery partner</a></li>
-        </ul> --}}
         <ul>
             <li><span>Make money with us</span></li>
-            <li><a href="{{ route('footer.details.sell_on_unipuller') }}">Sell on unipuller</a></li>
             <li><a href="{{ route('footer.details.sell_on_technology') }}">Sell on unipuller technology</a>
             </li>
+            <li><a href="{{ route('footer.details.sell_on_unipuller') }}">Sell on unipuller</a></li>
             <li><a href="{{ route('footer.details.associate_program') }}">Associate program</a></li>
-            <li><a href="{{ route('footer.details.delivery_partner') }}">Delivery partner</a></li>
+            <li><a href="{{ route('footer.details.delivery_partner') }}">Service Delivery partner</a></li>
         </ul>
-        {{-- <ul>
-            <li><a href="{{ route('footer.details.our.services') }}"><span>Our services</span></a></li>
-            <li><a href="{{ route('footer.details.our.services') }}">Advertising</a></li>
-            <li><a href="{{ route('footer.details.our.services') }}">Marketing</a></li>
-            <li><a href="{{ route('footer.details.our.services') }}">Website Development</a></li>
-            <li><a href="{{ route('footer.details.our.services') }}">Software Development</a></li>
-            <li><a href="{{ route('footer.details.our.services') }}">SEO</a></li>
-            <li><a href="{{ route('footer.details.our.services') }}">Video Production</a></li>
-            <li><a href="{{ route('footer.details.our.services') }}">Partner Boarding</a></li>
-        </ul> --}}
+
         <ul>
             <li><span>Our services</span></li>
             <li><a href="{{ route('footer.details.our.advertising') }}">Advertising</a></li>
@@ -136,60 +114,13 @@
             <li><a href="{{ route('footer.details.our.video_production') }}">Video Production</a></li>
         </ul>
 
-        {{-- <ul>
-            <li><a href="{{ route('footer.details.quick.links') }}"><span>Quick links</span></a></li>
-            </li>
-            <li><a href="{{ route('footer.details.quick.links') }}">Software</a></li>
-            </li>
-            <li><a href="{{ route('footer.details.quick.links') }}">Domain & Hosting</a></li>
-            </li>
-            <li><a href="{{ route('footer.details.quick.links') }}">Ready Websites</a></li>
-            </li>
-            <li><a href="{{ route('footer.details.quick.links') }}">Form Generator</a></li>
-            </li>
-            <li><a href="{{ route('footer.details.quick.links') }}">QR Code Generator</a></li>
-            </li>
-            <li><a href="{{ route('footer.details.quick.links') }}">Content Creator</a></li>
-            </li>
-        </ul> --}}
-
-
-        <ul>
-            <li><span>Quick links</span></li>
-            </li>
-            <li><a href="{{ route('footer.details.quick.software') }}">Software</a></li>
-            </li>
-            <li><a href="{{ route('footer.details.quick.ready_website') }}">Ready Websites</a></li>
-            </li>
-            <li><a href="{{ route('footer.details.quick.form_generator') }}">Form Generator</a></li>
-            </li>
-            <li><a href="{{ route('footer.details.quick.qr_code_generator') }}">QR Code Generator</a></li>
-            </li>
-            <li><a href="{{ route('footer.details.quick.content_creator') }}">Content Creator</a></li>
-            </li>
-        </ul>
-        {{-- <ul>
-            <li><a href="{{ route('footer.details.policies') }}"><span>Policies</span></a></li>
-            <li><a href="{{ route('footer.details.policies') }}">Privacy</a></li>
-            <li><a href="{{ route('footer.details.policies') }}">Cookies</a></li>
-            <li><a href="{{ route('footer.details.policies') }}">Condition of sale</a></li>
-            <li><a href="{{ route('footer.details.policies') }}">Condition of use</a></li>
-            <li><a href="{{ route('footer.details.policies') }}">Return policies</a></li>
-            <li><a href="{{ route('footer.details.policies') }}">Refund policies</a></li>
-            <li><a href="{{ route('footer.details.policies') }}">Seller statement</a></li>
-            <li><a href="{{ route('footer.details.policies') }}">Payment terms</a></li>
-        </ul> --}}
-
-
         <ul>
             <li><span>Policies</span></li>
-            <li><a href="{{ route('footer.details.policies.privacy') }}">Privacy</a></li>
-            <li><a href="{{ route('footer.details.policies.cookies') }}">Cookies</a></li>
-            <li><a href="{{ route('footer.details.policies.condition_of_sale') }}">Condition of sale</a></li>
-            <li><a href="{{ route('footer.details.policies.condition_of_use') }}">Condition of use</a></li>
-            <li><a href="{{ route('footer.details.policies.return_policies') }}">Return policies</a></li>
-            <li><a href="{{ route('footer.details.policies.refund_policies') }}">Refund policies</a></li>
-            <li><a href="{{ route('footer.details.policies.seller_statement') }}">Seller statement</a></li>
+            <li><a href="{{ route('footer.details.policies.privacy_cookies') }}">Privacy and Cookies</a></li>
+            <li><a href="{{ route('footer.details.policies.condition_of_use_sale') }}">Condition of use and sale</a>
+            </li>
+            <li><a href="{{ route('footer.details.policies.return_refund_policies') }}">Returns and Refund Policies</a>
+            </li>
             <li><a href="{{ route('footer.details.policies.payment_terms') }}">Payment terms</a></li>
         </ul>
 

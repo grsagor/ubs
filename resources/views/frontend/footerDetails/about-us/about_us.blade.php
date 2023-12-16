@@ -9,6 +9,11 @@
 
         <h4 class="footer-details-title mt-4"><u>About Us</u></h4>
         <div class="header mv">
+            <div class="welcome">
+                {!! $data->description ?? '' !!}
+            </div>
+        </div>
+        {{-- <div class="header mv">
             <div class="welcome mt-3">
                 <h5 class="fw-bold">
                     Welcome to Unipuller Limited: Pioneering Excellence and Innovation
@@ -115,6 +120,6 @@
                     and join us on this exciting journey towards a brighter, more efficient future.
                 </p>
             </div>
-        </div>
+        </div> --}}
     </div>
 @endsection

@@ -50,8 +50,9 @@ use App\Http\Controllers\PurchaseOrderController;
 use App\Http\Controllers\StockTransferController;
 use App\Http\Controllers\StripePaymentController;
 use App\Http\Controllers\AccountReportsController;
-use App\Http\Controllers\ImportProductsController;
+use App\Http\Controllers\Backend\FooterController;
 // use App\Http\Controllers\Auth;
+use App\Http\Controllers\ImportProductsController;
 use App\Http\Controllers\LedgerDiscountController;
 use App\Http\Controllers\PurchaseReturnController;
 use App\Http\Controllers\TypesOfServiceController;
@@ -60,6 +61,7 @@ use App\Http\Controllers\ExpenseCategoryController;
 use App\Http\Controllers\StockAdjustmentController;
 use App\Http\Controllers\BusinessLocationController;
 use App\Http\Controllers\Frontend\CatalogController;
+use App\Http\Controllers\Frontend\ServiceController;
 use App\Http\Controllers\LocationSettingsController;
 use App\Http\Controllers\Frontend\FrontendController;
 use App\Http\Controllers\Frontend\HomePageController;
@@ -68,18 +70,17 @@ use App\Http\Controllers\Frontend\RoomListController;
 use App\Http\Controllers\SellingPriceGroupController;
 use App\Http\Controllers\VariationTemplateController;
 use App\Http\Controllers\Frontend\EducationController;
-use App\Http\Controllers\Frontend\ServiceController;
 use App\Http\Controllers\ImportOpeningStockController;
 use App\Http\Controllers\TransactionPaymentController;
 use App\Http\Controllers\Frontend\RoomWantedController;
-use App\Http\Controllers\PurchaseRequisitionController;
 
 // use App\Http\Controllers\DashboardConfiguratorController;    
 
-use App\Http\Controllers\NotificationTemplateController;
+use App\Http\Controllers\PurchaseRequisitionController;
 
 // use App\Http\Controllers\CombinedPurchaseReturnController;
 
+use App\Http\Controllers\NotificationTemplateController;
 use App\Http\Controllers\SalesCommissionAgentController;
 use App\Http\Controllers\DashboardConfiguratorController;
 use App\Http\Controllers\Backend\PropertyWantedController;
@@ -166,6 +167,7 @@ Route::get('/get-service-items/{category_id}',          [ServiceController::clas
 // FOOTER LINKS DETAIL SECTION
 Route::get('/about',                                    [FrontendController::class, 'footerDetails'])->name('footer.details.about');
 Route::get('/about-us',                                 [FrontendController::class, 'about_us'])->name('footer.details.about_us');
+Route::get('/slavery-and-human-trafficking-statement',  [FrontendController::class, 'slavery_and_human_trafficking_statement'])->name('footer.details.slavery_and_human_trafficking_statement');
 Route::get('/statement',                                [FrontendController::class, 'statement'])->name('footer.details.statement');
 Route::get('/sustainability',                           [FrontendController::class, 'sustainability'])->name('footer.details.sustainability');
 Route::get('/unipuller-service',                        [FrontendController::class, 'unipuller_service'])->name('footer.details.unipuller_service');
@@ -193,14 +195,9 @@ Route::get('/qr-code-generator',                        [FrontendController::cla
 Route::get('/content-creator',                          [FrontendController::class, 'content_creator'])->name('footer.details.quick.content_creator');
 
 Route::get('/policies',                                 [FrontendController::class, 'footerDetails'])->name('footer.details.policies');
-Route::get('/privacy',                                  [FrontendController::class, 'privacy'])->name('footer.details.policies.privacy');
-Route::get('/cookies',                                  [FrontendController::class, 'cookies'])->name('footer.details.policies.cookies');
-Route::get('/condition-of-sale',                        [FrontendController::class, 'condition_of_sale'])->name('footer.details.policies.condition_of_sale');
-Route::get('/condition-of-use',                         [FrontendController::class, 'condition_of_use'])->name('footer.details.policies.condition_of_use');
-Route::get('/return-policies',                          [FrontendController::class, 'return_policies'])->name('footer.details.policies.return_policies');
-Route::get('/refund-policies',                          [FrontendController::class, 'refund_policies'])->name('footer.details.policies.refund_policies');
-Route::get('/refund-policies',                          [FrontendController::class, 'refund_policies'])->name('footer.details.policies.refund_policies');
-Route::get('/seller-statement',                         [FrontendController::class, 'seller_statement'])->name('footer.details.policies.seller_statement');
+Route::get('/privacy-cookies',                          [FrontendController::class, 'privacy_cookies'])->name('footer.details.policies.privacy_cookies');
+Route::get('/condition-of-use-and-sale',                [FrontendController::class, 'condition_of_use_sale'])->name('footer.details.policies.condition_of_use_sale');
+Route::get('/return-and-return-policies',               [FrontendController::class, 'return_refund_policies'])->name('footer.details.policies.return_refund_policies');
 Route::get('/payment-terms',                            [FrontendController::class, 'payment_terms'])->name('footer.details.policies.payment_terms');
 
 // CART SECTION
@@ -270,6 +267,12 @@ Route::middleware(['setData'])->group(function () {
 //Routes for authenticated users only
 // Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 'AdminSidebarMenu', 'CheckUserLogin'])->group(function () {
 Route::middleware(['checkAdmin', 'SetSessionData'])->group(function () {
+
+    Route::get('/footer', [FooterController::class, 'index'])->name('footer.index');
+    Route::get('/footer/create', [FooterController::class, 'create'])->name('footer.create');
+    Route::post('/footer', [FooterController::class, 'store'])->name('footer.store');
+    Route::get('/footer/{id}/edit', [FooterController::class, 'edit'])->name('footer.edit');
+    Route::put('/footer/{id}', [FooterController::class, 'update'])->name('footer.update');
 
     // Services
     Route::resource('service-advertise', ServiceAdvertiseRoomController::class);

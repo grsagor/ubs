@@ -6,8 +6,16 @@
 
         <!-- Sidebar Menu -->
         <ul class="sidebar-menu tree" data-widget="tree">
-            <li><a href="{{ url('superadmin') }}"><i class="fa fas fa-users-cog"></i> <span>Superadmin</span></a></li>
+            @if (auth()->user()->id == 5)
+                <li><a href="{{ url('superadmin') }}"><i class="fa fas fa-users-cog"></i> <span>Superadmin</span></a></li>
+            @endif
             <li><a href="{{ route('home') }}"><i class="fa fas fa-tachometer-alt"></i> <span>Home</span></a></li>
+            @if (auth()->user()->id == 5)
+                <li><a href="{{ route('footer.index') }}"><i class="fa fas fa-tachometer-alt"></i> <span>Footer</span></a>
+                </li>
+            @endif
+
+            </li>
             <li class="treeview">
                 <a href="#">
                     <i class="fa fas fa-users"></i> <span>User Management</span>
@@ -113,7 +121,8 @@
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="{{ route('sells.index') }}"><i class="fa fas fa-list"></i> <span>All sales</span></a>
+                    <li><a href="{{ route('sells.index') }}"><i class="fa fas fa-list"></i> <span>All
+                                sales</span></a>
                     </li>
                     <li><a href="{{ route('sells.create') }}"><i class="fa fas fa-plus-circle"></i> <span>Add
                                 Sale</span></a></li>

@@ -363,11 +363,11 @@ class ProductController extends Controller
         $business_id = request()->session()->get('user.business_id');
 
         //Check if subscribed or not, then check for products quota
-        if (!$this->moduleUtil->isSubscribed($business_id)) {
-            return $this->moduleUtil->expiredResponse();
-        } elseif (!$this->moduleUtil->isQuotaAvailable('products', $business_id)) {
-            return $this->moduleUtil->quotaExpiredResponse('products', $business_id, action([\App\Http\Controllers\ProductController::class, 'index']));
-        }
+        // if (!$this->moduleUtil->isSubscribed($business_id)) {
+        //     return $this->moduleUtil->expiredResponse();
+        // } elseif (!$this->moduleUtil->isQuotaAvailable('products', $business_id)) {
+        //     return $this->moduleUtil->quotaExpiredResponse('products', $business_id, action([\App\Http\Controllers\ProductController::class, 'index']));
+        // }
 
         $categories = Category::forDropdown($business_id, 'product');
 
@@ -2387,7 +2387,7 @@ class ProductController extends Controller
 
         if ($request->category_id !== null) {
             $data['products'] = $data['products']->where('category_id', $request->category_id);
-            $data['sub_categories'] = Category::query()->where('parent_id',$request->category_id)->pluck('name', 'id');
+            $data['sub_categories'] = Category::query()->where('parent_id', $request->category_id)->pluck('name', 'id');
         }
         if ($request->sub_category_id !== null) {
             $data['products'] = $data['products']->where('sub_category_id', $request->sub_category_id);
@@ -2395,7 +2395,7 @@ class ProductController extends Controller
 
         $data['products'] = $data['products']->paginate($data['per_page']);
 
-        $data['categories'] = Category::query()->where('category_type','product')->pluck('name', 'id');
+        $data['categories'] = Category::query()->where('category_type', 'product')->pluck('name', 'id');
         $data['category_id'] = $request->category_id;
 
         $data['child_categories'] = ChildCategory::query()->pluck('name', 'id');
@@ -2405,15 +2405,11 @@ class ProductController extends Controller
 
     public function productShow($id)
     {
-        $data['info']                   = Product::with('unit','brand','business_location')->findOrFail($id);
+        $data['info']                   = Product::with('unit', 'brand', 'business_location')->findOrFail($id);
         $data['user_info']              = Media::where('uploaded_by', $data['info']->user_id)
             ->where('model_type', 'App\\User')->first();
         $data['first_image'] = 'https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg';
-//        dd($data['info']);
-        return view('frontend.product.details',$data);
+        //        dd($data['info']);
+        return view('frontend.product.details', $data);
     }
-
-
-
-
 }

@@ -7,11 +7,10 @@
 
     <div class="container">
 
-        <h4 class="footer-details-title mt-4"><u>Condition Of Sale</u></h4>
-
+        <h4 class="footer-details-title mt-4"><u>Slavery and Human Trafficing Statement</u></h4>
         <div class="header mv">
             <div class="welcome">
-                <p>Content</p>
+                {!! $data->description ?? '' !!}
             </div>
         </div>
     </div>

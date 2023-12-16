@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Frontend;
 
-use App\Http\Controllers\Controller;
+use App\Footer;
 
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class FrontendController extends Controller
 {
@@ -13,138 +14,115 @@ class FrontendController extends Controller
         return view('frontend.footerDetails.footerDetails');
     }
 
+    // About Us
     public function about_us()
     {
-        return view('frontend.footerDetails.about-us.about_us');
+        return $this->footer_Details('about-us');
+    }
+
+    public function slavery_and_human_trafficking_statement()
+    {
+        return $this->footer_Details('slavery-and-human-trafficking-statement');
     }
 
     public function statement()
     {
-        return view('frontend.footerDetails.about-us.statement');
+        return $this->footer_Details('statement');
     }
 
     public function sustainability()
     {
-        return view('frontend.footerDetails.about-us.sustainability');
+        return $this->footer_Details('sustainability');
     }
 
     public function unipuller_service()
     {
-        return view('frontend.footerDetails.about-us.unipuller_service');
+        return $this->footer_Details('unipullers-services');
     }
 
+
+    // Make money with us
     public function sell_on_unipuller()
     {
-        return view('frontend.footerDetails.make-money.sell_on_unipuller');
+        return $this->footer_Details('sell-on-unipuller-technology');
     }
 
     public function sell_on_technology()
     {
-        return view('frontend.footerDetails.make-money.sell_on_technology');
+        return $this->footer_Details('sell-on-unipuller');
     }
 
     public function associate_program()
     {
-        return view('frontend.footerDetails.make-money.associate_program');
+        return $this->footer_Details('associate-program');
     }
 
     public function delivery_partner()
     {
-        return view('frontend.footerDetails.make-money.delivery_partner');
+        return $this->footer_Details('service-delivery-partnership');
     }
 
+    // Our Services
     public function advertising()
     {
-        return view('frontend.footerDetails.our-services.advertising');
+        return $this->footer_Details('advertising');
     }
 
     public function marketing()
     {
-        return view('frontend.footerDetails.our-services.marketing');
+        return $this->footer_Details('marketing');
     }
 
     public function website_devlopment()
     {
-        return view('frontend.footerDetails.our-services.website_devlopment');
+        return $this->footer_Details('website-development');
     }
 
     public function software_devlopment()
     {
-        return view('frontend.footerDetails.our-services.software_devlopment');
+        return $this->footer_Details('software-development');
     }
 
     public function seo()
     {
-        return view('frontend.footerDetails.our-services.seo');
+        return $this->footer_Details('seo');
     }
 
     public function video_production()
     {
-        return view('frontend.footerDetails.our-services.video_production');
+        return $this->footer_Details('video-production');
     }
 
-    public function software()
+    public function partner_boarding()
     {
-        return view('frontend.footerDetails.quick-link.software');
+        return $this->footer_Details('partner-boarding');
     }
 
-    public function ready_website()
+    // Privacy
+    public function privacy_cookies()
     {
-        return view('frontend.footerDetails.quick-link.ready_website');
+        return $this->footer_Details('privacy-and-cookies');
     }
 
-    public function form_generator()
+    public function condition_of_use_sale()
     {
-        return view('frontend.footerDetails.quick-link.form_generator');
+        return $this->footer_Details('condition-of-use-and-sale');
     }
 
-    public function qr_code_generator()
+    public function return_refund_policies()
     {
-        return view('frontend.footerDetails.quick-link.qr_code_generator');
-    }
-
-    public function content_creator()
-    {
-        return view('frontend.footerDetails.quick-link.content_creator');
-    }
-
-    public function privacy()
-    {
-        return view('frontend.footerDetails.policies.privacy');
-    }
-
-    public function cookies()
-    {
-        return view('frontend.footerDetails.policies.cookies');
-    }
-
-    public function condition_of_sale()
-    {
-        return view('frontend.footerDetails.policies.condition_of_sale');
-    }
-
-    public function condition_of_use()
-    {
-        return view('frontend.footerDetails.policies.condition_of_use');
-    }
-
-    public function return_policies()
-    {
-        return view('frontend.footerDetails.policies.return_policies');
-    }
-
-    public function refund_policies()
-    {
-        return view('frontend.footerDetails.policies.refund_policies');
-    }
-
-    public function seller_statement()
-    {
-        return view('frontend.footerDetails.policies.seller_statement');
+        return $this->footer_Details('returns-and-refund-policies');
     }
 
     public function payment_terms()
     {
-        return view('frontend.footerDetails.policies.payment_terms');
+        return $this->footer_Details('payments-terms');
+    }
+
+
+    public function footer_Details($slug)
+    {
+        $data = Footer::where('slug', $slug)->first();
+        return view('frontend.footerDetails.index', compact('data'));
     }
 }
