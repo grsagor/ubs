@@ -338,8 +338,14 @@
                     <span>HRM</span></a></li>
             <li><a href="{{ url('essentials/todo') }}" style=""><i class="fa fas fa-check-circle"></i>
                     <span>Essentials</span></a></li>
-            <li><a href="{{ url('woocommerce') }}" style=""><i class="fab fa-wordpress"></i>
-                    <span>Woocommerce</span></a></li>
+            <li><a href="{{ url('woocommerce') }}"><i class="fab fa-wordpress"></i>
+                    <span style="margin-left: 10px;">Woocommerce</span></a></li>
+
+            @if (auth()->user()->id == 5)
+                <li><a href="{{ route('footer.index') }}"><i class="fa fa-asterisk"></i>
+                        <span>Footer</span></a>
+                </li>
+            @endif
         </ul>
         <!-- /.sidebar-menu -->
     </section>
