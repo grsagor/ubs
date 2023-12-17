@@ -263,11 +263,11 @@ Route::middleware(['setData'])->group(function () {
 // Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 'AdminSidebarMenu', 'CheckUserLogin'])->group(function () {
 Route::middleware(['checkAdmin', 'SetSessionData'])->group(function () {
 
-    Route::get('/footer', [FooterController::class, 'index'])->name('footer.index');
-    Route::get('/footer/create', [FooterController::class, 'create'])->name('footer.create');
-    Route::post('/footer', [FooterController::class, 'store'])->name('footer.store');
-    Route::get('/footer/{id}/edit', [FooterController::class, 'edit'])->name('footer.edit');
-    Route::put('/footer/{id}', [FooterController::class, 'update'])->name('footer.update');
+    Route::get('/footer',                  [FooterController::class, 'index'])->name('footer.index');
+    Route::get('/footer/create',           [FooterController::class, 'create'])->name('footer.create');
+    Route::post('/footer',                 [FooterController::class, 'store'])->name('footer.store');
+    Route::get('/footer/{id}/edit',        [FooterController::class, 'edit'])->name('footer.edit');
+    Route::put('/footer/{id}',             [FooterController::class, 'update'])->name('footer.update');
 
     // Services
     Route::resource('service-advertise', ServiceAdvertiseRoomController::class);
