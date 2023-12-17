@@ -129,7 +129,7 @@
             <li><span>Connect</span></li>
             <li><a href="">Help and support</a></li>
             <li>
-                <ul class="d-flex flex-row gap-3 mt-2">
+                <ul class="d-flex flex-row gap-3 mt-2" style="padding: 0px !important;">
                     <li><a href="https://www.facebook.com/Unipuller" target="__blank"><i
                                 class="fa-brands fa-facebook"></i></a></li>
                     {{-- <li><a href=""><i class="fa-brands fa-twitter"></i></a></li> --}}
