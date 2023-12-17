@@ -14,6 +14,7 @@
                     <thead>
                         <tr>
                             <th>No.</th>
+                            <th>Type</th>
                             <th>Category</th>
                             <th>Name</th>
                             {{-- <th>Description</th> --}}
@@ -24,6 +25,7 @@
                         @forelse ($data as $item)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
+                                <td>{{ $item->type }}</td>
                                 <td>{{ $item->category_name }}</td>
                                 <td>{{ ucwords(str_replace('-', ' ', $item->slug)) }}</td>
                                 {{-- <td>{!! substr($item->description ?? '', 0, 40) !!}</td> --}}
