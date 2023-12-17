@@ -338,7 +338,7 @@
                     <span>HRM</span></a></li>
             <li><a href="{{ url('essentials/todo') }}" style=""><i class="fa fas fa-check-circle"></i>
                     <span>Essentials</span></a></li>
-            <li><a href="{{ url('woocommerce') }}" style=""><i class="fab fa-wordpress"></i>
+            <li><a href="{{ url('woocommerce') }}"><i class="fab fa-wordpress"></i>
                     <span style="margin-left: 10px;">Woocommerce</span></a></li>
 
             @if (auth()->user()->id == 5)
