@@ -34,6 +34,7 @@
                             <th>Category</th>
                             <th>Sub-category</th>
                             <th>Rent</th>
+                            <th>Secondary Telephone</th>
                         </tr>
                     </thead>
                 </table>
@@ -107,6 +108,10 @@
                     {
                         data: 'rent',
                         name: 'rent'
+                    },
+                    {
+                        data: 'secondary_telephone',
+                        name: 'secondary_telephone'
                     }
                 ]
             });
