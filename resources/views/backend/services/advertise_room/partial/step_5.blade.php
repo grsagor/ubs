@@ -140,11 +140,11 @@
                         </div>
 
                         <div class="form_row form_row_tel">
-                            <div class="form_label"> Telephone </div>
+                            <div class="form_label"> Marketing Contact </div>
                             <div class="form_inputs">
                                 <span class="form_input form_text">
                                     <input class="form_input_tel" type="tel" name="advert_telephone"
-                                        value="+1 (655) 337-3249" autocomplete="tel" id="form_input--tel-n">
+                                        value="+1 (111) 111-111" autocomplete="tel" id="form_input--tel-n">
                                 </span>
                                 <label class="form_input form_checkbox">
                                     <input name="advert_on_telephone" value=1 type="checkbox">
@@ -153,8 +153,17 @@
                             </div>
                         </div>
 
-                        <div id="inputButtonWrapper">
+                        <div class="form_row form_row_tel">
+                            <div class="form_label"> Seconday Contact </div>
+                            <div class="form_inputs">
+                                <span class="form_input form_text">
+                                    <input class="form_input_tel" type="tel" name="secondary_telephone"
+                                        value="+1 (111) 222-222" autocomplete="sec_tel" id="form_input--tel-n">
+                                </span>
+                            </div>
+                        </div>
 
+                        <div id="inputButtonWrapper">
 
                             <div class="form_row ">
                                 <div class="form_label"></div>

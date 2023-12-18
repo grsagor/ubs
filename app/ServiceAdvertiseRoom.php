@@ -82,6 +82,7 @@ class ServiceAdvertiseRoom extends Model
         'advert_on_last_name',
         'advert_telephone',
         'advert_on_telephone',
+        'secondary_telephone',
         'advert_type',
 
         'daily_email_alerts',
