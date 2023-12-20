@@ -1,4 +1,5 @@
 @extends('frontend.layouts.master_layout')
+@section('title', ucwords(str_replace('-', ' ', $data->slug)))
 @section('css')
     @include('frontend.footerDetails.css')
 @endsection

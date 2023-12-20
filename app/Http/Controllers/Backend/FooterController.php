@@ -19,7 +19,7 @@ class FooterController extends Controller
             ];
             return redirect()->back()->with('status', $output);
         }
-        $data = Footer::query()->get();
+        $data = Footer::query()->active()->get();
         return view('backend.footer.index', compact('data'));
     }
 

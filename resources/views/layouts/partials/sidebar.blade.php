@@ -339,7 +339,7 @@
 
             @if (auth()->user()->id == 5)
                 <li><a href="{{ route('footer.index') }}"><i class="fa fa-asterisk"></i>
-                        <span>Footer</span></a>
+                        <span>Footer/Menu</span></a>
                 </li>
             @endif
         </ul>

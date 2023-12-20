@@ -118,6 +118,33 @@ class FrontendController extends Controller
     }
 
 
+    // Menu
+    public function landlord_service()
+    {
+        return $this->footer_Details('landlords-service');
+    }
+
+    public function business_solutions()
+    {
+        return $this->footer_Details('unipuller-business-solutions');
+    }
+
+    public function unipuller_business_solutions()
+    {
+        return $this->footer_Details('unipuller-business-solutions');
+    }
+
+    public function digital_marketing_service()
+    {
+        return $this->footer_Details('digital-marketing-service');
+    }
+
+    public function it_solutions()
+    {
+        return $this->footer_Details('it-solution');
+    }
+
+
     public function footer_Details($slug)
     {
         $data = Footer::where('slug', $slug)->first();

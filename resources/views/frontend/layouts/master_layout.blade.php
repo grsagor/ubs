@@ -9,6 +9,8 @@
     <meta name="author" content="Unipuller">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <title>@yield('title')</title>
+
     @if (isset($page->meta_tag) && isset($page->meta_description))
         <meta name="keywords" content="{{ $page->meta_tag }}">
         <meta name="description" content="{{ $page->meta_description }}">
