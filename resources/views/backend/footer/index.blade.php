@@ -10,37 +10,13 @@
     <section class="content">
         <div class="form-container box box-primary">
             <div class="box-body">
-                <table class="table table-bordered table-striped table-hover text-center">
-                    <thead>
-                        <tr>
-                            <th>No.</th>
-                            <th>Type</th>
-                            <th>Category</th>
-                            <th>Name</th>
-                            {{-- <th>Description</th> --}}
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @forelse ($data as $item)
-                            <tr>
-                                <td>{{ $loop->iteration }}</td>
-                                <td>{{ $item->type }}</td>
-                                <td>{{ $item->category_name }}</td>
-                                <td>{{ ucwords(str_replace('-', ' ', $item->slug)) }}</td>
-                                {{-- <td>{!! substr($item->description ?? '', 0, 40) !!}</td> --}}
-                                <td>
-                                    <a href="{{ route('footer.edit', $item->id) }}" class="btn btn-xs btn-primary"><i
-                                            class="glyphicon glyphicon-edit"></i> Edit</a>
-                                </td>
-                            </tr>
-                        @empty
-                            <tr>
-                                <td colspan="5">No data available</td>
-                            </tr>
-                        @endforelse
-                    </tbody>
-                </table>
+
+                @include('backend.footer.partial', ['title' => 'Footer Table', 'data' => $footer])
+
+                <hr style="margin-top: 40px; border: 1px dashed #979797; border-radius: 5px;">
+
+                @include('backend.footer.partial', ['title' => 'Menu Table', 'data' => $menu])
+
             </div>
         </div>
     </section>
