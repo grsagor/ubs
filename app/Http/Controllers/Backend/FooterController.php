@@ -19,8 +19,11 @@ class FooterController extends Controller
             ];
             return redirect()->back()->with('status', $output);
         }
-        $data = Footer::query()->active()->orderBy('id', 'asc')->get();
-        return view('backend.footer.index', compact('data'));
+        $data['footer'] = Footer::query()->active()->orderBy('id', 'asc')->where('type', '<>', 'Menu')->get();
+
+        $data['menu'] = Footer::query()->active()->orderBy('id', 'asc')->where('type', '<>', 'Footer')->get();
+
+        return view('backend.footer.index', $data);
     }
 
     public function create()
