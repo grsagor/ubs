@@ -130,16 +130,23 @@ Route::controller(StripePaymentController::class)->group(function () {
 });
 
 // Digital Marketing, Partner Boarding, Business Solution, IT solution
-Route::get('/digital-marketing',                                    [OtherServicesController::class, 'digitalMarketing'])->name('digitalMarketing');
-Route::get('/partner-boarding',                                     [OtherServicesController::class, 'partnerBoarding'])->name('partnerBoarding');
-Route::get('/business-solutions',                                   [OtherServicesController::class, 'businessSolutions'])->name('businessSolutions');
-Route::get('/it-solutions',                                         [OtherServicesController::class, 'itSolutions'])->name('itSolutions');
-Route::get('/landlord-service',                                     [OtherServicesController::class, 'landlordeService'])->name('landlordeService');
+// Route::get('/digital-marketing',                                    [OtherServicesController::class, 'digitalMarketing'])->name('digitalMarketing');
+// Route::get('/partner-boarding',                                     [OtherServicesController::class, 'partnerBoarding'])->name('partnerBoarding');
+// Route::get('/business-solutions',                                   [OtherServicesController::class, 'businessSolutions'])->name('businessSolutions');
+// Route::get('/it-solutions',                                         [OtherServicesController::class, 'itSolutions'])->name('itSolutions');
+// Route::get('/landlord-service',                                     [OtherServicesController::class, 'landlordeService'])->name('landlordeService');
 Route::get('/property-finding-service',                             [OtherServicesController::class, 'propertyFindingService'])->name('propertyFindingService');
 Route::get('/property-finding-service-charge/{id}',                 [OtherServicesController::class, 'propertyFindingServiceCharge'])->name('propertyFindingServiceCharge');
 Route::get('/property-finding-service-add-click-handler',           [OtherServicesController::class, 'addClilckHandler']);
 Route::get('/property-finding-service-change-quantity-handler',     [OtherServicesController::class, 'changeQuantityHandler']);
 Route::get('/property-finding-payment',                             [OtherServicesController::class, 'propertyFindingPayment'])->name('propertyFindingPayment');
+
+Route::get('/landlord-service',                                     [FrontendController::class, 'landlord_service'])->name('landlordeService');
+Route::get('/business-solutions',                                   [FrontendController::class, 'business_solutions'])->name('businessSolutions');
+Route::get('/digital-marketing',                                    [FrontendController::class, 'digital_marketing_service'])->name('digitalMarketing');
+Route::get('/it-solutions',                                         [FrontendController::class, 'it_solutions'])->name('itSolutions');
+Route::get('/partner-boarding',                                     [FrontendController::class, 'partner_boarding'])->name('partnerBoarding');
+
 
 // Services
 Route::get('/room-list/',                        [RoomListController::class, 'roomList'])->name('room.list');
