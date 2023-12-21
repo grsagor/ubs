@@ -438,11 +438,11 @@
             }
 
             /*  #v-pills-tab{
-                                                                                                                                                                        display: none;
-                                                                                                                                                                      }
-                                                                                                                                                                      #mobileTabManu{
-                                                                                                                                                                        display: block;
-                                                                                                                                                                      } */
+                                                                                                                                                                                    display: none;
+                                                                                                                                                                                  }
+                                                                                                                                                                                  #mobileTabManu{
+                                                                                                                                                                                    display: block;
+                                                                                                                                                                                  } */
 
             .mobileTabManu {
                 width: 250px !important;
@@ -475,9 +475,9 @@
             }
 
             /*.mobileTabManu .nav-link{
-                                                                                                                                                                        width: 80%;
-                                                                                                                                                                        float: left;
-                                                                                                                                                                      } */
+                                                                                                                                                                                    width: 80%;
+                                                                                                                                                                                    float: left;
+                                                                                                                                                                                  } */
         }
     </style>
 
@@ -511,9 +511,6 @@
                     <p class="call_btn_size">
                         <span>Category</span>
                         <span>{{ $vendor->address }}</span>
-                        <!-- <br> -->
-                        <span>5 year experience ['Business']</span>
-                        <!-- <br> -->
                         <i class="fa fa-star"></i>
                         <i class="fa fa-star"></i>
                         <i class="fa fa-star"></i>
@@ -524,9 +521,9 @@
                     <!-- @if ($vendor->website)
     <a href="{{ $vendor->website }}" target="_blank"><button class="btn btn-primary mb-3 btn-sm custom-padding">Website</button></a>
     @endif
-                                                                                                                                                                                @if ($vendor->phone)
+                                                                                                                                                                                            @if ($vendor->phone)
     <a href="javascript:void(0);" onclick="seeVendorContact()"><button class="btn btn-primary mb-3 btn-sm custom-padding">Contact</button></a>
-                                                                                                                                                                                    <p class="vendor_contact text-danger" style="display: none;margin-top: -10px">{{ $vendor->phone }}</p>
+                                                                                                                                                                                                <p class="vendor_contact text-danger" style="display: none;margin-top: -10px">{{ $vendor->phone }}</p>
     @endif -->
                 </div>
             </div>
@@ -539,20 +536,14 @@
                     <p class="call_btn_size">
                         <span>Category</span>
                         <span>40 Bracken house</span>
-                        <!-- {{ $shop->address }} -->
-                        <!-- <br> -->
-                        <span>5 year experience ['Business Location']</span>
-                        <!-- <br> -->
-                        <!-- <span> -->
+                        {{ $shop->address }}
+
                         <i class="fa fa-star"></i>
                         <i class="fa fa-star"></i>
                         <i class="fa fa-star"></i>
                         <i class="fa fa-star"></i>
                         <i class="fa fa-star"></i>
-                        <!-- <span class="ml-2"> -->
                         (0) Reviews
-                        <!-- </span> -->
-                        <!-- </span> -->
                     </p>
                     @if ($shop->website)
                         <a href="{{ $shop->website }}"><button
@@ -597,8 +588,7 @@
                             @endif
                             @if ($shop->instagram)
                                 <li>
-                                    <a href="{{ $shop->instagram }}" target="_blank"><i
-                                            class="fab fa-instagram"></i></a>
+                                    <a href="{{ $shop->instagram }}" target="_blank"><i class="fab fa-instagram"></i></a>
                                 </li>
                             @endif
                             @if ($shop->linkedin)
@@ -989,14 +979,14 @@
 
                             <!-- Pagination for marketing section -->
                             <!-- <div class="pagination justify-content-center">
-                                                                                                                                                                                        <a href="#" class="pagination-link">&laquo;</a>
-                                                                                                                                                                                        <a href="#" class="pagination-link active">1</a>
-                                                                                                                                                                                        <a href="#" class="pagination-link">2</a>
-                                                                                                                                                                                        <a href="#" class="pagination-link">3</a>
-                                                                                                                                                                                        <a href="#" class="pagination-link">4</a>
-                                                                                                                                                                                        <a href="#" class="pagination-link">5</a>
-                                                                                                                                                                                        <a href="#" class="pagination-link">&raquo;</a>
-                                                                                                                                                                                    </div> -->
+                                                                                                                                                                                                    <a href="#" class="pagination-link">&laquo;</a>
+                                                                                                                                                                                                    <a href="#" class="pagination-link active">1</a>
+                                                                                                                                                                                                    <a href="#" class="pagination-link">2</a>
+                                                                                                                                                                                                    <a href="#" class="pagination-link">3</a>
+                                                                                                                                                                                                    <a href="#" class="pagination-link">4</a>
+                                                                                                                                                                                                    <a href="#" class="pagination-link">5</a>
+                                                                                                                                                                                                    <a href="#" class="pagination-link">&raquo;</a>
+                                                                                                                                                                                                </div> -->
 
                             <!-- List view for marketing section -->
                             <div class="marketing-list-view" style="display:none;">

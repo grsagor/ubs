@@ -88,9 +88,6 @@
 
                     <h5 class="mt-1 mb-0">{{ $vendor->name }}</h5>
                     <p class="call_btn_size">
-                        5 year experience
-                        <br>
-
                         <i class="fa fa-star"></i>
                         <i class="fa fa-star"></i>
                         <i class="fa fa-star"></i>
@@ -118,7 +115,7 @@
                 <button class="nav-link vendor_sidebar rounded active" id="v-pills-home-tab" data-bs-toggle="pill"
                     data-bs-target="#v-pills-home" type="button" role="tab" aria-controls="v-pills-home"
                     aria-selected="true">Associated Brands</button>
-                <button class="nav-link vendor_sidebar rounded" id="v-pills-messages-tab" data-bs-toggle="pill"
+                {{-- <button class="nav-link vendor_sidebar rounded" id="v-pills-messages-tab" data-bs-toggle="pill"
                     data-bs-target="#v-pills-messages" type="button" role="tab" aria-controls="v-pills-messages"
                     aria-selected="false">Marketing</button>
                 <button class="nav-link vendor_sidebar rounded" id="v-pills-settings-tab" data-bs-toggle="pill"
@@ -126,7 +123,7 @@
                     aria-selected="false">News</button>
                 <button class="nav-link vendor_sidebar rounded" id="v-pills--company-tab" data-bs-toggle="pill"
                     data-bs-target="#v-pills-company" type="button" role="tab" aria-controls="v-pills-company"
-                    aria-selected="false">Company Info</button>
+                    aria-selected="false">Company Info</button> --}}
             </div>
 
             <div class="tab-content w-100" id="v-pills-tabContent">
