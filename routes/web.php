@@ -142,6 +142,7 @@ Route::get('/property-finding-service-change-quantity-handler',     [OtherServic
 Route::get('/property-finding-payment',                             [OtherServicesController::class, 'propertyFindingPayment'])->name('propertyFindingPayment');
 
 Route::get('/landlord-service',                                     [FrontendController::class, 'landlord_service'])->name('landlordeService');
+Route::get('/tenant-management-service',                            [FrontendController::class, 'tenant_management_service'])->name('tenant_management_service');
 Route::get('/business-solutions',                                   [FrontendController::class, 'business_solutions'])->name('businessSolutions');
 Route::get('/digital-marketing',                                    [FrontendController::class, 'digital_marketing_service'])->name('digitalMarketing');
 Route::get('/it-solutions',                                         [FrontendController::class, 'it_solutions'])->name('itSolutions');

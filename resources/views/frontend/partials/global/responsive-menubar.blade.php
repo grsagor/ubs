@@ -2,6 +2,16 @@
     $user = Auth::user();
 @endphp
 
+<style>
+    .custom-dropdown-item {
+        text-transform: uppercase;
+    }
+
+    .active-dropdown-item {
+        color: #c9030f;
+    }
+</style>
+
 <div class="main-nav d-lg-block d-none ">
     <div class="container-fluid px-lg-5 border-bottom">
         <div class="row">
@@ -17,79 +27,69 @@
                             <li class="nav-item dropdown {{ request()->path() == '/' ? 'active' : '' }}">
                                 <a class="nav-link dropdown-toggle" href="{{ url('/') }}">Home</a>
                             </li>
-                            {{-- <li
-                                class="nav-item dropdown {{ request()->path() == '/service_category' ? 'active' : '' }}">
-                                <a class="nav-link dropdown-toggle" href="{{ route('property.list') }}">Property</a>
-                            </li> --}}
-
 
                             <li
-                                class="nav-item dropdown mega-dropdown {{ request()->path() == '/service_category' ? 'active' : '' }}">
+                                class="nav-item dropdown mega-dropdown {{ request()->routeIs(['property.list', 'propertyFindingService', 'landlordeService', 'tenant_management_service']) ? 'active' : '' }}">
                                 <a class="nav-link dropdown-toggle" href="{{ route('property.list') }}">Property</a>
                                 <ul class="dropdown-menu mega-dropdown-menu">
                                     <li class="mega-container">
                                         <div class="row row-cols-lg-4 row-cols-sm-2 row-cols-1">
-
                                             <div class="col">
                                                 <ul>
-                                                    <li><a class="dropdown-item"
-                                                            href="{{ route('property.list') }}">Property List</a> </li>
-                                                    {{-- @if (auth()->check())
-                                                        @if (auth()->user()->id == 5 || auth()->user()->user_type === 'user')
-                                                            <li style="display: none;"><a class="dropdown-item"
-                                                                    href="{{ route('propertyFindingService') }}">Property
-                                                                    Finding Service</a></li>
-                                                        @else
-                                                            <li><a class="dropdown-item"
-                                                                    href="{{ route('propertyFindingService') }}">Property
-                                                                    Finding Service</a></li>
-                                                        @endif
-                                                    @else
-                                                        <li><a class="dropdown-item"
-                                                                href="{{ route('propertyFindingService') }}">Property
-                                                                Finding Service</a></li>
-                                                    @endif --}}
-
-                                                    <li><a class="dropdown-item"
+                                                    <li>
+                                                        <a class="dropdown-item custom-dropdown-item {{ request()->routeIs('property.list') ? 'active-dropdown-item' : '' }}"
+                                                            href="{{ route('property.list') }}">Property List</a>
+                                                    </li>
+                                                    <li>
+                                                        <a class="dropdown-item custom-dropdown-item {{ request()->routeIs('propertyFindingService') ? 'active-dropdown-item' : '' }}"
                                                             href="{{ route('propertyFindingService') }}">Property
-                                                            Finding Service</a></li>
-                                                    <li><a class="dropdown-item"
-                                                            href="{{ route('landlordeService') }}">Landlord
-                                                            Service</a></li>
+                                                            Finding Service</a>
+                                                    </li>
+                                                    <li>
+                                                        <a class="dropdown-item custom-dropdown-item {{ request()->routeIs('landlordeService') ? 'active-dropdown-item' : '' }}"
+                                                            href="{{ route('landlordeService') }}">Landlord Service</a>
+                                                    </li>
+                                                    <li>
+                                                        <a class="dropdown-item custom-dropdown-item {{ request()->routeIs('tenant_management_service') ? 'active-dropdown-item' : '' }}"
+                                                            href="{{ route('tenant_management_service') }}">Tenant
+                                                            Management Service</a>
+                                                    </li>
                                                 </ul>
                                             </div>
-
                                         </div>
                                     </li>
                                 </ul>
                             </li>
 
-                            <li class="nav-item">
+                            <li class="nav-item {{ request()->routeIs('product.list') ? 'active' : '' }}">
                                 <a class="nav-link" href="{{ route('product.list') }}">Product</a>
                             </li>
 
-                            <li class="nav-item">
+                            <li class="nav-item {{ request()->routeIs('shop.list') ? 'active' : '' }}">
                                 <a class="nav-link" href="{{ route('shop.list') }}">Shop</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('itSolutions') }}">{{ __('IT Solutions') }}</a>
+
+                            <li class="nav-item {{ request()->routeIs('itSolutions') ? 'active' : '' }}">
+                                <a class="nav-link" href="{{ route('itSolutions') }}">IT Solutions</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link"
-                                    href="{{ route('businessSolutions') }}">{{ __('Business Solutions') }}</a>
+
+                            <li class="nav-item {{ request()->routeIs('businessSolutions') ? 'active' : '' }}">
+                                <a class="nav-link" href="{{ route('businessSolutions') }}">Business Solutions</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link"
-                                    href="{{ route('digitalMarketing') }}">{{ __('Digital Marketing') }}</a>
+
+                            <li class="nav-item {{ request()->routeIs('digitalMarketing') ? 'active' : '' }}">
+                                <a class="nav-link" href="{{ route('digitalMarketing') }}">Digital Marketing</a>
                             </li>
+
                             <li class="nav-item">
-                                <a class="nav-link" href="https://shop.unipuller.com/"
-                                    target="__blank">{{ __('Domain & Hosting') }}</a>
+                                <a class="nav-link" href="https://shop.unipuller.com/" target="__blank">Domain &
+                                    Hosting</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link"
-                                    href="{{ route('partnerBoarding') }}">{{ __('Partner Boarding') }}</a>
+
+                            <li class="nav-item {{ request()->routeIs('partnerBoarding') ? 'active' : '' }}">
+                                <a class="nav-link" href="{{ route('partnerBoarding') }}">Partner Boarding</a>
                             </li>
+
                             {{-- <li class="nav-item">
                                 <a class="nav-link" href="{{ route('service.list') }}">Service</a>
                             </li> --}}
@@ -100,7 +100,6 @@
                     </div>
                 </nav>
             </div>
-
 
         </div>
 
@@ -175,7 +174,6 @@
                                                         <a class="nav-link" href="{{ url('/') }}">Home</a>
                                                     </li>
 
-
                                                     <li class="nav-item dropdown">
                                                         <a class="nav-link dropdown-toggle"
                                                             href="#">Property</a>
@@ -190,6 +188,10 @@
                                                             <li><a class="dropdown-item"
                                                                     href="{{ route('landlordeService') }}">Landlord
                                                                     Service</a>
+                                                            </li>
+                                                            <li><a class="dropdown-item"
+                                                                    href="{{ route('tenant_management_service') }}">Tenant
+                                                                    Management Service</a>
                                                             </li>
                                                         </ul>
                                                     </li>
