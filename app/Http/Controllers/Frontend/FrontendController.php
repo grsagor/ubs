@@ -124,6 +124,11 @@ class FrontendController extends Controller
         return $this->footer_Details('landlords-service');
     }
 
+    public function tenant_management_service()
+    {
+        return $this->footer_Details('tenant-management-service');
+    }
+
     public function business_solutions()
     {
         return $this->footer_Details('unipuller-business-solutions');

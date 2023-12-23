@@ -124,29 +124,45 @@
             <li><a href="{{ route('footer.details.policies.payment_terms') }}">Payment terms</a></li>
         </ul>
 
-
         <ul>
             <li><span>Connect</span></li>
             <li><a href="">Help and support</a></li>
             <li>
                 <ul class="d-flex flex-row gap-3 mt-2" style="padding: 0px !important;">
-                    <li><a href="https://www.facebook.com/Unipuller" target="__blank"><i
-                                class="fa-brands fa-facebook"></i></a></li>
-                    {{-- <li><a href=""><i class="fa-brands fa-twitter"></i></a></li> --}}
-                    <li><a href="https://www.linkedin.com/company/unipuller/" target="__blank"><i
-                                class="fa-brands fa-linkedin"></i></a>
+                    <li>
+                        @if (isset(footerInfo()['facebook']))
+                            <a href="{!! strip_tags(footerInfo()['facebook']) !!}" target="_blank" rel="noopener">
+                                <i class="fa-brands fa-facebook"></i>
+                            </a>
+                        @endif
                     </li>
-                    <li><a href="https://www.youtube.com/@unipuller" target="__blank"><i
-                                class="fa-brands fa-youtube"></i></a></li>
+
+                    <li>
+                        @if (isset(footerInfo()['linkedin']))
+                            <a href="{!! strip_tags(footerInfo()['linkedin']) !!}" target="__blank">
+                                <i class="fa-brands fa-linkedin"></i>
+                            </a>
+                        @endif
+                    </li>
+
+                    <li>
+                        @if (isset(footerInfo()['youtube']))
+                            <a href="{!! strip_tags(footerInfo()['youtube']) !!}" target="__blank">
+                                <i class="fa-brands fa-youtube"></i>
+                            </a>
+                        @endif
+                    </li>
                 </ul>
             </li>
         </ul>
     </div>
+
+    {{-- {{ dd(footerInfo()) }} --}}
     <div class="footer-bottom">
-        <span class="fw-bold">Unipuller</span> is a registered Private Ltd. company with Company House in United Kingdom
-        and Bangladesh. Registration number: 14583903 and VAT number: 438 5100 09. Company address: Unit 1a, Nagpal
-        House, 1 Gunthrope St., London, United Kingdom. Post code: E1 7RG. © Unipuller Limited 2023. All rights
-        reserved.
+        @if (isset(footerInfo()['copyright']))
+            {!! footerInfo()['copyright'] !!}
+        @endif
     </div>
+
 </footer>
 <script src="https://kit.fontawesome.com/7e596160a4.js" crossorigin="anonymous"></script>
