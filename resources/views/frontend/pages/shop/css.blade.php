@@ -477,4 +477,19 @@
                                                                                                                                                                                                                                 float: left;
                                                                                                                                                                                                                               } */
     }
+
+    .custom-sidebar {
+        width: 23%;
+    }
+
+    .custom-button {
+        display: block;
+        width: 100%;
+        padding: 10px;
+        text-align: center;
+        background-color: #696b6c;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+    }
 </style>
