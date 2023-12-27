@@ -79,9 +79,9 @@
         }
     </style>
 
-    <div class="container shadow mb-4 bg-white rounded">
+    <div class="container shadow mb-4 bg-white rounded mt-2">
         <div class="row">
-            <div class="col-md-4 d-flex align-items-center user-custom1">
+            <div class="col-md-6 d-flex align-items-center user-custom1">
                 <img class="lazy custom-img w-100 img-fluid rounded" alt=""
                     src="https://unipuller.com/assets/common_img/vendor_profile.jpeg" style="">
                 <div>
@@ -97,12 +97,20 @@
                             (0) Reviews
                         </span>
                     </p>
+                    <a href="{{ $vendor->website }}"><button
+                            class="btn btn-primary mb-3 btn-sm custom-padding">Website</button></a>
+                    <a href="javascript:void(0);" onclick="seeVendorContact()"><button
+                            class="btn btn-primary mb-3 btn-sm custom-padding">Contact</button></a>
+                    <p class="vendor_contact text-danger" style="display: none;">
+                        {{ $vendor->phone ?? 'Phone Number' }}
+                    </p>
                 </div>
             </div>
-            <div class="col-md-8 banner-div px-0">
+            <div class="col-md-6 banner-div px-0 text-end">
                 <img class="lazy custom-img2 w-100 img-fluid rounded" alt=""
                     src="{{ $vendor->logo ? asset($vendor->logo) : asset('assets/common_img/vendor_profile.jpeg') }}"
-                    style="">
+                    style="height: 208px !important;
+                    width: 350px !important;">
             </div>
 
         </div>
@@ -172,4 +180,11 @@
             </div>
         </div>
     </div>
+@endsection
+@section('script')
+    <script>
+        function seeVendorContact() {
+            $(".vendor_contact").toggle();
+        }
+    </script>
 @endsection
