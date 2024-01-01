@@ -6,6 +6,7 @@ use App\Http\Controllers\Restaurant;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\NewsController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SellController;
 use App\Http\Controllers\UnitController;
@@ -22,8 +23,8 @@ use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\PrinterController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SellPosController;
-use App\Http\Controllers\TaxRateController;
 // use App\Http\Controllers\Auth;
+use App\Http\Controllers\TaxRateController;
 use App\Http\Controllers\BusinessController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DiscountController;
@@ -31,6 +32,7 @@ use App\Http\Controllers\GroupTaxController;
 use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\TaxonomyController;
 use App\Http\Controllers\WarrantyController;
+use App\Http\Controllers\MarketingController;
 use App\Http\Controllers\ShopShareController;
 use App\Http\Controllers\ManageUserController;
 use App\Http\Controllers\RoomToRentController;
@@ -46,12 +48,13 @@ use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Frontend\ShopController;
 use App\Http\Controllers\InvoiceLayoutController;
 use App\Http\Controllers\InvoiceSchemeController;
+use App\Http\Controllers\NewsMarketingController;
 use App\Http\Controllers\PurchaseOrderController;
 use App\Http\Controllers\StockTransferController;
+// use App\Http\Controllers\Auth;
 use App\Http\Controllers\StripePaymentController;
 use App\Http\Controllers\AccountReportsController;
 use App\Http\Controllers\Backend\FooterController;
-// use App\Http\Controllers\Auth;
 use App\Http\Controllers\ImportProductsController;
 use App\Http\Controllers\LedgerDiscountController;
 use App\Http\Controllers\PurchaseReturnController;
@@ -70,16 +73,16 @@ use App\Http\Controllers\Frontend\RoomListController;
 use App\Http\Controllers\SellingPriceGroupController;
 use App\Http\Controllers\VariationTemplateController;
 use App\Http\Controllers\Frontend\EducationController;
-use App\Http\Controllers\ImportOpeningStockController;
-use App\Http\Controllers\TransactionPaymentController;
-use App\Http\Controllers\Frontend\RoomWantedController;
 
 // use App\Http\Controllers\DashboardConfiguratorController;    
 
-use App\Http\Controllers\PurchaseRequisitionController;
+use App\Http\Controllers\ImportOpeningStockController;
 
 // use App\Http\Controllers\CombinedPurchaseReturnController;
 
+use App\Http\Controllers\TransactionPaymentController;
+use App\Http\Controllers\Frontend\RoomWantedController;
+use App\Http\Controllers\PurchaseRequisitionController;
 use App\Http\Controllers\NotificationTemplateController;
 use App\Http\Controllers\SalesCommissionAgentController;
 use App\Http\Controllers\DashboardConfiguratorController;
@@ -276,6 +279,10 @@ Route::middleware(['checkAdmin', 'SetSessionData'])->group(function () {
     Route::post('/footer',                 [FooterController::class, 'store'])->name('footer.store');
     Route::get('/footer/{id}/edit',        [FooterController::class, 'edit'])->name('footer.edit');
     Route::put('/footer/{id}',             [FooterController::class, 'update'])->name('footer.update');
+
+    // News
+    Route::resource('shop-news',                 NewsController::class);
+    Route::resource('shop-marketing',            MarketingController::class);
 
     // Services
     Route::resource('service-advertise', ServiceAdvertiseRoomController::class);
