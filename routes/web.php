@@ -41,6 +41,7 @@ use App\Http\Controllers\SellReturnController;
 use App\Http\Controllers\AccountTypeController;
 use App\Http\Controllers\ImportSalesController;
 use App\Http\Controllers\CashRegisterController;
+use App\Http\Controllers\NewsCategoryController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\OpeningStockController;
 use App\Http\Controllers\CustomerGroupController;
@@ -50,8 +51,8 @@ use App\Http\Controllers\InvoiceLayoutController;
 use App\Http\Controllers\InvoiceSchemeController;
 use App\Http\Controllers\NewsMarketingController;
 use App\Http\Controllers\PurchaseOrderController;
-use App\Http\Controllers\StockTransferController;
 // use App\Http\Controllers\Auth;
+use App\Http\Controllers\StockTransferController;
 use App\Http\Controllers\StripePaymentController;
 use App\Http\Controllers\AccountReportsController;
 use App\Http\Controllers\Backend\FooterController;
@@ -70,16 +71,17 @@ use App\Http\Controllers\Frontend\FrontendController;
 use App\Http\Controllers\Frontend\HomePageController;
 use App\Http\Controllers\Frontend\PropertyController;
 use App\Http\Controllers\Frontend\RoomListController;
+use App\Http\Controllers\MarketingCategoryController;
 use App\Http\Controllers\SellingPriceGroupController;
-use App\Http\Controllers\VariationTemplateController;
-use App\Http\Controllers\Frontend\EducationController;
 
 // use App\Http\Controllers\DashboardConfiguratorController;    
 
-use App\Http\Controllers\ImportOpeningStockController;
+use App\Http\Controllers\VariationTemplateController;
 
 // use App\Http\Controllers\CombinedPurchaseReturnController;
 
+use App\Http\Controllers\Frontend\EducationController;
+use App\Http\Controllers\ImportOpeningStockController;
 use App\Http\Controllers\TransactionPaymentController;
 use App\Http\Controllers\Frontend\RoomWantedController;
 use App\Http\Controllers\PurchaseRequisitionController;
@@ -281,8 +283,21 @@ Route::middleware(['checkAdmin', 'SetSessionData'])->group(function () {
     Route::put('/footer/{id}',             [FooterController::class, 'update'])->name('footer.update');
 
     // News
-    Route::resource('shop-news',                 NewsController::class);
-    Route::resource('shop-marketing',            MarketingController::class);
+    Route::resource('shop-news',                          NewsController::class);
+    // Route::resource('shop-news-category',                 NewsCategoryController::class);
+    Route::get('shop-news-category', [NewsCategoryController::class, 'index'])->name('shop-news-category.index');
+    Route::get('shop-news-category/create', [NewsCategoryController::class, 'create'])->name('shop-news-category.create');
+    Route::post('shop-news-category', [NewsCategoryController::class, 'store'])->name('shop-news-category.store');
+    Route::get('shop-news-category/{id}', [NewsCategoryController::class, 'show'])->name('shop-news-category.show');
+    Route::get('shop-news-category/{id}/edit', [NewsCategoryController::class, 'edit'])->name('shop-news-category.edit');
+    Route::put('shop-news-category/{id}', [NewsCategoryController::class, 'update'])->name('shop-news-category.update');
+    Route::delete('shop-news-category/{id}', [NewsCategoryController::class, 'destroy'])->name('shop-news-category.destroy');
+
+    Route::get('shop-news-cactegory/status-change/{id}', [NewsCategoryController::class, 'statusChange'])->name('shop-news-category.statusChange');
+
+
+    Route::resource('shop-marketing',                     MarketingController::class);
+    Route::resource('shop-marketing-category',            MarketingCategoryController::class);
 
     // Services
     Route::resource('service-advertise', ServiceAdvertiseRoomController::class);
