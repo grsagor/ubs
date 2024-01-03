@@ -2,34 +2,37 @@
 @section('title', 'News-Category')
 @section('content')
     <section class="content-header">
-        <h1>News </h1>
+        <h1>News Category</h1>
     </section>
 
     <section class="content">
 
         <div class="form-container box box-primary">
 
-            <div class="box-header">
-                <div class="row">
-                    <div class="col-sm-11">
-                        <!-- Search form -->
-                        <form action="{{ route('shop-news-category.index') }}" method="GET">
-                            <div class="input-group">
-                                <input type="text" name="search" class="form-control" placeholder="Search...">
-                                <span class="input-group-btn">
-                                    <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
-                                </span>
-                            </div>
-                        </form>
+            <div class="box-header" style="display: flex; justify-content: space-between; align-items: center;">
+                <!-- Search form -->
+                <form action="{{ route('shop-news-category.index') }}" method="GET" style="flex: 1; margin-right: 10px;">
+                    <div class="input-group">
+                        <input type="text" name="search" class="form-control" placeholder="Search...">
+                        <span class="input-group-btn">
+                            <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                        </span>
                     </div>
-                    <div class="col-sm-1">
-                        <!-- Add button -->
-                        <a href="{{ route('shop-news-category.create') }}" class="btn btn-block btn-primary">
-                            <i class="fa fa-plus"></i> Add
-                        </a>
-                    </div>
+                </form>
+
+                <!-- Buttons -->
+                <div>
+                    <!-- Clear button -->
+                    <a href="{{ request()->url() }}" class="btn btn-success">
+                        <i class="fa fa-hands-wash"></i> Clear
+                    </a>
+                    <!-- Add button -->
+                    <a href="{{ route('shop-news-category.create') }}" class="btn btn-primary">
+                        <i class="fa fa-plus"></i> Add
+                    </a>
                 </div>
             </div>
+
 
             <div class="box-body">
 
