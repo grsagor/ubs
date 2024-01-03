@@ -1,8 +1,8 @@
 @extends('layouts.app')
-@section('title', 'News-Category')
+@section('title', 'Marketing-Category')
 @section('content')
     <section class="content-header">
-        <h1>News </h1>
+        <h1>Marketing Category</h1>
     </section>
 
     <section class="content">
@@ -13,7 +13,7 @@
                 <div class="row">
                     <div class="col-sm-11">
                         <!-- Search form -->
-                        <form action="{{ route('shop-news-category.index') }}" method="GET">
+                        <form action="{{ route('shop-marketing-category.index') }}" method="GET">
                             <div class="input-group">
                                 <input type="text" name="search" class="form-control" placeholder="Search...">
                                 <span class="input-group-btn">
@@ -24,7 +24,7 @@
                     </div>
                     <div class="col-sm-1">
                         <!-- Add button -->
-                        <a href="{{ route('shop-news-category.create') }}" class="btn btn-block btn-primary">
+                        <a href="{{ route('shop-marketing-category.create') }}" class="btn btn-block btn-primary">
                             <i class="fa fa-plus"></i> Add
                         </a>
                     </div>
@@ -43,22 +43,22 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse ($news as $item)
+                        @forelse ($marketing as $item)
                             <tr>
-                                <td>{{ serialNumber($news, $loop) }}</td>
+                                <td>{{ serialNumber($marketing, $loop) }}</td>
                                 <td>{{ $item->name }}</td>
                                 <td>
-                                    <a href="{{ route('shop-news-category.edit', $item->id) }}"
+                                    <a href="{{ route('shop-marketing-category.edit', $item->id) }}"
                                         class="btn btn-xs btn-primary">
                                         <i class="glyphicon glyphicon-edit"></i> Edit
                                     </a>
 
-                                    <a href="{{ route('shop-news-category.statusChange', $item->id) }}"
+                                    <a href="{{ route('shop-marketing-category.statusChange', $item->id) }}"
                                         class="btn btn-xs {{ $item->status == 1 ? 'btn-success' : 'btn-danger' }}">
                                         <i class="fas fa-check-circle"></i>
                                     </a>
 
-                                    <form action="{{ route('shop-news-category.destroy', $item->id) }}" method="post"
+                                    <form action="{{ route('shop-marketing-category.destroy', $item->id) }}" method="post"
                                         style="display: none;" id="delete-form-{{ $item->id }}">
                                         @csrf
                                         @method('Delete')
@@ -83,11 +83,7 @@
                         @endforelse
                     </tbody>
                 </table>
-
-                {{ $news->links() }}
-
-
-                {{-- {{ $news->links('news_category.pagination') }} --}}
+                {{ $marketing->links() }}
             </div>
         </div>
     </section>

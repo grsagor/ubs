@@ -1,8 +1,8 @@
 @extends('layouts.app')
-@section('title', 'News-Category')
+@section('title', 'Marketing-Category')
 @section('content')
     <section class="content-header">
-        <h1>News Category
+        <h1>Marketing
             {{-- <small>Fill up what you want</small> --}}
         </h1>
     </section>
@@ -12,15 +12,15 @@
 
             <div class="box-header">
 
-                <h3 class="box-title">All your news category</h3>
+                <h3 class="box-title">All your marketing category</h3>
                 <div class="box-tools">
-                    <a href="{{ route('shop-news-category.index') }}" class="btn btn-block btn-primary">
+                    <a href="{{ route('shop-marketing-category.index') }}" class="btn btn-block btn-primary">
                         <i class="fa fa-list"></i> List</a>
                 </div>
             </div>
 
             <div class="box-body">
-                <form action="{{ route('shop-news-category.store') }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('shop-marketing-category.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
 
                     <div class="col-sm-12">
@@ -68,16 +68,4 @@
         </div>
     </section>
 
-    {{-- <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    <script src="https://cdn.tiny.cloud/1/YOUR_API_KEY/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
-    <script>
-        $(document).ready(function() {
-            if ($("textarea#footer_details").length > 0) {
-                tinymce.init({
-                    selector: "textarea#footer_details",
-                    height: 100,
-                });
-            }
-        });
-    </script> --}}
 @endsection

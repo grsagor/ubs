@@ -1,8 +1,8 @@
 @extends('layouts.app')
-@section('title', 'News-Category')
+@section('title', 'Marketing-Category')
 @section('content')
     <section class="content-header">
-        <h1>News Category
+        <h1>Marketing Category
             {{-- <small>Fill up what you want</small> --}}
         </h1>
     </section>
@@ -12,22 +12,23 @@
 
             <div class="box-header">
 
-                <h3 class="box-title">All your news category</h3>
+                <h3 class="box-title">All your marketing category</h3>
                 <div class="box-tools">
-                    <a href="{{ route('shop-news-category.index') }}" class="btn btn-block btn-primary">
+                    <a href="{{ route('shop-marketing-category.index') }}" class="btn btn-block btn-primary">
                         <i class="fa fa-list"></i> List</a>
                 </div>
             </div>
 
             <div class="box-body">
-                <form action="{{ route('shop-news-category.store') }}" method="POST" enctype="multipart/form-data">
-                    @csrf
+                <form action="{{ route('shop-marketing-category.update', $marketingCategory->id) }}" method="POST"
+                    enctype="multipart/form-data">
+                    @csrf @method('put')
 
                     <div class="col-sm-12">
                         <div class="form-group">
                             <label class="form-label">Name <span class="text-danger">*</span></label>
                             <input class="form-control" required="" placeholder="Category name" name="name"
-                                type="text" id="name">
+                                type="text" id="name" value="{{ $marketingCategory->name }}">
                         </div>
                     </div>
 
@@ -36,7 +37,7 @@
                             <label for="custom_field1">Description</label>
                             <p class="sub-heading">(No contact details permitted within description)</p>
                             <textarea rows="5" type="text" class="form-control" name="description" class="input-field"
-                                placeholder="Description"></textarea>
+                                placeholder="Description">{{ $marketingCategory->description }}</textarea>
                         </div>
                     </div>
 
@@ -46,9 +47,8 @@
                             <select class="form-control" name="status">
                                 <option selected="" value="">Select Status</option>
                                 @foreach (getStatus() as $status)
-                                    <option value="{{ $status['value'] }}" {{ $status['value'] == '1' ? 'selected' : '' }}>
-                                        {{ $status['label'] }}
-                                    </option>
+                                    <option @selected($marketingCategory->status == $status['value']) value="{{ $status['value'] }}">
+                                        {{ $status['label'] }}</option>
                                 @endforeach
                             </select>
                             @error('status')
@@ -68,16 +68,4 @@
         </div>
     </section>
 
-    {{-- <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    <script src="https://cdn.tiny.cloud/1/YOUR_API_KEY/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
-    <script>
-        $(document).ready(function() {
-            if ($("textarea#footer_details").length > 0) {
-                tinymce.init({
-                    selector: "textarea#footer_details",
-                    height: 100,
-                });
-            }
-        });
-    </script> --}}
 @endsection

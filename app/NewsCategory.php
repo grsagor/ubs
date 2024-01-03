@@ -30,9 +30,4 @@ class NewsCategory extends Model
     {
         return $query->where('name', 'LIKE', '%' . $request->search . '%');
     }
-
-    public function user()
-    {
-        return $this->belongsTo(User::class, 'user_id');
-    }
 }

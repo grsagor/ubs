@@ -284,7 +284,8 @@ Route::middleware(['checkAdmin', 'SetSessionData'])->group(function () {
 
     // News
     Route::resource('shop-news',                          NewsController::class);
-    // Route::resource('shop-news-category',                 NewsCategoryController::class);
+
+    // Shop news category
     Route::get('shop-news-category', [NewsCategoryController::class, 'index'])->name('shop-news-category.index');
     Route::get('shop-news-category/create', [NewsCategoryController::class, 'create'])->name('shop-news-category.create');
     Route::post('shop-news-category', [NewsCategoryController::class, 'store'])->name('shop-news-category.store');
@@ -292,12 +293,20 @@ Route::middleware(['checkAdmin', 'SetSessionData'])->group(function () {
     Route::get('shop-news-category/{id}/edit', [NewsCategoryController::class, 'edit'])->name('shop-news-category.edit');
     Route::put('shop-news-category/{id}', [NewsCategoryController::class, 'update'])->name('shop-news-category.update');
     Route::delete('shop-news-category/{id}', [NewsCategoryController::class, 'destroy'])->name('shop-news-category.destroy');
-
     Route::get('shop-news-cactegory/status-change/{id}', [NewsCategoryController::class, 'statusChange'])->name('shop-news-category.statusChange');
+
+    // Shop marketing category
+    Route::get('shop-marketing-category', [MarketingCategoryController::class, 'index'])->name('shop-marketing-category.index');
+    Route::get('shop-marketing-category/create', [MarketingCategoryController::class, 'create'])->name('shop-marketing-category.create');
+    Route::post('shop-marketing-category', [MarketingCategoryController::class, 'store'])->name('shop-marketing-category.store');
+    Route::get('shop-marketing-category/{id}', [MarketingCategoryController::class, 'show'])->name('shop-news-category.show');
+    Route::get('shop-marketing-category/{id}/edit', [MarketingCategoryController::class, 'edit'])->name('shop-marketing-category.edit');
+    Route::put('shop-nemarketingws-category/{id}', [MarketingCategoryController::class, 'update'])->name('shop-marketing-category.update');
+    Route::delete('shop-marketing-category/{id}', [MarketingCategoryController::class, 'destroy'])->name('shop-marketing-category.destroy');
+    Route::get('shop-marketing-cactegory/status-change/{id}', [MarketingCategoryController::class, 'statusChange'])->name('shop-marketing-category.statusChange');
 
 
     Route::resource('shop-marketing',                     MarketingController::class);
-    Route::resource('shop-marketing-category',            MarketingCategoryController::class);
 
     // Services
     Route::resource('service-advertise', ServiceAdvertiseRoomController::class);

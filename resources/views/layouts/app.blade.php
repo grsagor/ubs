@@ -32,6 +32,9 @@
     {{-- <title>@yield('title') - {{ Session::get('business.name') }}</title> --}}
     <title>@yield('title')</title>
 
+    <!-- Title logo -->
+    <link rel="icon" type="image/x-icon" href="{{ asset('assets/images/logo.png') }}" />
+
     @include('layouts.partials.css')
 
     @yield('css')
