@@ -282,9 +282,6 @@ Route::middleware(['checkAdmin', 'SetSessionData'])->group(function () {
     Route::get('/footer/{id}/edit',        [FooterController::class, 'edit'])->name('footer.edit');
     Route::put('/footer/{id}',             [FooterController::class, 'update'])->name('footer.update');
 
-    // News
-    Route::resource('shop-news',                          NewsController::class);
-
     // Shop news category
     Route::get('shop-news-category', [NewsCategoryController::class, 'index'])->name('shop-news-category.index');
     Route::get('shop-news-category/create', [NewsCategoryController::class, 'create'])->name('shop-news-category.create');
@@ -304,6 +301,17 @@ Route::middleware(['checkAdmin', 'SetSessionData'])->group(function () {
     Route::put('shop-nemarketingws-category/{id}', [MarketingCategoryController::class, 'update'])->name('shop-marketing-category.update');
     Route::delete('shop-marketing-category/{id}', [MarketingCategoryController::class, 'destroy'])->name('shop-marketing-category.destroy');
     Route::get('shop-marketing-cactegory/status-change/{id}', [MarketingCategoryController::class, 'statusChange'])->name('shop-marketing-category.statusChange');
+
+    // News
+    Route::get('shop-news', [NewsController::class, 'index'])->name('shop-news.index');
+    Route::get('shop-news/create', [NewsController::class, 'create'])->name('shop-news.create');
+    Route::post('shop-news', [NewsController::class, 'store'])->name('shop-news.store');
+    Route::get('shop-news/{id}', [NewsController::class, 'show'])->name('shop-news.show');
+    Route::get('shop-news/{id}/edit', [NewsController::class, 'edit'])->name('shop-news.edit');
+    Route::put('shop-news/{id}', [NewsController::class, 'update'])->name('shop-news.update');
+    Route::delete('shop-news/{id}', [NewsController::class, 'destroy'])->name('shop-news.destroy');
+    Route::get('shop-news/status-change/{id}', [NewsController::class, 'statusChange'])->name('shop-news.statusChange');
+
 
 
     Route::resource('shop-marketing',                     MarketingController::class);

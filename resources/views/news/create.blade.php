@@ -15,8 +15,7 @@
                 <h3 class="box-title">All your news</h3>
                 <div class="box-tools">
                     <a href="{{ route('shop-news.index') }}" class="btn btn-block btn-primary">
-                        <i class="fa fa-plus"></i> List</a>
-
+                        <i class="fa fa-list"></i> List</a>
                 </div>
             </div>
 
@@ -26,19 +25,20 @@
 
                     <div class="col-sm-12">
                         <div class="form-group">
-                            <label for="price_calculation_type">Category</label>
-                            <select class="form-control" id="price_calculation_type" name="price_calculation_type">
-                                <option value="percentage" selected="selected">Percentage</option>
-                                <option value="selling_price_group">Selling Price Group</option>
+                            <label class="form-label">Category <span class="text-danger">*</span></label>
+                            <select class="form-control" name="shop_news_category_id" required>
+                                <option value="" selected="selected">Select Category</option>
+                                @foreach ($newCategory as $item)
+                                    <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                @endforeach
                             </select>
                         </div>
                     </div>
 
                     <div class="col-sm-12">
                         <div class="form-group">
-                            <label for="name">Title:*</label>
-                            <input class="form-control" required="" placeholder="Customer Group Name" name="name"
-                                type="text" id="name">
+                            <label class="form-label">Title <span class="text-danger">*</span></label>
+                            <input class="form-control" required="" placeholder="Title" name="title" type="text">
                         </div>
                     </div>
 
@@ -54,27 +54,39 @@
 
                     <div class="col-sm-12">
                         <div class="form-group">
-                            <label for="name">Thumbnail:</label>
-                            <input class="form-control" required="" placeholder="Customer Group Name" name="name"
-                                type="file" id="name">
+                            <label>Thumbnail:</label>
+                            <input class="form-control" name="thumbnail" type="file" id="thumbnail"
+                                onchange="previewThumbnail(this)">
+                            <img id="thumbnail-preview" src="#" alt="Thumbnail Preview"
+                                style="display: none; max-width: 20%; margin-top: 20px;">
                         </div>
                     </div>
 
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label for="name">Galary:</label>
-                            <input class="form-control" required="" placeholder="Customer Group Name" name="name"
-                                type="file" id="name">
-                        </div>
-                    </div>
 
                     <div class="col-sm-12">
                         <div class="form-group">
-                            <label for="price_calculation_type">Status</label>
-                            <select class="form-control" id="price_calculation_type" name="price_calculation_type">
-                                <option value="percentage" selected="selected">Percentage</option>
-                                <option value="selling_price_group">Selling Price Group</option>
+                            <label>Gallery:</label>
+                            <input class="form-control" name="images[]" type="file" id="images" multiple
+                                onchange="previewImages(this)">
+                            <div id="image-preview-container" class="mt-2"></div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="form-label">Status <span class="text-danger">*</span></label>
+                            <select class="form-control" name="status">
+                                <option selected="" value="">Select Status</option>
+                                @foreach (getStatus() as $status)
+                                    <option value="{{ $status['value'] }}" {{ $status['value'] == '1' ? 'selected' : '' }}>
+                                        {{ $status['label'] }}
+                                    </option>
+                                @endforeach
                             </select>
+                            @error('status')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
                         </div>
                     </div>
 
@@ -88,10 +100,49 @@
             </div>
         </div>
     </section>
-
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="https://cdn.tiny.cloud/1/YOUR_API_KEY/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
     <script>
+        function previewThumbnail(input) {
+            var preview = $('#thumbnail-preview')[0];
+            var file = input.files[0];
+
+            if (file) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            } else {
+                preview.src = '#';
+                preview.style.display = 'none';
+            }
+        }
+
+
+        function previewImages(input) {
+            var previewContainer = $('#image-preview-container');
+
+            previewContainer.empty(); // Clear previous previews
+
+            var files = input.files;
+
+            for (var i = 0; i < files.length; i++) {
+                var file = files[i];
+
+                var reader = new FileReader();
+
+                reader.onload = function(e) {
+                    var img = $('<img>').attr('src', e.target.result).addClass('img-thumbnail').css('max-width',
+                        '100%');
+                    previewContainer.append(img);
+                };
+
+                reader.readAsDataURL(file);
+            }
+        }
+
         $(document).ready(function() {
             if ($("textarea#footer_details").length > 0) {
                 tinymce.init({

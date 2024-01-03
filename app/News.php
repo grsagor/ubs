@@ -15,7 +15,7 @@ class News extends Model
 
     protected $fillable = [
         'business_id',
-        'shop_category_id',
+        'shop_news_category_id',
         'title',
         'slug',
         'description',
@@ -29,21 +29,13 @@ class News extends Model
         $query->where('status', 1);
     }
 
-    // public function scopeSearch($query, $request)
-    // {
-    //     return $query->where('advert_title', 'LIKE', '%' . $request->search . '%')
-    //         ->orWhere('property_type', 'LIKE', '%' . $request->search . '%')
-    //         ->orWhere('property_address', 'LIKE', '%' . $request->search . '%')
-    //         ->orWhere('child_category_id', 'LIKE', '%' . $request->search . '%');
-    // }
-
-    public function user()
+    public function scopeSearch($query, $request)
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $query->where('title', 'LIKE', '%' . $request->search . '%');
     }
 
-    public function category()
+    public function newsCategory()
     {
-        return $this->belongsTo(ServiceCategory::class, 'shop_category_id');
+        return $this->belongsTo(NewsCategory::class, 'shop_news_category_id');
     }
 }
