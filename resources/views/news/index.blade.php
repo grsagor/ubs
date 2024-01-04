@@ -51,7 +51,7 @@
                             <tr>
                                 <td>{{ serialNumber($news, $loop) }}</td>
                                 <td>{{ $item->newsCategory->name ?? '' }}</td>
-                                <td>{{ $item->title }}</td>
+                                <td>{!! Str::limit($item->title, 80, ' ...') !!}</td>
                                 <td>
                                     <a href="{{ route('shop-news.edit', $item->id) }}" class="btn btn-xs btn-primary">
                                         <i class="glyphicon glyphicon-edit"></i> Edit
@@ -82,7 +82,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="3">No data available</td>
+                                <td colspan="4" class="text-center">No data available</td>
                             </tr>
                         @endforelse
                     </tbody>

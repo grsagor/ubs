@@ -7,8 +7,8 @@ use Carbon\Carbon;
 use App\NewsCategory;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Services\CURDservice;
 use Illuminate\Support\Facades\Auth;
-use App\Services\StatusChangeService;
 
 class NewsController extends Controller
 {
@@ -18,11 +18,11 @@ class NewsController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    protected $statusChangeService;
+    protected $curdService;
 
-    public function __construct(StatusChangeService $statusChangeService)
+    public function __construct(CURDservice $curdService)
     {
-        $this->statusChangeService          = $statusChangeService;
+        $this->curdService          = $curdService;
     }
 
     public function index(Request $request)
@@ -58,9 +58,6 @@ class NewsController extends Controller
             $requestedData['business_id']   = Auth::user()->business_id;
             $requestedData['slug'] = Str::slug($request->title) . '-' . Carbon::now()->timestamp;
 
-            // dd($requestedData);
-
-
             if ($request->hasFile('thumbnail')) {
                 $image_path = public_path('uploads/news/thumbnail');
 
@@ -70,7 +67,6 @@ class NewsController extends Controller
 
                 $requestedData['thumbnail'] = 'uploads/news/thumbnail/' . $image_name;
             }
-
 
             if ($request->hasFile('images')) {
                 $image_path = public_path('uploads/news/images');
@@ -86,17 +82,9 @@ class NewsController extends Controller
                 $requestedData['images'] = json_encode($images);
             }
 
-
-            // dd($requestedData);
-
             $requestedData                  = $news->fill($requestedData)->save();
 
-            $output = [
-                'success' => true,
-                'msg' => ('Created Successfully!!!'),
-            ];
-
-            return redirect()->route('shop-news.index')->with('status', $output);
+            return $this->curdService->SuccessFull('Marketing Category', 'shop-news.index');
         } catch (\Throwable $e) {
             dd($e->getmessage());
             return redirect()->back();
@@ -120,9 +108,11 @@ class NewsController extends Controller
      * @param  \App\News  $news
      * @return \Illuminate\Http\Response
      */
-    public function edit(News $news)
+    public function edit($id)
     {
-        //
+        $data['news']           = News::find($id);
+        $data['newCategory']    = NewsCategory::query()->active()->get();
+        return view('news.edit', $data);
     }
 
     /**
@@ -132,9 +122,72 @@ class NewsController extends Controller
      * @param  \App\News  $news
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, News $news)
+    public function update(Request $request, $id)
     {
-        //
+        try {
+            // Find the News by ID
+            $news = News::find($id);
+
+            // Check if the News is found
+            if (!$news) {
+                return $this->curdService->NotFound('News');
+            }
+
+            // Initialize an empty array to store requested data
+            $requestedData = $request->all();
+
+            // Handle Thumbnail Upload
+            if ($request->hasFile('thumbnail')) {
+                $thumbnailPath = public_path('uploads/news/thumbnail');
+                $thumbnail = $request->file('thumbnail');
+                $thumbnailName = rand(123456, 999999) . '.' . $thumbnail->getClientOriginalExtension();
+                $thumbnail->move($thumbnailPath, $thumbnailName);
+                $requestedData['thumbnail'] = 'uploads/news/thumbnail/' . $thumbnailName;
+
+                // Delete the existing thumbnail if it exists
+                $existingThumbnailPath = public_path($news->thumbnail);
+                if (file_exists($existingThumbnailPath)) {
+                    unlink($existingThumbnailPath);
+                }
+            }
+
+            // Handle Images Upload
+            if ($request->hasFile('images')) {
+                $imagePath = public_path('uploads/news/images');
+                $images = [];
+
+                foreach ($request->file('images') as $image) {
+                    $imageName = rand(123456, 999999) . '.' . $image->getClientOriginalExtension();
+                    $image->move($imagePath, $imageName);
+                    $images[] = 'uploads/news/images/' . $imageName;
+                }
+
+                // Decode existing images, if any
+                $existingImages = json_decode($news->images, true) ?? [];
+
+                // Merge existing and new images
+                $allImages = array_merge($existingImages, $images);
+
+                // Update requested data with the merged images
+                $requestedData['images'] = json_encode($images);
+
+                // Delete existing images if they exist
+                foreach ($existingImages as $existingImage) {
+                    $existingImagePath = public_path($existingImage);
+                    if (file_exists($existingImagePath)) {
+                        unlink($existingImagePath);
+                    }
+                }
+            }
+
+            // Update the News with the requested data
+            $news->update($requestedData);
+
+            return $this->curdService->SuccessFull('News', 'shop-news.index');
+        } catch (\Throwable $e) {
+            dd($e->getMessage());
+            return redirect()->back();
+        }
     }
 
     /**
@@ -143,17 +196,55 @@ class NewsController extends Controller
      * @param  \App\News  $news
      * @return \Illuminate\Http\Response
      */
-    public function destroy(News $news)
+    public function destroy($id)
     {
-        //
+        $news = News::find($id);
+
+        if (!$news) {
+            return redirect()->back()->withErrors(['error' => 'News not found.']);
+        }
+
+        // Retrieve the image path
+        $thumbnailPath = public_path($news->thumbnail);
+
+        $imagePaths = json_decode($news->images, true);
+
+
+        // Delete the news item
+        $news->delete();
+
+        // If the image path exists, delete the image from storage
+        if (file_exists($thumbnailPath) && is_file($thumbnailPath)) {
+            unlink($thumbnailPath);
+        }
+
+        // Loop through each image path and delete the image
+        // Check if $imagePaths is not null before looping through it
+        if ($imagePaths !== null) {
+            // Loop through each image path and delete the image
+            foreach ($imagePaths as $imagePath) {
+                $fullImagePath = public_path($imagePath);
+
+                // If the image path exists and is a file, delete the image
+                if (file_exists($fullImagePath) && is_file($fullImagePath)) {
+                    unlink($fullImagePath);
+                }
+            }
+        }
+
+
+        $output = [
+            'success' => true,
+            'msg' => 'Deleted Successfully!!!',
+        ];
+
+        return redirect()->back()->with('status', $output);
     }
 
     public function statusChange($id)
     {
-        $newsItem = News::find($id);
+        $data = News::find($id);
 
-        $this->statusChangeService->statusChange($newsItem);
-
-        return redirect()->back();
+        return $this->curdService->statusChange($data, 'shop-news.index', 'Status Change');
     }
 }

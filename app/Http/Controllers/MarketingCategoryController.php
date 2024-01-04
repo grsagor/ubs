@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\MarketingCategory;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Services\CURDservice;
 use Illuminate\Support\Facades\Auth;
 
 class MarketingCategoryController extends Controller
@@ -14,6 +15,13 @@ class MarketingCategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    protected $curdService;
+
+    public function __construct(CURDservice $curdService)
+    {
+        $this->curdService          = $curdService;
+    }
+
     public function index(Request $request)
     {
         $data['marketing'] = MarketingCategory::query()->search($request)->latest()->paginate(10);
@@ -47,12 +55,7 @@ class MarketingCategoryController extends Controller
 
             $requestedData                  = $marketingCategory->fill($requestedData)->save();
 
-            $output = [
-                'success' => true,
-                'msg' => ('Created Successfully!!!'),
-            ];
-
-            return redirect()->route('shop-marketing-category.index')->with('status', $output);
+            return $this->curdService->SuccessFull('Marketing Category', 'shop-marketing-category.index');
         } catch (\Throwable $e) {
             dd($e->getmessage());
             return redirect()->back();
@@ -97,22 +100,13 @@ class MarketingCategoryController extends Controller
 
             // Check if the NewsCategory is found
             if (!$newsCategory) {
-                $output = [
-                    'success' => false,
-                    'msg' => 'NewsCategory not found!',
-                ];
-                return redirect()->back()->with('status', $output);
+                return $this->curdService->NotFound('Marketing Category');
             }
 
             // Update the NewsCategory with the requested data
             $newsCategory->update($request->all());
 
-            $output = [
-                'success' => true,
-                'msg' => 'Updated Successfully!',
-            ];
-
-            return redirect()->route('shop-marketing-category.index')->with('status', $output);
+            return $this->curdService->SuccessFull('Marketing Category', 'shop-marketing-category.index');
         } catch (\Throwable $e) {
             dd($e->getmessage());
             return redirect()->back();
@@ -127,45 +121,15 @@ class MarketingCategoryController extends Controller
      */
     public function destroy($id)
     {
-        $newsCategory = MarketingCategory::find($id);
+        $data = MarketingCategory::find($id);
 
-        if (!$newsCategory) {
-            return redirect()->back()->withErrors(['error' => 'NewsCategory not found.']);
-        }
-
-        $newsCategory->delete();
-
-        $output = [
-            'success' => true,
-            'msg' => 'Deleted Successfully!!!',
-        ];
-
-        return redirect()->back()->with('status', $output);
+        return $this->curdService->delete($data, 'shop-marketing-category.index', 'Marketing Category Deleted');
     }
 
     public function statusChange($id)
     {
-        $newsCategory = MarketingCategory::find($id);
+        $data = MarketingCategory::find($id);
 
-        if ($newsCategory) {
-            // Toggle the status (assuming 1 is active and 0 is inactive)
-            $newsCategory->status = $newsCategory->status == 1 ? 0 : 1;
-
-            $newsCategory->save();
-
-            $output = [
-                'success' => true,
-                'msg' => 'Status Changed Successfully!',
-            ];
-
-            return redirect()->back()->with('status', $output);
-        } else {
-            $output = [
-                'success' => false,
-                'msg' => 'NewsCategory not found!',
-            ];
-
-            return redirect()->back()->with('status', $output);
-        }
+        return $this->curdService->statusChange($data, 'shop-marketing-category.index', 'Status Change');
     }
 }
