@@ -89,6 +89,9 @@
                             <li class="nav-item {{ request()->routeIs('partnerBoarding') ? 'active' : '' }}">
                                 <a class="nav-link" href="{{ route('partnerBoarding') }}">Partner Boarding</a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('recruitment.create') }}">Recruitment</a>
+                            </li>
 
                             {{-- <li class="nav-item">
                                 <a class="nav-link" href="{{ route('service.list') }}">Service</a>
@@ -222,6 +225,10 @@
                                                         <a class="nav-link"
                                                             href="{{ url('/partner-boarding') }}">Partner
                                                             Boarding</a>
+                                                    </li>
+                                                    <li class="nav-item">
+                                                        <a class="nav-link"
+                                                            href="{{ url('/recruitment') }}">Recruitment</a>
                                                     </li>
                                                     {{-- <li class="nav-item">
                                                         <a class="nav-link"
