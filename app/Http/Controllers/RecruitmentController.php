@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Recruitment;
 use Illuminate\Http\Request;
 use App\Traits\ImageFileUpload;
+use Illuminate\Support\Facades\Auth;
 
 class RecruitmentController extends Controller
 {
@@ -12,7 +13,17 @@ class RecruitmentController extends Controller
 
     public function create()
     {
-        return view('frontend.recruitment.create');
+        if (Auth::check()) {
+            $user = Auth::user();
+
+            if ($user->user_type == 'user_customer') {
+                return view('frontend.recruitment.create');
+            } else {
+                return view('frontend.recruitment.error');
+            }
+        } else {
+            return view('frontend.recruitment.error');
+        }
     }
 
 

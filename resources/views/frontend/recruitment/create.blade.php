@@ -1,5 +1,5 @@
 @extends('frontend.layouts.master_layout')
-@section('title', 'recruitment')
+@section('title', 'Recruitment')
 @section('css')
     <style>
         input.select-style,
