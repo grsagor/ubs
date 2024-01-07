@@ -9,8 +9,8 @@
                                 <div class="row">
                                     <div
                                         class="col-lg-5 col-md-4 col-sm-12 justify-content-center d-flex align-items-end">
-                                        <img src="{{ asset('assets/front/images/job1.png') }}"
-                                            class="img-fluid" alt="" srcset="">
+                                        <img src="{{ asset('assets/front/images/job1.png') }}" class="img-fluid"
+                                            alt="" srcset="">
                                     </div>
                                     <div class="col-lg-7 col-md-8 col-sm-12 p-3">
                                         <i class="fa fa-briefcase main-icon"></i>
@@ -30,8 +30,7 @@
                                             <li class="list-group-item"><i class="fa fa-check"></i> Achieve
                                                 your dream goals</li>
                                         </ul>
-                                        <a href="https://candidate-finder.unipuller.uk"
-                                            class="btn  btn-dark mt-3">Get Job</a>
+                                        <a href="{{ route('recruitment.list') }}" class="btn  btn-dark mt-3">Get Job</a>
                                     </div>
                                 </div>
                             </div>

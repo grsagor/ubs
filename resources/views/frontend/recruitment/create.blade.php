@@ -68,13 +68,26 @@
 
                 <div class="form-group">
                     <label for="country_of_residence">Country of residence <span class="text-danger">*</span></label>
-                    <input type="text" name="country_residence" class="form-control" placeholder="Country of Residence">
+                    {{-- <input type="text" name="country_residence" class="form-control" placeholder="Country of Residence"> --}}
+
+                    <select class="form-control" name="country_residence">
+                        <option selected="" value="">Select....</option>
+                        @foreach ($country as $item)
+                            <option value="{{ $item->id }}">{{ $item->country_name }}</option>
+                        @endforeach
+                    </select>
                     <span id="country_residence-error" class="text-danger"></span>
                 </div>
 
                 <div class="form-group">
                     <label for="birth_country">Birth country <span class="text-danger">*</span></label>
-                    <input type="text" name="birth_country" class="form-control" placeholder="Birth country">
+                    {{-- <input type="text" name="birth_country" class="form-control" placeholder="Birth country"> --}}
+                    <select class="form-control" name="birth_country">
+                        <option selected="" value="">Select....</option>
+                        @foreach ($country as $item)
+                            <option value="{{ $item->id }}">{{ $item->country_name }}</option>
+                        @endforeach
+                    </select>
                     <span id="birth_country-error" class="text-danger"></span>
                 </div>
 
@@ -120,7 +133,7 @@
 
                     <div class="form-group">
                         {{-- <button type="button" class="btn btn-danger" onclick="removeExperience(this)">Delete</button> --}}
-                        <button type="button" class="btn btn-success" onclick="addExperience()">Add Experience</button>
+                        <button type="button" class="btn btn-dark" onclick="addExperience()">Add Experience</button>
                     </div>
                 </div>
 

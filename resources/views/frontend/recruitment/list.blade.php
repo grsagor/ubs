@@ -1,5 +1,5 @@
 @extends('frontend.layouts.master_layout')
-@section('title', 'Recruitment')
+@section('title', 'Jobs')
 @section('css')
     <style>
         .container {

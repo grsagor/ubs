@@ -90,7 +90,7 @@
                                 <a class="nav-link" href="{{ route('partnerBoarding') }}">Partner Boarding</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('recruitment.list') }}">Recruitment</a>
+                                <a class="nav-link" href="{{ route('recruitment.list') }}">Jobs</a>
                             </li>
 
                             {{-- <li class="nav-item">
@@ -228,7 +228,7 @@
                                                     </li>
                                                     <li class="nav-item">
                                                         <a class="nav-link"
-                                                            href="{{ url('/recruitment/list') }}">Recruitment</a>
+                                                            href="{{ url('/recruitment/list') }}">Jobs</a>
                                                     </li>
                                                     {{-- <li class="nav-item">
                                                         <a class="nav-link"

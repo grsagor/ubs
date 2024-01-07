@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Country;
 use App\Recruitment;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -19,14 +20,18 @@ class RecruitmentController extends Controller
 
     public function index(Request $request)
     {
-        $data['recruitments'] = Recruitment::query()->search($request)->latest()->paginate(10);
-
+        $data['recruitments'] = Recruitment::query()
+            ->search($request) // Assuming a custom search scope or method is applied
+            ->with('countryResidence', 'birthCountry') // Eager loading related country information
+            ->latest() // Ordering by the latest
+            ->paginate(10); // Paginating the results
         return view('frontend.recruitment.index', $data);
     }
 
     public function create()
     {
-        return view('frontend.recruitment.create');
+        $data['country'] = Country::get();
+        return view('frontend.recruitment.create', $data);
 
         // if (Auth::check()) {
         //     $user = Auth::user();
