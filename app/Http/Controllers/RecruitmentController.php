@@ -83,10 +83,6 @@ class RecruitmentController extends Controller
                 $requestedData['care_certificates']     = $this->fileUpload($request->file('care_certificates'), 'uploads/recruitments/');
             }
 
-            $requestedData['share_link'] = Auth::id() . Str::random(75);;
-
-            dd($requestedData['share_link']);
-
             $requestedData                  = $recruitment->fill($requestedData)->save();
 
             $output = [

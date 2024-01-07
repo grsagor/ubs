@@ -37,7 +37,6 @@
             <div class="box-body">
 
                 <table class="table table-bordered table-striped table-hover">
-                    <!-- Table header -->
                     <thead>
                         <tr>
                             <th>No.</th>
@@ -54,7 +53,6 @@
                         @forelse ($recruitments as $item)
                             <tr>
                                 <td>{{ serialNumber($recruitments, $loop) }}</td>
-                                {{-- <td>{{ $loop->iteration }}</td> --}}
                                 <td>{{ $item->name ?? '' }}</td>
                                 <td>{{ $item->phone ?? '' }}</td>
                                 <td>{{ $item->email ?? '' }}</td>
@@ -62,30 +60,14 @@
                                 <td>{{ $item->country_residence ?? '' }}</td>
                                 <td>{{ $item->birth_country ?? '' }}</td>
                                 <td>
-                                    <a href="{{ route('recruitment.show', $item->id) }}" class="btn btn-xs btn-primary">
+                                    <a href="{{ route('recruitment.show', $item->uuid) }}" class="btn btn-xs btn-primary">
                                         <i class="fas fa-eye"></i> Show
                                     </a>
 
-                                    {{-- <a href="{{ route('shop-news.statusChange', $item->id) }}"
-                                        class="btn btn-xs {{ $item->status == 1 ? 'btn-success' : 'btn-danger' }}">
-                                        <i class="fas fa-check-circle"></i>
-                                    </a> --}}
-
-                                    {{-- <form action="{{ route('shop-news.destroy', $item->id) }}" method="post"
-                                        style="display: none;" id="delete-form-{{ $item->id }}">
-                                        @csrf
-                                        @method('Delete')
-                                    </form>
-
-                                    <a class="btn btn-xs btn-danger" href="#"
-                                        onclick="if(confirm('Are You Sure To Delete?')) {
-                                                   event.preventDefault();
-                                                   document.getElementById('delete-form-{{ $item->id }}').submit();
-                                               } else {
-                                                   event.preventDefault();
-                                               }">
-                                        <i class="fas fa-trash-alt"></i>
-                                    </a> --}}
+                                    <a href="#" class="btn btn-xs btn-success copy-link"
+                                        data-link="{{ route('recruitment.show', $item->uuid) }}">
+                                        <i class="fas fa-copy"></i> Copy Link
+                                    </a>
 
                                 </td>
                             </tr>
@@ -100,4 +82,32 @@
             </div>
         </div>
     </section>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var copyLinkButtons = document.querySelectorAll('.copy-link');
+
+            copyLinkButtons.forEach(function(button) {
+                button.addEventListener('click', function(event) {
+                    event.preventDefault();
+
+                    // Get the link from the data-link attribute
+                    var linkToCopy = button.getAttribute('data-link');
+
+                    // Create a temporary input element
+                    var tempInput = document.createElement('input');
+                    tempInput.value = linkToCopy;
+                    document.body.appendChild(tempInput);
+
+                    // Select and copy the text in the input element
+                    tempInput.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(tempInput);
+
+                    // Show Toastr success message
+                    toastr.success('Link copied');
+                });
+            });
+        });
+    </script>
+
 @endsection

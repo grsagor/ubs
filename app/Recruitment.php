@@ -3,18 +3,21 @@
 namespace App;
 
 use App\Traits\CreatedUpdatedBy;
+use App\Traits\HasUuid;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Recruitment extends Model
 {
-    use HasFactory, CreatedUpdatedBy;
+    use HasFactory, CreatedUpdatedBy, HasUuid;
 
     protected $table = 'recruitment';
-    protected $primaryKey = 'id';
+    protected $primaryKey = 'uuid';
+    protected $keyType = 'string';
+    public $incrementing = false;
 
     protected $fillable = [
-        'reference_id',
+        'uuid',
         'job_id',
         'name',
         'phone',

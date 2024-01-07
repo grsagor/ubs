@@ -115,7 +115,14 @@
             </div>
 
             <div class="right">
-                <h3 style="margin-top: 0px;">Personal Information:</h3>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <h3 style="margin-top: 0;">Personal Information:</h3>
+                    <button id="copyButton" class="btn btn-success">
+                        <i class="fa fa-copy" aria-hidden="true"></i>
+                        Copy Link
+                    </button>
+                </div>
+
                 <p class="font-size">
                     Phone Number: {{ $item->phone ?? '' }}<br>
                     Email: {{ $item->email ?? '' }}<br>
@@ -186,4 +193,19 @@
                 @endif
             </div>
     </section>
+
+    <script>
+        document.getElementById('copyButton').addEventListener('click', function() {
+            var textToCopy = '{{ route('recruitment.show', $item->uuid) }}';
+            var tempInput = document.createElement('input');
+            tempInput.value = textToCopy;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
+
+            // Show a popup message
+            toastr.success('Link copied: ');
+        });
+    </script>
 @endsection
