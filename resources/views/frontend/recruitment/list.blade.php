@@ -39,8 +39,9 @@
         </ul>
 
         <div style="margin-top: 10px;">
-            <a href="{{ route('recruitment.create') }}" type="button" class="btn btn-dark">Apply for this job</a>
+            <button onclick="applyForJob()" type="button" class="btn btn-dark">Apply for this job</button>
         </div>
+
 
         <p style="color: black; margin-top: 10px;">
 
@@ -167,4 +168,16 @@
         </p>
 
     </div>
+
+    <script>
+        function applyForJob() {
+            // Check if the user is authenticated
+            @auth
+            window.location.href = "{{ route('recruitment.create') }}";
+        @else
+            // If not authenticated, show a Toastr message
+            toastr.warning('Please login to apply for the job.');
+        @endauth
+        }
+    </script>
 @endsection

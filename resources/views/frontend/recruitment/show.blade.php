@@ -171,7 +171,6 @@
 
                 <h4>Expected Salary &#163;{{ $item->expected_salary }}
                     {{ $item->salary_type == 1 ? 'Hourly' : ($item->salary_type == 2 ? 'Monthly' : '') }}
-
                 </h4>
 
                 <h3>Curriculum Vitae</h3>
