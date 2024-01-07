@@ -32,7 +32,8 @@
 @section('content')
     @includeIf('frontend.partials.global.common-header')
 
-    <form id="twoStepForm" action="{{ route('recruitment.store') }}" method="POST" style="width: 50%;" class="mx-auto">
+    <form id="twoStepForm" action="{{ route('recruitment.store') }}" method="POST" style="width: 50%;"
+        class="mx-auto"enctype="multipart/form-data">
 
         @csrf
         <!-- Step 1 -->
@@ -92,7 +93,7 @@
             </div>
             <div class="card-body" id="experienceSection">
                 <div class="experience-group mt-2" style="border: 1px solid #ccc; padding: 10px;">
-                    <h5>Experience</h5>
+                    <h5 class="text-center"><u>Experience</u></h5>
                     <div class="form-group">
                         <label for="name_of_company">Name of company</label>
                         <input type="text" name="name_of_company[]" class="form-control" placeholder="Name of company">
@@ -120,12 +121,13 @@
                 </div>
 
                 <div class="form-group" style="margin-top: 10px;">
-                    <label for="expected_salary">Expected salary <span class="text-danger">*</span></label>
-                    <input type="text" name="expected_salary" class="form-control" placeholder="Expected salary">
+                    <label for="expected_salary">Expected salary </label>
+                    <input type="number" step=".01" name="expected_salary" class="form-control"
+                        placeholder="Expected salary">
                 </div>
 
                 <div class="form-group">
-                    <label for="cv">CV <span class="text-danger">*</span></label>
+                    <label for="cv">CV </label>
                     <input type="file" name="cv" class="form-control">
                 </div>
 
@@ -147,7 +149,7 @@
 
                 <div class="text-center">
                     <button type="button" class="btn btn-secondary prev-step" onclick="prevStep()">Previous</button>
-                    <button type="submit" class="btn btn-dark" onclick="validateForm();">Submit</button>
+                    <button type="submit" class="btn btn-dark">Submit</button>
                 </div>
             </div>
         </div>
@@ -204,7 +206,6 @@
             var currentAddress = document.getElementsByName("current_address")[0].value;
             var countryResidence = document.getElementsByName("country_residence")[0].value;
             var birthCountry = document.getElementsByName("birth_country")[0].value;
-            var expectedSalary = document.getElementsByName("expected_salary")[0].value;
 
             if (name === '') {
                 document.getElementById('name-error').innerText = 'Name is required.';
