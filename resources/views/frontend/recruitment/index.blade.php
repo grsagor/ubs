@@ -66,7 +66,7 @@
 
                                     <a href="#" class="btn btn-xs btn-success copy-link"
                                         data-link="{{ route('recruitment.show', $item->uuid) }}">
-                                        <i class="fas fa-copy"></i> Copy Link
+                                        <i class="fas fa-copy"></i> Copy
                                     </a>
 
                                 </td>

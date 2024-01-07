@@ -46,7 +46,6 @@
                     <label for="name">Name <span class="text-danger">*</span></label>
                     <input type="text" name="name" class="form-control" placeholder="Full name">
                     <span id="name-error" class="text-danger"></span>
-
                 </div>
 
                 <div class="form-group">
@@ -125,11 +124,27 @@
                     </div>
                 </div>
 
-                <div class="form-group" style="margin-top: 10px;">
-                    <label for="expected_salary">Expected salary </label>
-                    <input type="number" step=".01" name="expected_salary" class="form-control"
-                        placeholder="Expected salary" required>
+                <div class="row" style="margin-top: 10px;">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label for="salary_type">Type</label>
+                            <select class="form-control" name="salary_type" required>
+                                <option selected="" value="">Select....</option>
+                                <option value="1">Hourly</option>
+                                <option value="2">Monthly</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <div class="form-group">
+                            <label for="expected_salary">Expected salary </label>
+                            <input type="number" step=".01" name="expected_salary" class="form-control"
+                                placeholder="Expected salary" required>
+                        </div>
+                    </div>
                 </div>
+
+
 
                 <div class="form-group">
                     <label for="cv">CV </label>

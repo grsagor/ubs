@@ -26,6 +26,7 @@ class Recruitment extends Model
         'country_residence',
         'birth_country',
         'experiences',
+        'salary_type',
         'expected_salary',
         'cv',
         'dbs_check',

@@ -169,7 +169,10 @@
                     <p>No professional experiences available.</p>
                 @endif
 
-                <h4>Expected Salary &#163;{{ $item->expected_salary }}</h4>
+                <h4>Expected Salary &#163;{{ $item->expected_salary }}
+                    {{ $item->salary_type == 1 ? 'Hourly' : ($item->salary_type == 2 ? 'Monthly' : '') }}
+
+                </h4>
 
                 <h3>Curriculum Vitae</h3>
                 @if (!empty($item->cv) && file_exists(public_path($item->cv)))
