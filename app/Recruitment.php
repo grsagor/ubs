@@ -38,10 +38,12 @@ class Recruitment extends Model
 
     public function scopeSearch($query, $request)
     {
-        return $query->where('advert_title', 'LIKE', '%' . $request->search . '%')
-            ->orWhere('property_type', 'LIKE', '%' . $request->search . '%')
-            ->orWhere('property_address', 'LIKE', '%' . $request->search . '%')
-            ->orWhere('child_category_id', 'LIKE', '%' . $request->search . '%');
+        return $query->where('name', 'LIKE', '%' . $request->search . '%')
+            ->orWhere('phone', 'LIKE', '%' . $request->search . '%')
+            ->orWhere('email', 'LIKE', '%' . $request->search . '%')
+            ->orWhere('current_address', 'LIKE', '%' . $request->search . '%')
+            ->orWhere('country_residence', 'LIKE', '%' . $request->search . '%')
+            ->orWhere('birth_country', 'LIKE', '%' . $request->search . '%');
     }
 
     public function user()

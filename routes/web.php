@@ -294,6 +294,9 @@ Route::middleware(['checkAdmin', 'SetSessionData'])->group(function () {
     Route::get('/footer/{id}/edit',        [FooterController::class, 'edit'])->name('footer.edit');
     Route::put('/footer/{id}',             [FooterController::class, 'update'])->name('footer.update');
 
+    Route::get('/recruitment/index',       [RecruitmentController::class, 'index'])->name('recruitment.index');
+    Route::get('/recruitment/show/{id}',   [RecruitmentController::class, 'show'])->name('recruitment.show');
+
     // Services
     Route::resource('service-advertise', ServiceAdvertiseRoomController::class);
     Route::get('/room-to-rent-open-add-modal', [ServiceAdvertiseRoomController::class, 'create']);

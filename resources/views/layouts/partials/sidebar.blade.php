@@ -338,10 +338,16 @@
                     <span style="margin-left: 10px;">Woocommerce</span></a></li>
 
             @if (auth()->user()->id == 5)
+                <li><a href="{{ route('recruitment.index') }}"><i class="fa fa-calendar"></i>
+                        <span>Recruitment</span></a>
+                </li>
                 <li><a href="{{ route('footer.index') }}"><i class="fa fa-asterisk"></i>
                         <span>Footer/Menu</span></a>
                 </li>
             @endif
+
+
+
         </ul>
         <!-- /.sidebar-menu -->
     </section>
