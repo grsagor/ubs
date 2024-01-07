@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Recruitment;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Traits\ImageFileUpload;
 use Illuminate\Support\Facades\Auth;
@@ -81,6 +82,10 @@ class RecruitmentController extends Controller
             if ($request->file('care_certificates')) {
                 $requestedData['care_certificates']     = $this->fileUpload($request->file('care_certificates'), 'uploads/recruitments/');
             }
+
+            $requestedData['share_link'] = Auth::id() . Str::random(75);;
+
+            dd($requestedData['share_link']);
 
             $requestedData                  = $recruitment->fill($requestedData)->save();
 
