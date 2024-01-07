@@ -2,6 +2,7 @@
 
 namespace App\Traits;
 
+use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
 
 trait ImageFileUpload
@@ -34,13 +35,21 @@ trait ImageFileUpload
         return;
     }
 
+    // public function fileUpload($file, $path)
+    // {
+    //     if (!empty($file)) {
+    //         $fileName = substr(md5(time()), 0, 20) . '.' . $file->getClientOriginalExtension();
+    //         $file->move($path, $fileName);
+    //         return $path . $fileName;
+    //     }
+    //     return null;
+    // }
     public function fileUpload($file, $path)
     {
         if (!empty($file)) {
-            $fileName = substr(md5(time()), 0, 20) . '.' . $file->getClientOriginalExtension();
-            $file->move($path, $fileName);
+            $fileName = Str::uuid()->toString() . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path($path), $fileName);
             return $path . $fileName;
         }
-        return null;
     }
 }

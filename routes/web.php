@@ -38,6 +38,7 @@ use App\Http\Controllers\SalesOrderController;
 use App\Http\Controllers\SellReturnController;
 use App\Http\Controllers\AccountTypeController;
 use App\Http\Controllers\ImportSalesController;
+use App\Http\Controllers\RecruitmentController;
 use App\Http\Controllers\CashRegisterController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\OpeningStockController;
@@ -50,8 +51,8 @@ use App\Http\Controllers\PurchaseOrderController;
 use App\Http\Controllers\StockTransferController;
 use App\Http\Controllers\StripePaymentController;
 use App\Http\Controllers\AccountReportsController;
-use App\Http\Controllers\Backend\FooterController;
 // use App\Http\Controllers\Auth;
+use App\Http\Controllers\Backend\FooterController;
 use App\Http\Controllers\ImportProductsController;
 use App\Http\Controllers\LedgerDiscountController;
 use App\Http\Controllers\PurchaseReturnController;
@@ -72,14 +73,14 @@ use App\Http\Controllers\VariationTemplateController;
 use App\Http\Controllers\Frontend\EducationController;
 use App\Http\Controllers\ImportOpeningStockController;
 use App\Http\Controllers\TransactionPaymentController;
-use App\Http\Controllers\Frontend\RoomWantedController;
 
 // use App\Http\Controllers\DashboardConfiguratorController;    
 
-use App\Http\Controllers\PurchaseRequisitionController;
+use App\Http\Controllers\Frontend\RoomWantedController;
 
 // use App\Http\Controllers\CombinedPurchaseReturnController;
 
+use App\Http\Controllers\PurchaseRequisitionController;
 use App\Http\Controllers\NotificationTemplateController;
 use App\Http\Controllers\SalesCommissionAgentController;
 use App\Http\Controllers\DashboardConfiguratorController;
@@ -147,6 +148,23 @@ Route::get('/business-solutions',                                   [FrontendCon
 Route::get('/digital-marketing',                                    [FrontendController::class, 'digital_marketing_service'])->name('digitalMarketing');
 Route::get('/it-solutions',                                         [FrontendController::class, 'it_solutions'])->name('itSolutions');
 Route::get('/partner-boarding',                                     [FrontendController::class, 'partner_boarding'])->name('partnerBoarding');
+
+
+// Shop news category
+//  Route::get('shop-news-category', [NewsCategoryController::class, 'index'])->name('shop-news-category.index');
+//  Route::get('shop-news-category/create', [NewsCategoryController::class, 'create'])->name('shop-news-category.create');
+//  Route::post('shop-news-category', [NewsCategoryController::class, 'store'])->name('shop-news-category.store');
+//  Route::get('shop-news-category/{id}', [NewsCategoryController::class, 'show'])->name('shop-news-category.show');
+//  Route::get('shop-news-category/{id}/edit', [NewsCategoryController::class, 'edit'])->name('shop-news-category.edit');
+//  Route::put('shop-news-category/{id}', [NewsCategoryController::class, 'update'])->name('shop-news-category.update');
+//  Route::delete('shop-news-category/{id}', [NewsCategoryController::class, 'destroy'])->name('shop-news-category.destroy');
+//  Route::get('shop-news-cactegory/status-change/{id}', [NewsCategoryController::class, 'statusChange'])->name('shop-news-category.statusChange');
+
+Route::get('/recruitment/list',                                      [RecruitmentController::class, 'list'])->name('recruitment.list');
+Route::get('/recruitment',                                           [RecruitmentController::class, 'create'])->name('recruitment.create');
+Route::post('/recruitment',                                          [RecruitmentController::class, 'store'])->name('recruitment.store');
+
+
 
 
 // Services
@@ -276,6 +294,9 @@ Route::middleware(['checkAdmin', 'SetSessionData'])->group(function () {
     Route::post('/footer',                 [FooterController::class, 'store'])->name('footer.store');
     Route::get('/footer/{id}/edit',        [FooterController::class, 'edit'])->name('footer.edit');
     Route::put('/footer/{id}',             [FooterController::class, 'update'])->name('footer.update');
+
+    Route::get('/recruitment/index',       [RecruitmentController::class, 'index'])->name('recruitment.index');
+    Route::get('/recruitment/show/{id}',   [RecruitmentController::class, 'show'])->name('recruitment.show');
 
     // Services
     Route::resource('service-advertise', ServiceAdvertiseRoomController::class);
