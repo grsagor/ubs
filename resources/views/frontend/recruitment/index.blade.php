@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Recruitment')
+@section('title', 'Jobs')
 @section('content')
     <section class="content-header">
         <h1>Recruitment List</h1>
@@ -57,8 +57,8 @@
                                 <td>{{ $item->phone ?? '' }}</td>
                                 <td>{{ $item->email ?? '' }}</td>
                                 <td>{{ $item->current_address ?? '' }}</td>
-                                <td>{{ $item->country_residence ?? '' }}</td>
-                                <td>{{ $item->birth_country ?? '' }}</td>
+                                <td>{{ $item->countryResidence->country_name ?? '' }}</td>
+                                <td>{{ $item->birthCountry->country_name ?? '' }}</td>
                                 <td>
                                     <a href="{{ route('recruitment.show', $item->uuid) }}" class="btn btn-xs btn-primary">
                                         <i class="fas fa-eye"></i> Show

@@ -149,23 +149,9 @@ Route::get('/digital-marketing',                                    [FrontendCon
 Route::get('/it-solutions',                                         [FrontendController::class, 'it_solutions'])->name('itSolutions');
 Route::get('/partner-boarding',                                     [FrontendController::class, 'partner_boarding'])->name('partnerBoarding');
 
-
-// Shop news category
-//  Route::get('shop-news-category', [NewsCategoryController::class, 'index'])->name('shop-news-category.index');
-//  Route::get('shop-news-category/create', [NewsCategoryController::class, 'create'])->name('shop-news-category.create');
-//  Route::post('shop-news-category', [NewsCategoryController::class, 'store'])->name('shop-news-category.store');
-//  Route::get('shop-news-category/{id}', [NewsCategoryController::class, 'show'])->name('shop-news-category.show');
-//  Route::get('shop-news-category/{id}/edit', [NewsCategoryController::class, 'edit'])->name('shop-news-category.edit');
-//  Route::put('shop-news-category/{id}', [NewsCategoryController::class, 'update'])->name('shop-news-category.update');
-//  Route::delete('shop-news-category/{id}', [NewsCategoryController::class, 'destroy'])->name('shop-news-category.destroy');
-//  Route::get('shop-news-cactegory/status-change/{id}', [NewsCategoryController::class, 'statusChange'])->name('shop-news-category.statusChange');
-
 Route::get('/recruitment/list',                                      [RecruitmentController::class, 'list'])->name('recruitment.list');
 Route::get('/recruitment',                                           [RecruitmentController::class, 'create'])->name('recruitment.create');
 Route::post('/recruitment',                                          [RecruitmentController::class, 'store'])->name('recruitment.store');
-
-
-
 
 // Services
 Route::get('/room-list/',                        [RoomListController::class, 'roomList'])->name('room.list');
@@ -174,7 +160,6 @@ Route::get('/room-show/{id}',                    [RoomListController::class, 'ro
 Route::post('/submit-form',                      [RoomListController::class, 'showModal']);
 Route::post('/room-booking/',                    [RoomListController::class, 'propertyRentBooking'])->name('room.propertyRentBooking');
 Route::get('/show-occupants-details-inputs',     [RoomListController::class, 'showOccupantsDetailsInputs']);
-
 
 Route::get('/property/{sub_category_id?}/{child_category_id?}', [PropertyFrontController::class, 'roomList'])->name('property.list');
 Route::get('/property-show/{id}',                               [PropertyController::class, 'propertyShow'])->name('property_show');

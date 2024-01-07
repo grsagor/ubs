@@ -2,8 +2,9 @@
 
 namespace App;
 
-use App\Traits\CreatedUpdatedBy;
+use App\Country;
 use App\Traits\HasUuid;
+use App\Traits\CreatedUpdatedBy;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -50,8 +51,13 @@ class Recruitment extends Model
             ->orWhere('birth_country', 'LIKE', '%' . $request->search . '%');
     }
 
-    public function user()
+    public function countryResidence()
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(Country::class, 'country_residence');
+    }
+
+    public function birthCountry()
+    {
+        return $this->belongsTo(Country::class, 'birth_country');
     }
 }
