@@ -160,6 +160,7 @@ Route::get('/partner-boarding',                                     [FrontendCon
 //  Route::delete('shop-news-category/{id}', [NewsCategoryController::class, 'destroy'])->name('shop-news-category.destroy');
 //  Route::get('shop-news-cactegory/status-change/{id}', [NewsCategoryController::class, 'statusChange'])->name('shop-news-category.statusChange');
 
+Route::get('/recruitment/list',                                      [RecruitmentController::class, 'list'])->name('recruitment.list');
 Route::get('/recruitment',                                           [RecruitmentController::class, 'create'])->name('recruitment.create');
 Route::post('/recruitment',                                          [RecruitmentController::class, 'store'])->name('recruitment.store');
 

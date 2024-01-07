@@ -12,7 +12,7 @@
             float: left;
             margin-left: 20px;
             margin-top: 10px;
-            font-size: 16px;
+            font-size: 22px;
             font-family: Verdana, sans-serif;
             color: #ffffff;
         }
@@ -109,8 +109,8 @@
         <div class="form-container box box-primary">
             <div id="header">
                 <p id="name">{{ $item->name ?? '' }}</p>
-                <a href="{{ $item->email }}" target="_blank">
-                    <p id="email">{{ $item->email }}</p>
+                <a href="mailto:{{ $item->email }}">
+                    <p id="email">Send</p>
                 </a>
             </div>
 
@@ -118,9 +118,15 @@
                 <h3 style="margin-top: 0px;">Personal Information:</h3>
                 <p class="font-size">
                     Phone Number: {{ $item->phone ?? '' }}<br>
+                    Email: {{ $item->email ?? '' }}<br>
                     Current Address: {{ $item->current_address ?? '' }}<br>
                     Country of Residence: {{ $item->country_residence ?? '' }}
                     Birth Country: {{ $item->birth_country ?? '' }}
+                </p>
+
+                <h3>Cover letter</h3>
+                <p class="font-size">
+                    {{ $item->cover_letter ?? '' }}
                 </p>
 
                 <h3>Professional Experience</h3>
@@ -144,8 +150,8 @@
 
 
                         @if (!empty($experience['additional_file']) && file_exists(public_path($experience['additional_file'])))
-                            {{-- <embed src="{{ asset($experience['additional_file']) }}" type="application/pdf" width="100%"
-                                height="600px" /> --}}
+                            <embed src="{{ asset($experience['additional_file']) }}" type="application/pdf" width="100%"
+                                height="600px" />
                             <a href="{{ asset($experience['additional_file']) }}"
                                 download="{{ $item->name }}_Additional_Files.pdf">Download
                                 Additional Files</a>
@@ -160,30 +166,24 @@
 
                 <h3>Curriculum Vitae</h3>
                 @if (!empty($item->cv) && file_exists(public_path($item->cv)))
-                    {{-- <embed src="{{ asset($item->cv) }}" type="application/pdf" width="100%" height="600px" /> --}}
+                    <embed src="{{ asset($item->cv) }}" type="application/pdf" width="100%" height="600px" />
                     <a href="{{ asset($item->cv) }}" download="{{ $item->name }}_Curriculum_Vitae.pdf">Download CV</a>
                 @endif
 
                 <h3>DBS Check</h3>
                 @if (!empty($item->dbs_check) && file_exists(public_path($item->dbs_check)))
-                    {{-- <embed src="{{ asset($item->dbs_check) }}" type="application/pdf" width="100%" height="600px" /> --}}
+                    <embed src="{{ asset($item->dbs_check) }}" type="application/pdf" width="100%" height="600px" />
                     <a href="{{ asset($item->dbs_check) }}" download="{{ $item->name }}_DBS_Check.pdf">Download DBS
                         Check</a>
                 @endif
 
                 <h3>Care Certificates</h3>
                 @if (!empty($item->care_certificates) && file_exists(public_path($item->care_certificates)))
-                    {{-- <embed src="{{ asset($item->care_certificates) }}" type="application/pdf" width="100%" height="600px" /> --}}
+                    <embed src="{{ asset($item->care_certificates) }}" type="application/pdf" width="100%"
+                        height="600px" />
                     <a href="{{ asset($item->care_certificates) }}"
                         download="{{ $item->name }}_Care_Certificates.pdf">Download Care Certificates</a>
                 @endif
-
-
-
-                <h3>Cover letter</h3>
-                <p class="font-size">
-                    {{ $item->cover_letter ?? '' }}
-                </p>
             </div>
     </section>
 @endsection

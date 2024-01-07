@@ -11,6 +11,11 @@ class RecruitmentController extends Controller
 {
     use ImageFileUpload;
 
+    public function list()
+    {
+        return view('frontend.recruitment.list');
+    }
+
     public function index(Request $request)
     {
         $data['recruitments'] = Recruitment::query()->search($request)->latest()->paginate(10);
@@ -20,17 +25,19 @@ class RecruitmentController extends Controller
 
     public function create()
     {
-        if (Auth::check()) {
-            $user = Auth::user();
+        return view('frontend.recruitment.create');
 
-            if ($user->user_type == 'user_customer') {
-                return view('frontend.recruitment.create');
-            } else {
-                return view('frontend.recruitment.error');
-            }
-        } else {
-            return view('frontend.recruitment.error');
-        }
+        // if (Auth::check()) {
+        //     $user = Auth::user();
+
+        //     if ($user->user_type == 'user_customer') {
+        //         return view('frontend.recruitment.create');
+        //     } else {
+        //         return view('frontend.recruitment.error');
+        //     }
+        // } else {
+        //     return view('frontend.recruitment.error');
+        // }
     }
 
 

@@ -99,18 +99,23 @@
                         <input type="text" name="name_of_company[]" class="form-control" placeholder="Name of company">
                     </div>
 
-                    <div class="form-group">
-                        <label for="start_date">Start date</label>
-                        <input type="text" name="start_date[]" class="form-control" placeholder="Start date">
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="start_date">Start date</label>
+                                <input type="date" name="start_date[]" class="form-control" placeholder="Start date">
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="end_date">End date</label>
+                                <input type="date" name="end_date[]" class="form-control" placeholder="End date">
+                            </div>
+                        </div>
                     </div>
 
                     <div class="form-group">
-                        <label for="end_date">End date</label>
-                        <input type="text" name="end_date[]" class="form-control" placeholder="End date">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="end_date">Additional file</label>
+                        <label for="end_date">Upload File</label>
                         <input type="file" name="additional_file[]" class="form-control" placeholder="End date">
                     </div>
 
@@ -123,7 +128,7 @@
                 <div class="form-group" style="margin-top: 10px;">
                     <label for="expected_salary">Expected salary </label>
                     <input type="number" step=".01" name="expected_salary" class="form-control"
-                        placeholder="Expected salary">
+                        placeholder="Expected salary" required>
                 </div>
 
                 <div class="form-group">
