@@ -127,14 +127,20 @@
                     Phone Number: {{ $item->phone ?? '' }}<br>
                     Email: {{ $item->email ?? '' }}<br>
                     Current Address: {{ $item->current_address ?? '' }}<br>
-                    Country of Residence: {{ $item->country_residence ?? '' }}
-                    Birth Country: {{ $item->birth_country ?? '' }}
+                    Country of Residence: {{ $item->countryResidence->country_name ?? '' }} <br>
+                    Birth Country: {{ $item->birthCountry->country_name ?? '' }}
                 </p>
 
                 <h3>Cover letter</h3>
                 <p class="font-size">
                     {{ $item->cover_letter ?? '' }}
                 </p>
+
+                <h4>Expected Salary
+                    £{{ $item->expected_salary }}/{{ $item->salary_type == 1 ? 'hourly' : ($item->salary_type == 2 ? 'monthly' : 'unknown') }}
+                </h4>
+
+
 
                 <h3>Professional Experience</h3>
 
@@ -168,10 +174,6 @@
                 @else
                     <p>No professional experiences available.</p>
                 @endif
-
-                <h4>Expected Salary &#163;{{ $item->expected_salary }}
-                    {{ $item->salary_type == 1 ? 'Hourly' : ($item->salary_type == 2 ? 'Monthly' : '') }}
-                </h4>
 
                 <h3>Curriculum Vitae</h3>
                 @if (!empty($item->cv) && file_exists(public_path($item->cv)))

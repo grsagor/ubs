@@ -103,7 +103,7 @@ class RecruitmentController extends Controller
 
     public function show($id)
     {
-        $data['item'] = Recruitment::find($id);
+        $data['item'] = Recruitment::with('countryResidence', 'birthCountry')->find($id);
         return view('frontend.recruitment.show', $data);
     }
 }

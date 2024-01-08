@@ -1,6 +1,6 @@
 <div class="recruitment-section">
     <div class="container-fluid  bg-light content-circle ">
-        <div class="container my-5">
+        <div class="container my-5" style="z-index: 11;">
             <div class=" p-0 m-0">
                 <div class="row justify-content-center position-relative ">
                     <div class="col-12">

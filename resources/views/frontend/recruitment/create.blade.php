@@ -27,19 +27,36 @@
         .step.active {
             display: block;
         }
+
+        textarea[name="cover_letter"] {
+            width: 100%;
+            max-width: 100%;
+            box-sizing: border-box;
+        }
+
+        @media (max-width: 767px) {
+            .mobileView {
+                width: 95% !important;
+            }
+
+            textarea[name="cover_letter"] {
+                width: 100%;
+                box-sizing: border-box;
+            }
+        }
     </style>
 @endsection
 @section('content')
     @includeIf('frontend.partials.global.common-header')
 
     <form id="twoStepForm" action="{{ route('recruitment.store') }}" method="POST" style="width: 50%;"
-        class="mx-auto"enctype="multipart/form-data">
+        class="mx-auto mobileView"enctype="multipart/form-data">
 
         @csrf
         <!-- Step 1 -->
         <div class="step card mt-2" id="step1">
             <div class="card-header">
-                <h5 class="card-title">Registration Form - Step 1</h5>
+                <h5 class="card-title">Apply Form - Step 1</h5>
             </div>
             <div class="card-body">
                 <div class="form-group">
@@ -101,14 +118,15 @@
         <!-- Step 2 -->
         <div class="step card mt-2" id="step2">
             <div class="card-header">
-                <h5 class="card-title">Registration Form - Step 2</h5>
+                <h5 class="card-title">Apply Form - Step 2</h5>
             </div>
             <div class="card-body" id="experienceSection">
                 <div class="experience-group mt-2" style="border: 1px solid #ccc; padding: 10px;">
                     <h5 class="text-center"><u>Experience</u></h5>
                     <div class="form-group">
-                        <label for="name_of_company">Name of company</label>
-                        <input type="text" name="name_of_company[]" class="form-control" placeholder="Name of company">
+                        <label for="name_of_company">Title of experience</label>
+                        <input type="text" name="name_of_company[]" class="form-control"
+                            placeholder="Title of experience">
                     </div>
 
                     <div class="row">
@@ -140,7 +158,7 @@
                 <div class="row" style="margin-top: 10px;">
                     <div class="col-4">
                         <div class="form-group">
-                            <label for="salary_type">Type</label>
+                            <label for="salary_type">Expected Salay</label>
                             <select class="form-control" name="salary_type" required>
                                 <option selected="" value="">Select....</option>
                                 <option value="1">Hourly</option>
@@ -150,14 +168,12 @@
                     </div>
                     <div class="col-8">
                         <div class="form-group">
-                            <label for="expected_salary">Expected salary </label>
+                            <label for="expected_salary">Amount </label>
                             <input type="number" step=".01" name="expected_salary" class="form-control"
-                                placeholder="Expected salary" required>
+                                placeholder="Amount" required>
                         </div>
                     </div>
                 </div>
-
-
 
                 <div class="form-group">
                     <label for="cv">CV </label>
@@ -175,10 +191,9 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="cover_letter">Cover letter</label>
-                    <textarea name="cover_letter" rows="8" cols="79" placeholder="Write here"></textarea>
+                    <label for="cover_letter">Cover letter <span class="text-danger">*</span></label>
+                    <textarea name="cover_letter" rows="8" cols="79" placeholder="Write here" required></textarea>
                 </div>
-
 
                 <div class="text-center">
                     <button type="button" class="btn btn-secondary prev-step" onclick="prevStep()">Previous</button>
