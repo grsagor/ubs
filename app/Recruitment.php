@@ -20,6 +20,7 @@ class Recruitment extends Model
     protected $fillable = [
         'uuid',
         'job_id',
+        'user_id',
         'name',
         'phone',
         'email',
@@ -32,6 +33,7 @@ class Recruitment extends Model
         'cv',
         'dbs_check',
         'care_certificates',
+        'additional_certificates',
         'cover_letter',
         'status',
     ];

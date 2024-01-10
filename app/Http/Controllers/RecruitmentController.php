@@ -46,35 +46,53 @@ class RecruitmentController extends Controller
 
     public function store(Request $request, Recruitment $recruitment)
     {
+        // dd($request->toarray());
         if (Auth::check()) {
             try {
                 $requestedData = $request->all();
 
-                // Initialize an empty array to store the experiences
-                $experienceData = [];
+                if ($request->has('name_of_company')) {
+                    // Initialize an empty array to store the experiences
+                    $experienceData = [];
 
-                // Iterate over each 'name_of_company' from the request data
-                foreach ($request->input('name_of_company') as $key => $company) {
-                    // Create an array for each experience
-                    $experience = [
-                        'name_of_company' => $company,
-                        'start_date' => $request->input('start_date')[$key],
-                        'end_date' => $request->input('end_date')[$key],
-                        // Add other fields as needed
-                    ];
+                    // Iterate over each 'name_of_company' from the request data
+                    foreach ($request->input('name_of_company') as $key => $company) {
+                        // Create an array for each experience
+                        $experience = [
+                            'name_of_company' => $company,
+                            'start_date' => $request->input('start_date')[$key],
+                            'end_date' => $request->input('end_date')[$key],
+                            // Add other fields as needed
+                        ];
 
-                    // Check if the additional_file is present for the current experience
-                    if ($request->hasFile('additional_file') && $request->file('additional_file')[$key]) {
-                        // Upload the file and add its path to the experience array
-                        $experience['additional_file'] = $this->fileUpload($request->file('additional_file')[$key], 'uploads/recruitments/');
+                        // Check if the additional_file is present for the current experience
+                        if ($request->hasFile('additional_file') && $request->file('additional_file')[$key]) {
+                            // Upload the file and add its path to the experience array
+                            $experience['additional_file'] = $this->fileUpload($request->file('additional_file')[$key], 'uploads/recruitments/');
+                        }
+
+                        // Add the current experience array to the overall experiences array
+                        $experienceData[] = $experience;
                     }
 
-                    // Add the current experience array to the overall experiences array
-                    $experienceData[] = $experience;
+                    // Encode the experiences array into JSON and store it in $requestedData['experiences']
+                    $requestedData['experiences'] = json_encode($experienceData, JSON_PRETTY_PRINT);
                 }
 
-                // Encode the experiences array into JSON and store it in $requestedData['experiences']
-                $requestedData['experiences'] = json_encode($experienceData, JSON_PRETTY_PRINT);
+
+                if ($request->has('additional_certificate_titles')) {
+                    $additinalCertificates = [];
+                    foreach ($request->input('additional_certificate_titles') as $key => $title) {
+                        $ad_certificates = [
+                            'additional_certificate_titles' => $title,
+                        ];
+                        if ($request->hasFile('additional_certificate_files') && $request->file('additional_certificate_files')[$key]) {
+                            $ad_certificates['additional_certificate_files'] = $this->fileUpload($request->file('additional_certificate_files')[$key], 'uploads/recruitments/');
+                        }
+                        $additinalCertificates[] = $ad_certificates;
+                    }
+                    $requestedData['additional_certificates'] = json_encode($additinalCertificates, JSON_PRETTY_PRINT);
+                }
 
                 if ($request->file('cv')) {
                     $requestedData['cv']     = $this->fileUpload($request->file('cv'), 'uploads/recruitments/');
@@ -85,6 +103,8 @@ class RecruitmentController extends Controller
                 if ($request->file('care_certificates')) {
                     $requestedData['care_certificates']     = $this->fileUpload($request->file('care_certificates'), 'uploads/recruitments/');
                 }
+
+                $requestedData['user_id'] = Auth::id();
 
                 $requestedData                  = $recruitment->fill($requestedData)->save();
 

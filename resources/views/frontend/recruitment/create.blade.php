@@ -34,6 +34,36 @@
             box-sizing: border-box;
         }
 
+        .certificate-section {
+            display: flex;
+            align-items: center;
+        }
+
+        .certificate-section input,
+        .certificate-section button {
+            margin-right: 5px;
+        }
+
+        .experience-group .delete-button {
+            display: block;
+        }
+
+        .experience-group:first-child .delete-button {
+            display: none;
+        }
+
+        .delete-button,
+        .add-button {
+            padding: 0px 10px;
+            line-height: 27px;
+        }
+
+        .btn-dark,
+        .prev-step {
+            padding: 0px 17px;
+            line-height: 35px;
+        }
+
         @media (max-width: 767px) {
             .mobileView {
                 width: 95% !important;
@@ -122,41 +152,45 @@
             </div>
             <div class="card-body" id="experienceSection">
                 <div class="experience-group mt-2" style="border: 1px solid #ccc; padding: 10px;">
-                    <h5 class="text-center"><u>Experience</u></h5>
                     <div class="form-group">
                         <label for="name_of_company">Title of experience</label>
                         <input type="text" name="name_of_company[]" class="form-control"
-                            placeholder="Title of experience">
+                            placeholder="Title of experience" />
                     </div>
 
                     <div class="row">
                         <div class="col-6">
                             <div class="form-group">
                                 <label for="start_date">Start date</label>
-                                <input type="date" name="start_date[]" class="form-control" placeholder="Start date">
+                                <input type="date" name="start_date[]" class="form-control" placeholder="Start date" />
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="form-group">
                                 <label for="end_date">End date</label>
-                                <input type="date" name="end_date[]" class="form-control" placeholder="End date">
+                                <input type="date" name="end_date[]" class="form-control" placeholder="End date" />
                             </div>
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label for="end_date">Upload File</label>
-                        <input type="file" name="additional_file[]" class="form-control" placeholder="End date">
+                        <input type="file" name="additional_file[]" class="form-control" placeholder="End date" />
                     </div>
 
                     <div class="form-group">
-                        {{-- <button type="button" class="btn btn-danger" onclick="removeExperience(this)">Delete</button> --}}
-                        <button type="button" class="btn btn-dark" onclick="addExperience()">Add Experience</button>
+                        <button type="button" class="btn btn-danger delete-button" onclick="removeExperience(this)">
+                            Delete
+                        </button>
                     </div>
                 </div>
 
+                <button type="button" class="btn btn-dark add-button" onclick="addExperience()">
+                    Add Experience
+                </button>
+
                 <div class="row" style="margin-top: 10px;">
-                    <div class="col-4">
+                    <div class="col-6">
                         <div class="form-group">
                             <label for="salary_type">Expected Salay</label>
                             <select class="form-control" name="salary_type" required>
@@ -166,7 +200,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-8">
+                    <div class="col-6">
                         <div class="form-group">
                             <label for="expected_salary">Amount </label>
                             <input type="number" step=".01" name="expected_salary" class="form-control"
@@ -189,6 +223,14 @@
                     <label for="care_certificate">Care Certificates</label>
                     <input type="file" name="care_certificates" class="form-control">
                 </div>
+                <div class="form-group" id="certificatesSection">
+                    <label for="care_certificate">Additional Certificates</label>
+                </div>
+
+                <div class="form-group">
+                    <button type="button" class="btn btn-dark add-button" onclick="addCertificatesSection()">Add
+                        Certificates</button>
+                </div>
 
                 <div class="form-group">
                     <label for="cover_letter">Cover letter <span class="text-danger">*</span></label>
@@ -207,32 +249,38 @@
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
     <script>
-        function addExperience() {
-            // Clone the first experience group
-            var originalExperienceGroup = $(".experience-group:first");
-            var clonedExperienceGroup = originalExperienceGroup.clone();
+        function addCertificatesSection() {
+            var certificatesSection = $('#certificatesSection');
+            var certificateSectionHtml =
+                '<div class="certificate-section">' +
+                '<input type="text" name="additional_certificate_titles[]" class="form-control" placeholder="Certificate Title">' +
+                '<input type="file" name="additional_certificate_files[]" class="form-control">' +
+                '<button type="button" class="btn btn-danger delete-button" onclick="removeCertificateSection(this)">Delete</button>' +
+                '</div>';
 
-            // Clear input values in the cloned group
-            clonedExperienceGroup.find('input[type="text"]').val('');
-
-            // Remove delete button from the cloned group (if it exists)
-            clonedExperienceGroup.find('.btn-danger').remove();
-
-            // Insert the cloned group after the last experience group
-            $(".experience-group:last").after(clonedExperienceGroup);
-
-            // Add the delete button only to the newly added group
-            clonedExperienceGroup.find('.form-group:last').append(
-                '<button type="button" class="btn btn-danger" onclick="removeExperience(this)">Delete</button>');
+            certificatesSection.append(certificateSectionHtml);
         }
 
-        // Function to remove an experience group
+        function removeCertificateSection(button) {
+            $(button).closest('.certificate-section').remove();
+        }
+    </script>
+
+    <script>
+        function addExperience() {
+            var newExperience = $(".experience-group:first").clone();
+            newExperience.find("input").val("");
+            $(".experience-group:last").after(newExperience); // Use after to place the new experience below the last one
+            $(".experience-group .delete-button").show(); // Show delete button for all sections
+        }
+
         function removeExperience(button) {
-            // Check if the clicked button is not in the first experience group
-            var experienceGroup = $(button).closest('.experience-group');
-            if (experienceGroup.index() > 0) {
-                // Remove the parent experience-group of the clicked button
+            var experienceGroup = $(button).closest(".experience-group");
+            if ($(".experience-group").length > 1) {
                 experienceGroup.remove();
+            }
+            if ($(".experience-group").length === 1) {
+                $(".experience-group .delete-button").hide(); // Hide delete button if there is only one section
             }
         }
     </script>
