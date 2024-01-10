@@ -38,6 +38,7 @@ use App\Http\Controllers\SalesOrderController;
 use App\Http\Controllers\SellReturnController;
 use App\Http\Controllers\AccountTypeController;
 use App\Http\Controllers\ImportSalesController;
+use App\Http\Controllers\RecruitmentController;
 use App\Http\Controllers\CashRegisterController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\OpeningStockController;
@@ -50,8 +51,9 @@ use App\Http\Controllers\PurchaseOrderController;
 use App\Http\Controllers\StockTransferController;
 use App\Http\Controllers\StripePaymentController;
 use App\Http\Controllers\AccountReportsController;
-use App\Http\Controllers\ImportProductsController;
 // use App\Http\Controllers\Auth;
+use App\Http\Controllers\Backend\FooterController;
+use App\Http\Controllers\ImportProductsController;
 use App\Http\Controllers\LedgerDiscountController;
 use App\Http\Controllers\PurchaseReturnController;
 use App\Http\Controllers\TypesOfServiceController;
@@ -60,6 +62,7 @@ use App\Http\Controllers\ExpenseCategoryController;
 use App\Http\Controllers\StockAdjustmentController;
 use App\Http\Controllers\BusinessLocationController;
 use App\Http\Controllers\Frontend\CatalogController;
+use App\Http\Controllers\Frontend\ServiceController;
 use App\Http\Controllers\LocationSettingsController;
 use App\Http\Controllers\Frontend\FrontendController;
 use App\Http\Controllers\Frontend\HomePageController;
@@ -68,18 +71,17 @@ use App\Http\Controllers\Frontend\RoomListController;
 use App\Http\Controllers\SellingPriceGroupController;
 use App\Http\Controllers\VariationTemplateController;
 use App\Http\Controllers\Frontend\EducationController;
-use App\Http\Controllers\Frontend\ServiceController;
 use App\Http\Controllers\ImportOpeningStockController;
 use App\Http\Controllers\TransactionPaymentController;
-use App\Http\Controllers\Frontend\RoomWantedController;
-use App\Http\Controllers\PurchaseRequisitionController;
 
 // use App\Http\Controllers\DashboardConfiguratorController;    
 
-use App\Http\Controllers\NotificationTemplateController;
+use App\Http\Controllers\Frontend\RoomWantedController;
 
 // use App\Http\Controllers\CombinedPurchaseReturnController;
 
+use App\Http\Controllers\PurchaseRequisitionController;
+use App\Http\Controllers\NotificationTemplateController;
 use App\Http\Controllers\SalesCommissionAgentController;
 use App\Http\Controllers\DashboardConfiguratorController;
 use App\Http\Controllers\Backend\PropertyWantedController;
@@ -117,7 +119,7 @@ Route::get('send-mail', function () {
         'body' => 'This is for testing email using smtp'
     ];
 
-    \Mail::to('abshakib91@gmail.com')->send(new \App\Mail\MyTestMail($details));
+    \Mail::to('test@gmail.com')->send(new \App\Mail\MyTestMail($details));
 
     dd("Email is Sent.");
 });
@@ -129,16 +131,27 @@ Route::controller(StripePaymentController::class)->group(function () {
 });
 
 // Digital Marketing, Partner Boarding, Business Solution, IT solution
-Route::get('/digital-marketing', [OtherServicesController::class, 'digitalMarketing'])->name('digitalMarketing');
-Route::get('/partner-boarding', [OtherServicesController::class, 'partnerBoarding'])->name('partnerBoarding');
-Route::get('/business-solutions', [OtherServicesController::class, 'businessSolutions'])->name('businessSolutions');
-Route::get('/it-solutions', [OtherServicesController::class, 'itSolutions'])->name('itSolutions');
-Route::get('/landlord-service', [OtherServicesController::class, 'landlordeService'])->name('landlordeService');
-Route::get('/property-finding-service', [OtherServicesController::class, 'propertyFindingService'])->name('propertyFindingService');
-Route::get('/property-finding-service-charge/{id}', [OtherServicesController::class, 'propertyFindingServiceCharge'])->name('propertyFindingServiceCharge');
-Route::get('/property-finding-service-add-click-handler', [OtherServicesController::class, 'addClilckHandler']);
-Route::get('/property-finding-service-change-quantity-handler', [OtherServicesController::class, 'changeQuantityHandler']);
-Route::get('/property-finding-payment', [OtherServicesController::class, 'propertyFindingPayment'])->name('propertyFindingPayment');
+// Route::get('/digital-marketing',                                    [OtherServicesController::class, 'digitalMarketing'])->name('digitalMarketing');
+// Route::get('/partner-boarding',                                     [OtherServicesController::class, 'partnerBoarding'])->name('partnerBoarding');
+// Route::get('/business-solutions',                                   [OtherServicesController::class, 'businessSolutions'])->name('businessSolutions');
+// Route::get('/it-solutions',                                         [OtherServicesController::class, 'itSolutions'])->name('itSolutions');
+// Route::get('/landlord-service',                                     [OtherServicesController::class, 'landlordeService'])->name('landlordeService');
+Route::get('/property-finding-service',                             [OtherServicesController::class, 'propertyFindingService'])->name('propertyFindingService');
+Route::get('/property-finding-service-charge/{id}',                 [OtherServicesController::class, 'propertyFindingServiceCharge'])->name('propertyFindingServiceCharge');
+Route::get('/property-finding-service-add-click-handler',           [OtherServicesController::class, 'addClilckHandler']);
+Route::get('/property-finding-service-change-quantity-handler',     [OtherServicesController::class, 'changeQuantityHandler']);
+Route::get('/property-finding-payment',                             [OtherServicesController::class, 'propertyFindingPayment'])->name('propertyFindingPayment');
+
+Route::get('/landlord-service',                                     [FrontendController::class, 'landlord_service'])->name('landlordeService');
+Route::get('/tenant-management-service',                            [FrontendController::class, 'tenant_management_service'])->name('tenant_management_service');
+Route::get('/business-solutions',                                   [FrontendController::class, 'business_solutions'])->name('businessSolutions');
+Route::get('/digital-marketing',                                    [FrontendController::class, 'digital_marketing_service'])->name('digitalMarketing');
+Route::get('/it-solutions',                                         [FrontendController::class, 'it_solutions'])->name('itSolutions');
+Route::get('/partner-boarding',                                     [FrontendController::class, 'partner_boarding'])->name('partnerBoarding');
+
+Route::get('/recruitment/list',                                      [RecruitmentController::class, 'list'])->name('recruitment.list');
+Route::get('/recruitment',                                           [RecruitmentController::class, 'create'])->name('recruitment.create');
+Route::post('/recruitment',                                          [RecruitmentController::class, 'store'])->name('recruitment.store');
 
 // Services
 Route::get('/room-list/', [RoomListController::class, 'roomList'])->name('room.list');
@@ -147,7 +160,6 @@ Route::get('/room-show/{id}', [RoomListController::class, 'roomShow'])->name('ro
 Route::post('/submit-form', [RoomListController::class, 'showModal']);
 Route::post('/room-booking/', [RoomListController::class, 'propertyRentBooking'])->name('room.propertyRentBooking');
 Route::get('/show-occupants-details-inputs', [RoomListController::class, 'showOccupantsDetailsInputs']);
-
 
 Route::get('/property/{sub_category_id?}/{child_category_id?}', [PropertyFrontController::class, 'roomList'])->name('property.list');
 Route::get('/property-show/{id}', [PropertyController::class, 'propertyShow'])->name('property_show');
@@ -164,11 +176,35 @@ Route::get('/get-child-subcategories/{category_id}', [ServiceController::class, 
 Route::get('/get-service-items/{category_id}', [ServiceController::class, 'getServiceItems']);
 
 // FOOTER LINKS DETAIL SECTION
-Route::get('/about', [FrontendController::class, 'footerDetails'])->name('footer.details.about');
-Route::get('/make-money', [FrontendController::class, 'footerDetails'])->name('footer.details.make.money');
-Route::get('/our-services', [FrontendController::class, 'footerDetails'])->name('footer.details.our.services');
-Route::get('/quick-links', [FrontendController::class, 'footerDetails'])->name('footer.details.quick.links');
-Route::get('/policies', [FrontendController::class, 'footerDetails'])->name('footer.details.policies');
+// Route::get('/about',                                    [FrontendController::class, 'footerDetails'])->name('footer.details.about');
+Route::get('/about-us',                                 [FrontendController::class, 'about_us'])->name('footer.details.about_us');
+Route::get('/slavery-and-human-trafficking-statement',  [FrontendController::class, 'slavery_and_human_trafficking_statement'])->name('footer.details.slavery_and_human_trafficking_statement');
+Route::get('/statement',                                [FrontendController::class, 'statement'])->name('footer.details.statement');
+Route::get('/sustainability',                           [FrontendController::class, 'sustainability'])->name('footer.details.sustainability');
+Route::get('/unipuller-service',                        [FrontendController::class, 'unipuller_service'])->name('footer.details.unipuller_service');
+
+// Route::get('/make-money',                               [FrontendController::class, 'footerDetails'])->name('footer.details.make.money');
+Route::get('/sell-on-unipuller',                        [FrontendController::class, 'sell_on_unipuller'])->name('footer.details.sell_on_unipuller');
+Route::get('/sell-on-unipuller-technology',             [FrontendController::class, 'sell_on_technology'])->name('footer.details.sell_on_technology');
+Route::get('/associate-program',                        [FrontendController::class, 'associate_program'])->name('footer.details.associate_program');
+Route::get('/service-delivery-partnership',             [FrontendController::class, 'delivery_partner'])->name('footer.details.delivery_partner');
+
+
+// Route::get('/our-services',                             [FrontendController::class, 'footerDetails'])->name('footer.details.our.services');
+Route::get('/advertising',                              [FrontendController::class, 'advertising'])->name('footer.details.our.advertising');
+Route::get('/marketing',                                [FrontendController::class, 'marketing'])->name('footer.details.our.marketing');
+Route::get('/website-devlopment',                       [FrontendController::class, 'website_devlopment'])->name('footer.details.our.website_devlopment');
+Route::get('/software-devlopment',                      [FrontendController::class, 'software_devlopment'])->name('footer.details.our.software_devlopment');
+Route::get('/seo',                                      [FrontendController::class, 'seo'])->name('footer.details.our.seo');
+Route::get('/video-production',                         [FrontendController::class, 'video_production'])->name('footer.details.our.video_production');
+
+// Route::get('/quick-links',                              [FrontendController::class, 'footerDetails'])->name('footer.details.quick.links');
+
+// Route::get('/policies',                                 [FrontendController::class, 'footerDetails'])->name('footer.details.policies');
+Route::get('/privacy-cookies',                          [FrontendController::class, 'privacy_cookies'])->name('footer.details.policies.privacy_cookies');
+Route::get('/condition-of-use-and-sale',                [FrontendController::class, 'condition_of_use_sale'])->name('footer.details.policies.condition_of_use_sale');
+Route::get('/return-and-return-policies',               [FrontendController::class, 'return_refund_policies'])->name('footer.details.policies.return_refund_policies');
+Route::get('/payment-terms',                            [FrontendController::class, 'payment_terms'])->name('footer.details.policies.payment_terms');
 
 // CART SECTION
 Route::get('/carts', [CartController::class, 'cart'])->name('front.cart');
@@ -237,6 +273,15 @@ Route::middleware(['setData'])->group(function () {
 //Routes for authenticated users only
 // Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 'AdminSidebarMenu', 'CheckUserLogin'])->group(function () {
 Route::middleware(['checkAdmin', 'SetSessionData'])->group(function () {
+
+    Route::get('/footer',                  [FooterController::class, 'index'])->name('footer.index');
+    Route::get('/footer/create',           [FooterController::class, 'create'])->name('footer.create');
+    Route::post('/footer',                 [FooterController::class, 'store'])->name('footer.store');
+    Route::get('/footer/{id}/edit',        [FooterController::class, 'edit'])->name('footer.edit');
+    Route::put('/footer/{id}',             [FooterController::class, 'update'])->name('footer.update');
+
+    Route::get('/recruitment/index',       [RecruitmentController::class, 'index'])->name('recruitment.index');
+    Route::get('/recruitment/show/{id}',   [RecruitmentController::class, 'show'])->name('recruitment.show');
 
     // Services
     Route::resource('service-advertise', ServiceAdvertiseRoomController::class);

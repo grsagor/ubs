@@ -16,9 +16,9 @@
         background-color: #131A22;
         color: #ddd;
         display: grid;
-        grid-template-columns: repeat(6, 1fr);
+        grid-template-columns: repeat(5, 1fr);
         gap: 10px;
-        padding: 30px 10%;
+        padding: 30px 8%;
         font-size: 12px;
     }
 
@@ -58,7 +58,7 @@
         .footer-mid {
             background-color: #232F3E;
             grid-template-columns: repeat(1, 1fr);
-            padding: 30px 10%;
+            padding: 5px 5%;
         }
 
         .footer-mid ul {
@@ -83,80 +83,86 @@
             <span>Bangladesh</span>
         </div>
     </div>
-    <div class="footer-mid">
+    <div class="footer-mid ">
+
         <ul>
-            <li><a href="{{ route('footer.details.about') }}"><span>About</span></a></li>
-            <li><a href="{{ route('footer.details.about') }}">About us</a></li>
-            <li><a href="{{ route('footer.details.about') }}">Statement</a></li>
-            <li><a href="{{ route('footer.details.about') }}">Sustainability</a></li>
-            <li><a href="{{ route('footer.details.about') }}">Unipuller service</a></li>
+            <li><span>About</span></li>
+            <li><a href="{{ route('footer.details.about_us') }}">About Us</a></li>
+            <li><a href="{{ route('footer.details.slavery_and_human_trafficking_statement') }}">Slavery and Human
+                    Trafficking</a></li>
+            <li><a href="{{ route('footer.details.statement') }}">Statement</a></li>
+            <li><a href="{{ route('footer.details.sustainability') }}">Sustainability</a></li>
+            <li><a href="{{ route('footer.details.unipuller_service') }}">Unipuller service</a></li>
         </ul>
+
         <ul>
-            <li><a href="{{ route('footer.details.make.money') }}"><span>Make money with us</span></a></li>
-            <li><a href="{{ route('footer.details.make.money') }}">Sell on unipuller</a></li>
-            <li><a href="{{ route('footer.details.make.money') }}">Sell on unipuller technology</a></li>
-            <li><a href="{{ route('footer.details.make.money') }}">Associate program</a></li>
-            <li><a href="{{ route('footer.details.make.money') }}">Delivery partner</a></li>
+            <li><span>Make money with us</span></li>
+            <li><a href="{{ route('footer.details.sell_on_technology') }}">Sell on unipuller technology</a>
+            </li>
+            <li><a href="{{ route('footer.details.sell_on_unipuller') }}">Sell on unipuller</a></li>
+            <li><a href="{{ route('footer.details.associate_program') }}">Associate program</a></li>
+            <li><a href="{{ route('footer.details.delivery_partner') }}">Service Delivery parntership</a></li>
         </ul>
+
         <ul>
-            <li><a href="{{ route('footer.details.our.services') }}"><span>Our services</span></a></li>
-            <li><a href="{{ route('footer.details.our.services') }}">Advertising</a></li>
-            <li><a href="{{ route('footer.details.our.services') }}">Marketing</a></li>
-            <li><a href="{{ route('footer.details.our.services') }}">Website Development</a></li>
-            <li><a href="{{ route('footer.details.our.services') }}">Software Development</a></li>
-            <li><a href="{{ route('footer.details.our.services') }}">SEO</a></li>
-            <li><a href="{{ route('footer.details.our.services') }}">Video Production</a></li>
-            <li><a href="{{ route('footer.details.our.services') }}">Partner Boarding</a></li>
+            <li><span>Our services</span></li>
+            <li><a href="{{ route('footer.details.our.advertising') }}">Advertising</a></li>
+            <li><a href="{{ route('footer.details.our.marketing') }}">Marketing</a></li>
+            <li><a href="{{ route('footer.details.our.website_devlopment') }}">Website Development</a></li>
+            <li><a href="{{ route('footer.details.our.software_devlopment') }}">Software Development</a></li>
+            <li><a href="{{ route('footer.details.our.seo') }}">SEO</a></li>
+            <li><a href="{{ route('footer.details.our.video_production') }}">Video Production</a></li>
         </ul>
+
         <ul>
-            <li><a href="{{ route('footer.details.quick.links') }}"><span>Quick links</span></a></li>
+            <li><span>Policies</span></li>
+            <li><a href="{{ route('footer.details.policies.privacy_cookies') }}">Privacy and Cookies</a></li>
+            <li><a href="{{ route('footer.details.policies.condition_of_use_sale') }}">Condition of use and sale</a>
             </li>
-            <li><a href="{{ route('footer.details.quick.links') }}">Software</a></li>
+            <li><a href="{{ route('footer.details.policies.return_refund_policies') }}">Returns and Refund Policies</a>
             </li>
-            <li><a href="{{ route('footer.details.quick.links') }}">Domain & Hosting</a></li>
-            </li>
-            <li><a href="{{ route('footer.details.quick.links') }}">Ready Websites</a></li>
-            </li>
-            <li><a href="{{ route('footer.details.quick.links') }}">Form Generator</a></li>
-            </li>
-            <li><a href="{{ route('footer.details.quick.links') }}">QR Code Generator</a></li>
-            </li>
-            <li><a href="{{ route('footer.details.quick.links') }}">Content Creator</a></li>
-            </li>
+            <li><a href="{{ route('footer.details.policies.payment_terms') }}">Payment terms</a></li>
         </ul>
-        <ul>
-            <li><a href="{{ route('footer.details.policies') }}"><span>Policies</span></a></li>
-            <li><a href="{{ route('footer.details.policies') }}">Privacy</a></li>
-            <li><a href="{{ route('footer.details.policies') }}">Cookies</a></li>
-            <li><a href="{{ route('footer.details.policies') }}">Condition of sale</a></li>
-            <li><a href="{{ route('footer.details.policies') }}">Condition of use</a></li>
-            <li><a href="{{ route('footer.details.policies') }}">Return policies</a></li>
-            <li><a href="{{ route('footer.details.policies') }}">Refund policies</a></li>
-            <li><a href="{{ route('footer.details.policies') }}">Seller statement</a></li>
-            <li><a href="{{ route('footer.details.policies') }}">Payment terms</a></li>
-        </ul>
+
         <ul>
             <li><span>Connect</span></li>
             <li><a href="">Help and support</a></li>
             <li>
-                <ul class="d-flex flex-row gap-3 mt-2">
-                    <li><a href="https://www.facebook.com/Unipuller" target="__blank"><i
-                                class="fa-brands fa-facebook"></i></a></li>
-                    {{-- <li><a href=""><i class="fa-brands fa-twitter"></i></a></li> --}}
-                    <li><a href="https://www.linkedin.com/company/unipuller/" target="__blank"><i
-                                class="fa-brands fa-linkedin"></i></a>
+                <ul class="d-flex flex-row gap-3 mt-2" style="padding: 0px !important;">
+                    <li>
+                        @if (isset(footerInfo()['facebook']))
+                            <a href="{!! strip_tags(footerInfo()['facebook']) !!}" target="_blank" rel="noopener">
+                                <i class="fa-brands fa-facebook"></i>
+                            </a>
+                        @endif
                     </li>
-                    <li><a href="https://www.youtube.com/@unipuller" target="__blank"><i
-                                class="fa-brands fa-youtube"></i></a></li>
+
+                    <li>
+                        @if (isset(footerInfo()['linkedin']))
+                            <a href="{!! strip_tags(footerInfo()['linkedin']) !!}" target="__blank">
+                                <i class="fa-brands fa-linkedin"></i>
+                            </a>
+                        @endif
+                    </li>
+
+                    <li>
+                        @if (isset(footerInfo()['youtube']))
+                            <a href="{!! strip_tags(footerInfo()['youtube']) !!}" target="__blank">
+                                <i class="fa-brands fa-youtube"></i>
+                            </a>
+                        @endif
+                    </li>
                 </ul>
             </li>
         </ul>
     </div>
+
+    {{-- {{ dd(footerInfo()) }} --}}
     <div class="footer-bottom">
-        <span class="fw-bold">Unipuller</span> is a registered Private Ltd. company with Company House in United Kingdom
-        and Bangladesh. Registration number: 14583903 and VAT number: 438 5100 09. Company address: Unit 1a, Nagpal
-        House, 1 Gunthrope St., London, United Kingdom. Post code: E1 7RG. © Unipuller Limited 2023. All rights
-        reserved.
+        @if (isset(footerInfo()['copyright']))
+            {!! footerInfo()['copyright'] !!}
+        @endif
     </div>
+
 </footer>
 <script src="https://kit.fontawesome.com/7e596160a4.js" crossorigin="anonymous"></script>

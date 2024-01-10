@@ -1,5 +1,6 @@
 <?php
 
+use App\Footer;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 /**
@@ -219,5 +220,30 @@ if (!function_exists('yesNo')) {
                 'value' => 2
             ]
         ];
+    }
+}
+
+
+if (!function_exists('footerInfo')) {
+    function footerInfo()
+    {
+        $data = Footer::whereIn('slug', ['facebook', 'copyright', 'linkedin', 'youtube'])
+            ->active()
+            ->pluck('description', 'slug')
+            ->toArray();
+
+        return [
+            'youtube' => $data['youtube'] ?? null,
+            'copyright' => $data['copyright'] ?? null,
+            'facebook' => $data['facebook'] ?? null,
+            'linkedin' => $data['linkedin'] ?? null,
+        ];
+    }
+}
+
+if (!function_exists('serialNumber')) {
+    function serialNumber($data, $loop)
+    {
+        return $data->firstItem() + $loop->index;
     }
 }
