@@ -449,18 +449,76 @@
 
                                                 <tr>
                                                     <td>&nbsp;</td>
-                                                    <form action="{{route('stripe.post')}}" method="POST">
-                                                        {{ csrf_field() }}
-                                                        <script
-                                                                src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-                                                                data-key="{{ env('STRIPE_PUB_KEY') }}"
-                                                                data-amount="1000"
-                                                                data-name="name"
-                                                                data-description="Pay with stripe"
-                                                                data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
-                                                                data-locale="auto"
-                                                                data-currency="usd">
-                                                        </script>
+                                                    <form id="propertyFindingPaymentForm" method="GET"
+                                                        action="{{ route('propertyFindingPayment') }}">
+                                                        @csrf
+                                                        <input type="hidden" name="category_name" value="room">
+                                                        <input type="hidden" id="room_regular_product_id"
+                                                            name="product_id" value="{{ $property_id ?? null }}">
+                                                        @if ($property_id == null)
+                                                            <input type="hidden" name="type"
+                                                                value="property_wanted_frontend">
+                                                        @else
+                                                            <input type="hidden" name="type"
+                                                                value="property_wanted_backend">
+                                                        @endif
+
+                                                        <input type="hidden" name="product_name" value="Room Regular">
+
+                                                        <input type="hidden" id="room_regular_size" name="room_size"
+                                                            value="">
+                                                        <input type="hidden" id="room_regular_quantity"
+                                                            name="room_quantity" value="">
+                                                        <input type="hidden" id="room_regular_service_charge_id"
+                                                            name="service_charge_id" value="">
+                                                        <input type="hidden" id="room_regular_charge" name="room_charge"
+                                                            value="">
+
+                                                        <input type="hidden" name="plan" value="Regular">
+                                                        <input type="hidden" name="child_category_id_from_backend"
+                                                            value="11">
+
+                                                        <td class="bg-green">
+                                                            <button type="submit" class="btn"
+                                                                id="room_regular_pay_btn"
+                                                                style="color: white">PAY</button>
+                                                        </td>
+                                                    </form>
+
+                                                    <form id="propertyFindingPaymentForm" method="GET"
+                                                        action="{{ route('propertyFindingPayment') }}">
+                                                        @csrf
+                                                        <input type="hidden" name="category_name" value="room">
+                                                        <input type="hidden" id="room_premium_product_id"
+                                                            name="product_id" value="{{ $property_id ?? null }}">
+                                                        @if ($property_id == null)
+                                                            <input type="hidden" name="type"
+                                                                value="property_wanted_frontend">
+                                                        @else
+                                                            <input type="hidden" name="type"
+                                                                value="property_wanted_backend">
+                                                        @endif
+
+                                                        <input type="hidden" name="product_name" value="Room Premium">
+
+                                                        <input type="hidden" id="room_premium_size" name="room_size"
+                                                            value="">
+                                                        <input type="hidden" id="room_premium_quantity"
+                                                            name="room_quantity" value="">
+                                                        <input type="hidden" id="room_premium_service_charge_id"
+                                                            name="service_charge_id" value="">
+                                                        <input type="hidden" id="room_premium_charge" name="room_charge"
+                                                            value="">
+
+                                                        <input type="hidden" name="plan" value="Premium">
+                                                        <input type="hidden" name="child_category_id_from_backend"
+                                                            value="11">
+
+                                                        <td class="bg-lblue">
+                                                            <button type="submit" class="btn"
+                                                                id="room_premium_pay_btn"
+                                                                style="color: white">PAY</button>
+                                                        </td>
                                                     </form>
                                                 </tr>
 

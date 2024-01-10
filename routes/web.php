@@ -129,51 +129,51 @@ Route::controller(StripePaymentController::class)->group(function () {
 });
 
 // Digital Marketing, Partner Boarding, Business Solution, IT solution
-Route::get('/digital-marketing',                                    [OtherServicesController::class, 'digitalMarketing'])->name('digitalMarketing');
-Route::get('/partner-boarding',                                     [OtherServicesController::class, 'partnerBoarding'])->name('partnerBoarding');
-Route::get('/business-solutions',                                   [OtherServicesController::class, 'businessSolutions'])->name('businessSolutions');
-Route::get('/it-solutions',                                         [OtherServicesController::class, 'itSolutions'])->name('itSolutions');
-Route::get('/landlord-service',                                     [OtherServicesController::class, 'landlordeService'])->name('landlordeService');
-Route::get('/property-finding-service',                             [OtherServicesController::class, 'propertyFindingService'])->name('propertyFindingService');
-Route::get('/property-finding-service-charge/{id}',                 [OtherServicesController::class, 'propertyFindingServiceCharge'])->name('propertyFindingServiceCharge');
-Route::get('/property-finding-service-add-click-handler',           [OtherServicesController::class, 'addClilckHandler']);
-Route::get('/property-finding-service-change-quantity-handler',     [OtherServicesController::class, 'changeQuantityHandler']);
-Route::get('/property-finding-payment',                             [OtherServicesController::class, 'propertyFindingPayment'])->name('propertyFindingPayment');
+Route::get('/digital-marketing', [OtherServicesController::class, 'digitalMarketing'])->name('digitalMarketing');
+Route::get('/partner-boarding', [OtherServicesController::class, 'partnerBoarding'])->name('partnerBoarding');
+Route::get('/business-solutions', [OtherServicesController::class, 'businessSolutions'])->name('businessSolutions');
+Route::get('/it-solutions', [OtherServicesController::class, 'itSolutions'])->name('itSolutions');
+Route::get('/landlord-service', [OtherServicesController::class, 'landlordeService'])->name('landlordeService');
+Route::get('/property-finding-service', [OtherServicesController::class, 'propertyFindingService'])->name('propertyFindingService');
+Route::get('/property-finding-service-charge/{id}', [OtherServicesController::class, 'propertyFindingServiceCharge'])->name('propertyFindingServiceCharge');
+Route::get('/property-finding-service-add-click-handler', [OtherServicesController::class, 'addClilckHandler']);
+Route::get('/property-finding-service-change-quantity-handler', [OtherServicesController::class, 'changeQuantityHandler']);
+Route::get('/property-finding-payment', [OtherServicesController::class, 'propertyFindingPayment'])->name('propertyFindingPayment');
 
 // Services
-Route::get('/room-list/',                        [RoomListController::class, 'roomList'])->name('room.list');
-Route::get('/room-list/category',                [RoomListController::class, 'roomListCategory'])->name('room.list.category');
-Route::get('/room-show/{id}',                    [RoomListController::class, 'roomShow'])->name('room_show');
-Route::post('/submit-form',                      [RoomListController::class, 'showModal']);
-Route::post('/room-booking/',                    [RoomListController::class, 'propertyRentBooking'])->name('room.propertyRentBooking');
-Route::get('/show-occupants-details-inputs',     [RoomListController::class, 'showOccupantsDetailsInputs']);
+Route::get('/room-list/', [RoomListController::class, 'roomList'])->name('room.list');
+Route::get('/room-list/category', [RoomListController::class, 'roomListCategory'])->name('room.list.category');
+Route::get('/room-show/{id}', [RoomListController::class, 'roomShow'])->name('room_show');
+Route::post('/submit-form', [RoomListController::class, 'showModal']);
+Route::post('/room-booking/', [RoomListController::class, 'propertyRentBooking'])->name('room.propertyRentBooking');
+Route::get('/show-occupants-details-inputs', [RoomListController::class, 'showOccupantsDetailsInputs']);
 
 
 Route::get('/property/{sub_category_id?}/{child_category_id?}', [PropertyFrontController::class, 'roomList'])->name('property.list');
-Route::get('/property-show/{id}',                               [PropertyController::class, 'propertyShow'])->name('property_show');
-Route::put('/property-reference-number-check/{id}',             [PropertyController::class, 'referenceNumberCheck'])->name('property.referenceNumberCheck');
-Route::get('/property-list-showing/{child_category_id?}',       [PropertyController::class, 'propertyListShowing']);
+Route::get('/property-show/{id}', [PropertyController::class, 'propertyShow'])->name('property_show');
+Route::put('/property-reference-number-check/{id}', [PropertyController::class, 'referenceNumberCheck'])->name('property.referenceNumberCheck');
+Route::get('/property-list-showing/{child_category_id?}', [PropertyController::class, 'propertyListShowing']);
 
-Route::get('/education-list',           [EducationController::class, 'educationList'])->name('education.list');
-Route::get('/education-show/{id}',      [EducationController::class, 'educationShow'])->name('education_show');
+Route::get('/education-list', [EducationController::class, 'educationList'])->name('education.list');
+Route::get('/education-show/{id}', [EducationController::class, 'educationShow'])->name('education_show');
 
-Route::get('/service-list',                             [ServiceController::class, 'serviceList'])->name('service.list');
-Route::get('/service-create',                           [ServiceController::class, 'serviceCreate'])->name('service.create');
-Route::get('/get-subcategories/{category_id}',          [ServiceController::class, 'getSubcategories'])->name('service.subCategory');
-Route::get('/get-child-subcategories/{category_id}',    [ServiceController::class, 'getChildSubcategories'])->name('service.childSubCategory');
-Route::get('/get-service-items/{category_id}',          [ServiceController::class, 'getServiceItems']);
+Route::get('/service-list', [ServiceController::class, 'serviceList'])->name('service.list');
+Route::get('/service-create', [ServiceController::class, 'serviceCreate'])->name('service.create');
+Route::get('/get-subcategories/{category_id}', [ServiceController::class, 'getSubcategories'])->name('service.subCategory');
+Route::get('/get-child-subcategories/{category_id}', [ServiceController::class, 'getChildSubcategories'])->name('service.childSubCategory');
+Route::get('/get-service-items/{category_id}', [ServiceController::class, 'getServiceItems']);
 
 // FOOTER LINKS DETAIL SECTION
-Route::get('/about',                                    [FrontendController::class, 'footerDetails'])->name('footer.details.about');
-Route::get('/make-money',                               [FrontendController::class, 'footerDetails'])->name('footer.details.make.money');
-Route::get('/our-services',                             [FrontendController::class, 'footerDetails'])->name('footer.details.our.services');
-Route::get('/quick-links',                              [FrontendController::class, 'footerDetails'])->name('footer.details.quick.links');
-Route::get('/policies',                                 [FrontendController::class, 'footerDetails'])->name('footer.details.policies');
+Route::get('/about', [FrontendController::class, 'footerDetails'])->name('footer.details.about');
+Route::get('/make-money', [FrontendController::class, 'footerDetails'])->name('footer.details.make.money');
+Route::get('/our-services', [FrontendController::class, 'footerDetails'])->name('footer.details.our.services');
+Route::get('/quick-links', [FrontendController::class, 'footerDetails'])->name('footer.details.quick.links');
+Route::get('/policies', [FrontendController::class, 'footerDetails'])->name('footer.details.policies');
 
 // CART SECTION
-Route::get('/carts',                    [CartController::class, 'cart'])->name('front.cart');
-Route::get('/addcart/{id}',             [CartController::class, 'addcart'])->name('product.cart.add');
-Route::get('/addtocart/{id}',           [CartController::class, 'addtocart'])->name('product.cart.quickadd');
+Route::get('/carts', [CartController::class, 'cart'])->name('front.cart');
+Route::get('/addcart/{id}', [CartController::class, 'addcart'])->name('product.cart.add');
+Route::get('/addtocart/{id}', [CartController::class, 'addtocart'])->name('product.cart.quickadd');
 Route::get('/addnumcart', 'Front\CartController@addnumcart')->name('details.cart');
 Route::get('/addtonumcart', 'Front\CartController@addtonumcart');
 Route::get('/addservicetonumcart', 'Front\CartController@addservicetonumcart');
@@ -191,13 +191,13 @@ Route::middleware(['setData'])->group(function () {
 
     // Frontend Routes Start //
 
-    Route::get('/',         [HomePageController::class, 'index'])->name('homePage');
+    Route::get('/', [HomePageController::class, 'index'])->name('homePage');
     Route::get('/category/{category?}/{subcategory?}/{childcategory?}/{kind?}', [FrontendCategoryController::class, 'category'])->name('front.category');
 
     Route::get('/shop/list/{category?}/{country?}', [ShopController::class, 'shopList'])->name('shop.list');
-    Route::get('/shop/{id}',                        [ShopController::class, 'ShopService'])->name('shop.service');
+    Route::get('/shop/{id}', [ShopController::class, 'ShopService'])->name('shop.service');
 
-    Route::get('/shop/business/service/{id}',       [ShopController::class, 'BusinessShopService'])->name('business.shop.service');
+    Route::get('/shop/business/service/{id}', [ShopController::class, 'BusinessShopService'])->name('business.shop.service');
 
 
     //Product
@@ -206,7 +206,7 @@ Route::middleware(['setData'])->group(function () {
 
     // CATEGORY SECTION
 
-    Route::get('/categories',                       [CatalogController::class, 'categories'])->name('front.categories');
+    Route::get('/categories', [CatalogController::class, 'categories'])->name('front.categories');
     Route::get('/category/{category?}/{subcategory?}/{childcategory?}/{kind?}', [CatalogController::class, 'category'])->name('front.category');
 
     // Frontend Routes End //
@@ -277,6 +277,7 @@ Route::middleware(['checkAdmin', 'SetSessionData'])->group(function () {
     /* Route created by GR SAGOR from here */
     Route::get('/shop-share', [ShopShareController::class, 'index'])->name('shop.share.page');
     Route::post('/shop-share', [ShopShareController::class, 'store'])->name('shop.share.store');
+    Route::get('/shop-share-open-modal', [ShopShareController::class, 'openModal'])->name('shop.share.open.modal');
 
     Route::get('/resell-product', [ResellController::class, 'index'])->name('product.resell.page');
     Route::post('/resell-product', [ResellController::class, 'store'])->name('product.resell.store');

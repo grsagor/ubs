@@ -185,4 +185,9 @@ class BusinessLocation extends Model
     {
         return $this->hasMany('App\Product', 'shop_id', 'id');
     }
+
+    public function partnership_shops()
+    {
+        return $this->hasMany(PartnershipShop::class, 'partnership_shop_id');
+    }
 }

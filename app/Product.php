@@ -35,8 +35,8 @@ class Product extends Model
      */
     public function getImageUrlAttribute()
     {
-        if (! empty($this->image)) {
-            $image_url = asset('/uploads/img/'.rawurlencode($this->image));
+        if (!empty($this->image)) {
+            $image_url = asset('/uploads/img/' . rawurlencode($this->image));
         } else {
             $image_url = asset('/img/default.png');
         }
@@ -51,8 +51,8 @@ class Product extends Model
      */
     public function getImagePathAttribute()
     {
-        if (! empty($this->image)) {
-            $image_path = public_path('uploads').'/'.config('constants.product_img_path').'/'.$this->image;
+        if (!empty($this->image)) {
+            $image_path = public_path('uploads') . '/' . config('constants.product_img_path') . '/' . $this->image;
         } else {
             $image_path = null;
         }
@@ -234,62 +234,60 @@ class Product extends Model
 
 
 
-    public  function setCurrency() {
+    public function setCurrency()
+    {
         $gs = cache()->remember('generalsettings', now()->addDay(), function () {
             return DB::table('generalsettings')->first();
         });
         $price = $this->price;
-        if (Session::has('currency'))
-        {
+        if (Session::has('currency')) {
             $curr = cache()->remember('session_currency', now()->addDay(), function () {
                 return Currency::find(Session::get('currency'));
             });
-        }
-        else
-        {
+        } else {
             $curr = cache()->remember('default_currency', now()->addDay(), function () {
-                return Currency::where('is_default','=',1)->first();
+                return Currency::where('is_default', '=', 1)->first();
             });
         }
         $price = $price * $curr->value;
         $price = \PriceHelper::showPrice($price);
-        if($gs->currency_format == 0){
-            return $curr->sign.$price;
-        }
-        else{
-            return $price.$curr->sign;
+        if ($gs->currency_format == 0) {
+            return $curr->sign . $price;
+        } else {
+            return $price . $curr->sign;
         }
     }
 
-    public function showPrice() {
+    public function showPrice()
+    {
         $gs = cache()->remember('generalsettings', now()->addDay(), function () {
             return DB::table('generalsettings')->first();
         });
         $price = $this->price;
 
-        if($this->user_id != 0){
-        $price = $this->price + $gs->fixed_commission + ($this->price/100) * $gs->percentage_commission;
+        if ($this->user_id != 0) {
+            $price = $this->price + $gs->fixed_commission + ($this->price / 100) * $gs->percentage_commission;
         }
 
-        if(!empty($this->size)){
+        if (!empty($this->size)) {
             $price += $this->size_price[0];
         }
 
         // Attribute Section
 
         $attributes = $this->attributes["attributes"];
-        if(!empty($attributes)) {
+        if (!empty($attributes)) {
             $attrArr = json_decode($attributes, true);
         }
 
         if (!empty($attrArr)) {
             foreach ($attrArr as $attrKey => $attrVal) {
-                if (is_array($attrVal) && array_key_exists("details_status",$attrVal) && $attrVal['details_status'] == 1) {
+                if (is_array($attrVal) && array_key_exists("details_status", $attrVal) && $attrVal['details_status'] == 1) {
 
                     foreach ($attrVal['values'] as $optionKey => $optionVal) {
-                    $price += $attrVal['prices'][$optionKey];
-                    // only the first price counts
-                    break;
+                        $price += $attrVal['prices'][$optionKey];
+                        // only the first price counts
+                        break;
                     }
 
                 }
@@ -298,79 +296,73 @@ class Product extends Model
 
         // Attribute Section Ends
 
-        if (Session::has('currency'))
-        {
+        if (Session::has('currency')) {
             $curr = cache()->remember('session_currency', now()->addDay(), function () {
                 return Currency::find(Session::get('currency'));
             });
-        }
-        else
-        {
+        } else {
             $curr = cache()->remember('default_currency', now()->addDay(), function () {
-                return Currency::where('is_default','=',1)->first();
+                return Currency::where('is_default', '=', 1)->first();
             });
         }
 
         $price = $price * $curr->value;
         $price = \PriceHelper::showPrice($price);
 
-        if($gs->currency_format == 0){
-            return $curr->sign.$price;
-        }
-        else{
-            return $price.$curr->sign;
+        if ($gs->currency_format == 0) {
+            return $curr->sign . $price;
+        } else {
+            return $price . $curr->sign;
         }
     }
 
-    public function showPreviousPrice() {
+    public function showPreviousPrice()
+    {
         $gs = cache()->remember('generalsettings', now()->addDay(), function () {
             return DB::table('generalsettings')->first();
         });
         $price = $this->previous_price;
-        if(!$price){
+        if (!$price) {
             return '';
         }
-        if($this->user_id != 0){
-        $price = $this->previous_price + $gs->fixed_commission + ($this->previous_price/100) * $gs->percentage_commission ;
+        if ($this->user_id != 0) {
+            $price = $this->previous_price + $gs->fixed_commission + ($this->previous_price / 100) * $gs->percentage_commission;
         }
 
-        if(!empty($this->size)){
+        if (!empty($this->size)) {
             $price += $this->size_price[0];
         }
 
-    // Attribute Section
+        // Attribute Section
 
-    $attributes = $this->attributes["attributes"];
-      if(!empty($attributes)) {
-          $attrArr = json_decode($attributes, true);
-      }
-      // dd($attrArr);
-      if (!empty($attrArr)) {
-          foreach ($attrArr as $attrKey => $attrVal) {
-            if (is_array($attrVal) && array_key_exists("details_status",$attrVal) && $attrVal['details_status'] == 1) {
+        $attributes = $this->attributes["attributes"];
+        if (!empty($attributes)) {
+            $attrArr = json_decode($attributes, true);
+        }
+        // dd($attrArr);
+        if (!empty($attrArr)) {
+            foreach ($attrArr as $attrKey => $attrVal) {
+                if (is_array($attrVal) && array_key_exists("details_status", $attrVal) && $attrVal['details_status'] == 1) {
 
-                foreach ($attrVal['values'] as $optionKey => $optionVal) {
-                  $price += $attrVal['prices'][$optionKey];
-                  // only the first price counts
-                  break;
+                    foreach ($attrVal['values'] as $optionKey => $optionVal) {
+                        $price += $attrVal['prices'][$optionKey];
+                        // only the first price counts
+                        break;
+                    }
+
                 }
-
             }
-          }
-      }
+        }
 
-    // Attribute Section Ends
+        // Attribute Section Ends
 
-        if (Session::has('currency'))
-        {
+        if (Session::has('currency')) {
             $curr = cache()->remember('session_currency', now()->addDay(), function () {
                 return Currency::find(Session::get('currency'));
             });
-        }
-        else
-        {
+        } else {
             $curr = cache()->remember('default_currency', now()->addDay(), function () {
-                return Currency::where('is_default','=',1)->first();
+                return Currency::where('is_default', '=', 1)->first();
             });
 
         }
@@ -378,74 +370,71 @@ class Product extends Model
         $price = $price * $curr->value;
         $price = \PriceHelper::showPrice($price);
 
-        if($gs->currency_format == 0){
-            return $curr->sign.$price;
-        }
-        else{
-            return $price.$curr->sign;
+        if ($gs->currency_format == 0) {
+            return $curr->sign . $price;
+        } else {
+            return $price . $curr->sign;
         }
     }
 
-    public static function convertPrice($price) {
+    public static function convertPrice($price)
+    {
         $gs = cache()->remember('generalsettings', now()->addDay(), function () {
             return DB::table('generalsettings')->first();
         });
-        if (Session::has('currency'))
-        {
+        if (Session::has('currency')) {
             $curr = cache()->remember('session_currency', now()->addDay(), function () {
                 return Currency::find(Session::get('currency'));
             });
-        }
-        else
-        {
+        } else {
             $curr = cache()->remember('default_currency', now()->addDay(), function () {
-                return Currency::where('is_default','=',1)->first();
+                return Currency::where('is_default', '=', 1)->first();
             });
         }
         $price = $price * $curr->value;
         $price = \PriceHelper::showPrice($price);
-        if($gs->currency_format == 0){
-            return $curr->sign.$price;
-        }
-        else{
-            return $price.$curr->sign;
+        if ($gs->currency_format == 0) {
+            return $curr->sign . $price;
+        } else {
+            return $price . $curr->sign;
         }
     }
 
-    public static function vendorConvertPrice($price) {
+    public static function vendorConvertPrice($price)
+    {
         $gs = cache()->remember('generalsettings', now()->addDay(), function () {
             return DB::table('generalsettings')->first();
         });
 
-        $curr = Currency::where('is_default','=',1)->first();
+        $curr = Currency::where('is_default', '=', 1)->first();
         $price = $price * $curr->value;
         $price = \PriceHelper::showPrice($price);
-        if($gs->currency_format == 0){
-            return $curr->sign.$price;
-        }
-        else{
-            return $price.$curr->sign;
+        if ($gs->currency_format == 0) {
+            return $curr->sign . $price;
+        } else {
+            return $price . $curr->sign;
         }
     }
 
-    public function offPercentage(){
+    public function offPercentage()
+    {
         $gs = cache()->remember('generalsettings', now()->addDay(), function () {
             return DB::table('generalsettings')->first();
         });
         $price = $this->price;
 
         $preprice = $this->previous_price;
-        if(!$preprice){
+        if (!$preprice) {
             return '';
         }
 
-        if($this->user_id != 0){
-        $price = $this->price + $gs->fixed_commission + ($this->price/100) * $gs->percentage_commission;
+        if ($this->user_id != 0) {
+            $price = $this->price + $gs->fixed_commission + ($this->price / 100) * $gs->percentage_commission;
 
-        $preprice = $this->previous_price + $gs->fixed_commission + ($this->previous_price/100) * $gs->percentage_commission ;
+            $preprice = $this->previous_price + $gs->fixed_commission + ($this->previous_price / 100) * $gs->percentage_commission;
         }
 
-        if(!empty($this->size)){
+        if (!empty($this->size)) {
             $price += $this->size_price[0];
             $preprice += $this->size_price[0];
         }
@@ -453,19 +442,19 @@ class Product extends Model
         // Attribute Section
 
         $attributes = $this->attributes["attributes"];
-        if(!empty($attributes)) {
+        if (!empty($attributes)) {
             $attrArr = json_decode($attributes, true);
         }
 
         if (!empty($attrArr)) {
             foreach ($attrArr as $attrKey => $attrVal) {
-                if (is_array($attrVal) && array_key_exists("details_status",$attrVal) && $attrVal['details_status'] == 1) {
+                if (is_array($attrVal) && array_key_exists("details_status", $attrVal) && $attrVal['details_status'] == 1) {
 
                     foreach ($attrVal['values'] as $optionKey => $optionVal) {
-                    $price += $attrVal['prices'][$optionKey];
-                    // only the first price counts
-                    $preprice += $attrVal['prices'][$optionKey];
-                    break;
+                        $price += $attrVal['prices'][$optionKey];
+                        // only the first price counts
+                        $preprice += $attrVal['prices'][$optionKey];
+                        break;
                     }
 
                 }
@@ -474,63 +463,64 @@ class Product extends Model
 
         // Attribute Section Ends
 
-        if (Session::has('currency'))
-        {
+        if (Session::has('currency')) {
             $curr = cache()->remember('session_currency', now()->addDay(), function () {
                 return Currency::find(Session::get('currency'));
             });
-        }
-        else
-        {
+        } else {
             $curr = cache()->remember('default_currency', now()->addDay(), function () {
-                return Currency::where('is_default','=',1)->first();
+                return Currency::where('is_default', '=', 1)->first();
             });
         }
 
         $price = $price * $curr->value;
         $preprice = $preprice * $curr->value;
-        $Percentage=(($preprice-$price)*100)/$preprice;
+        $Percentage = (($preprice - $price) * 100) / $preprice;
         return $Percentage;
 
     }
 
 
-    public function vendorSizePrice() {
+    public function vendorSizePrice()
+    {
         $gs = cache()->remember('generalsettings', now()->addDay(), function () {
             return DB::table('generalsettings')->first();
         });
         $price = $this->price;
-        if($this->user_id != 0){
-        $price = $this->price + $gs->fixed_commission + ($this->price/100) * $gs->percentage_commission;
+        if ($this->user_id != 0) {
+            $price = $this->price + $gs->fixed_commission + ($this->price / 100) * $gs->percentage_commission;
         }
-        if(!empty($this->size)){
+        if (!empty($this->size)) {
             $price += $this->size_price[0];
         }
 
-    // Attribute Section
+        // Attribute Section
 
-    $attributes = $this->attributes["attributes"];
-      if(!empty($attributes)) {
-          $attrArr = json_decode($attributes, true);
-      }
+        $attributes = $this->attributes["attributes"];
+        if (!empty($attributes)) {
+            $attrArr = json_decode($attributes, true);
+        }
 
-      if (!empty($attrArr)) {
-          foreach ($attrArr as $attrKey => $attrVal) {
-            if (is_array($attrVal) && array_key_exists("details_status",$attrVal) && $attrVal['details_status'] == 1) {
+        if (!empty($attrArr)) {
+            foreach ($attrArr as $attrKey => $attrVal) {
+                if (is_array($attrVal) && array_key_exists("details_status", $attrVal) && $attrVal['details_status'] == 1) {
 
-                foreach ($attrVal['values'] as $optionKey => $optionVal) {
-                  $price += $attrVal['prices'][$optionKey];
-                  // only the first price counts
-                  break;
+                    foreach ($attrVal['values'] as $optionKey => $optionVal) {
+                        $price += $attrVal['prices'][$optionKey];
+                        // only the first price counts
+                        break;
+                    }
+
                 }
-
             }
-          }
-      }
+        }
 
-    // Attribute Section Ends
+        // Attribute Section Ends
         return $price;
     }
-
+    public function resellingProducts()
+    {
+        return $this->hasMany(ResellingProduct::class, 'product_id');
+    }
 
 }

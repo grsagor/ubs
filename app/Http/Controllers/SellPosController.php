@@ -2115,7 +2115,8 @@ class SellPosController extends Controller
     {
         $pos_settings = empty($transaction->business->pos_settings) ? $this->businessUtil->defaultPosSettings() : json_decode($transaction->business->pos_settings, true);
 
-        Stripe::setApiKey($pos_settings['stripe_secret_key']);
+        // Stripe::setApiKey($pos_settings['stripe_secret_key']);
+        Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
 
         $metadata = ['stripe_email' => $request->stripeEmail];
 

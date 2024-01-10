@@ -101,7 +101,7 @@
                                     <input type="hidden" name="gateway" value="stripe">
                                     <script
                                             src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-                                            data-key="{{$pos_settings['stripe_public_key']}}"
+                                            data-key="{{ env('STRIPE_PUB_KEY') }}"
                                             data-amount="@if(in_array($code, ['bif','clp','djf','gnf','jpy','kmf','krw','mga','pyg','rwf','ugx','vnd','vuv','xaf','xof','xpf'])) {{$total_payable}} @else {{$total_payable*100}} @endif"
                                             data-name="{{$transaction->business->name}}"
                                             data-description="Pay with stripe"

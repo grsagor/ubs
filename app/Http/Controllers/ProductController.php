@@ -491,6 +491,8 @@ class ProductController extends Controller
             $common_settings = session()->get('business.common_settings');
 
             $product_details['warranty_id'] = !empty($request->input('warranty_id')) ? $request->input('warranty_id') : null;
+            $product_details['is_discount'] = $request->is_discount;
+            $product_details['discount_amount'] = $request->discount_amount;
 
             DB::beginTransaction();
 
@@ -2409,11 +2411,6 @@ class ProductController extends Controller
         $data['user_info']              = Media::where('uploaded_by', $data['info']->user_id)
             ->where('model_type', 'App\\User')->first();
         $data['first_image'] = 'https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg';
-//        dd($data['info']);
         return view('frontend.product.details',$data);
     }
-
-
-
-
 }
