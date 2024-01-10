@@ -81,7 +81,7 @@
 
         #company-name {
             height: 2px;
-            text-decoration: underline;
+            /* text-decoration: underline; */
         }
 
         #job-title {
@@ -99,6 +99,16 @@
 
         .font-size {
             font-size: 15px;
+        }
+
+        h3 {
+            display: inline-block;
+            margin-right: 10px;
+            /* Adjust the margin as needed */
+        }
+
+        .view-btn {
+            display: inline-block;
         }
     </style>
 @endsection
@@ -154,49 +164,115 @@
                     }
                 @endphp
 
+
+                {{-- {{ dd($experiences) }} --}}
                 @if (!empty($experiences))
-                    @foreach ($experiences as $experience)
-                        <h4 id="company-name">Name of comapany : {{ $experience['name_of_company'] }}</h4>
+                    @foreach ($experiences as $index => $experience)
+                        <h4 id="company-name">Name of experience: {{ $experience['name_of_company'] }}</h4>
                         <p style="margin-top: 20px;">{{ $experience['start_date'] }} To
                             <span>{{ $experience['end_date'] }}</span>
                         </p>
 
-
+                        {{-- <h3>Additional Files</h3> --}}
                         @if (!empty($experience['additional_file']) && file_exists(public_path($experience['additional_file'])))
-                            <embed src="{{ asset($experience['additional_file']) }}" type="application/pdf" width="100%"
-                                height="600px" />
+                            <button class="view-btn"
+                                data-target="additional-files-viewer-{{ $index }}">View</button>
                             <a href="{{ asset($experience['additional_file']) }}"
-                                download="{{ $item->name }}_Additional_Files.pdf">Download
-                                Additional Files</a>
+                                download="{{ $item->name }}_Additional_Files.pdf">Download</a>
+                            <div class="pdf-viewer" id="additional-files-viewer-{{ $index }}"
+                                style="display: none;">
+                                <embed src="{{ asset($experience['additional_file']) }}" type="application/pdf"
+                                    width="100%" height="600px" />
+                            </div>
                         @endif
-                        <br>
                     @endforeach
                 @else
                     <p>No professional experiences available.</p>
                 @endif
 
-                <h3>Curriculum Vitae</h3>
                 @if (!empty($item->cv) && file_exists(public_path($item->cv)))
-                    <embed src="{{ asset($item->cv) }}" type="application/pdf" width="100%" height="600px" />
-                    <a href="{{ asset($item->cv) }}" download="{{ $item->name }}_Curriculum_Vitae.pdf">Download CV</a>
+                    <h3>Curriculum Vitae</h3>
+                    <button class="view-btn" data-target="cv-viewer">View</button>
+                    <a href="{{ asset($item->cv) }}" download="{{ $item->name }}_Curriculum_Vitae.pdf">Download
+                    </a>
+                    <div class="pdf-viewer" id="cv-viewer" style="display: none;">
+                        <embed src="{{ asset($item->cv) }}" type="application/pdf" width="100%" height="600px" />
+                    </div>
+                    <br>
                 @endif
 
-                <h3>DBS Check</h3>
+
                 @if (!empty($item->dbs_check) && file_exists(public_path($item->dbs_check)))
-                    <embed src="{{ asset($item->dbs_check) }}" type="application/pdf" width="100%" height="600px" />
-                    <a href="{{ asset($item->dbs_check) }}" download="{{ $item->name }}_DBS_Check.pdf">Download DBS
-                        Check</a>
+                    <h3>DBS Check</h3>
+                    <button class="view-btn" data-target="dbs-viewer">View</button>
+                    <a href="{{ asset($item->dbs_check) }}" download="{{ $item->name }}_DBS_Check.pdf">Download </a>
+                    <div class="pdf-viewer" id="dbs-viewer" style="display: none;">
+                        <embed src="{{ asset($item->dbs_check) }}" type="application/pdf" width="100%" height="600px" />
+                    </div>
+                    <br>
                 @endif
 
-                <h3>Care Certificates</h3>
+
                 @if (!empty($item->care_certificates) && file_exists(public_path($item->care_certificates)))
-                    <embed src="{{ asset($item->care_certificates) }}" type="application/pdf" width="100%"
-                        height="600px" />
+                    <h3>Care Certificates</h3>
+                    <button class="view-btn" data-target="care-certificates-viewer">View</button>
                     <a href="{{ asset($item->care_certificates) }}"
-                        download="{{ $item->name }}_Care_Certificates.pdf">Download Care Certificates</a>
+                        download="{{ $item->name }}_Care_Certificates.pdf">Download</a>
+                    <div class="pdf-viewer" id="care-certificates-viewer" style="display: none;">
+                        <embed src="{{ asset($item->care_certificates) }}" type="application/pdf" width="100%"
+                            height="600px" />
+                    </div>
+                    <br>
                 @endif
+
+
+                <h3>Additional Certificate</h3>
+
+                @php
+                    $additionalCertificates = json_decode($item->additional_certificates, true);
+
+                    if (json_last_error() !== JSON_ERROR_NONE || !is_array($additionalCertificates)) {
+                        // Handle JSON decoding error or unexpected data type
+                        // For example, log the error or set $additionalCertificates to an empty array
+                        $additionalCertificates = [];
+                    }
+                @endphp
+
+                @if (!empty($additionalCertificates))
+                    @foreach ($additionalCertificates as $index => $adCertificates)
+                        <h4 id="company-name">Name of certificate: {{ $adCertificates['additional_certificate_titles'] }}
+                        </h4>
+
+                        @if (
+                            !empty($adCertificates['additional_certificate_files']) &&
+                                file_exists(public_path($adCertificates['additional_certificate_files'])))
+                            <button class="view-btn" style="margin-top: 10px;"
+                                data-target="additional-files-viewer-{{ $index }}">View</button>
+                            <a href="{{ asset($adCertificates['additional_certificate_files']) }}"
+                                download="{{ $item->name }}_Additional_Files.pdf">Download</a>
+                            <div class="pdf-viewer" id="additional-files-viewer-{{ $index }}"
+                                style="display: none;">
+                                <embed src="{{ asset($adCertificates['additional_certificate_files']) }}"
+                                    type="application/pdf" width="100%" height="600px" />
+                            </div>
+                        @endif
+                        <br>
+                    @endforeach
+                @endif
+
+
             </div>
     </section>
+
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('.view-btn').click(function() {
+                var targetId = $(this).data('target');
+                $('#' + targetId).toggle();
+            });
+        });
+    </script>
 
     <script>
         document.getElementById('copyButton').addEventListener('click', function() {
