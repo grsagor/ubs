@@ -46,6 +46,7 @@
                             <th>Current Address</th>
                             <th>Current of Residence</th>
                             <th>Birth Country</th>
+                            <th>Created By</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -59,6 +60,11 @@
                                 <td>{{ $item->current_address ?? '' }}</td>
                                 <td>{{ $item->countryResidence->country_name ?? '' }}</td>
                                 <td>{{ $item->birthCountry->country_name ?? '' }}</td>
+                                <td>
+                                    {{ $item->createdBy->surname ?? '' }}
+                                    {{ $item->createdBy->first_name ?? '' }}
+                                    {{ $item->createdBy->last_name ?? '' }}
+                                </td>
                                 <td>
                                     <a href="{{ route('recruitment.show', $item->uuid) }}" class="btn btn-xs btn-primary">
                                         <i class="fas fa-eye"></i> Show
