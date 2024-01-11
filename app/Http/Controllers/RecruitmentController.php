@@ -22,9 +22,10 @@ class RecruitmentController extends Controller
     {
         $data['recruitments'] = Recruitment::query()
             ->search($request) // Assuming a custom search scope or method is applied
-            ->with('countryResidence', 'birthCountry') // Eager loading related country information
+            ->with('countryResidence', 'birthCountry', 'createdBy') // Eager loading related country information
             ->latest() // Ordering by the latest
             ->paginate(10); // Paginating the results
+        // return $data;
         return view('frontend.recruitment.index', $data);
     }
 
@@ -32,7 +33,7 @@ class RecruitmentController extends Controller
     {
         if (Auth::check()) {
             $data['country'] = Country::get();
-            return view('frontend.recruitment.create', $data);
+            return view('frontend.recruitment.create2', $data);
         } else {
             $output = [
                 'success' => false,
@@ -51,60 +52,65 @@ class RecruitmentController extends Controller
             try {
                 $requestedData = $request->all();
 
-                if ($request->has('name_of_company')) {
-                    // Initialize an empty array to store the experiences
+                // Experience store
+                if ($request->has('experience_name_of_company')) {
                     $experienceData = [];
-
-                    // Iterate over each 'name_of_company' from the request data
-                    foreach ($request->input('name_of_company') as $key => $company) {
-                        // Create an array for each experience
+                    foreach ($request->input('experience_name_of_company') as $key => $company) {
                         $experience = [
-                            'name_of_company' => $company,
-                            'start_date' => $request->input('start_date')[$key],
-                            'end_date' => $request->input('end_date')[$key],
-                            // Add other fields as needed
+                            'experience_name_of_company' => $company,
+                            'experience_start_date' => $request->input('experience_start_date')[$key],
+                            'experience_end_date' => $request->input('experience_end_date')[$key],
                         ];
-
-                        // Check if the additional_file is present for the current experience
-                        if ($request->hasFile('additional_file') && $request->file('additional_file')[$key]) {
-                            // Upload the file and add its path to the experience array
-                            $experience['additional_file'] = $this->fileUpload($request->file('additional_file')[$key], 'uploads/recruitments/');
+                        if ($request->hasFile('experience_file') && $request->file('experience_file')[$key]) {
+                            $experience['experience_file'] = $this->fileUpload($request->file('experience_file')[$key], 'uploads/recruitments/');
                         }
-
-                        // Add the current experience array to the overall experiences array
                         $experienceData[] = $experience;
                     }
-
-                    // Encode the experiences array into JSON and store it in $requestedData['experiences']
                     $requestedData['experiences'] = json_encode($experienceData, JSON_PRETTY_PRINT);
                 }
 
-
-                if ($request->has('additional_certificate_titles')) {
-                    $additinalCertificates = [];
-                    foreach ($request->input('additional_certificate_titles') as $key => $title) {
-                        $ad_certificates = [
-                            'additional_certificate_titles' => $title,
+                // Education store
+                if ($request->has('education_name_of_title')) {
+                    $educationData = [];
+                    foreach ($request->input('education_name_of_title') as $key => $education) {
+                        $edu = [
+                            'education_name_of_title' => $education,
+                            'education_start_date' => $request->input('education_start_date')[$key],
+                            'education_end_date' => $request->input('education_end_date')[$key],
                         ];
-                        if ($request->hasFile('additional_certificate_files') && $request->file('additional_certificate_files')[$key]) {
-                            $ad_certificates['additional_certificate_files'] = $this->fileUpload($request->file('additional_certificate_files')[$key], 'uploads/recruitments/');
+                        if ($request->hasFile('education_file') && $request->file('education_file')[$key]) {
+                            $edu['education_file'] = $this->fileUpload($request->file('education_file')[$key], 'uploads/recruitments/');
                         }
-                        $additinalCertificates[] = $ad_certificates;
+                        $educationData[] = $edu;
                     }
-                    $requestedData['additional_certificates'] = json_encode($additinalCertificates, JSON_PRETTY_PRINT);
+                    $requestedData['educations'] = json_encode($educationData, JSON_PRETTY_PRINT);
                 }
 
-                if ($request->file('cv')) {
-                    $requestedData['cv']     = $this->fileUpload($request->file('cv'), 'uploads/recruitments/');
-                }
-                if ($request->file('dbs_check')) {
-                    $requestedData['dbs_check']     = $this->fileUpload($request->file('dbs_check'), 'uploads/recruitments/');
-                }
-                if ($request->file('care_certificates')) {
-                    $requestedData['care_certificates']     = $this->fileUpload($request->file('care_certificates'), 'uploads/recruitments/');
+                // // Additional file store
+                if ($request->has('additional_name_of_title')) {
+                    $additionalFilesData = [];
+                    foreach ($request->input('additional_name_of_title') as $key => $ad_file) {
+                        $addData = [
+                            'additional_name_of_title' => $ad_file,
+                        ];
+                        if ($request->hasFile('additional_file') && $request->file('additional_file')[$key]) {
+                            $addData['additional_file'] = $this->fileUpload($request->file('additional_file')[$key], 'uploads/recruitments/');
+                        }
+                        $additionalFilesData[] = $addData;
+                    }
+                    $requestedData['additional_files'] = json_encode($additionalFilesData, JSON_PRETTY_PRINT);
                 }
 
-                $requestedData['user_id'] = Auth::id();
+
+                // if ($request->file('cv')) {
+                //     $requestedData['cv']     = $this->fileUpload($request->file('cv'), 'uploads/recruitments/');
+                // }
+                // if ($request->file('dbs_check')) {
+                //     $requestedData['dbs_check']     = $this->fileUpload($request->file('dbs_check'), 'uploads/recruitments/');
+                // }
+                // if ($request->file('care_certificates')) {
+                //     $requestedData['care_certificates']     = $this->fileUpload($request->file('care_certificates'), 'uploads/recruitments/');
+                // }
 
                 $requestedData                  = $recruitment->fill($requestedData)->save();
 
