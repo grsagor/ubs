@@ -110,6 +110,16 @@
         .view-btn {
             display: inline-block;
         }
+
+        .col-md-6 {
+            padding-left: 0px !important;
+        }
+
+        @media (max-width: 767px) {
+            .col-md-6 {
+                padding-right: 0px !important;
+            }
+        }
     </style>
 @endsection
 
@@ -127,6 +137,10 @@
             <div class="right">
                 <div style="display: flex; justify-content: space-between; align-items: center;">
                     <h3 style="margin-top: 0;">Personal Information:</h3>
+                    <button id="editPersonalInformation" class="btn btn-primary">
+                        <i class="fa fa-edit" aria-hidden="true"></i>
+                        Edit
+                    </button>
                 </div>
 
                 <p class="font-size">
@@ -136,6 +150,72 @@
                     Country of Residence: {{ $item->countryResidence->country_name ?? '' }} <br>
                     Birth Country: {{ $item->birthCountry->country_name ?? '' }}
                 </p>
+
+
+                <div class="edit-personal-information">
+                    <form action="" method="POST" enctype="multipart/form-data">
+                        <div class="form-group col-md-6">
+                            <label for="name">Name <span class="text-danger">*</span></label>
+                            <input type="text" name="name" class="form-control" placeholder="Full name"
+                                value="{{ old('name', $item->name) }}">
+                            <span id="name-error" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label for="phone">Phone <span class="text-danger">*</span></label>
+                            <input type="text" name="phone" class="form-control" placeholder="Phone Number"
+                                value="{{ old('phone', $item->phone) }}">
+                            <span id="phone-error" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label for="email">Email <span class="text-danger">*</span></label>
+                            <input type="email" name="email" class="form-control" placeholder="Email address"
+                                value="{{ old('email', $item->email) }}">
+                            <span id="email-error" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label for="current_address">Current address <span class="text-danger">*</span></label>
+                            <input type="text" name="current_address" class="form-control" placeholder="Current Address"
+                                value="{{ old('current_address', $item->current_address) }}">
+                            <span id="current_address-error" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label for="country_of_residence">Country of residence <span
+                                    class="text-danger">*</span></label>
+                            <select class="form-control" name="country_residence">
+                                <option value="">Select....</option>
+                                @foreach ($country as $cnt)
+                                    <option value="{{ $cnt->id }}"
+                                        {{ old('country_residence', $cnt->id) == $item->country_residence ? 'selected' : '' }}>
+                                        {{ $cnt->country_name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            <span id="country_residence-error" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label for="birth_country">Birth country <span class="text-danger">*</span></label>
+                            <select class="form-control" name="birth_country">
+                                <option selected="" value="">Select....</option>
+                                @foreach ($country as $birthCnt)
+                                    <option value="{{ $birthCnt->id }}"
+                                        {{ old('country_residence', $birthCnt->id) == $item->birth_country ? 'selected' : '' }}>
+                                        {{ $birthCnt->country_name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            <span id="birth_country-error" class="text-danger"></span>
+                        </div>
+                        <button type="button" class="btn btn-success personalInfoSubmit">Submit</button>
+                    </form>
+                </div>
+
+
+
 
                 <h3>Cover letter</h3>
                 <p class="font-size">
@@ -222,7 +302,8 @@
                     <button class="view-btn" data-target="dbs-viewer">View</button>
                     <a href="{{ asset($item->dbs_check) }}" download="{{ $item->name }}_DBS_Check.pdf">Download </a>
                     <div class="pdf-viewer" id="dbs-viewer" style="display: none;">
-                        <embed src="{{ asset($item->dbs_check) }}" type="application/pdf" width="100%" height="600px" />
+                        <embed src="{{ asset($item->dbs_check) }}" type="application/pdf" width="100%"
+                            height="600px" />
                     </div>
                     <br>
                 @endif
@@ -276,7 +357,32 @@
     </section>
 
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
     <script>
+        $('.personalInfoSubmit').on('click', function(e) {
+            e.preventDefault();
+            console.log('Button clicked');
+            var id = "{{ $item->uuid }}";
+            var formData = $('form').serialize();
+            console.log(formData);
+
+            $.ajax({
+                url: 'contact/my-information/' + id,
+                type: 'PUT',
+                data: formData,
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function(result) {
+                    console.log('Hello');
+                },
+                error: function(xhr, status, error) {}
+            });
+        });
+
+
+
+
         $(document).ready(function() {
             $('.view-btn').click(function() {
                 var targetId = $(this).data('target');

@@ -8,6 +8,7 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Traits\ImageFileUpload;
 use Illuminate\Support\Facades\Auth;
+use PhpParser\Node\Expr\FuncCall;
 
 class RecruitmentController extends Controller
 {
@@ -136,7 +137,26 @@ class RecruitmentController extends Controller
     public function edit($id)
     {
         // dd($id);
+        $data['country'] = Country::get();
         $data['item'] = Recruitment::with('countryResidence', 'birthCountry')->find($id);
         return view('frontend.recruitment.edit', $data);
+    }
+
+    public function update(Request $request, $id)
+    {
+        return true;
+        // Validate the request data here if needed
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'phone' => 'required|string|max:20',
+            // Add other fields as needed
+        ]);
+
+        // Update the user information
+        // $user = YourModel::find($id);
+        // $user->update($request->all());
+
+        // Return a response as needed
+        return response()->json(['message' => 'Update successful'], 200);
     }
 }

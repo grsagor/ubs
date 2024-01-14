@@ -116,8 +116,6 @@
 
                 <div class="form-group">
                     <label for="country_of_residence">Country of residence <span class="text-danger">*</span></label>
-                    {{-- <input type="text" name="country_residence" class="form-control" placeholder="Country of Residence"> --}}
-
                     <select class="form-control" name="country_residence">
                         <option selected="" value="">Select....</option>
                         @foreach ($country as $item)
@@ -129,7 +127,6 @@
 
                 <div class="form-group">
                     <label for="birth_country">Birth country <span class="text-danger">*</span></label>
-                    {{-- <input type="text" name="birth_country" class="form-control" placeholder="Birth country"> --}}
                     <select class="form-control" name="birth_country">
                         <option selected="" value="">Select....</option>
                         @foreach ($country as $item)
