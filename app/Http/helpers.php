@@ -1,6 +1,7 @@
 <?php
 
 use App\Footer;
+use App\Recruitment;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 /**
@@ -245,5 +246,14 @@ if (!function_exists('serialNumber')) {
     function serialNumber($data, $loop)
     {
         return $data->firstItem() + $loop->index;
+    }
+}
+
+if (!function_exists('myInformation')) {
+    function myInformation()
+    {
+        $data = Recruitment::where('created_by', auth()->id())->first();
+
+        return $data;
     }
 }
