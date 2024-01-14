@@ -35,7 +35,7 @@ class ResellController extends Controller
         });
         $total_products = $products->concat($new_resell_products);
         $total_products = $total_products->sortByDesc('updated_at')->values();
-        return $total_products;
+        // return $total_products;
 
         if (!auth()->user()->can('business_settings.access')) {
             abort(403, 'Unauthorized action.');

@@ -26,8 +26,6 @@ class ShopController extends Controller
                 if (!empty($search)) {
                     $query->where('name', 'like', '%' . $search . '%')->where(function ($q) use ($search) {
                         $q->orwhere('name', 'like', $search . '%');
-                        // $q->orwhere('address', 'like', $search . '%');
-                        // $q->orwhere('address', 'like', '%' . $search . '%');
                     });
                 }
             })

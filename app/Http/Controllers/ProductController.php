@@ -12,6 +12,7 @@ use App\Media;
 use App\Product;
 use App\ProductVariation;
 use App\PurchaseLine;
+use App\ResellingProduct;
 use App\SellingPriceGroup;
 use App\SubCategory;
 use App\TaxRate;
@@ -25,6 +26,7 @@ use App\VariationTemplate;
 use App\Warranty;
 use Excel;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\Facades\DataTables;
@@ -2385,7 +2387,31 @@ class ProductController extends Controller
     public function productList(Request $request)
     {
         $data['per_page'] = 10;
-        $data['products'] = Product::active()->with('category')->latest();
+        $price = 200;
+        $products = Product::all();
+        $resell_products = ResellingProduct::with('product')->get();
+        $new_resell_products = $resell_products->map(function ($item) use ($price) {
+            $product = $item->product;
+            $product->is_resell = true;
+            $product->resell_id = $item->id;
+            $product->resell_info = ResellingProduct::find($item->id);
+            if ($product->is_discount == 1 && $item->add_discount == "discount") {
+                $product->reseller_get = ($price * (($product->discount_amount)/100)) - ($price * (($item->amount)/100));
+            }
+            if ($product->is_discount == 1 && $item->add_discount == "add") {
+                $product->reseller_get = ($price * (($product->discount_amount)/100)) + ($price * (($item->amount)/100));
+            }
+            if (!$product->is_discount && $item->add_discount == "add") {
+                $product->reseller_get = ($price * (($item->amount)/100));
+            }
+            if (!$product->is_discount && $item->add_discount == "discount") {
+                $product->reseller_get = 0;
+            }
+            return $product;
+        });
+        $total_products = $products->concat($new_resell_products);
+        $data['products'] = $total_products->sortByDesc('updated_at')->values();
+        // $data['products'] = Product::active()->with('category')->latest();
 
         if ($request->category_id !== null) {
             $data['products'] = $data['products']->where('category_id', $request->category_id);
@@ -2395,8 +2421,12 @@ class ProductController extends Controller
             $data['products'] = $data['products']->where('sub_category_id', $request->sub_category_id);
         }
 
-        $data['products'] = $data['products']->paginate($data['per_page']);
-
+        $page = LengthAwarePaginator::resolveCurrentPage();
+        $perPage = $data['per_page'];
+        $currentPageItems = $total_products->slice(($page - 1) * $perPage, $perPage)->all();
+        
+        $data['products'] = new LengthAwarePaginator($currentPageItems, count($total_products), $perPage);
+        $data['products']->setPath(url()->current());
         $data['categories'] = Category::query()->where('category_type', 'product')->pluck('name', 'id');
         $data['category_id'] = $request->category_id;
 

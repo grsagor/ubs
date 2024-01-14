@@ -122,7 +122,7 @@
             <div class="pagination-style-one mx-auto">
                 <nav aria-label="Page navigation example">
                     <ul class="pagination">
-                        {{ $products->links() }}
+                        {{ $products->appends(['page' => $products->currentPage()])->links() }}
                     </ul>
                 </nav>
             </div>
