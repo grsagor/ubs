@@ -288,7 +288,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="cv">CV </label>
+                    <label for="cv">CV <span class="text-danger">*</span></label>
                     <input type="file" name="cv" class="form-control">
                 </div>
 
