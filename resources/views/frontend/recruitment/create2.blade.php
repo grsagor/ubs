@@ -287,12 +287,12 @@
                     </div>
                 </div>
 
-                {{-- <div class="form-group">
+                <div class="form-group">
                     <label for="cv">CV </label>
                     <input type="file" name="cv" class="form-control">
                 </div>
 
-                <div class="form-group">
+                {{-- <div class="form-group">
                     <label for="dbs">DBS check</label>
                     <input type="file" name="dbs_check" class="form-control">
                 </div>

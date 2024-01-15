@@ -102,9 +102,9 @@ class RecruitmentController extends Controller
                 }
 
 
-                // if ($request->file('cv')) {
-                //     $requestedData['cv']     = $this->fileUpload($request->file('cv'), 'uploads/recruitments/');
-                // }
+                if ($request->file('cv')) {
+                    $requestedData['cv']     = $this->fileUpload($request->file('cv'), 'uploads/recruitments/');
+                }
                 // if ($request->file('dbs_check')) {
                 //     $requestedData['dbs_check']     = $this->fileUpload($request->file('dbs_check'), 'uploads/recruitments/');
                 // }
