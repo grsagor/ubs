@@ -143,9 +143,10 @@ class RecruitmentController extends Controller
 
     public function update(Request $request, $id)
     {
-        // Define the allowed keys that you want to include in the final $data array
-        $allowedKeys = ['name', 'phone', 'email', 'current_address', 'country_residence', 'birth_country', '_token'];
 
+        // Define the allowed keys that you want to include in the final $data array
+        $allowedKeys = ['cover_letter', 'name', 'phone', 'email', 'current_address', 'country_residence', 'birth_country', '_token'];
+        // dd($allowedKeys);
         // Use array_intersect_key to filter the original array based on allowed keys
         $data = array_intersect_key($request->all(), array_flip($allowedKeys));
 

@@ -117,14 +117,21 @@
             padding-left: 0px !important;
         }
 
-        .editPersonalInformation {
+        .edit-personal-information,
+        .edit-text-cover-letter {
             cursor: pointer;
             /* Add other styles as needed */
         }
 
-        .editPersonalInformation:hover {
+        .edit-personal-information:hover,
+        .edit-text-cover-letter:hover {
             text-decoration: underline;
-            /* Optional: Add underline on hover */
+        }
+
+        textarea[name="cover_letter"] {
+            width: 100%;
+            max-width: 100%;
+            box-sizing: border-box;
         }
 
         @media (max-width: 767px) {
@@ -147,95 +154,110 @@
             </div>
 
             <div class="right">
-                <div style="display: flex; justify-content: space-between; align-items: center;">
-                    <h3 style="margin-top: 0;">Personal Information:</h3>
-                    <div id="editPersonalInformation" class="editPersonalInformation">
-                        <i class="fa fa-edit" aria-hidden="true"></i>
-                        Edit
+                <div class="personal-info">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <h3 style="margin-top: 0;">Personal Information:</h3>
+                        <div id="editPersonalInformation" class="editPersonalInformation">
+                            <i class="fa fa-edit" aria-hidden="true"></i>
+                            Edit
+                        </div>
+                    </div>
+
+                    <p class="font-size personalInformation" id="personalInformation">
+                        Phone Number: {{ $item->phone ?? '' }}<br>
+                        Email: {{ $item->email ?? '' }}<br>
+                        Current Address: {{ $item->current_address ?? '' }}<br>
+                        Country of Residence: {{ $item->countryResidence->country_name ?? '' }} <br>
+                        Birth Country: {{ $item->birthCountry->country_name ?? '' }}
+                    </p>
+
+                    <div class="edit-personal-information" style="display: none; margin-bottom: 10px;">
+                        <form action="" method="POST" enctype="multipart/form-data">
+                            <div class="form-group col-md-6">
+                                <label for="name">Name <span class="text-danger">*</span></label>
+                                <input type="text" name="name" class="form-control" placeholder="Full name"
+                                    value="{{ old('name', $item->name) }}">
+                                <span id="name-error" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label for="phone">Phone <span class="text-danger">*</span></label>
+                                <input type="text" name="phone" class="form-control" placeholder="Phone Number"
+                                    value="{{ old('phone', $item->phone) }}">
+                                <span id="phone-error" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label for="email">Email <span class="text-danger">*</span></label>
+                                <input type="email" name="email" class="form-control" placeholder="Email address"
+                                    value="{{ old('email', $item->email) }}">
+                                <span id="email-error" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label for="current_address">Current address <span class="text-danger">*</span></label>
+                                <input type="text" name="current_address" class="form-control"
+                                    placeholder="Current Address"
+                                    value="{{ old('current_address', $item->current_address) }}">
+                                <span id="current_address-error" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label for="country_of_residence">Country of residence <span
+                                        class="text-danger">*</span></label>
+                                <select class="form-control" name="country_residence">
+                                    <option value="">Select....</option>
+                                    @foreach ($country as $cnt)
+                                        <option value="{{ $cnt->id }}"
+                                            {{ old('country_residence', $cnt->id) == $item->country_residence ? 'selected' : '' }}>
+                                            {{ $cnt->country_name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                <span id="country_residence-error" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label for="birth_country">Birth country <span class="text-danger">*</span></label>
+                                <select class="form-control" name="birth_country">
+                                    <option selected="" value="">Select....</option>
+                                    @foreach ($country as $birthCnt)
+                                        <option value="{{ $birthCnt->id }}"
+                                            {{ old('country_residence', $birthCnt->id) == $item->birth_country ? 'selected' : '' }}>
+                                            {{ $birthCnt->country_name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                <span id="birth_country-error" class="text-danger"></span>
+                            </div>
+                            <button type="button" class="btn btn-success personalInfoSubmit">Submit</button>
+                            <button type="button" class="btn btn-danger personalInfoClose">Close</button>
+                        </form>
                     </div>
                 </div>
 
-                <p class="font-size personalInformation" id="personalInformation">
-                    Phone Number: {{ $item->phone ?? '' }}<br>
-                    Email: {{ $item->email ?? '' }}<br>
-                    Current Address: {{ $item->current_address ?? '' }}<br>
-                    Country of Residence: {{ $item->countryResidence->country_name ?? '' }} <br>
-                    Birth Country: {{ $item->birthCountry->country_name ?? '' }}
-                </p>
-
-
-
-                <div class="edit-personal-information" style="display: none">
-                    <form action="" method="POST" enctype="multipart/form-data">
-                        <div class="form-group col-md-6">
-                            <label for="name">Name <span class="text-danger">*</span></label>
-                            <input type="text" name="name" class="form-control" placeholder="Full name"
-                                value="{{ old('name', $item->name) }}">
-                            <span id="name-error" class="text-danger"></span>
+                <div class="cover-letter">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <h3 style="margin-top: 0;">Cover letter:</h3>
+                        <div id="edit-text-cover-letter" class="edit-text-cover-letter">
+                            <i class="fa fa-edit" aria-hidden="true"></i>
+                            Edit
                         </div>
+                    </div>
+                    <p class="font-size" id="cover-letter-text">
+                        {{ $item->cover_letter ?? '' }}
+                    </p>
 
-                        <div class="form-group col-md-6">
-                            <label for="phone">Phone <span class="text-danger">*</span></label>
-                            <input type="text" name="phone" class="form-control" placeholder="Phone Number"
-                                value="{{ old('phone', $item->phone) }}">
-                            <span id="phone-error" class="text-danger"></span>
-                        </div>
-
-                        <div class="form-group col-md-6">
-                            <label for="email">Email <span class="text-danger">*</span></label>
-                            <input type="email" name="email" class="form-control" placeholder="Email address"
-                                value="{{ old('email', $item->email) }}">
-                            <span id="email-error" class="text-danger"></span>
-                        </div>
-
-                        <div class="form-group col-md-6">
-                            <label for="current_address">Current address <span class="text-danger">*</span></label>
-                            <input type="text" name="current_address" class="form-control" placeholder="Current Address"
-                                value="{{ old('current_address', $item->current_address) }}">
-                            <span id="current_address-error" class="text-danger"></span>
-                        </div>
-
-                        <div class="form-group col-md-6">
-                            <label for="country_of_residence">Country of residence <span
-                                    class="text-danger">*</span></label>
-                            <select class="form-control" name="country_residence">
-                                <option value="">Select....</option>
-                                @foreach ($country as $cnt)
-                                    <option value="{{ $cnt->id }}"
-                                        {{ old('country_residence', $cnt->id) == $item->country_residence ? 'selected' : '' }}>
-                                        {{ $cnt->country_name }}
-                                    </option>
-                                @endforeach
-                            </select>
-                            <span id="country_residence-error" class="text-danger"></span>
-                        </div>
-
-                        <div class="form-group col-md-6">
-                            <label for="birth_country">Birth country <span class="text-danger">*</span></label>
-                            <select class="form-control" name="birth_country">
-                                <option selected="" value="">Select....</option>
-                                @foreach ($country as $birthCnt)
-                                    <option value="{{ $birthCnt->id }}"
-                                        {{ old('country_residence', $birthCnt->id) == $item->birth_country ? 'selected' : '' }}>
-                                        {{ $birthCnt->country_name }}
-                                    </option>
-                                @endforeach
-                            </select>
-                            <span id="birth_country-error" class="text-danger"></span>
-                        </div>
-                        <button type="button" class="btn btn-success personalInfoSubmit">Submit</button>
-                        <button type="button" class="btn btn-danger personalInfoClose">Close</button>
-
-                    </form>
+                    <div class="edit-cover-letter" style="display: none; margin-bottom: 10px;">
+                        <form action="" method="POST" enctype="multipart/form-data">
+                            <div class="form-group">
+                                <textarea name="cover_letter" rows="8" placeholder="Write here cover letter"></textarea>
+                            </div>
+                            <button type="button" class="btn btn-success coverLetterSubmit">Submit</button>
+                            <button type="button" class="btn btn-danger coverLetterClose">Close</button>
+                        </form>
+                    </div>
                 </div>
-
-
-
-
-                <h3>Cover letter</h3>
-                <p class="font-size">
-                    {{ $item->cover_letter ?? '' }}
-                </p>
 
                 <h4>Expected Salary
                     £{{ $item->expected_salary }}/{{ $item->salary_type == 1 ? 'hourly' : ($item->salary_type == 2 ? 'monthly' : 'unknown') }}
@@ -397,6 +419,60 @@
                 return obj;
             }, {});
 
+            $.ajax({
+                url: "{{ route('recruitment.update', ['id' => $item->uuid]) }}",
+                type: 'PUT',
+                data: formData,
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function(result) {
+                    var countryResidenceName = result.country_residence ? result.country_residence
+                        .country_name : '';
+                    var birthCountryName = result.birth_country ? result.birth_country.country_name :
+                        '';
+
+                    $('#name').html(`  ${result.name ?? ''}  `);
+
+                    $('#personalInformation').html(`
+                <p class="font-size personalInformation">
+                    Phone Number: ${result.phone ?? ''}<br>
+                    Email: ${result.email ?? ''}<br>
+                    Current Address: ${result.current_address ?? ''}<br>
+                    Country of Residence: ${countryResidenceName} <br>
+                    Birth Country: ${birthCountryName}
+                </p>
+            `);
+                },
+                error: function(xhr, status, error) {
+                    console.error(xhr.responseText);
+                }
+            });
+        });
+
+
+        document.getElementById("edit-text-cover-letter").addEventListener("click", function() {
+            var editCoverLetterDiv = document.querySelector('.edit-cover-letter');
+            // Toggle the 'display' property between 'none' and 'block'
+            editCoverLetterDiv.style.display = (editCoverLetterDiv.style.display === 'none') ? 'block' : 'none';
+        });
+
+        $(document).ready(function() {
+            // Add click event to the "Close" button
+            $('.coverLetterClose').on('click', function() {
+                // Add the 'd-none' class to the 'edit-personal-information' div
+                $('.edit-cover-letter').css('display', 'none');
+            });
+        });
+
+
+        $('.coverLetterSubmit').on('click', function(e) {
+            e.preventDefault();
+            var id = "{{ $item->uuid }}";
+            var formData = $('form').serializeArray().reduce(function(obj, item) {
+                obj[item.name] = item.value;
+                return obj;
+            }, {});
 
             $.ajax({
                 url: "{{ route('recruitment.update', ['id' => $item->uuid]) }}",
@@ -406,31 +482,15 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 success: function(result) {
-
-                    // Assuming countryResidence and birthCountry are instances of the Country model
-                    var countryResidenceName = result.country_residence ? result.country_residence
-                        .country_name : '';
-                    var birthCountryName = result.birth_country ? result.birth_country.country_name :
-                        '';
-                    $('#name').html(`  ${result.name ?? ''}  `);
-
-                    $('#personalInformation').html(`
-            <p class="font-size personalInformation">
-                Phone Number: ${result.phone ?? ''}<br>
-                Email: ${result.email ?? ''}<br>
-                Current Address: ${result.current_address ?? ''}<br>
-                Country of Residence: ${countryResidenceName} <br>
-                Birth Country: ${birthCountryName}
-            </p>
-        `);
-
+                    console.log('Success');
+                    $('#cover-letter-text').html(`  ${result.cover_letter ?? ''}  `);
                 },
                 error: function(xhr, status, error) {
-                    // Handle error if needed
+                    console.error(xhr.responseText);
                 }
             });
-
         });
+
 
 
         $(document).ready(function() {
