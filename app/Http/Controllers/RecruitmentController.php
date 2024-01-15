@@ -119,7 +119,7 @@ class RecruitmentController extends Controller
                     'msg' => ('Created Successfully!!!'),
                 ];
 
-                return redirect()->back()->with('status', $output);
+                return redirect()->route('recruitment.success')->with('status', $output);
             } catch (\Throwable $e) {
                 dd($e->getmessage());
                 return redirect()->back();
@@ -138,5 +138,10 @@ class RecruitmentController extends Controller
         // dd($id);
         $data['item'] = Recruitment::with('countryResidence', 'birthCountry')->find($id);
         return view('frontend.recruitment.edit', $data);
+    }
+
+    public function success()
+    {
+        return view('frontend.recruitment.after_submit');
     }
 }
