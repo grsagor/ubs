@@ -56,6 +56,8 @@
 
         h3 {
             text-decoration: underline;
+            margin-top: 2px !important;
+            margin-bottom: 5px !important;
         }
 
         #job-responsibilities {
@@ -115,6 +117,16 @@
             padding-left: 0px !important;
         }
 
+        .editPersonalInformation {
+            cursor: pointer;
+            /* Add other styles as needed */
+        }
+
+        .editPersonalInformation:hover {
+            text-decoration: underline;
+            /* Optional: Add underline on hover */
+        }
+
         @media (max-width: 767px) {
             .col-md-6 {
                 padding-right: 0px !important;
@@ -137,13 +149,13 @@
             <div class="right">
                 <div style="display: flex; justify-content: space-between; align-items: center;">
                     <h3 style="margin-top: 0;">Personal Information:</h3>
-                    <button id="editPersonalInformation" class="btn btn-primary">
+                    <div id="editPersonalInformation" class="editPersonalInformation">
                         <i class="fa fa-edit" aria-hidden="true"></i>
                         Edit
-                    </button>
+                    </div>
                 </div>
 
-                <p class="font-size">
+                <p class="font-size personalInformation" id="personalInformation">
                     Phone Number: {{ $item->phone ?? '' }}<br>
                     Email: {{ $item->email ?? '' }}<br>
                     Current Address: {{ $item->current_address ?? '' }}<br>
@@ -152,7 +164,8 @@
                 </p>
 
 
-                <div class="edit-personal-information">
+
+                <div class="edit-personal-information" style="display: none">
                     <form action="" method="POST" enctype="multipart/form-data">
                         <div class="form-group col-md-6">
                             <label for="name">Name <span class="text-danger">*</span></label>
@@ -211,6 +224,8 @@
                             <span id="birth_country-error" class="text-danger"></span>
                         </div>
                         <button type="button" class="btn btn-success personalInfoSubmit">Submit</button>
+                        <button type="button" class="btn btn-danger personalInfoClose">Close</button>
+
                     </form>
                 </div>
 
@@ -358,29 +373,64 @@
 
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
+
     <script>
+        document.getElementById("editPersonalInformation").addEventListener("click", function() {
+            var editPersonalInfoDiv = document.querySelector('.edit-personal-information');
+            // Toggle the 'display' property between 'none' and 'block'
+            editPersonalInfoDiv.style.display = (editPersonalInfoDiv.style.display === 'none') ? 'block' : 'none';
+        });
+
+        $(document).ready(function() {
+            // Add click event to the "Close" button
+            $('.personalInfoClose').on('click', function() {
+                // Add the 'd-none' class to the 'edit-personal-information' div
+                $('.edit-personal-information').css('display', 'none');
+            });
+        });
+
         $('.personalInfoSubmit').on('click', function(e) {
             e.preventDefault();
-            console.log('Button clicked');
             var id = "{{ $item->uuid }}";
-            var formData = $('form').serialize();
-            console.log(formData);
+            var formData = $('form').serializeArray().reduce(function(obj, item) {
+                obj[item.name] = item.value;
+                return obj;
+            }, {});
+
 
             $.ajax({
-                url: 'contact/my-information/' + id,
+                url: "{{ route('recruitment.update', ['id' => $item->uuid]) }}",
                 type: 'PUT',
                 data: formData,
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 success: function(result) {
-                    console.log('Hello');
+
+                    // Assuming countryResidence and birthCountry are instances of the Country model
+                    var countryResidenceName = result.country_residence ? result.country_residence
+                        .country_name : '';
+                    var birthCountryName = result.birth_country ? result.birth_country.country_name :
+                        '';
+                    $('#name').html(`  ${result.name ?? ''}  `);
+
+                    $('#personalInformation').html(`
+            <p class="font-size personalInformation">
+                Phone Number: ${result.phone ?? ''}<br>
+                Email: ${result.email ?? ''}<br>
+                Current Address: ${result.current_address ?? ''}<br>
+                Country of Residence: ${countryResidenceName} <br>
+                Birth Country: ${birthCountryName}
+            </p>
+        `);
+
                 },
-                error: function(xhr, status, error) {}
+                error: function(xhr, status, error) {
+                    // Handle error if needed
+                }
             });
+
         });
-
-
 
 
         $(document).ready(function() {

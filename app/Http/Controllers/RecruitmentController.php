@@ -136,7 +136,6 @@ class RecruitmentController extends Controller
 
     public function edit($id)
     {
-        // dd($id);
         $data['country'] = Country::get();
         $data['item'] = Recruitment::with('countryResidence', 'birthCountry')->find($id);
         return view('frontend.recruitment.edit', $data);
@@ -144,19 +143,20 @@ class RecruitmentController extends Controller
 
     public function update(Request $request, $id)
     {
-        return true;
-        // Validate the request data here if needed
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'phone' => 'required|string|max:20',
-            // Add other fields as needed
-        ]);
+        // Define the allowed keys that you want to include in the final $data array
+        $allowedKeys = ['name', 'phone', 'email', 'current_address', 'country_residence', 'birth_country', '_token'];
+
+        // Use array_intersect_key to filter the original array based on allowed keys
+        $data = array_intersect_key($request->all(), array_flip($allowedKeys));
 
         // Update the user information
-        // $user = YourModel::find($id);
-        // $user->update($request->all());
+        $recruitment = Recruitment::findOrFail($id);
+        $recruitment->update($data);
 
-        // Return a response as needed
-        return response()->json(['message' => 'Update successful'], 200);
+        // Reload the updated data with relationships
+        $updatedData = Recruitment::with('countryResidence', 'birthCountry')->find($id);
+
+        // Return a response with the updated data
+        return response()->json($updatedData);
     }
 }
