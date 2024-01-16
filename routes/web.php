@@ -152,6 +152,8 @@ Route::get('/partner-boarding',                                     [FrontendCon
 Route::get('/recruitment/list',                                      [RecruitmentController::class, 'list'])->name('recruitment.list');
 Route::get('/recruitment',                                           [RecruitmentController::class, 'create'])->name('recruitment.create');
 Route::post('/recruitment',                                          [RecruitmentController::class, 'store'])->name('recruitment.store');
+Route::get('/recruitment-success',                                   [RecruitmentController::class, 'success'])->name('recruitment.success');
+Route::get('/recruitment-userCheck/{jobID}',                                 [RecruitmentController::class, 'userCheck'])->name('recruitment.userCheck');
 
 // Services
 Route::get('/room-list/',                        [RoomListController::class, 'roomList'])->name('room.list');
