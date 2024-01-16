@@ -112,6 +112,7 @@ class RecruitmentController extends Controller
                 //     $requestedData['care_certificates']     = $this->fileUpload($request->file('care_certificates'), 'uploads/recruitments/');
                 // }
 
+                $requestedData['job_id'] = 1;
                 $requestedData                  = $recruitment->fill($requestedData)->save();
 
                 $output = [
@@ -143,5 +144,19 @@ class RecruitmentController extends Controller
     public function success()
     {
         return view('frontend.recruitment.after_submit');
+    }
+
+    public function userCheck($jobID)
+    {
+        $data['userId'] = Recruitment::where('created_by', auth()->id())
+            ->where('job_id', $jobID)
+            ->get();
+        $count          = $data['userId']->count();
+
+        if ($count == 0) {
+            return 1;
+        } else {
+            return 2;
+        }
     }
 }

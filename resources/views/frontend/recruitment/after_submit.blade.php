@@ -46,8 +46,8 @@
 
     <div class="container">
         <h2>Your application is submitted successfully!</h2>
-        <p>Thank you for applying. We will review your application shortly.</p>
-        <a href="{{ route('recruitment.list') }}" class="btn btn-job">View Job Page</a>
+        <p>Thank you for applying! You will receive updates soon from the employer.</p>
+        <a href="{{ route('recruitment.list') }}" class="btn btn-job">More Jobs</a>
         <a href="{{ route('recruitment.edit', ['id' => myInformation()->uuid]) }}" class="btn btn-info">Your Information</a>
     </div>
 @endsection
