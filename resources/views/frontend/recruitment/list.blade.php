@@ -261,14 +261,6 @@
             window.location.href = "{{ route('login') }}";
             // toastr.warning('Please login to apply for the job.');
         @endauth
-
-
-
-
-
-
-
-
         }
     </script>
 @endsection

@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Country;
+use App\AppliedJob;
 use App\Recruitment;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Traits\ImageFileUpload;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class RecruitmentController extends Controller
 {
@@ -44,12 +46,14 @@ class RecruitmentController extends Controller
         }
     }
 
-
     public function store(Request $request, Recruitment $recruitment)
     {
         // dd($request->toarray());
         if (Auth::check()) {
             try {
+
+                DB::beginTransaction();
+
                 $requestedData = $request->all();
 
                 // Experience store
@@ -112,16 +116,25 @@ class RecruitmentController extends Controller
                 //     $requestedData['care_certificates']     = $this->fileUpload($request->file('care_certificates'), 'uploads/recruitments/');
                 // }
 
-                $requestedData['job_id'] = 1;
-                $requestedData                  = $recruitment->fill($requestedData)->save();
+                // Create a new Recruitment record
+                $info = $recruitment::create($requestedData);
+
+                $appliedJob['job_id'] = 1;
+                $appliedJob['recruitment_id'] = $info->uuid;
+
+                AppliedJob::create($appliedJob);
 
                 $output = [
                     'success' => true,
                     'msg' => ('Created Successfully!!!'),
                 ];
 
+                DB::commit();
+
                 return redirect()->route('recruitment.success')->with('status', $output);
             } catch (\Throwable $e) {
+                DB::rollBack();
+
                 dd($e->getmessage());
                 return redirect()->back();
             }
@@ -149,7 +162,7 @@ class RecruitmentController extends Controller
     public function userCheck($jobID)
     {
         $data['userId'] = Recruitment::where('created_by', auth()->id())
-            ->where('job_id', $jobID)
+            // ->where('job_id', $jobID)
             ->get();
         $count          = $data['userId']->count();
 
