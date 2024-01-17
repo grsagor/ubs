@@ -24,13 +24,18 @@
             <li><a href="{{ url('/contact/property-wanted') }}"><i class="fa fas fa-arrow-circle-up"></i>
                     <span>Property Wanted</span></a></li>
 
-            <li>
-                <a href="{{ route('recruitment.edit', ['id' => myInformation()->uuid]) }}">
-                    <i class="fa fa-calendar"></i>
-                    <span>My Information</span>
-                </a>
-            </li>
+            @php
+                $uuid = optional(myInformation())->uuid;
+            @endphp
 
+            @if ($uuid)
+                <li>
+                    <a href="{{ route('recruitment.edit', ['id' => $uuid]) }}">
+                        <i class="fa fa-calendar"></i>
+                        <span>My Information</span>
+                    </a>
+                </li>
+            @endif
 
 
             {{-- <a href="{{ route('recruitment.show', $item->uuid) }}" class="btn btn-xs btn-primary">
