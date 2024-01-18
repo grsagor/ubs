@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use App\Traits\ImageFileUpload;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Concerns\ToArray;
 
 class RecruitmentController extends Controller
 {
@@ -158,13 +159,42 @@ class RecruitmentController extends Controller
     {
 
         // Define the allowed keys that you want to include in the final $data array
-        $allowedKeys = ['cover_letter', 'name', 'phone', 'email', 'current_address', 'country_residence', 'birth_country', '_token'];
+        $allowedKeys = [
+            'cover_letter',
+            'name', 'phone',
+            'email',
+            'current_address',
+            'country_residence',
+            'birth_country',
+            'salary_type',
+            'expected_salary',
+            'cv',
+            '_token'
+        ];
         // dd($allowedKeys);
         // Use array_intersect_key to filter the original array based on allowed keys
         $data = array_intersect_key($request->all(), array_flip($allowedKeys));
 
+        // dd($request->toArray());
         // Update the user information
         $recruitment = Recruitment::findOrFail($id);
+
+        // Check if a new CV file is provided in the request
+        if ($request->file('cv')) {
+            // Unlink the previous CV file if it exists
+            if ($recruitment->cv) {
+                $previousFilePath = public_path('uploads/recruitments/' . $recruitment->cv);
+
+                // Check if the file exists before attempting to delete
+                if (file_exists($previousFilePath)) {
+                    unlink($previousFilePath);
+                }
+            }
+
+            // Upload the new CV file and update the 'cv' field in the database
+            $requestedData['cv'] = $this->fileUpload($request->file('cv'), 'uploads/recruitments/');
+        }
+
         $recruitment->update($data);
 
         // Reload the updated data with relationships

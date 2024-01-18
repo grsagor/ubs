@@ -27,13 +27,6 @@
             color: #ffffff;
         }
 
-        #contact {
-            margin-left: 45%;
-            padding-bottom: 10px;
-            font-size: 16px;
-            font-family: Verdana, sans-serif;
-            color: #ffffff;
-        }
 
         a:hover {
             font-weight: bold;
@@ -47,56 +40,10 @@
             background-color: #E3EDD8;
         }
 
-        #footer {
-            height: 40px;
-            clear: both;
-            position: relative;
-            background-color: #C1E3E1;
-        }
-
         h3 {
             text-decoration: underline;
             margin-top: 2px !important;
             margin-bottom: 5px !important;
-        }
-
-        #job-responsibilities {
-            padding: 1px;
-        }
-
-        .job-title {
-            font-weight: bold;
-        }
-
-        table {
-            border: 1px dashed black;
-        }
-
-        td {
-            padding: 2px;
-            border: 1px solid #E88741;
-        }
-
-        #course-name {
-            font-weight: bold;
-        }
-
-        #company-name {
-            height: 2px;
-            /* text-decoration: underline; */
-        }
-
-        #job-title {
-            margin-top: 20px;
-            height: 5px;
-        }
-
-        .job-duration {
-            float: right;
-        }
-
-        #heading {
-            font-weight: bold;
         }
 
         .font-size {
@@ -117,15 +64,21 @@
             padding-left: 0px !important;
         }
 
-        .edit-personal-information,
-        .edit-text-cover-letter {
+        .editPersonalInformation,
+        .edit-text-cover-letter,
+        .edit-text-expected-salary {
             cursor: pointer;
             /* Add other styles as needed */
         }
 
-        .edit-personal-information:hover,
-        .edit-text-cover-letter:hover {
+        .editPersonalInformation:hover,
+        .edit-text-cover-letter:hover,
+        .edit-text-expected-salary {
             text-decoration: underline;
+        }
+
+        .m-b-10 {
+            margin-bottom: 10px !important;
         }
 
         textarea[name="cover_letter"] {
@@ -171,7 +124,7 @@
                         Birth Country: {{ $item->birthCountry->country_name ?? '' }}
                     </p>
 
-                    <div class="edit-personal-information" style="display: none; margin-bottom: 10px;">
+                    <div class="edit-personal-information m-b-10" style="display: none;">
                         <form action="" method="POST" enctype="multipart/form-data">
                             <div class="form-group col-md-6">
                                 <label for="name">Name <span class="text-danger">*</span></label>
@@ -248,10 +201,10 @@
                         {{ $item->cover_letter ?? '' }}
                     </p>
 
-                    <div class="edit-cover-letter" style="display: none; margin-bottom: 10px;">
+                    <div class="edit-cover-letter m-b-10" style="display: none;">
                         <form action="" method="POST" enctype="multipart/form-data">
                             <div class="form-group">
-                                <textarea name="cover_letter" rows="8" placeholder="Write here cover letter"></textarea>
+                                <textarea name="cover_letter" rows="8" placeholder="Write here cover letter">{{ $item->cover_letter }}</textarea>
                             </div>
                             <button type="button" class="btn btn-success coverLetterSubmit">Submit</button>
                             <button type="button" class="btn btn-danger coverLetterClose">Close</button>
@@ -259,79 +212,124 @@
                     </div>
                 </div>
 
-                <h4>Expected Salary
-                    £{{ $item->expected_salary }}/{{ $item->salary_type == 1 ? 'hourly' : ($item->salary_type == 2 ? 'monthly' : 'unknown') }}
-                </h4>
-
-                <h3>Professional Experience</h3>
-
-                @php
-                    $experiences = json_decode($item->experiences, true);
-
-                    if (json_last_error() !== JSON_ERROR_NONE || !is_array($experiences)) {
-                        // Handle JSON decoding error or unexpected data type
-                        // For example, log the error or set $experiences to an empty array
-                        $experiences = [];
-                    }
-                @endphp
-
-
-                @if (!empty($experiences))
-                    @foreach ($experiences as $index => $experience)
-                        <h4 id="company-name">Name of experience: {{ $experience['experience_name_of_company'] }}</h4>
-                        <p style="margin-top: 20px;">{{ $experience['experience_start_date'] }} To
-                            <span>{{ $experience['experience_end_date'] }}</span>
-                        </p>
-
-                        @if (!empty($experience['experience_file']) && file_exists(public_path($experience['experience_file'])))
-                            <button class="view-btn"
-                                data-target="additional-files-viewer-{{ $index }}">View</button>
-                            <a href="{{ asset($experience['experience_file']) }}"
-                                download="{{ $item->name }}_Experience_Files.pdf">Download</a>
-                            <div class="pdf-viewer" id="additional-files-viewer-{{ $index }}"
-                                style="display: none;">
-                                <embed src="{{ asset($experience['experience_file']) }}" type="application/pdf"
-                                    width="100%" height="600px" />
-                            </div>
-                        @endif
-                    @endforeach
-                @else
-                    <p>No professional experiences available.</p>
-                @endif
-
-                @if (!empty($educations))
-                    @foreach ($educations as $index => $edu)
-                        <h4 id="company-name">Name of education: {{ $edu['education_name_of_title'] }}</h4>
-                        <p style="margin-top: 20px;">{{ $edu['education_start_date'] }} To
-                            <span>{{ $edu['education_end_date'] }}</span>
-                        </p>
-
-                        @if (!empty($edu['education_file']) && file_exists(public_path($edu['education_file'])))
-                            <button class="view-btn"
-                                data-target="additional-files-viewer-{{ $index }}">View</button>
-                            <a href="{{ asset($edu['education_file']) }}"
-                                download="{{ $item->name }}_Education_Files.pdf">Download</a>
-                            <div class="pdf-viewer" id="additional-files-viewer-{{ $index }}"
-                                style="display: none;">
-                                <embed src="{{ asset($edu['education_file']) }}" type="application/pdf" width="100%"
-                                    height="600px" />
-                            </div>
-                        @endif
-                    @endforeach
-                @else
-                    <p>No professional experiences available.</p>
-                @endif
-
-                @if (!empty($item->cv) && file_exists(public_path($item->cv)))
-                    <h3>Curriculum Vitae</h3>
-                    <button class="view-btn" data-target="cv-viewer">View</button>
-                    <a href="{{ asset($item->cv) }}" download="{{ $item->name }}_Curriculum_Vitae.pdf">Download
-                    </a>
-                    <div class="pdf-viewer" id="cv-viewer" style="display: none;">
-                        <embed src="{{ asset($item->cv) }}" type="application/pdf" width="100%" height="600px" />
+                <div class="expected-salary m-b-10">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <h4 id="expected-salary-header">Expected Salary
+                            £{{ $item->expected_salary }}/{{ $item->salary_type == 1 ? 'hourly' : ($item->salary_type == 2 ? 'monthly' : 'unknown') }}
+                        </h4>
+                        <div id="edit-text-expected-salary" class="edit-text-expected-salary">
+                            <i class="fa fa-edit" aria-hidden="true"></i>
+                            Edit
+                        </div>
                     </div>
-                    <br>
-                @endif
+
+                    <div class="edit-expected-salary m-b-10" style="display: none;">
+                        <form action="" method="POST" enctype="multipart/form-data">
+                            <div class="form-group col-md-6">
+                                <label for="salary_type">Type</label>
+                                <select class="form-control" name="salary_type" required>
+                                    <option value="" {{ $item->salary_type == '' ? 'selected' : '' }}>Select....
+                                    </option>
+                                    <option value="1" {{ $item->salary_type == 1 ? 'selected' : '' }}>Hourly</option>
+                                    <option value="2" {{ $item->salary_type == 2 ? 'selected' : '' }}>Monthly
+                                    </option>
+                                </select>
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label for="expected_salary">Amount </label>
+                                <input type="number" step=".01" name="expected_salary" class="form-control"
+                                    placeholder="Ex. 1000" required
+                                    value="{{ old('expected_salary', $item->expected_salary) }}">
+                            </div>
+                            <button type="button" class="btn btn-success expectedSalarySubmit">Submit</button>
+                            <button type="button" class="btn btn-danger expectedSalaryClose">Close</button>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="experience m-b-10">
+                    <h3>Professional Experience</h3>
+
+                    @php
+                        $experiences = json_decode($item->experiences, true);
+
+                        if (json_last_error() !== JSON_ERROR_NONE || !is_array($experiences)) {
+                            $experiences = [];
+                        }
+                    @endphp
+
+                    @if (!empty($experiences))
+                        @foreach ($experiences as $index => $experience)
+                            <h4 id="company-name">Name of experience: {{ $experience['experience_name_of_company'] }}</h4>
+                            <p>{{ $experience['experience_start_date'] }} To
+                                <span>{{ $experience['experience_end_date'] }}</span>
+                            </p>
+
+                            @if (!empty($experience['experience_file']) && file_exists(public_path($experience['experience_file'])))
+                                <button class="view-btn"
+                                    data-target="additional-files-viewer-{{ $index }}">View</button>
+                                <a href="{{ asset($experience['experience_file']) }}"
+                                    download="{{ $item->name }}_Experience_Files.pdf">Download</a>
+                                <div class="pdf-viewer" id="additional-files-viewer-{{ $index }}"
+                                    style="display: none;">
+                                    <embed src="{{ asset($experience['experience_file']) }}" type="application/pdf"
+                                        width="100%" height="600px" />
+                                </div>
+                            @endif
+                        @endforeach
+                    @else
+                        <p>No professional experiences available.</p>
+                    @endif
+                </div>
+
+                <div class="education m-b-10">
+                    <h3>Education</h3>
+
+                    @php
+                        $educations = json_decode($item->educations, true);
+
+                        if (json_last_error() !== JSON_ERROR_NONE || !is_array($educations)) {
+                            $educations = [];
+                        }
+                    @endphp
+
+                    @if (!empty($educations))
+                        @foreach ($educations as $index => $edu)
+                            <h4 id="company-name">Name of education: {{ $edu['education_name_of_title'] }}</h4>
+                            <p>{{ $edu['education_start_date'] }} To
+                                <span>{{ $edu['education_end_date'] }}</span>
+                            </p>
+
+                            @if (!empty($edu['education_file']) && file_exists(public_path($edu['education_file'])))
+                                <button class="view-btn"
+                                    data-target="additional-files-viewer-{{ $index }}">View</button>
+                                <a href="{{ asset($edu['education_file']) }}"
+                                    download="{{ $item->name }}_Education_Files.pdf">Download</a>
+                                <div class="pdf-viewer" id="additional-files-viewer-{{ $index }}"
+                                    style="display: none;">
+                                    <embed src="{{ asset($edu['education_file']) }}" type="application/pdf"
+                                        width="100%" height="600px" />
+                                </div>
+                            @endif
+                        @endforeach
+                    @else
+                        <p>No education available.</p>
+                    @endif
+                </div>
+
+
+                <div class="cv m-b-10">
+                    <h3>Curriculum Vitae</h3>
+                    @if (!empty($item->cv) && file_exists(public_path($item->cv)))
+                        <button class="view-btn" data-target="cv-viewer" style="margin-top: 10px;">View</button>
+                        <a href="{{ asset($item->cv) }}" download="{{ $item->name }}_Curriculum_Vitae.pdf">Download
+                        </a>
+                        <div class="pdf-viewer" id="cv-viewer" style="display: none;">
+                            <embed src="{{ asset($item->cv) }}" type="application/pdf" width="100%" height="600px" />
+                        </div>
+                    @endif
+                </div>
 
 
                 @if (!empty($item->dbs_check) && file_exists(public_path($item->dbs_check)))
@@ -357,7 +355,7 @@
                     <br>
                 @endif
 
-                <h3>Additional Certificate</h3>
+                <h3 style="margin-top: 10px !important;">Additional Certificate</h3>
 
                 @php
                     $additionalCertificates = json_decode($item->additional_files, true);
@@ -375,7 +373,7 @@
                         </h4>
 
                         @if (!empty($adCertificates['additional_file']) && file_exists(public_path($adCertificates['additional_file'])))
-                            <button class="view-btn" style="margin-top: 10px;"
+                            <button class="view-btn"
                                 data-target="additional-files-viewer-{{ $index }}">View</button>
                             <a href="{{ asset($adCertificates['additional_file']) }}"
                                 download="{{ $item->name }}_Additional_Files.pdf">Download</a>
@@ -482,7 +480,6 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 success: function(result) {
-                    console.log('Success');
                     $('#cover-letter-text').html(`  ${result.cover_letter ?? ''}  `);
                 },
                 error: function(xhr, status, error) {
@@ -491,6 +488,53 @@
             });
         });
 
+
+        document.getElementById("edit-text-expected-salary").addEventListener("click", function() {
+            var editExpectedSalaryDiv = document.querySelector('.edit-expected-salary');
+            // Toggle the 'display' property between 'none' and 'block'
+            editExpectedSalaryDiv.style.display = (editExpectedSalaryDiv.style.display === 'none') ? 'block' :
+                'none';
+        });
+
+        $(document).ready(function() {
+            // Add click event to the "Close" button
+            $('.expectedSalaryClose').on('click', function() {
+                // Add the 'd-none' class to the 'edit-personal-information' div
+                $('.edit-expected-salary').css('display', 'none');
+            });
+        });
+
+        $('.expectedSalarySubmit').on('click', function(e) {
+            e.preventDefault();
+            var id = "{{ $item->uuid }}";
+            var formData = $('form').serializeArray().reduce(function(obj, item) {
+                obj[item.name] = item.value;
+                return obj;
+            }, {});
+
+            $.ajax({
+                url: "{{ route('recruitment.update', ['id' => $item->uuid]) }}",
+                type: 'PUT',
+                data: formData,
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function(result) {
+                    console.log('Success');
+
+                    var expectedSalaryText = 'Expected Salary ' + '£' + (result.expected_salary ?? '') +
+                        '/' +
+                        (result.salary_type == 1 ? 'hourly' : (result.salary_type == 2 ? 'monthly' :
+                            'unknown'));
+
+                    // Assuming you want to update the content of the h4 element and #cover-letter-text
+                    $('h4#expected-salary-header').html(expectedSalaryText);
+                },
+                error: function(xhr, status, error) {
+                    console.error(xhr.responseText);
+                }
+            });
+        });
 
 
         $(document).ready(function() {
