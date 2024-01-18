@@ -92,25 +92,26 @@
             <div class="card-body">
                 <div class="form-group">
                     <label for="name">Name <span class="text-danger">*</span></label>
-                    <input type="text" name="name" class="form-control" placeholder="Full name">
+                    <input type="text" name="name" class="form-control" placeholder="Ex. John Doe">
                     <span id="name-error" class="text-danger"></span>
                 </div>
 
                 <div class="form-group">
                     <label for="phone">Phone <span class="text-danger">*</span></label>
-                    <input type="text" name="phone" class="form-control" placeholder="Phone Number">
+                    <input type="text" name="phone" class="form-control" placeholder="Ex. 4111111111111">
                     <span id="phone-error" class="text-danger"></span>
                 </div>
 
                 <div class="form-group">
                     <label for="email">Email <span class="text-danger">*</span></label>
-                    <input type="email" name="email" class="form-control" placeholder="Email address">
+                    <input type="email" name="email" class="form-control" placeholder="Ex. aaaa@gmail.com">
                     <span id="email-error" class="text-danger"></span>
                 </div>
 
                 <div class="form-group">
                     <label for="current_address">Current address <span class="text-danger">*</span></label>
-                    <input type="text" name="current_address" class="form-control" placeholder="Current Address">
+                    <input type="text" name="current_address" class="form-control"
+                        placeholder="Ex. 123 Main Street, London, SW1A 1AA, UK">
                     <span id="current_address-error" class="text-danger"></span>
                 </div>
 
@@ -156,7 +157,7 @@
                     <div class="form-group">
                         <label>Name of education</label>
                         <input type="text" name="education_name_of_title[]" class="form-control"
-                            placeholder="Title of experience">
+                            placeholder="Title of education">
                     </div>
 
                     <div class="row">
@@ -233,7 +234,7 @@
                 </button>
 
 
-                <h4 class="text-center"><u>Additional File</u></h4>
+                <h4 class="text-center"><u>Additional Files</u></h4>
                 <div class="additional-group mt-2" style="border: 1px solid #ccc; padding: 10px;">
                     <div class="form-group">
                         <label>Title of file</label>
@@ -271,17 +272,17 @@
                         <div class="form-group">
                             <label for="expected_salary">Amount </label>
                             <input type="number" step=".01" name="expected_salary" class="form-control"
-                                placeholder="Amount" required>
+                                placeholder="Ex. 1000" required>
                         </div>
                     </div>
                 </div>
 
-                {{-- <div class="form-group">
-                    <label for="cv">CV </label>
-                    <input type="file" name="cv" class="form-control">
+                <div class="form-group">
+                    <label for="cv">CV <span class="text-danger">*</span></label>
+                    <input type="file" name="cv" class="form-control" required>
                 </div>
 
-                <div class="form-group">
+                {{-- <div class="form-group">
                     <label for="dbs">DBS check</label>
                     <input type="file" name="dbs_check" class="form-control">
                 </div>

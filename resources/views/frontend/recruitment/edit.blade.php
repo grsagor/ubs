@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('crm::layouts.app')
 @section('title', 'Recruitment')
 @section('css')
     <style>

@@ -3,12 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Country;
+use App\AppliedJob;
 use App\Recruitment;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Traits\ImageFileUpload;
 use Illuminate\Support\Facades\Auth;
-use PhpParser\Node\Expr\FuncCall;
+use Illuminate\Support\Facades\DB;
 
 class RecruitmentController extends Controller
 {
@@ -45,12 +46,14 @@ class RecruitmentController extends Controller
         }
     }
 
-
     public function store(Request $request, Recruitment $recruitment)
     {
         // dd($request->toarray());
         if (Auth::check()) {
             try {
+
+                DB::beginTransaction();
+
                 $requestedData = $request->all();
 
                 // Experience store
@@ -103,9 +106,9 @@ class RecruitmentController extends Controller
                 }
 
 
-                // if ($request->file('cv')) {
-                //     $requestedData['cv']     = $this->fileUpload($request->file('cv'), 'uploads/recruitments/');
-                // }
+                if ($request->file('cv')) {
+                    $requestedData['cv']     = $this->fileUpload($request->file('cv'), 'uploads/recruitments/');
+                }
                 // if ($request->file('dbs_check')) {
                 //     $requestedData['dbs_check']     = $this->fileUpload($request->file('dbs_check'), 'uploads/recruitments/');
                 // }
@@ -113,15 +116,25 @@ class RecruitmentController extends Controller
                 //     $requestedData['care_certificates']     = $this->fileUpload($request->file('care_certificates'), 'uploads/recruitments/');
                 // }
 
-                $requestedData                  = $recruitment->fill($requestedData)->save();
+                // Create a new Recruitment record
+                $info = $recruitment::create($requestedData);
+
+                $appliedJob['job_id'] = 1;
+                $appliedJob['recruitment_id'] = $info->uuid;
+
+                AppliedJob::create($appliedJob);
 
                 $output = [
                     'success' => true,
                     'msg' => ('Created Successfully!!!'),
                 ];
 
-                return redirect()->back()->with('status', $output);
+                DB::commit();
+
+                return redirect()->route('recruitment.success')->with('status', $output);
             } catch (\Throwable $e) {
+                DB::rollBack();
+
                 dd($e->getmessage());
                 return redirect()->back();
             }
@@ -159,5 +172,24 @@ class RecruitmentController extends Controller
 
         // Return a response with the updated data
         return response()->json($updatedData);
+    }
+
+    public function success()
+    {
+        return view('frontend.recruitment.after_submit');
+    }
+
+    public function userCheck($jobID)
+    {
+        $data['userId'] = Recruitment::where('created_by', auth()->id())
+            // ->where('job_id', $jobID)
+            ->get();
+        $count          = $data['userId']->count();
+
+        if ($count == 0) {
+            return 1;
+        } else {
+            return 2;
+        }
     }
 }

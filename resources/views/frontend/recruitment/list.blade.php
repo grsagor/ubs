@@ -238,7 +238,24 @@
         function applyForJob() {
             // Check if the user is authenticated
             @auth
-            window.location.href = "{{ route('recruitment.create') }}";
+
+
+            $.ajax({
+                url: "{{ route('recruitment.userCheck', ['jobID' => 1]) }}",
+                type: "get",
+                dataType: "json",
+                success: function(result) {
+                    console.log(result);
+                    if (result == 1) {
+                        window.location.href = "{{ route('recruitment.create') }}";
+                    } else {
+                        toastr.warning('Already applied!!!');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error(xhr.responseText);
+                }
+            });
         @else
             // If not authenticated, show a Toastr message
             window.location.href = "{{ route('login') }}";
