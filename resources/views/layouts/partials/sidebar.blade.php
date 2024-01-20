@@ -338,9 +338,25 @@
                     <span style="margin-left: 10px;">Woocommerce</span></a></li>
 
             @if (auth()->user()->id == 5)
-                <li><a href="{{ route('recruitment.index') }}"><i class="fa fa-calendar"></i>
-                        <span>Job</span></a>
+                <li class="treeview" id="tour_step3">
+                    <a href="#">
+                        <i class="fa fas fa-cog"></i> <span>Jobs</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="{{ route('jobs.create') }}" id="tour_step2"><i class="fa fas fa-cogs"></i>
+                                <span>Create Job</span></a></li>
+                        <li><a href="{{ route('recruitment.index') }}"><i class="fa fa-calendar"></i>
+                                <span>Applied </span></a>
+                        </li>
+                    </ul>
                 </li>
+
+
+
+
                 <li><a href="{{ route('footer.index') }}"><i class="fa fa-asterisk"></i>
                         <span>Footer/Menu</span></a>
                 </li>
