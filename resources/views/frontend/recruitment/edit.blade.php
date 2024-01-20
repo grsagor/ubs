@@ -578,11 +578,9 @@
             e.preventDefault();
 
             var id = "{{ $item->uuid }}";
-            var formData = $('#CVform').serializeArray().reduce(function(obj, item) {
-                obj[item.name] = item.value;
-                console.log('Form data for cv ' + item.value);
-                return obj;
-            }, {});
+            var formData = new FormData($('#CVform')[0]);
+
+            console.log('Form data ' + formData);
 
             $.ajax({
                 url: "{{ route('recruitment.update', ['id' => $item->uuid]) }}",
