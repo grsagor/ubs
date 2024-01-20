@@ -346,7 +346,6 @@
                             <button type="button" class="btn btn-success CVSubmit">Submit</button>
                             <button type="button" class="btn btn-danger CVClose">Close</button>
                         </form>
-
                     </div>
                 </div>
 
@@ -579,14 +578,16 @@
             e.preventDefault();
 
             var id = "{{ $item->uuid }}";
-            var formData = new FormData($('#CVform')[0]);
+            var formData = $('#CVform').serializeArray().reduce(function(obj, item) {
+                obj[item.name] = item.value;
+                console.log('Form data for cv ' + item.value);
+                return obj;
+            }, {});
 
             $.ajax({
                 url: "{{ route('recruitment.update', ['id' => $item->uuid]) }}",
                 type: 'PUT',
                 data: formData,
-                processData: false,
-                contentType: false,
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
@@ -594,16 +595,10 @@
                     console.log('Success');
                 },
                 error: function(xhr, status, error) {
-                    console.error(xhr.responseText);
+                    // console.error(xhr.responseText);
                 }
             });
-
         });
-
-
-
-
-
 
 
         $(document).ready(function() {

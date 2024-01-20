@@ -157,8 +157,7 @@ class RecruitmentController extends Controller
 
     public function update(Request $request, $id)
     {
-        $cv = $request->file('cv');
-        dd($request->toArray(),  $cv);
+        dd($request->toArray());
 
         // Define the allowed keys that you want to include in the final $data array
         $allowedKeys = [
