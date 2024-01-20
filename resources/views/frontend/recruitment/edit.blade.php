@@ -125,7 +125,7 @@
                     </p>
 
                     <div class="edit-personal-information m-b-10" style="display: none;">
-                        <form action="" method="POST" enctype="multipart/form-data">
+                        <form action="" id="personalInfoform" method="POST" enctype="multipart/form-data">
                             <div class="form-group col-md-6">
                                 <label for="name">Name <span class="text-danger">*</span></label>
                                 <input type="text" name="name" class="form-control" placeholder="Full name"
@@ -202,7 +202,7 @@
                     </p>
 
                     <div class="edit-cover-letter m-b-10" style="display: none;">
-                        <form action="" method="POST" enctype="multipart/form-data">
+                        <form action="" id="coverLetterform" method="POST" enctype="multipart/form-data">
                             <div class="form-group">
                                 <textarea name="cover_letter" rows="8" placeholder="Write here cover letter">{{ $item->cover_letter }}</textarea>
                             </div>
@@ -224,7 +224,7 @@
                     </div>
 
                     <div class="edit-expected-salary m-b-10" style="display: none;">
-                        <form action="" method="POST" enctype="multipart/form-data">
+                        <form action="" id="expectedSalaryform" method="POST" enctype="multipart/form-data">
                             <div class="form-group col-md-6">
                                 <label for="salary_type">Type</label>
                                 <select class="form-control" name="salary_type" required>
@@ -320,7 +320,14 @@
 
 
                 <div class="cv m-b-10">
-                    <h3>Curriculum Vitae</h3>
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <h3>Curriculum Vitae</h3>
+                        <div id="edit-text-cv" class="edit-text-cv">
+                            <i class="fa fa-edit" aria-hidden="true"></i>
+                            Edit
+                        </div>
+                    </div>
+
                     @if (!empty($item->cv) && file_exists(public_path($item->cv)))
                         <button class="view-btn" data-target="cv-viewer" style="margin-top: 10px;">View</button>
                         <a href="{{ asset($item->cv) }}" download="{{ $item->name }}_Curriculum_Vitae.pdf">Download
@@ -329,6 +336,18 @@
                             <embed src="{{ asset($item->cv) }}" type="application/pdf" width="100%" height="600px" />
                         </div>
                     @endif
+
+                    <div class="edit-cv m-b-10" style="display: none;">
+                        <form action="" id="CVform" method="POST" enctype="multipart/form-data">
+                            <div class="form-group">
+                                <label for="cv">CV</label>
+                                <input type="file" name="cv" class="form-control">
+                            </div>
+                            <button type="button" class="btn btn-success CVSubmit">Submit</button>
+                            <button type="button" class="btn btn-danger CVClose">Close</button>
+                        </form>
+
+                    </div>
                 </div>
 
 
@@ -412,7 +431,7 @@
         $('.personalInfoSubmit').on('click', function(e) {
             e.preventDefault();
             var id = "{{ $item->uuid }}";
-            var formData = $('form').serializeArray().reduce(function(obj, item) {
+            var formData = $('#personalInfoform').serializeArray().reduce(function(obj, item) {
                 obj[item.name] = item.value;
                 return obj;
             }, {});
@@ -467,7 +486,7 @@
         $('.coverLetterSubmit').on('click', function(e) {
             e.preventDefault();
             var id = "{{ $item->uuid }}";
-            var formData = $('form').serializeArray().reduce(function(obj, item) {
+            var formData = $('#coverLetterform').serializeArray().reduce(function(obj, item) {
                 obj[item.name] = item.value;
                 return obj;
             }, {});
@@ -507,10 +526,11 @@
         $('.expectedSalarySubmit').on('click', function(e) {
             e.preventDefault();
             var id = "{{ $item->uuid }}";
-            var formData = $('form').serializeArray().reduce(function(obj, item) {
+            var formData = $('#expectedSalaryform').serializeArray().reduce(function(obj, item) {
                 obj[item.name] = item.value;
                 return obj;
             }, {});
+
 
             $.ajax({
                 url: "{{ route('recruitment.update', ['id' => $item->uuid]) }}",
@@ -520,7 +540,6 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 success: function(result) {
-                    console.log('Success');
 
                     var expectedSalaryText = 'Expected Salary ' + '£' + (result.expected_salary ?? '') +
                         '/' +
@@ -535,6 +554,56 @@
                 }
             });
         });
+
+
+
+
+
+
+
+
+        document.getElementById("edit-text-cv").addEventListener("click", function() {
+            var editCVDiv = document.querySelector('.edit-cv');
+            // Toggle the 'display' property between 'none' and 'block'
+            editCVDiv.style.display = (editCVDiv.style.display === 'none') ? 'block' :
+                'none';
+        });
+
+        $(document).ready(function() {
+            $('.CVClose').on('click', function() {
+                $('.edit-cv').css('display', 'none');
+            });
+        });
+
+        $('.CVSubmit').on('click', function(e) {
+            e.preventDefault();
+
+            var id = "{{ $item->uuid }}";
+            var formData = new FormData($('#CVform')[0]);
+
+            $.ajax({
+                url: "{{ route('recruitment.update', ['id' => $item->uuid]) }}",
+                type: 'PUT',
+                data: formData,
+                processData: false,
+                contentType: false,
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function(result) {
+                    console.log('Success');
+                },
+                error: function(xhr, status, error) {
+                    console.error(xhr.responseText);
+                }
+            });
+
+        });
+
+
+
+
+
 
 
         $(document).ready(function() {

@@ -157,6 +157,8 @@ class RecruitmentController extends Controller
 
     public function update(Request $request, $id)
     {
+        $cv = $request->file('cv');
+        dd($request->toArray(),  $cv);
 
         // Define the allowed keys that you want to include in the final $data array
         $allowedKeys = [
@@ -175,7 +177,6 @@ class RecruitmentController extends Controller
         // Use array_intersect_key to filter the original array based on allowed keys
         $data = array_intersect_key($request->all(), array_flip($allowedKeys));
 
-        // dd($request->toArray());
         // Update the user information
         $recruitment = Recruitment::findOrFail($id);
 
