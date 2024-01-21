@@ -23,6 +23,8 @@ class Job extends Model
         'job_type',
         'closing_date',
         'company_name',
+        'salary',
+        'salary_type',
         'location',
         'description',
         'status',

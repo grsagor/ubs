@@ -32,7 +32,7 @@
         }
 
         .card-design {
-            background-color: #f8f9fa;
+            background-color: #dedede;
             color: #212529;
             /* Dark text color */
         }
@@ -70,16 +70,25 @@
 
     <div class="container">
 
-        <div class="row color-black">
+        <div class="row">
             @foreach ($jobs as $item)
                 <div class="col-md-6 mt-3 p-7">
                     <a href="{{ route('recruitment.details', ['id' => $item->uuid]) }}" class="card-link">
                         <div class="card custom-card card-design">
                             <div class="card-body">
                                 <h4 class="card-title">{{ $item->title }}</h4>
-                                <h6 class="card-subtitle mb-2">Company Name → {{ $item->company_name }}</h6>
-                                <p class="card-text">Last Date for Application → {{ $item->closing_date }}</p>
-                                <p class="card-text">Location: {{ $item->location }}</p>
+                                <p class="card-text mb-2 color-black">Company Name → {{ $item->company_name }}</p>
+                                <p class="card-text mb-2 color-black">Hours → {{ $item->hour_type }}</p>
+                                <p class="card-text mb-2 color-black">Job type → {{ $item->job_type }}</p>
+                                <p class="card-text mb-2 color-black">
+                                    @if ($item->salary)
+                                        Salary → {{ $item->salary }}/{{ $item->salary_type }}
+                                    @else
+                                        Salary → {{ $item->salary_type }}
+                                    @endif
+                                </p>
+                                <p class="card-text color-black">Last Date for Application → {{ $item->closing_date }}</p>
+                                <p class="card-text color-black">Location: {{ $item->location }}</p>
                             </div>
                         </div>
                     </a>

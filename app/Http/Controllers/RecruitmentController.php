@@ -20,6 +20,7 @@ class RecruitmentController extends Controller
     {
         $data['jobs'] =  Job::query()
             ->search($request)
+            ->latest()
             ->get();
         return view('frontend.recruitment.list', $data);
     }

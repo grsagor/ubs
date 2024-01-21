@@ -37,6 +37,7 @@
             <li>Location: {{ $job->location }}</li>
             <li>Company: {{ $job->company_name }}</li>
             <li>Job type: {{ $job->job_type }}</li>
+            <li>Salary type: {{ $job->job_type }}</li>
         </ul>
 
         <div style="margin-top: 10px;">
@@ -44,22 +45,19 @@
                 <button type="button" class="btn btn-secondary" disabled>Already applied</button>
             @else
                 @if ($recuitment_info == 0)
-                    <a href="{{ route('recruitment.create', $job->uuid) }}" class="btn btn-dark">Apply for this job1</a>
+                    <a href="{{ route('recruitment.create', $job->uuid) }}" class="btn btn-dark">Apply for this job</a>
                 @endif
 
                 @if ($recuitment_info == 1)
                     <form action="{{ route('recruitment.applyJob', $job->uuid) }}" method="POST"
                         class="mx-auto mobileView"enctype="multipart/form-data">
                         @csrf
-                        <button type="submit" class="btn btn-dark">Apply for this job22</button>
+                        <button type="submit" class="btn btn-dark">Apply for this job</button>
                     </form>
                 @endif
             @endif
-
-
-
-
         </div>
+
         {{-- <button onclick="applyForJob()" type="button" class="btn btn-dark">Apply for this job</button> --}}
 
         <p class="color-black" style="margin-top: 20px; margin-bottom: 5px;">
@@ -67,6 +65,26 @@
         </p>
         <div class="color-black">
             {!! $job->description ?? '' !!}
+        </div>
+
+
+
+        <div style="margin-top: 10px;">
+            @if ($applied_jobs == 1)
+                <button type="button" class="btn btn-secondary" disabled>Already applied</button>
+            @else
+                @if ($recuitment_info == 0)
+                    <a href="{{ route('recruitment.create', $job->uuid) }}" class="btn btn-dark">Apply for this job</a>
+                @endif
+
+                @if ($recuitment_info == 1)
+                    <form action="{{ route('recruitment.applyJob', $job->uuid) }}" method="POST"
+                        class="mx-auto mobileView"enctype="multipart/form-data">
+                        @csrf
+                        <button type="submit" class="btn btn-dark">Apply for this job</button>
+                    </form>
+                @endif
+            @endif
         </div>
 
     </div>
