@@ -62,6 +62,11 @@
                                     <a href="{{ route('jobs.edit', $item->uuid) }}" class="btn btn-xs btn-primary">
                                         <i class="glyphicon glyphicon-edit"></i> Edit
                                     </a>
+                                    <a href="{{ route('recruitment.details', $item->uuid) }}" target="_blank"
+                                        class="btn btn-xs btn-success">
+                                        <i class="glyphicon glyphicon-eye-open"></i>
+                                    </a>
+
                                 </td>
                             </tr>
                         @empty

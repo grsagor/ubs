@@ -2,22 +2,32 @@
 
 namespace App\Http\Controllers;
 
+use App\Job;
 use App\Country;
 use App\AppliedJob;
 use App\Recruitment;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Traits\ImageFileUpload;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class RecruitmentController extends Controller
 {
     use ImageFileUpload;
 
-    public function list()
+    public function list(Request $request)
     {
-        return view('frontend.recruitment.list');
+        $data['jobs'] =  Job::query()
+            ->search($request)
+            ->get();
+        return view('frontend.recruitment.list', $data);
+    }
+
+    public function details($id)
+    {
+        $data['job'] =  Job::findOrFail($id);
+        return view('frontend.recruitment.details', $data);
     }
 
     public function index(Request $request)
