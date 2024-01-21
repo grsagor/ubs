@@ -2,7 +2,7 @@
 @section('title', 'Jobs')
 @section('content')
     <section class="content-header">
-        <h1>Applicant List</h1>
+        <h1>Applied jobs</h1>
     </section>
 
     <section class="content">
@@ -11,9 +11,10 @@
 
             <div class="box-header" style="display: flex; justify-content: space-between; align-items: center;">
                 <!-- Search form -->
-                <form action="{{ route('recruitment.index') }}" method="GET" style="flex: 1; margin-right: 10px;">
+                <form action="{{ route('recruitment.appliedJobs') }}" method="GET" style="flex: 1; margin-right: 10px;">
                     <div class="input-group">
-                        <input type="text" name="search" class="form-control" placeholder="Search...">
+                        <input type="text" name="search" value="{{ request()->get('search') }}" class="form-control"
+                            placeholder="Search...">
                         <span class="input-group-btn">
                             <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
                         </span>
@@ -36,36 +37,35 @@
 
             <div class="box-body">
 
-                <table class="table table-bordered table-striped table-hover">
+                <table class="table table-bordered table-striped table-hover text-center">
                     <thead>
                         <tr>
-                            <th>No.</th>
+                            <th rowspan="2">No.</th>
+                            <th rowspan="2">Job Title</th>
+                            <th colspan="3">Applicant</th>
+                        </tr>
+                        <tr>
+
                             <th>Name</th>
                             <th>Phone</th>
                             <th>Email</th>
-                            <th>Current Address</th>
-                            <th>Current of Residence</th>
-                            <th>Birth Country</th>
-                            <th>Created By</th>
-                            <th>Action</th>
+                            <th>Applied date</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse ($recruitments as $item)
+                        @forelse ($appliedJobs as $item)
                             <tr>
-                                <td>{{ serialNumber($recruitments, $loop) }}</td>
-                                <td>{{ $item->name ?? '' }}</td>
-                                <td>{{ $item->phone ?? '' }}</td>
-                                <td>{{ $item->email ?? '' }}</td>
-                                <td>{{ $item->current_address ?? '' }}</td>
-                                <td>{{ $item->countryResidence->country_name ?? '' }}</td>
-                                <td>{{ $item->birthCountry->country_name ?? '' }}</td>
+                                <td>{{ serialNumber($appliedJobs, $loop) }}</td>
                                 <td>
-                                    {{ $item->createdBy->surname ?? '' }}
-                                    {{ $item->createdBy->first_name ?? '' }}
-                                    {{ $item->createdBy->last_name ?? '' }}
+                                    <a
+                                        href="{{ route('recruitment.details', $item->JobId->uuid) }}">{{ $item->JobId->title }}</a>
                                 </td>
-                                <td>
+                                <td>{{ $item->recuimentId->name ?? '' }}</td>
+                                <td>{{ $item->recuimentId->phone ?? '' }}</td>
+                                <td>{{ $item->recuimentId->email ?? '' }}</td>
+                                <td>{{ $item->created_at->format('d F Y') ?? '' }}</td>
+
+                                {{-- <td>
                                     <a href="{{ route('recruitment.show', $item->uuid) }}" class="btn btn-xs btn-primary">
                                         <i class="fas fa-eye"></i> Show
                                     </a>
@@ -74,8 +74,8 @@
                                         data-link="{{ route('recruitment.show', $item->uuid) }}">
                                         <i class="fas fa-copy"></i> Copy
                                     </a>
+                                </td> --}}
 
-                                </td>
                             </tr>
                         @empty
                             <tr>
@@ -84,7 +84,7 @@
                         @endforelse
                     </tbody>
                 </table>
-                {{ $recruitments->links() }}
+                {{ $appliedJobs->links() }}
             </div>
         </div>
     </section>
