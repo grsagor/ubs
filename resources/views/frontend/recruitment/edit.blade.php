@@ -580,7 +580,11 @@
             var id = "{{ $item->uuid }}";
             var formData = new FormData($('#CVform')[0]);
 
-            console.log('Form data ' + formData);
+            var formDataObject = {};
+            formData.forEach(function(value, key) {
+                formDataObject[key] = value;
+            });
+            console.log('Form data ' + formDataObject);
 
             $.ajax({
                 url: "{{ route('recruitment.update', ['id' => $item->uuid]) }}",
