@@ -43,9 +43,24 @@
             @if ($applied_jobs == 1)
                 <button type="button" class="btn btn-secondary" disabled>Already applied</button>
             @else
-                <button onclick="applyForJob()" type="button" class="btn btn-dark">Apply for this job</button>
+                @if ($recuitment_info == 0)
+                    <a href="{{ route('recruitment.create', $job->uuid) }}" class="btn btn-dark">Apply for this job1</a>
+                @endif
+
+                @if ($recuitment_info == 1)
+                    <form action="{{ route('recruitment.applyJob', $job->uuid) }}" method="POST"
+                        class="mx-auto mobileView"enctype="multipart/form-data">
+                        @csrf
+                        <button type="submit" class="btn btn-dark">Apply for this job22</button>
+                    </form>
+                @endif
             @endif
+
+
+
+
         </div>
+        {{-- <button onclick="applyForJob()" type="button" class="btn btn-dark">Apply for this job</button> --}}
 
         <p class="color-black" style="margin-top: 20px; margin-bottom: 5px;">
             <span style="font-size: 22px;"><b>Summary</b></span><br>
@@ -56,9 +71,11 @@
 
     </div>
 
-    {{-- <script>
+    <script>
         function applyForJob() {
             // Check if the user is authenticated
+            console.log('Clicked');
+
             @auth
 
 
@@ -84,5 +101,5 @@
             // toastr.warning('Please login to apply for the job.');
         @endauth
         }
-    </script> --}}
+    </script>
 @endsection
