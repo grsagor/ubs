@@ -9,48 +9,107 @@
 
     <section class="content">
         <div class="form-container box box-primary">
+
+            <div class="box-header">
+                <h3 class="box-title">All your job</h3>
+                <div class="box-tools">
+                    <a href="{{ route('jobs.index') }}" class="btn btn-block btn-primary">
+                        <i class="fa fa-list"></i> List</a>
+                </div>
+            </div>
+
             <div class="box-body">
                 <form action="{{ route('jobs.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="col-sm-12">
                         <div class="form-group">
                             <label class="form-label">Title <span class="text-danger">*</span></label>
-                            <input class="form-control" type="text" required="" name="title" placeholder="Title">
+                            <input class="form-control" type="text" name="title" required placeholder="Title"
+                                value="{{ old('title') }}">
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="form-label">Hours <span class="text-danger">*</span></label>
+                            <select class="form-control" name="hour_type" required>
+                                <option value="" selected disabled>Select type</option>
+                                <option value="Full time" {{ old('hour_type') == 'Full time' ? 'selected' : '' }}>Full time
+                                </option>
+                                <option value="Part time" {{ old('hour_type') == 'Part time' ? 'selected' : '' }}>Part time
+                                </option>
+                            </select>
                         </div>
                     </div>
 
                     <div class="col-sm-6">
                         <div class="form-group">
                             <label class="form-label">Job type <span class="text-danger">*</span></label>
-                            <select class="form-control" name="shop_news_category_id" required>
-                                <option value="" selected="selected">Select type</option>
-                                <option value="">Select type</option>
-                                <option value="Full time">Full time</option>
-                                <option value="Part time">Part time</option>
+                            <select class="form-control" name="job_type" required>
+                                <option value="" selected disabled>Select type</option>
+                                <option value="Permanent" {{ old('job_type') == 'Permanent' ? 'selected' : '' }}>Permanent
+                                </option>
+                                <option value="Contractual" {{ old('job_type') == 'Contractual' ? 'selected' : '' }}>
+                                    Contractual</option>
                             </select>
                         </div>
                     </div>
+
                     <div class="col-sm-6">
                         <div class="form-group">
                             <label class="form-label">Closing date <span class="text-danger">*</span></label>
-                            <input class="form-control" type="date" name="title">
+                            <input class="form-control" type="date" name="closing_date" required
+                                value="{{ old('closing_date') }}">
+                            @error('closing_date')
+                                <span class="error text-danger">{{ $message }}</span>
+                            @enderror
                         </div>
                     </div>
 
-                    <div class="col-sm-12">
+                    <div class="col-sm-6">
                         <div class="form-group">
                             <label class="form-label">Company Name <span class="text-danger">*</span></label>
-                            <input class="form-control" required="" placeholder="Title" name="title" type="text">
+                            <input class="form-control" type="text" name="company_name" required
+                                placeholder="Name of company" value="{{ old('company_name') }}">
                         </div>
                     </div>
 
                     <div class="col-sm-12">
                         <div class="form-group">
-                            <label for="custom_field1">Description</label>
+                            <label class="form-label">Location <span class="text-danger">*</span></label>
+                            <input class="form-control" type="text" name="location" required placeholder="Location"
+                                value="{{ old('location') }}">
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="form-label">Status <span class="text-danger">*</span></label>
+                            <select class="form-control" name="status">
+                                <option selected="" value="">Select Status</option>
+                                @foreach (getStatus() as $status)
+                                    <option value="{{ $status['value'] }}"
+                                        {{ $status['value'] == '1' ? 'selected' : '' }}>
+                                        {{ $status['label'] }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            @error('status')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+                    </div>
+
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label for="custom_field1">Description <span class="text-danger">*</span></label>
                             <p class="sub-heading">(No contact details permitted within description)</p>
                             <textarea rows="5" type="text" class="form-control" name="description" id="footer_details" class="input-field"
                                 placeholder="Description"></textarea>
-                            <span class="error text-danger" id="footer_details-error--property_wanted_create"></span>
+
+                            @error('description')
+                                <span class="error text-danger">{{ $message }}</span>
+                            @enderror
                         </div>
                     </div>
 
