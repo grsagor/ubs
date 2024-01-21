@@ -20,19 +20,25 @@ class RecruitmentController extends Controller
     {
         $data['jobs'] =  Job::query()
             ->search($request)
+            ->latest()
             ->get();
         return view('frontend.recruitment.list', $data);
     }
 
     public function details($id)
     {
+        $data['recuitment_info'] = 0;
         $data['applied_jobs'] = 0;
         $authUserId = Auth::id();
 
         $recruitment = Recruitment::where('created_by', $authUserId)->first();
 
         if ($recruitment !== null) {
-            $appliedJob = AppliedJob::where('recruitment_id', $recruitment->uuid)->first();
+            $appliedJob = AppliedJob::where('recruitment_id', $recruitment->uuid)
+                ->where('job_id', $id)
+                ->first();
+
+            $data['recuitment_info'] = 1;
             $data['applied_jobs'] = ($appliedJob !== null) ? 1 : 0;
         }
 
@@ -188,6 +194,20 @@ class RecruitmentController extends Controller
 
     public function success()
     {
+        return view('frontend.recruitment.after_submit');
+    }
+
+    public function applyJob($jobID)
+    {
+        $authUserId = Auth::id();
+
+        $recruitment = Recruitment::where('created_by', $authUserId)->first();
+
+        $appliedJob['job_id'] = $jobID;
+        $appliedJob['recruitment_id'] = $recruitment->uuid;
+
+        AppliedJob::create($appliedJob);
+
         return view('frontend.recruitment.after_submit');
     }
 

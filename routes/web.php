@@ -156,6 +156,7 @@ Route::get('/recruitment/create/{id}',                               [Recruitmen
 Route::post('/recruitment',                                          [RecruitmentController::class, 'store'])->name('recruitment.store');
 Route::get('/recruitment-success',                                   [RecruitmentController::class, 'success'])->name('recruitment.success');
 Route::get('/recruitment-userCheck/{jobID}',                         [RecruitmentController::class, 'userCheck'])->name('recruitment.userCheck');
+Route::post('/recruitment/applyJob/{jobID}',                         [RecruitmentController::class, 'applyJob'])->name('recruitment.applyJob');
 
 // Services
 Route::get('/room-list/',                        [RoomListController::class, 'roomList'])->name('room.list');

@@ -74,6 +74,30 @@
                         </div>
                     </div>
 
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="form-label">Amount </label>
+                            <input class="form-control" type="number" step="0.01" name="salary" required
+                                placeholder="Amount" value="{{ old('salary') }}" id="amountField">
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="form-label">Salary type <span class="text-danger">*</span></label>
+                            <select class="form-control" name="salary_type" id="salary_type" required>
+                                <option value="" selected disabled>Select type</option>
+                                <option value="Hourly" {{ old('salary_type') == 'Hourly' ? 'selected' : '' }}>Hourly
+                                </option>
+                                <option value="Monthly" {{ old('salary_type') == 'Monthly' ? 'selected' : '' }}>Monthly
+                                </option>
+                                <option value="Negotiable" {{ old('salary_type') == 'Negotiable' ? 'selected' : '' }}>
+                                    Negotiable
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+
                     <div class="col-sm-12">
                         <div class="form-group">
                             <label class="form-label">Location <span class="text-danger">*</span></label>
@@ -104,8 +128,8 @@
                         <div class="form-group">
                             <label for="custom_field1">Description <span class="text-danger">*</span></label>
                             <p class="sub-heading">(No contact details permitted within description)</p>
-                            <textarea rows="5" type="text" class="form-control" name="description" id="footer_details" class="input-field"
-                                placeholder="Description"></textarea>
+                            <textarea rows="5" type="text" class="form-control" name="description" id="footer_details"
+                                class="input-field" placeholder="Description"></textarea>
 
                             @error('description')
                                 <span class="error text-danger">{{ $message }}</span>
@@ -127,6 +151,32 @@
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="https://cdn.tiny.cloud/1/YOUR_API_KEY/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
     <script>
+        $(document).ready(function() {
+            // Initial check on page load
+            toggleAmountField();
+
+            // Bind the change event on the salary_type dropdown
+            $('#salary_type').change(function() {
+                toggleAmountField();
+            });
+
+            function toggleAmountField() {
+                var salaryType = $('#salary_type').val();
+                var amountField = $('#amountField');
+
+                // If salary type is Negotiable, make the amount field readonly
+                if (salaryType === 'Negotiable') {
+                    amountField.prop('readonly', true);
+                    amountField.val(''); // Clear the value when readonly
+                } else {
+                    // Otherwise, remove the readonly attribute
+                    amountField.prop('readonly', false);
+                }
+            }
+        });
+
+
+
         $(document).ready(function() {
             if ($("textarea#footer_details").length > 0) {
                 tinymce.init({
