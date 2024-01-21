@@ -8,19 +8,60 @@
         }
 
         .color-black {
-            color: black;
+            color: black !important;
         }
 
         .text-justify {
             text-align: justify;
         }
 
-        ul {
-            color: black;
+        /* Custom styling for the cards */
+        .custom-card {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease-in-out;
         }
 
-        span {
-            font-size: 22px;
+        .custom-card:hover {
+            transform: scale(1.03);
+        }
+
+        .card-body {
+            padding: 20px;
+        }
+
+        .card-design {
+            background-color: #f8f9fa;
+            color: #212529;
+            /* Dark text color */
+        }
+
+        .card-title {
+            color: #007bff;
+            /* Blue title color */
+        }
+
+        .card-subtitle {
+            color: #6c757d;
+            /* Gray subtitle color */
+        }
+
+        .card-text {
+            color: #495057;
+            /* Dark text color for other text */
+        }
+
+        .m-b-0 {
+            margin-bottom: 0px;
+        }
+
+        .m-b-5 {
+            margin-bottom: 0px;
+        }
+
+        .p-7 {
+            padding: 7px;
         }
     </style>
 @endsection
@@ -28,239 +69,24 @@
     @includeIf('frontend.partials.global.common-header')
 
     <div class="container">
-        <h2>Care Assistant</h2>
 
-        <ul style="list-style-type: disc;">
-            <li>Posting date: 06 January 2024</li>
-            <li>Job details</li>
-            <li>Posting date: 06 January 2024</li>
-            <li>Hours: Full time</li>
-            <li>Closing date: 05 February 2024</li>
-            <li>Location: Hampshire, South East England</li>
-            <li>Company: Care2 Training</li>
-            <li>Job type: Permanent</li>
-            <li>Job reference:</li>
-        </ul>
-
-        <div style="margin-top: 10px;">
-            <button onclick="applyForJob()" type="button" class="btn btn-dark">Apply for this job</button>
+        <div class="row color-black">
+            @foreach ($jobs as $item)
+                <div class="col-md-6 mt-3 p-7">
+                    <a href="{{ route('recruitment.details', ['id' => $item->uuid]) }}" class="card-link">
+                        <div class="card custom-card card-design">
+                            <div class="card-body">
+                                <h4 class="card-title">{{ $item->title }}</h4>
+                                <h6 class="card-subtitle mb-2">Company Name → {{ $item->company_name }}</h6>
+                                <p class="card-text">Last Date for Application → {{ $item->closing_date }}</p>
+                                <p class="card-text">Location: {{ $item->location }}</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            @endforeach
         </div>
 
-        <p class="color-black" style="margin-top: 10px;">
-            <span style="font-size: 22px;"><b>Summary</b></span><br>
-            Health Care Assistant - Days & Nights<br>
-            CARE2 TRAINING LIMITED – London<br>
-            Job Location: Hampshire County Council
-        </p>
-
-        <p class="color-black"><i>Health Care Assistant</i> (Must have 6 months experience in the UK)</p>
-
-        <div class="color-black text-justify mb-3">
-            <p style="margin-bottom: 0px;"><b>Job Description:</b></p>
-            Care2 Training is looking for a compassionate and dedicated Health Care Assistant to join our team in
-            providing
-            care and support to residents in our care homes that we are currently supplying. The ideal candidate will be
-            passionate about providing high-quality care and will have experience working in a similar role.
-        </div>
-
-        <div class="color-black mb-3">
-            <p style="margin-bottom: 0px;"><b>Responsibilities:</b></p>
-            <ul>
-                <li>Assisting residents with personal care tasks, such as washing, dressing, and toileting</li>
-                <li>Supporting residents with mobility and other physical needs</li>
-                <li>Administering medication as directed by medical staff</li>
-                <li>Assisting with meal preparation and feeding</li>
-                <li>Keeping accurate records of care provided</li>
-                <li>Building strong relationships with residents and their families</li>
-                <li>Maintaining a clean and safe environment for residents</li>
-            </ul>
-        </div>
-
-        <div class="color-black mb-3">
-            <p style="margin-bottom: 0px;"><b>Requirements:</b></p>
-            <ul>
-                <li>Previous experience working as a Health Care Assistant in a care home setting</li>
-                <li>Mandatory and Statutory training
-                <li>Moving & Handling (Theory and Practical)</li>
-                <li>Fire Safety</li>
-                </li>
-                <li>Excellent communication and interpersonal skills</li>
-                <li>Ability to work well as part of a team</li>
-                <li>A compassionate and caring nature</li>
-                <li>Ability to work flexible hours, including weekends and evenings</li>
-            </ul>
-        </div>
-
-        <div class="color-black text-justify mb-3">
-            <p style="margin-bottom: 0px;"><b> As a recruitment agency, we require all our candidates to provide us with
-                    certain compliance documents to
-                    ensure
-                    that they meet our standards. These documents include:</b></p>
-            <ul>
-                <li>Scanned Colour Passport or Visa</li>
-                <li>Passport Sized Photo</li>
-                <li>CV (Up to date - with Healthcare work experience)</li>
-            </ul>
-        </div>
-
-        <div class="color-black text-justify mb-3">
-            <p style="margin-bottom: 0px;">
-                <b> *Please ensure that you have all these documents and training completed before applying for the
-                    position. We do
-                    not provide sponsorship for visas, but we can place workers in our company even if they are sponsored by
-                    a
-                    different company, as they’ll still be allowed to work outside their contractual hours with their
-                    sponsored
-                    company.
-                </b>
-            </p>
-        </div>
-
-        <div class="color-black mb-3">
-            <p style="margin-bottom: 0px;">
-                <b> If you're interested in this position, please submit your CV to. We look forward to hearing from you!
-                </b>
-            </p>
-        </div>
-
-        <div class="color-black mb-3">
-            <p style="margin-bottom: 0px;">
-                <b>Job Types:</b> Full-time, Part-time, Permanent
-                <br>
-                <b>Job Types:</b> Full-time, Part-time, Permanent
-                <br>
-                <b>Salary:</b> £11.00-£15.00 per hour
-                <br>
-                <b>Expected hours:</b> 20 – 50 per week
-            </p>
-        </div>
-
-        <div class="color-black mb-3">
-            <p style="margin-bottom: 0px;">
-                <b>Benefits: </b>
-            </p>
-            <ul>
-                <li>Company pension</li>
-                <li>Flexitime</li>
-                <li>On-site parking</li>
-                <li>Referral programme</li>
-            </ul>
-        </div>
-
-        <div class="color-black mb-3">
-            <p style="margin-bottom: 0px;">
-                <b>Schedule: </b>
-            </p>
-            <ul>
-                <li>10-hour shift</li>
-                <li>Weekend availability</li>
-            </ul>
-        </div>
-
-        <div class="color-black mb-3">
-            <p style="margin-bottom: 0px;">
-                <b>Supplemental pay types: </b>
-            </p>
-            <ul>
-                <li>Performance bonus</li>
-                <li>Quarterly bonus</li>
-            </ul>
-        </div>
-
-        <div class="color-black mb-3">
-            <p style="margin-bottom: 0px;">
-                <b>Ability to commute/relocate:: </b>
-            </p>
-            <ul>
-                <li>England: reliably commute or plan to relocate before starting work (required)</li>
-            </ul>
-        </div>
-
-        <div class="color-black mb-3">
-            <p style="margin-bottom: 0px;">
-                <b>Application question(s): </b>
-            </p>
-            <ul>
-                <li>You must have all the qualifications and compliance in order to apply for the position</li>
-            </ul>
-        </div>
-
-        <div class="color-black mb-3">
-            <p style="margin-bottom: 0px;">
-                <b>Education: </b>
-            </p>
-            <ul>
-                <li>GCSE or equivalent (preferred)</li>
-            </ul>
-        </div>
-
-        <div class="color-black mb-3">
-            <p style="margin-bottom: 0px;">
-                <b>Experience: </b>
-            </p>
-            <ul>
-                <li>Care home (required)</li>
-                <li>Home care (preferred)</li>
-                <li>Min 1 year (preferred)</li>
-            </ul>
-        </div>
-
-        <div class="color-black mb-3">
-            <p style="margin-bottom: 0px;">
-                <b>Language: </b>
-            </p>
-            <ul>
-                <li>English (preferred)</li>
-            </ul>
-        </div>
-
-        <div class="color-black mb-3">
-            <p style="margin-bottom: 0px;">
-                <b>Licence/Certification: </b>
-            </p>
-            <ul>
-                <li>Driving Licence (preferred)</li>
-            </ul>
-        </div>
-
-        <div class="color-black mb-3">
-            <p style="margin-bottom: 0px;">
-                <b>Work Location: </b>
-            </p>
-            <ul>
-                <li>Hampshire</li>
-            </ul>
-        </div>
 
     </div>
-
-    <script>
-        function applyForJob() {
-            // Check if the user is authenticated
-            @auth
-
-
-            $.ajax({
-                url: "{{ route('recruitment.userCheck', ['jobID' => 1]) }}",
-                type: "get",
-                dataType: "json",
-                success: function(result) {
-                    console.log(result);
-                    if (result == 1) {
-                        window.location.href = "{{ route('recruitment.create') }}";
-                    } else {
-                        toastr.warning('Already applied!!!');
-                    }
-                },
-                error: function(xhr, status, error) {
-                    console.error(xhr.responseText);
-                }
-            });
-        @else
-            // If not authenticated, show a Toastr message
-            window.location.href = "{{ route('login') }}";
-            // toastr.warning('Please login to apply for the job.');
-        @endauth
-        }
-    </script>
 @endsection
