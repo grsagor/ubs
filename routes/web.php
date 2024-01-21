@@ -152,7 +152,7 @@ Route::get('/partner-boarding',                                     [FrontendCon
 
 Route::get('/recruitment/list',                                      [RecruitmentController::class, 'list'])->name('recruitment.list');
 Route::get('/recruitment/{id}',                                      [RecruitmentController::class, 'details'])->name('recruitment.details');
-Route::get('/recruitment',                                           [RecruitmentController::class, 'create'])->name('recruitment.create');
+Route::get('/recruitment/create/{id}',                               [RecruitmentController::class, 'create'])->name('recruitment.create');
 Route::post('/recruitment',                                          [RecruitmentController::class, 'store'])->name('recruitment.store');
 Route::get('/recruitment-success',                                   [RecruitmentController::class, 'success'])->name('recruitment.success');
 Route::get('/recruitment-userCheck/{jobID}',                         [RecruitmentController::class, 'userCheck'])->name('recruitment.userCheck');
@@ -284,7 +284,8 @@ Route::middleware(['checkAdmin', 'SetSessionData'])->group(function () {
     Route::get('/footer/{id}/edit',        [FooterController::class, 'edit'])->name('footer.edit');
     Route::put('/footer/{id}',             [FooterController::class, 'update'])->name('footer.update');
 
-    Route::get('/recruitment/index',       [RecruitmentController::class, 'index'])->name('recruitment.index');
+    Route::get('/applicant/index',         [RecruitmentController::class, 'index'])->name('recruitment.index');
+    Route::get('/applied-jobs/',           [RecruitmentController::class, 'appliedJobs'])->name('recruitment.appliedJobs');
     Route::get('/recruitment/show/{id}',   [RecruitmentController::class, 'show'])->name('recruitment.show');
 
 

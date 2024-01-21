@@ -40,7 +40,11 @@
         </ul>
 
         <div style="margin-top: 10px;">
-            <button onclick="applyForJob()" type="button" class="btn btn-dark">Apply for this job</button>
+            @if ($applied_jobs == 1)
+                <button type="button" class="btn btn-secondary" disabled>Already applied</button>
+            @else
+                <button onclick="applyForJob()" type="button" class="btn btn-dark">Apply for this job</button>
+            @endif
         </div>
 
         <p class="color-black" style="margin-top: 20px; margin-bottom: 5px;">
@@ -52,20 +56,20 @@
 
     </div>
 
-    <script>
+    {{-- <script>
         function applyForJob() {
             // Check if the user is authenticated
             @auth
 
 
             $.ajax({
-                url: "{{ route('recruitment.userCheck', ['jobID' => 1]) }}",
+                url: "{{ route('recruitment.userCheck', ['jobID' => $job->uuid]) }}",
                 type: "get",
                 dataType: "json",
                 success: function(result) {
                     console.log(result);
                     if (result == 1) {
-                        window.location.href = "{{ route('recruitment.create') }}";
+                        window.location.href = "{{ route('recruitment.create', $job->uuid) }}";
                     } else {
                         toastr.warning('Already applied!!!');
                     }
@@ -80,5 +84,5 @@
             // toastr.warning('Please login to apply for the job.');
         @endauth
         }
-    </script>
+    </script> --}}
 @endsection

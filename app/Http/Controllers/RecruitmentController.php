@@ -26,6 +26,16 @@ class RecruitmentController extends Controller
 
     public function details($id)
     {
+        $data['applied_jobs'] = 0;
+        $authUserId = Auth::id();
+
+        $recruitment = Recruitment::where('created_by', $authUserId)->first();
+
+        if ($recruitment !== null) {
+            $appliedJob = AppliedJob::where('recruitment_id', $recruitment->uuid)->first();
+            $data['applied_jobs'] = ($appliedJob !== null) ? 1 : 0;
+        }
+
         $data['job'] =  Job::findOrFail($id);
         return view('frontend.recruitment.details', $data);
     }
@@ -41,10 +51,22 @@ class RecruitmentController extends Controller
         return view('frontend.recruitment.index', $data);
     }
 
-    public function create()
+    public function appliedJobs(Request $request)
+    {
+        $data['appliedJobs'] = AppliedJob::query()
+            ->search(request()->get('search')) // Assuming a custom search scope or method is applied
+            ->with('JobId', 'recuimentId', 'createdBy') // Eager loading related country information
+            ->latest() // Ordering by the latest
+            ->paginate(10); // Paginating the results
+        // return $data;
+        return view('frontend.recruitment.applied_jobs', $data);
+    }
+
+    public function create($jobID)
     {
         if (Auth::check()) {
             $data['country'] = Country::get();
+            $data['jobID'] = $jobID;
             return view('frontend.recruitment.create2', $data);
         } else {
             $output = [
@@ -129,7 +151,7 @@ class RecruitmentController extends Controller
                 // Create a new Recruitment record
                 $info = $recruitment::create($requestedData);
 
-                $appliedJob['job_id'] = 1;
+                $appliedJob['job_id'] = $request->job_id;
                 $appliedJob['recruitment_id'] = $info->uuid;
 
                 AppliedJob::create($appliedJob);
