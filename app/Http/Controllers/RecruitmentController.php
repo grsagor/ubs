@@ -20,6 +20,7 @@ class RecruitmentController extends Controller
     {
         $data['jobs'] =  Job::query()
             ->search($request)
+            ->active()
             ->latest()
             ->get();
         return view('frontend.recruitment.list', $data);
@@ -42,7 +43,7 @@ class RecruitmentController extends Controller
             $data['applied_jobs'] = ($appliedJob !== null) ? 1 : 0;
         }
 
-        $data['job'] =  Job::findOrFail($id);
+        $data['job'] =  Job::active()->findOrFail($id);
         return view('frontend.recruitment.details', $data);
     }
 
@@ -75,12 +76,13 @@ class RecruitmentController extends Controller
             $data['jobID'] = $jobID;
             return view('frontend.recruitment.create2', $data);
         } else {
-            $output = [
-                'success' => false,
-                'msg' => 'You are not authenticated!!!',
-            ];
+            // $output = [
+            //     'success' => false,
+            //     'msg' => 'You are not authenticated!!!',
+            // ];
 
-            return redirect()->route('recruitment.list')->with('status', $output);
+            // return redirect()->route('recruitment.list')->with('status', $output);
+            return redirect()->route('login');
         }
     }
 
