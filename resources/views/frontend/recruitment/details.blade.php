@@ -35,9 +35,20 @@
             <li>Hours: {{ $job->hour_type }}</li>
             <li>Closing date: {{ \Carbon\Carbon::parse($job->closing_date)->format('d F Y') }}</li>
             <li>Location: {{ $job->location }}</li>
-            <li>Company: {{ $job->company_name }}</li>
+            <li>Company name: {{ $job->company_name }}</li>
+
+            @if ($job->company_information)
+                <li>Company informaion: {{ $job->company_information }}</li>
+            @endif
+
             <li>Job type: {{ $job->job_type }}</li>
-            <li>Salary type: {{ $job->job_type }}</li>
+            <li>Salary:
+                @if ($job->salary)
+                    {{ $job->salary }}/{{ $job->salary_type }}
+                @else
+                    {{ $job->salary_type }}
+                @endif
+            </li>
         </ul>
 
         <div style="margin-top: 10px;">

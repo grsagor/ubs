@@ -74,6 +74,14 @@
                         </div>
                     </div>
 
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label class="form-label">Company information </label>
+                            <textarea rows="5" type="text" class="form-control" name="company_information" class="input-field"
+                                placeholder="Company information">{{ old('company_information') }}</textarea>
+                        </div>
+                    </div>
+
                     <div class="col-sm-6">
                         <div class="form-group">
                             <label class="form-label">Amount </label>
@@ -129,7 +137,7 @@
                             <label for="custom_field1">Description <span class="text-danger">*</span></label>
                             <p class="sub-heading">(No contact details permitted within description)</p>
                             <textarea rows="5" type="text" class="form-control" name="description" id="footer_details"
-                                class="input-field" placeholder="Description"></textarea>
+                                class="input-field" placeholder="Description">{{ old('description') }}</textarea>
 
                             @error('description')
                                 <span class="error text-danger">{{ $message }}</span>

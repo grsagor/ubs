@@ -77,34 +77,13 @@
                         </div>
                     </div>
 
-                    {{-- <div class="col-sm-6">
+                    <div class="col-sm-12">
                         <div class="form-group">
-                            <label class="form-label">Amount </label>
-                            <input class="form-control" type="number" step="0.01" name="salary" required
-                                placeholder="Amount" value="{{ old('salary', $job->salary) }}" id="amountField">
+                            <label class="form-label">Company information </label>
+                            <textarea rows="5" type="text" class="form-control" name="company_information" class="input-field"
+                                placeholder="Company information">{{ old('company_information', $job->company_information) }}</textarea>
                         </div>
                     </div>
-
-                    <div class="col-sm-6">
-                        <div class="form-group">
-                            <label class="form-label">Salary type <span class="text-danger">*</span></label>
-                            <select class="form-control" name="salary_type" id="salary_type" required>
-                                <option value="" selected disabled>Select type</option>
-                                <option value="Hourly"
-                                    {{ old('salary_type', $job->salary_type) == 'Hourly' ? 'selected' : '' }}>Hourly
-                                </option>
-                                <option value="Monthly"
-                                    {{ old('salary_type', $job->salary_type) == 'Monthly' ? 'selected' : '' }}>Monthly
-                                </option>
-                                <option value="Negotiable"
-                                    {{ old('salary_type', $job->salary_type) == 'Negotiable' ? 'selected' : '' }}>
-                                    Negotiable
-                                </option>
-                            </select>
-                        </div>
-                    </div> --}}
-
-
 
                     <div class="col-sm-6">
                         <div class="form-group">
@@ -141,12 +120,28 @@
                         </div>
                     </div>
 
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="form-label">Status <span class="text-danger">*</span></label>
+                            <select class="form-control" name="status">
+                                <option selected="" value="">Select Status</option>
+                                @foreach (getStatus() as $status)
+                                    <option @selected($job->status == $status['value']) value="{{ $status['value'] }}">
+                                        {{ $status['label'] }}</option>
+                                @endforeach
+                            </select>
+                            @error('status')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+                    </div>
+
                     <div class="col-sm-12">
                         <div class="form-group">
                             <label for="custom_field1">Description <span class="text-danger">*</span></label>
                             <p class="sub-heading">(No contact details permitted within description)</p>
-                            <textarea rows="5" type="text" class="form-control" name="description" id="footer_details" class="input-field"
-                                placeholder="Description">{{ old('description', $job->description) }}</textarea>
+                            <textarea rows="5" type="text" class="form-control" name="description" id="footer_details"
+                                class="input-field" placeholder="Description">{{ old('description', $job->description) }}</textarea>
 
                             @error('description')
                                 <span class="error text-danger">{{ $message }}</span>

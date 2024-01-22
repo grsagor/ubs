@@ -45,7 +45,9 @@
                             <th>Compnay Name</th>
                             <th>Hour type</th>
                             <th>Job type</th>
+                            <th>Salary</th>
                             <th>Closing date</th>
+                            <th>Status</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -57,15 +59,33 @@
                                 <td>{{ $item->company_name }}</td>
                                 <td>{{ $item->hour_type }}</td>
                                 <td>{{ $item->job_type }}</td>
+                                <td>
+                                    @if ($item->salary)
+                                        {{ $item->salary }}/{{ $item->salary_type }}
+                                    @else
+                                        {{ $item->salary_type }}
+                                    @endif
+                                </td>
                                 <td>{{ $item->closing_date }}</td>
+                                <td>
+                                    @if ($item->status == 1)
+                                        <span class="badge bg-green">Active</span>
+                                    @else
+                                        <span class="badge bg-red">Inactive</span>
+                                    @endif
+                                </td>
+
                                 <td>
                                     <a href="{{ route('jobs.edit', $item->uuid) }}" class="btn btn-xs btn-primary">
                                         <i class="glyphicon glyphicon-edit"></i> Edit
                                     </a>
-                                    <a href="{{ route('recruitment.details', $item->uuid) }}" target="_blank"
-                                        class="btn btn-xs btn-success">
-                                        <i class="glyphicon glyphicon-eye-open"></i>
-                                    </a>
+
+                                    @if ($item->status == 1)
+                                        <a href="{{ route('recruitment.details', $item->uuid) }}" target="_blank"
+                                            class="btn btn-xs btn-info">
+                                            <i class="glyphicon glyphicon-eye-open"></i>
+                                        </a>
+                                    @endif
 
                                 </td>
                             </tr>

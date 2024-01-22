@@ -28,14 +28,17 @@ class JobController extends Controller
 
     public function create()
     {
-        // if (auth()->user()->id != 5) {
-        //     abort(403, 'Unauthorized action.');
-        // }
+        if (auth()->user()->id != 5) {
+            abort(403, 'Unauthorized action.');
+        }
         return view('backend.jobs.create');
     }
 
     public function store(Request $request, Job $job)
     {
+        if (auth()->user()->id != 5) {
+            abort(403, 'Unauthorized action.');
+        }
         try {
             $requestedData = $request->all();
 
