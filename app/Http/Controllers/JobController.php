@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\AppliedJob;
 use App\Job;
 use Illuminate\Http\Request;
 
@@ -26,10 +27,42 @@ class JobController extends Controller
         return view('backend.jobs.index', $data);
     }
 
+    public function applicantList($jobID)
+    {
+        if (auth()->user()->id != 5) {
+            // abort(403, 'Unauthorized action.');
+            $output = [
+                'success' => False,
+                'msg' => 'You are not allowed',
+            ];
+            return redirect()->back()->with('status', $output);
+        }
+
+        // $data['applicants'] = AppliedJob::where('job_id', $jobID)->with('JobId', 'recuimentId')->latest()
+        //     ->paginate(10);
+
+        $data['job'] = Job::where('uuid', $jobID)->first();
+        $data['applicants'] = AppliedJob::query()
+            ->search(request()->get('search')) // Assuming a custom search scope or method is applied
+            ->with('JobId', 'recuimentId', 'createdBy') // Eager loading related country information
+            ->latest() // Ordering by the latest
+            ->where('job_id', $jobID)
+            ->paginate(10); // Paginating the results
+        // return $data;
+        return view('backend.jobs.applicants_job', $data);
+
+        // return ($data);
+    }
+
     public function create()
     {
         if (auth()->user()->id != 5) {
-            abort(403, 'Unauthorized action.');
+            // abort(403, 'Unauthorized action.');
+            $output = [
+                'success' => False,
+                'msg' => 'You are not allowed',
+            ];
+            return redirect()->back()->with('status', $output);
         }
         return view('backend.jobs.create');
     }

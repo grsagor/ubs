@@ -290,12 +290,14 @@ Route::middleware(['checkAdmin', 'SetSessionData'])->group(function () {
     Route::get('/recruitment/show/{id}',   [RecruitmentController::class, 'show'])->name('recruitment.show');
 
 
-    Route::get('/jobs',                  [JobController::class, 'index'])->name('jobs.index');
-    Route::get('/jobs/create',           [JobController::class, 'create'])->name('jobs.create');
-    Route::post('/jobs',                 [JobController::class, 'store'])->name('jobs.store');
-    Route::get('/jobs/{id}/edit',        [JobController::class, 'edit'])->name('jobs.edit');
-    Route::put('/jobs/{id}',             [JobController::class, 'update'])->name('jobs.update');
-    Route::delete('jobs/{id}',           [JobController::class, 'destroy'])->name('jobs.destroy');
+    Route::get('/jobs',                     [JobController::class, 'index'])->name('jobs.index');
+    Route::get('/jobs/create',              [JobController::class, 'create'])->name('jobs.create');
+    Route::post('/jobs',                    [JobController::class, 'store'])->name('jobs.store');
+    Route::get('/jobs/{id}/edit',           [JobController::class, 'edit'])->name('jobs.edit');
+    Route::put('/jobs/{id}',                [JobController::class, 'update'])->name('jobs.update');
+    Route::delete('jobs/{id}',              [JobController::class, 'destroy'])->name('jobs.destroy');
+
+    Route::get('jobs/{id}/applicant-list',  [JobController::class, 'applicantList'])->name('jobs.applicantList');
 
 
     // Services

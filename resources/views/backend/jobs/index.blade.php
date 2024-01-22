@@ -87,6 +87,12 @@
                                         </a>
                                     @endif
 
+                                    <a href="{{ route('jobs.applicantList', $item->uuid) }}"
+                                        class="btn btn-xs btn-warning">
+                                        <i class="fas fa-list"></i> Applicant
+                                    </a>
+
+
                                 </td>
                             </tr>
                         @empty
