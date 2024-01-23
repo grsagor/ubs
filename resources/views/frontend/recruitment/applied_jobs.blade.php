@@ -35,8 +35,7 @@
 
 
 
-            <div class="box-body">
-
+            {{-- <div class="box-body">
                 <table class="table table-bordered table-striped table-hover text-center">
                     <thead>
                         <tr>
@@ -45,7 +44,6 @@
                             <th colspan="3">Applicant</th>
                         </tr>
                         <tr>
-
                             <th>Name</th>
                             <th>Phone</th>
                             <th>Email</th>
@@ -64,18 +62,6 @@
                                 <td>{{ $item->recuimentId->phone ?? '' }}</td>
                                 <td>{{ $item->recuimentId->email ?? '' }}</td>
                                 <td>{{ $item->created_at->format('d F Y') ?? '' }}</td>
-
-                                {{-- <td>
-                                    <a href="{{ route('recruitment.show', $item->uuid) }}" class="btn btn-xs btn-primary">
-                                        <i class="fas fa-eye"></i> Show
-                                    </a>
-
-                                    <a href="#" class="btn btn-xs btn-success copy-link"
-                                        data-link="{{ route('recruitment.show', $item->uuid) }}">
-                                        <i class="fas fa-copy"></i> Copy
-                                    </a>
-                                </td> --}}
-
                             </tr>
                         @empty
                             <tr>
@@ -85,35 +71,49 @@
                     </tbody>
                 </table>
                 {{ $appliedJobs->links() }}
+            </div> --}}
+
+
+            <div class="box-body">
+                <table class="table table-bordered table-striped table-hover text-center">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Job Title</th>
+                            <th>Company Name</th>
+                            <th>Location</th>
+                            <th>Salary</th>
+                            <th>Applied Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse ($appliedJobs as $item)
+                            <tr>
+                                <td>{{ serialNumber($appliedJobs, $loop) }}</td>
+                                <td>
+                                    <a
+                                        href="{{ route('recruitment.details', $item->JobId->uuid) }}">{{ $item->JobId->title }}</a>
+                                </td>
+                                <td>{{ $item->JobId->company_name ?? '' }}</td>
+                                <td>{{ $item->JobId->location ?? '' }}</td>
+                                <td>
+                                    @if ($item->JobId->salary)
+                                        {{ $item->JobId->salary }}/{{ $item->JobId->salary_type }}
+                                    @else
+                                        {{ $item->JobId->salary_type }}
+                                    @endif
+                                </td>
+                                <td>{{ $item->created_at->format('d F Y') ?? '' }}</td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="6" class="text-center">No data available</td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+                {{ $appliedJobs->links() }}
             </div>
         </div>
     </section>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            var copyLinkButtons = document.querySelectorAll('.copy-link');
-
-            copyLinkButtons.forEach(function(button) {
-                button.addEventListener('click', function(event) {
-                    event.preventDefault();
-
-                    // Get the link from the data-link attribute
-                    var linkToCopy = button.getAttribute('data-link');
-
-                    // Create a temporary input element
-                    var tempInput = document.createElement('input');
-                    tempInput.value = linkToCopy;
-                    document.body.appendChild(tempInput);
-
-                    // Select and copy the text in the input element
-                    tempInput.select();
-                    document.execCommand('copy');
-                    document.body.removeChild(tempInput);
-
-                    // Show Toastr success message
-                    toastr.success('Link copied');
-                });
-            });
-        });
-    </script>
-
 @endsection
