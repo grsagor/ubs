@@ -40,6 +40,7 @@
                     <thead>
                         <tr>
                             <th>No.</th>
+                            <th>Applied Jobs</th>
                             <th>Name</th>
                             <th>Phone</th>
                             <th>Email</th>
@@ -54,6 +55,17 @@
                         @forelse ($recruitments as $item)
                             <tr>
                                 <td>{{ serialNumber($recruitments, $loop) }}</td>
+                                <td>
+                                    <ul>
+                                        @foreach ($item->appliedJobs as $data)
+                                            <li>
+                                                <a href="{{ route('recruitment.details', $data->JobId->uuid) }}">
+                                                    {{ $data->JobId->title }}
+                                                </a>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                </td>
                                 <td>{{ $item->name ?? '' }}</td>
                                 <td>{{ $item->phone ?? '' }}</td>
                                 <td>{{ $item->email ?? '' }}</td>
