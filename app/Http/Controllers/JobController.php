@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\AppliedJob;
 use App\Job;
+use App\AppliedJob;
+use App\BusinessLocation;
 use Illuminate\Http\Request;
 
 class JobController extends Controller
@@ -21,6 +22,7 @@ class JobController extends Controller
 
         $data['jobs'] = Job::query()
             ->search($request)
+            ->with('appliedJobs')
             ->latest()
             ->paginate(10);
         // return $data;
@@ -64,7 +66,14 @@ class JobController extends Controller
             ];
             return redirect()->back()->with('status', $output);
         }
-        return view('backend.jobs.create');
+
+        $business_id = request()->session()->get('user.business_id');
+
+        //Get all business locations
+        $data['business_locations'] = BusinessLocation::where('business_id', $business_id)
+            ->get();
+
+        return view('backend.jobs.create', $data);
     }
 
     public function store(Request $request, Job $job)
@@ -75,10 +84,13 @@ class JobController extends Controller
         try {
             $requestedData = $request->all();
 
+            // dd($request->toArray());
             $request->validate([
+                'company_information' => 'required',
                 'description' => 'required',
                 'closing_date' => 'required|date|after_or_equal:today',
             ], [
+                'company_information.required' => 'The company information field is required.',
                 'description.required' => 'The description field is required.',
                 'closing_date.after_or_equal' => 'The closing date must be today or a later date.',
             ]);

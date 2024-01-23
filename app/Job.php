@@ -18,6 +18,7 @@ class Job extends Model
 
     protected $fillable = [
         'uuid',
+        'business_location_id',
         'title',
         'hour_type',
         'job_type',
@@ -46,5 +47,10 @@ class Job extends Model
     public function createdBy()
     {
         return $this->belongsTo(User::class, 'created_by');
+    }
+
+    public function appliedJobs()
+    {
+        return $this->hasMany(AppliedJob::class, 'job_id', 'uuid');
     }
 }

@@ -76,9 +76,14 @@
 
                     <div class="col-sm-12">
                         <div class="form-group">
-                            <label class="form-label">Company information </label>
-                            <textarea rows="5" type="text" class="form-control" name="company_information" class="input-field"
-                                placeholder="Company information">{{ old('company_information') }}</textarea>
+                            <label for="custom_field1">Company Information <span class="text-danger">*</span></label>
+                            <textarea rows="5" type="text" class="form-control" name="company_information" id="company-information"
+                                class="input-field" placeholder="Company information">{{ old('company_information') }}</textarea>
+
+                            @error('description')
+                                <span class="error text-danger">{{ $message }}</span>
+                            @enderror
+
                         </div>
                     </div>
 
@@ -111,6 +116,19 @@
                             <label class="form-label">Location <span class="text-danger">*</span></label>
                             <input class="form-control" type="text" name="location" required placeholder="Location"
                                 value="{{ old('location') }}">
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="selling_price_group_id">Business location <span
+                                    class="text-danger">*</span></label>
+                            <select class="form-control" name="business_location_id">
+                                <option value="">Select</option>
+                                @foreach ($business_locations as $item)
+                                    <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
 
@@ -184,12 +202,18 @@
         });
 
 
-
         $(document).ready(function() {
             if ($("textarea#footer_details").length > 0) {
                 tinymce.init({
                     selector: "textarea#footer_details",
                     height: 550,
+                });
+            }
+
+            if ($("textarea#company-information").length > 0) {
+                tinymce.init({
+                    selector: "textarea#company-information",
+                    height: 350,
                 });
             }
         });
