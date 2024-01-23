@@ -50,10 +50,10 @@ class RecruitmentController extends Controller
     public function index(Request $request)
     {
         $data['recruitments'] = Recruitment::query()
-            ->search($request) // Assuming a custom search scope or method is applied
-            ->with('countryResidence', 'birthCountry', 'createdBy') // Eager loading related country information
-            ->latest() // Ordering by the latest
-            ->paginate(10); // Paginating the results
+            ->search($request)
+            ->with('countryResidence', 'birthCountry', 'createdBy', 'appliedJobs.recuimentId') // Eager loading related country information
+            ->latest()
+            ->paginate(10);
         // return $data;
         return view('frontend.recruitment.index', $data);
     }
