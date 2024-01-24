@@ -218,21 +218,6 @@ class RecruitmentController extends Controller
         // Update the user information
         $recruitment = Recruitment::findOrFail($id);
 
-        // Check if a new CV file is provided in the request
-        if ($request->file('cv')) {
-            // Unlink the previous CV file if it exists
-            if ($recruitment->cv) {
-                $previousFilePath = public_path('uploads/recruitments/' . $recruitment->cv);
-
-                // Check if the file exists before attempting to delete
-                if (file_exists($previousFilePath)) {
-                    unlink($previousFilePath);
-                }
-            }
-
-            // Upload the new CV file and update the 'cv' field in the database
-            $requestedData['cv'] = $this->fileUpload($request->file('cv'), 'uploads/recruitments/');
-        }
 
         $recruitment->update($data);
 
@@ -288,5 +273,30 @@ class RecruitmentController extends Controller
             ->paginate(10);
         // return $data;
         return view('frontend.recruitment.applied_jobs_customer', $data);
+    }
+
+    public function fileUpdate(Request $request, $id)
+    {
+        $recruitment = Recruitment::findOrFail($id);
+
+        // Check if a new CV file is provided in the request
+        if ($request->file('cv')) {
+            // Unlink the previous CV file if it exists
+            if ($recruitment->cv) {
+                $previousFilePath = public_path($recruitment->cv);
+                // Check if the file exists before attempting to delete
+                // dd($previousFilePath);
+                if (file_exists($previousFilePath)) {
+                    unlink($previousFilePath);
+                }
+            }
+
+            // Upload the new CV file and update the 'cv' field in the database
+            $requestedData['cv'] = $this->fileUpload($request->file('cv'), 'uploads/recruitments/');
+        }
+
+        $recruitment->update($requestedData);
+
+        return redirect()->back();
     }
 }

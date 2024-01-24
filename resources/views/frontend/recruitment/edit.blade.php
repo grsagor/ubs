@@ -338,12 +338,15 @@
                     @endif
 
                     <div class="edit-cv m-b-10" style="display: none;">
-                        <form action="" id="CVform" method="POST" enctype="multipart/form-data">
+                        <form action="{{ route('recruitment.fileUpdate', $item->uuid) }}" method="POST"
+                            enctype="multipart/form-data">
+                            @csrf
+                            @method('PUT')
                             <div class="form-group">
                                 <label for="cv">CV</label>
                                 <input type="file" name="cv" class="form-control">
                             </div>
-                            <button type="button" class="btn btn-success CVSubmit">Submit</button>
+                            <button type="submit" class="btn btn-success CVSubmit">Submit</button>
                             <button type="button" class="btn btn-danger CVClose">Close</button>
                         </form>
                     </div>
@@ -573,35 +576,6 @@
                 $('.edit-cv').css('display', 'none');
             });
         });
-
-        $('.CVSubmit').on('click', function(e) {
-            e.preventDefault();
-
-            var id = "{{ $item->uuid }}";
-            var formData = new FormData($('#CVform')[0]);
-
-            var formDataObject = {};
-            formData.forEach(function(value, key) {
-                formDataObject[key] = value;
-            });
-            console.log('Form data ' + formDataObject);
-
-            $.ajax({
-                url: "{{ route('recruitment.update', ['id' => $item->uuid]) }}",
-                type: 'PUT',
-                data: formData,
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                success: function(result) {
-                    console.log('Success');
-                },
-                error: function(xhr, status, error) {
-                    // console.error(xhr.responseText);
-                }
-            });
-        });
-
 
         $(document).ready(function() {
             $('.view-btn').click(function() {

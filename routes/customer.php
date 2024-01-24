@@ -27,6 +27,7 @@ Route::group(['middleware' => ['checkCustomer'], 'prefix' => 'contact',], functi
 
     Route::get('/my-information/{id}/edit',        [RecruitmentController::class, 'edit'])->name('recruitment.edit');
     Route::put('/my-information/{id}',             [RecruitmentController::class, 'update'])->name('recruitment.update');
+    Route::put('/my-information/files/{id}',       [RecruitmentController::class, 'fileUpdate'])->name('recruitment.fileUpdate');
     Route::get('/applied-jobs/',                   [RecruitmentController::class, 'appliedJobsCustomer'])->name('recruitment.appliedJobsCustomer');
 
     Route::get('/show-student-info-container-edit', [PropertyWantedCustomerController::class, 'showStudentInfoContainerEdit']);
