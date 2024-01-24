@@ -74,7 +74,7 @@ class RecruitmentController extends Controller
         if (Auth::check()) {
             $data['country'] = Country::get();
             $data['jobID'] = $jobID;
-            return view('frontend.recruitment.create2', $data);
+            return view('frontend.recruitment.create', $data);
         } else {
             // $output = [
             //     'success' => false,

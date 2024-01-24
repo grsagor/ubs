@@ -44,11 +44,12 @@
             margin-right: 5px;
         }
 
-        .experience-group .delete-button {
-            display: block;
+        .experience-group:first-child .delete-button,
+        .experience-group:nth-child(1) .delete-button {
+            display: none;
         }
 
-        .experience-group:first-child .delete-button {
+        .education-group:first-of-type .delete-button {
             display: none;
         }
 
@@ -83,6 +84,10 @@
         class="mx-auto mobileView"enctype="multipart/form-data">
 
         @csrf
+
+        <!-- Hidden input for jobID -->
+        <input type="hidden" name="job_id" value="{{ $jobID }}">
+
         <!-- Step 1 -->
         <div class="step card mt-2" id="step1">
             <div class="card-header">
@@ -91,25 +96,26 @@
             <div class="card-body">
                 <div class="form-group">
                     <label for="name">Name <span class="text-danger">*</span></label>
-                    <input type="text" name="name" class="form-control" placeholder="Full name">
+                    <input type="text" name="name" class="form-control" placeholder="Ex. John Doe">
                     <span id="name-error" class="text-danger"></span>
                 </div>
 
                 <div class="form-group">
                     <label for="phone">Phone <span class="text-danger">*</span></label>
-                    <input type="text" name="phone" class="form-control" placeholder="Phone Number">
+                    <input type="text" name="phone" class="form-control" placeholder="Ex. 4111111111111">
                     <span id="phone-error" class="text-danger"></span>
                 </div>
 
                 <div class="form-group">
                     <label for="email">Email <span class="text-danger">*</span></label>
-                    <input type="email" name="email" class="form-control" placeholder="Email address">
+                    <input type="email" name="email" class="form-control" placeholder="Ex. aaaa@gmail.com">
                     <span id="email-error" class="text-danger"></span>
                 </div>
 
                 <div class="form-group">
                     <label for="current_address">Current address <span class="text-danger">*</span></label>
-                    <input type="text" name="current_address" class="form-control" placeholder="Current Address">
+                    <input type="text" name="current_address" class="form-control"
+                        placeholder="Ex. 123 Main Street, London, SW1A 1AA, UK">
                     <span id="current_address-error" class="text-danger"></span>
                 </div>
 
@@ -151,10 +157,54 @@
                 <h5 class="card-title">Apply Form - Step 2</h5>
             </div>
             <div class="card-body" id="experienceSection">
+
+
+                <h4 class="text-center"><u>Education</u></h4>
+                <div class="education-group mt-2" style="border: 1px solid #ccc; padding: 10px;">
+                    <div class="form-group">
+                        <label>Name of education</label>
+                        <input type="text" name="education_name_of_title[]" class="form-control"
+                            placeholder="Title of education">
+                    </div>
+
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="start_date">Start date</label>
+                                <input type="date" name="education_start_date[]" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="end_date">End date</label>
+                                <input type="date" name="education_end_date[]" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="end_date">Upload File</label>
+                        <input type="file" name="education_file[]" class="form-control">
+                    </div>
+
+                    <div class="form-group">
+                        <button type="button" class="btn btn-danger delete-button" onclick="removeEducation(this)">
+                            Delete
+                        </button>
+                    </div>
+                </div>
+
+                <button type="button" class="btn btn-dark add-button" onclick="addEducation()">
+                    Add More
+                </button>
+
+
+
+                <h4 class="text-center"><u>Experience</u></h4>
                 <div class="experience-group mt-2" style="border: 1px solid #ccc; padding: 10px;">
                     <div class="form-group">
                         <label for="name_of_company">Title of experience</label>
-                        <input type="text" name="name_of_company[]" class="form-control"
+                        <input type="text" name="experience_name_of_company[]" class="form-control"
                             placeholder="Title of experience" />
                     </div>
 
@@ -162,15 +212,41 @@
                         <div class="col-6">
                             <div class="form-group">
                                 <label for="start_date">Start date</label>
-                                <input type="date" name="start_date[]" class="form-control" placeholder="Start date" />
+                                <input type="date" name="experience_start_date[]" class="form-control"
+                                    placeholder="Start date" />
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="form-group">
                                 <label for="end_date">End date</label>
-                                <input type="date" name="end_date[]" class="form-control" placeholder="End date" />
+                                <input type="date" name="experience_end_date[]" class="form-control"
+                                    placeholder="End date" />
                             </div>
                         </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="end_date">Upload File</label>
+                        <input type="file" name="experience_file[]" class="form-control" placeholder="End date" />
+                    </div>
+
+                    <button type="button" class="btn btn-danger delete-button" onclick="removeExperience(this)"
+                        style="display: none;">
+                        Delete
+                    </button>
+                </div>
+
+                <button type="button" class="btn btn-dark add-button" onclick="addExperience()">
+                    Add More
+                </button>
+
+
+                <h4 class="text-center"><u>Additional Files</u></h4>
+                <div class="additional-group mt-2" style="border: 1px solid #ccc; padding: 10px;">
+                    <div class="form-group">
+                        <label>Title of file</label>
+                        <input type="text" name="additional_name_of_title[]" class="form-control"
+                            placeholder="Title of file">
                     </div>
 
                     <div class="form-group">
@@ -178,16 +254,16 @@
                         <input type="file" name="additional_file[]" class="form-control" placeholder="End date" />
                     </div>
 
-                    <div class="form-group">
-                        <button type="button" class="btn btn-danger delete-button" onclick="removeExperience(this)">
-                            Delete
-                        </button>
-                    </div>
+                    <button type="button" class="btn btn-danger delete-button" onclick="removeAdditonal(this)"
+                        style="display: none;">
+                        Delete
+                    </button>
                 </div>
 
-                <button type="button" class="btn btn-dark add-button" onclick="addExperience()">
-                    Add Experience
+                <button type="button" class="btn btn-dark add-button" onclick="addAdditonal()">
+                    Add More
                 </button>
+
 
                 <div class="row" style="margin-top: 10px;">
                     <div class="col-6">
@@ -204,17 +280,17 @@
                         <div class="form-group">
                             <label for="expected_salary">Amount </label>
                             <input type="number" step=".01" name="expected_salary" class="form-control"
-                                placeholder="Amount" required>
+                                placeholder="Ex. 1000" required>
                         </div>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="cv">CV </label>
-                    <input type="file" name="cv" class="form-control">
+                    <label for="cv">CV <span class="text-danger">*</span></label>
+                    <input type="file" name="cv" class="form-control" required>
                 </div>
 
-                <div class="form-group">
+                {{-- <div class="form-group">
                     <label for="dbs">DBS check</label>
                     <input type="file" name="dbs_check" class="form-control">
                 </div>
@@ -222,15 +298,7 @@
                 <div class="form-group">
                     <label for="care_certificate">Care Certificates</label>
                     <input type="file" name="care_certificates" class="form-control">
-                </div>
-                <div class="form-group" id="certificatesSection">
-                    <label for="care_certificate">Additional Certificates</label>
-                </div>
-
-                <div class="form-group">
-                    <button type="button" class="btn btn-dark add-button" onclick="addCertificatesSection()">Add
-                        Certificates</button>
-                </div>
+                </div> --}}
 
                 <div class="form-group">
                     <label for="cover_letter">Cover letter <span class="text-danger">*</span></label>
@@ -267,6 +335,44 @@
     </script>
 
     <script>
+        function addAdditonal() {
+            var newAdditional = $(".additional-group:first").clone();
+            newAdditional.find("input").val("");
+            $(".additional-group:last").after(newAdditional);
+            $(".additional-group .delete-button").show();
+        }
+
+        function removeAdditonal(button) {
+            var additionalGroup = $(button).closest(".additional-group");
+            if ($(".additional-group").length > 1) {
+                additionalGroup.remove();
+            }
+            if ($(".additional-group").length === 1) {
+                $(".additional-group .delete-button").hide(); // Hide delete button if there is only one section
+            }
+        }
+    </script>
+    <script>
+        function addEducation() {
+            var newEducation = $(".education-group:first").clone();
+            newEducation.find("input").val("");
+            $(".education-group:last").after(newEducation);
+            $(".education-group .delete-button").show();
+        }
+
+        function removeEducation(button) {
+            var educationGroup = $(button).closest(".education-group");
+            if ($(".education-group").length > 1) {
+                educationGroup.remove();
+            }
+            if ($(".education-group").length === 1) {
+                $(".education-group .delete-button").hide(); // Hide delete button if there is only one section
+            }
+        }
+    </script>
+
+
+    <script>
         function addExperience() {
             var newExperience = $(".experience-group:first").clone();
             newExperience.find("input").val("");
@@ -284,6 +390,7 @@
             }
         }
     </script>
+
     <script>
         let currentStep = 1;
 
