@@ -27,12 +27,15 @@ class AppliedJob extends Model
     {
         return $query->when($search, function ($query) use ($search) {
             $query->whereHas('JobId', function ($q) use ($search) {
-                $q->where('title', 'LIKE', '%' . $search . '%');
+                $q->where('title', 'LIKE', '%' . $search . '%')
+                    ->orWhere('company_name', 'LIKE', '%' . $search . '%')
+                    ->orWhere('location', 'LIKE', '%' . $search . '%');
             })
-                ->orWhereHas('recuimentId', function ($q) use ($search) {
-                    $q->where('name', 'LIKE', '%' . $search . '%')
-                        ->orWhere('phone', 'LIKE', '%' . $search . '%');
-                });
+                // ->orWhereHas('recuimentId', function ($q) use ($search) {
+                //     $q->where('name', 'LIKE', '%' . $search . '%')
+                //         ->orWhere('phone', 'LIKE', '%' . $search . '%');
+                // })
+            ;
         });
     }
 

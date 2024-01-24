@@ -226,4 +226,18 @@ class RecruitmentController extends Controller
             return 2;
         }
     }
+
+    public function appliedJobsCustomer()
+    {
+        $authUserId = Auth::id();
+
+        $data['appliedJobs'] = AppliedJob::query()
+            ->search(request()->get('search'))
+            ->with('JobId', 'recuimentId', 'createdBy')
+            ->where('created_by', $authUserId)
+            ->latest()
+            ->paginate(10);
+        // return $data;
+        return view('frontend.recruitment.applied_jobs_customer', $data);
+    }
 }
