@@ -66,4 +66,9 @@ class Recruitment extends Model
     {
         return $this->belongsTo(User::class, 'created_by');
     }
+
+    public function appliedJobs()
+    {
+        return $this->hasMany(AppliedJob::class, 'recruitment_id', 'uuid');
+    }
 }

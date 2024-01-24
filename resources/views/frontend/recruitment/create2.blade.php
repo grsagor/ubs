@@ -84,6 +84,10 @@
         class="mx-auto mobileView"enctype="multipart/form-data">
 
         @csrf
+
+        <!-- Hidden input for jobID -->
+        <input type="hidden" name="job_id" value="{{ $jobID }}">
+
         <!-- Step 1 -->
         <div class="step card mt-2" id="step1">
             <div class="card-header">

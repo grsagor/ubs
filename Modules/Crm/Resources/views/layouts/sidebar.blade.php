@@ -35,6 +35,13 @@
                         <span>My Information</span>
                     </a>
                 </li>
+
+                <li>
+                    <a href="{{ route('recruitment.appliedJobsCustomer', ['id' => $uuid]) }}">
+                        <i class="fa fa-calendar"></i>
+                        <span>Applied Jobs</span>
+                    </a>
+                </li>
             @endif
 
 
