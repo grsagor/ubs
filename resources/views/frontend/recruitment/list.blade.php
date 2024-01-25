@@ -11,20 +11,11 @@
             color: black !important;
         }
 
-        .text-justify {
-            text-align: justify;
-        }
-
-        /* Custom styling for the cards */
         .custom-card {
             border: none;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             transition: transform 0.3s ease-in-out;
-        }
-
-        .custom-card:hover {
-            transform: scale(1.03);
         }
 
         .card-body {
@@ -39,6 +30,7 @@
 
         .card-title {
             color: #007bff;
+            font-size: 26px;
             /* Blue title color */
         }
 
@@ -52,16 +44,22 @@
             /* Dark text color for other text */
         }
 
-        .m-b-0 {
-            margin-bottom: 0px;
+        .mobile-view {
+            display: none;
         }
 
-        .m-b-5 {
-            margin-bottom: 0px;
+        .laptop-view {
+            display: block;
         }
 
-        .p-7 {
-            padding: 7px;
+        @media (max-width: 767px) {
+            .mobile-view {
+                display: block;
+            }
+
+            .laptop-view {
+                display: none;
+            }
         }
     </style>
 @endsection
@@ -72,25 +70,79 @@
 
         <div class="row">
             @foreach ($jobs as $item)
-                <div class="col-md-6 mt-3 p-7">
+                <div class="col-md-12 mt-2 p-2">
                     <a href="{{ route('recruitment.details', ['id' => $item->uuid]) }}" class="card-link">
-                        <div class="card custom-card card-design">
+
+                        <div class="card custom-card card-design laptop-view">
                             <div class="card-body">
-                                <h4 class="card-title">{{ $item->title }}</h4>
-                                <p class="card-text mb-2 color-black">Company Name → {{ $item->company_name }}</p>
-                                <p class="card-text mb-2 color-black">Hours → {{ $item->hour_type }}</p>
-                                <p class="card-text mb-2 color-black">Job type → {{ $item->job_type }}</p>
-                                <p class="card-text mb-2 color-black">
-                                    @if ($item->salary)
-                                        Salary → {{ $item->salary }}/{{ $item->salary_type }}
-                                    @else
-                                        Salary → {{ $item->salary_type }}
-                                    @endif
-                                </p>
-                                <p class="card-text color-black">Last Date for Application → {{ $item->closing_date }}</p>
-                                <p class="card-text color-black">Location: {{ $item->location }}</p>
+                                <div class="row">
+                                    <div class="col-md-9">
+                                        <h4 class="card-title mb-0">{{ $item->title }}</h4>
+                                        <p class="card-text company-name color-black">{{ $item->company_name }}</p>
+                                        <p class="card-text mb-0 color-black">Employee Status: {{ $item->hour_type }}</p>
+                                        <p class="card-text mb-0 color-black">Job Type: {{ $item->job_type }}</p>
+                                        <p class="card-text color-black">
+                                            @if ($item->salary)
+                                                Salary: {{ $item->salary }}/{{ $item->salary_type }}
+                                            @else
+                                                Salary: {{ $item->salary_type }}
+                                            @endif
+                                        </p>
+                                    </div>
+
+                                    <div class="col-md-3 text-center m-auto">
+                                        <img src="https://shorturl.at/inBEM" alt="" style="height: 110px">
+                                    </div>
+                                </div>
+
+                                <div class="row mt-3">
+                                    <div class="col-md-9">
+                                        <p class="card-text color-black">Location: {{ $item->location }}</p>
+                                    </div>
+                                    <div class="col-md-3 text-center">
+                                        <p class="card-text deadline color-black">Deadline:
+                                            {{ date('d.m.Y', strtotime($item->closing_date)) }}
+                                        </p>
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
+
+
+
+
+                        {{-- Mobile view --}}
+                        <div class="card custom-card card-design mobile-view">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-12 text-center m-auto">
+                                        <img src="https://shorturl.at/inBEM" alt="" style="height: 110px">
+                                    </div>
+
+                                    <div class="col-md-12 mt-2">
+                                        <h4 class="card-title mb-0">{{ $item->title }}</h4>
+                                        <p class="card-text company-name color-black">{{ $item->company_name }}</p>
+                                        <p class="card-text mb-0 color-black">Employee Status: {{ $item->hour_type }}</p>
+                                        <p class="card-text mb-0 color-black">Job Type: {{ $item->job_type }}</p>
+                                        <p class="card-text color-black">
+                                            @if ($item->salary)
+                                                Salary: {{ $item->salary }}/{{ $item->salary_type }}
+                                            @else
+                                                Salary: {{ $item->salary_type }}
+                                            @endif
+                                        </p>
+                                        <p class="card-text mb-0 color-black">Location: {{ $item->location }}</p>
+                                        <p class="card-text deadline color-black">Deadline:
+                                            {{ date('d.m.Y', strtotime($item->closing_date)) }}
+                                        </p>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+
                     </a>
                 </div>
             @endforeach
