@@ -56,6 +56,13 @@
             font-weight: 500;
         }
 
+        .alreadyApplied {
+            border-radius: 4px;
+            background: #e25c28;
+            color: #FFF;
+            font-weight: 500;
+        }
+
         .summery-card,
         .company-info-card {
             border-radius: 4px;
@@ -125,6 +132,25 @@
         .complain-info-item i {
             margin-right: 5px;
         }
+
+        .mobile-view {
+            display: none;
+        }
+
+
+        @media (max-width: 767px) {
+            .reptitle {
+                font-size: 15px !important;
+            }
+
+            .mobile-view {
+                display: block;
+            }
+
+            .laptopp-view {
+                display: none;
+            }
+        }
     </style>
 @endsection
 @section('content')
@@ -135,28 +161,60 @@
         <div class="row">
             <div class="col-md-12 mt-2 p-2">
 
-                <div class="card custom-card card-design laptop-view">
+                <div class="card custom-card card-design">
                     <div class="card-body">
-                        <div class="row header">
+
+                        <div class="row header laptopp-view">
                             <div class="col-md-9">
-                                <div class="job-title">অনন্য সমাজ কল্যান সংস্থা</div>
-                                <p class="card-text company-name color-black">প্রোগ্রাম অফিসার (হিসাব রক্ষক)</p>
+                                <div class="job-title">{{ $job->company_name }}</div>
+                                <p class="card-text company-name color-black">{{ $job->title }}</p>
 
                             </div>
 
                             <div class="col-md-3 text-end">
-                                <img src="https://shorturl.at/inBEM" alt="" style="height: 90px">
+                                @if ($job->businessLocation->logo)
+                                    <img src="{{ asset($job->businessLocation->logo) }}" alt=""
+                                        style="height: 90px">
+                                @else
+                                    <img src="https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg"
+                                        alt="" style="height: 90px">
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="row header mobile-view">
+                            <div class="col-md-12 text-center">
+                                @if ($job->businessLocation && $job->businessLocation->logo)
+                                    <img src="{{ asset($job->businessLocation->logo) }}" alt=""
+                                        style="height: 110px">
+                                @else
+                                    <img src="https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg"
+                                        alt="" style="height: 110px">
+                                @endif
+                            </div>
+                            <div class="col-md-12 mt-3">
+                                <div class="job-title">{{ $job->company_name }}</div>
+                                <p class="card-text company-name color-black">{{ $job->title }}</p>
                             </div>
                         </div>
 
                         <div class="apply-section mt-3">
                             <div class="deadline-heading">
-                                Application Deadline: <span class="deadline-date">19 Feb 2024</span>
+                                Application Deadline: <span
+                                    class="deadline-date">{{ \Carbon\Carbon::parse($job->closing_date)->format('d F Y') }}</span>
                             </div>
                             <div class="apply-button">
-                                <button class="btn applynow">
+
+                                @include('frontend.recruitment.applyBtn')
+
+
+
+
+
+
+                                {{-- <button class="btn applynow">
                                     Apply now
-                                </button>
+                                </button> --}}
                             </div>
                         </div>
 
@@ -165,37 +223,23 @@
                                 <div class="summery-card">
                                     <h3 class="sectitle">Summary</h3>
                                     <div class="row">
-                                        <div class="col-md-4">
+                                        <div class="col-md-6">
                                             <div>
-                                                Vacancy: <span class="txtbold">01</span>
+                                                Hours: <span class="txtbold">{{ $job->hour_type }}</span>
                                             </div>
                                             <div>
-                                                Vacancy: <span class="txtbold">01</span>
-                                            </div>
-                                            <div>
-                                                Vacancy: <span class="txtbold">01</span>
+                                                Job type: <span class="txtbold">{{ $job->job_type }}</span>
                                             </div>
                                         </div>
-                                        <div class="col-md-4">
+                                        <div class="col-md-6">
                                             <div>
-                                                Vacancy: <span class="txtbold">01</span>
-                                            </div>
-                                            <div>
-                                                Vacancy: <span class="txtbold">01</span>
-                                            </div>
-                                            <div>
-                                                Vacancy: <span class="txtbold">01</span>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div>
-                                                Vacancy: <span class="txtbold">01</span>
-                                            </div>
-                                            <div>
-                                                Vacancy: <span class="txtbold">01</span>
-                                            </div>
-                                            <div>
-                                                Vacancy: <span class="txtbold">01</span>
+                                                Salary: <span class="txtbold">
+                                                    @if ($job->salary)
+                                                        {{ $job->salary }}/{{ $job->salary_type }}
+                                                    @else
+                                                        {{ $job->salary_type }}
+                                                    @endif
+                                                </span>
                                             </div>
                                         </div>
                                     </div>
@@ -208,13 +252,7 @@
                                 <div class="requirements-card">
                                     <h3 class="sectitle">Requirements</h3>
                                     <div class="col-md-12">
-                                        <p>অনন্য সমাজ কল্যান সংস্থা </p>
-
-                                        <h5 class="subheading mb-0">Address:</h5>
-                                        <p>Anannyo Center, Dhaka Road, Shalgaria, Pabna-6600</p>
-
-                                        <h5 class="subheading mb-0">Business:</h5>
-                                        <p>Anannyo Center, Dhaka Road, Shalgaria, Pabna-6600</p>
+                                        {!! $job->description ?? '' !!}
                                     </div>
                                 </div>
                             </div>
@@ -225,13 +263,15 @@
                                 <div class="company-info-card">
                                     <h3 class="sectitle">Company Information</h3>
                                     <div class="col-md-12">
-                                        <p>অনন্য সমাজ কল্যান সংস্থা </p>
+                                        <p>{{ $job->company_name }}</p>
 
                                         <h5 class="subheading mb-0">Address:</h5>
-                                        <p>Anannyo Center, Dhaka Road, Shalgaria, Pabna-6600</p>
+                                        <p>{{ $job->location }}</p>
 
                                         <h5 class="subheading mb-0">Business:</h5>
-                                        <p>Anannyo Center, Dhaka Road, Shalgaria, Pabna-6600</p>
+                                        <div>
+                                            {!! $job->company_information ?? '' !!}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -254,16 +294,16 @@
                                     </div>
 
                                     <div class="complain-information">
-                                        <div class="complain-info-item">
+                                        {{-- <div class="complain-info-item">
                                             <i class="fas fa-info-circle"></i>
                                             <div>
                                                 16479
                                             </div>
-                                        </div>
+                                        </div> --}}
                                         <div class="complain-info-item">
                                             <i class="fas fa-envelope"></i>
                                             <div>
-                                                complain@bdjobs.com
+                                                demo@gmail.com
                                             </div>
                                         </div>
                                     </div>
