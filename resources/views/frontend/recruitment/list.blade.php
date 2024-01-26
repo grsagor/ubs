@@ -91,7 +91,13 @@
                                     </div>
 
                                     <div class="col-md-3 text-center m-auto">
-                                        <img src="https://shorturl.at/inBEM" alt="" style="height: 110px">
+                                        @if ($item->businessLocation && $item->businessLocation->logo)
+                                            <img src="{{ asset($item->businessLocation->logo) }}" alt=""
+                                                style="height: 110px">
+                                        @else
+                                            <img src="https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg"
+                                                alt="" style="height: 110px">
+                                        @endif
                                     </div>
                                 </div>
 
@@ -117,7 +123,13 @@
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-md-12 text-center m-auto">
-                                        <img src="https://shorturl.at/inBEM" alt="" style="height: 110px">
+                                        @if ($item->businessLocation && $item->businessLocation->logo)
+                                            <img src="{{ asset($item->businessLocation->logo) }}" alt=""
+                                                style="height: 110px">
+                                        @else
+                                            <img src="https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg"
+                                                alt="" style="height: 110px">
+                                        @endif
                                     </div>
 
                                     <div class="col-md-12 mt-2">
