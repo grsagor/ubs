@@ -172,7 +172,7 @@
                             </div>
 
                             <div class="col-md-3 text-end">
-                                @if ($job->businessLocation->logo)
+                                @if ($job->businessLocation && $job->businessLocation->logo)
                                     <img src="{{ asset($job->businessLocation->logo) }}" alt=""
                                         style="height: 90px">
                                 @else
