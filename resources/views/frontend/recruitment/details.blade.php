@@ -15,6 +15,11 @@
             text-align: justify;
         }
 
+        .btn {
+            line-height: 33px !important;
+            padding: 0 20px !important;
+        }
+
         .card-design {
             background-color: #fdfdfd;
             color: #212529;
@@ -58,7 +63,14 @@
 
         .alreadyApplied {
             border-radius: 4px;
-            background: #e25c28;
+            background: #c9030f;
+            color: #FFF;
+            font-weight: 500;
+        }
+
+        .btn-no {
+            border-radius: 4px;
+            background: #c9030f;
             color: #FFF;
             font-weight: 500;
         }
@@ -334,4 +346,7 @@
 
         </div>
     </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 @endsection

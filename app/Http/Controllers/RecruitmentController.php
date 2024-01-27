@@ -74,6 +74,7 @@ class RecruitmentController extends Controller
         if (Auth::check()) {
             $data['country'] = Country::get();
             $data['jobID'] = $jobID;
+            $data['create_page'] = 1;
             return view('frontend.recruitment.create', $data);
         } else {
             // $output = [
@@ -90,10 +91,8 @@ class RecruitmentController extends Controller
     {
         // dd($request->toarray());
         if (Auth::check()) {
+            DB::beginTransaction();
             try {
-
-                DB::beginTransaction();
-
                 $requestedData = $request->all();
 
                 // Experience store
@@ -156,7 +155,11 @@ class RecruitmentController extends Controller
                 //     $requestedData['care_certificates']     = $this->fileUpload($request->file('care_certificates'), 'uploads/recruitments/');
                 // }
 
-                // Create a new Recruitment record
+                // from create page
+                if ($request->create_page == 1) {
+                    $requestedData['job_id'] = NULL;
+                }
+
                 $info = $recruitment::create($requestedData);
 
                 $appliedJob['job_id'] = $request->job_id;
@@ -199,18 +202,25 @@ class RecruitmentController extends Controller
         return view('frontend.recruitment.after_submit');
     }
 
-    public function applyJob($jobID)
+    public function applyJob(Request $request, $jobID)
     {
-        $authUserId = Auth::id();
+        // dd($request->toArray()); 
+        if ($request->confirmation == 'Yes') {
+            $authUserId = Auth::id();
 
-        $recruitment = Recruitment::where('created_by', $authUserId)->first();
+            $recruitment = Recruitment::where('created_by', $authUserId)->first();
 
-        $appliedJob['job_id'] = $jobID;
-        $appliedJob['recruitment_id'] = $recruitment->uuid;
+            $appliedJob['job_id'] = $jobID;
+            $appliedJob['recruitment_id'] = $recruitment->uuid;
 
-        AppliedJob::create($appliedJob);
+            AppliedJob::create($appliedJob);
 
-        return view('frontend.recruitment.after_submit');
+            return view('frontend.recruitment.after_submit');
+        } else {
+            $data['country'] = Country::get();
+            $data['jobID'] = $jobID;
+            return view('frontend.recruitment.create', $data);
+        }
     }
 
     public function userCheck($jobID)
