@@ -2,16 +2,14 @@
 @section('title', 'Job')
 @section('content')
     <section class="content-header">
-        <h1>Job
-            {{-- <small>Fill up what you want</small> --}}
-        </h1>
+        <h1>Job form </h1>
     </section>
 
     <section class="content">
         <div class="form-container box box-primary">
 
             <div class="box-header">
-                <h3 class="box-title">All your job</h3>
+                <h3 class="box-title">Fill Job details </h3>
                 <div class="box-tools">
                     <a href="{{ route('jobs.index') }}" class="btn btn-block btn-primary">
                         <i class="fa fa-list"></i> List</a>
@@ -31,14 +29,19 @@
 
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <label class="form-label">Hours <span class="text-danger">*</span></label>
+                            <label class="form-label">Employee status <span class="text-danger">*</span></label>
                             <select class="form-control" name="hour_type" required>
                                 <option value="" selected disabled>Select type</option>
                                 <option value="Full time" {{ old('hour_type') == 'Full time' ? 'selected' : '' }}>Full time
                                 </option>
                                 <option value="Part time" {{ old('hour_type') == 'Part time' ? 'selected' : '' }}>Part time
                                 </option>
+                                <option value="Freelancing" {{ old('hour_type') == 'Freelancing' ? 'selected' : '' }}>
+                                    Freelancing</option>
+                                <option value="Contractual" {{ old('hour_type') == 'Contractual' ? 'selected' : '' }}>
+                                    Contractual</option>
                             </select>
+
                         </div>
                     </div>
 
@@ -49,8 +52,8 @@
                                 <option value="" selected disabled>Select type</option>
                                 <option value="Permanent" {{ old('job_type') == 'Permanent' ? 'selected' : '' }}>Permanent
                                 </option>
-                                <option value="Contractual" {{ old('job_type') == 'Contractual' ? 'selected' : '' }}>
-                                    Contractual</option>
+                                <option value="Temporary" {{ old('job_type') == 'Temporary' ? 'selected' : '' }}>
+                                    Temporary</option>
                             </select>
                         </div>
                     </div>
@@ -74,24 +77,11 @@
                         </div>
                     </div>
 
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label for="custom_field1">Company Information <span class="text-danger">*</span></label>
-                            <textarea rows="5" type="text" class="form-control" name="company_information" id="company-information"
-                                class="input-field" placeholder="Company information">{{ old('company_information') }}</textarea>
-
-                            @error('description')
-                                <span class="error text-danger">{{ $message }}</span>
-                            @enderror
-
-                        </div>
-                    </div>
-
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <label class="form-label">Amount </label>
+                            <label class="form-label">Salary </label>
                             <input class="form-control" type="number" step="0.01" name="salary" required
-                                placeholder="Amount" value="{{ old('salary') }}" id="amountField">
+                                placeholder="Ex. 10000" value="{{ old('salary') }}" id="amountField">
                         </div>
                     </div>
 
@@ -113,7 +103,7 @@
 
                     <div class="col-sm-12">
                         <div class="form-group">
-                            <label class="form-label">Location <span class="text-danger">*</span></label>
+                            <label class="form-label">Job location <span class="text-danger">*</span></label>
                             <input class="form-control" type="text" name="location" required placeholder="Location"
                                 value="{{ old('location') }}">
                         </div>
@@ -121,8 +111,7 @@
 
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <label for="selling_price_group_id">Business location <span
-                                    class="text-danger">*</span></label>
+                            <label for="selling_price_group_id">Business location <span class="text-danger">*</span></label>
                             <select class="form-control" name="business_location_id">
                                 <option value="">Select</option>
                                 @foreach ($business_locations as $item)
@@ -157,6 +146,17 @@
                             <textarea rows="5" type="text" class="form-control" name="description" id="footer_details"
                                 class="input-field" placeholder="Description">{{ old('description') }}</textarea>
 
+                            @error('description')
+                                <span class="error text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+                    </div>
+
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label for="custom_field1">Company Information <span class="text-danger">*</span></label>
+                            <textarea rows="5" type="text" class="form-control" name="company_information" id="company-information"
+                                class="input-field" placeholder="Company information">{{ old('company_information') }}</textarea>
                             @error('description')
                                 <span class="error text-danger">{{ $message }}</span>
                             @enderror
@@ -206,7 +206,7 @@
             if ($("textarea#footer_details").length > 0) {
                 tinymce.init({
                     selector: "textarea#footer_details",
-                    height: 550,
+                    height: 450,
                 });
             }
 

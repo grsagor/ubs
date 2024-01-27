@@ -260,8 +260,6 @@
                                             <div>
                                                 Job type: <span class="txtbold">{{ $job->job_type }}</span>
                                             </div>
-                                        </div>
-                                        <div class="col-md-6">
                                             <div>
                                                 Salary: <span class="txtbold">
                                                     @if ($job->salary)
@@ -270,6 +268,16 @@
                                                         {{ $job->salary_type }}
                                                     @endif
                                                 </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+
+                                            <div>
+                                                Reference: <span class="txtbold">{{ $job->reference }}</span>
+                                            </div>
+                                            <div>
+                                                Published: <span
+                                                    class="txtbold">{{ $job->created_at->format('j F Y') }}</span>
                                             </div>
                                         </div>
                                     </div>

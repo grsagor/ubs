@@ -351,14 +351,11 @@
                                 <span>Applied Jobs</span></a>
                         </li>
                         <li><a href="{{ route('recruitment.index') }}"><i class="fa fas fa-cogs"></i>
-                                <span>Applicant</span></a></li>
+                                <span>All Applicants</span></a></li>
                         <li><a href="{{ route('jobs.index') }}"><i class="fa fas fa-cogs"></i>
-                                <span>Job</span></a></li>
-
-
+                                <span>Jobs</span></a></li>
                     </ul>
                 </li>
-
 
                 <li><a href="{{ route('footer.index') }}"><i class="fa fa-asterisk"></i>
                         <span>Footer/Menu</span></a>

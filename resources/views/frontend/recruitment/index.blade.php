@@ -2,7 +2,7 @@
 @section('title', 'Jobs')
 @section('content')
     <section class="content-header">
-        <h1>Applicant List</h1>
+        <h1>All applicant</h1>
     </section>
 
     <section class="content">
@@ -45,7 +45,7 @@
                             <th>Phone</th>
                             <th>Email</th>
                             <th>Current Address</th>
-                            <th>Current of Residence</th>
+                            <th>Country of Residence</th>
                             <th>Birth Country</th>
                             <th>Created By</th>
                             <th>Action</th>

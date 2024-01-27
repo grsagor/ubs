@@ -2,7 +2,7 @@
 @section('title', 'Job')
 @section('content')
     <section class="content-header">
-        <h1>Jobs</h1>
+        <h1>All your Job</h1>
     </section>
 
     <section class="content">
@@ -41,6 +41,7 @@
                     <thead>
                         <tr>
                             <th>No.</th>
+                            <th>Reference</th>
                             <th>Title</th>
                             <th>Compnay Name</th>
                             <th>Hour type</th>
@@ -55,6 +56,7 @@
                         @forelse ($jobs as $item)
                             <tr>
                                 <td>{{ serialNumber($jobs, $loop) }}</td>
+                                <td>{{ $item->reference }}</td>
                                 <td>{{ $item->title }}</td>
                                 <td>{{ $item->company_name }}</td>
                                 <td>{{ $item->hour_type }}</td>
@@ -90,10 +92,9 @@
                                     @if ($item->appliedJobs->count() > 0)
                                         <a href="{{ route('jobs.applicantList', $item->uuid) }}"
                                             class="btn btn-xs btn-warning">
-                                            <i class="fas fa-list"></i> Applicant
+                                            <i class="fas fa-list"></i> Applicants
                                         </a>
                                     @endif
-
 
                                 </td>
                             </tr>
