@@ -65,6 +65,7 @@
             line-height: 35px;
         }
 
+
         @media (max-width: 767px) {
             .mobileView {
                 width: 95% !important;
@@ -87,6 +88,7 @@
 
         <!-- Hidden input for jobID -->
         <input type="hidden" name="job_id" value="{{ $jobID }}">
+        <input type="hidden" name="create_page" value="{{ $create_page ?? null }}">
 
         <!-- Step 1 -->
         <div class="step card mt-2" id="step1">
