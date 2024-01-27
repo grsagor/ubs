@@ -71,7 +71,7 @@
         <div class="row">
             @foreach ($jobs as $item)
                 <div class="col-md-12 mt-2 p-2">
-                    <a href="{{ route('recruitment.details', ['id' => $item->uuid]) }}" class="card-link">
+                    <a href="{{ route('recruitment.details', ['id' => $item->uuid]) }}" target="_blank" class="card-link">
 
                         <div class="card custom-card card-design laptop-view">
                             <div class="card-body">
