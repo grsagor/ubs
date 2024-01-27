@@ -166,31 +166,53 @@
 
                         <div class="row header laptopp-view">
                             <div class="col-md-9">
-                                <div class="job-title">{{ $job->company_name }}</div>
-                                <p class="card-text company-name color-black">{{ $job->title }}</p>
+                                <div class="job-title">{{ $job->title }}</div>
+                                <div class="card-text company-name color-black">{{ $job->company_name }}</div>
 
                             </div>
 
                             <div class="col-md-3 text-end">
-                                @if ($job->businessLocation && $job->businessLocation->logo)
+                                {{-- @if ($job->businessLocation && $job->businessLocation->logo)
                                     <img src="{{ asset($job->businessLocation->logo) }}" alt=""
                                         style="height: 90px">
                                 @else
                                     <img src="https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg"
                                         alt="" style="height: 90px">
-                                @endif
+                                @endif --}}
+
+                                @php
+                                    $businessLocation = $job->businessLocation;
+                                    $imageUrl = $businessLocation && File::exists(public_path($businessLocation->logo)) ? asset($businessLocation->logo) : 'https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg';
+                                @endphp
+
+                                <a href="{{ $businessLocation ? route('shop.service', $businessLocation->id) : '#' }}">
+                                    <div>
+                                        <img class="" src="{{ $imageUrl }}" alt="" tyle="height: 90px">
+                                    </div>
+                                </a>
                             </div>
                         </div>
 
                         <div class="row header mobile-view">
                             <div class="col-md-12 text-center">
-                                @if ($job->businessLocation && $job->businessLocation->logo)
+                                {{-- @if ($job->businessLocation && $job->businessLocation->logo)
                                     <img src="{{ asset($job->businessLocation->logo) }}" alt=""
                                         style="height: 110px">
                                 @else
                                     <img src="https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg"
                                         alt="" style="height: 110px">
-                                @endif
+                                @endif --}}
+
+                                @php
+                                    $businessLocation = $job->businessLocation;
+                                    $imageUrl = $businessLocation && File::exists(public_path($businessLocation->logo)) ? asset($businessLocation->logo) : 'https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg';
+                                @endphp
+
+                                <a href="{{ $businessLocation ? route('shop.service', $businessLocation->id) : '#' }}">
+                                    <div>
+                                        <img class="" src="{{ $imageUrl }}" alt="" tyle="height: 110px">
+                                    </div>
+                                </a>
                             </div>
                             <div class="col-md-12 mt-3">
                                 <div class="job-title">{{ $job->company_name }}</div>
@@ -208,10 +230,6 @@
                                 @include('frontend.recruitment.applyBtn')
 
 
-
-
-
-
                                 {{-- <button class="btn applynow">
                                     Apply now
                                 </button> --}}
@@ -225,7 +243,7 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div>
-                                                Hours: <span class="txtbold">{{ $job->hour_type }}</span>
+                                                Employee Status: <span class="txtbold">{{ $job->hour_type }}</span>
                                             </div>
                                             <div>
                                                 Job type: <span class="txtbold">{{ $job->job_type }}</span>
@@ -250,7 +268,7 @@
                         <div class="requirements-section row mt-3">
                             <div class="col-sm-12 ">
                                 <div class="requirements-card">
-                                    <h3 class="sectitle">Requirements</h3>
+                                    <h3 class="sectitle">Details</h3>
                                     <div class="col-md-12">
                                         {!! $job->description ?? '' !!}
                                     </div>
@@ -277,14 +295,12 @@
                             </div>
                         </div>
 
-
-
                         <div class="report-section row mt-3">
                             <div class="col-sm-12">
                                 <div class="report-card">
                                     <h3 class="reptitle">
                                         Report this Job / Company
-                                        <a href="" class="report-button"><i class="fas fa-flag"></i> Report</a>
+                                        <button class="report-button"><i class="fas fa-flag"></i> Report</button>
                                     </h3>
                                     <div class="col-md-12">
                                         <p>A type of false payer may accept money from you for this job advertisement or
