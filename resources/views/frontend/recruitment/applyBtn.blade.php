@@ -42,8 +42,8 @@
 
 
 <!-- Modal -->
-<div class="modal" id="myModal">
-    <div class="modal-dialog">
+<div class="modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
 
             <!-- Modal Header -->
@@ -53,8 +53,8 @@
             </div>
 
             <!-- Modal Body -->
-            <div class="modal-body">
-                <p>Are you submit saved infomation?</p>
+            <div class="modal-body text-center" style="padding: 80px;">
+                <p>Do you want to apply with your saved information?</p>
 
                 <form action="{{ route('recruitment.applyJob', $job->uuid) }}" method="POST" class="mx-auto mobileView"
                     enctype="multipart/form-data">
@@ -68,9 +68,9 @@
             </div>
 
             <!-- Modal Footer -->
-            <div class="modal-footer">
+            {{-- <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
+            </div> --}}
 
         </div>
     </div>

@@ -241,10 +241,6 @@
 
                                 @include('frontend.recruitment.applyBtn')
 
-
-                                {{-- <button class="btn applynow">
-                                    Apply now
-                                </button> --}}
                             </div>
                         </div>
 
@@ -271,6 +267,9 @@
                                                     @endif
                                                 </span>
                                             </div>
+                                            <div>
+                                                Address: <span class="txtbold">{{ $job->location }}</span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -295,9 +294,6 @@
                                     <div class="col-md-12">
                                         <p>{{ $job->company_name }}</p>
 
-                                        <h5 class="subheading mb-0">Address:</h5>
-                                        <p>{{ $job->location }}</p>
-
                                         <h5 class="subheading mb-0">Business:</h5>
                                         <div>
                                             {!! $job->company_information ?? '' !!}
@@ -315,23 +311,25 @@
                                         <button class="report-button"><i class="fas fa-flag"></i> Report</button>
                                     </h3>
                                     <div class="col-md-12">
-                                        <p>A type of false payer may accept money from you for this job advertisement or
-                                            forward any or misleading information or code the job. Paying back/organization
-                                            for job bdjobs no justification. BdJobs will not be responsible for Lennon's
-                                            liability of any kind. </p>
+                                        <p>If the advertiser requests any payment from you for this job or provides
+                                            incorrect or misleading information, please notify us immediately or report the
+                                            job. Unipuller does not endorse or support any payment to individuals or
+                                            organizations for job opportunities. Unipuller will not be held responsible for
+                                            any financial transactions.
+                                        </p>
                                     </div>
 
                                     <div class="complain-information">
-                                        {{-- <div class="complain-info-item">
+                                        <div class="complain-info-item">
                                             <i class="fas fa-info-circle"></i>
                                             <div>
-                                                16479
+                                                +44 (0) 7460497454
                                             </div>
-                                        </div> --}}
+                                        </div>
                                         <div class="complain-info-item">
                                             <i class="fas fa-envelope"></i>
                                             <div>
-                                                demo@gmail.com
+                                                complain@unipuller.com
                                             </div>
                                         </div>
                                     </div>

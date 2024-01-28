@@ -19,25 +19,50 @@
             margin-bottom: 20px;
         }
 
+        /* .btn {
+                                                display: inline-block;
+                                                padding: 0px 10px;
+                                                margin: 5px;
+                                                text-decoration: none;
+                                                color: #fff;
+                                                border-radius: 5px;
+                                                font-size: 16px;
+                                                transition: background-color 0.3s ease;
+                                            }
+
+                                            .btn-job {
+                                                background-color: #3498db;
+                                                border: 2px solid #3498db;
+                                            }
+
+                                            .btn-info {
+                                                background-color: #2ecc71;
+                                                border: 2px solid #2ecc71;
+                                            } */
+
+
         .btn {
-            display: inline-block;
-            padding: 0px 10px;
-            margin: 5px;
-            text-decoration: none;
-            color: #fff;
-            border-radius: 5px;
-            font-size: 16px;
-            transition: background-color 0.3s ease;
+            line-height: 33px !important;
+            padding: 0 20px !important;
         }
 
-        .btn-job {
-            background-color: #3498db;
-            border: 2px solid #3498db;
+        .btn-more-job {
+            border-radius: 4px;
+            background: #263038;
+            color: #FFF;
+            font-weight: 500;
         }
 
-        .btn-info {
-            background-color: #2ecc71;
-            border: 2px solid #2ecc71;
+        .btn-more-job:hover,
+        .btn-infomation:hover {
+            color: white;
+        }
+
+        .btn-infomation {
+            border-radius: 4px;
+            background: #05addc;
+            color: #FFF;
+            font-weight: 500;
         }
     </style>
 @endsection
@@ -47,7 +72,8 @@
     <div class="container">
         <h2>Your application is submitted successfully!</h2>
         <p>Thank you for applying! You will receive updates soon from the employer.</p>
-        <a href="{{ route('recruitment.list') }}" class="btn btn-job">More Jobs</a>
-        <a href="{{ route('recruitment.edit', ['id' => myInformation()->uuid]) }}" class="btn btn-info">Your Information</a>
+        <a href="{{ route('recruitment.list') }}" class="btn btn-more-job">More Jobs</a>
+        <a href="{{ route('recruitment.edit', ['id' => myInformation()->uuid]) }}" class="btn btn-infomation">Your
+            Information</a>
     </div>
 @endsection
