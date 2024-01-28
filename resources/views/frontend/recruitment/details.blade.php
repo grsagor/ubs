@@ -256,8 +256,6 @@
                                             <div>
                                                 Job type: <span class="txtbold">{{ $job->job_type }}</span>
                                             </div>
-                                        </div>
-                                        <div class="col-md-6">
                                             <div>
                                                 Salary: <span class="txtbold">
                                                     @if ($job->salary)
@@ -267,8 +265,18 @@
                                                     @endif
                                                 </span>
                                             </div>
+
+                                        </div>
+                                        <div class="col-md-6">
                                             <div>
                                                 Address: <span class="txtbold">{{ $job->location }}</span>
+                                            </div>
+                                            <div>
+                                                Reference: <span class="txtbold">{{ $job->reference }}</span>
+                                            </div>
+                                            <div>
+                                                Published: <span
+                                                    class="txtbold">{{ $job->created_at->format('j F Y') }}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -338,13 +346,10 @@
                         </div>
 
                     </div>
-
                 </div>
             </div>
-
         </div>
     </div>
-
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 @endsection

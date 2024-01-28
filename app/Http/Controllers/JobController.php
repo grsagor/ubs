@@ -95,6 +95,16 @@ class JobController extends Controller
                 'closing_date.after_or_equal' => 'The closing date must be today or a later date.',
             ]);
 
+            $latestReference = Job::orderBy('created_at', 'desc')->value('reference');
+
+            // Parse the number part of the reference
+            $latestNumber = (int)substr($latestReference, -6); // Assuming reference format like 'Unijob000001'
+
+            $newNumber = $latestNumber + 1;
+
+            $newReference = 'Unijob' . sprintf('%06d', $newNumber);
+
+            $requestedData['reference'] = $newReference;
 
             $job->fill($requestedData)->save();
 
