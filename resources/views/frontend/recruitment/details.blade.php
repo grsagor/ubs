@@ -265,12 +265,12 @@
                                                     @endif
                                                 </span>
                                             </div>
+
+                                        </div>
+                                        <div class="col-md-6">
                                             <div>
                                                 Address: <span class="txtbold">{{ $job->location }}</span>
                                             </div>
-                                        </div>
-                                        <div class="col-md-6">
-
                                             <div>
                                                 Reference: <span class="txtbold">{{ $job->reference }}</span>
                                             </div>
