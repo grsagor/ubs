@@ -201,7 +201,7 @@ class CustomerGroupController extends Controller
         } catch (\Throwable $e) {
             DB::rollBack();
 
-            dd($e->getmessage());
+            // dd($e->getmessage());
 
             $output = [
                 'success' => false,
