@@ -194,12 +194,13 @@
 
                                 @php
                                     $businessLocation = $job->businessLocation;
-                                    $imageUrl = $businessLocation && File::exists(public_path($businessLocation->logo)) ? asset($businessLocation->logo) : 'https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg';
+                                    $imageUrl = $businessLocation && File::exists($businessLocation->logo) ? asset($businessLocation->logo) : 'https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg';
                                 @endphp
 
                                 <a href="{{ $businessLocation ? route('shop.service', $businessLocation->id) : '#' }}">
                                     <div>
-                                        <img class="" src="{{ $imageUrl }}" alt="" tyle="height: 90px">
+                                        <img class="" src="{{ $imageUrl }}" alt=""
+                                            style="width: 80% !important;">
                                     </div>
                                 </a>
                             </div>
@@ -207,22 +208,15 @@
 
                         <div class="row header mobile-view">
                             <div class="col-md-12 text-center">
-                                {{-- @if ($job->businessLocation && $job->businessLocation->logo)
-                                    <img src="{{ asset($job->businessLocation->logo) }}" alt=""
-                                        style="height: 110px">
-                                @else
-                                    <img src="https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg"
-                                        alt="" style="height: 110px">
-                                @endif --}}
 
                                 @php
                                     $businessLocation = $job->businessLocation;
-                                    $imageUrl = $businessLocation && File::exists(public_path($businessLocation->logo)) ? asset($businessLocation->logo) : 'https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg';
+                                    $imageUrl = $businessLocation && File::exists($businessLocation->logo) ? asset($businessLocation->logo) : 'https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg';
                                 @endphp
 
                                 <a href="{{ $businessLocation ? route('shop.service', $businessLocation->id) : '#' }}">
                                     <div>
-                                        <img class="" src="{{ $imageUrl }}" alt="" tyle="height: 110px">
+                                        <img class="" src="{{ $imageUrl }}" style="width: 80% !important;">
                                     </div>
                                 </a>
                             </div>
@@ -269,7 +263,7 @@
                                         </div>
                                         <div class="col-md-6">
                                             <div>
-                                                Address: <span class="txtbold">{{ $job->location }}</span>
+                                                Job Location: <span class="txtbold">{{ $job->location }}</span>
                                             </div>
                                             <div>
                                                 Reference: <span class="txtbold">{{ $job->reference }}</span>

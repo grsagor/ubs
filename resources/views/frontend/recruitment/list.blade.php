@@ -60,6 +60,12 @@
             .laptop-view {
                 display: none;
             }
+
+            .card-title {
+                color: #007bff;
+                font-size: 22px;
+                /* Blue title color */
+            }
         }
     </style>
 @endsection
@@ -116,8 +122,6 @@
                         </div>
 
 
-
-
                         {{-- Mobile view --}}
                         <div class="card custom-card card-design mobile-view">
                             <div class="card-body">
@@ -128,7 +132,7 @@
                                                 style="height: 110px">
                                         @else
                                             <img src="https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg"
-                                                alt="" style="height: 110px">
+                                                alt="" style="width: 80% !important;">
                                         @endif
                                     </div>
 
@@ -153,13 +157,9 @@
                                 </div>
                             </div>
                         </div>
-
-
                     </a>
                 </div>
             @endforeach
         </div>
-
-
     </div>
 @endsection
