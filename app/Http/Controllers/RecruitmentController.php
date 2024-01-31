@@ -83,7 +83,9 @@ class RecruitmentController extends Controller
             // ];
 
             // return redirect()->route('recruitment.list')->with('status', $output);
-            return redirect()->route('login');
+            // return redirect()->route('login');
+
+            return redirect()->route('login')->with('previous_page', 'recruitment-create');
         }
     }
 
