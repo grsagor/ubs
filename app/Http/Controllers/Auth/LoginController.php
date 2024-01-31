@@ -53,8 +53,13 @@ class LoginController extends Controller
 
     public function showLoginForm(Request $request)
     {
+        if (session('previous_page') === 'recruitment-create') {
+            session(['link' => url()->previous()]);
+        }
+
         return view('auth.login');
     }
+
 
     /**
      * Change authentication from email to username
@@ -137,7 +142,7 @@ class LoginController extends Controller
         if (session()->has('intended_url')) {
             $intended_url = session()->get('intended_url');
             session()->forget('intended_url'); // Clear the intended URL from the session
-            return '/'.$intended_url;
+            return '/' . $intended_url;
         }
 
         // Check user type and permissions
@@ -149,7 +154,18 @@ class LoginController extends Controller
             return '/contact/contact-dashboard';
         }
 
+        if (session()->has('link')) {
+            // Get the URL from the session
+            $redirectUrl = session('link');
+
+            // Clear the 'link' session
+            session()->forget('link');
+
+            // Redirect the user to the stored URL
+            return $this->redirectTo = $redirectUrl;
+        }
+
         // Default redirection for other cases
-        return '/home';
+        return $this->redirectTo = '/home';
     }
 }
