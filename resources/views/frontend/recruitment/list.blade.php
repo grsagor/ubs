@@ -132,7 +132,7 @@
                                                 style="height: 110px">
                                         @else
                                             <img src="https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg"
-                                                alt="" style="width: 80% !important;">
+                                                alt="" style="width: 45% !important;">
                                         @endif
                                     </div>
 
