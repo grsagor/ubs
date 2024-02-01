@@ -150,19 +150,20 @@ class LoginController extends Controller
             return '/pos/create';
         }
 
-        if ($user->user_type == 'user_customer') {
-            return '/contact/contact-dashboard';
-        }
-
         if (session()->has('link')) {
             // Get the URL from the session
             $redirectUrl = session('link');
+            // dd($redirectUrl);
 
             // Clear the 'link' session
-            session()->forget('link');
+            // session()->forget('link');
 
             // Redirect the user to the stored URL
             return $this->redirectTo = $redirectUrl;
+        }
+
+        if ($user->user_type == 'user_customer') {
+            return '/contact/contact-dashboard';
         }
 
         // Default redirection for other cases
