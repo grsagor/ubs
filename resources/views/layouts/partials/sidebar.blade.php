@@ -337,26 +337,26 @@
             <li><a href="{{ url('woocommerce') }}"><i class="fab fa-wordpress"></i>
                     <span style="margin-left: 10px;">Woocommerce</span></a></li>
 
-            @if (auth()->user()->id == 5)
-                <li class="treeview">
-                    <a href="#">
-                        <i class="fa fas fa-cog"></i> <span>Jobs</span>
-                        <span class="pull-right-container">
-                            <i class="fa fa-angle-left pull-right"></i>
-                        </span>
-                    </a>
-                    <ul class="treeview-menu">
-                        <li><a href="{{ route('recruitment.appliedJobs') }}">
-                                <i class="fa fas fa-cogs"></i>
-                                <span>Applied Jobs</span></a>
-                        </li>
-                        <li><a href="{{ route('recruitment.index') }}"><i class="fa fas fa-cogs"></i>
-                                <span>All Applicants</span></a></li>
-                        <li><a href="{{ route('jobs.index') }}"><i class="fa fas fa-cogs"></i>
-                                <span>Jobs</span></a></li>
-                    </ul>
-                </li>
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fas fa-cog"></i> <span>Jobs</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="{{ route('recruitment.appliedJobs') }}">
+                            <i class="fa fas fa-cogs"></i>
+                            <span>Applied Jobs</span></a>
+                    </li>
+                    <li><a href="{{ route('recruitment.index') }}"><i class="fa fas fa-cogs"></i>
+                            <span>All Applicants</span></a></li>
+                    <li><a href="{{ route('jobs.index') }}"><i class="fa fas fa-cogs"></i>
+                            <span>Jobs</span></a></li>
+                </ul>
+            </li>
 
+            @if (auth()->user()->id == 5)
                 <li><a href="{{ route('footer.index') }}"><i class="fa fa-asterisk"></i>
                         <span>Footer/Menu</span></a>
                 </li>

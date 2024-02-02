@@ -6,26 +6,41 @@ use App\Job;
 use App\AppliedJob;
 use App\BusinessLocation;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class JobController extends Controller
 {
     public function index(Request $request)
     {
-        if (auth()->user()->id != 5) {
-            // abort(403, 'Unauthorized action.');
-            $output = [
-                'success' => False,
-                'msg' => 'You are not allowed',
-            ];
-            return redirect()->back()->with('status', $output);
-        }
+        // if (auth()->user()->id != 5) {
+        //     // abort(403, 'Unauthorized action.');
+        //     $output = [
+        //         'success' => False,
+        //         'msg' => 'You are not allowed',
+        //     ];
+        //     return redirect()->back()->with('status', $output);
+        // }
 
+        $user = Auth::user();
+
+        // if ($user->id == 5) {
+        //     $data['jobs'] = Job::query()
+        //         ->search($request)
+        //         ->with('appliedJobs')
+        //         ->latest()
+        //         ->paginate(10);
+        // } else {
         $data['jobs'] = Job::query()
             ->search($request)
             ->with('appliedJobs')
+            ->whereHas('business_location', function ($query) use ($user) {
+                $query->where('business_id', $user->business_id);
+            })
             ->latest()
             ->paginate(10);
+        // }
         // return $data;
+
         return view('backend.jobs.index', $data);
     }
 
@@ -58,14 +73,14 @@ class JobController extends Controller
 
     public function create()
     {
-        if (auth()->user()->id != 5) {
-            // abort(403, 'Unauthorized action.');
-            $output = [
-                'success' => False,
-                'msg' => 'You are not allowed',
-            ];
-            return redirect()->back()->with('status', $output);
-        }
+        // if (auth()->user()->id != 5) {
+        //     // abort(403, 'Unauthorized action.');
+        //     $output = [
+        //         'success' => False,
+        //         'msg' => 'You are not allowed',
+        //     ];
+        //     return redirect()->back()->with('status', $output);
+        // }
 
         $business_id = request()->session()->get('user.business_id');
 
@@ -78,9 +93,9 @@ class JobController extends Controller
 
     public function store(Request $request, Job $job)
     {
-        if (auth()->user()->id != 5) {
-            abort(403, 'Unauthorized action.');
-        }
+        // if (auth()->user()->id != 5) {
+        //     abort(403, 'Unauthorized action.');
+        // }
         try {
             $requestedData = $request->all();
 
@@ -121,18 +136,18 @@ class JobController extends Controller
 
     public function edit($id)
     {
-        if (auth()->user()->id != 5) {
-            abort(403, 'Unauthorized action.');
-        }
+        // if (auth()->user()->id != 5) {
+        //     abort(403, 'Unauthorized action.');
+        // }
         $data['job'] = Job::find($id);
         return view('backend.jobs.edit', $data);
     }
 
     public function update(Request $request, $id)
     {
-        if (auth()->user()->id != 5) {
-            abort(403, 'Unauthorized action.');
-        }
+        // if (auth()->user()->id != 5) {
+        //     abort(403, 'Unauthorized action.');
+        // }
 
         try {
             $request->validate([

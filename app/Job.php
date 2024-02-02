@@ -55,7 +55,7 @@ class Job extends Model
         return $this->hasMany(AppliedJob::class, 'job_id', 'uuid');
     }
 
-    public function businessLocation()
+    public function business_location()
     {
         return $this->belongsTo(BusinessLocation::class, 'business_location_id');
     }
