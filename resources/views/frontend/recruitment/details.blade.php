@@ -1,5 +1,5 @@
 @extends('frontend.layouts.master_layout')
-@section('title', 'Jobs')
+@section('title', $job->title)
 @section('css')
     <style>
         .container {
@@ -282,7 +282,7 @@
                             <div class="col-sm-12 ">
                                 <div class="requirements-card">
                                     <h3 class="sectitle">Details</h3>
-                                    <div class="col-md-12">
+                                    <div class="col-md-12 text-justify">
                                         {!! $job->description ?? '' !!}
                                     </div>
                                 </div>
@@ -297,7 +297,7 @@
                                         <p>{{ $job->company_name }}</p>
 
                                         <h5 class="subheading mb-0">Business:</h5>
-                                        <div>
+                                        <div class="text-justify">
                                             {!! $job->company_information ?? '' !!}
                                         </div>
                                     </div>
@@ -312,7 +312,7 @@
                                         Report this Job / Company
                                         <button class="report-button"><i class="fas fa-flag"></i> Report</button>
                                     </h3>
-                                    <div class="col-md-12">
+                                    <div class="col-md-12 text-justify">
                                         <p>If the advertiser requests any payment from you for this job or provides
                                             incorrect or misleading information, please notify us immediately or report the
                                             job. Unipuller does not endorse or support any payment to individuals or
