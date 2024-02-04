@@ -1,8 +1,8 @@
 @extends('layouts.app')
-@section('title', 'Jobs')
+@section('title', 'My Applications')
 @section('content')
     <section class="content-header">
-        <h1>Applied jobs</h1>
+        <h1>My applications</h1>
     </section>
 
     <section class="content">
@@ -11,7 +11,7 @@
 
             <div class="box-header" style="display: flex; justify-content: space-between; align-items: center;">
                 <!-- Search form -->
-                <form action="{{ route('recruitment.appliedJobs') }}" method="GET" style="flex: 1; margin-right: 10px;">
+                <form action="{{ route('recruitment.myApplications') }}" method="GET" style="flex: 1; margin-right: 10px;">
                     <div class="input-group">
                         <input type="text" name="search" value="{{ request()->get('search') }}" class="form-control"
                             placeholder="Search...">

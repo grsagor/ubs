@@ -345,9 +345,9 @@
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="{{ route('recruitment.appliedJobs') }}">
+                    <li><a href="{{ route('recruitment.myApplications') }}">
                             <i class="fa fas fa-cogs"></i>
-                            <span>Applied Jobs</span></a>
+                            <span>My Applications</span></a>
                     </li>
                     <li><a href="{{ route('recruitment.index') }}"><i class="fa fas fa-cogs"></i>
                             <span>All Applicants</span></a></li>

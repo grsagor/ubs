@@ -49,24 +49,37 @@ class RecruitmentController extends Controller
 
     public function index(Request $request)
     {
-        $data['recruitments'] = Recruitment::query()
-            ->search($request)
-            ->with('countryResidence', 'birthCountry', 'createdBy', 'appliedJobs.recuimentId') // Eager loading related country information
+        // $data['recruitments'] = Recruitment::query()
+        //     ->search($request)
+        //     ->with('countryResidence', 'birthCountry', 'createdBy', 'appliedJobs.recuimentId') // Eager loading related country information
+        //     ->latest()
+        //     ->paginate(10);
+
+        $user = Auth::user();
+        $data['recruitments'] = AppliedJob::query()
+            ->searchApplicants(request()->get('search'))
+            ->with('JobId', 'recuimentId')
+            ->whereHas('JobId.business_location', function ($query) use ($user) {
+                $query->where('business_id', $user->business_id);
+            })
             ->latest()
             ->paginate(10);
+
         // return $data;
         return view('frontend.recruitment.index', $data);
     }
 
-    public function appliedJobs(Request $request)
+    public function myApplications(Request $request)
     {
+        $authUserId = Auth::id();
         $data['appliedJobs'] = AppliedJob::query()
             ->search(request()->get('search')) // Assuming a custom search scope or method is applied
             ->with('JobId', 'recuimentId', 'createdBy') // Eager loading related country information
+            ->where('created_by', $authUserId)
             ->latest() // Ordering by the latest
             ->paginate(10); // Paginating the results
         // return $data;
-        return view('frontend.recruitment.applied_jobs', $data);
+        return view('frontend.recruitment.my_applications', $data);
     }
 
     public function create($jobID)

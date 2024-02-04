@@ -39,6 +39,32 @@ class AppliedJob extends Model
         });
     }
 
+    public function scopeSearchApplicants($query, $search)
+    {
+        return $query->when($search, function ($query) use ($search) {
+            $query->whereHas('JobId', function ($q) use ($search) {
+                $q->where('title', 'LIKE', '%' . $search . '%');
+            })
+                ->orWhereHas('recuimentId', function ($q) use ($search) {
+                    $q->where('name', 'LIKE', '%' . $search . '%')
+                        ->orWhere('phone', 'LIKE', '%' . $search . '%')
+                        ->orWhere('email', 'LIKE', '%' . $search . '%')
+                        ->orWhere('current_address', 'LIKE', '%' . $search . '%')
+                        ->orWhereHas('countryResidence', function ($q) use ($search) {
+                            $q->where('country_name', 'LIKE', '%' . $search . '%');
+                        })
+                        ->orWhereHas('birthCountry', function ($q) use ($search) {
+                            $q->where('country_name', 'LIKE', '%' . $search . '%');
+                        });
+                })
+                ->orWhereHas('createdBy', function ($q) use ($search) {
+                    $q->where('surname', 'LIKE', '%' . $search . '%')
+                        ->orWhere('first_name', 'LIKE', '%' . $search . '%')
+                        ->orWhere('last_name', 'LIKE', '%' . $search . '%');
+                });
+        });
+    }
+
     public function JobId()
     {
         return $this->belongsTo(Job::class, 'job_id');
