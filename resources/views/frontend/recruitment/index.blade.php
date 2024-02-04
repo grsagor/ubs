@@ -40,7 +40,8 @@
                     <thead>
                         <tr>
                             <th>No.</th>
-                            <th>Applied Jobs</th>
+                            {{-- <th>Applied Jobs</th> --}}
+                            <th>Job Title</th>
                             <th>Name</th>
                             <th>Phone</th>
                             <th>Email</th>
@@ -55,7 +56,7 @@
                         @forelse ($recruitments as $item)
                             <tr>
                                 <td>{{ serialNumber($recruitments, $loop) }}</td>
-                                <td>
+                                {{-- <td>
                                     <ul>
                                         @foreach ($item->appliedJobs as $data)
                                             <li>
@@ -65,28 +66,32 @@
                                             </li>
                                         @endforeach
                                     </ul>
+                                </td> --}}
+                                <td>
+                                    <a
+                                        href="{{ route('recruitment.details', $item->JobId->uuid) }}">{{ $item->JobId->title }}</a>
                                 </td>
-                                <td>{{ $item->name ?? '' }}</td>
-                                <td>{{ $item->phone ?? '' }}</td>
-                                <td>{{ $item->email ?? '' }}</td>
-                                <td>{{ $item->current_address ?? '' }}</td>
-                                <td>{{ $item->countryResidence->country_name ?? '' }}</td>
-                                <td>{{ $item->birthCountry->country_name ?? '' }}</td>
+                                <td>{{ $item->recuimentId->name ?? '' }}</td>
+                                <td>{{ $item->recuimentId->phone ?? '' }}</td>
+                                <td>{{ $item->recuimentId->email ?? '' }}</td>
+                                <td>{{ $item->recuimentId->current_address ?? '' }}</td>
+                                <td>{{ $item->recuimentId->countryResidence->country_name ?? '' }}</td>
+                                <td>{{ $item->recuimentId->birthCountry->country_name ?? '' }}</td>
                                 <td>
                                     {{ $item->createdBy->surname ?? '' }}
                                     {{ $item->createdBy->first_name ?? '' }}
                                     {{ $item->createdBy->last_name ?? '' }}
                                 </td>
                                 <td>
-                                    <a href="{{ route('recruitment.show', $item->uuid) }}" class="btn btn-xs btn-primary">
+                                    <a href="{{ route('recruitment.show', $item->recruitment_id) }}"
+                                        class="btn btn-xs btn-primary">
                                         <i class="fas fa-eye"></i> Show
                                     </a>
 
-                                    <a href="#" class="btn btn-xs btn-success copy-link"
-                                        data-link="{{ route('recruitment.show', $item->uuid) }}">
+                                    <a href="{{ $item->recruitment_id }}" class="btn btn-xs btn-success copy-link"
+                                        data-link="{{ route('recruitment.show', $item->recruitment_id) }}">
                                         <i class="fas fa-copy"></i> Copy
                                     </a>
-
                                 </td>
                             </tr>
                         @empty
