@@ -353,7 +353,7 @@
                             <span>All Applicants</span></a></li>
                     <li><a href="{{ route('jobs.index') }}"><i class="fa fas fa-cogs"></i>
                             <span>Jobs</span></a></li>
-                    <li><a href="{{ route('jobs.index') }}"><i class="fa fas fa-cogs"></i>
+                    <li><a href="{{ route('job-category.index') }}"><i class="fa fas fa-cogs"></i>
                             <span>Job Categories</span></a></li>
                 </ul>
             </li>
@@ -364,7 +364,7 @@
                 </li>
             @endif
 
-            <li><a href="{{ route('shop-news.index') }}"><i class="fa fa-newspaper"></i>
+            {{-- <li><a href="{{ route('shop-news.index') }}"><i class="fa fa-newspaper"></i>
                     <span>News</span></a>
             </li>
             <li><a href="{{ route('shop-news-category.index') }}"><i class="fa fa-list-alt"></i>
@@ -375,7 +375,7 @@
             </li>
             <li><a href="{{ route('shop-marketing-category.index') }}"><i class="fa fa-list-alt"></i>
                     <span>Category For Marketing</span></a>
-            </li>
+            </li> --}}
         </ul>
         <!-- /.sidebar-menu -->
     </section>
