@@ -41,6 +41,7 @@ use App\Http\Controllers\SalesOrderController;
 use App\Http\Controllers\SellReturnController;
 use App\Http\Controllers\AccountTypeController;
 use App\Http\Controllers\ImportSalesController;
+use App\Http\Controllers\JobCategoryController;
 use App\Http\Controllers\RecruitmentController;
 use App\Http\Controllers\CashRegisterController;
 use App\Http\Controllers\NewsCategoryController;
@@ -52,11 +53,11 @@ use App\Http\Controllers\Frontend\ShopController;
 use App\Http\Controllers\InvoiceLayoutController;
 use App\Http\Controllers\InvoiceSchemeController;
 use App\Http\Controllers\NewsMarketingController;
+// use App\Http\Controllers\Auth;
 use App\Http\Controllers\PurchaseOrderController;
-// use App\Http\Controllers\Auth;
 use App\Http\Controllers\StockTransferController;
-use App\Http\Controllers\StripePaymentController;
 // use App\Http\Controllers\Auth;
+use App\Http\Controllers\StripePaymentController;
 use App\Http\Controllers\AccountReportsController;
 use App\Http\Controllers\Backend\FooterController;
 use App\Http\Controllers\ImportProductsController;
@@ -75,21 +76,21 @@ use App\Http\Controllers\Frontend\HomePageController;
 use App\Http\Controllers\Frontend\PropertyController;
 use App\Http\Controllers\Frontend\RoomListController;
 use App\Http\Controllers\MarketingCategoryController;
+
+// use App\Http\Controllers\DashboardConfiguratorController;    
+
 use App\Http\Controllers\SellingPriceGroupController;
 
-// use App\Http\Controllers\DashboardConfiguratorController;    
+// use App\Http\Controllers\CombinedPurchaseReturnController;
 
 use App\Http\Controllers\VariationTemplateController;
-
-// use App\Http\Controllers\CombinedPurchaseReturnController;
-
 use App\Http\Controllers\Frontend\EducationController;
 use App\Http\Controllers\ImportOpeningStockController;
-use App\Http\Controllers\TransactionPaymentController;
 
 // use App\Http\Controllers\DashboardConfiguratorController;    
 // use App\Http\Controllers\CombinedPurchaseReturnController;
 
+use App\Http\Controllers\TransactionPaymentController;
 use App\Http\Controllers\Frontend\RoomWantedController;
 use App\Http\Controllers\PurchaseRequisitionController;
 use App\Http\Controllers\NotificationTemplateController;
@@ -342,6 +343,16 @@ Route::middleware(['checkAdmin', 'SetSessionData'])->group(function () {
 
     Route::get('jobs/{id}/applicant-list',  [JobController::class, 'applicantList'])->name('jobs.applicantList');
 
+
+    // Job category
+    Route::get('job-category',                              [JobCategoryController::class, 'index'])->name('job-category.index');
+    Route::get('job-category/create',                       [JobCategoryController::class, 'create'])->name('job-category.create');
+    Route::post('job-category',                             [JobCategoryController::class, 'store'])->name('job-category.store');
+    Route::get('job-category/{id}',                         [JobCategoryController::class, 'show'])->name('job-category.show');
+    Route::get('job-category/{id}/edit',                    [JobCategoryController::class, 'edit'])->name('job-category.edit');
+    Route::put('job-category/{id}',                         [JobCategoryController::class, 'update'])->name('job-category.update');
+    // Route::delete('job-category/{id}',                      [JobCategoryController::class, 'destroy'])->name('job-category.destroy');
+    Route::get('job-cactegory/status-change/{id}',          [JobCategoryController::class, 'statusChange'])->name('job-category.statusChange');
 
     // Services
     Route::resource('service-advertise', ServiceAdvertiseRoomController::class);
