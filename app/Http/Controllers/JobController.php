@@ -46,14 +46,14 @@ class JobController extends Controller
 
     public function applicantList($jobID)
     {
-        if (auth()->user()->id != 5) {
-            // abort(403, 'Unauthorized action.');
-            $output = [
-                'success' => False,
-                'msg' => 'You are not allowed',
-            ];
-            return redirect()->back()->with('status', $output);
-        }
+        // if (auth()->user()->id != 5) {
+        //     // abort(403, 'Unauthorized action.');
+        //     $output = [
+        //         'success' => False,
+        //         'msg' => 'You are not allowed',
+        //     ];
+        //     return redirect()->back()->with('status', $output);
+        // }
 
         // $data['applicants'] = AppliedJob::where('job_id', $jobID)->with('JobId', 'recuimentId')->latest()
         //     ->paginate(10);
