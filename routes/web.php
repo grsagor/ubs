@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\JobController;
 use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\NewsController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SellController;
 use App\Http\Controllers\UnitController;
@@ -32,6 +33,7 @@ use App\Http\Controllers\GroupTaxController;
 use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\TaxonomyController;
 use App\Http\Controllers\WarrantyController;
+use App\Http\Controllers\MarketingController;
 use App\Http\Controllers\ShopShareController;
 use App\Http\Controllers\ManageUserController;
 use App\Http\Controllers\RoomToRentController;
@@ -41,6 +43,7 @@ use App\Http\Controllers\AccountTypeController;
 use App\Http\Controllers\ImportSalesController;
 use App\Http\Controllers\RecruitmentController;
 use App\Http\Controllers\CashRegisterController;
+use App\Http\Controllers\NewsCategoryController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\OpeningStockController;
 use App\Http\Controllers\CustomerGroupController;
@@ -48,7 +51,9 @@ use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Frontend\ShopController;
 use App\Http\Controllers\InvoiceLayoutController;
 use App\Http\Controllers\InvoiceSchemeController;
+use App\Http\Controllers\NewsMarketingController;
 use App\Http\Controllers\PurchaseOrderController;
+// use App\Http\Controllers\Auth;
 use App\Http\Controllers\StockTransferController;
 use App\Http\Controllers\StripePaymentController;
 // use App\Http\Controllers\Auth;
@@ -69,15 +74,20 @@ use App\Http\Controllers\Frontend\FrontendController;
 use App\Http\Controllers\Frontend\HomePageController;
 use App\Http\Controllers\Frontend\PropertyController;
 use App\Http\Controllers\Frontend\RoomListController;
+use App\Http\Controllers\MarketingCategoryController;
 use App\Http\Controllers\SellingPriceGroupController;
-use App\Http\Controllers\VariationTemplateController;
-use App\Http\Controllers\Frontend\EducationController;
-use App\Http\Controllers\ImportOpeningStockController;
 
 // use App\Http\Controllers\DashboardConfiguratorController;    
 
+use App\Http\Controllers\VariationTemplateController;
+
+// use App\Http\Controllers\CombinedPurchaseReturnController;
+
+use App\Http\Controllers\Frontend\EducationController;
+use App\Http\Controllers\ImportOpeningStockController;
 use App\Http\Controllers\TransactionPaymentController;
 
+// use App\Http\Controllers\DashboardConfiguratorController;    
 // use App\Http\Controllers\CombinedPurchaseReturnController;
 
 use App\Http\Controllers\Frontend\RoomWantedController;
@@ -285,6 +295,39 @@ Route::middleware(['checkAdmin', 'SetSessionData'])->group(function () {
     Route::get('/footer/{id}/edit',        [FooterController::class, 'edit'])->name('footer.edit');
     Route::put('/footer/{id}',             [FooterController::class, 'update'])->name('footer.update');
 
+    // Shop news category
+    Route::get('shop-news-category', [NewsCategoryController::class, 'index'])->name('shop-news-category.index');
+    Route::get('shop-news-category/create', [NewsCategoryController::class, 'create'])->name('shop-news-category.create');
+    Route::post('shop-news-category', [NewsCategoryController::class, 'store'])->name('shop-news-category.store');
+    Route::get('shop-news-category/{id}', [NewsCategoryController::class, 'show'])->name('shop-news-category.show');
+    Route::get('shop-news-category/{id}/edit', [NewsCategoryController::class, 'edit'])->name('shop-news-category.edit');
+    Route::put('shop-news-category/{id}', [NewsCategoryController::class, 'update'])->name('shop-news-category.update');
+    Route::delete('shop-news-category/{id}', [NewsCategoryController::class, 'destroy'])->name('shop-news-category.destroy');
+    Route::get('shop-news-cactegory/status-change/{id}', [NewsCategoryController::class, 'statusChange'])->name('shop-news-category.statusChange');
+
+    // Shop marketing category
+    Route::get('shop-marketing-category', [MarketingCategoryController::class, 'index'])->name('shop-marketing-category.index');
+    Route::get('shop-marketing-category/create', [MarketingCategoryController::class, 'create'])->name('shop-marketing-category.create');
+    Route::post('shop-marketing-category', [MarketingCategoryController::class, 'store'])->name('shop-marketing-category.store');
+    Route::get('shop-marketing-category/{id}', [MarketingCategoryController::class, 'show'])->name('shop-news-category.show');
+    Route::get('shop-marketing-category/{id}/edit', [MarketingCategoryController::class, 'edit'])->name('shop-marketing-category.edit');
+    Route::put('shop-nemarketingws-category/{id}', [MarketingCategoryController::class, 'update'])->name('shop-marketing-category.update');
+    Route::delete('shop-marketing-category/{id}', [MarketingCategoryController::class, 'destroy'])->name('shop-marketing-category.destroy');
+    Route::get('shop-marketing-cactegory/status-change/{id}', [MarketingCategoryController::class, 'statusChange'])->name('shop-marketing-category.statusChange');
+
+    // News
+    Route::get('shop-news', [NewsController::class, 'index'])->name('shop-news.index');
+    Route::get('shop-news/create', [NewsController::class, 'create'])->name('shop-news.create');
+    Route::post('shop-news', [NewsController::class, 'store'])->name('shop-news.store');
+    Route::get('shop-news/{id}', [NewsController::class, 'show'])->name('shop-news.show');
+    Route::get('shop-news/{id}/edit', [NewsController::class, 'edit'])->name('shop-news.edit');
+    Route::put('shop-news/{id}', [NewsController::class, 'update'])->name('shop-news.update');
+    Route::delete('shop-news/{id}', [NewsController::class, 'destroy'])->name('shop-news.destroy');
+    Route::get('shop-news/status-change/{id}', [NewsController::class, 'statusChange'])->name('shop-news.statusChange');
+
+
+
+    Route::resource('shop-marketing',                     MarketingController::class);
     Route::get('/applicant/index',         [RecruitmentController::class, 'index'])->name('recruitment.index');
     Route::get('/my-applications',         [RecruitmentController::class, 'myApplications'])->name('recruitment.myApplications');
     Route::get('/recruitment/show/{id}',   [RecruitmentController::class, 'show'])->name('recruitment.show');

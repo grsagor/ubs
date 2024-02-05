@@ -13,6 +13,7 @@ npm-debug.log
 
 /public/upload
 /public/uploads/service_room
+/public/uploads/news
 /public/uploads/recruitments
 /public/uploads/business_logos
 /public/uploads/documents
