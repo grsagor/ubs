@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Job;
 use App\AppliedJob;
 use App\BusinessLocation;
+use App\JobCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -88,6 +89,11 @@ class JobController extends Controller
         $data['business_locations'] = BusinessLocation::where('business_id', $business_id)
             ->get();
 
+        $data['job_categories'] = JobCategory::query()
+            ->where('business_id', $business_id)
+            ->active()
+            ->get();
+
         return view('backend.jobs.create', $data);
     }
 
@@ -140,6 +146,17 @@ class JobController extends Controller
         //     abort(403, 'Unauthorized action.');
         // }
         $data['job'] = Job::find($id);
+
+        $business_id = request()->session()->get('user.business_id');
+
+        $data['business_locations'] = BusinessLocation::where('business_id', $business_id)
+            ->get();
+
+        $data['job_categories'] = JobCategory::query()
+            ->where('business_id', $business_id)
+            ->active()
+            ->get();
+
         return view('backend.jobs.edit', $data);
     }
 

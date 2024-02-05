@@ -29,6 +29,21 @@
 
                     <div class="col-sm-6">
                         <div class="form-group">
+                            <label for="selling_price_group_id">Category <span class="text-danger">*</span></label>
+                            <select class="form-control" name="job_category_id" required>
+                                <option value="">Select</option>
+                                @foreach ($job_categories as $cat)
+                                    <option value="{{ $cat->id }}"
+                                        {{ old('job_category_id') == $cat->id ? 'selected' : '' }}>
+                                        {{ $cat->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <div class="form-group">
                             <label class="form-label">Employee status <span class="text-danger">*</span></label>
                             <select class="form-control" name="hour_type" required>
                                 <option value="" selected disabled>Select type</option>
@@ -111,11 +126,15 @@
 
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <label for="selling_price_group_id">Business location <span class="text-danger">*</span></label>
+                            <label for="selling_price_group_id">Business location <span
+                                    class="text-danger">*</span></label>
                             <select class="form-control" name="business_location_id">
                                 <option value="">Select</option>
                                 @foreach ($business_locations as $item)
-                                    <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                    <option value="{{ $item->id }}"
+                                        {{ old('business_location_id') == $item->id ? 'selected' : '' }}>
+                                        {{ $item->name }}
+                                    </option>
                                 @endforeach
                             </select>
                         </div>
@@ -157,7 +176,7 @@
                             <label for="custom_field1">Company Information <span class="text-danger">*</span></label>
                             <textarea rows="5" type="text" class="form-control" name="company_information" id="company-information"
                                 class="input-field" placeholder="Company information">{{ old('company_information') }}</textarea>
-                            @error('description')
+                            @error('company_information')
                                 <span class="error text-danger">{{ $message }}</span>
                             @enderror
                         </div>

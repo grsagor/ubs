@@ -42,6 +42,7 @@
                         <tr>
                             <th>No.</th>
                             <th>Reference</th>
+                            <th>Category</th>
                             <th>Title</th>
                             <th>Compnay Name</th>
                             <th>Hour type</th>
@@ -57,6 +58,7 @@
                             <tr>
                                 <td>{{ serialNumber($jobs, $loop) }}</td>
                                 <td>{{ $item->reference }}</td>
+                                <td>{{ $item->job_category->name ?? '' }}</td>
                                 <td>{{ $item->title }}</td>
                                 <td>{{ $item->company_name }}</td>
                                 <td>{{ $item->hour_type }}</td>

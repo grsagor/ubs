@@ -20,6 +20,7 @@
                 <form action="{{ route('jobs.update', $job->uuid) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
+
                     <div class="col-sm-12">
                         <div class="form-group">
                             <label class="form-label">Title <span class="text-danger">*</span></label>
@@ -30,7 +31,22 @@
 
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <label class="form-label">Hours <span class="text-danger">*</span></label>
+                            <label for="selling_price_group_id">Category <span class="text-danger">*</span></label>
+                            <select class="form-control" name="job_category_id" required>
+                                <option value="">Select</option>
+                                @foreach ($job_categories as $cat)
+                                    <option value="{{ $cat->id }}"
+                                        {{ old('job_category_id', $job->job_category_id) == $cat->id ? 'selected' : '' }}>
+                                        {{ $cat->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="form-label">Employee status <span class="text-danger">*</span></label>
                             <select class="form-control" name="hour_type" required>
                                 <option value="" selected="selected">Select type</option>
                                 <option value="Full time"
@@ -77,19 +93,11 @@
                         </div>
                     </div>
 
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label class="form-label">Company information </label>
-                            <textarea rows="5" type="text" class="form-control" name="company_information" class="input-field"
-                                placeholder="Company information">{{ old('company_information', $job->company_information) }}</textarea>
-                        </div>
-                    </div>
-
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <label class="form-label">Amount </label>
+                            <label class="form-label">Salary </label>
                             <input class="form-control" type="number" step="0.01" name="salary" required
-                                placeholder="Amount" value="{{ old('salary', $job->salary) }}" id="amountField">
+                                placeholder="Ex. 10000" value="{{ old('salary', $job->salary) }}" id="amountField">
                         </div>
                     </div>
 
@@ -97,7 +105,8 @@
                         <div class="form-group">
                             <label class="form-label">Salary type <span class="text-danger">*</span></label>
                             <select class="form-control" name="salary_type" id="salary_type" required>
-                                <option value="" selected disabled>Select type</option>
+
+                                <option value="" selected="selected" disabled>Select type</option>
                                 <option value="Hourly"
                                     {{ old('salary_type', $job->salary_type) == 'Hourly' ? 'selected' : '' }}>Hourly
                                 </option>
@@ -114,9 +123,25 @@
 
                     <div class="col-sm-12">
                         <div class="form-group">
-                            <label class="form-label">Location <span class="text-danger">*</span></label>
+                            <label class="form-label">Job location <span class="text-danger">*</span></label>
                             <input class="form-control" type="text" name="location" required placeholder="Location"
                                 value="{{ old('location', $job->location) }}">
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="selling_price_group_id">Business location <span
+                                    class="text-danger">*</span></label>
+                            <select class="form-control" name="business_location_id">
+                                <option value="">Select</option>
+                                @foreach ($business_locations as $item)
+                                    <option value="{{ $item->id }}"
+                                        {{ old('business_location_id', $job->business_location_id) == $item->id ? 'selected' : '' }}>
+                                        {{ $item->name }}
+                                    </option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
 
@@ -144,6 +169,17 @@
                                 class="input-field" placeholder="Description">{{ old('description', $job->description) }}</textarea>
 
                             @error('description')
+                                <span class="error text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+                    </div>
+
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label for="custom_field1">Company Information <span class="text-danger">*</span></label>
+                            <textarea rows="5" type="text" class="form-control" name="company_information" id="company-information"
+                                class="input-field" placeholder="Company information">{{ old('company_information', $job->company_information) }}</textarea>
+                            @error('company_information')
                                 <span class="error text-danger">{{ $message }}</span>
                             @enderror
                         </div>
@@ -186,11 +222,19 @@
                 }
             }
         });
+
         $(document).ready(function() {
             if ($("textarea#footer_details").length > 0) {
                 tinymce.init({
                     selector: "textarea#footer_details",
-                    height: 550,
+                    height: 450,
+                });
+            }
+
+            if ($("textarea#company-information").length > 0) {
+                tinymce.init({
+                    selector: "textarea#company-information",
+                    height: 350,
                 });
             }
         });
