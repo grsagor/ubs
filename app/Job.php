@@ -21,6 +21,7 @@ class Job extends Model
         'business_location_id',
         'reference',
         'title',
+        'job_category_id',
         'hour_type',
         'job_type',
         'closing_date',
@@ -58,5 +59,10 @@ class Job extends Model
     public function business_location()
     {
         return $this->belongsTo(BusinessLocation::class, 'business_location_id');
+    }
+
+    public function job_category()
+    {
+        return $this->belongsTo(JobCategory::class, 'job_category_id');
     }
 }
