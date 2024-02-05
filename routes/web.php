@@ -4,6 +4,7 @@ include 'customer.php';
 use App\Http\Controllers\Install;
 use App\Http\Controllers\Restaurant;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\JobController;
 use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NewsController;
@@ -40,6 +41,7 @@ use App\Http\Controllers\SalesOrderController;
 use App\Http\Controllers\SellReturnController;
 use App\Http\Controllers\AccountTypeController;
 use App\Http\Controllers\ImportSalesController;
+use App\Http\Controllers\RecruitmentController;
 use App\Http\Controllers\CashRegisterController;
 use App\Http\Controllers\NewsCategoryController;
 use App\Http\Controllers\NotificationController;
@@ -54,6 +56,7 @@ use App\Http\Controllers\PurchaseOrderController;
 // use App\Http\Controllers\Auth;
 use App\Http\Controllers\StockTransferController;
 use App\Http\Controllers\StripePaymentController;
+// use App\Http\Controllers\Auth;
 use App\Http\Controllers\AccountReportsController;
 use App\Http\Controllers\Backend\FooterController;
 use App\Http\Controllers\ImportProductsController;
@@ -83,6 +86,10 @@ use App\Http\Controllers\VariationTemplateController;
 use App\Http\Controllers\Frontend\EducationController;
 use App\Http\Controllers\ImportOpeningStockController;
 use App\Http\Controllers\TransactionPaymentController;
+
+// use App\Http\Controllers\DashboardConfiguratorController;    
+// use App\Http\Controllers\CombinedPurchaseReturnController;
+
 use App\Http\Controllers\Frontend\RoomWantedController;
 use App\Http\Controllers\PurchaseRequisitionController;
 use App\Http\Controllers\NotificationTemplateController;
@@ -153,6 +160,13 @@ Route::get('/digital-marketing',                                    [FrontendCon
 Route::get('/it-solutions',                                         [FrontendController::class, 'it_solutions'])->name('itSolutions');
 Route::get('/partner-boarding',                                     [FrontendController::class, 'partner_boarding'])->name('partnerBoarding');
 
+Route::get('/recruitment/list',                                      [RecruitmentController::class, 'list'])->name('recruitment.list');
+Route::get('/recruitment/{id}',                                      [RecruitmentController::class, 'details'])->name('recruitment.details');
+Route::get('/recruitment/create/{id}',                               [RecruitmentController::class, 'create'])->name('recruitment.create');
+Route::post('/recruitment',                                          [RecruitmentController::class, 'store'])->name('recruitment.store');
+Route::get('/recruitment-success',                                   [RecruitmentController::class, 'success'])->name('recruitment.success');
+Route::get('/recruitment-userCheck/{jobID}',                         [RecruitmentController::class, 'userCheck'])->name('recruitment.userCheck');
+Route::post('/recruitment/applyJob/{jobID}',                         [RecruitmentController::class, 'applyJob'])->name('recruitment.applyJob');
 
 // Services
 Route::get('/room-list/',                        [RoomListController::class, 'roomList'])->name('room.list');
@@ -161,7 +175,6 @@ Route::get('/room-show/{id}',                    [RoomListController::class, 'ro
 Route::post('/submit-form',                      [RoomListController::class, 'showModal']);
 Route::post('/room-booking/',                    [RoomListController::class, 'propertyRentBooking'])->name('room.propertyRentBooking');
 Route::get('/show-occupants-details-inputs',     [RoomListController::class, 'showOccupantsDetailsInputs']);
-
 
 Route::get('/property/{sub_category_id?}/{child_category_id?}', [PropertyFrontController::class, 'roomList'])->name('property.list');
 Route::get('/property-show/{id}',                               [PropertyController::class, 'propertyShow'])->name('property_show');
@@ -315,6 +328,20 @@ Route::middleware(['checkAdmin', 'SetSessionData'])->group(function () {
 
 
     Route::resource('shop-marketing',                     MarketingController::class);
+    Route::get('/applicant/index',         [RecruitmentController::class, 'index'])->name('recruitment.index');
+    Route::get('/my-applications',         [RecruitmentController::class, 'myApplications'])->name('recruitment.myApplications');
+    Route::get('/recruitment/show/{id}',   [RecruitmentController::class, 'show'])->name('recruitment.show');
+
+
+    Route::get('/jobs',                     [JobController::class, 'index'])->name('jobs.index');
+    Route::get('/jobs/create',              [JobController::class, 'create'])->name('jobs.create');
+    Route::post('/jobs',                    [JobController::class, 'store'])->name('jobs.store');
+    Route::get('/jobs/{id}/edit',           [JobController::class, 'edit'])->name('jobs.edit');
+    Route::put('/jobs/{id}',                [JobController::class, 'update'])->name('jobs.update');
+    Route::delete('jobs/{id}',              [JobController::class, 'destroy'])->name('jobs.destroy');
+
+    Route::get('jobs/{id}/applicant-list',  [JobController::class, 'applicantList'])->name('jobs.applicantList');
+
 
     // Services
     Route::resource('service-advertise', ServiceAdvertiseRoomController::class);
