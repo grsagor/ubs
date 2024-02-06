@@ -49,12 +49,6 @@ class RecruitmentController extends Controller
 
     public function index(Request $request)
     {
-        // $data['recruitments'] = Recruitment::query()
-        //     ->search($request)
-        //     ->with('countryResidence', 'birthCountry', 'createdBy', 'appliedJobs.recuimentId') // Eager loading related country information
-        //     ->latest()
-        //     ->paginate(10);
-
         $user = Auth::user();
         $data['recruitments'] = AppliedJob::query()
             ->searchApplicants(request()->get('search'))
@@ -65,7 +59,6 @@ class RecruitmentController extends Controller
             ->latest()
             ->paginate(10);
 
-        // return $data;
         return view('frontend.recruitment.index', $data);
     }
 
@@ -90,21 +83,12 @@ class RecruitmentController extends Controller
             $data['create_page'] = 1;
             return view('frontend.recruitment.create', $data);
         } else {
-            // $output = [
-            //     'success' => false,
-            //     'msg' => 'You are not authenticated!!!',
-            // ];
-
-            // return redirect()->route('recruitment.list')->with('status', $output);
-            // return redirect()->route('login');
-
             return redirect()->route('login')->with('previous_page', 'recruitment-create');
         }
     }
 
     public function store(Request $request, Recruitment $recruitment)
     {
-        // dd($request->toarray());
         if (Auth::check()) {
             DB::beginTransaction();
             try {
@@ -219,7 +203,6 @@ class RecruitmentController extends Controller
 
     public function applyJob(Request $request, $jobID)
     {
-        // dd($request->toArray()); 
         if ($request->confirmation == 'Yes') {
             $authUserId = Auth::id();
 
@@ -262,7 +245,7 @@ class RecruitmentController extends Controller
             ->where('created_by', $authUserId)
             ->latest()
             ->paginate(10);
-        // return $data;
+
         return view('frontend.recruitment.applied_jobs_customer', $data);
     }
 }

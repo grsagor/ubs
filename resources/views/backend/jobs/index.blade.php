@@ -43,7 +43,7 @@
                             <th>No.</th>
                             <th>Reference</th>
                             <th>Category</th>
-                            <th>Title</th>
+                            <th style="width: 22%">Title</th>
                             <th>Compnay Name</th>
                             <th>Hour type</th>
                             <th>Job type</th>
@@ -91,12 +91,12 @@
                                         </a>
                                     @endif
 
-                                    @if ($item->appliedJobs->count() > 0)
-                                        <a href="{{ route('jobs.applicantList', $item->uuid) }}"
-                                            class="btn btn-xs btn-warning">
-                                            <i class="fas fa-list"></i> Applicants
-                                        </a>
-                                    @endif
+                                    {{-- @if ($item->appliedJobs->count() > 0) --}}
+                                    <a href="{{ route('jobs.applicantList', $item->uuid) }}"
+                                        class="btn btn-xs btn-warning">
+                                        <i class="fas fa-list"></i> Applicants
+                                    </a>
+                                    {{-- @endif --}}
 
                                 </td>
                             </tr>
@@ -107,9 +107,7 @@
                         @endforelse
                     </tbody>
                 </table>
-
                 {{ $jobs->links() }}
-
             </div>
         </div>
     </section>

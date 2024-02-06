@@ -74,12 +74,12 @@
             </div> --}}
 
 
-            <div class="box-body">
+            <div class="box-body" style="overflow-x: scroll;">
                 <table class="table table-bordered table-striped table-hover text-center">
                     <thead>
                         <tr>
                             <th>No</th>
-                            <th>Job Title</th>
+                            <th style="width: 22%">Job Title</th>
                             <th>Company Name</th>
                             <th>Location</th>
                             <th>Salary</th>
