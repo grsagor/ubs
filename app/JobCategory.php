@@ -14,7 +14,6 @@ class JobCategory extends Model
     protected $primaryKey = 'id';
 
     protected $fillable = [
-        'business_id',
         'name',
         'slug',
         'description',

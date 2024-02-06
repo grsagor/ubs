@@ -13,24 +13,8 @@ class JobController extends Controller
 {
     public function index(Request $request)
     {
-        // if (auth()->user()->id != 5) {
-        //     // abort(403, 'Unauthorized action.');
-        //     $output = [
-        //         'success' => False,
-        //         'msg' => 'You are not allowed',
-        //     ];
-        //     return redirect()->back()->with('status', $output);
-        // }
-
         $user = Auth::user();
 
-        // if ($user->id == 5) {
-        //     $data['jobs'] = Job::query()
-        //         ->search($request)
-        //         ->with('appliedJobs')
-        //         ->latest()
-        //         ->paginate(10);
-        // } else {
         $data['jobs'] = Job::query()
             ->search($request)
             ->with('appliedJobs')
@@ -39,26 +23,12 @@ class JobController extends Controller
             })
             ->latest()
             ->paginate(10);
-        // }
-        // return $data;
 
         return view('backend.jobs.index', $data);
     }
 
     public function applicantList($jobID)
     {
-        // if (auth()->user()->id != 5) {
-        //     // abort(403, 'Unauthorized action.');
-        //     $output = [
-        //         'success' => False,
-        //         'msg' => 'You are not allowed',
-        //     ];
-        //     return redirect()->back()->with('status', $output);
-        // }
-
-        // $data['applicants'] = AppliedJob::where('job_id', $jobID)->with('JobId', 'recuimentId')->latest()
-        //     ->paginate(10);
-
         $data['job'] = Job::where('uuid', $jobID)->first();
         $data['applicants'] = AppliedJob::query()
             ->search(request()->get('search')) // Assuming a custom search scope or method is applied
@@ -68,21 +38,10 @@ class JobController extends Controller
             ->paginate(10); // Paginating the results
         // return $data;
         return view('backend.jobs.applicants_job', $data);
-
-        // return ($data);
     }
 
     public function create()
     {
-        // if (auth()->user()->id != 5) {
-        //     // abort(403, 'Unauthorized action.');
-        //     $output = [
-        //         'success' => False,
-        //         'msg' => 'You are not allowed',
-        //     ];
-        //     return redirect()->back()->with('status', $output);
-        // }
-
         $business_id = request()->session()->get('user.business_id');
 
         //Get all business locations
@@ -90,7 +49,6 @@ class JobController extends Controller
             ->get();
 
         $data['job_categories'] = JobCategory::query()
-            ->where('business_id', $business_id)
             ->active()
             ->get();
 
@@ -99,13 +57,9 @@ class JobController extends Controller
 
     public function store(Request $request, Job $job)
     {
-        // if (auth()->user()->id != 5) {
-        //     abort(403, 'Unauthorized action.');
-        // }
         try {
             $requestedData = $request->all();
 
-            // dd($request->toArray());
             $request->validate([
                 'company_information' => 'required',
                 'description' => 'required',
@@ -142,9 +96,6 @@ class JobController extends Controller
 
     public function edit($id)
     {
-        // if (auth()->user()->id != 5) {
-        //     abort(403, 'Unauthorized action.');
-        // }
         $data['job'] = Job::find($id);
 
         $business_id = request()->session()->get('user.business_id');
@@ -153,7 +104,6 @@ class JobController extends Controller
             ->get();
 
         $data['job_categories'] = JobCategory::query()
-            ->where('business_id', $business_id)
             ->active()
             ->get();
 
@@ -162,10 +112,6 @@ class JobController extends Controller
 
     public function update(Request $request, $id)
     {
-        // if (auth()->user()->id != 5) {
-        //     abort(403, 'Unauthorized action.');
-        // }
-
         try {
             $request->validate([
                 'description' => 'required',
