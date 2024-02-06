@@ -26,22 +26,19 @@
                     <a href="{{ request()->url() }}" class="btn btn-success">
                         <i class="fa fa-hands-wash"></i>Clear
                     </a>
-                    {{-- <a href="{{ route('recruitment.index') }}" class="btn btn-primary">
-                        <i class="fa fa-plus"></i> Add
-                    </a> --}}
                 </div>
             </div>
 
 
 
-            <div class="box-body">
+            <div class="box-body" style="overflow-x: scroll;">
 
                 <table class="table table-bordered table-striped table-hover">
                     <thead>
                         <tr>
                             <th>No.</th>
                             {{-- <th>Applied Jobs</th> --}}
-                            <th>Job Title</th>
+                            <th style="width: 22%">Job Title</th>
                             <th>Name</th>
                             <th>Phone</th>
                             <th>Email</th>

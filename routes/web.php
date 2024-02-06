@@ -117,7 +117,6 @@ use App\Http\Controllers\Frontend\CategoryController as FrontendCategoryControll
 
 include_once 'install_r.php';
 
-
 //Optimize Clear:
 Route::get('/route-optimize-clear', function () {
     Artisan::call('optimize:clear');
@@ -236,9 +235,6 @@ Route::get('/removecart/{id}', 'Front\CartController@removecart')->name('product
 // Route::get('/carts/coupon', 'Front\CouponController@coupon');
 // CART SECTION ENDS
 
-
-
-
 Route::middleware(['setData'])->group(function () {
 
     // Frontend Routes Start //
@@ -264,7 +260,6 @@ Route::middleware(['setData'])->group(function () {
     // Frontend Routes End //
 
     Auth::routes();
-
 
     Route::get('/business/register', [BusinessController::class, 'getRegister'])->name('business.getRegister');
     Route::post('/business/register', [BusinessController::class, 'postRegister'])->name('business.postRegister');
@@ -326,14 +321,13 @@ Route::middleware(['checkAdmin', 'SetSessionData'])->group(function () {
     Route::delete('shop-news/{id}', [NewsController::class, 'destroy'])->name('shop-news.destroy');
     Route::get('shop-news/status-change/{id}', [NewsController::class, 'statusChange'])->name('shop-news.statusChange');
 
-
-
     Route::resource('shop-marketing',                     MarketingController::class);
+
     Route::get('/applicant/index',         [RecruitmentController::class, 'index'])->name('recruitment.index');
     Route::get('/my-applications',         [RecruitmentController::class, 'myApplications'])->name('recruitment.myApplications');
     Route::get('/recruitment/show/{id}',   [RecruitmentController::class, 'show'])->name('recruitment.show');
 
-
+    // Job
     Route::get('/jobs',                     [JobController::class, 'index'])->name('jobs.index');
     Route::get('/jobs/create',              [JobController::class, 'create'])->name('jobs.create');
     Route::post('/jobs',                    [JobController::class, 'store'])->name('jobs.store');
@@ -342,7 +336,6 @@ Route::middleware(['checkAdmin', 'SetSessionData'])->group(function () {
     Route::delete('jobs/{id}',              [JobController::class, 'destroy'])->name('jobs.destroy');
 
     Route::get('jobs/{id}/applicant-list',  [JobController::class, 'applicantList'])->name('jobs.applicantList');
-
 
     // Job category
     Route::get('job-category',                              [JobCategoryController::class, 'index'])->name('job-category.index');
