@@ -353,8 +353,10 @@
                             <span>All Applicants</span></a></li>
                     <li><a href="{{ route('jobs.index') }}"><i class="fa fas fa-cogs"></i>
                             <span>Jobs</span></a></li>
-                    <li><a href="{{ route('job-category.index') }}"><i class="fa fas fa-cogs"></i>
-                            <span>Job Categories</span></a></li>
+                    @if (auth()->user()->id == 5)
+                        <li><a href="{{ route('job-category.index') }}"><i class="fa fas fa-cogs"></i>
+                                <span>Job Categories</span></a></li>
+                    @endif
                 </ul>
             </li>
 

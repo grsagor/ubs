@@ -25,11 +25,17 @@ class JobCategoryController extends Controller
 
     public function index(Request $request)
     {
-        $user = Auth::user();
+        if (auth()->user()->id != 5) {
+            // abort(403, 'Unauthorized action.');
+            $output = [
+                'success' => False,
+                'msg' => 'You are not allowed',
+            ];
+            return redirect()->back()->with('status', $output);
+        }
 
         $data['jobs'] = JobCategory::query()
             ->search($request)
-            ->where('business_id', $user->business_id)
             ->latest()
             ->paginate(10);
 
@@ -43,6 +49,14 @@ class JobCategoryController extends Controller
      */
     public function create()
     {
+        if (auth()->user()->id != 5) {
+            // abort(403, 'Unauthorized action.');
+            $output = [
+                'success' => False,
+                'msg' => 'You are not allowed',
+            ];
+            return redirect()->back()->with('status', $output);
+        }
         return view('backend.job_categories.create');
     }
     /**
@@ -53,10 +67,18 @@ class JobCategoryController extends Controller
      */
     public function store(Request $request, JobCategory $jobsCategory)
     {
+        if (auth()->user()->id != 5) {
+            // abort(403, 'Unauthorized action.');
+            $output = [
+                'success' => False,
+                'msg' => 'You are not allowed',
+            ];
+            return redirect()->back()->with('status', $output);
+        }
+
         try {
             $requestedData = $request->all();
 
-            $requestedData['business_id']   = Auth::user()->business_id;
             $requestedData['slug']          = Str::slug($request->name);
 
             $requestedData                  = $jobsCategory->fill($requestedData)->save();
@@ -77,6 +99,15 @@ class JobCategoryController extends Controller
 
     public function edit($id)
     {
+        if (auth()->user()->id != 5) {
+            // abort(403, 'Unauthorized action.');
+            $output = [
+                'success' => False,
+                'msg' => 'You are not allowed',
+            ];
+            return redirect()->back()->with('status', $output);
+        }
+
         $data = JobCategory::find($id);
         return view('backend.job_categories.edit', compact('data'));
     }
@@ -84,6 +115,15 @@ class JobCategoryController extends Controller
 
     public function update(Request $request, $id)
     {
+        if (auth()->user()->id != 5) {
+            // abort(403, 'Unauthorized action.');
+            $output = [
+                'success' => False,
+                'msg' => 'You are not allowed',
+            ];
+            return redirect()->back()->with('status', $output);
+        }
+
         try {
             // Find the NewsCategory by ID
             $newsCategory = JobCategory::find($id);
@@ -113,6 +153,15 @@ class JobCategoryController extends Controller
 
     public function statusChange($id)
     {
+        if (auth()->user()->id != 5) {
+            // abort(403, 'Unauthorized action.');
+            $output = [
+                'success' => False,
+                'msg' => 'You are not allowed',
+            ];
+            return redirect()->back()->with('status', $output);
+        }
+
         $data = JobCategory::find($id);
 
         return $this->curdService->statusChange($data, 'job-category.index', 'Status Change');
