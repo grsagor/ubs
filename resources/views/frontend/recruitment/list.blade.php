@@ -11,6 +11,10 @@
             color: black !important;
         }
 
+        .para-font {
+            font-size: 14px !important;
+        }
+
         .custom-card {
             border: none;
             border-radius: 10px;
@@ -25,23 +29,19 @@
         .card-design {
             background-color: #dedede;
             color: #212529;
-            /* Dark text color */
         }
 
         .card-title {
             color: #007bff;
-            font-size: 26px;
-            /* Blue title color */
+            font-size: 18px;
         }
 
         .card-subtitle {
             color: #6c757d;
-            /* Gray subtitle color */
         }
 
         .card-text {
             color: #495057;
-            /* Dark text color for other text */
         }
 
         .mobile-view {
@@ -63,8 +63,7 @@
 
             .card-title {
                 color: #007bff;
-                font-size: 22px;
-                /* Blue title color */
+                font-size: 18px;
             }
         }
     </style>
@@ -84,10 +83,13 @@
                                 <div class="row">
                                     <div class="col-md-9">
                                         <h4 class="card-title mb-0">{{ $item->title }}</h4>
-                                        <p class="card-text company-name color-black">{{ $item->company_name }}</p>
-                                        <p class="card-text mb-0 color-black">Employee Status: {{ $item->hour_type }}</p>
-                                        <p class="card-text mb-0 color-black">Job Type: {{ $item->job_type }}</p>
-                                        <p class="card-text color-black">
+                                        <p class="card-text mb-1 company-name color-black para-font">
+                                            {{ $item->company_name }}
+                                        </p>
+                                        <p class="card-text mb-0 color-black para-font">Employee Status:
+                                            {{ $item->hour_type }}</p>
+                                        <p class="card-text mb-0 color-black para-font">Job Type: {{ $item->job_type }}</p>
+                                        <p class="card-text color-black para-font">
                                             @if ($item->salary)
                                                 Salary: {{ $item->salary }}/{{ $item->salary_type }}
                                             @else
@@ -99,20 +101,20 @@
                                     <div class="col-md-3 text-center m-auto">
                                         @if ($item->businessLocation && $item->businessLocation->logo)
                                             <img src="{{ asset($item->businessLocation->logo) }}" alt=""
-                                                style="height: 110px">
+                                                style="height: 90px">
                                         @else
                                             <img src="https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg"
-                                                alt="" style="height: 110px">
+                                                alt="" style="height: 90px">
                                         @endif
                                     </div>
                                 </div>
 
-                                <div class="row mt-3">
+                                <div class="row mt-1">
                                     <div class="col-md-9">
-                                        <p class="card-text color-black">Location: {{ $item->location }}</p>
+                                        <p class="card-text color-black para-font">Location: {{ $item->location }}</p>
                                     </div>
                                     <div class="col-md-3 text-center">
-                                        <p class="card-text deadline color-black">Deadline:
+                                        <p class="card-text deadline color-black para-font">Deadline:
                                             {{ date('d.m.Y', strtotime($item->closing_date)) }}
                                         </p>
                                     </div>
@@ -137,19 +139,21 @@
                                     </div>
 
                                     <div class="col-md-12 mt-2">
-                                        <h4 class="card-title mb-0">{{ $item->title }}</h4>
-                                        <p class="card-text company-name color-black">{{ $item->company_name }}</p>
-                                        <p class="card-text mb-0 color-black">Employee Status: {{ $item->hour_type }}</p>
-                                        <p class="card-text mb-0 color-black">Job Type: {{ $item->job_type }}</p>
-                                        <p class="card-text color-black">
+                                        <h4 class="card-title mb-0 para-font">{{ $item->title }}</h4>
+                                        <p class="card-text company-name color-black para-font">{{ $item->company_name }}
+                                        </p>
+                                        <p class="card-text mb-0 color-black para-font">Employee Status:
+                                            {{ $item->hour_type }}</p>
+                                        <p class="card-text mb-0 color-black para-font">Job Type: {{ $item->job_type }}</p>
+                                        <p class="card-text color-black para-font">
                                             @if ($item->salary)
                                                 Salary: {{ $item->salary }}/{{ $item->salary_type }}
                                             @else
                                                 Salary: {{ $item->salary_type }}
                                             @endif
                                         </p>
-                                        <p class="card-text mb-0 color-black">Location: {{ $item->location }}</p>
-                                        <p class="card-text deadline color-black">Deadline:
+                                        <p class="card-text mb-0 color-black para-font">Location: {{ $item->location }}</p>
+                                        <p class="card-text deadline color-black para-font">Deadline:
                                             {{ date('d.m.Y', strtotime($item->closing_date)) }}
                                         </p>
                                     </div>
