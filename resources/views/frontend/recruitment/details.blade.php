@@ -82,7 +82,7 @@
             background: #F4F4F4;
             display: flex;
             flex-direction: column;
-            padding: 15px 20px;
+            padding: 15px 8px;
         }
 
         .requirements-card {
@@ -91,7 +91,7 @@
             background: #fcfcfc;
             display: flex;
             flex-direction: column;
-            padding: 15px 20px;
+            padding: 15px 8px;
         }
 
         .sectitle {
