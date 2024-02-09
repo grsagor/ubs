@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Job;
 use App\Country;
 use App\AppliedJob;
+use App\JobCategory;
 use App\Recruitment;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -20,6 +21,11 @@ class RecruitmentController extends Controller
     {
         $data['jobs'] =  Job::query()
             ->search($request)
+            ->active()
+            ->latest()
+            ->get();
+
+        $data['jobsCategory'] =  JobCategory::query()
             ->active()
             ->latest()
             ->get();
