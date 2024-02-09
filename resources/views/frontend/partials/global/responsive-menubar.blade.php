@@ -263,8 +263,9 @@
                             </div>
                         </nav>
                     </div>
-                    <a class="navbar-brand" href="{{ url('/') }}"><img class="nav-logo lazy"
-                            data-src="{{ asset('assets/images/logo.png') }}" alt="Image not found !"></a>
+                    <a class="navbar-brand" style="margin-right: -64px !important;" href="{{ url('/') }}"><img
+                            class="nav-logo lazy" data-src="{{ asset('assets/images/logo.png') }}"
+                            alt="Image not found !"></a>
                 </div>
             </div>
             <div class="col-xxl-3 col-xl-2 col-lg-2 col-0 order-lg-3">
@@ -306,7 +307,7 @@
                     </div>
                 @endif --}}
             </div>
-            <div class="col-xxl-7 col-xl-6 col-lg-6 col-12 order-lg-2 search-bar-mobile-view">
+            <div class="col-xxl-7 col-xl-6 col-lg-6 col-12 order-lg-2 search-bar-mobile-view d-none">
                 <div class="product-search-one">
                     <form id="searchForm" class="search-form form-inline search-pill-shape" action=""
                         method="GET">
