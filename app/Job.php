@@ -46,6 +46,23 @@ class Job extends Model
             ->orWhere('location', 'LIKE', '%' . $request->search . '%');
     }
 
+    public function scopeSearchFront($query, $request)
+    {
+        return $query->where('title', 'LIKE', '%' . $request->search . '%');
+
+        // return $query->when($search, function ($query) use ($search) {
+        //     $query->whereHas('job_category', function ($q) use ($search) {
+        //         $q->where('title', 'LIKE', '%' . $search . '%')
+        //             ->orWhere('company_name', 'LIKE', '%' . $search . '%')
+        //             ->orWhere('location', 'LIKE', '%' . $search . '%');
+        //     })
+        //         ->orWhereHas('recuimentId', function ($q) use ($search) {
+        //             $q->where('name', 'LIKE', '%' . $search . '%')
+        //                 ->orWhere('phone', 'LIKE', '%' . $search . '%');
+        //         });
+        // });
+    }
+
     public function createdBy()
     {
         return $this->belongsTo(User::class, 'created_by');

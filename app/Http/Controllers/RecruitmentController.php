@@ -20,7 +20,7 @@ class RecruitmentController extends Controller
     public function list(Request $request)
     {
         $data['jobs'] =  Job::query()
-            ->search($request)
+            ->searchFront($request)
             ->active()
             ->latest()
             ->get();
