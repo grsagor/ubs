@@ -46,21 +46,16 @@ class Job extends Model
             ->orWhere('location', 'LIKE', '%' . $request->search . '%');
     }
 
-    public function scopeSearchFront($query, $request)
+    public function scopeSearchAndFilter($query, $request)
     {
-        return $query->where('title', 'LIKE', '%' . $request->search . '%');
-
-        // return $query->when($search, function ($query) use ($search) {
-        //     $query->whereHas('job_category', function ($q) use ($search) {
-        //         $q->where('title', 'LIKE', '%' . $search . '%')
-        //             ->orWhere('company_name', 'LIKE', '%' . $search . '%')
-        //             ->orWhere('location', 'LIKE', '%' . $search . '%');
-        //     })
-        //         ->orWhereHas('recuimentId', function ($q) use ($search) {
-        //             $q->where('name', 'LIKE', '%' . $search . '%')
-        //                 ->orWhere('phone', 'LIKE', '%' . $search . '%');
-        //         });
-        // });
+        return $query->when($request->has('search'), function ($query) use ($request) {
+            $query->where('title', 'LIKE', '%' . $request->search . '%');
+        })
+            ->when($request->has('selectCategory'), function ($query) use ($request) {
+                $query->whereHas('job_category', function ($query) use ($request) {
+                    $query->where('id', $request->selectCategory);
+                });
+            });
     }
 
     public function createdBy()
