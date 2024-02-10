@@ -19,16 +19,21 @@ class RecruitmentController extends Controller
 
     public function list(Request $request)
     {
-        $data['jobs'] =  Job::query()
-            ->searchFront($request)
+        $data['jobs'] = Job::query()
+            ->active()
+            ->with('job_category')
+            ->latest()
+            ->searchAndFilter($request)
+            ->get();
+
+
+
+
+        $data['jobsCategory'] = JobCategory::query()
             ->active()
             ->latest()
             ->get();
 
-        $data['jobsCategory'] =  JobCategory::query()
-            ->active()
-            ->latest()
-            ->get();
         return view('frontend.recruitment.list', $data);
     }
 

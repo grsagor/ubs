@@ -94,20 +94,23 @@
                 <div class="col-xxl-12 col-xl-12 col-lg-12 col-12 order-lg-2">
                     <div class="product-search-one">
                         <form id="searchForm" class="search-form form-inline search-pill-shape" action="" method="GET">
-                            <div class="select-appearance-none categori-container mx-2 " id="typeSelectFormSticky">
-                                <select name="selectCategory" id="selectTypeSticky" class="form-control  type_select">
-                                    <option value=""> Select Category </option>
+                            <div class="select-appearance-none categori-container mx-2" id="typeSelectFormSticky">
+                                <select name="selectCategory" id="selectTypeSticky" class="form-control type_select">
+                                    <option value="">Select Category</option>
                                     @foreach ($jobsCategory as $jobCat)
-                                        <option value={{ $jobCat->id }}> {{ $jobCat->name }} </option>
+                                        <option value="{{ $jobCat->id }}"
+                                            {{ $jobCat->id == request('selectCategory') ? 'selected' : '' }}>
+                                            {{ $jobCat->name }}
+                                        </option>
                                     @endforeach
                                 </select>
                             </div>
-
                             <input type="text" id="prod_name2" class="col form-control search-field" name="search"
-                                placeholder="Search For" value="">
+                                placeholder="Search For" value="{{ request('search') }}">
                             <button type="submit" name="submit" class="search-submit"><i
                                     class="flaticon-search flat-mini text-white"></i></button>
                         </form>
+
                     </div>
                 </div>
 
@@ -127,6 +130,7 @@
                                                 <p class="card-text mb-1 company-name color-black para-font">
                                                     {{ $item->company_name }}
                                                 </p>
+                                                <span>{{ $item->job_category->name ?? '' }}</span>
                                                 <p class="card-text mb-0 color-black para-font">Employee
                                                     Status:
                                                     {{ $item->hour_type }}</p>
