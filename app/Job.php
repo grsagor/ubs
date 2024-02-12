@@ -46,17 +46,20 @@ class Job extends Model
             ->orWhere('location', 'LIKE', '%' . $request->search . '%');
     }
 
+
     public function scopeSearchAndFilter($query, $request)
     {
-        return $query->when($request->has('search'), function ($query) use ($request) {
-            $query->where('title', 'LIKE', '%' . $request->search . '%');
-        })
-            ->when($request->has('selectCategory'), function ($query) use ($request) {
-                $query->whereHas('job_category', function ($query) use ($request) {
-                    $query->where('id', $request->selectCategory);
-                });
-            });
+        if ($request->filled('selectCategory')) {
+            $query->where('job_category_id', $request->input('selectCategory'));
+        }
+
+        if ($request->filled('search')) {
+            $query->where('title', 'like', '%' . $request->input('search') . '%');
+        }
+
+        return $query;
     }
+
 
     public function createdBy()
     {
