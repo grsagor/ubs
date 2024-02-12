@@ -8,7 +8,7 @@
     </div>
 
     <div class="modal-body">
-{{--      <input type="hidden" name="category_type" value="{{$category_type}}">--}}
+     <input type="hidden" name="category_type" value="{{$category_type}}">
       @php
         $name_label = !empty($module_category_data['taxonomy_label']) ? $module_category_data['taxonomy_label'] : __( 'category.category_name' );
         $cat_code_enabled = isset($module_category_data['enable_taxonomy_code']) && !$module_category_data['enable_taxonomy_code'] ? false : true;
@@ -28,6 +28,13 @@
         <div class="form-group">
           {!! Form::label('parent_id', __( 'category.select_parent_category' ) . ':*') !!}
           {!! Form::select('parent_id', ['' => 'Select One'] + $parent_categories, null, ['class' => 'form-control', ($mode == 'sub_category' ? ' required' : '')]); !!}
+        </div>
+      @endif
+      @if($mode == "child_category")
+        <input type="hidden" name="add_as_sub_cat" value="1">
+        <div class="form-group">
+          {!! Form::label('parent_id', __( 'category.select_parent_category' ) . ':*') !!}
+          {!! Form::select('parent_id', ['' => 'Select One'] + $parent_categories, null, ['class' => 'form-control', ($mode == 'child_category' ? ' required' : '')]); !!}
         </div>
       @endif
       <div class="form-group">

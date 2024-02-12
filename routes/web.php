@@ -169,7 +169,7 @@ Route::get('/property-list-showing/{child_category_id?}', [PropertyController::c
 Route::get('/education-list', [EducationController::class, 'educationList'])->name('education.list');
 Route::get('/education-show/{id}', [EducationController::class, 'educationShow'])->name('education_show');
 
-Route::get('/service-list', [ServiceController::class, 'serviceList'])->name('service.list');
+Route::get('/service/list', [ServiceController::class, 'serviceList'])->name('service.list');
 Route::get('/service-create', [ServiceController::class, 'serviceCreate'])->name('service.create');
 Route::get('/get-subcategories/{category_id}', [ServiceController::class, 'getSubcategories'])->name('service.subCategory');
 Route::get('/get-child-subcategories/{category_id}', [ServiceController::class, 'getChildSubcategories'])->name('service.childSubCategory');
@@ -406,6 +406,11 @@ Route::middleware(['checkAdmin', 'SetSessionData'])->group(function () {
     Route::post('/products/toggle-woocommerce-sync', [ProductController::class, 'toggleWooCommerceSync']);
 
     Route::resource('products', ProductController::class);
+
+    Route::get('product/type/change', [ProductController::class, 'productTypeChange'])->name('product.type.change');
+    Route::get('product/category_id/change', [ProductController::class, 'productCategoryChange'])->name('product.category_id.change');
+    Route::get('product/sub_category/change', [ProductController::class, 'productSubcategoryChange'])->name('product.sub_category.change');
+
     Route::get('/toggle-subscription/{id}', 'SellPosController@toggleRecurringInvoices');
     Route::post('/sells/pos/get-types-of-service-details', 'SellPosController@getTypesOfServiceDetails');
     Route::get('/sells/subscriptions', 'SellPosController@listSubscriptions');

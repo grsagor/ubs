@@ -7,9 +7,9 @@
     <section class="content-header">
         <h1>@lang('product.add_new_product')</h1>
         <!-- <ol class="breadcrumb">
-            <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
-            <li class="active">Here</li>
-        </ol> -->
+                <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
+                <li class="active">Here</li>
+            </ol> -->
     </section>
 
     <!-- Main content -->
@@ -34,7 +34,7 @@
                             'type',
                             ['Product', 'Service'],
                             !empty($duplicate_product->type) ? $duplicate_product->type : null,
-                            ['class' => 'form-control select2', 'required'],
+                            ['class' => 'form-control select2', 'required', 'id'=> 'type'],
                         ) !!}
                     </div>
                 </div>
@@ -131,7 +131,7 @@
                             'category_id',
                             $categories,
                             !empty($duplicate_product->category_id) ? $duplicate_product->category_id : null,
-                            ['placeholder' => __('messages.please_select'), 'class' => 'form-control select2'],
+                            ['placeholder' => __('messages.please_select'), 'class' => 'form-control select2', 'id' => 'categoryy_id'],
                         ) !!}
                     </div>
                 </div>
@@ -145,6 +145,15 @@
                             !empty($duplicate_product->sub_category_id) ? $duplicate_product->sub_category_id : null,
                             ['placeholder' => __('messages.please_select'), 'class' => 'form-control select2'],
                         ) !!}
+                    </div>
+                </div>
+                <div class="col-sm-4 @if (!(session('business.enable_category') && session('business.enable_sub_category'))) hide @endif">
+                    <div class="form-group">
+                        <label for="child_category_id">Child Category:</label>
+                        <select class="form-control select2" id="child_category_id" name="child_category_id">
+                            <option selected="selected" value="">Please Select</option>
+                            <option value="127">Pascale Haney-Vero accusantium lau</option>
+                        </select>
                     </div>
                 </div>
 
@@ -685,7 +694,7 @@
 
                 <div class="clearfix"></div>
 
-                <div class="col-sm-4">
+                {{-- <div class="col-sm-4">
                     <div class="form-group">
                         {!! Form::label('type', __('product.product_type') . ':*') !!} @show_tooltip(__('tooltip.product_type'))
                         {!! Form::select('type', $product_types, !empty($duplicate_product->type) ? $duplicate_product->type : null, [
@@ -695,7 +704,8 @@
                             'data-product_id' => !empty($duplicate_product) ? $duplicate_product->id : '0',
                         ]) !!}
                     </div>
-                </div>
+                </div> --}}
+                <input type="hidden" name="type" value="single">
 
                 <div class="form-group col-sm-12" id="product_form_part">
                     @include('product.partials.single_product_form_part', [
@@ -774,14 +784,54 @@
             });*/
 
             $(document).on('change', '#is_discount', function() {
-              var value = $(this).val();
-              if (value == 1) {
-                $('#discount_amount').show();
-                $('#discount_amount input').prop('disabled', false);
-              } else {
-                $('#discount_amount').hide();
-                $('#discount_amount input').prop('disabled', true);
-              }
+                var value = $(this).val();
+                if (value == 1) {
+                    $('#discount_amount').show();
+                    $('#discount_amount input').prop('disabled', false);
+                } else {
+                    $('#discount_amount').hide();
+                    $('#discount_amount input').prop('disabled', true);
+                }
+            })
+
+            $(document).on('change', '#type', function() {
+                var type = $(this).val();
+                $.ajax({
+                    url: "{{ route('product.type.change') }}",
+                    type: "GET",
+                    data: {type: type},
+                    dataType: "html",
+                    success: function(html) {
+                        $('#categoryy_id').html(html);
+                        $('#sub_category_id').html('<option selected="selected" value="">Please Select</option>');
+                        $('#child_category_id').html('<option selected="selected" value="">Please Select</option>');
+                    }
+                })
+            })
+            $(document).on('change', '#categoryy_id', function() {
+                var category_id = $(this).val();
+                $.ajax({
+                    url: "{{ route('product.category_id.change') }}",
+                    type: "GET",
+                    data: {category_id: category_id},
+                    dataType: "html",
+                    success: function(html) {
+                        $('#sub_category_id').html(html);
+                        $('#child_category_id').html('<option selected="selected" value="">Please Select</option>');
+                    }
+                })
+            })
+            $(document).on('change', '#sub_category_id', function() {
+                var sub_category_id = $(this).val();
+                $.ajax({
+                    url: "{{ route('product.sub_category.change') }}",
+                    type: "GET",
+                    data: {sub_category_id: sub_category_id},
+                    dataType: "html",
+                    success: function(html) {
+                        $('#child_category_id').html(html);
+                    }
+                })
             })
         });
     </script>

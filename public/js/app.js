@@ -849,9 +849,6 @@ $(document).ready(function() {
         }
     });
     //Start: CRUD for products
-    $(document).on('change', '#category_id', function() {
-        get_sub_categories();
-    });
     $(document).on('change', '#unit_id', function() {
         get_sub_units();
     });

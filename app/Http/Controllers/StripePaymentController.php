@@ -28,25 +28,25 @@ class StripePaymentController extends Controller
             return redirect()->route('login');
         }
 
-        $data['product_id']             = session('product_id');
-        $data['product_name']           = session('product_name');
-        $data['plan']                   = session('plan');
-        // $data['bill']                   = session('bill');
-        $data['bill']                   = 10;
-        $data['service_charge_id']      = session('service_charge_id');
-        $data['child_category_id']      = session('child_category_id');
-        $data['table_name']             = session('table_name');
-        $data['upgrade']                = false;
-        $data['url']                    = false;
-        $data['type']                   = session('type');
-        $data['status']                 = session('output');
+        $data['product_id'] = session('product_id');
+        $data['product_name'] = session('product_name');
+        $data['plan'] = session('plan');
+        $data['bill']                   = session('bill');
+        $data['bill'] = 10;
+        $data['service_charge_id'] = session('service_charge_id');
+        $data['child_category_id'] = session('child_category_id');
+        $data['table_name'] = session('table_name');
+        $data['upgrade'] = false;
+        $data['url'] = false;
+        $data['type'] = session('type');
+        $data['status'] = session('output');
 
         if (session('upgrade')) {
-            $data['upgrade']            = true;
+            $data['upgrade'] = true;
         }
 
         if (session('url')) {
-            $data['url']                = session('url');
+            $data['url'] = session('url');
         }
 
         // return $data;
@@ -71,6 +71,6 @@ class StripePaymentController extends Controller
             'metadata' => $metadata,
         ]);
 
-        return $charge->id;
+        return "Success";
     }
 }

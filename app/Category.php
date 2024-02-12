@@ -20,7 +20,7 @@ class Category extends Model
      *
      * @var array
      */
-    protected $guarded = ['id'];
+    // protected $guarded = ['id'];
 
     /**
      * Combines Category and sub-category
@@ -28,6 +28,7 @@ class Category extends Model
      * @param  int  $business_id
      * @return array
      */
+    protected $fillable = ['name'];
     public static function catAndSubCategories($business_id)
     {
         $all_categories = Category::where('business_id', $business_id)

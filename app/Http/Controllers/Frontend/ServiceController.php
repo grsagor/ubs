@@ -3,37 +3,56 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\BusinessLocation;
+use App\Category;
+use App\ChildCategory;
 use App\Http\Controllers\Controller;
+use App\Product;
+use App\ResellingProduct;
 use App\ServiceCategory;
 use App\ServiceChildCategories;
 use App\ServiceEducation;
 use App\ServiceSubCategories;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class ServiceController extends Controller
 {
 
     public function serviceList(Request $request)
     {
+        $categories_id = Category::where('category_type', 'service')->get()->pluck('id');
         $data['per_page'] = 10;
+        $price = 200;
+        $products = Product::whereIn('category_id', $categories_id)->get();
+        if ($request->category_id) {
+            $products = Product::where('category_id', $request->category_id)->get();
+        }
+        if ($request->sub_category_id) {
+            $products = Product::where('sub_category_id', $request->sub_category_id)->get();
+        }
+        if ($request->child_category_id) {
+            $products = Product::where('child_category_id', $request->child_category_id)->get();
+        }
+        $data['products'] = $products->sortByDesc('updated_at')->values();
+        // $data['products'] = Product::active()->with('category')->latest();
 
-        $data['education']          = ServiceEducation::active()->select(
-            'id',
-            'course_name',
-            'price',
-            'institution_name',
-            'start_date',
-            'tuition_fee',
-            'images',
-            'description',
-            'created_at'
-        )
-            ->search($request)
-            ->latest()->paginate($data['per_page']);
+        if ($request->category_id !== null) {
+            $data['products'] = $data['products']->where('category_id', $request->category_id);
+            $data['sub_categories'] = Category::query()->where('parent_id', $request->category_id)->pluck('name', 'id');
+        }
+        if ($request->sub_category_id !== null) {
+            $data['products'] = $data['products']->where('sub_category_id', $request->sub_category_id);
+            $data['child_categories'] = Category::query()->where('parent_id', $request->sub_category_id)->pluck('name', 'id');
+        }
 
-        $data['service_categories'] = ServiceCategory::query()->pluck('name', 'id');
-        $data['service_sub_categories'] = ServiceSubCategories::query()->pluck('name', 'id');
-        $data['service_child_categories'] = ServiceChildCategories::query()->pluck('name', 'id');
+        $page = LengthAwarePaginator::resolveCurrentPage();
+        $perPage = $data['per_page'];
+        $currentPageItems = $products->slice(($page - 1) * $perPage, $perPage)->all();
+        
+        $data['products'] = new LengthAwarePaginator($currentPageItems, count($products), $perPage);
+        $data['products']->setPath(url()->current());
+        $data['categories'] = Category::query()->where([['category_type', 'service'], ['parent_id', 0]])->pluck('name', 'id');
+        $data['category_id'] = $request->category_id;
 
         return view('frontend.service.service_list', $data);
     }

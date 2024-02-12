@@ -81,37 +81,11 @@
                                     <ul class="product-categories">
                                         @foreach ($categories as $key=>$item)
                                             <li class="cat-item cat-parent">
-                                                <a href="{{ route('product.list', ['category_id' => @$key]) }}">
-                                                    <span class="{{ Route::currentRouteName() === 'product.list' && request()->category_id == $key ? 'text-danger' : ''}}">{{ $item }}</span>
+                                                <a href="{{ route('service.list', ['category_id' => @$key]) }}">
+                                                    <span class="{{ Route::currentRouteName() === 'service.list' && request()->category_id == $key ? 'text-danger' : ''}}">{{ $item }}</span>
                                                 </a>
                                             </li>
                                         @endforeach
-                                        {{--@foreach ($child_categories as $item)
-                                            <li class="cat-item cat-parent">
-                                                <a href="{{ route('property.list', ['sub_category_id' => @$sub_category_id, 'child_category_id' => $item->id]) }}">
-                                                    <span class="{{ Route::currentRouteName() === 'property.list' && request()->route('sub_category_id') == $sub_category_id && request()->route('child_category_id') == $item->id ? 'active_child_category' : '' }}">{{ $item->name }}</span>
-                                                </a>
-                                            </li>
-                                        @endforeach--}}
-
-                                        {{--<li class="cat-item cat-parent">
-                                            <a href="{{ route('property.list', ['sub_category_id' => 2]) }}"
-                                               class="category-link" id="cat">
-                                                <span
-                                                        class="{{ Route::currentRouteName() === 'property.list' && request()->route('sub_category_id') == 2 ? 'text-danger' : '' }}">Properties
-                                                    To Rent </span>
-                                            </a>
-                                        </li>
-
-                                        <li class="cat-item cat-parent">
-                                            <a href="{{ route('property.list', ['sub_category_id' => 1]) }}"
-                                               class="category-link" id="cat">
-                                                <span
-                                                        class="{{ Route::currentRouteName() === 'property.list' && request()->route('sub_category_id') == 1 ? 'text-danger' : '' }}">Properties
-                                                    Wanted</span>
-                                            </a>
-                                        </li>--}}
-
                                     </ul>
                                 </div>
 
@@ -127,21 +101,30 @@
                                         @if(@$sub_categories)
                                             @foreach ($sub_categories as $key=>$item)
                                                 <li class="cat-item cat-parent">
-                                                    <a href="{{ route('product.list', ['category_id' => @$category_id,'sub_category_id' => @$key]) }}">
-                                                        <span class="{{ Route::currentRouteName() === 'product.list' && request()->sub_category_id == $key ? 'text-danger' : ''}}">{{ $item }}</span>
+                                                    <a href="{{ route('service.list', ['category_id' => @$category_id,'sub_category_id' => @$key]) }}">
+                                                        <span class="{{ Route::currentRouteName() === 'service.list' && request()->sub_category_id == $key ? 'text-danger' : ''}}">{{ $item }}</span>
                                                     </a>
                                                 </li>
                                             @endforeach
                                         @endif
-                                        {{--@foreach ($child_categories as $item)
-                                            <li class="cat-item cat-parent">
-                                                <a
-                                                        href="{{ route('property.list', ['sub_category_id' => @$sub_category_id, 'child_category_id' => $item->id]) }}">
-                                                    <span
-                                                            class="{{ Route::currentRouteName() === 'property.list' && request()->route('sub_category_id') == $sub_category_id && request()->route('child_category_id') == $item->id ? 'active_child_category' : '' }}">{{ $item->name }}</span>
-                                                </a>
-                                            </li>
-                                        @endforeach--}}
+                                    </ul>
+                                </div>
+
+                                <div id="woocommerce_product_categories-4"
+                                     class="widget woocommerce widget_product_categories widget-toggle mb-3 mb-lg-0">
+
+                                    <h2 class="widget-title">Child-Categories</h2>
+
+                                    <ul>
+                                        @if(@$child_categories)
+                                            @foreach ($child_categories as $key=>$item)
+                                                <li class="cat-item cat-parent">
+                                                    <a href="{{ route('service.list', ['category_id' => @$category_id, 'sub_category_id' => @request()->sub_category_id, 'child_category_id' => @$key]) }}">
+                                                        <span class="{{ Route::currentRouteName() === 'service.list' && request()->child_category_id == $key ? 'text-danger' : ''}}">{{ $item }}</span>
+                                                    </a>
+                                                </li>
+                                            @endforeach
+                                        @endif
                                     </ul>
                                 </div>
 

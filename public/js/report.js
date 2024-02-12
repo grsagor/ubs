@@ -1123,7 +1123,7 @@ $(document).ready(function() {
     });
 
     if ($('table#lot_report').length == 1) {
-        $('#location_id, #category_id, #sub_category_id, #unit, #brand').change(function() {
+        $('#location_id, #unit, #brand').change(function() {
             lot_report.ajax.reload();
         });
     }
