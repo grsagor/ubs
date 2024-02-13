@@ -519,7 +519,7 @@ class ModuleUtil extends Util
      */
     public function getTaxonomyData($category_type)
     {
-        $category_types = ['product'];
+        $category_types = ['product', 'service'];
 
         $modules_data = $this->getModuleData('addTaxonomies');
         $module_data = [];

@@ -14,4 +14,9 @@ class PartnershipShop extends Model
     public function user(){
         return $this->hasOne(User::class, 'id', 'user_id');
     }
+
+    public function shop()
+    {
+        return $this->belongsTo(BusinessLocation::class, 'partnership_shop_id');
+    }
 }

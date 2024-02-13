@@ -42,6 +42,13 @@
             @slot('tool')
                 <div class="box-tools">
                     <button type="button" class="btn btn-block btn-primary btn-modal"
+                            data-href="{{action([\App\Http\Controllers\TaxonomyController::class, 'create'])}}?type={{request()->get('type')}}&mode=child_category"
+                            data-container=".child_category_modal" style="margin-left: 8px;">
+                        <i class="fa fa-plus"></i> Child-Category</button>
+                </div>
+
+                <div class="box-tools">
+                    <button type="button" class="btn btn-block btn-primary btn-modal"
                             data-href="{{action([\App\Http\Controllers\TaxonomyController::class, 'create'])}}?type={{request()->get('type')}}&mode=sub_category"
                             data-container=".sub_category_modal" style="margin-left: 4px;">
                         <i class="fa fa-plus"></i> Sub-Category</button>
@@ -77,6 +84,10 @@
     </div>
 
     <div class="modal fade sub_category_modal" tabindex="-1" role="dialog"
+    	aria-labelledby="gridSystemModalLabel">
+    </div>
+
+    <div class="modal fade child_category_modal" tabindex="-1" role="dialog"
     	aria-labelledby="gridSystemModalLabel">
     </div>
 

@@ -61,9 +61,12 @@
                                 </ul>
                             </li>
 
-                            <li class="nav-item {{ request()->routeIs('product.list') ? 'active' : '' }}">
-                                <a class="nav-link" href="{{ route('product.list') }}">Product</a>
+                            <li class="nav-item {{ request()->routeIs('service.list') ? 'active' : '' }}">
+                                <a class="nav-link" href="{{ route('service.list') }}">Service</a>
                             </li>
+                            {{-- <li class="nav-item {{ request()->routeIs('product.list') ? 'active' : '' }}">
+                                <a class="nav-link" href="{{ route('product.list') }}">Product</a>
+                            </li> --}}
 
                             <li class="nav-item {{ request()->routeIs('shop.list') ? 'active' : '' }}">
                                 <a class="nav-link" href="{{ route('shop.list') }}">Shop</a>
@@ -181,25 +184,7 @@
                                                     </li>
 
                                                     <li class="nav-item dropdown">
-                                                        <a class="nav-link dropdown-toggle"
-                                                            href="#">Property</a>
-                                                        <ul class="dropdown-menu">
-                                                            <li><a class="dropdown-item"
-                                                                    href="{{ route('property.list') }}">Property</a>
-                                                            </li>
-                                                            <li><a class="dropdown-item"
-                                                                    href="{{ route('propertyFindingService') }}">Property
-                                                                    Finding Service</a>
-                                                            </li>
-                                                            <li><a class="dropdown-item"
-                                                                    href="{{ route('landlordeService') }}">Landlord
-                                                                    Service</a>
-                                                            </li>
-                                                            <li><a class="dropdown-item"
-                                                                    href="{{ route('tenant_management_service') }}">Tenant
-                                                                    Management Service</a>
-                                                            </li>
-                                                        </ul>
+                                                        <a class="nav-link" href="{{ route('service.list') }}">Service</a>
                                                     </li>
 
                                                     <li class="nav-item">
