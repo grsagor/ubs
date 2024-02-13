@@ -8,19 +8,79 @@
         }
 
         .color-black {
-            color: black;
+            color: black !important;
         }
 
-        .text-justify {
-            text-align: justify;
+        .para-font {
+            font-size: 14px !important;
         }
 
-        ul {
-            color: black;
+        .custom-card {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease-in-out;
         }
 
-        span {
-            font-size: 22px;
+        .card-body {
+            padding: 20px;
+        }
+
+        .card-design {
+            background-color: #dedede;
+            color: #212529;
+        }
+
+        .card-title {
+            color: #007bff;
+            font-size: 18px;
+        }
+
+        .card-subtitle {
+            color: #6c757d;
+        }
+
+        .card-text {
+            color: #495057;
+        }
+
+        .mobile-view {
+            display: none;
+        }
+
+        .laptop-view {
+            display: block;
+        }
+
+        .type_select {
+            width: 180px !important;
+        }
+
+        .product-search-one {
+            padding: 9px;
+        }
+
+        @media (max-width: 767px) {
+            .mobile-view {
+                display: block;
+            }
+
+            .laptop-view {
+                display: none;
+            }
+
+            .card-title {
+                color: #007bff;
+                font-size: 18px;
+            }
+
+            .select-appearance-none {
+                display: block !important;
+            }
+
+            .type_select {
+                width: 130px !important;
+            }
         }
     </style>
 @endsection
@@ -28,222 +88,150 @@
     @includeIf('frontend.partials.global.common-header')
 
     <div class="container">
-        <h2>Care Assistant</h2>
+        <div class="row">
+            <div class="col-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 all_list mb-0">
 
-        <ul style="list-style-type: disc;">
-            <li>Posting date: 06 January 2024</li>
-            <li>Job details</li>
-            <li>Posting date: 06 January 2024</li>
-            <li>Hours: Full time</li>
-            <li>Closing date: 05 February 2024</li>
-            <li>Location: Hampshire, South East England</li>
-            <li>Company: Care2 Training</li>
-            <li>Job type: Permanent</li>
-            <li>Job reference:</li>
-        </ul>
+                <div class="col-xxl-12 col-xl-12 col-lg-12 col-12 order-lg-2">
+                    <div class="product-search-one">
+                        <form id="searchForm" class="search-form form-inline search-pill-shape" action="" method="GET">
+                            <div class="select-appearance-none categori-container mx-2" id="typeSelectFormSticky">
+                                <select name="selectCategory" id="selectTypeSticky" class="form-control type_select">
+                                    <option value="">Select Category</option>
+                                    @foreach ($jobsCategory as $jobCat)
+                                        <option value="{{ $jobCat->id }}"
+                                            {{ $jobCat->id == request('selectCategory') ? 'selected' : '' }}>
+                                            {{ $jobCat->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <input type="text" id="prod_name2" class="col form-control search-field" name="search"
+                                placeholder="Search For" value="{{ request('search') }}">
+                            <button type="submit" name="submit" class="search-submit"><i
+                                    class="flaticon-search flat-mini text-white"></i></button>
+                        </form>
 
-        <div style="margin-top: 10px;">
-            <button onclick="applyForJob()" type="button" class="btn btn-dark">Apply for this job</button>
+                    </div>
+                </div>
+
+                {{-- Job List --}}
+                @if (count($jobs) > 0)
+                    @foreach ($jobs as $item)
+                        <div class="col-md-12 mt-2 p-2">
+                            <a href="{{ route('recruitment.details', ['id' => $item->uuid]) }}" target="_blank"
+                                class="card-link">
+
+                                {{-- Laptop view --}}
+                                <div class="card custom-card card-design laptop-view">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-9">
+                                                <h4 class="card-title mb-0">{{ $item->title }}</h4>
+                                                <p class="card-text mb-1 company-name color-black para-font">
+                                                    {{ $item->company_name }}
+                                                </p>
+                                                <span>{{ $item->job_category->name ?? '' }}</span>
+                                                <p class="card-text mb-0 color-black para-font">Employee
+                                                    Status:
+                                                    {{ $item->hour_type }}</p>
+                                                <p class="card-text mb-0 color-black para-font">Job Type:
+                                                    {{ $item->job_type }}</p>
+                                                <p class="card-text color-black para-font">
+                                                    @if ($item->salary)
+                                                        Salary:
+                                                        {{ $item->salary }}/{{ $item->salary_type }}
+                                                    @else
+                                                        Salary: {{ $item->salary_type }}
+                                                    @endif
+                                                </p>
+                                            </div>
+
+                                            <div class="col-md-3 text-center m-auto">
+                                                @if ($item->businessLocation && $item->businessLocation->logo)
+                                                    <img src="{{ asset($item->businessLocation->logo) }}" alt=""
+                                                        style="height: 90px">
+                                                @else
+                                                    <img src="https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg"
+                                                        alt="" style="height: 90px">
+                                                @endif
+                                            </div>
+                                        </div>
+
+                                        <div class="row mt-1">
+                                            <div class="col-md-9">
+                                                <p class="card-text color-black para-font">Location:
+                                                    {{ $item->location }}</p>
+                                            </div>
+                                            <div class="col-md-3 text-center">
+                                                <p class="card-text deadline color-black para-font">
+                                                    Deadline:
+                                                    {{ date('d.m.Y', strtotime($item->closing_date)) }}
+                                                </p>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                {{-- Mobile view --}}
+                                <div class="card custom-card card-design mobile-view">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-12 text-center m-auto">
+                                                @if ($item->businessLocation && $item->businessLocation->logo)
+                                                    <img src="{{ asset($item->businessLocation->logo) }}" alt=""
+                                                        style="height: 110px">
+                                                @else
+                                                    <img src="https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg"
+                                                        alt="" style="width: 45% !important;">
+                                                @endif
+                                            </div>
+
+                                            <div class="col-md-12 mt-2">
+                                                <h4 class="card-title mb-0 para-font">{{ $item->title }}
+                                                </h4>
+                                                <p class="card-text company-name color-black para-font">
+                                                    {{ $item->company_name }}
+                                                </p>
+                                                <p class="card-text mb-0 color-black para-font">Employee
+                                                    Status:
+                                                    {{ $item->hour_type }}</p>
+                                                <p class="card-text mb-0 color-black para-font">Job Type:
+                                                    {{ $item->job_type }}
+                                                </p>
+                                                <p class="card-text color-black para-font">
+                                                    @if ($item->salary)
+                                                        Salary:
+                                                        {{ $item->salary }}/{{ $item->salary_type }}
+                                                    @else
+                                                        Salary: {{ $item->salary_type }}
+                                                    @endif
+                                                </p>
+                                                <p class="card-text mb-0 color-black para-font">Location:
+                                                    {{ $item->location }}
+                                                </p>
+                                                <p class="card-text deadline color-black para-font">
+                                                    Deadline:
+                                                    {{ date('d.m.Y', strtotime($item->closing_date)) }}
+                                                </p>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    @endforeach
+                @else
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="page-center">
+                                <h4 class="text-center">{{ 'No Jobs Found.' }}</h4>
+                            </div>
+                        </div>
+                    </div>
+                @endif
+            </div>
         </div>
-
-        <p class="color-black" style="margin-top: 10px;">
-            <span style="font-size: 22px;"><b>Summary</b></span><br>
-            Health Care Assistant - Days & Nights<br>
-            CARE2 TRAINING LIMITED – London<br>
-            Job Location: Hampshire County Council
-        </p>
-
-        <p class="color-black"><i>Health Care Assistant</i> (Must have 6 months experience in the UK)</p>
-
-        <div class="color-black text-justify mb-3">
-            <p style="margin-bottom: 0px;"><b>Job Description:</b></p>
-            Care2 Training is looking for a compassionate and dedicated Health Care Assistant to join our team in
-            providing
-            care and support to residents in our care homes that we are currently supplying. The ideal candidate will be
-            passionate about providing high-quality care and will have experience working in a similar role.
-        </div>
-
-        <div class="color-black mb-3">
-            <p style="margin-bottom: 0px;"><b>Responsibilities:</b></p>
-            <ul>
-                <li>Assisting residents with personal care tasks, such as washing, dressing, and toileting</li>
-                <li>Supporting residents with mobility and other physical needs</li>
-                <li>Administering medication as directed by medical staff</li>
-                <li>Assisting with meal preparation and feeding</li>
-                <li>Keeping accurate records of care provided</li>
-                <li>Building strong relationships with residents and their families</li>
-                <li>Maintaining a clean and safe environment for residents</li>
-            </ul>
-        </div>
-
-        <div class="color-black mb-3">
-            <p style="margin-bottom: 0px;"><b>Requirements:</b></p>
-            <ul>
-                <li>Previous experience working as a Health Care Assistant in a care home setting</li>
-                <li>Mandatory and Statutory training
-                <li>Moving & Handling (Theory and Practical)</li>
-                <li>Fire Safety</li>
-                </li>
-                <li>Excellent communication and interpersonal skills</li>
-                <li>Ability to work well as part of a team</li>
-                <li>A compassionate and caring nature</li>
-                <li>Ability to work flexible hours, including weekends and evenings</li>
-            </ul>
-        </div>
-
-        <div class="color-black text-justify mb-3">
-            <p style="margin-bottom: 0px;"><b> As a recruitment agency, we require all our candidates to provide us with
-                    certain compliance documents to
-                    ensure
-                    that they meet our standards. These documents include:</b></p>
-            <ul>
-                <li>Scanned Colour Passport or Visa</li>
-                <li>Passport Sized Photo</li>
-                <li>CV (Up to date - with Healthcare work experience)</li>
-            </ul>
-        </div>
-
-        <div class="color-black text-justify mb-3">
-            <p style="margin-bottom: 0px;">
-                <b> *Please ensure that you have all these documents and training completed before applying for the
-                    position. We do
-                    not provide sponsorship for visas, but we can place workers in our company even if they are sponsored by
-                    a
-                    different company, as they’ll still be allowed to work outside their contractual hours with their
-                    sponsored
-                    company.
-                </b>
-            </p>
-        </div>
-
-        <div class="color-black mb-3">
-            <p style="margin-bottom: 0px;">
-                <b> If you're interested in this position, please submit your CV to. We look forward to hearing from you!
-                </b>
-            </p>
-        </div>
-
-        <div class="color-black mb-3">
-            <p style="margin-bottom: 0px;">
-                <b>Job Types:</b> Full-time, Part-time, Permanent
-                <br>
-                <b>Job Types:</b> Full-time, Part-time, Permanent
-                <br>
-                <b>Salary:</b> £11.00-£15.00 per hour
-                <br>
-                <b>Expected hours:</b> 20 – 50 per week
-            </p>
-        </div>
-
-        <div class="color-black mb-3">
-            <p style="margin-bottom: 0px;">
-                <b>Benefits: </b>
-            </p>
-            <ul>
-                <li>Company pension</li>
-                <li>Flexitime</li>
-                <li>On-site parking</li>
-                <li>Referral programme</li>
-            </ul>
-        </div>
-
-        <div class="color-black mb-3">
-            <p style="margin-bottom: 0px;">
-                <b>Schedule: </b>
-            </p>
-            <ul>
-                <li>10-hour shift</li>
-                <li>Weekend availability</li>
-            </ul>
-        </div>
-
-        <div class="color-black mb-3">
-            <p style="margin-bottom: 0px;">
-                <b>Supplemental pay types: </b>
-            </p>
-            <ul>
-                <li>Performance bonus</li>
-                <li>Quarterly bonus</li>
-            </ul>
-        </div>
-
-        <div class="color-black mb-3">
-            <p style="margin-bottom: 0px;">
-                <b>Ability to commute/relocate:: </b>
-            </p>
-            <ul>
-                <li>England: reliably commute or plan to relocate before starting work (required)</li>
-            </ul>
-        </div>
-
-        <div class="color-black mb-3">
-            <p style="margin-bottom: 0px;">
-                <b>Application question(s): </b>
-            </p>
-            <ul>
-                <li>You must have all the qualifications and compliance in order to apply for the position</li>
-            </ul>
-        </div>
-
-        <div class="color-black mb-3">
-            <p style="margin-bottom: 0px;">
-                <b>Education: </b>
-            </p>
-            <ul>
-                <li>GCSE or equivalent (preferred)</li>
-            </ul>
-        </div>
-
-        <div class="color-black mb-3">
-            <p style="margin-bottom: 0px;">
-                <b>Experience: </b>
-            </p>
-            <ul>
-                <li>Care home (required)</li>
-                <li>Home care (preferred)</li>
-                <li>Min 1 year (preferred)</li>
-            </ul>
-        </div>
-
-        <div class="color-black mb-3">
-            <p style="margin-bottom: 0px;">
-                <b>Language: </b>
-            </p>
-            <ul>
-                <li>English (preferred)</li>
-            </ul>
-        </div>
-
-        <div class="color-black mb-3">
-            <p style="margin-bottom: 0px;">
-                <b>Licence/Certification: </b>
-            </p>
-            <ul>
-                <li>Driving Licence (preferred)</li>
-            </ul>
-        </div>
-
-        <div class="color-black mb-3">
-            <p style="margin-bottom: 0px;">
-                <b>Work Location: </b>
-            </p>
-            <ul>
-                <li>Hampshire</li>
-            </ul>
-        </div>
-
     </div>
-
-    <script>
-        function applyForJob() {
-            // Check if the user is authenticated
-            @auth
-            window.location.href = "{{ route('recruitment.create') }}";
-        @else
-            // If not authenticated, show a Toastr message
-            window.location.href = "{{ route('login') }}";
-            // toastr.warning('Please login to apply for the job.');
-        @endauth
-        }
-    </script>
 @endsection

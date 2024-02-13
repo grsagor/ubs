@@ -337,18 +337,47 @@
             <li><a href="{{ url('woocommerce') }}"><i class="fab fa-wordpress"></i>
                     <span style="margin-left: 10px;">Woocommerce</span></a></li>
 
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fas fa-cog"></i> <span>Jobs</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="{{ route('recruitment.myApplications') }}">
+                            <i class="fa fas fa-cogs"></i>
+                            <span>My Applications</span></a>
+                    </li>
+                    <li><a href="{{ route('recruitment.index') }}"><i class="fa fas fa-cogs"></i>
+                            <span>All Applicants</span></a></li>
+                    <li><a href="{{ route('jobs.index') }}"><i class="fa fas fa-cogs"></i>
+                            <span>Jobs</span></a></li>
+                    @if (auth()->user()->id == 5)
+                        <li><a href="{{ route('job-category.index') }}"><i class="fa fas fa-cogs"></i>
+                                <span>Job Categories</span></a></li>
+                    @endif
+                </ul>
+            </li>
+
             @if (auth()->user()->id == 5)
-                <li><a href="{{ route('recruitment.index') }}"><i class="fa fa-calendar"></i>
-                        <span>Job</span></a>
-                </li>
                 <li><a href="{{ route('footer.index') }}"><i class="fa fa-asterisk"></i>
                         <span>Footer/Menu</span></a>
                 </li>
             @endif
 
-
-
-
+            {{-- <li><a href="{{ route('shop-news.index') }}"><i class="fa fa-newspaper"></i>
+                    <span>News</span></a>
+            </li>
+            <li><a href="{{ route('shop-news-category.index') }}"><i class="fa fa-list-alt"></i>
+                    <span>Category For News</span></a>
+            </li>
+            <li><a href="{{ route('shop-marketing.index') }}"><i class="fa fa-bullhorn"></i>
+                    <span>Marketing</span></a>
+            </li>
+            <li><a href="{{ route('shop-marketing-category.index') }}"><i class="fa fa-list-alt"></i>
+                    <span>Category For Marketing</span></a>
+            </li> --}}
         </ul>
         <!-- /.sidebar-menu -->
     </section>

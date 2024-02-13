@@ -20,20 +20,20 @@ class Recruitment extends Model
     protected $fillable = [
         'uuid',
         'job_id',
-        'user_id',
         'name',
         'phone',
         'email',
         'current_address',
         'country_residence',
         'birth_country',
+        'educations',
         'experiences',
         'salary_type',
         'expected_salary',
         'cv',
         'dbs_check',
         'care_certificates',
-        'additional_certificates',
+        'additional_files',
         'cover_letter',
         'status',
     ];
@@ -61,5 +61,15 @@ class Recruitment extends Model
     public function birthCountry()
     {
         return $this->belongsTo(Country::class, 'birth_country');
+    }
+
+    public function createdBy()
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
+
+    public function appliedJobs()
+    {
+        return $this->hasMany(AppliedJob::class, 'recruitment_id', 'uuid');
     }
 }

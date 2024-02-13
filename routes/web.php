@@ -4,8 +4,10 @@ include 'customer.php';
 use App\Http\Controllers\Install;
 use App\Http\Controllers\Restaurant;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\JobController;
 use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\NewsController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SellController;
 use App\Http\Controllers\UnitController;
@@ -22,8 +24,8 @@ use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\PrinterController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SellPosController;
-use App\Http\Controllers\TaxRateController;
 // use App\Http\Controllers\Auth;
+use App\Http\Controllers\TaxRateController;
 use App\Http\Controllers\BusinessController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DiscountController;
@@ -31,6 +33,7 @@ use App\Http\Controllers\GroupTaxController;
 use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\TaxonomyController;
 use App\Http\Controllers\WarrantyController;
+use App\Http\Controllers\MarketingController;
 use App\Http\Controllers\ShopShareController;
 use App\Http\Controllers\ManageUserController;
 use App\Http\Controllers\RoomToRentController;
@@ -38,8 +41,10 @@ use App\Http\Controllers\SalesOrderController;
 use App\Http\Controllers\SellReturnController;
 use App\Http\Controllers\AccountTypeController;
 use App\Http\Controllers\ImportSalesController;
+use App\Http\Controllers\JobCategoryController;
 use App\Http\Controllers\RecruitmentController;
 use App\Http\Controllers\CashRegisterController;
+use App\Http\Controllers\NewsCategoryController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\OpeningStockController;
 use App\Http\Controllers\CustomerGroupController;
@@ -47,11 +52,13 @@ use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Frontend\ShopController;
 use App\Http\Controllers\InvoiceLayoutController;
 use App\Http\Controllers\InvoiceSchemeController;
+use App\Http\Controllers\NewsMarketingController;
+// use App\Http\Controllers\Auth;
 use App\Http\Controllers\PurchaseOrderController;
 use App\Http\Controllers\StockTransferController;
+// use App\Http\Controllers\Auth;
 use App\Http\Controllers\StripePaymentController;
 use App\Http\Controllers\AccountReportsController;
-// use App\Http\Controllers\Auth;
 use App\Http\Controllers\Backend\FooterController;
 use App\Http\Controllers\ImportProductsController;
 use App\Http\Controllers\LedgerDiscountController;
@@ -68,18 +75,23 @@ use App\Http\Controllers\Frontend\FrontendController;
 use App\Http\Controllers\Frontend\HomePageController;
 use App\Http\Controllers\Frontend\PropertyController;
 use App\Http\Controllers\Frontend\RoomListController;
-use App\Http\Controllers\SellingPriceGroupController;
-use App\Http\Controllers\VariationTemplateController;
-use App\Http\Controllers\Frontend\EducationController;
-use App\Http\Controllers\ImportOpeningStockController;
-use App\Http\Controllers\TransactionPaymentController;
+use App\Http\Controllers\MarketingCategoryController;
 
 // use App\Http\Controllers\DashboardConfiguratorController;    
 
-use App\Http\Controllers\Frontend\RoomWantedController;
+use App\Http\Controllers\SellingPriceGroupController;
 
 // use App\Http\Controllers\CombinedPurchaseReturnController;
 
+use App\Http\Controllers\VariationTemplateController;
+use App\Http\Controllers\Frontend\EducationController;
+use App\Http\Controllers\ImportOpeningStockController;
+
+// use App\Http\Controllers\DashboardConfiguratorController;    
+// use App\Http\Controllers\CombinedPurchaseReturnController;
+
+use App\Http\Controllers\TransactionPaymentController;
+use App\Http\Controllers\Frontend\RoomWantedController;
 use App\Http\Controllers\PurchaseRequisitionController;
 use App\Http\Controllers\NotificationTemplateController;
 use App\Http\Controllers\SalesCommissionAgentController;
@@ -104,7 +116,6 @@ use App\Http\Controllers\Frontend\CategoryController as FrontendCategoryControll
 */
 
 include_once 'install_r.php';
-
 
 //Optimize Clear:
 Route::get('/route-optimize-clear', function () {
@@ -150,8 +161,12 @@ Route::get('/it-solutions',                                         [FrontendCon
 Route::get('/partner-boarding',                                     [FrontendController::class, 'partner_boarding'])->name('partnerBoarding');
 
 Route::get('/recruitment/list',                                      [RecruitmentController::class, 'list'])->name('recruitment.list');
-Route::get('/recruitment',                                           [RecruitmentController::class, 'create'])->name('recruitment.create');
+Route::get('/recruitment/{id}',                                      [RecruitmentController::class, 'details'])->name('recruitment.details');
+Route::get('/recruitment/create/{id}',                               [RecruitmentController::class, 'create'])->name('recruitment.create');
 Route::post('/recruitment',                                          [RecruitmentController::class, 'store'])->name('recruitment.store');
+Route::get('/recruitment-success',                                   [RecruitmentController::class, 'success'])->name('recruitment.success');
+Route::get('/recruitment-userCheck/{jobID}',                         [RecruitmentController::class, 'userCheck'])->name('recruitment.userCheck');
+Route::post('/recruitment/applyJob/{jobID}',                         [RecruitmentController::class, 'applyJob'])->name('recruitment.applyJob');
 
 // Services
 Route::get('/room-list/', [RoomListController::class, 'roomList'])->name('room.list');
@@ -220,9 +235,6 @@ Route::get('/removecart/{id}', 'Front\CartController@removecart')->name('product
 // Route::get('/carts/coupon', 'Front\CouponController@coupon');
 // CART SECTION ENDS
 
-
-
-
 Route::middleware(['setData'])->group(function () {
 
     // Frontend Routes Start //
@@ -248,7 +260,6 @@ Route::middleware(['setData'])->group(function () {
     // Frontend Routes End //
 
     Auth::routes();
-
 
     Route::get('/business/register', [BusinessController::class, 'getRegister'])->name('business.getRegister');
     Route::post('/business/register', [BusinessController::class, 'postRegister'])->name('business.postRegister');
@@ -280,8 +291,61 @@ Route::middleware(['checkAdmin', 'SetSessionData'])->group(function () {
     Route::get('/footer/{id}/edit',        [FooterController::class, 'edit'])->name('footer.edit');
     Route::put('/footer/{id}',             [FooterController::class, 'update'])->name('footer.update');
 
-    Route::get('/recruitment/index',       [RecruitmentController::class, 'index'])->name('recruitment.index');
+    // Shop news category
+    Route::get('shop-news-category', [NewsCategoryController::class, 'index'])->name('shop-news-category.index');
+    Route::get('shop-news-category/create', [NewsCategoryController::class, 'create'])->name('shop-news-category.create');
+    Route::post('shop-news-category', [NewsCategoryController::class, 'store'])->name('shop-news-category.store');
+    Route::get('shop-news-category/{id}', [NewsCategoryController::class, 'show'])->name('shop-news-category.show');
+    Route::get('shop-news-category/{id}/edit', [NewsCategoryController::class, 'edit'])->name('shop-news-category.edit');
+    Route::put('shop-news-category/{id}', [NewsCategoryController::class, 'update'])->name('shop-news-category.update');
+    Route::delete('shop-news-category/{id}', [NewsCategoryController::class, 'destroy'])->name('shop-news-category.destroy');
+    Route::get('shop-news-cactegory/status-change/{id}', [NewsCategoryController::class, 'statusChange'])->name('shop-news-category.statusChange');
+
+    // Shop marketing category
+    Route::get('shop-marketing-category', [MarketingCategoryController::class, 'index'])->name('shop-marketing-category.index');
+    Route::get('shop-marketing-category/create', [MarketingCategoryController::class, 'create'])->name('shop-marketing-category.create');
+    Route::post('shop-marketing-category', [MarketingCategoryController::class, 'store'])->name('shop-marketing-category.store');
+    Route::get('shop-marketing-category/{id}', [MarketingCategoryController::class, 'show'])->name('shop-news-category.show');
+    Route::get('shop-marketing-category/{id}/edit', [MarketingCategoryController::class, 'edit'])->name('shop-marketing-category.edit');
+    Route::put('shop-nemarketingws-category/{id}', [MarketingCategoryController::class, 'update'])->name('shop-marketing-category.update');
+    Route::delete('shop-marketing-category/{id}', [MarketingCategoryController::class, 'destroy'])->name('shop-marketing-category.destroy');
+    Route::get('shop-marketing-cactegory/status-change/{id}', [MarketingCategoryController::class, 'statusChange'])->name('shop-marketing-category.statusChange');
+
+    // News
+    Route::get('shop-news', [NewsController::class, 'index'])->name('shop-news.index');
+    Route::get('shop-news/create', [NewsController::class, 'create'])->name('shop-news.create');
+    Route::post('shop-news', [NewsController::class, 'store'])->name('shop-news.store');
+    Route::get('shop-news/{id}', [NewsController::class, 'show'])->name('shop-news.show');
+    Route::get('shop-news/{id}/edit', [NewsController::class, 'edit'])->name('shop-news.edit');
+    Route::put('shop-news/{id}', [NewsController::class, 'update'])->name('shop-news.update');
+    Route::delete('shop-news/{id}', [NewsController::class, 'destroy'])->name('shop-news.destroy');
+    Route::get('shop-news/status-change/{id}', [NewsController::class, 'statusChange'])->name('shop-news.statusChange');
+
+    Route::resource('shop-marketing',                     MarketingController::class);
+
+    Route::get('/applicant/index',         [RecruitmentController::class, 'index'])->name('recruitment.index');
+    Route::get('/my-applications',         [RecruitmentController::class, 'myApplications'])->name('recruitment.myApplications');
     Route::get('/recruitment/show/{id}',   [RecruitmentController::class, 'show'])->name('recruitment.show');
+
+    // Job
+    Route::get('/jobs',                     [JobController::class, 'index'])->name('jobs.index');
+    Route::get('/jobs/create',              [JobController::class, 'create'])->name('jobs.create');
+    Route::post('/jobs',                    [JobController::class, 'store'])->name('jobs.store');
+    Route::get('/jobs/{id}/edit',           [JobController::class, 'edit'])->name('jobs.edit');
+    Route::put('/jobs/{id}',                [JobController::class, 'update'])->name('jobs.update');
+    Route::delete('jobs/{id}',              [JobController::class, 'destroy'])->name('jobs.destroy');
+
+    Route::get('jobs/{id}/applicant-list',  [JobController::class, 'applicantList'])->name('jobs.applicantList');
+
+    // Job category
+    Route::get('job-category',                              [JobCategoryController::class, 'index'])->name('job-category.index');
+    Route::get('job-category/create',                       [JobCategoryController::class, 'create'])->name('job-category.create');
+    Route::post('job-category',                             [JobCategoryController::class, 'store'])->name('job-category.store');
+    Route::get('job-category/{id}',                         [JobCategoryController::class, 'show'])->name('job-category.show');
+    Route::get('job-category/{id}/edit',                    [JobCategoryController::class, 'edit'])->name('job-category.edit');
+    Route::put('job-category/{id}',                         [JobCategoryController::class, 'update'])->name('job-category.update');
+    // Route::delete('job-category/{id}',                      [JobCategoryController::class, 'destroy'])->name('job-category.destroy');
+    Route::get('job-cactegory/status-change/{id}',          [JobCategoryController::class, 'statusChange'])->name('job-category.statusChange');
 
     // Services
     Route::resource('service-advertise', ServiceAdvertiseRoomController::class);
