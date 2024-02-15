@@ -59,24 +59,24 @@
             </li>
             <li class="treeview" id="tour_step5">
                 <a href="#">
-                    <i class="fa fas fa-cubes"></i> <span>Products</span>
+                    <i class="fa fas fa-cubes"></i> <span>Products & Services</span>
                     <span class="pull-right-container">
                         <i class="fa fa-angle-left pull-right"></i>
                     </span>
                 </a>
                 <ul class="treeview-menu">
                     <li><a href="{{ route('product.resell.page') }}"><i class="fa fas fa-list"></i> <span>Resell
-                                Products</span></a></li>
+                            </span></a></li>
                     <li><a href="{{ route('products.index') }}"><i class="fa fas fa-list"></i> <span>List
-                                Products</span></a></li>
+                            </span></a></li>
                     <li><a href="{{ route('products.create') }}"><i class="fa fas fa-plus-circle"></i> <span>Add
-                                Product</span></a></li>
+                            </span></a></li>
                     <li><a href="{{ url('labels/show') }}"><i class="fa fas fa-barcode"></i> <span>Print
                                 Labels</span></a></li>
                     <li><a href="{{ route('variation-templates.index') }}"><i class="fa fas fa-circle"></i>
                             <span>Variations</span></a></li>
                     <li><a href="{{ url('import-products') }}"><i class="fa fas fa-download"></i> <span>Import
-                                Products</span></a></li>
+                            </span></a></li>
                     <li><a href="{{ url('import-opening-stock') }}"><i class="fa fas fa-download"></i>
                             <span>Import Opening Stock</span></a></li>
                     <li><a href="{{ url('selling-price-group') }}"><i class="fa fas fa-circle"></i>

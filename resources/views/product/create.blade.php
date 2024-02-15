@@ -1,15 +1,15 @@
 @extends('layouts.app')
-@section('title', __('product.add_new_product'))
+@section('title', __('product.product_service'))
 
 @section('content')
 
     <!-- Content Header (Page header) -->
     <section class="content-header">
-        <h1>@lang('product.add_new_product')</h1>
+        <h1>Add New</h1>
         <!-- <ol class="breadcrumb">
-                                                                    <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
-                                                                    <li class="active">Here</li>
-                                                                </ol> -->
+                                                                                                    <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
+                                                                                                    <li class="active">Here</li>
+                                                                                                </ol> -->
     </section>
 
     <!-- Main content -->
@@ -137,6 +137,25 @@
                         </div>
                     </div>
                 </div>
+
+                @php
+                    $default_location = null;
+                    if (count($business_locations) == 1) {
+                        $default_location = array_key_first($business_locations->toArray());
+                    }
+                @endphp
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        {!! Form::label('product_locations', __('business.business_locations') . ':') !!} @show_tooltip(__('lang_v1.product_location_help'))
+                        {!! Form::select('product_locations[]', $business_locations, $default_location, [
+                            'class' => 'form-control select2',
+                            'multiple',
+                            'id' => 'product_locations',
+                        ]) !!}
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+
                 <div class="col-sm-4 @if (!session('business.enable_category')) hide @endif">
                     <div class="form-group">
                         {!! Form::label('category_id', __('product.category') . ':') !!}
@@ -160,6 +179,8 @@
                         ) !!}
                     </div>
                 </div>
+
+
                 <div class="col-sm-4 @if (!(session('business.enable_category') && session('business.enable_sub_category'))) hide @endif">
                     <div class="form-group">
                         <label for="child_category_id">Child Category:</label>
@@ -170,7 +191,7 @@
                     </div>
                 </div>
 
-                @php
+                {{-- @php
                     $default_location = null;
                     if (count($business_locations) == 1) {
                         $default_location = array_key_first($business_locations->toArray());
@@ -185,7 +206,7 @@
                             'id' => 'product_locations',
                         ]) !!}
                     </div>
-                </div>
+                </div> --}}
 
             </div>
         @endcomponent
