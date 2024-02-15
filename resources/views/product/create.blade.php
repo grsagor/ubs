@@ -7,9 +7,9 @@
     <section class="content-header">
         <h1>Add New</h1>
         <!-- <ol class="breadcrumb">
-                                                                                                    <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
-                                                                                                    <li class="active">Here</li>
-                                                                                                </ol> -->
+                                                                                                                                                                                                    <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
+                                                                                                                                                                                                    <li class="active">Here</li>
+                                                                                                                                                                                                </ol> -->
     </section>
 
     <!-- Main content -->
@@ -38,17 +38,6 @@
                         ) !!}
                     </div>
                 </div>
-
-                {{-- <div class="col-sm-4">
-                    <div class="form-group">
-                        {!! Form::label('name', __('product.product_name') . ':*') !!}
-                        {!! Form::text('name', !empty($duplicate_product->name) ? $duplicate_product->name : null, [
-                            'class' => 'form-control',
-                            'required',
-                            'placeholder' => __('product.product_name'),
-                        ]) !!}
-                    </div>
-                </div> --}}
 
                 <div class="col-sm-4">
                     <div class="form-group">
@@ -280,7 +269,7 @@
                     </div>
                 </div>
                 <div class="clearfix"></div>
-                <div class="col-sm-4">
+                <div class="col-sm-6">
                     <div class="form-group">
                         {!! Form::label('name', __('product.name_of_institution') . ':') !!}
                         {!! Form::text(
@@ -290,7 +279,7 @@
                         ) !!}
                     </div>
                 </div>
-                <div class="col-sm-4">
+                <div class="col-sm-6">
                     <div class="form-group">
                         {!! Form::label('name', __('product.duration') . ':') !!}
                         <div class="row">
@@ -313,7 +302,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-4">
+                <div class="col-sm-12">
                     <div class="form-group">
                         {!! Form::label('name', __('product.tuition_fees') . ':') !!}
                         <div class="row">
@@ -334,6 +323,38 @@
                         </div>
                     </div>
                 </div>
+
+
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        {!! Form::label('tuition_fee_installment', __('product.tuition_fee_installment') . ':') !!}
+                        {!! Form::select(
+                            'tuition_fee_installment',
+                            ['Available' => 'Available', 'Unavailable' => 'Unavailable'],
+                            !empty($duplicate_product->tuition_fee_installment) ? $duplicate_product->tuition_fee_installment : null,
+                            [
+                                'placeholder' => __('messages.please_select'),
+                                'id' => 'fee_installment',
+                                'class' => 'form-control select2',
+                                'required',
+                            ],
+                        ) !!}
+                    </div>
+                </div>
+
+                <div class="col-sm-8 hide" id="fee-installment-description-section">
+                    <div class="form-group">
+                        {!! Form::label('fee_installment_description', __('product.fee_installment_description') . ':') !!}
+                        {!! Form::textarea(
+                            'fee_installment_description',
+                            !empty(@$duplicate_product->fee_installment_description) ? @$duplicate_product->fee_installment_description : null,
+                            ['class' => 'form-control'],
+                        ) !!}
+                    </div>
+                </div>
+                <div class="clearfix hide" id="fee-installment-description-clearfix"></div>
+
+
             </div>
         @endcomponent
 
@@ -368,36 +389,6 @@
                     </div>
                 </div>
                 <div class="clearfix hide" id="work-placement-description-clearfix"></div>
-
-                <div class="col-sm-4">
-                    <div class="form-group">
-                        {!! Form::label('tuition_fee_installment', __('product.tuition_fee_installment') . ':') !!}
-                        {!! Form::select(
-                            'tuition_fee_installment',
-                            ['Available' => 'Available', 'Unavailable' => 'Unavailable'],
-                            !empty($duplicate_product->tuition_fee_installment) ? $duplicate_product->tuition_fee_installment : null,
-                            [
-                                'placeholder' => __('messages.please_select'),
-                                'id' => 'fee_installment',
-                                'class' => 'form-control select2',
-                                'required',
-                            ],
-                        ) !!}
-                    </div>
-                </div>
-
-                <div class="col-sm-8 hide" id="fee-installment-description-section">
-                    <div class="form-group">
-                        {!! Form::label('fee_installment_description', __('product.fee_installment_description') . ':') !!}
-                        {!! Form::textarea(
-                            'fee_installment_description',
-                            !empty(@$duplicate_product->fee_installment_description) ? @$duplicate_product->fee_installment_description : null,
-                            ['class' => 'form-control'],
-                        ) !!}
-                    </div>
-                </div>
-                <div class="clearfix hide" id="fee-installment-description-clearfix"></div>
-
 
                 <div class="col-sm-12">
                     <div class="form-group">
@@ -455,26 +446,7 @@
 
         @component('components.widget', ['class' => 'box-primary'])
             <div class="row">
-                <div class="col-sm-4">
-                    <div class="form-group">
-                        <label>
-                            {!! Form::checkbox('enable_stock', 1, !empty($duplicate_product) ? $duplicate_product->enable_stock : true, [
-                                'class' => 'input-icheck',
-                                'id' => 'enable_stock',
-                            ]) !!} <strong>@lang('product.manage_stock')</strong>
-                        </label>@show_tooltip(__('tooltip.enable_stock')) <p class="help-block"><i>@lang('product.enable_stock_help')</i></p>
-                    </div>
-                </div>
-                <div class="col-sm-4 @if (!empty($duplicate_product) && $duplicate_product->enable_stock == 0) hide @endif" id="alert_quantity_div">
-                    <div class="form-group">
-                        {!! Form::label('alert_quantity', __('product.alert_quantity') . ':') !!} @show_tooltip(__('tooltip.alert_quantity'))
-                        {!! Form::text(
-                            'alert_quantity',
-                            !empty($duplicate_product->alert_quantity) ? @format_quantity($duplicate_product->alert_quantity) : null,
-                            ['class' => 'form-control input_number', 'placeholder' => __('product.alert_quantity'), 'min' => '0'],
-                        ) !!}
-                    </div>
-                </div>
+
                 @if (!empty($common_settings['enable_product_warranty']))
                     <div class="col-sm-4">
                         <div class="form-group">
@@ -486,19 +458,12 @@
                         </div>
                     </div>
                 @endif
-                <!-- include module fields -->
-                @if (!empty($pos_module_data))
-                    @foreach ($pos_module_data as $key => $value)
-                        @if (!empty($value['view_path']))
-                            @includeIf($value['view_path'], ['view_data' => $value['view_data']])
-                        @endif
-                    @endforeach
-                @endif
+
                 <div class="clearfix"></div>
 
-                <div class="col-sm-4">
+                <div class="col-sm-12">
                     <div class="form-group">
-                        {!! Form::label('name', __('product.product_name') . ':*') !!}
+                        {!! Form::label('name', __('Title') . ':*') !!}
                         {!! Form::text('name', !empty($duplicate_product->name) ? $duplicate_product->name : null, [
                             'class' => 'form-control',
                             'required',
@@ -509,9 +474,9 @@
 
                 <div class="clearfix"></div>
 
-                <div class="col-sm-8">
+                <div class="col-sm-12">
                     <div class="form-group">
-                        {!! Form::label('product_description', __('lang_v1.product_description') . ':') !!}
+                        {!! Form::label('product_description', __('Description') . ':') !!}
                         {!! Form::textarea(
                             'product_description',
                             !empty($duplicate_product->product_description) ? $duplicate_product->product_description : null,
@@ -521,7 +486,7 @@
                 </div>
                 <div class="col-sm-4">
                     <div class="form-group">
-                        {!! Form::label('image', __('lang_v1.product_image') . ':') !!}
+                        {!! Form::label('image', __('Image') . ':') !!}
                         {!! Form::file('image[]', [
                             'id' => 'upload_image',
                             'accept' => 'image/*',
@@ -536,7 +501,7 @@
                 </div>
                 <div class="col-sm-4">
                     <div class="form-group">
-                        {!! Form::label('image', __('lang_v1.product_thumbnail') . ':') !!}
+                        {!! Form::label('image', __('Thumbnail') . ':') !!}
                         {!! Form::file('thumbnail', [
                             'id' => 'thumbnail_image',
                             'accept' => 'image/*',
@@ -550,7 +515,7 @@
                 </div>
                 <div class="col-sm-4">
                     <div class="form-group">
-                        {!! Form::label('product_brochure', __('lang_v1.product_brochure') . ':') !!}
+                        {!! Form::label('product_brochure', __('Brochure') . ':') !!}
                         {!! Form::file('product_brochure', [
                             'id' => 'brochure_image',
                             'accept' => implode(',', array_keys(config('constants.document_upload_mimes_types'))),
@@ -563,6 +528,16 @@
                         </small>
                     </div>
                 </div>
+
+                <!-- include module fields -->
+                @if (!empty($pos_module_data))
+                    @foreach ($pos_module_data as $key => $value)
+                        @if (!empty($value['view_path']))
+                            @includeIf($value['view_path'], ['view_data' => $value['view_data']])
+                        @endif
+                    @endforeach
+                @endif
+
                 <div class="col-sm-4">
                     <div class="form-group">
                         {!! Form::label('youtube_link', __('product.youtube_link') . ':*') !!}
@@ -941,6 +916,27 @@
 
                 <div class="clearfix"></div>
 
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label>
+                            {!! Form::checkbox('enable_stock', 1, !empty($duplicate_product) ? $duplicate_product->enable_stock : true, [
+                                'class' => 'input-icheck',
+                                'id' => 'enable_stock',
+                            ]) !!} <strong>@lang('product.manage_stock')</strong>
+                        </label>@show_tooltip(__('tooltip.enable_stock')) <p class="help-block"><i>@lang('product.enable_stock_help')</i></p>
+                    </div>
+                </div>
+                <div class="col-sm-4 @if (!empty($duplicate_product) && $duplicate_product->enable_stock == 0) hide @endif" id="alert_quantity_div">
+                    <div class="form-group">
+                        {!! Form::label('alert_quantity', __('product.alert_quantity') . ':') !!} @show_tooltip(__('tooltip.alert_quantity'))
+                        {!! Form::text(
+                            'alert_quantity',
+                            !empty($duplicate_product->alert_quantity) ? @format_quantity($duplicate_product->alert_quantity) : null,
+                            ['class' => 'form-control input_number', 'placeholder' => __('product.alert_quantity'), 'min' => '0'],
+                        ) !!}
+                    </div>
+                </div>
+
                 <!-- Rack, Row & position number -->
                 @if (session('business.enable_racks') || session('business.enable_row') || session('business.enable_position'))
                     <div class="col-md-12">
@@ -1077,8 +1073,12 @@
                                 1,
                                 !empty($duplicate_product) ? $duplicate_product->unipuller_data_policy : false,
                                 ['class' => 'input-icheck', 'required'],
-                            ) !!} <strong>@lang('product.unipuller_data_policy')*</strong>
-                        </label> @show_tooltip(__('product.unipuller_data_policy'))
+                            ) !!}
+                        </label>
+                        <a href="{{ route('footer.details.policies.privacy_cookies') }}"
+                            target="__blank"><strong>@lang('product.unipuller_data_policy')*</strong>
+                        </a>
+                        @show_tooltip(__('product.unipuller_data_policy'))
                     </div>
                 </div>
             </div>
