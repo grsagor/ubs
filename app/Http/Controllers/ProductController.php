@@ -375,6 +375,8 @@ class ProductController extends Controller
 
         $categories = Category::forDropdown($business_id, 'product');
 
+        // return $categories;
+
         $brands = Brands::forDropdown($business_id);
         $units = Unit::forDropdown($business_id, true);
 
@@ -1771,8 +1773,8 @@ class ProductController extends Controller
                     if (isset($value[$variation->id])) {
                         $variation_group_price =
                             VariationGroupPrice::where('variation_id', $variation->id)
-                                ->where('price_group_id', $key)
-                                ->first();
+                            ->where('price_group_id', $key)
+                            ->first();
                         if (empty($variation_group_price)) {
                             $variation_group_price = new VariationGroupPrice([
                                 'variation_id' => $variation->id,
