@@ -7,9 +7,9 @@
     <section class="content-header">
         <h1>Add New</h1>
         <!-- <ol class="breadcrumb">
-                                                                                                                                                                                                                            <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
-                                                                                                                                                                                                                            <li class="active">Here</li>
-                                                                                                                                                                                                                        </ol> -->
+                                                                                                                                                                                                                                <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
+                                                                                                                                                                                                                                <li class="active">Here</li>
+                                                                                                                                                                                                                            </ol> -->
     </section>
 
     <!-- Main content -->
@@ -410,7 +410,7 @@
                     <div class="col-sm-4">
                         <div class="form-group">
                             {!! Form::label('requirement', __('product.requirements') . ':') !!}
-                            {!! Form::select(
+                            {{-- {!! Form::select(
                                 'requirements',
                                 [
                                     'English Language' => 'English Language',
@@ -419,6 +419,12 @@
                                 ],
                                 null,
                                 ['placeholder' => __('messages.please_select'), 'class' => 'form-control requirement-select'],
+                            ) !!} --}}
+
+                            {!! Form::text(
+                                'requirements',
+                                !empty($duplicate_product->requirements) ? $duplicate_product->requirements : null,
+                                ['class' => 'form-control', 'placeholder' => __('Name of reqirements')],
                             ) !!}
                         </div>
                     </div>
