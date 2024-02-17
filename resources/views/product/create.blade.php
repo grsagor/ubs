@@ -7,9 +7,9 @@
     <section class="content-header">
         <h1>Add New</h1>
         <!-- <ol class="breadcrumb">
-                                                                                                                                                                                                    <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
-                                                                                                                                                                                                    <li class="active">Here</li>
-                                                                                                                                                                                                </ol> -->
+                                                                                                                                                                                                                            <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
+                                                                                                                                                                                                                            <li class="active">Here</li>
+                                                                                                                                                                                                                        </ol> -->
     </section>
 
     <!-- Main content -->
@@ -209,7 +209,7 @@
                             'study_time',
                             ['Part Time', 'Full Time'],
                             !empty($duplicate_product->name) ? $duplicate_product->name : null,
-                            ['placeholder' => __('messages.please_select'), 'class' => 'form-control select2', 'required'],
+                            ['placeholder' => __('messages.please_select'), 'class' => 'form-control select2'],
                         ) !!}
                     </div>
                 </div>
@@ -275,7 +275,7 @@
                         {!! Form::text(
                             'name_of_institution',
                             !empty($duplicate_product->name_of_institution) ? $duplicate_product->name_of_institution : null,
-                            ['class' => 'form-control', 'required', 'placeholder' => __('product.name_of_institution')],
+                            ['class' => 'form-control', 'placeholder' => __('product.name_of_institution')],
                         ) !!}
                     </div>
                 </div>
@@ -288,7 +288,7 @@
                                     'duration_year',
                                     ['1', '2', '3', '4', '5'],
                                     !empty($duplicate_product->duration) ? $duplicate_product->duration : null,
-                                    ['class' => 'form-control select2', 'required', 'placeholder' => 'Year'],
+                                    ['class' => 'form-control select2', 'placeholder' => 'Year'],
                                 ) !!}
                             </div>
                             <div class="col-md-6">
@@ -296,7 +296,7 @@
                                     'duration_month',
                                     ['1', '2', '3', '4', '5', '7', '8', '9', '10', '11'],
                                     !empty($duplicate_product->duration) ? $duplicate_product->duration : null,
-                                    ['class' => 'form-control select2', 'required', 'placeholder' => 'Month'],
+                                    ['class' => 'form-control select2', 'placeholder' => 'Month'],
                                 ) !!}
                             </div>
                         </div>
@@ -310,14 +310,14 @@
                                 {!! Form::text(
                                     'home_students_fees',
                                     !empty($duplicate_product->home_students_fees) ? $duplicate_product->home_students_fees : null,
-                                    ['class' => 'form-control', 'required', 'placeholder' => __('product.home_students_fees')],
+                                    ['class' => 'form-control', 'placeholder' => __('product.home_students_fees')],
                                 ) !!}
                             </div>
                             <div class="col-md-6">
                                 {!! Form::text(
                                     'int_students_fees',
                                     !empty($duplicate_product->int_students_fees) ? $duplicate_product->int_students_fees : null,
-                                    ['class' => 'form-control', 'required', 'placeholder' => __('product.int_students_fees')],
+                                    ['class' => 'form-control', 'placeholder' => __('product.int_students_fees')],
                                 ) !!}
                             </div>
                         </div>
@@ -336,7 +336,6 @@
                                 'placeholder' => __('messages.please_select'),
                                 'id' => 'fee_installment',
                                 'class' => 'form-control select2',
-                                'required',
                             ],
                         ) !!}
                     </div>
@@ -544,7 +543,7 @@
                         {!! Form::text(
                             'youtube_link',
                             !empty($duplicate_product->youtube_link) ? $duplicate_product->youtube_link : null,
-                            ['class' => 'form-control', 'required', 'placeholder' => __('product.youtube_link')],
+                            ['class' => 'form-control', 'placeholder' => __('product.youtube_link')],
                         ) !!}
                     </div>
                 </div>
