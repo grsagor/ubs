@@ -7,9 +7,9 @@
     <section class="content-header">
         <h1>Add New</h1>
         <!-- <ol class="breadcrumb">
-                                                                                                                                                                                                                                <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
-                                                                                                                                                                                                                                <li class="active">Here</li>
-                                                                                                                                                                                                                            </ol> -->
+                                                                                                                                                                                                                                                                                            <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
+                                                                                                                                                                                                                                                                                            <li class="active">Here</li>
+                                                                                                                                                                                                                                                                                        </ol> -->
     </section>
 
     <!-- Main content -->
@@ -943,44 +943,47 @@
                 </div>
 
                 <!-- Rack, Row & position number -->
-                @if (session('business.enable_racks') || session('business.enable_row') || session('business.enable_position'))
-                    <div class="col-md-12">
-                        <h4>@lang('lang_v1.rack_details'):
-                            @show_tooltip(__('lang_v1.tooltip_rack_details'))
-                        </h4>
-                    </div>
-                    @foreach ($business_locations as $id => $location)
-                        <div class="col-sm-3">
-                            <div class="form-group">
-                                {!! Form::label('rack_' . $id, $location . ':') !!}
 
-                                @if (session('business.enable_racks'))
-                                    {!! Form::text(
-                                        'product_racks[' . $id . '][rack]',
-                                        !empty($rack_details[$id]['rack']) ? $rack_details[$id]['rack'] : null,
-                                        ['class' => 'form-control', 'id' => 'rack_' . $id, 'placeholder' => __('lang_v1.rack')],
-                                    ) !!}
-                                @endif
-
-                                @if (session('business.enable_row'))
-                                    {!! Form::text(
-                                        'product_racks[' . $id . '][row]',
-                                        !empty($rack_details[$id]['row']) ? $rack_details[$id]['row'] : null,
-                                        ['class' => 'form-control', 'placeholder' => __('lang_v1.row')],
-                                    ) !!}
-                                @endif
-
-                                @if (session('business.enable_position'))
-                                    {!! Form::text(
-                                        'product_racks[' . $id . '][position]',
-                                        !empty($rack_details[$id]['position']) ? $rack_details[$id]['position'] : null,
-                                        ['class' => 'form-control', 'placeholder' => __('lang_v1.position')],
-                                    ) !!}
-                                @endif
-                            </div>
+                <div id="rack_details">
+                    @if (session('business.enable_racks') || session('business.enable_row') || session('business.enable_position'))
+                        <div class="col-md-12">
+                            <h4>@lang('lang_v1.rack_details'):
+                                @show_tooltip(__('lang_v1.tooltip_rack_details'))
+                            </h4>
                         </div>
-                    @endforeach
-                @endif
+                        @foreach ($business_locations as $id => $location)
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    {!! Form::label('rack_' . $id, $location . ':') !!}
+
+                                    @if (session('business.enable_racks'))
+                                        {!! Form::text(
+                                            'product_racks[' . $id . '][rack]',
+                                            !empty($rack_details[$id]['rack']) ? $rack_details[$id]['rack'] : null,
+                                            ['class' => 'form-control', 'id' => 'rack_' . $id, 'placeholder' => __('lang_v1.rack')],
+                                        ) !!}
+                                    @endif
+
+                                    @if (session('business.enable_row'))
+                                        {!! Form::text(
+                                            'product_racks[' . $id . '][row]',
+                                            !empty($rack_details[$id]['row']) ? $rack_details[$id]['row'] : null,
+                                            ['class' => 'form-control', 'placeholder' => __('lang_v1.row')],
+                                        ) !!}
+                                    @endif
+
+                                    @if (session('business.enable_position'))
+                                        {!! Form::text(
+                                            'product_racks[' . $id . '][position]',
+                                            !empty($rack_details[$id]['position']) ? $rack_details[$id]['position'] : null,
+                                            ['class' => 'form-control', 'placeholder' => __('lang_v1.position')],
+                                        ) !!}
+                                    @endif
+                                </div>
+                            </div>
+                        @endforeach
+                    @endif
+                </div>
 
                 <div class="col-sm-4">
                     <div class="form-group">
@@ -1098,7 +1101,7 @@
                 <div class="text-center">
                     <div class="btn-group">
                         @if ($selling_price_group_count)
-                            <button type="submit" value="submit_n_add_selling_prices"
+                            <button type="submit" id="submit_n_add_selling_prices" value="submit_n_add_selling_prices"
                                 class="btn btn-warning submit_product_form">@lang('lang_v1.save_n_add_selling_price_group_prices')</button>
                         @endif
 
@@ -1111,7 +1114,7 @@
                         <button type="submit" value="save_n_add_another"
                             class="btn bg-maroon submit_product_form">@lang('lang_v1.save_n_add_another')</button>
 
-                        <button type="submit" value="submit"
+                        <button type="submit" id="save" value="submit"
                             class="btn btn-primary submit_product_form">@lang('messages.save')</button>
                     </div>
 
@@ -1170,6 +1173,12 @@
 
             $(document).on('change', '#type', function() {
                 var type = $(this).val();
+                console.log('Type id ' + type);
+                $('#opening_stock_button').hide();
+                $('#submit_n_add_selling_prices').hide();
+                $('#save').hide();
+                $('#rack_details').hide();
+
                 $.ajax({
                     url: "{{ route('product.type.change') }}",
                     type: "GET",
