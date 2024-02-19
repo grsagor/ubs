@@ -443,16 +443,25 @@ class ProductController extends Controller
     {
         $type = $request->type;
         $categories = [];
+
+        // for product
         if ($type == 1) {
+            $categories = Category::where([['parent_id', 0], ['category_type', 'product']])->get();
+        }
+
+        // for service
+        if ($type == 2) {
             $categories = Category::where([['parent_id', 0], ['category_type', 'service']])->get();
         }
         return view('product.categories_options', compact('categories'));
     }
+
     public function productCategoryChange(Request $request)
     {
         $categories = Category::where([['parent_id', $request->category_id]])->get();
         return view('product.categories_options', compact('categories'));
     }
+
     public function productSubcategoryChange(Request $request)
     {
         $categories = Category::where([['parent_id', $request->sub_category_id]])->get();

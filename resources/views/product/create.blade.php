@@ -7,9 +7,9 @@
     <section class="content-header">
         <h1>Add New</h1>
         <!-- <ol class="breadcrumb">
-                                                                                                                                                                                                                                                                                                                                                                                    <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
-                                                                                                                                                                                                                                                                                                                                                                                    <li class="active">Here</li>
-                                                                                                                                                                                                                                                                                                                                                                                </ol> -->
+                                                                                                                                                                                                                                                                                                                                                                                        <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
+                                                                                                                                                                                                                                                                                                                                                                                        <li class="active">Here</li>
+                                                                                                                                                                                                                                                                                                                                                                                    </ol> -->
     </section>
 
     <!-- Main content -->
@@ -32,7 +32,7 @@
                         {!! Form::label('name', __('product.type') . ':*') !!}
                         {!! Form::select(
                             'type',
-                            ['Product', 'Service'],
+                            ['Select type', 'Product', 'Service'],
                             !empty($duplicate_product->type) ? $duplicate_product->type : null,
                             ['class' => 'form-control select2', 'required', 'id' => 'type'],
                         ) !!}
