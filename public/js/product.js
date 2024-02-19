@@ -1,6 +1,10 @@
 //This file contains all functions used products tab
 
 $(document).ready(function () {
+  $("#yearSelect").on("change", function () {
+    console.log("Year select");
+  });
+
   // Event listener for the Add button
   $("#addRequirement").on("click", function () {
     // Clone the first requirements section and append it to the container
