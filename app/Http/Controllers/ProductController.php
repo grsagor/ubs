@@ -373,9 +373,10 @@ class ProductController extends Controller
         //     return $this->moduleUtil->quotaExpiredResponse('products', $business_id, action([\App\Http\Controllers\ProductController::class, 'index']));
         // }
 
-        $categories = Category::forDropdown($business_id, 'product');
+        // ****Important*****
+        // $categories = Category::forDropdown($business_id, 'product');
 
-        // return $categories;
+        $categories = collect([]);
 
         $brands = Brands::forDropdown($business_id);
         $units = Unit::forDropdown($business_id, true);
@@ -445,12 +446,12 @@ class ProductController extends Controller
         $categories = [];
 
         // for product
-        if ($type == 1) {
+        if ($type == 'product') {
             $categories = Category::where([['parent_id', 0], ['category_type', 'product']])->get();
         }
 
         // for service
-        if ($type == 2) {
+        if ($type == 'service') {
             $categories = Category::where([['parent_id', 0], ['category_type', 'service']])->get();
         }
         return view('product.categories_options', compact('categories'));
