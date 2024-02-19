@@ -7,9 +7,9 @@
     <section class="content-header">
         <h1>Add New</h1>
         <!-- <ol class="breadcrumb">
-                                                                                                                                                                                                                                                                                            <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
-                                                                                                                                                                                                                                                                                            <li class="active">Here</li>
-                                                                                                                                                                                                                                                                                        </ol> -->
+                                                                                                                                                                                                                                                                                                                                                                                    <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
+                                                                                                                                                                                                                                                                                                                                                                                    <li class="active">Here</li>
+                                                                                                                                                                                                                                                                                                                                                                                </ol> -->
     </section>
 
     <!-- Main content -->
@@ -133,16 +133,7 @@
                         $default_location = array_key_first($business_locations->toArray());
                     }
                 @endphp
-                <div class="col-sm-4">
-                    <div class="form-group">
-                        {!! Form::label('product_locations', __('business.business_locations') . ':') !!} @show_tooltip(__('lang_v1.product_location_help'))
-                        {!! Form::select('product_locations[]', $business_locations, $default_location, [
-                            'class' => 'form-control select2',
-                            'multiple',
-                            'id' => 'product_locations',
-                        ]) !!}
-                    </div>
-                </div>
+
                 <div class="clearfix"></div>
 
                 <div class="col-sm-4 @if (!session('business.enable_category')) hide @endif">
@@ -180,6 +171,17 @@
                     </div>
                 </div>
 
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        {!! Form::label('product_locations', __('business.business_locations') . ':') !!} @show_tooltip(__('lang_v1.product_location_help'))
+                        {!! Form::select('product_locations[]', $business_locations, $default_location, [
+                            'class' => 'form-control select2',
+                            'multiple',
+                            'id' => 'product_locations',
+                        ]) !!}
+                    </div>
+                </div>
+
                 {{-- @php
                     $default_location = null;
                     if (count($business_locations) == 1) {
@@ -202,7 +204,7 @@
 
         @component('components.widget', ['class' => 'box-primary'])
             <div class="row">
-                <div class="col-sm-4">
+                <div class="col-sm-6">
                     <div class="form-group">
                         {!! Form::label('name', __('product.study_time') . ':') !!}
                         {!! Form::select(
@@ -213,7 +215,8 @@
                         ) !!}
                     </div>
                 </div>
-                <div class="col-sm-4">
+
+                {{-- <div class="col-sm-4">
                     <div class="form-group">
                         {!! Form::label('start_type', 'Starts:') !!}
                         <div class="row">
@@ -239,24 +242,31 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-sm-4">
+                </div> --}}
+
+
+                <div class="col-sm-6">
                     <div class="form-group">
-                        <div class="row hide" id="select-year-section">
-                            <br>
+                        <div class="row" id="select-year-section">
                             <div class="col-md-6">
+                                {!! Form::label('start_type', 'Start years:') !!}
                                 <select id="yearSelect" name="selected_years[]" class="form-control select2" multiple>
-                                    <option disabled selected value="">Select Year</option>
+                                    <option value="every_year">Every Year</option>
                                     @php
                                         $currentYear = date('Y');
-                                        for ($year = $currentYear; $year <= $currentYear + 5; $year++) {
-                                            echo "<option value='$year'>$year</option>";
-                                    } @endphp
+                                        $endYear = $currentYear + 5;
+                                    @endphp
+
+                                    @for ($year = $currentYear; $year <= $endYear; $year++)
+                                        <option value="{{ $year }}">{{ $year }}</option>
+                                    @endfor
                                 </select>
                             </div>
                             <div class="col-md-6">
+                                {!! Form::label('start_type', 'Select Month:') !!}
+
                                 <select id="monthSelect" name="selected_months[]" class="form-control select2" multiple>
-                                    <option disabled selected value="">Select Month</option>
+                                    {{-- <option disabled value="">Select Month</option> --}}
                                     @php
                                         $months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
                                         foreach ($months as $month) {
