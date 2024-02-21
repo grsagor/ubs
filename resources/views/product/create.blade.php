@@ -7,9 +7,9 @@
     <section class="content-header">
         <h1>Add New</h1>
         <!-- <ol class="breadcrumb">
-                                                                                                                                                                                                                                                                                                                                                                                                                                <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
-                                                                                                                                                                                                                                                                                                                                                                                                                                <li class="active">Here</li>
-                                                                                                                                                                                                                                                                                                                                                                                                                            </ol> -->
+                                                                                                                                                                                                                                                                                                                                                                                                                                            <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
+                                                                                                                                                                                                                                                                                                                                                                                                                                            <li class="active">Here</li>
+                                                                                                                                                                                                                                                                                                                                                                                                                                        </ol> -->
     </section>
 
     <!-- Main content -->
@@ -650,7 +650,7 @@
                         {!! Form::label('tax_type', __('product.selling_price_tax_type') . ':*') !!}
                         {!! Form::select(
                             'tax_type',
-                            ['inclusive' => __('product.inclusive'), 'exclusive' => __('product.exclusive')],
+                            ['Inclusive' => __('product.inclusive'), 'Exclusive' => __('product.exclusive')],
                             !empty($duplicate_product->tax_type) ? $duplicate_product->tax_type : 'exclusive',
                             ['class' => 'form-control select2', 'required'],
                         ) !!}
@@ -704,7 +704,7 @@
                         {!! Form::label('price_changeable', __('product.price_changeable') . ':*') !!}
                         {!! Form::select(
                             'price_changeable',
-                            ['Yes', 'No'],
+                            ['1' => 'Yes', '0' => 'No'],
                             !empty($duplicate_product->price_changeable) ? $duplicate_product->price_changeable : null,
                             ['class' => 'form-control', 'required', 'placeholder' => __('messages.please_select')],
                         ) !!}

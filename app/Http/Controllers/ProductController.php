@@ -489,11 +489,11 @@ class ProductController extends Controller
                 'brand_id',
                 'unit_id',
                 'category_id',
-                'tax',
                 'type',
                 'barcode_type',
                 'sku',
                 'alert_quantity',
+                'tax',
                 'tax_type',
                 'weight',
                 'product_custom_field1',
@@ -511,7 +511,22 @@ class ProductController extends Controller
                 'int_students_fees',
                 'tuition_fee_installment',
                 'fee_installment_description',
-
+                'work_placement',
+                'work_placement_description',
+                'general_facilities',
+                'requirements',
+                'requirement_details',
+                'service_features',
+                'experiences',
+                'specializations',
+                'disable_reselling',
+                'price_changeable',
+                'reselling_price',
+                'reselling_commission_amount',
+                'extra_commission',
+                'policy',
+                'unipuller_data_policy',
+                'youtube_link'
             ];
 
             $module_form_fields = $this->moduleUtil->getModuleFormField('product_form_fields');
