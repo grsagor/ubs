@@ -12,6 +12,7 @@ npm-debug.log
 .env
 
 /public/upload
+/public/uploads/product
 /public/uploads/service_room
 /public/uploads/news
 /public/uploads/recruitments

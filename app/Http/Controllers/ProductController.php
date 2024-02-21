@@ -30,6 +30,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Str;
 
 class ProductController extends Controller
 {
@@ -578,7 +579,33 @@ class ProductController extends Controller
             }
 
             //upload document
-            $product_details['image'] = $this->productUtil->uploadFile($request, 'image', config('constants.product_img_path'), 'image');
+            if ($request->hasFile('image')) {
+                $image_path = public_path('uploads/product/image');
+
+                $images = [];
+
+                foreach ($request->file('image') as $image) {
+                    $image_name = Str::uuid()->toString() . '.' . $image->getClientOriginalExtension();
+                    $image->move($image_path, $image_name);
+                    $images[] = 'uploads/news/image/' . $image_name;
+                }
+
+                $product_details['image'] = json_encode($images);
+            }
+
+            if ($request->hasFile('thumbnail')) {
+                $image_path = public_path('uploads/product/thumbnail');
+
+                $image = $request->file('thumbnail');
+                $image_name = rand(123456, 999999) . '.' . $image->getClientOriginalExtension();
+                $image->move($image_path, $image_name);
+
+                $product_details['thumbnail'] = 'uploads/product/thumbnail/' . $image_name;
+            }
+
+            // $product_details['thumbnail'] = $this->productUtil->uploadFile($request, 'thumbnail', config('constants.product_img_path'), 'thumbnail');
+            // Image save in Public/uploads/img
+            $product_details['product_brochure'] = $this->productUtil->uploadFile($request, 'product_brochure', config('constants.product_img_path'), 'product_brochure');
             $common_settings = session()->get('business.common_settings');
 
             $product_details['warranty_id'] = !empty($request->input('warranty_id')) ? $request->input('warranty_id') : null;
