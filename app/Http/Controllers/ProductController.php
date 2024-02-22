@@ -30,6 +30,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Str;
 
 class ProductController extends Controller
 {
@@ -477,21 +478,72 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request->toArray());
         if (!auth()->user()->can('product.create')) {
             abort(403, 'Unauthorized action.');
         }
         try {
             $business_id = $request->session()->get('user.business_id');
-            $form_fields = ['name', 'brand_id', 'unit_id', 'category_id', 'tax', 'type', 'barcode_type', 'sku', 'alert_quantity', 'tax_type', 'weight', 'product_custom_field1', 'product_custom_field2', 'product_custom_field3', 'product_custom_field4', 'product_description', 'sub_unit_ids', 'preparation_time_in_minutes'];
+            $form_fields = [
+                'types',
+                'name',
+                'brand_id',
+                'unit_id',
+                'category_id',
+                'type',
+                'barcode_type',
+                'sku',
+                'alert_quantity',
+                'tax',
+                'tax_type',
+                'weight',
+                'product_custom_field1',
+                'product_custom_field2',
+                'product_custom_field3',
+                'product_custom_field4',
+                'product_description',
+                'sub_unit_ids',
+                'preparation_time_in_minutes',
+                'study_time',
+                'name_of_institution',
+                'duration_year',
+                'duration_month',
+                'home_students_fees',
+                'int_students_fees',
+                'tuition_fee_installment',
+                'fee_installment_description',
+                'work_placement',
+                'work_placement_description',
+                'general_facilities',
+                'requirements',
+                'requirement_details',
+                'service_features',
+                'experiences',
+                'specializations',
+                'disable_reselling',
+                'price_changeable',
+                'reselling_price',
+                'reselling_commission_amount',
+                'extra_commission',
+                'policy',
+                'unipuller_data_policy',
+                'youtube_link'
+            ];
 
             $module_form_fields = $this->moduleUtil->getModuleFormField('product_form_fields');
             if (!empty($module_form_fields)) {
                 $form_fields = array_merge($form_fields, $module_form_fields);
             }
 
+            $product_details['selected_years'] = 'Years';
+            $product_details['selected_months'] = 'Months';
+
+            // dd($product_details);
             $product_details = $request->only($form_fields);
             $product_details['business_id'] = $business_id;
             $product_details['created_by'] = $request->session()->get('user.id');
+
+            $product_details['child_category_id'] = $request->child_category_id ? $request->child_category_id : null;
 
             $product_details['enable_stock'] = (!empty($request->input('enable_stock')) && $request->input('enable_stock') == 1) ? 1 : 0;
             $product_details['not_for_selling'] = (!empty($request->input('not_for_selling')) && $request->input('not_for_selling') == 1) ? 1 : 0;
@@ -527,7 +579,33 @@ class ProductController extends Controller
             }
 
             //upload document
-            $product_details['image'] = $this->productUtil->uploadFile($request, 'image', config('constants.product_img_path'), 'image');
+            if ($request->hasFile('image')) {
+                $image_path = public_path('uploads/product/image');
+
+                $images = [];
+
+                foreach ($request->file('image') as $image) {
+                    $image_name = Str::uuid()->toString() . '.' . $image->getClientOriginalExtension();
+                    $image->move($image_path, $image_name);
+                    $images[] = 'uploads/news/image/' . $image_name;
+                }
+
+                $product_details['image'] = json_encode($images);
+            }
+
+            if ($request->hasFile('thumbnail')) {
+                $image_path = public_path('uploads/product/thumbnail');
+
+                $image = $request->file('thumbnail');
+                $image_name = rand(123456, 999999) . '.' . $image->getClientOriginalExtension();
+                $image->move($image_path, $image_name);
+
+                $product_details['thumbnail'] = 'uploads/product/thumbnail/' . $image_name;
+            }
+
+            // $product_details['thumbnail'] = $this->productUtil->uploadFile($request, 'thumbnail', config('constants.product_img_path'), 'thumbnail');
+            // Image save in Public/uploads/img
+            $product_details['product_brochure'] = $this->productUtil->uploadFile($request, 'product_brochure', config('constants.product_img_path'), 'product_brochure');
             $common_settings = session()->get('business.common_settings');
 
             $product_details['warranty_id'] = !empty($request->input('warranty_id')) ? $request->input('warranty_id') : null;
@@ -537,6 +615,17 @@ class ProductController extends Controller
             DB::beginTransaction();
 
             $product = Product::create($product_details);
+
+            if (!empty($request->input('selected_years'))) {
+                $product->selected_years = $request->selected_years ? $request->selected_years : null;
+            }
+
+            if (!empty($request->input('selected_months'))) {
+                $product->selected_months = $request->selected_months ? $request->selected_months : null;
+            }
+
+            $product->save();
+
 
             if (empty(trim($request->input('sku')))) {
                 $sku = $this->productUtil->generateProductSku($product->id);
@@ -598,7 +687,7 @@ class ProductController extends Controller
             ];
         } catch (\Exception $e) {
             DB::rollBack();
-            // dd($e->getmessage());
+            dd($e->getmessage());
             \Log::emergency('File:' . $e->getFile() . 'Line:' . $e->getLine() . 'Message:' . $e->getMessage());
 
             $output = [
@@ -2506,6 +2595,6 @@ class ProductController extends Controller
         $data['user_info'] = Media::where('uploaded_by', $data['info']->user_id)
             ->where('model_type', 'App\\User')->first();
         $data['first_image'] = 'https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg';
-        return view('frontend.product.details', $data);
+        return view('frontend.product.details2', $data);
     }
 }

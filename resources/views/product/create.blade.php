@@ -7,9 +7,9 @@
     <section class="content-header">
         <h1>Add New</h1>
         <!-- <ol class="breadcrumb">
-                                                                                                                                                                                                                                                                                                                                                                                                    <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
-                                                                                                                                                                                                                                                                                                                                                                                                    <li class="active">Here</li>
-                                                                                                                                                                                                                                                                                                                                                                                                </ol> -->
+                                                                                                                                                                                                                                                                                                                                                                                                                                            <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
+                                                                                                                                                                                                                                                                                                                                                                                                                                            <li class="active">Here</li>
+                                                                                                                                                                                                                                                                                                                                                                                                                                        </ol> -->
     </section>
 
     <!-- Main content -->
@@ -31,10 +31,10 @@
                     <div class="form-group">
                         {!! Form::label('name', __('product.type') . ':*') !!}
                         {!! Form::select(
-                            'type',
-                            ['0' => 'Select type', 'product' => 'Product', 'service' => 'Service'],
+                            'types',
+                            ['product' => 'Product', 'service' => 'Service'],
                             !empty($duplicate_product->type) ? $duplicate_product->type : null,
-                            ['class' => 'form-control select2', 'required', 'id' => 'type'],
+                            ['placeholder' => __('messages.please_select'), 'class' => 'form-control select2', 'required', 'id' => 'type'],
                         ) !!}
 
                     </div>
@@ -210,7 +210,7 @@
                         {!! Form::label('name', __('product.study_time') . ':') !!}
                         {!! Form::select(
                             'study_time',
-                            ['Part Time', 'Full Time'],
+                            ['Part Time' => 'Part Time', 'Full Time' => 'Full Time'],
                             !empty($duplicate_product->name) ? $duplicate_product->name : null,
                             ['placeholder' => __('messages.please_select'), 'class' => 'form-control select2'],
                         ) !!}
@@ -297,7 +297,13 @@
                             <div class="col-md-6">
                                 {!! Form::select(
                                     'duration_year',
-                                    ['1', '2', '3', '4', '5'],
+                                    [
+                                        '1' => '1',
+                                        '2' => '2',
+                                        '3' => '3',
+                                        '4' => '4',
+                                        '5' => '5',
+                                    ],
                                     !empty($duplicate_product->duration) ? $duplicate_product->duration : null,
                                     ['class' => 'form-control select2', 'placeholder' => 'Year'],
                                 ) !!}
@@ -305,7 +311,20 @@
                             <div class="col-md-6">
                                 {!! Form::select(
                                     'duration_month',
-                                    ['1', '2', '3', '4', '5', '7', '8', '9', '10', '11'],
+                                    [
+                                        '1' => '1',
+                                        '2' => '2',
+                                        '3' => '3',
+                                        '4' => '4',
+                                        '5' => '5',
+                                        '6' => '6',
+                                        '7' => '7',
+                                        '8' => '8',
+                                        '9' => '9',
+                                        '10' => '10',
+                                        '11' => '11',
+                                        '12' => '12',
+                                    ],
                                     !empty($duplicate_product->duration) ? $duplicate_product->duration : null,
                                     ['class' => 'form-control select2', 'placeholder' => 'Month'],
                                 ) !!}
@@ -318,14 +337,14 @@
                         {!! Form::label('name', __('product.tuition_fees') . ':') !!}
                         <div class="row">
                             <div class="col-md-6">
-                                {!! Form::text(
+                                {!! Form::number(
                                     'home_students_fees',
                                     !empty($duplicate_product->home_students_fees) ? $duplicate_product->home_students_fees : null,
                                     ['class' => 'form-control', 'placeholder' => __('product.home_students_fees')],
                                 ) !!}
                             </div>
                             <div class="col-md-6">
-                                {!! Form::text(
+                                {!! Form::number(
                                     'int_students_fees',
                                     !empty($duplicate_product->int_students_fees) ? $duplicate_product->int_students_fees : null,
                                     ['class' => 'form-control', 'placeholder' => __('product.int_students_fees')],
@@ -631,7 +650,7 @@
                         {!! Form::label('tax_type', __('product.selling_price_tax_type') . ':*') !!}
                         {!! Form::select(
                             'tax_type',
-                            ['inclusive' => __('product.inclusive'), 'exclusive' => __('product.exclusive')],
+                            ['Inclusive' => __('product.inclusive'), 'Exclusive' => __('product.exclusive')],
                             !empty($duplicate_product->tax_type) ? $duplicate_product->tax_type : 'exclusive',
                             ['class' => 'form-control select2', 'required'],
                         ) !!}
@@ -685,7 +704,7 @@
                         {!! Form::label('price_changeable', __('product.price_changeable') . ':*') !!}
                         {!! Form::select(
                             'price_changeable',
-                            ['Yes', 'No'],
+                            ['1' => 'Yes', '0' => 'No'],
                             !empty($duplicate_product->price_changeable) ? $duplicate_product->price_changeable : null,
                             ['class' => 'form-control', 'required', 'placeholder' => __('messages.please_select')],
                         ) !!}

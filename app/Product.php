@@ -105,6 +105,16 @@ class Product extends Model
         return $this->belongsTo(\App\Category::class, 'sub_category_id', 'id');
     }
 
+    public function subCategory()
+    {
+        return $this->belongsTo(\App\Category::class);
+    }
+
+    public function childCategory()
+    {
+        return $this->belongsTo(\App\Category::class);
+    }
+
     /**
      * Get the brand associated with the product.
      */
@@ -289,7 +299,6 @@ class Product extends Model
                         // only the first price counts
                         break;
                     }
-
                 }
             }
         }
@@ -349,7 +358,6 @@ class Product extends Model
                         // only the first price counts
                         break;
                     }
-
                 }
             }
         }
@@ -364,7 +372,6 @@ class Product extends Model
             $curr = cache()->remember('default_currency', now()->addDay(), function () {
                 return Currency::where('is_default', '=', 1)->first();
             });
-
         }
 
         $price = $price * $curr->value;
@@ -456,7 +463,6 @@ class Product extends Model
                         $preprice += $attrVal['prices'][$optionKey];
                         break;
                     }
-
                 }
             }
         }
@@ -477,7 +483,6 @@ class Product extends Model
         $preprice = $preprice * $curr->value;
         $Percentage = (($preprice - $price) * 100) / $preprice;
         return $Percentage;
-
     }
 
 
@@ -510,7 +515,6 @@ class Product extends Model
                         // only the first price counts
                         break;
                     }
-
                 }
             }
         }
@@ -522,5 +526,4 @@ class Product extends Model
     {
         return $this->hasMany(ResellingProduct::class, 'product_id');
     }
-
 }
