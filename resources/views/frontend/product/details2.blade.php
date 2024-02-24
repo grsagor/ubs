@@ -136,6 +136,16 @@
             cursor: pointer;
         }
 
+        .policy-button {
+            background-color: #515151e2;
+            color: #fff;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
         .complain-info-item {
             display: flex;
             align-items: center;
@@ -177,54 +187,30 @@
                     <div class="card-body">
 
                         <div class="row header laptopp-view">
-                            <div class="col-md-9">
+                            <div class="col-md-8">
                                 <div class="job-title">{{ $info->name }}</div>
                                 <div class="card-text company-name color-black">
-                                    {{ $info->business_location ? $info->business_location->name : '' }}</div>
-                                <div class="card-text company-name color-black">
-                                    {{ $info->business_location->landmark }}, {{ $info->business_location->city }},
-                                    {{ $info->business_location->zip_code }},
-                                    {{ $info->business_location->country }}
+                                    {{ $info->category->name }}
                                 </div>
-
+                                <div class="price"> &pound; Price+ VAT</div>
+                                <div class="refund mt-1">
+                                    <a href="{{ route('footer.details.policies.return_refund_policies') }}" target="__blank"
+                                        style="font-size: 20px;">Refund Policy
+                                    </a>
+                                </div>
                             </div>
 
-                            <div class="col-md-3 text-end">
-                                @php
-                                    $imageUrl = $info->business_location && File::exists($info->business_location->logo) ? asset($info->business_location->logo) : 'https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg';
-                                @endphp
-
-                                <a
-                                    href="{{ $info->business_location ? route('shop.service', $info->business_location->id) : '#' }}">
-                                    <div>
-                                        <img class="" src="{{ $imageUrl }}" alt=""
-                                            style="width: 35% !important;">
-                                    </div>
-                                </a>
+                            <div class="col-md-4 text-start">
+                                <div>
+                                    Size: <span class="txtbold">Size</span>
+                                </div>
+                                <div>
+                                    Color: <span class="txtbold">Color</span>
+                                </div>
                             </div>
                         </div>
 
-                        {{-- <div class="row header mobile-view">
-                            <div class="col-md-12 text-center">
-
-                                @php
-                                    $businessLocation = $job->businessLocation;
-                                    $imageUrl = $businessLocation && File::exists($businessLocation->logo) ? asset($businessLocation->logo) : 'https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg';
-                                @endphp
-
-                                <a href="{{ $businessLocation ? route('shop.service', $businessLocation->id) : '#' }}">
-                                    <div>
-                                        <img class="" src="{{ $imageUrl }}" style="width: 30% !important;">
-                                    </div>
-                                </a>
-                            </div>
-                            <div class="col-md-12 mt-3">
-                                <div class="job-title">{{ $job->company_name }}</div>
-                                <p class="card-text company-name color-black">{{ $job->title }}</p>
-                            </div>
-                        </div> --}}
-
-                        <div class="apply-section mt-3">
+                        <div class="apply-section mt-1">
 
                             <div class="apply-button">
 
@@ -270,7 +256,7 @@
                                                 SKU: <span class="txtbold">{{ $info->sku ?? '' }}</span>
                                             </div>
                                             <div>
-                                                Unit: <span class="txtbold">{{ $info->unit->name ?? '' }}</span>
+                                                Unit: <span class="txtbold">{{ $info->unit->short_name ?? '' }}</span>
                                             </div>
                                             <div>
                                                 Brand: <span class="txtbold">{{ $info->brand->name ?? '' }}</span>
@@ -286,11 +272,11 @@
                                 <div class="requirements-card">
                                     <h3 class="sectitle">Images</h3>
                                     <div class="col-md-12 text-justify">
-                                        <img class="" src="{{ $imageUrl }}" alt=""
+                                        <img class="" src="{{ $first_image }}" alt=""
                                             style="width: 33% !important;">
-                                        <img class="" src="{{ $imageUrl }}" alt=""
+                                        <img class="" src="{{ $first_image }}" alt=""
                                             style="width: 33% !important;">
-                                        <img class="" src="{{ $imageUrl }}" alt=""
+                                        <img class="" src="{{ $first_image }}" alt=""
                                             style="width: 33% !important;">
                                     </div>
                                 </div>
@@ -338,39 +324,15 @@
                             </div>
                         </div>
 
-                        @if ($info->tuition_fee_installment == 'Available')
-                            <div class="requirements-section row mt-3">
-                                <div class="col-sm-12 ">
-                                    <div class="requirements-card">
-                                        <h3 class="sectitle">Tution fee installment details</h3>
-                                        <div class="col-md-12 text-justify">
-                                            {!! $info->fee_installment_description ?? '' !!}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        @endif
-
-
                         <div class="requirements-section row mt-3">
                             <div class="col-sm-12 ">
                                 <div class="requirements-card">
-                                    <h3 class="sectitle">Work placement details</h3>
-                                    @if ($info->work_placement == 'Available')
-                                        <div class="col-md-12 text-justify">
-                                            {!! $info->work_placement_description ?? '' !!}
-                                        </div>
-                                    @endif
+
+                                    <h3 class="sectitle">Instalments</h3>
                                     <div class="col-md-12 text-justify">
-                                        {!! $info->general_facilities ?? '' !!}
+                                        {!! $info->fee_installment_description ?? '' !!}
                                     </div>
-                                </div>
-                            </div>
-                        </div>
 
-                        <div class="requirements-section row mt-3">
-                            <div class="col-sm-12 ">
-                                <div class="requirements-card">
                                     <h3 class="sectitle">Requirements</h3>
                                     <div class="col-md-12 text-justify">
                                         {{ $info->requirements ?? '' }}
@@ -378,35 +340,69 @@
                                     <div class="col-md-12 text-justify">
                                         {!! $info->requirement_details ?? '' !!}
                                     </div>
-                                </div>
-                            </div>
-                        </div>
 
-                        <div class="requirements-section row mt-3">
-                            <div class="col-sm-12 ">
-                                <div class="requirements-card">
-                                    <h3 class="sectitle">Service Feature</h3>
+                                    <h3 class="sectitle">Features</h3>
                                     <div class="col-md-12 text-justify">
                                         {!! $info->service_features ?? '' !!}
                                     </div>
+
+                                    <h3 class="sectitle">Facilities</h3>
+                                    <div class="col-md-12 text-justify">
+                                        {!! $info->general_facilities ?? '' !!}
+                                    </div>
+
+                                    <h3 class="sectitle">Details</h3>
+                                    <div class="col-md-12 text-justify">
+                                        {!! $info->product_description ?? '' !!}
+                                    </div>
+
+                                    @if ($info->work_placement == 'Available')
+                                        <h3 class="sectitle">Work Placement</h3>
+                                        <div class="col-md-12 text-justify">
+                                            {!! $info->work_placement_description ?? '' !!}
+                                        </div>
+                                    @endif
+
+                                    <h3 class="policy">
+                                        <a href="#" target="__blank" class="policy-button" style="float: right;">
+                                            Policy
+                                        </a>
+                                    </h3>
                                 </div>
                             </div>
                         </div>
 
+
                         <div class="requirements-section row mt-3">
                             <div class="col-sm-12 ">
                                 <div class="requirements-card">
+                                    <h3 class="sectitle">About Provider</h3>
+
+                                    <div class="row header laptopp-view">
+                                        <div class="col-md-9">
+                                            <div class="card-text company-name color-black">
+                                                {{ $info->business ? $info->business->name : '' }}</div>
+                                        </div>
+
+                                        <div class="col-md-3 text-end">
+                                            @php
+                                                $imageUrl = $info->business && File::exists($info->business->logo) ? asset($info->business->logo) : 'https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg';
+                                            @endphp
+                                            <a
+                                                href="{{ $info->business ? route('shop.service', $info->business->id) : '#' }}">
+                                                <div>
+                                                    <img class="" src="{{ $imageUrl }}" alt=""
+                                                        style="width: 35% !important;">
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+
                                     <h3 class="sectitle">Experiences</h3>
                                     <div class="col-md-12 text-justify">
                                         {!! $info->experiences ?? '' !!}
                                     </div>
-                                </div>
-                            </div>
-                        </div>
 
-                        <div class="requirements-section row mt-3">
-                            <div class="col-sm-12 ">
-                                <div class="requirements-card">
                                     <h3 class="sectitle">Specializations</h3>
                                     <div class="col-md-12 text-justify">
                                         {!! $info->specializations ?? '' !!}
@@ -415,62 +411,24 @@
                             </div>
                         </div>
 
-                        <div class="requirements-section row mt-3">
-                            <div class="col-sm-12 ">
-                                <div class="requirements-card">
-                                    <h3 class="sectitle">Policy</h3>
-                                    <div class="col-md-12 text-justify">
-                                        {!! $info->policy ?? '' !!}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        {{-- <div class="company-info-section row mt-3">
-                            <div class="col-sm-12 ">
-                                <div class="company-info-card">
-                                    <h3 class="sectitle">Company Information</h3>
-                                    <div class="col-md-12">
-                                        <p>{{ $job->company_name }}</p>
-
-                                        <h5 class="subheading mb-0">Business:</h5>
-                                        <div class="text-justify">
-                                            {!! $job->company_information ?? '' !!}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> --}}
-
                         <div class="report-section row mt-3">
                             <div class="col-sm-12">
                                 <div class="report-card">
                                     <h3 class="reptitle">
-                                        Report this Job / Company
+                                        Report About This Service & Company
                                         <button class="report-button"><i class="fas fa-flag"></i> Report</button>
                                     </h3>
                                     <div class="col-md-12 text-justify">
-                                        <p>If the advertiser requests any payment from you for this job or provides
-                                            incorrect or misleading information, please notify us immediately or report the
-                                            job. Unipuller does not endorse or support any payment to individuals or
-                                            organizations for job opportunities. Unipuller will not be held responsible for
-                                            any financial transactions.
+                                        <p>Your satisfaction is our priority. If you notice any service discrepancies or
+                                            policy violations, please inform
+                                            us immediately. We'll take swift action to address them. While Unipuler isn't
+                                            directly responsible for any
+                                            issue regarding this service, we're committed to upholding our standards. Note
+                                            that Unipuler acts solely
+                                            as a facilitator and is not liable for the quality or delivery of services
+                                            provided by our partners. However,
+                                            we hold our partners accountable to ensure your satisfaction.
                                         </p>
-                                    </div>
-
-                                    <div class="complain-information">
-                                        <div class="complain-info-item">
-                                            <i class="fas fa-info-circle"></i>
-                                            <div>
-                                                +44 (0) 7460497454
-                                            </div>
-                                        </div>
-                                        <div class="complain-info-item">
-                                            <i class="fas fa-envelope"></i>
-                                            <div>
-                                                complain@unipuller.com
-                                            </div>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
