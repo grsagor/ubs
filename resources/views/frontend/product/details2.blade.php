@@ -191,6 +191,9 @@
                                 <div class="job-title">{{ $info->name }}</div>
                                 <div class="card-text company-name color-black">
                                     {{ $info->category->name }}
+                                    {{ $info->subCategory->name ?? '' }}
+                                    {{-- {{ $info->childCategory->name }} --}}
+                                    {{ $info->brand->name ?? '' }}
                                 </div>
                                 <div class="price"> &pound; Price+ VAT</div>
                                 <div class="refund mt-1">
@@ -200,14 +203,14 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-4 text-start">
+                            {{-- <div class="col-md-4 text-start">
                                 <div>
                                     Size: <span class="txtbold">Size</span>
                                 </div>
                                 <div>
                                     Color: <span class="txtbold">Color</span>
                                 </div>
-                            </div>
+                            </div> --}}
                         </div>
 
                         <div class="apply-section mt-1">
@@ -226,62 +229,22 @@
                             </div>
                         </div>
 
-                        <div class="summary-section row mt-3">
+                        {{-- <div class="summary-section row mt-3">
                             <div class="col-sm-12 ">
                                 <div class="summery-card">
                                     <h3 class="sectitle">Summary</h3>
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <div>
-                                                Category: <span class="txtbold">{{ $info->category->name }}</span>
-                                            </div>
-                                            <div>
-                                                @if ($info->sub_category_id)
-                                                    Sub-category: <span
-                                                        class="txtbold">{{ $info->subCategory->name }}</span>
-                                                @endif
-                                            </div>
-                                            <div>
-                                                @if ($info->child_category_id)
-                                                    Child-category: <span
-                                                        class="txtbold">{{ $info->childCategory->name }}</span>
-                                                @endif
-                                            </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div>
-                                                Barcode type: <span class="txtbold">{{ $info->barcode_type ?? '' }}</span>
-                                            </div>
-                                            <div>
                                                 SKU: <span class="txtbold">{{ $info->sku ?? '' }}</span>
-                                            </div>
-                                            <div>
-                                                Unit: <span class="txtbold">{{ $info->unit->short_name ?? '' }}</span>
-                                            </div>
-                                            <div>
-                                                Brand: <span class="txtbold">{{ $info->brand->name ?? '' }}</span>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-
-                        <div class="requirements-section row mt-3">
-                            <div class="col-sm-12 ">
-                                <div class="requirements-card">
-                                    <h3 class="sectitle">Images</h3>
-                                    <div class="col-md-12 text-justify">
-                                        <img class="" src="{{ $first_image }}" alt=""
-                                            style="width: 33% !important;">
-                                        <img class="" src="{{ $first_image }}" alt=""
-                                            style="width: 33% !important;">
-                                        <img class="" src="{{ $first_image }}" alt=""
-                                            style="width: 33% !important;">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        </div> --}}
 
                         <div class="summary-section row mt-3">
                             <div class="col-sm-12 ">
@@ -299,7 +262,6 @@
                                                 Start-Months: <span
                                                     class="txtbold">{{ $info->selected_months ?? '' }}</span>
                                             </div>
-
                                         </div>
                                         <div class="col-md-6">
                                             <div>
@@ -327,34 +289,60 @@
                         <div class="requirements-section row mt-3">
                             <div class="col-sm-12 ">
                                 <div class="requirements-card">
+                                    <h3 class="sectitle">Images</h3>
+                                    <div class="col-md-12 text-justify">
+                                        <img class="" src="{{ $first_image }}" alt=""
+                                            style="width: 33% !important;">
+                                        <img class="" src="{{ $first_image }}" alt=""
+                                            style="width: 33% !important;">
+                                        <img class="" src="{{ $first_image }}" alt=""
+                                            style="width: 33% !important;">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
-                                    <h3 class="sectitle">Instalments</h3>
-                                    <div class="col-md-12 text-justify">
-                                        {!! $info->fee_installment_description ?? '' !!}
-                                    </div>
+                        <div class="requirements-section row mt-3">
+                            <div class="col-sm-12 ">
+                                <div class="requirements-card">
 
-                                    <h3 class="sectitle">Requirements</h3>
-                                    <div class="col-md-12 text-justify">
-                                        {{ $info->requirements ?? '' }}
-                                    </div>
-                                    <div class="col-md-12 text-justify">
-                                        {!! $info->requirement_details ?? '' !!}
-                                    </div>
+                                    @if ($info->fee_installment_description)
+                                        <h3 class="sectitle">Instalments</h3>
+                                        <div class="col-md-12 text-justify">
+                                            {!! $info->fee_installment_description ?? '' !!}
+                                        </div>
+                                    @endif
 
-                                    <h3 class="sectitle">Features</h3>
-                                    <div class="col-md-12 text-justify">
-                                        {!! $info->service_features ?? '' !!}
-                                    </div>
+                                    @if ($info->requirements)
+                                        <h3 class="sectitle">Requirements</h3>
+                                        <div class="col-md-12 text-justify">
+                                            {{ $info->requirements ?? '' }}
+                                        </div>
+                                        <div class="col-md-12 text-justify">
+                                            {!! $info->requirement_details ?? '' !!}
+                                        </div>
+                                    @endif
 
-                                    <h3 class="sectitle">Facilities</h3>
-                                    <div class="col-md-12 text-justify">
-                                        {!! $info->general_facilities ?? '' !!}
-                                    </div>
+                                    @if ($info->service_features)
+                                        <h3 class="sectitle">Features</h3>
+                                        <div class="col-md-12 text-justify">
+                                            {!! $info->service_features ?? '' !!}
+                                        </div>
+                                    @endif
 
-                                    <h3 class="sectitle">Details</h3>
-                                    <div class="col-md-12 text-justify">
-                                        {!! $info->product_description ?? '' !!}
-                                    </div>
+                                    @if ($info->general_facilities)
+                                        <h3 class="sectitle">Facilities</h3>
+                                        <div class="col-md-12 text-justify">
+                                            {!! $info->general_facilities ?? '' !!}
+                                        </div>
+                                    @endif
+
+                                    @if ($info->product_description)
+                                        <h3 class="sectitle">Details</h3>
+                                        <div class="col-md-12 text-justify">
+                                            {!! $info->product_description ?? '' !!}
+                                        </div>
+                                    @endif
 
                                     @if ($info->work_placement == 'Available')
                                         <h3 class="sectitle">Work Placement</h3>
@@ -398,15 +386,19 @@
                                         </div>
                                     </div>
 
-                                    <h3 class="sectitle">Experiences</h3>
-                                    <div class="col-md-12 text-justify">
-                                        {!! $info->experiences ?? '' !!}
-                                    </div>
+                                    @if ($info->specializations)
+                                        <h3 class="sectitle">Experiences</h3>
+                                        <div class="col-md-12 text-justify">
+                                            {!! $info->experiences ?? '' !!}
+                                        </div>
+                                    @endif
 
-                                    <h3 class="sectitle">Specializations</h3>
-                                    <div class="col-md-12 text-justify">
-                                        {!! $info->specializations ?? '' !!}
-                                    </div>
+                                    @if ($info->specializations)
+                                        <h3 class="sectitle">Specializations</h3>
+                                        <div class="col-md-12 text-justify">
+                                            {!! $info->specializations ?? '' !!}
+                                        </div>
+                                    @endif
                                 </div>
                             </div>
                         </div>
