@@ -186,7 +186,8 @@
                 <div class="card custom-card card-design">
                     <div class="card-body">
 
-                        <div class="row header laptopp-view">
+                        {{-- <div class="row header laptopp-view"> --}}
+                        <div class="row header">
                             <div class="col-md-8">
                                 <div class="job-title">{{ $info->name }}</div>
                                 <div class="card-text company-name color-black">
@@ -298,9 +299,24 @@
                                             @endif
 
                                             @if ($info->duration_year)
+                                                @php
+                                                    $d_year = $info->duration_year;
+                                                    if ($d_year == 1) {
+                                                        $d_year = $d_year . ' Year';
+                                                    } else {
+                                                        $d_year = $d_year . ' Years';
+                                                    }
+
+                                                    $d_month = $info->duration_month;
+                                                    if ($d_month == 1) {
+                                                        $d_month = $d_month . ' Month';
+                                                    } else {
+                                                        $d_month = $d_month . ' Months';
+                                                    }
+                                                @endphp
                                                 <div class="col-md-6">
-                                                    Duration: <span class="txtbold">{{ $info->duration_year ?? '' }}
-                                                        {{ $info->duration_month ?? '' }}</span>
+                                                    Duration: <span class="txtbold">{{ $d_year ?? '' }}
+                                                        {{ $d_month ?? '' }}</span>
                                                 </div>
                                             @endif
 
