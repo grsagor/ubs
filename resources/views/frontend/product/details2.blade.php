@@ -3,9 +3,9 @@
 @section('css')
     <style>
         /* .container {
-                margin-top: 10px;
-                margin-bottom: 10px;
-            } */
+                    margin-top: 10px;
+                    margin-bottom: 10px;
+                } */
 
         .color-black {
             color: black !important;
@@ -339,28 +339,31 @@
                             </div>
                         @endif
 
-                        <div class="requirements-section row mt-3">
-                            <div class="col-sm-12 ">
-                                <div class="requirements-card">
-                                    <h3 class="sectitle">Images</h3>
-                                    <div class="col-md-12 text-justify">
-                                        {{-- {{ dd($info->image) }} --}}
-                                        @foreach (json_decode($info->image ?? '[]') as $item)
-                                            <img class="" src="{{ asset($item) }}" alt=""
-                                                style="width: 33% !important;">
-                                        @endforeach
+                        @if ($info->image)
+                            <div class="requirements-section row mt-3">
+                                <div class="col-sm-12 ">
+                                    <div class="requirements-card">
+                                        <h3 class="sectitle">Images</h3>
+                                        <div class="col-md-12 text-justify">
+                                            {{-- {{ dd($info->image) }} --}}
+                                            @foreach (json_decode($info->image ?? '[]') as $item)
+                                                <img class="" src="{{ asset($item) }}" alt=""
+                                                    style="width: 33% !important;">
+                                            @endforeach
 
 
-                                        {{-- <img class="" src="{{ $info->image }}" alt=""
+                                            {{-- <img class="" src="{{ $info->image }}" alt=""
                                             style="width: 33% !important;">
                                         <img class="" src="{{ $first_image }}" alt=""
                                             style="width: 33% !important;">
                                         <img class="" src="{{ $first_image }}" alt=""
                                             style="width: 33% !important;"> --}}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        @endif
+
 
                         <div class="requirements-section row mt-3">
                             <div class="col-sm-12 ">
