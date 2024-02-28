@@ -587,7 +587,7 @@ class ProductController extends Controller
                 foreach ($request->file('image') as $image) {
                     $image_name = Str::uuid()->toString() . '.' . $image->getClientOriginalExtension();
                     $image->move($image_path, $image_name);
-                    $images[] = 'uploads/news/image/' . $image_name;
+                    $images[] = 'uploads/product/image/' . $image_name;
                 }
 
                 $product_details['image'] = json_encode($images);
@@ -2591,7 +2591,8 @@ class ProductController extends Controller
 
     public function productShow($id)
     {
-        $data['info'] = Product::with('unit', 'brand', 'business')->findOrFail($id);
+        $data['info'] = Product::with('unit', 'brand', 'variations')->findOrFail($id);
+        // return $data;
         $data['user_info'] = Media::where('uploaded_by', $data['info']->user_id)
             ->where('model_type', 'App\\User')->first();
         $data['first_image'] = 'https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg';
