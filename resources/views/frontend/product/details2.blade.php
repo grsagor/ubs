@@ -2,10 +2,10 @@
 @section('title', $info->name)
 @section('css')
     <style>
-        .container {
-            margin-top: 10px;
-            margin-bottom: 10px;
-        }
+        /* .container {
+                margin-top: 10px;
+                margin-bottom: 10px;
+            } */
 
         .color-black {
             color: black !important;
