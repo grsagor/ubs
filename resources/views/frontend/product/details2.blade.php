@@ -75,7 +75,7 @@
             font-weight: 500;
         }
 
-        .summery-card,
+        .summary-card,
         .company-info-card {
             border-radius: 4px;
             border: 0.5px solid #DDD;
@@ -195,14 +195,24 @@
                                     {{-- {{ $info->childCategory->name }} --}}
                                     {{ $info->brand->name ?? '' }}
                                 </div>
-                                <div class="price"> &pound; Price+ VAT</div>
-                                <div class="refund mt-1">
+                                @php
+                                    // For service
+                                    $service_price = null;
+                                    foreach ($info->variations as $key => $value) {
+                                        $service_price = $value->sell_price_inc_tax;
+                                        break; // break out of the loop after saving the first value
+                                    }
+                                @endphp
+
+                                <div class="price mt-2 mb-2"> &pound; {{ number_format($service_price, 2) }}</div>
+                                <div class="refund">
                                     <a href="{{ route('footer.details.policies.return_refund_policies') }}" target="__blank"
-                                        style="font-size: 20px;">Refund Policy
+                                        style="font-size: 18px;">Refund Policy
                                     </a>
                                 </div>
                             </div>
 
+                            {{-- For product --}}
                             {{-- <div class="col-md-4 text-start">
                                 <div>
                                     Size: <span class="txtbold">Size</span>
@@ -229,74 +239,108 @@
                             </div>
                         </div>
 
-                        {{-- <div class="summary-section row mt-3">
-                            <div class="col-sm-12 ">
-                                <div class="summery-card">
-                                    <h3 class="sectitle">Summary</h3>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div>
-                                                SKU: <span class="txtbold">{{ $info->sku ?? '' }}</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> --}}
+                        @if (
+                            $info->sku ||
+                                $info->study_time ||
+                                $info->selected_years ||
+                                $info->selected_months ||
+                                $info->name_of_institution ||
+                                $info->duration_year ||
+                                $info->home_students_fees ||
+                                $info->int_students_fees)
 
-                        <div class="summary-section row mt-3">
-                            <div class="col-sm-12 ">
-                                <div class="summery-card">
-                                    <h3 class="sectitle">Study</h3>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div>
-                                                Study time: <span class="txtbold">{{ $info->study_time }}</span>
-                                            </div>
-                                            <div>
-                                                Start-years: <span class="txtbold">{{ $info->selected_years ?? '' }}</span>
-                                            </div>
-                                            <div>
-                                                Start-Months: <span
-                                                    class="txtbold">{{ $info->selected_months ?? '' }}</span>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div>
-                                                Name of institution: <span
-                                                    class="txtbold">{{ $info->name_of_institution ?? '' }}</span>
-                                            </div>
-                                            <div>
-                                                Duration: <span class="txtbold">{{ $info->duration_year ?? '' }}
-                                                    {{ $info->duration_month ?? '' }}</span>
-                                            </div>
-                                            <div>
-                                                Tution fees for home students: <span
-                                                    class="txtbold">{{ $info->home_students_fees ?? '' }}</span>
-                                            </div>
-                                            <div>
-                                                Tution fees for international students: <span
-                                                    class="txtbold">{{ $info->int_students_fees ?? '' }}</span>
-                                            </div>
+                            <div class="summary-section row mt-3">
+                                <div class="col-sm-12 ">
+                                    <div class="summary-card">
+                                        <h3 class="sectitle">Summary</h3>
+                                        <div class="row">
+                                            @if ($info->sku)
+                                                <div class="col-md-6">
+                                                    SKU: <span class="txtbold">{{ $info->sku ?? '' }}</span>
+                                                </div>
+                                            @endif
+
+                                            @if ($info->study_time)
+                                                <div class="col-md-6">
+                                                    Study time: <span class="txtbold">{{ $info->study_time }}</span>
+                                                </div>
+                                            @endif
+
+
+                                            @php
+                                                $selected_years = json_decode($info->selected_years);
+                                                $start_year = !empty($selected_years) ? $selected_years[0] : '';
+                                            @endphp
+
+                                            @if (!empty($start_year))
+                                                <div class="col-md-6">
+                                                    Start-year: <span class="txtbold">{{ $start_year }}</span>
+                                                </div>
+                                            @endif
+
+                                            @php
+                                                $selected_months = json_decode($info->selected_months);
+                                                $start_month = !empty($selected_months) ? $selected_months[0] : '';
+                                            @endphp
+
+                                            @if (!empty($start_month))
+                                                <div class="col-md-6">
+                                                    Start-Month: <span class="txtbold">{{ $start_month }}</span>
+                                                </div>
+                                            @endif
+
+
+                                            @if ($info->name_of_institution)
+                                                <div class="col-md-6">
+                                                    Name of institution: <span
+                                                        class="txtbold">{{ $info->name_of_institution ?? '' }}</span>
+                                                </div>
+                                            @endif
+
+                                            @if ($info->duration_year)
+                                                <div class="col-md-6">
+                                                    Duration: <span class="txtbold">{{ $info->duration_year ?? '' }}
+                                                        {{ $info->duration_month ?? '' }}</span>
+                                                </div>
+                                            @endif
+
+                                            @if ($info->home_students_fees)
+                                                <div class="col-md-6">
+                                                    Tution fees for home students: <span
+                                                        class="txtbold">{{ $info->home_students_fees ?? '' }}</span>
+                                                </div>
+                                            @endif
+
+                                            @if ($info->int_students_fees)
+                                                <div class="col-md-6">
+                                                    Tution fees for international students: <span
+                                                        class="txtbold">{{ $info->int_students_fees ?? '' }}</span>
+                                                </div>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        @endif
 
                         <div class="requirements-section row mt-3">
                             <div class="col-sm-12 ">
                                 <div class="requirements-card">
                                     <h3 class="sectitle">Images</h3>
                                     <div class="col-md-12 text-justify">
-                                        <img class="" src="{{ $first_image }}" alt=""
+                                        {{-- {{ dd($info->image) }} --}}
+                                        @foreach (json_decode($info->image ?? '[]') as $item)
+                                            <img class="" src="{{ asset($item) }}" alt=""
+                                                style="width: 33% !important;">
+                                        @endforeach
+
+
+                                        {{-- <img class="" src="{{ $info->image }}" alt=""
                                             style="width: 33% !important;">
                                         <img class="" src="{{ $first_image }}" alt=""
                                             style="width: 33% !important;">
                                         <img class="" src="{{ $first_image }}" alt=""
-                                            style="width: 33% !important;">
+                                            style="width: 33% !important;"> --}}
                                     </div>
                                 </div>
                             </div>
@@ -305,7 +349,7 @@
                         <div class="requirements-section row mt-3">
                             <div class="col-sm-12 ">
                                 <div class="requirements-card">
-
+                                    <h3 class="sectitle">Details</h3>
                                     @if ($info->fee_installment_description)
                                         <h3 class="sectitle">Instalments</h3>
                                         <div class="col-md-12 text-justify">
@@ -314,38 +358,38 @@
                                     @endif
 
                                     @if ($info->requirements)
-                                        <h3 class="sectitle">Requirements</h3>
+                                        <h3 class="sectitle mt-3">Requirements</h3>
                                         <div class="col-md-12 text-justify">
                                             {{ $info->requirements ?? '' }}
                                         </div>
-                                        <div class="col-md-12 text-justify">
+                                        <div class="col-md-12 text-justify mt-2">
                                             {!! $info->requirement_details ?? '' !!}
                                         </div>
                                     @endif
 
                                     @if ($info->service_features)
-                                        <h3 class="sectitle">Features</h3>
+                                        <h3 class="sectitle mt-3">Features</h3>
                                         <div class="col-md-12 text-justify">
                                             {!! $info->service_features ?? '' !!}
                                         </div>
                                     @endif
 
                                     @if ($info->general_facilities)
-                                        <h3 class="sectitle">Facilities</h3>
+                                        <h3 class="sectitle mt-3">Facilities</h3>
                                         <div class="col-md-12 text-justify">
                                             {!! $info->general_facilities ?? '' !!}
                                         </div>
                                     @endif
 
                                     @if ($info->product_description)
-                                        <h3 class="sectitle">Details</h3>
+                                        <h3 class="sectitle mt-3">More Info</h3>
                                         <div class="col-md-12 text-justify">
                                             {!! $info->product_description ?? '' !!}
                                         </div>
                                     @endif
 
                                     @if ($info->work_placement == 'Available')
-                                        <h3 class="sectitle">Work Placement</h3>
+                                        <h3 class="sectitle mt-3">Work Placement</h3>
                                         <div class="col-md-12 text-justify">
                                             {!! $info->work_placement_description ?? '' !!}
                                         </div>
@@ -369,15 +413,15 @@
                                     <div class="row header laptopp-view">
                                         <div class="col-md-9">
                                             <div class="card-text company-name color-black">
-                                                {{ $info->business ? $info->business->name : '' }}</div>
+                                                {{ $info->business_location ? $info->business_location->name : '' }}</div>
                                         </div>
 
                                         <div class="col-md-3 text-end">
                                             @php
-                                                $imageUrl = $info->business && File::exists($info->business->logo) ? asset($info->business->logo) : 'https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg';
+                                                $imageUrl = $user_info && $user_info->file_name && File::exists(public_path("uploads/media/{$user_info->file_name}")) ? asset("uploads/media/{$user_info->file_name}") : 'https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg';
                                             @endphp
                                             <a
-                                                href="{{ $info->business ? route('shop.service', $info->business->id) : '#' }}">
+                                                href="{{ $info->business_location ? route('shop.service', $info->business_location->id) : '#' }}">
                                                 <div>
                                                     <img class="" src="{{ $imageUrl }}" alt=""
                                                         style="width: 35% !important;">
@@ -386,15 +430,15 @@
                                         </div>
                                     </div>
 
-                                    @if ($info->specializations)
-                                        <h3 class="sectitle">Experiences</h3>
+                                    @if ($info->experiences)
+                                        <h3 class="sectitle color-black ">Experiences</h3>
                                         <div class="col-md-12 text-justify">
                                             {!! $info->experiences ?? '' !!}
                                         </div>
                                     @endif
 
                                     @if ($info->specializations)
-                                        <h3 class="sectitle">Specializations</h3>
+                                        <h3 class="sectitle color-black mt-3">Specializations</h3>
                                         <div class="col-md-12 text-justify">
                                             {!! $info->specializations ?? '' !!}
                                         </div>
@@ -407,7 +451,7 @@
                             <div class="col-sm-12">
                                 <div class="report-card">
                                     <h3 class="reptitle">
-                                        Report About This Service & Company
+                                        Report This Product/Service & Company. Use product & service condition.
                                         <button class="report-button"><i class="fas fa-flag"></i> Report</button>
                                     </h3>
                                     <div class="col-md-12 text-justify">
@@ -421,6 +465,21 @@
                                             provided by our partners. However,
                                             we hold our partners accountable to ensure your satisfaction.
                                         </p>
+                                    </div>
+
+                                    <div class="complain-information">
+                                        <div class="complain-info-item">
+                                            <i class="fas fa-info-circle"></i>
+                                            <div>
+                                                +44 (0) 7460497454
+                                            </div>
+                                        </div>
+                                        <div class="complain-info-item">
+                                            <i class="fas fa-envelope"></i>
+                                            <div>
+                                                complain@unipuller.com
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
