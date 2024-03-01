@@ -66,6 +66,7 @@ return [
     'sku' => 'SKU',
     'alert_quantity' => 'Alert quantity',
     'product_name' => 'Product Name',
+    'title' => 'Title',
     'auto_generate' => 'Auto generate',
     'manage_stock' => 'Manage Stock?',
     'enable_stock_help' => 'Enable stock management at product level',

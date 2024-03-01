@@ -7,9 +7,9 @@
     <section class="content-header">
         <h1>Add New</h1>
         <!-- <ol class="breadcrumb">
-                                                                                                                                                                                                                                                                                                                                                                                                                                            <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
-                                                                                                                                                                                                                                                                                                                                                                                                                                            <li class="active">Here</li>
-                                                                                                                                                                                                                                                                                                                                                                                                                                        </ol> -->
+                                                                                                                                                                                                                                                                                                                                                                                                                                                <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                <li class="active">Here</li>
+                                                                                                                                                                                                                                                                                                                                                                                                                                            </ol> -->
     </section>
 
     <!-- Main content -->
@@ -502,7 +502,7 @@
                         {!! Form::text('name', !empty($duplicate_product->name) ? $duplicate_product->name : null, [
                             'class' => 'form-control',
                             'required',
-                            'placeholder' => __('product.product_name'),
+                            'placeholder' => __('product.title'),
                         ]) !!}
                     </div>
                 </div>
