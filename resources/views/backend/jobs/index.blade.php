@@ -43,7 +43,7 @@
                             <th>No.</th>
                             <th>Reference</th>
                             <th>Category</th>
-                            <th style="width: 22%">Title</th>
+                            <th style="min-width: 300px; overflow: hidden; text-overflow: ellipsis;">Title</th>
                             <th>Compnay Name</th>
                             <th>Hour type</th>
                             <th>Job type</th>

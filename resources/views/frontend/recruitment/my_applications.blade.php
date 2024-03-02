@@ -1,5 +1,16 @@
 @extends('layouts.app')
 @section('title', 'My Applications')
+
+@section('content')
+    <style>
+        /* @media screen and (max-width: 768px) {
+                    .tr-width {
+                        min-width: 200px;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                    }
+                } */
+    </style>
 @section('content')
     <section class="content-header">
         <h1>My applications</h1>
@@ -79,7 +90,7 @@
                     <thead>
                         <tr>
                             <th>No</th>
-                            <th style="width: 22%">Job Title</th>
+                            <th style="min-width: 300px; overflow: hidden; text-overflow: ellipsis;">Job Title</th>
                             <th>Company Name</th>
                             <th>Location</th>
                             <th>Salary</th>

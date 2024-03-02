@@ -3,9 +3,9 @@
 @section('css')
     <style>
         /* .container {
-                    margin-top: 10px;
-                    margin-bottom: 10px;
-                } */
+                                                                margin-top: 10px;
+                                                                margin-bottom: 10px;
+                                                            } */
 
         .color-black {
             color: black !important;
@@ -28,7 +28,7 @@
 
         .job-title {
             color: #333;
-            font-size: 18px;
+            font-size: 20px;
             font-weight: 600;
         }
 
@@ -99,6 +99,10 @@
             font-size: 16px !important;
             font-weight: 600;
             margin-bottom: 10px;
+        }
+
+        .mt-10 {
+            margin-top: 10px !important;
         }
 
         .txtbold {
@@ -193,9 +197,11 @@
                                 <div class="card-text company-name color-black">
                                     {{ $info->category->name }}
                                     {{ $info->subCategory->name ?? '' }}
-                                    {{-- {{ $info->childCategory->name }} --}}
-                                    {{ $info->brand->name ?? '' }}
+                                    @if ($info->brand)
+                                        , {{ $info->brand->name }}
+                                    @endif
                                 </div>
+
                                 @php
                                     // For service
                                     $service_price = null;
@@ -370,45 +376,45 @@
                                 <div class="requirements-card">
                                     <h3 class="sectitle">Details</h3>
                                     @if ($info->fee_installment_description)
-                                        <h3 class="sectitle">Instalments</h3>
+                                        <h3 class="sectitle mt-10 color-black">Instalments</h3>
                                         <div class="col-md-12 text-justify">
                                             {!! $info->fee_installment_description ?? '' !!}
                                         </div>
                                     @endif
 
                                     @if ($info->requirements)
-                                        <h3 class="sectitle mt-3">Requirements</h3>
+                                        <h3 class="sectitle mt-10 color-black">Requirements</h3>
                                         <div class="col-md-12 text-justify">
                                             {{ $info->requirements ?? '' }}
                                         </div>
-                                        <div class="col-md-12 text-justify mt-2">
+                                        <div class="col-md-12 text-justify mt-2 ">
                                             {!! $info->requirement_details ?? '' !!}
                                         </div>
                                     @endif
 
                                     @if ($info->service_features)
-                                        <h3 class="sectitle mt-3">Features</h3>
+                                        <h3 class="sectitle mt-10 color-black">Features</h3>
                                         <div class="col-md-12 text-justify">
                                             {!! $info->service_features ?? '' !!}
                                         </div>
                                     @endif
 
                                     @if ($info->general_facilities)
-                                        <h3 class="sectitle mt-3">Facilities</h3>
+                                        <h3 class="sectitle mt-10 color-black">Facilities</h3>
                                         <div class="col-md-12 text-justify">
                                             {!! $info->general_facilities ?? '' !!}
                                         </div>
                                     @endif
 
                                     @if ($info->product_description)
-                                        <h3 class="sectitle mt-3">More Info</h3>
+                                        <h3 class="sectitle mt-10 color-black">More Info</h3>
                                         <div class="col-md-12 text-justify">
                                             {!! $info->product_description ?? '' !!}
                                         </div>
                                     @endif
 
                                     @if ($info->work_placement == 'Available')
-                                        <h3 class="sectitle mt-3">Work Placement</h3>
+                                        <h3 class="sectitle mt-10 color-black">Work Placement</h3>
                                         <div class="col-md-12 text-justify">
                                             {!! $info->work_placement_description ?? '' !!}
                                         </div>
@@ -437,7 +443,12 @@
 
                                         <div class="col-md-3 text-end">
                                             @php
-                                                $imageUrl = $user_info && $user_info->file_name && File::exists(public_path("uploads/media/{$user_info->file_name}")) ? asset("uploads/media/{$user_info->file_name}") : 'https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg';
+                                                $imageUrl =
+                                                    $user_info &&
+                                                    $user_info->file_name &&
+                                                    File::exists(public_path("uploads/media/{$user_info->file_name}"))
+                                                        ? asset("uploads/media/{$user_info->file_name}")
+                                                        : 'https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg';
                                             @endphp
                                             <a
                                                 href="{{ $info->business_location ? route('shop.service', $info->business_location->id) : '#' }}">
@@ -470,7 +481,7 @@
                             <div class="col-sm-12">
                                 <div class="report-card">
                                     <h3 class="reptitle">
-                                        Report This Product/Service & Company. Use product & service condition.
+                                        Report this
                                         <button class="report-button"><i class="fas fa-flag"></i> Report</button>
                                     </h3>
                                     <div class="col-md-12 text-justify">
@@ -496,7 +507,7 @@
                                         <div class="complain-info-item">
                                             <i class="fas fa-envelope"></i>
                                             <div>
-                                                complain@unipuller.com
+                                                complain@unipuler.com
                                             </div>
                                         </div>
                                     </div>

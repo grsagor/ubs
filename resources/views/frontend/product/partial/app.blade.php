@@ -1,6 +1,10 @@
 @extends('frontend.layouts.master_layout')
-@push('css')
+@section('css')
     <style>
+        .hello {
+            margin-top: 500px;
+        }
+
         .category_text {
             color: #225db5;
         }
@@ -25,7 +29,7 @@
 
         p.category_text {
             /* min-height: 20px;
-                                                                                                                                                                                                                                                                                                                                                                                                                                max-height: 20px; */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                        max-height: 20px; */
         }
 
         h5.product-title {
@@ -53,7 +57,7 @@
             color: red !important;
         }
     </style>
-@endpush
+@endsection
 @section('content')
     @includeIf('frontend.partials.global.common-header')
 
@@ -74,35 +78,35 @@
                                 </div> --}}
 
                                 <div id="woocommerce_product_categories-4"
-                                     class="widget woocommerce widget_product_categories widget-toggle">
+                                    class="widget woocommerce widget_product_categories widget-toggle">
 
                                     <h2 class="widget-title">Categories</h2>
 
                                     <ul class="product-categories">
-                                        @foreach ($categories as $key=>$item)
+                                        @foreach ($categories as $key => $item)
                                             <li class="cat-item cat-parent">
                                                 <a href="{{ route('service.list', ['category_id' => @$key]) }}">
-                                                    <span class="{{ Route::currentRouteName() === 'service.list' && request()->category_id == $key ? 'text-danger' : ''}}">{{ $item }}</span>
+                                                    <span
+                                                        class="{{ Route::currentRouteName() === 'service.list' && request()->category_id == $key ? 'text-danger' : '' }}">{{ $item }}</span>
                                                 </a>
                                             </li>
                                         @endforeach
                                     </ul>
                                 </div>
 
-
-
-
                                 <div id="woocommerce_product_categories-4"
-                                     class="widget woocommerce widget_product_categories widget-toggle mb-3 mb-lg-0">
+                                    class="widget woocommerce widget_product_categories widget-toggle">
 
                                     <h2 class="widget-title">Sub-Categories</h2>
 
                                     <ul>
-                                        @if(@$sub_categories)
-                                            @foreach ($sub_categories as $key=>$item)
+                                        @if (@$sub_categories)
+                                            @foreach ($sub_categories as $key => $item)
                                                 <li class="cat-item cat-parent">
-                                                    <a href="{{ route('service.list', ['category_id' => @$category_id,'sub_category_id' => @$key]) }}">
-                                                        <span class="{{ Route::currentRouteName() === 'service.list' && request()->sub_category_id == $key ? 'text-danger' : ''}}">{{ $item }}</span>
+                                                    <a
+                                                        href="{{ route('service.list', ['category_id' => @$category_id, 'sub_category_id' => @$key]) }}">
+                                                        <span
+                                                            class="{{ Route::currentRouteName() === 'service.list' && request()->sub_category_id == $key ? 'text-danger' : '' }}">{{ $item }}</span>
                                                     </a>
                                                 </li>
                                             @endforeach
@@ -111,16 +115,18 @@
                                 </div>
 
                                 <div id="woocommerce_product_categories-4"
-                                     class="widget woocommerce widget_product_categories widget-toggle mb-3 mb-lg-0">
+                                    class="widget woocommerce widget_product_categories widget-toggle mb-3 mb-lg-0">
 
                                     <h2 class="widget-title">Child-Categories</h2>
 
                                     <ul>
-                                        @if(@$child_categories)
-                                            @foreach ($child_categories as $key=>$item)
+                                        @if (@$child_categories)
+                                            @foreach ($child_categories as $key => $item)
                                                 <li class="cat-item cat-parent">
-                                                    <a href="{{ route('service.list', ['category_id' => @$category_id, 'sub_category_id' => @request()->sub_category_id, 'child_category_id' => @$key]) }}">
-                                                        <span class="{{ Route::currentRouteName() === 'service.list' && request()->child_category_id == $key ? 'text-danger' : ''}}">{{ $item }}</span>
+                                                    <a
+                                                        href="{{ route('service.list', ['category_id' => @$category_id, 'sub_category_id' => @request()->sub_category_id, 'child_category_id' => @$key]) }}">
+                                                        <span
+                                                            class="{{ Route::currentRouteName() === 'service.list' && request()->child_category_id == $key ? 'text-danger' : '' }}">{{ $item }}</span>
                                                     </a>
                                                 </li>
                                             @endforeach
@@ -133,26 +139,26 @@
 
                         {{-- Right Side --}}
                         <div class="col-12 col-xl-9 col-lg-9 col-md-12 col-sm-12" style="padding: 0px !important;">
-                            <div class="product-search-one">
+                            {{-- <div class="product-search-one">
                                 <form id="searchForm" class="search-form form-inline search-pill-shape bg-white"
-                                      action="{{ route('property.list') }}" method="GET">
+                                    action="{{ route('property.list') }}" method="GET">
 
                                     <input type="text" id="shop_name" class="col form-control search-field"
-                                           name="search" placeholder="Search Product"
-                                           value="{{ request()->input('search') }}">
+                                        name="search" placeholder="Search Product"
+                                        value="{{ request()->input('search') }}">
 
                                     <a type="submit" name="submit" class="search-submit"><i
-                                                class="flaticon-search flat-mini text-white"></i>
+                                            class="flaticon-search flat-mini text-white"></i>
                                     </a>
                                 </form>
-                            </div>
+                            </div> --}}
 
 
-                            <div class="showing-products pt-30 pb-50 border-2 border-bottom border-light" id="ajaxContent">
+                            <div class="showing-products border-2 border-bottom border-light" id="ajaxContent">
 
 
                                 <div class="row mb-4 g-3 product-style-1 shop-list product-list  e-title-hover-primary e-hover-image-zoom"
-                                     style="padding: 0px !important;">
+                                    style="padding: 0px !important;">
                                     @if (count($products) > 0)
                                         <div class="col-md-9">
                                             @yield('property_list_content')
@@ -169,7 +175,7 @@
                                                     <p class="card-text">List your property unlimited and completely free.
                                                     </p>
                                                     <a href="{{ route('service-advertise.index') }}"
-                                                       class="button-31">Add</a>
+                                                        class="button-31">Add</a>
                                                 </div>
                                             </div>
 
@@ -181,7 +187,7 @@
                                                     <h5 class="card-title">Can't find your propertise?</h5>
                                                     <p class="card-text">Advertise your requirements completely free.</p>
                                                     <a href="{{ route('property-wanted.index') }}"
-                                                       class="button-31">Add</a>
+                                                        class="button-31">Add</a>
                                                 </div>
                                             </div>
 
@@ -203,10 +209,11 @@
                                                         reliable property finding service tailored to your needs.</p>
 
                                                     <a href="{{ route('propertyFindingService') }}"
-                                                       class="button-31">Add</a>
+                                                        class="button-31">Add</a>
                                                 </div>
                                             </div>
 
+                                            <br>
 
                                             <div class="card">
                                                 {{-- <img class="card-img-top" src="..." alt="Card image cap"> --}}
@@ -370,5 +377,4 @@
         // Call the function initially to check the condition
         handleMinWidth992px();
     </script>
-
 @endsection

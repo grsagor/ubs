@@ -36,7 +36,7 @@
 
 
 
-            <div class="box-body">
+            <div class="box-body" style="overflow-x: scroll;">
 
                 <table class="table table-bordered table-striped table-hover text-center">
                     <thead>
