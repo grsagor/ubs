@@ -30,14 +30,14 @@
                     @if ($item->image)
                         <a href="{{ route('product.show', $item->id) }}"
                             class="woocommerce-LoopProduct-link col-lg-4 col-md-4 col-sm-12 d-flex p-0">
-                            <img class="lazy img-fluid rounded w-100" src="{{ asset('upload/' . $item->image) }}"
+                            <img class="lazy img-fluid rounded w-100" src="{{ asset($item->thumbnail) }}"
                                 alt="Product Image">
                         </a>
                     @else
                         <a href="{{ route('product.show', $item->id) }}"
                             class="woocommerce-LoopProduct-link col-lg-4 col-md-4 col-sm-12 d-flex">
                             <img src="https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg"
-                                class="swiper-lazy" alt="" style="height: 270px;">
+                                class="swiper-lazy w-100" alt="" style="height: 190px;">
                         </a>
                     @endif
                     <div class="col-lg-8 col-md-8 col-sm-12 d-flex flex-column">
