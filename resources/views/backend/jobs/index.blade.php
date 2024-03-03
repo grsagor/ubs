@@ -49,6 +49,7 @@
                             <th>Job type</th>
                             <th>Salary</th>
                             <th>Closing date</th>
+                            <th>Created at</th>
                             <th>Status</th>
                             <th>Action</th>
                         </tr>
@@ -71,6 +72,7 @@
                                     @endif
                                 </td>
                                 <td>{{ $item->closing_date }}</td>
+                                <td>{{ $item->created_at->format('d F Y h:i A') }}</td>
                                 <td>
                                     @if ($item->status == 1)
                                         <span class="badge bg-green">Active</span>

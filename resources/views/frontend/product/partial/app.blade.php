@@ -29,7 +29,7 @@
 
         p.category_text {
             /* min-height: 20px;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                        max-height: 20px; */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        max-height: 20px; */
         }
 
         h5.product-title {
@@ -171,11 +171,10 @@
                                             <div class="card">
                                                 {{-- <img class="card-img-top" src="..." alt="Card image cap"> --}}
                                                 <div class="card-body">
-                                                    <h5 class="card-title">Advertise your propertise</h5>
-                                                    <p class="card-text">List your property unlimited and completely free.
+                                                    <h5 class="card-title">Advertise your service</h5>
+                                                    <p class="card-text">List your service unlimited and completely free.
                                                     </p>
-                                                    <a href="{{ route('service-advertise.index') }}"
-                                                        class="button-31">Add</a>
+                                                    <a href="{{ route('products.create') }}" class="button-31">Add</a>
                                                 </div>
                                             </div>
 
@@ -184,10 +183,19 @@
                                             <div class="card">
                                                 {{-- <img class="card-img-top" src="..." alt="Card image cap"> --}}
                                                 <div class="card-body">
-                                                    <h5 class="card-title">Can't find your propertise?</h5>
-                                                    <p class="card-text">Advertise your requirements completely free.</p>
-                                                    <a href="{{ route('property-wanted.index') }}"
-                                                        class="button-31">Add</a>
+                                                    <h5 class="card-title">Can't find your service?</h5>
+                                                    <p class="card-text">Advertise your service completely free.</p>
+                                                    <a href="#" class="button-31">Add</a>
+                                                </div>
+                                            </div>
+
+                                            <br>
+
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <h5 class="card-title">Are your entrepreneur complete business package
+                                                        full free?</h5>
+                                                    <a href="{{ url('business/register') }}" class="button-31">Add</a>
                                                 </div>
                                             </div>
 
@@ -196,32 +204,14 @@
                                             <div class="card">
                                                 {{-- <img class="card-img-top" src="..." alt="Card image cap"> --}}
                                                 <div class="card-body">
-                                                    <h5 class="card-title">Hire someone to find out your property.</h5>
+                                                    <h5 class="card-title">Find your favourite company.</h5>
                                                     <ol>
-                                                        <li class="card-text">If you don't have time to find your property.
+                                                        <li class="card-text">Company wise filter
                                                         </li>
-                                                        <li class="card-text">If you don't have idea how to deal property.
+                                                        <li class="card-text">Search by location
                                                         </li>
-
                                                     </ol>
-                                                    <p class="card-text">Buy our property finding service. A completely
-                                                        secure and
-                                                        reliable property finding service tailored to your needs.</p>
-
-                                                    <a href="{{ route('propertyFindingService') }}"
-                                                        class="button-31">Add</a>
-                                                </div>
-                                            </div>
-
-                                            <br>
-
-                                            <div class="card">
-                                                {{-- <img class="card-img-top" src="..." alt="Card image cap"> --}}
-                                                <div class="card-body">
-                                                    <h5 class="card-title">Landlord Service</h5>
-                                                    <p class="card-text">Simplifying Landlord-Tenant Connections for
-                                                        Stress-Free Management.</p>
-                                                    <a href="{{ route('landlordeService') }}" class="button-31">Details</a>
+                                                    <a href="{{ route('shop.list') }}" class="button-31">Details</a>
                                                 </div>
                                             </div>
 

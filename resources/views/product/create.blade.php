@@ -7,9 +7,9 @@
     <section class="content-header">
         <h1>Add New</h1>
         <!-- <ol class="breadcrumb">
-                                                                                                                                                                                                                                                                                                                                                                                                                                            <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
-                                                                                                                                                                                                                                                                                                                                                                                                                                            <li class="active">Here</li>
-                                                                                                                                                                                                                                                                                                                                                                                                                                        </ol> -->
+                                                                                                                                                                                                                                                                                                                                                                                                                                                <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                <li class="active">Here</li>
+                                                                                                                                                                                                                                                                                                                                                                                                                                            </ol> -->
     </section>
 
     <!-- Main content -->
@@ -269,7 +269,20 @@
                                 <select id="monthSelect" name="selected_months[]" class="form-control select2" multiple>
                                     {{-- <option disabled value="">Select Month</option> --}}
                                     @php
-                                        $months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+                                        $months = [
+                                            'January',
+                                            'February',
+                                            'March',
+                                            'April',
+                                            'May',
+                                            'June',
+                                            'July',
+                                            'August',
+                                            'September',
+                                            'October',
+                                            'November',
+                                            'December',
+                                        ];
                                         foreach ($months as $month) {
                                             echo "<option value='$month'>$month</option>";
                                         }
@@ -651,11 +664,16 @@
                         {!! Form::select(
                             'tax_type',
                             ['Inclusive' => __('product.inclusive'), 'Exclusive' => __('product.exclusive')],
-                            !empty($duplicate_product->tax_type) ? $duplicate_product->tax_type : 'exclusive',
-                            ['class' => 'form-control select2', 'required'],
+                            'Inclusive', // Set 'Inclusive' as the default selected value
+                            [
+                                'class' => 'form-control select2',
+                                'required',
+                                'disabled' => true, // Disable the 'Inclusive' option
+                            ],
                         ) !!}
                     </div>
                 </div>
+
 
                 <div class="clearfix"></div>
 
@@ -1026,10 +1044,18 @@
                 </div>
                 @php
                     $custom_labels = json_decode(session('business.custom_labels'), true);
-                    $product_custom_field1 = !empty($custom_labels['product']['custom_field_1']) ? $custom_labels['product']['custom_field_1'] : __('lang_v1.product_custom_field1');
-                    $product_custom_field2 = !empty($custom_labels['product']['custom_field_2']) ? $custom_labels['product']['custom_field_2'] : __('lang_v1.product_custom_field2');
-                    $product_custom_field3 = !empty($custom_labels['product']['custom_field_3']) ? $custom_labels['product']['custom_field_3'] : __('lang_v1.product_custom_field3');
-                    $product_custom_field4 = !empty($custom_labels['product']['custom_field_4']) ? $custom_labels['product']['custom_field_4'] : __('lang_v1.product_custom_field4');
+                    $product_custom_field1 = !empty($custom_labels['product']['custom_field_1'])
+                        ? $custom_labels['product']['custom_field_1']
+                        : __('lang_v1.product_custom_field1');
+                    $product_custom_field2 = !empty($custom_labels['product']['custom_field_2'])
+                        ? $custom_labels['product']['custom_field_2']
+                        : __('lang_v1.product_custom_field2');
+                    $product_custom_field3 = !empty($custom_labels['product']['custom_field_3'])
+                        ? $custom_labels['product']['custom_field_3']
+                        : __('lang_v1.product_custom_field3');
+                    $product_custom_field4 = !empty($custom_labels['product']['custom_field_4'])
+                        ? $custom_labels['product']['custom_field_4']
+                        : __('lang_v1.product_custom_field4');
                 @endphp
                 <!--custom fields-->
                 <div class="clearfix"></div>

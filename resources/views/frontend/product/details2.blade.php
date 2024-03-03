@@ -3,9 +3,9 @@
 @section('css')
     <style>
         /* .container {
-                                                                margin-top: 10px;
-                                                                margin-bottom: 10px;
-                                                            } */
+                                                                                        margin-top: 10px;
+                                                                                        margin-bottom: 10px;
+                                                                                    } */
 
         .color-black {
             color: black !important;
@@ -206,8 +206,8 @@
                                     // For service
                                     $service_price = null;
                                     foreach ($info->variations as $key => $value) {
-                                        $service_price = $value->sell_price_inc_tax;
-                                        break; // break out of the loop after saving the first value
+                                        $service_price = $value->dpp_inc_tax;
+                                        break;
                                     }
                                 @endphp
 
@@ -374,7 +374,7 @@
                         <div class="requirements-section row mt-3">
                             <div class="col-sm-12 ">
                                 <div class="requirements-card">
-                                    <h3 class="sectitle">Details</h3>
+                                    <h3 class="sectitle mb-3">Details</h3>
                                     @if ($info->fee_installment_description)
                                         <h3 class="sectitle mt-10 color-black">Instalments</h3>
                                         <div class="col-md-12 text-justify">
@@ -421,10 +421,12 @@
                                     @endif
 
                                     <h3 class="policy">
-                                        <a href="#" target="__blank" class="policy-button" style="float: right;">
+                                        <a href="{{ route('footer.details.policies.privacy_cookies') }}" target="_blank"
+                                            class="policy-button" style="float: right;">
                                             Policy
                                         </a>
                                     </h3>
+
                                 </div>
                             </div>
                         </div>
@@ -481,7 +483,7 @@
                             <div class="col-sm-12">
                                 <div class="report-card">
                                     <h3 class="reptitle">
-                                        Report this
+                                        Report this service
                                         <button class="report-button"><i class="fas fa-flag"></i> Report</button>
                                     </h3>
                                     <div class="col-md-12 text-justify">
