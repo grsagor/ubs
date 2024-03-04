@@ -48,10 +48,11 @@ class ServiceController extends Controller
         $page = LengthAwarePaginator::resolveCurrentPage();
         $perPage = $data['per_page'];
         $currentPageItems = $products->slice(($page - 1) * $perPage, $perPage)->all();
-        
+
         $data['products'] = new LengthAwarePaginator($currentPageItems, count($products), $perPage);
         $data['products']->setPath(url()->current());
-        $data['categories'] = Category::query()->where([['category_type', 'service'], ['parent_id', 0]])->pluck('name', 'id');
+        $data['categories'] = Category::query()->where([['category_type', 'service'], ['parent_id', 0]])->orderBy('name')->pluck('name', 'id');
+
         $data['category_id'] = $request->category_id;
 
         return view('frontend.service.service_list', $data);

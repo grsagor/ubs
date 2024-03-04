@@ -38,10 +38,11 @@
                         <tr>
                             <th>No.</th>
                             {{-- <th>Applied Jobs</th> --}}
-                            <th style="width: 22%">Job Title</th>
+                            <th style="min-width: 300px; overflow: hidden; text-overflow: ellipsis;">Job Title</th>
                             <th>Name</th>
                             <th>Phone</th>
                             <th>Email</th>
+                            <th>Applied Date</th>
                             <th>Current Address</th>
                             <th>Country of Residence</th>
                             <th>Birth Country</th>
@@ -71,6 +72,7 @@
                                 <td>{{ $item->recuimentId->name ?? '' }}</td>
                                 <td>{{ $item->recuimentId->phone ?? '' }}</td>
                                 <td>{{ $item->recuimentId->email ?? '' }}</td>
+                                <td>{{ $item->created_at->format('Y-m-d') }}</td>
                                 <td>{{ $item->recuimentId->current_address ?? '' }}</td>
                                 <td>{{ $item->recuimentId->countryResidence->country_name ?? '' }}</td>
                                 <td>{{ $item->recuimentId->birthCountry->country_name ?? '' }}</td>

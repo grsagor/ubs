@@ -584,9 +584,9 @@ class ProductController extends Controller
 
                 $images = [];
 
-                foreach ($request->file('image') as $image) {
-                    $image_name = Str::uuid()->toString() . '.' . $image->getClientOriginalExtension();
-                    $image->move($image_path, $image_name);
+                foreach ($request->file('image') as $img) {
+                    $image_name = Str::uuid()->toString() . '.' . $img->getClientOriginalExtension();
+                    $img->move($image_path, $image_name);
                     $images[] = 'uploads/product/image/' . $image_name;
                 }
 

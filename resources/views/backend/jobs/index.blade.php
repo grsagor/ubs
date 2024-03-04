@@ -43,12 +43,13 @@
                             <th>No.</th>
                             <th>Reference</th>
                             <th>Category</th>
-                            <th style="width: 22%">Title</th>
+                            <th style="min-width: 300px; overflow: hidden; text-overflow: ellipsis;">Title</th>
                             <th>Compnay Name</th>
                             <th>Hour type</th>
                             <th>Job type</th>
                             <th>Salary</th>
                             <th>Closing date</th>
+                            <th>Created at</th>
                             <th>Status</th>
                             <th>Action</th>
                         </tr>
@@ -71,6 +72,7 @@
                                     @endif
                                 </td>
                                 <td>{{ $item->closing_date }}</td>
+                                <td>{{ $item->created_at->format('d F Y h:i A') }}</td>
                                 <td>
                                     @if ($item->status == 1)
                                         <span class="badge bg-green">Active</span>

@@ -3,9 +3,9 @@
 @section('css')
     <style>
         /* .container {
-                margin-top: 10px;
-                margin-bottom: 10px;
-            } */
+                    margin-top: 10px;
+                    margin-bottom: 10px;
+                } */
 
         .color-black {
             color: black !important;
@@ -187,7 +187,10 @@
 
                                 @php
                                     $businessLocation = $job->businessLocation;
-                                    $imageUrl = $businessLocation && File::exists($businessLocation->logo) ? asset($businessLocation->logo) : 'https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg';
+                                    $imageUrl =
+                                        $businessLocation && File::exists($businessLocation->logo)
+                                            ? asset($businessLocation->logo)
+                                            : 'https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg';
                                 @endphp
 
                                 <a href="{{ $businessLocation ? route('shop.service', $businessLocation->id) : '#' }}">
@@ -204,7 +207,10 @@
 
                                 @php
                                     $businessLocation = $job->businessLocation;
-                                    $imageUrl = $businessLocation && File::exists($businessLocation->logo) ? asset($businessLocation->logo) : 'https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg';
+                                    $imageUrl =
+                                        $businessLocation && File::exists($businessLocation->logo)
+                                            ? asset($businessLocation->logo)
+                                            : 'https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg';
                                 @endphp
 
                                 <a href="{{ $businessLocation ? route('shop.service', $businessLocation->id) : '#' }}">
@@ -324,7 +330,7 @@
                                         <div class="complain-info-item">
                                             <i class="fas fa-envelope"></i>
                                             <div>
-                                                complain@unipuller.com
+                                                complain@unipuler.com
                                             </div>
                                         </div>
                                     </div>
