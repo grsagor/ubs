@@ -3,9 +3,9 @@
 @section('css')
     <style>
         /* .container {
-                                                                                        margin-top: 10px;
-                                                                                        margin-bottom: 10px;
-                                                                                    } */
+                                                                                                        margin-top: 10px;
+                                                                                                        margin-bottom: 10px;
+                                                                                                    } */
 
         .color-black {
             color: black !important;
@@ -196,7 +196,9 @@
                                 <div class="job-title">{{ $info->name }}</div>
                                 <div class="card-text company-name color-black">
                                     {{ $info->category->name }}
-                                    {{ $info->subCategory->name ?? '' }}
+                                    @if ($info->subCategory)
+                                        , {{ $info->subCategory->name ?? '' }}
+                                    @endif
                                     @if ($info->brand)
                                         , {{ $info->brand->name }}
                                     @endif
