@@ -526,6 +526,7 @@ class ProductController extends Controller
                 'reselling_commission_amount',
                 'extra_commission',
                 'policy',
+                'refund_policy',
                 'unipuller_data_policy',
                 'youtube_link'
             ];
@@ -2603,5 +2604,11 @@ class ProductController extends Controller
     {
         $data['info'] = Product::findOrFail($id);
         return view('frontend.product.policy', $data);
+    }
+
+    public function productRefundPolicy($id)
+    {
+        $data['info'] = Product::findOrFail($id);
+        return view('frontend.product.refund_policy', $data);
     }
 }

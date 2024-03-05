@@ -3,9 +3,9 @@
 @section('css')
     <style>
         /* .container {
-                                                                                                                                                                                                                margin-top: 10px;
-                                                                                                                                                                                                                margin-bottom: 10px;
-                                                                                                                                                                                                            } */
+                                                                                                                                                                                                                                                                                margin-top: 10px;
+                                                                                                                                                                                                                                                                                margin-bottom: 10px;
+                                                                                                                                                                                                                                                                            } */
 
         .color-black {
             color: black !important;
@@ -102,7 +102,7 @@
         }
 
         .mt-35 {
-            margin-top: 35px !important;
+            margin-top: 35px;
         }
 
         .txtbold {
@@ -176,6 +176,10 @@
             .laptopp-view {
                 display: none;
             }
+
+            .mt-35 {
+                margin-top: 10px !important;
+            }
         }
     </style>
 @endsection
@@ -192,29 +196,33 @@
 
                         {{-- <div class="row header laptopp-view"> --}}
                         <div class="row header">
-                            <div class="col-md-8">
+
+                            <div class="col-md-12">
                                 <div class="job-title">{{ $info->name }}</div>
+                            </div>
+                            <div class="col-md-8">
 
                                 @php
+                                    $result = '';
 
-                                    if ($info->category->name) {
+                                    if ($info->category && $info->category->name) {
                                         $result = $info->category->name;
-                                    } else {
-                                        $result = null;
                                     }
 
-                                    if ($info->category->name && $info->subCategory->name) {
-                                        $result .= ', ' . $info->subCategory->name;
-                                    } elseif ($info->subCategory->name) {
-                                        $result = $info->subCategory->name;
+                                    if ($info->subCategory && $info->subCategory->name) {
+                                        if ($result) {
+                                            $result .= ', ' . $info->subCategory->name;
+                                        } else {
+                                            $result = $info->subCategory->name;
+                                        }
                                     }
 
-                                    if ($info->category->name && $info->subCategory->name && $info->brand->name) {
-                                        $result .= ', ' . $info->brand->name;
-                                    } elseif ($info->subCategory->name && $info->brand->name) {
-                                        $result .= ', ' . $info->brand->name;
-                                    } elseif ($info->brand->name) {
-                                        $result = $info->brand->name;
+                                    if ($info->brand && $info->brand->name) {
+                                        if ($result) {
+                                            $result .= ', ' . $info->brand->name;
+                                        } else {
+                                            $result = $info->brand->name;
+                                        }
                                     }
                                 @endphp
 
@@ -233,7 +241,7 @@
 
                                 <div class="price mt-2 mb-2"> &pound; {{ number_format($service_price, 2) }}</div>
                                 <div class="refund">
-                                    <a href="{{ route('footer.details.policies.return_refund_policies') }}" target="__blank"
+                                    <a href="{{ route('product.refund.policy', $info->id) }}" target="__blank"
                                         style="font-size: 18px;">Refund Policy
                                     </a>
                                 </div>
@@ -250,21 +258,26 @@
                             </div> --}}
                         </div>
 
+
                         <div class="apply-section mt-1">
+                            <div class="apply-button d-flex align-items-center">
 
-                            <div class="apply-button">
-
-                                <div style="margin-top: 10px;">
-                                    {{-- <button type="button" class="btn alreadyApplied" disabled>Already applied</button> --}}
-
+                                {{-- Order Now Button --}}
+                                <div>
                                     <form action="#" method="POST" class="mx-auto mobileView"
                                         enctype="multipart/form-data">
                                         @csrf
                                         <button type="submit" class="btn applynow">Order Now</button>
                                     </form>
                                 </div>
+
+                                {{-- Social Media Icons --}}
+                                <div style="margin-left: 20px;"> <!-- Add ml-3 class here for left margin -->
+                                    @include('frontend.social_media_share.social_media')
+                                </div>
                             </div>
                         </div>
+
 
                         @if (
                             $info->sku ||

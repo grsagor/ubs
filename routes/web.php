@@ -252,6 +252,7 @@ Route::middleware(['setData'])->group(function () {
     Route::get('/product/list', [ProductController::class, 'productList'])->name('product.list');
     Route::get('/product-show/{id}', [ProductController::class, 'productShow'])->name('product.show');
     Route::get('/product-policy/{id}', [ProductController::class, 'productPolicy'])->name('product.policy');
+    Route::get('/product-refund-policy/{id}', [ProductController::class, 'productRefundPolicy'])->name('product.refund.policy');
 
     // CATEGORY SECTION
 

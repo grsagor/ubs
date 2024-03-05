@@ -7,9 +7,9 @@
     <section class="content-header">
         <h1>Add New</h1>
         <!-- <ol class="breadcrumb">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                <li class="active">Here</li>
-                                                                                                                                                                                                                                                                                                                                                                                                                                            </ol> -->
+                                                                                                                                                                                                                                                                                                                                                                                                                                                            <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                            <li class="active">Here</li>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                        </ol> -->
     </section>
 
     <!-- Main content -->
@@ -1123,10 +1123,22 @@
             <div class="row">
                 <div class="col-sm-12">
                     <div class="form-group">
-                        {!! Form::label('policy', __('product.policy') . ':') !!}
+                        {!! Form::label('policy', __('Service Policy') . ':') !!}
                         {!! Form::textarea('policy', !empty($duplicate_product->policy) ? $duplicate_product->policy : null, [
                             'class' => 'form-control',
                         ]) !!}
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        {!! Form::label('refund_policy', __('Refund Policy') . ':') !!}
+                        {!! Form::textarea(
+                            'refund_policy',
+                            !empty($duplicate_product->refund_policy) ? $duplicate_product->refund_policy : null,
+                            [
+                                'class' => 'form-control',
+                            ],
+                        ) !!}
                     </div>
                 </div>
                 <div class="col-sm-4">

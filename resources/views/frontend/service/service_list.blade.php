@@ -1,4 +1,5 @@
 @extends('frontend.product.partial.app')
+@section('title', 'Service-list')
 @section('css')
     <style>
         .custom-border-color {
@@ -12,19 +13,18 @@
 @endsection
 @section('property_list_content')
     <div class="product-search-one mb-3">
-        <form id="searchForm" class="search-form form-inline search-pill-shape bg-white" action="{{ route('property.list') }}"
+
+        <form id="searchForm" class="search-form form-inline search-pill-shape bg-white" action="{{ route('service.list') }}"
             method="GET">
 
             <input type="text" id="shop_name" class="col form-control search-field" name="search"
-                placeholder="Search Product" value="{{ request()->input('search') }}">
-
-            <a type="submit" name="submit" class="search-submit"><i class="flaticon-search flat-mini text-white"></i>
-            </a>
+                placeholder="Search service" value="{{ request()->input('search') }}">
+            <button type="submit" class="search-submit"><i class="flaticon-search flat-mini text-white"></i></button>
         </form>
     </div>
 
     @foreach ($products as $item)
-        <div class="col mb-3">
+        <div class="col mb-4">
             <div class="product type-product rounded">
                 <div class="row">
                     @if ($item->image)
@@ -73,8 +73,16 @@
                                     <i class="fa-regular fa-heart mt-2"></i>
                                 </a>
                             </div>
-                            <div class="col division" style="border: 1px solid var(--green);">Discount %</div>
-                            <div class="col division" style="border: 1px solid var(--green);">Price &pound;</div>
+                            <div class="col division" style="border: 1px solid var(--green);">Details</div>
+                            <div class="col division" style="border: 1px solid var(--green);">
+                                @php
+                                    $amount = 0;
+                                    foreach ($item->variations as $variation_data) {
+                                        $amount += $variation_data->dpp_inc_tax;
+                                    }
+                                @endphp
+                                &pound; {{ number_format($amount, 2) }}
+                            </div>
                         </div>
                         {{-- <div class="d-flex text-center"
                                  style="background-color: whitesmoke; border-top: 2px solid var(--green); padding: 1px">

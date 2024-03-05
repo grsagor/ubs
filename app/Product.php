@@ -60,6 +60,16 @@ class Product extends Model
         return $image_path;
     }
 
+    public function scopeSearch($query, $request)
+    {
+        if ($request->has('search') && $request->filled('search')) {
+            return $query->where('name', 'LIKE', '%' . $request->search . '%');
+        }
+        
+        return $query;
+    }
+    
+
     public function product_variations()
     {
         return $this->hasMany(\App\ProductVariation::class);

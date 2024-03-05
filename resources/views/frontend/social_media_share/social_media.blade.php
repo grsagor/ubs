@@ -1,5 +1,5 @@
 <div class="my-2 social-linkss social-sharing a2a_kit a2a_kit_size_32" style="line-height: 32px;">
-    <h5 class="mb-2">Share Now</h5>
+    {{-- <h5 class="mb-2">Share Now</h5> --}}
     <ul class="social-icons py-1 share-product social-linkss py-md-0">
         <li>
             <a class="facebook a2a_button_facebook" href="#" target="_blank" onclick="shareOnFacebook()"
