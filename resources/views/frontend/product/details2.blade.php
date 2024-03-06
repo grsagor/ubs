@@ -3,9 +3,9 @@
 @section('css')
     <style>
         /* .container {
-                                                                                                                                                                                                                                                                                margin-top: 10px;
-                                                                                                                                                                                                                                                                                margin-bottom: 10px;
-                                                                                                                                                                                                                                                                            } */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        margin-top: 10px;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        margin-bottom: 10px;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    } */
 
         .color-black {
             color: black !important;
@@ -163,6 +163,17 @@
             display: none;
         }
 
+        .image_show {
+            width: 33%;
+            display: inline-block;
+            vertical-align: top;
+            box-sizing: border-box;
+        }
+
+        .image_show img {
+            width: 100% !important;
+            height: auto;
+        }
 
         @media (max-width: 767px) {
             .reptitle {
@@ -179,6 +190,18 @@
 
             .mt-35 {
                 margin-top: 10px !important;
+            }
+
+            .image_show {
+                margin-top: 20px !important;
+                width: 75%;
+                /* Set width to 75% on mobile */
+                display: block;
+                /* Change to block display for stacking on mobile */
+                margin: 0 auto;
+                /* Center the element */
+                text-align: center;
+                /* Center the content inside the div */
             }
         }
     </style>
@@ -382,23 +405,50 @@
                             <div class="requirements-section row mt-3">
                                 <div class="col-sm-12 ">
                                     <div class="requirements-card">
-                                        <h3 class="sectitle">Images</h3>
+
                                         <div class="col-md-12 text-justify">
-                                            {{-- {{ dd($info->image) }} --}}
-                                            @foreach (json_decode($info->image ?? '[]') as $item)
-                                                <img class="" src="{{ asset($item) }}" alt=""
-                                                    style="width: 33% !important;">
-                                            @endforeach
 
+                                            <div class="image_show">
+                                                <img src="{{ asset($info->thumbnail) }}" alt="">
+                                            </div>
 
-                                            {{-- <img class="" src="{{ $info->image }}" alt=""
-                                            style="width: 33% !important;">
-                                        <img class="" src="{{ $first_image }}" alt=""
-                                            style="width: 33% !important;">
-                                        <img class="" src="{{ $first_image }}" alt=""
-                                            style="width: 33% !important;"> --}}
+                                            <div class="image_show">
+                                                @foreach (json_decode($info->image ?? '[]') as $item)
+                                                    <img src="{{ asset($item) }}" alt="">
+                                                    @php
+                                                        if ($key === 0) {
+                                                            break;
+                                                        }
+                                                    @endphp
+                                                @endforeach
+                                            </div>
+
+                                            <div class="image_show">
+                                                <img src="{{ asset('uploads/img/' . $info->product_brochure) }}"
+                                                    alt="">
+                                            </div>
+
+                                            @php
+                                                // Extract video ID from YouTube URL
+                                                $youtubeUrl = $info->youtube_link; // Assuming $info->youtube_link contains the YouTube video URL
+                                                $videoId = '';
+                                                parse_str(parse_url($youtubeUrl, PHP_URL_QUERY), $query);
+                                                if (isset($query['v'])) {
+                                                    $videoId = $query['v'];
+                                                }
+
+                                                // Construct the embed iframe
+                                                $embedCode = "<div style=\"width: 100%;\"><iframe width=\"100%\" height=\"375\" src=\"https://www.youtube.com/embed/$videoId\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe></div>";
+
+                                            @endphp
+
+                                            <div class="mt-4">
+                                                {!! $embedCode !!}
+                                            </div>
+
                                         </div>
                                     </div>
+
                                 </div>
                             </div>
                         @endif
