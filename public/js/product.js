@@ -748,6 +748,12 @@ $(document).ready(function () {
       height: 250,
     });
   }
+  if ($("textarea#refund_policy").length > 0) {
+    tinymce.init({
+      selector: "textarea#refund_policy",
+      height: 250,
+    });
+  }
 });
 
 function toggle_dsp_input() {

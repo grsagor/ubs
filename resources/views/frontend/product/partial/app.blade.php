@@ -29,7 +29,7 @@
 
         p.category_text {
             /* min-height: 20px;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        max-height: 20px; */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            max-height: 20px; */
         }
 
         h5.product-title {
@@ -160,7 +160,10 @@
                                 <div class="row mb-4 g-3 product-style-1 shop-list product-list  e-title-hover-primary e-hover-image-zoom"
                                     style="padding: 0px !important;">
                                     @if (count($products) > 0)
-                                        <div class="col-md-9">
+                                        <div class="col-md-9"
+                                            style="margin-left: 10px;
+                                        width: 72%;
+                                        margin-right: 10px;">
                                             @yield('property_list_content')
                                         </div>
 
@@ -184,7 +187,8 @@
                                                 {{-- <img class="card-img-top" src="..." alt="Card image cap"> --}}
                                                 <div class="card-body">
                                                     <h5 class="card-title">Can't find your service?</h5>
-                                                    <p class="card-text">Advertise your service completely free.</p>
+                                                    <p class="card-text">Contact us to get what you need. We will connect
+                                                        you with the right service provider who knows that solution.</p>
                                                     <a href="#" class="button-31">Add</a>
                                                 </div>
                                             </div>
@@ -193,8 +197,10 @@
 
                                             <div class="card">
                                                 <div class="card-body">
-                                                    <h5 class="card-title">Are your entrepreneur complete business package
-                                                        full free?</h5>
+                                                    <h5 class="card-title">Software to run your business?</h5>
+                                                    <p class="card-text">Use our complete business solution software package
+                                                        completely free of charge. The most updated and latest technology to
+                                                        serve your business needs.</p>
                                                     <a href="{{ url('business/register') }}" class="button-31">Add</a>
                                                 </div>
                                             </div>

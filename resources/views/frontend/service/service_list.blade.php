@@ -1,4 +1,5 @@
 @extends('frontend.product.partial.app')
+@section('title', 'Service-list')
 @section('css')
     <style>
         .custom-border-color {
@@ -12,19 +13,18 @@
 @endsection
 @section('property_list_content')
     <div class="product-search-one mb-3">
-        <form id="searchForm" class="search-form form-inline search-pill-shape bg-white" action="{{ route('property.list') }}"
+
+        <form id="searchForm" class="search-form form-inline search-pill-shape bg-white" action="{{ route('service.list') }}"
             method="GET">
 
             <input type="text" id="shop_name" class="col form-control search-field" name="search"
-                placeholder="Search Product" value="{{ request()->input('search') }}">
-
-            <a type="submit" name="submit" class="search-submit"><i class="flaticon-search flat-mini text-white"></i>
-            </a>
+                placeholder="Search service" value="{{ request()->input('search') }}">
+            <button type="submit" class="search-submit"><i class="flaticon-search flat-mini text-white"></i></button>
         </form>
     </div>
 
     @foreach ($products as $item)
-        <div class="col mb-3">
+        <div class="col mb-4">
             <div class="product type-product rounded">
                 <div class="row">
                     @if ($item->image)
@@ -37,7 +37,7 @@
                         <a href="{{ route('product.show', $item->id) }}"
                             class="woocommerce-LoopProduct-link col-lg-4 col-md-4 col-sm-12 d-flex">
                             <img src="https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg"
-                                class="swiper-lazy w-100" alt="" style="height: 190px;">
+                                class="lazy img-fluid rounded w-100" alt="" style="height: 190px;">
                         </a>
                     @endif
                     <div class="col-lg-8 col-md-8 col-sm-12 d-flex flex-column">
@@ -45,7 +45,7 @@
                             <h5 class="product-title" style="padding: 0; margin: 0;">
                                 <a class="text-dark" href="{{ route('product.show', $item->id) }}"
                                     style="font-weight: 600;">
-                                    {{ Str::limit($item->name, $limit = 92, $end = '...') }}
+                                    {{ Str::limit($item->name, $limit = 42, $end = '...') }}
                                 </a>
                             </h5>
                             <div class="text-center">
@@ -61,7 +61,7 @@
                             </div>
 
                             <p class="text-dark" style="margin: 0; text-align: justify; padding: 0; line-height: 1.2;">
-                                {!! Str::limit($item->product_description, $limit = 180, $end = '...') !!}
+                                {!! Str::limit($item->product_description, $limit = 170, $end = '...') !!}
                             </p>
                         </div>
                         <div class="d-flex mr-10 text-center" style="background-color: white; padding: 1px">
@@ -73,8 +73,16 @@
                                     <i class="fa-regular fa-heart mt-2"></i>
                                 </a>
                             </div>
-                            <div class="col division" style="border: 1px solid var(--green);">Discount %</div>
-                            <div class="col division" style="border: 1px solid var(--green);">Price &pound;</div>
+                            <div class="col division" style="border: 1px solid var(--green);">Details</div>
+                            <div class="col division" style="border: 1px solid var(--green);">
+                                @php
+                                    $amount = 0;
+                                    foreach ($item->variations as $variation_data) {
+                                        $amount += $variation_data->dpp_inc_tax;
+                                    }
+                                @endphp
+                                &pound; {{ number_format($amount, 2) }}
+                            </div>
                         </div>
                         {{-- <div class="d-flex text-center"
                                  style="background-color: whitesmoke; border-top: 2px solid var(--green); padding: 1px">

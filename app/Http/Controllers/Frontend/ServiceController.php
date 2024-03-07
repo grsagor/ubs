@@ -23,7 +23,15 @@ class ServiceController extends Controller
         $categories_id = Category::where('category_type', 'service')->get()->pluck('id');
         $data['per_page'] = 10;
         $price = 200;
-        $products = Product::whereIn('category_id', $categories_id)->get();
+        $products = Product::whereIn('category_id', $categories_id)
+            ->with(['variations' => function ($query) {
+                $query->take(1); // Retrieve only the first variation
+            }])
+            ->search($request)
+            ->latest()
+            ->get();
+
+        // return $products;
         if ($request->category_id) {
             $products = Product::where('category_id', $request->category_id)->get();
         }

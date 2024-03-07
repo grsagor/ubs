@@ -2,11 +2,6 @@
 @section('title', $job->title)
 @section('css')
     <style>
-        /* .container {
-                    margin-top: 10px;
-                    margin-bottom: 10px;
-                } */
-
         .color-black {
             color: black !important;
         }
@@ -149,6 +144,10 @@
             display: none;
         }
 
+        .description ul li {
+            list-style: disc inside;
+
+        }
 
         @media (max-width: 767px) {
             .reptitle {
@@ -281,7 +280,7 @@
                             <div class="col-sm-12 ">
                                 <div class="requirements-card">
                                     <h3 class="sectitle">Details</h3>
-                                    <div class="col-md-12 text-justify">
+                                    <div class="col-md-12 text-justify description">
                                         {!! $job->description ?? '' !!}
                                     </div>
                                 </div>

@@ -3,9 +3,9 @@
 @section('css')
     <style>
         /* .container {
-                                                                                                        margin-top: 10px;
-                                                                                                        margin-bottom: 10px;
-                                                                                                    } */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            margin-top: 10px;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            margin-bottom: 10px;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        } */
 
         .color-black {
             color: black !important;
@@ -101,8 +101,8 @@
             margin-bottom: 10px;
         }
 
-        .mt-10 {
-            margin-top: 10px !important;
+        .mt-35 {
+            margin-top: 35px;
         }
 
         .txtbold {
@@ -163,6 +163,22 @@
             display: none;
         }
 
+        .image_show {
+            width: 33%;
+            display: inline-block;
+            vertical-align: top;
+            box-sizing: border-box;
+        }
+
+        .image_show img {
+            width: 100% !important;
+            height: auto;
+        }
+
+        .description ul li {
+            list-style: disc inside;
+
+        }
 
         @media (max-width: 767px) {
             .reptitle {
@@ -175,6 +191,22 @@
 
             .laptopp-view {
                 display: none;
+            }
+
+            .mt-35 {
+                margin-top: 10px !important;
+            }
+
+            .image_show {
+                margin-top: 20px !important;
+                width: 75%;
+                /* Set width to 75% on mobile */
+                display: block;
+                /* Change to block display for stacking on mobile */
+                margin: 0 auto;
+                /* Center the element */
+                text-align: center;
+                /* Center the content inside the div */
             }
         }
     </style>
@@ -192,16 +224,38 @@
 
                         {{-- <div class="row header laptopp-view"> --}}
                         <div class="row header">
-                            <div class="col-md-8">
+
+                            <div class="col-md-12">
                                 <div class="job-title">{{ $info->name }}</div>
+                            </div>
+                            <div class="col-md-8">
+
+                                @php
+                                    $result = '';
+
+                                    if ($info->category && $info->category->name) {
+                                        $result = $info->category->name;
+                                    }
+
+                                    if ($info->subCategory && $info->subCategory->name) {
+                                        if ($result) {
+                                            $result .= ', ' . $info->subCategory->name;
+                                        } else {
+                                            $result = $info->subCategory->name;
+                                        }
+                                    }
+
+                                    if ($info->brand && $info->brand->name) {
+                                        if ($result) {
+                                            $result .= ', ' . $info->brand->name;
+                                        } else {
+                                            $result = $info->brand->name;
+                                        }
+                                    }
+                                @endphp
+
                                 <div class="card-text company-name color-black">
-                                    {{ $info->category->name }}
-                                    @if ($info->subCategory)
-                                        , {{ $info->subCategory->name ?? '' }}
-                                    @endif
-                                    @if ($info->brand)
-                                        , {{ $info->brand->name }}
-                                    @endif
+                                    {{ $result }}
                                 </div>
 
                                 @php
@@ -215,7 +269,7 @@
 
                                 <div class="price mt-2 mb-2"> &pound; {{ number_format($service_price, 2) }}</div>
                                 <div class="refund">
-                                    <a href="{{ route('footer.details.policies.return_refund_policies') }}" target="__blank"
+                                    <a href="{{ route('product.refund.policy', $info->id) }}" target="__blank"
                                         style="font-size: 18px;">Refund Policy
                                     </a>
                                 </div>
@@ -232,21 +286,26 @@
                             </div> --}}
                         </div>
 
+
                         <div class="apply-section mt-1">
+                            <div class="apply-button d-flex align-items-center">
 
-                            <div class="apply-button">
-
-                                <div style="margin-top: 10px;">
-                                    {{-- <button type="button" class="btn alreadyApplied" disabled>Already applied</button> --}}
-
+                                {{-- Order Now Button --}}
+                                <div>
                                     <form action="#" method="POST" class="mx-auto mobileView"
                                         enctype="multipart/form-data">
                                         @csrf
                                         <button type="submit" class="btn applynow">Order Now</button>
                                     </form>
                                 </div>
+
+                                {{-- Social Media Icons --}}
+                                <div style="margin-left: 20px;"> <!-- Add ml-3 class here for left margin -->
+                                    @include('frontend.social_media_share.social_media')
+                                </div>
                             </div>
                         </div>
+
 
                         @if (
                             $info->sku ||
@@ -351,23 +410,50 @@
                             <div class="requirements-section row mt-3">
                                 <div class="col-sm-12 ">
                                     <div class="requirements-card">
-                                        <h3 class="sectitle">Images</h3>
+
                                         <div class="col-md-12 text-justify">
-                                            {{-- {{ dd($info->image) }} --}}
-                                            @foreach (json_decode($info->image ?? '[]') as $item)
-                                                <img class="" src="{{ asset($item) }}" alt=""
-                                                    style="width: 33% !important;">
-                                            @endforeach
 
+                                            <div class="image_show">
+                                                <img src="{{ asset($info->thumbnail) }}" alt="">
+                                            </div>
 
-                                            {{-- <img class="" src="{{ $info->image }}" alt=""
-                                            style="width: 33% !important;">
-                                        <img class="" src="{{ $first_image }}" alt=""
-                                            style="width: 33% !important;">
-                                        <img class="" src="{{ $first_image }}" alt=""
-                                            style="width: 33% !important;"> --}}
+                                            <div class="image_show">
+                                                @foreach (json_decode($info->image ?? '[]') as $item)
+                                                    <img src="{{ asset($item) }}" alt="">
+                                                    @php
+                                                        if ($key === 0) {
+                                                            break;
+                                                        }
+                                                    @endphp
+                                                @endforeach
+                                            </div>
+
+                                            <div class="image_show">
+                                                <img src="{{ asset('uploads/img/' . $info->product_brochure) }}"
+                                                    alt="">
+                                            </div>
+
+                                            @php
+                                                // Extract video ID from YouTube URL
+                                                $youtubeUrl = $info->youtube_link; // Assuming $info->youtube_link contains the YouTube video URL
+                                                $videoId = '';
+                                                parse_str(parse_url($youtubeUrl, PHP_URL_QUERY), $query);
+                                                if (isset($query['v'])) {
+                                                    $videoId = $query['v'];
+                                                }
+
+                                                // Construct the embed iframe
+                                                $embedCode = "<div style=\"width: 100%;\"><iframe width=\"100%\" height=\"375\" src=\"https://www.youtube.com/embed/$videoId\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe></div>";
+
+                                            @endphp
+
+                                            <div class="mt-4">
+                                                {!! $embedCode !!}
+                                            </div>
+
                                         </div>
                                     </div>
+
                                 </div>
                             </div>
                         @endif
@@ -378,14 +464,14 @@
                                 <div class="requirements-card">
                                     <h3 class="sectitle mb-3">Details</h3>
                                     @if ($info->fee_installment_description)
-                                        <h3 class="sectitle mt-10 color-black">Instalments</h3>
+                                        <h3 class="sectitle mt-35 color-black">Instalments</h3>
                                         <div class="col-md-12 text-justify">
                                             {!! $info->fee_installment_description ?? '' !!}
                                         </div>
                                     @endif
 
                                     @if ($info->requirements)
-                                        <h3 class="sectitle mt-10 color-black">Requirements</h3>
+                                        <h3 class="sectitle mt-35 color-black">Requirements</h3>
                                         <div class="col-md-12 text-justify">
                                             {{ $info->requirements ?? '' }}
                                         </div>
@@ -395,35 +481,35 @@
                                     @endif
 
                                     @if ($info->service_features)
-                                        <h3 class="sectitle mt-10 color-black">Features</h3>
+                                        <h3 class="sectitle mt-35 color-black">Features</h3>
                                         <div class="col-md-12 text-justify">
                                             {!! $info->service_features ?? '' !!}
                                         </div>
                                     @endif
 
                                     @if ($info->general_facilities)
-                                        <h3 class="sectitle mt-10 color-black">Facilities</h3>
+                                        <h3 class="sectitle mt-35 color-black">Facilities</h3>
                                         <div class="col-md-12 text-justify">
                                             {!! $info->general_facilities ?? '' !!}
                                         </div>
                                     @endif
 
                                     @if ($info->product_description)
-                                        <h3 class="sectitle mt-10 color-black">More Info</h3>
+                                        <h3 class="sectitle mt-35 color-black">More Info</h3>
                                         <div class="col-md-12 text-justify">
                                             {!! $info->product_description ?? '' !!}
                                         </div>
                                     @endif
 
                                     @if ($info->work_placement == 'Available')
-                                        <h3 class="sectitle mt-10 color-black">Work Placement</h3>
+                                        <h3 class="sectitle mt-35 color-black">Work Placement</h3>
                                         <div class="col-md-12 text-justify">
                                             {!! $info->work_placement_description ?? '' !!}
                                         </div>
                                     @endif
 
                                     <h3 class="policy">
-                                        <a href="{{ route('footer.details.policies.privacy_cookies') }}" target="_blank"
+                                        <a href="{{ route('product.policy', $info->id) }}" target="_blank"
                                             class="policy-button" style="float: right;">
                                             Policy
                                         </a>
@@ -465,14 +551,14 @@
                                     </div>
 
                                     @if ($info->experiences)
-                                        <h3 class="sectitle color-black ">Experiences</h3>
+                                        <h3 class="sectitle color-black mt-35">Experiences</h3>
                                         <div class="col-md-12 text-justify">
                                             {!! $info->experiences ?? '' !!}
                                         </div>
                                     @endif
 
                                     @if ($info->specializations)
-                                        <h3 class="sectitle color-black mt-3">Specializations</h3>
+                                        <h3 class="sectitle color-black mt-35">Specializations</h3>
                                         <div class="col-md-12 text-justify">
                                             {!! $info->specializations ?? '' !!}
                                         </div>

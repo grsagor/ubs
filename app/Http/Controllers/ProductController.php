@@ -526,6 +526,7 @@ class ProductController extends Controller
                 'reselling_commission_amount',
                 'extra_commission',
                 'policy',
+                'refund_policy',
                 'unipuller_data_policy',
                 'youtube_link'
             ];
@@ -2597,5 +2598,17 @@ class ProductController extends Controller
             ->where('model_type', 'App\\User')->first();
         $data['first_image'] = 'https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg';
         return view('frontend.product.details2', $data);
+    }
+
+    public function productPolicy($id)
+    {
+        $data['info'] = Product::findOrFail($id);
+        return view('frontend.product.policy', $data);
+    }
+
+    public function productRefundPolicy($id)
+    {
+        $data['info'] = Product::findOrFail($id);
+        return view('frontend.product.refund_policy', $data);
     }
 }
