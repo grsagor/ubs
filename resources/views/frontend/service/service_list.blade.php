@@ -37,7 +37,7 @@
                         <a href="{{ route('product.show', $item->id) }}"
                             class="woocommerce-LoopProduct-link col-lg-4 col-md-4 col-sm-12 d-flex">
                             <img src="https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg"
-                                class="swiper-lazy w-100" alt="" style="height: 190px;">
+                                class="lazy img-fluid rounded w-100" alt="" style="height: 190px;">
                         </a>
                     @endif
                     <div class="col-lg-8 col-md-8 col-sm-12 d-flex flex-column">
@@ -45,7 +45,7 @@
                             <h5 class="product-title" style="padding: 0; margin: 0;">
                                 <a class="text-dark" href="{{ route('product.show', $item->id) }}"
                                     style="font-weight: 600;">
-                                    {{ Str::limit($item->name, $limit = 92, $end = '...') }}
+                                    {{ Str::limit($item->name, $limit = 42, $end = '...') }}
                                 </a>
                             </h5>
                             <div class="text-center">
@@ -61,7 +61,7 @@
                             </div>
 
                             <p class="text-dark" style="margin: 0; text-align: justify; padding: 0; line-height: 1.2;">
-                                {!! Str::limit($item->product_description, $limit = 180, $end = '...') !!}
+                                {!! Str::limit($item->product_description, $limit = 170, $end = '...') !!}
                             </p>
                         </div>
                         <div class="d-flex mr-10 text-center" style="background-color: white; padding: 1px">

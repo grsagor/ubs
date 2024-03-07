@@ -3,9 +3,9 @@
 @section('css')
     <style>
         /* .container {
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        margin-top: 10px;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        margin-bottom: 10px;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    } */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            margin-top: 10px;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            margin-bottom: 10px;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        } */
 
         .color-black {
             color: black !important;
@@ -173,6 +173,11 @@
         .image_show img {
             width: 100% !important;
             height: auto;
+        }
+
+        .description ul li {
+            list-style: disc inside;
+
         }
 
         @media (max-width: 767px) {
