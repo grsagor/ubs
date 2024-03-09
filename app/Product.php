@@ -65,10 +65,10 @@ class Product extends Model
         if ($request->has('search') && $request->filled('search')) {
             return $query->where('name', 'LIKE', '%' . $request->search . '%');
         }
-        
+
         return $query;
     }
-    
+
 
     public function product_variations()
     {

@@ -146,7 +146,10 @@
 
         .description ul li {
             list-style: disc inside;
+        }
 
+        .description ul {
+            margin-bottom: 15px;
         }
 
         @media (max-width: 767px) {

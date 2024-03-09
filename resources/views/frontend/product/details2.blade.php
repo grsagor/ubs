@@ -3,9 +3,9 @@
 @section('css')
     <style>
         /* .container {
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            margin-top: 10px;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            margin-bottom: 10px;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        } */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        margin-top: 10px;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        margin-bottom: 10px;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    } */
 
         .color-black {
             color: black !important;
@@ -101,8 +101,8 @@
             margin-bottom: 10px;
         }
 
-        .mt-35 {
-            margin-top: 35px;
+        .mt-15 {
+            margin-top: 15px;
         }
 
         .txtbold {
@@ -193,7 +193,7 @@
                 display: none;
             }
 
-            .mt-35 {
+            .mt-15 {
                 margin-top: 10px !important;
             }
 
@@ -464,14 +464,14 @@
                                 <div class="requirements-card">
                                     <h3 class="sectitle mb-3">Details</h3>
                                     @if ($info->fee_installment_description)
-                                        <h3 class="sectitle mt-35 color-black">Instalments</h3>
+                                        <h3 class="sectitle mt-15 color-black">Instalments</h3>
                                         <div class="col-md-12 text-justify">
                                             {!! $info->fee_installment_description ?? '' !!}
                                         </div>
                                     @endif
 
                                     @if ($info->requirements)
-                                        <h3 class="sectitle mt-35 color-black">Requirements</h3>
+                                        <h3 class="sectitle mt-15 color-black">Requirements</h3>
                                         <div class="col-md-12 text-justify">
                                             {{ $info->requirements ?? '' }}
                                         </div>
@@ -481,28 +481,28 @@
                                     @endif
 
                                     @if ($info->service_features)
-                                        <h3 class="sectitle mt-35 color-black">Features</h3>
+                                        <h3 class="sectitle mt-15 color-black">Features</h3>
                                         <div class="col-md-12 text-justify">
                                             {!! $info->service_features ?? '' !!}
                                         </div>
                                     @endif
 
                                     @if ($info->general_facilities)
-                                        <h3 class="sectitle mt-35 color-black">Facilities</h3>
+                                        <h3 class="sectitle mt-15 color-black">Facilities</h3>
                                         <div class="col-md-12 text-justify">
                                             {!! $info->general_facilities ?? '' !!}
                                         </div>
                                     @endif
 
                                     @if ($info->product_description)
-                                        <h3 class="sectitle mt-35 color-black">More Info</h3>
+                                        <h3 class="sectitle mt-15 color-black">More Info</h3>
                                         <div class="col-md-12 text-justify">
                                             {!! $info->product_description ?? '' !!}
                                         </div>
                                     @endif
 
                                     @if ($info->work_placement == 'Available')
-                                        <h3 class="sectitle mt-35 color-black">Work Placement</h3>
+                                        <h3 class="sectitle mt-15 color-black">Work Placement</h3>
                                         <div class="col-md-12 text-justify">
                                             {!! $info->work_placement_description ?? '' !!}
                                         </div>
@@ -547,18 +547,45 @@
                                                         style="width: 35% !important;">
                                                 </div>
                                             </a>
+
+
+                                            @php
+                                                $businessLocation = $info->business_location;
+                                                $imageUrl =
+                                                    $businessLocation &&
+                                                    File::exists(public_path($businessLocation->logo))
+                                                        ? asset($businessLocation->logo)
+                                                        : 'https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg';
+                                            @endphp
+
+                                            {{-- <a
+                                                href="{{ $businessLocation ? route('shop.service', $businessLocation->id) : '#' }}">
+                                                <div>
+                                                    <img class="" src="{{ $imageUrl }}" alt=""
+                                                        width="100" height="100">
+                                                </div>
+                                                <strong
+                                                    style="font-size: 24px;">{{ $businessLocation ? $businessLocation->name : '' }}</strong>
+                                            </a> --}}
+
+
+
+
+
+
+
                                         </div>
                                     </div>
 
                                     @if ($info->experiences)
-                                        <h3 class="sectitle color-black mt-35">Experiences</h3>
+                                        <h3 class="sectitle color-black mt-15">Experiences</h3>
                                         <div class="col-md-12 text-justify">
                                             {!! $info->experiences ?? '' !!}
                                         </div>
                                     @endif
 
                                     @if ($info->specializations)
-                                        <h3 class="sectitle color-black mt-35">Specializations</h3>
+                                        <h3 class="sectitle color-black mt-15">Specializations</h3>
                                         <div class="col-md-12 text-justify">
                                             {!! $info->specializations ?? '' !!}
                                         </div>
