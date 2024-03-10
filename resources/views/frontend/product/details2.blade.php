@@ -3,9 +3,9 @@
 @section('css')
     <style>
         /* .container {
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        margin-top: 10px;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        margin-bottom: 10px;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    } */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            margin-top: 10px;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            margin-bottom: 10px;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        } */
 
         .color-black {
             color: black !important;
@@ -389,15 +389,15 @@
 
                                             @if ($info->home_students_fees)
                                                 <div class="col-md-6">
-                                                    Tution fees for home students: <span
-                                                        class="txtbold">{{ $info->home_students_fees ?? '' }}</span>
+                                                    Tution fees for home students: <span class="txtbold">&#163;
+                                                        {{ $info->home_students_fees ?? '' }}</span>
                                                 </div>
                                             @endif
 
                                             @if ($info->int_students_fees)
                                                 <div class="col-md-6">
-                                                    Tution fees for international students: <span
-                                                        class="txtbold">{{ $info->int_students_fees ?? '' }}</span>
+                                                    Tution fees for international students: <span class="txtbold">&#163;
+                                                        {{ $info->int_students_fees ?? '' }}</span>
                                                 </div>
                                             @endif
                                         </div>
@@ -501,7 +501,8 @@
                                         </div>
                                     @endif
 
-                                    @if ($info->work_placement == 'Available')
+                                    {{-- @if ($info->work_placement == 'Available') --}}
+                                    @if ($info->work_placement_description)
                                         <h3 class="sectitle mt-15 color-black">Work Placement</h3>
                                         <div class="col-md-12 text-justify">
                                             {!! $info->work_placement_description ?? '' !!}
@@ -528,7 +529,7 @@
                                     <div class="row header laptopp-view">
                                         <div class="col-md-9">
                                             <div class="card-text company-name color-black">
-                                                {{ $info->business_location ? $info->business_location->name : '' }}</div>
+                                                {{ $info->business ? $info->business->name : '' }}</div>
                                         </div>
 
                                         <div class="col-md-3 text-end">
@@ -541,7 +542,7 @@
                                                         : 'https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg';
                                             @endphp
                                             <a
-                                                href="{{ $info->business_location ? route('shop.service', $info->business_location->id) : '#' }}">
+                                                href="{{ $info->business ? route('business.shop.service', $info->business->id) : '#' }}">
                                                 <div>
                                                     <img class="" src="{{ $imageUrl }}" alt=""
                                                         style="width: 35% !important;">

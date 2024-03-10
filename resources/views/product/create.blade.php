@@ -7,9 +7,9 @@
     <section class="content-header">
         <h1>Add New</h1>
         <!-- <ol class="breadcrumb">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <li class="active">Here</li>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    </ol> -->
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <li class="active">Here</li>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    </ol> -->
     </section>
 
     <!-- Main content -->
@@ -401,51 +401,6 @@
             </div>
         @endcomponent
 
-
-        @component('components.widget', ['class' => 'box-primary'])
-            <div class="row">
-
-                <div class="col-sm-4">
-                    <div class="form-group">
-                        {!! Form::label('work_placement', __('product.work_placement') . ':') !!}
-                        {!! Form::select(
-                            'work_placement',
-                            ['Available' => 'Available', 'Unavailable' => 'Unavailable'],
-                            !empty($duplicate_product->work_placement) ? $duplicate_product->work_placement : null,
-                            [
-                                'placeholder' => __('messages.please_select'),
-                                'id' => 'work_placement',
-                                'class' => 'form-control select2',
-                            ],
-                        ) !!}
-                    </div>
-                </div>
-                <div class="col-sm-8 hide" id="work-placement-description-section">
-                    <div class="form-group">
-                        {!! Form::label('work_placement_description', __('product.work_placement_description') . ':') !!}
-                        {!! Form::textarea(
-                            'work_placement_description',
-                            !empty(@$duplicate_product->work_placement_description) ? @$duplicate_product->work_placement_description : null,
-                            ['class' => 'form-control'],
-                        ) !!}
-                    </div>
-                </div>
-                <div class="clearfix hide" id="work-placement-description-clearfix"></div>
-
-                <div class="col-sm-12">
-                    <div class="form-group">
-                        {!! Form::label('general_facilities', __('lang_v1.general_facilities') . ':') !!}
-                        {!! Form::textarea(
-                            'general_facilities',
-                            !empty($duplicate_product->general_facilities) ? $duplicate_product->general_facilities : null,
-                            ['class' => 'form-control'],
-                        ) !!}
-                    </div>
-                </div>
-
-            </div>
-        @endcomponent
-
         @component('components.widget', ['class' => 'box-primary'])
             <div id="requirements-container">
                 <!-- Initial requirements section -->
@@ -490,7 +445,6 @@
                 <button id="removeRequirement" type="button" class="btn-danger hide">Remove</button>
             </div>
         @endcomponent
-
 
         @component('components.widget', ['class' => 'box-primary'])
             <div class="row">
@@ -601,10 +555,36 @@
 
         @component('components.widget', ['class' => 'box-primary'])
             <div class="row">
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        {!! Form::label('work_placement', __('product.work_placement') . ':') !!}
+                        {!! Form::select(
+                            'work_placement',
+                            ['Available' => 'Available', 'Unavailable' => 'Unavailable'],
+                            !empty($duplicate_product->work_placement) ? $duplicate_product->work_placement : null,
+                            [
+                                'placeholder' => __('messages.please_select'),
+                                'id' => 'work_placement',
+                                'class' => 'form-control select2',
+                            ],
+                        ) !!}
+                    </div>
+                </div>
+                <div class="col-sm-8 hide" id="work-placement-description-section">
+                    <div class="form-group">
+                        {!! Form::label('work_placement_description', __('product.work_placement_description') . ':') !!}
+                        {!! Form::textarea(
+                            'work_placement_description',
+                            !empty(@$duplicate_product->work_placement_description) ? @$duplicate_product->work_placement_description : null,
+                            ['class' => 'form-control'],
+                        ) !!}
+                    </div>
+                </div>
+                <div class="clearfix hide" id="work-placement-description-clearfix"></div>
+
                 <div class="col-sm-12">
                     <div class="form-group">
-                        <label class="form-label">{{ __('product.service_features') }}: <span
-                                class="text-danger">*</span></label>
+                        {!! Form::label('service_features', __('product.service_features') . ':*') !!}
                         {!! Form::textarea(
                             'service_features',
                             !empty($duplicate_product->service_features) ? $duplicate_product->service_features : null,
@@ -614,7 +594,22 @@
                 </div>
                 <div class="col-sm-12">
                     <div class="form-group">
-                        <label class="form-label">{{ __('product.experiences') }}: <span class="text-danger">*</span></label>
+                        {!! Form::label('general_facilities', __('lang_v1.general_facilities') . ':') !!}
+                        {!! Form::textarea(
+                            'general_facilities',
+                            !empty($duplicate_product->general_facilities) ? $duplicate_product->general_facilities : null,
+                            ['class' => 'form-control'],
+                        ) !!}
+                    </div>
+                </div>
+            </div>
+        @endcomponent
+
+        @component('components.widget', ['class' => 'box-primary'])
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        {!! Form::label('experiences', __('product.experiences') . ':*') !!}
                         {!! Form::textarea(
                             'experiences',
                             !empty($duplicate_product->experiences) ? $duplicate_product->experiences : null,
@@ -624,8 +619,7 @@
                 </div>
                 <div class="col-sm-12">
                     <div class="form-group">
-                        <label class="form-label">{{ __('product.specializations') }}: <span
-                                class="text-danger">*</span></label>
+                        {!! Form::label('specializations', __('product.specializations') . ':*') !!}
                         {!! Form::textarea(
                             'specializations',
                             !empty($duplicate_product->specializations) ? $duplicate_product->specializations : null,

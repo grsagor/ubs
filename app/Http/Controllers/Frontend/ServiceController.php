@@ -24,7 +24,7 @@ class ServiceController extends Controller
         $data['per_page'] = 10;
         $price = 200;
         $products = Product::whereIn('category_id', $categories_id)
-            ->with(['business_location', 'variations' => function ($query) {
+            ->with(['variations' => function ($query) {
                 $query->take(1); // Retrieve only the first variation
             }])
             ->search($request)
