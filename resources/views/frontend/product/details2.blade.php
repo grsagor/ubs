@@ -3,9 +3,9 @@
 @section('css')
     <style>
         /* .container {
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            margin-top: 10px;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            margin-bottom: 10px;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        } */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                margin-top: 10px;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                margin-bottom: 10px;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            } */
 
         .color-black {
             color: black !important;
@@ -208,6 +208,15 @@
                 text-align: center;
                 /* Center the content inside the div */
             }
+
+            .mobile_view_image_left {
+                text-align: center !important;
+            }
+
+            .mobile_image {
+                margin: 10px 0px 10px 0px !important;
+            }
+
         }
     </style>
 @endsection
@@ -462,16 +471,16 @@
                         <div class="requirements-section row mt-3">
                             <div class="col-sm-12 ">
                                 <div class="requirements-card">
-                                    <h3 class="sectitle mb-3">Details</h3>
+                                    {{-- <h3 class="sectitle mb-3">Details</h3> --}}
                                     @if ($info->fee_installment_description)
-                                        <h3 class="sectitle mt-15 color-black">Instalments</h3>
+                                        <h3 class="sectitle mt-15">Instalments</h3>
                                         <div class="col-md-12 text-justify">
                                             {!! $info->fee_installment_description ?? '' !!}
                                         </div>
                                     @endif
 
                                     @if ($info->requirements)
-                                        <h3 class="sectitle mt-15 color-black">Requirements</h3>
+                                        <h3 class="sectitle mt-15">Requirements</h3>
                                         <div class="col-md-12 text-justify">
                                             {{ $info->requirements ?? '' }}
                                         </div>
@@ -481,21 +490,21 @@
                                     @endif
 
                                     @if ($info->service_features)
-                                        <h3 class="sectitle mt-15 color-black">Features</h3>
+                                        <h3 class="sectitle mt-15">Features</h3>
                                         <div class="col-md-12 text-justify">
                                             {!! $info->service_features ?? '' !!}
                                         </div>
                                     @endif
 
                                     @if ($info->general_facilities)
-                                        <h3 class="sectitle mt-15 color-black">Facilities</h3>
+                                        <h3 class="sectitle mt-15">Facilities</h3>
                                         <div class="col-md-12 text-justify">
                                             {!! $info->general_facilities ?? '' !!}
                                         </div>
                                     @endif
 
                                     @if ($info->product_description)
-                                        <h3 class="sectitle mt-15 color-black">More Info</h3>
+                                        <h3 class="sectitle mt-15">More Info</h3>
                                         <div class="col-md-12 text-justify">
                                             {!! $info->product_description ?? '' !!}
                                         </div>
@@ -503,7 +512,7 @@
 
                                     {{-- @if ($info->work_placement == 'Available') --}}
                                     @if ($info->work_placement_description)
-                                        <h3 class="sectitle mt-15 color-black">Work Placement</h3>
+                                        <h3 class="sectitle mt-15">Work Placement</h3>
                                         <div class="col-md-12 text-justify">
                                             {!! $info->work_placement_description ?? '' !!}
                                         </div>
@@ -526,13 +535,13 @@
                                 <div class="requirements-card">
                                     <h3 class="sectitle">About Provider</h3>
 
-                                    <div class="row header laptopp-view">
+                                    <div class="row header">
                                         <div class="col-md-9">
                                             <div class="card-text company-name color-black">
                                                 {{ $info->business ? $info->business->name : '' }}</div>
                                         </div>
 
-                                        <div class="col-md-3 text-end">
+                                        <div class="col-md-3 text-end mobile_view_image_left mobile_image">
                                             @php
                                                 $imageUrl =
                                                     $user_info &&
