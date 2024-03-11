@@ -228,7 +228,7 @@
 
                             <div class="apply-button">
 
-                                <div style="margin-top: 10px;">
+                                <div class="d-flex gap-1" style="margin-top: 10px;">
                                     {{-- <button type="button" class="btn alreadyApplied" disabled>Already applied</button> --}}
 
                                     <form action="#" method="POST" class="mx-auto mobileView"
@@ -236,6 +236,7 @@
                                         @csrf
                                         <button type="submit" class="btn applynow">Order Now</button>
                                     </form>
+                                    <button type="button" data-product_id="{{ $info->id }}" data-is_add="1" class="btn applynow cart_btn">Add to cart</button>
                                 </div>
                             </div>
                         </div>
@@ -483,4 +484,29 @@
     </div>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+@endsection
+@section('script')
+    <script>
+        $(document).ready(function() {
+            $(document).on('click', '.cart_btn', function() {
+                let product_id = $(this).data('product_id');
+                let is_add = $(this).data('is_add');
+                let data = { product_id: product_id, is_add: is_add };
+                $.ajax({
+                    url: "{{ route('post.cart') }}",
+                    method: "POST",
+                    data: data,
+                    dataType: "json",
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            toastr.success(response.message);
+                        }
+                    }
+                })
+            })
+        })
+    </script>
 @endsection

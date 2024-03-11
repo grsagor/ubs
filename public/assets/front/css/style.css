@@ -440,11 +440,10 @@ input[type="checkbox"]+label {
     padding: 8px 18px;
     display: inline-block;
     color: #fff;
-
+    background: #424a4d !important;
     border: 0px;
     cursor: pointer;
     border-radius: 3px;
-
     -webkit-transition: all 0.3s ease-in;
     transition: all 0.3s ease-in;
 }
@@ -9209,7 +9208,7 @@ input[type="checkbox"]:checked:disabled+label:before {
     border-radius: 50%;
     top: 50%;
     left: 50%;
-    z-index: 99;
+    z-index: 9;
     -webkit-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
     background: #c9030f;
