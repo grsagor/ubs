@@ -29,7 +29,7 @@
 
         p.category_text {
             /* min-height: 20px;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            max-height: 20px; */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                max-height: 20px; */
         }
 
         h5.product-title {
@@ -160,10 +160,7 @@
                                 <div class="row mb-4 g-3 product-style-1 shop-list product-list  e-title-hover-primary e-hover-image-zoom"
                                     style="padding: 0px !important;">
                                     @if (count($products) > 0)
-                                        <div class="col-md-9"
-                                            style="margin-left: 10px;
-                                        width: 72%;
-                                        margin-right: 10px;">
+                                        <div class="col-md-9 laptop_view_card mobile_view_card">
                                             @yield('property_list_content')
                                         </div>
 

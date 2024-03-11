@@ -85,7 +85,7 @@
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link" href="https://shop.unipuller.com/" target="__blank">Domain &
+                                <a class="nav-link" href="https://shop.unipuler.com/" target="__blank">Domain &
                                     Hosting</a>
                             </li>
 
@@ -231,7 +231,7 @@
                                                             Marketing</a>
                                                     </li>
                                                     <li class="nav-item">
-                                                        <a class="nav-link" href="https://shop.unipuller.com/"
+                                                        <a class="nav-link" href="https://shop.unipuler.com/"
                                                             target="__blank">Domain
                                                             & Hosting</a>
                                                     </li>
