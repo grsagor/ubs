@@ -468,7 +468,7 @@
                                 <div class="requirements-card">
                                     {{-- <h3 class="sectitle mb-3">Details</h3> --}}
                                     @if ($info->fee_installment_description)
-                                        <h3 class="sectitle mt-15">Instalments</h3>
+                                        <h3 class="sectitle">Instalments</h3>
                                         <div class="col-md-12 text-justify">
                                             {!! $info->fee_installment_description ?? '' !!}
                                         </div>
