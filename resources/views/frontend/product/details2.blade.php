@@ -159,7 +159,7 @@
         }
 
         .image_show {
-            width: 33%;
+            width: 49%;
             display: inline-block;
             vertical-align: top;
             box-sizing: border-box;
@@ -174,6 +174,13 @@
             list-style: disc inside;
 
         }
+
+        #imageSlider .carousel-item img {
+            width: 100% !important;
+            height: 100% !important;
+            max-height: 100%;
+        }
+
 
         @media (max-width: 767px) {
             .reptitle {
@@ -417,24 +424,38 @@
 
                                         <div class="col-md-12 text-justify">
 
-                                            <div class="image_show">
-                                                <img src="{{ asset($info->thumbnail) }}" alt="">
-                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <img src="{{ asset($info->thumbnail) }}" alt="">
+                                                </div>
 
-                                            <div class="image_show">
-                                                @foreach (json_decode($info->image ?? '[]') as $item)
-                                                    <img src="{{ asset($item) }}" alt="">
-                                                    @php
-                                                        if ($key === 0) {
-                                                            break;
-                                                        }
-                                                    @endphp
-                                                @endforeach
-                                            </div>
+                                                <div class="col-md-6">
+                                                    <div id="imageSlider" class="carousel slide" data-bs-ride="carousel">
+                                                        <div class="carousel-inner">
+                                                            @foreach (json_decode($info->image ?? '[]') as $index => $item)
+                                                                <div
+                                                                    class="carousel-item {{ $index === 0 ? 'active' : '' }}">
+                                                                    <img src="{{ asset($item) }}" class="d-block w-100"
+                                                                        alt="">
+                                                                </div>
+                                                            @endforeach
+                                                        </div>
+                                                        <button class="carousel-control-prev" type="button"
+                                                            data-bs-target="#imageSlider" data-bs-slide="prev">
+                                                            <span class="carousel-control-prev-icon"
+                                                                aria-hidden="true"></span>
+                                                            <span class="visually-hidden">Previous</span>
+                                                        </button>
+                                                        <button class="carousel-control-next" type="button"
+                                                            data-bs-target="#imageSlider" data-bs-slide="next">
+                                                            <span class="carousel-control-next-icon"
+                                                                aria-hidden="true"></span>
+                                                            <span class="visually-hidden">Next</span>
+                                                        </button>
+                                                    </div>
+                                                </div>
 
-                                            <div class="image_show">
-                                                <img src="{{ asset('uploads/img/' . $info->product_brochure) }}"
-                                                    alt="">
+
                                             </div>
 
                                             @php
@@ -453,6 +474,27 @@
 
                                             <div class="mt-4">
                                                 {!! $embedCode !!}
+                                            </div>
+
+                                            <div class="accordion mt-4" id="accordionExample">
+                                                <div class="accordion-item">
+                                                    <h2 class="accordion-header" id="headingOne">
+                                                        <button class="accordion-button collapsed" type="button"
+                                                            data-bs-toggle="collapse" data-bs-target="#collapseOne"
+                                                            aria-expanded="false" aria-controls="collapseOne">
+                                                            Brochure
+                                                        </button>
+                                                    </h2>
+                                                    <div id="collapseOne" class="accordion-collapse collapse"
+                                                        aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                                                        <div class="accordion-body">
+                                                            <div class="brochure_show" style="text-align: center;">
+                                                                <img src="{{ asset('uploads/img/' . $info->product_brochure) }}"
+                                                                    alt="" style="width: 50% !important;">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
 
                                         </div>
