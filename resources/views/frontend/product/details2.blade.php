@@ -298,22 +298,26 @@
                         </div>
 
 
-                        <div class="apply-section mt-1">
-                            <div class="apply-button d-flex align-items-center">
+                        <div class="apply-section mt-3">
 
-                                {{-- Order Now Button --}}
-                                <div>
+                            <div class="apply-button">
+
+                                <div class="d-flex gap-1" style="margin-top: 10px;">
+                                    {{-- <button type="button" class="btn alreadyApplied" disabled>Already applied</button> --}}
+
                                     <form action="#" method="POST" class="mx-auto mobileView"
                                         enctype="multipart/form-data">
                                         @csrf
                                         <button type="submit" class="btn applynow">Order Now</button>
                                     </form>
+                                    <button type="button" data-product_id="{{ $info->id }}" data-is_add="1"
+                                        class="btn applynow cart_btn">Add to cart</button>
                                 </div>
-
                                 {{-- Social Media Icons --}}
-                                <div style="margin-left: 20px;"> <!-- Add ml-3 class here for left margin -->
+                                <div> <!-- Add ml-3 class here for left margin -->
                                     @include('frontend.social_media_share.social_media')
                                 </div>
+
                             </div>
                         </div>
 
@@ -686,4 +690,32 @@
     </div>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+@endsection
+@section('script')
+    <script>
+        $(document).ready(function() {
+            $(document).on('click', '.cart_btn', function() {
+                let product_id = $(this).data('product_id');
+                let is_add = $(this).data('is_add');
+                let data = {
+                    product_id: product_id,
+                    is_add: is_add
+                };
+                $.ajax({
+                    url: "{{ route('post.cart') }}",
+                    method: "POST",
+                    data: data,
+                    dataType: "json",
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            toastr.success(response.message);
+                        }
+                    }
+                })
+            })
+        })
+    </script>
 @endsection

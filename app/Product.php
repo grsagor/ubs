@@ -401,25 +401,26 @@ class Product extends Model
 
     public static function convertPrice($price)
     {
-        $gs = cache()->remember('generalsettings', now()->addDay(), function () {
-            return DB::table('generalsettings')->first();
-        });
-        if (Session::has('currency')) {
-            $curr = cache()->remember('session_currency', now()->addDay(), function () {
-                return Currency::find(Session::get('currency'));
-            });
-        } else {
-            $curr = cache()->remember('default_currency', now()->addDay(), function () {
-                return Currency::where('is_default', '=', 1)->first();
-            });
-        }
-        $price = $price * $curr->value;
-        $price = \PriceHelper::showPrice($price);
-        if ($gs->currency_format == 0) {
-            return $curr->sign . $price;
-        } else {
-            return $price . $curr->sign;
-        }
+        // $gs = cache()->remember('generalsettings', now()->addDay(), function () {
+        //     return DB::table('generalsettings')->first();
+        // });
+        // if (Session::has('currency')) {
+        //     $curr = cache()->remember('session_currency', now()->addDay(), function () {
+        //         return Currency::find(Session::get('currency'));
+        //     });
+        // } else {
+        //     $curr = cache()->remember('default_currency', now()->addDay(), function () {
+        //         return Currency::where('is_default', '=', 1)->first();
+        //     });
+        // }
+        // $price = $price * $curr->value;
+        // $price = \PriceHelper::showPrice($price);
+        // if ($gs->currency_format == 0) {
+        //     return $curr->sign . $price;
+        // } else {
+        //     return $price . $curr->sign;
+        // }
+        return $price;
     }
 
     public static function vendorConvertPrice($price)
@@ -540,5 +541,8 @@ class Product extends Model
     public function resellingProducts()
     {
         return $this->hasMany(ResellingProduct::class, 'product_id');
+    }
+    public function carts() {
+        return $this->hasMany(Cart::class, 'product_id');
     }
 }
