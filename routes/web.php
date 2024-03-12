@@ -223,6 +223,9 @@ Route::get('/payment-terms',                            [FrontendController::cla
 
 // CART SECTION
 Route::get('/carts', [CartController::class, 'cart'])->name('front.cart');
+Route::post('/post-cart', [CartController::class, 'postCart'])->name('post.cart');
+Route::get('/checkout', [CartController::class, 'checkout'])->name('front.checkout');
+Route::post('/checkout', [CartController::class, 'checkoutPost'])->name('checkout.post');
 Route::get('/addcart/{id}', [CartController::class, 'addcart'])->name('product.cart.add');
 Route::get('/addtocart/{id}', [CartController::class, 'addtocart'])->name('product.cart.quickadd');
 Route::get('/addnumcart', 'Front\CartController@addnumcart')->name('details.cart');
@@ -790,10 +793,8 @@ Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone'])
     Route::get('/sells/{id}', [SellController::class, 'show']);
     Route::get('/sells/{transaction_id}/print', [SellPosController::class, 'printInvoice'])->name('sell.printInvoice');
     Route::get('/download-sells/{transaction_id}/pdf', [SellPosController::class, 'downloadPdf'])->name('sell.downloadPdf');
-    Route::get('/download-quotation/{id}/pdf', [SellPosController::class, 'downloadQuotationPdf'])
-        ->name('quotation.downloadPdf');
-    Route::get('/download-packing-list/{id}/pdf', [SellPosController::class, 'downloadPackingListPdf'])
-        ->name('packing.downloadPdf');
+    Route::get('/download-quotation/{id}/pdf', [SellPosController::class, 'downloadQuotationPdf'])->name('quotation.downloadPdf');
+    Route::get('/download-packing-list/{id}/pdf', [SellPosController::class, 'downloadPackingListPdf'])->name('packing.downloadPdf');
     Route::get('/sells/invoice-url/{id}', [SellPosController::class, 'showInvoiceUrl']);
     Route::get('/show-notification/{id}', [HomeController::class, 'showNotification']);
 });

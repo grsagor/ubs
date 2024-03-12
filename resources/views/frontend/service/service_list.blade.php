@@ -9,6 +9,19 @@
         button:focus {
             outline: none !important;
         }
+
+        .laptop_view_card {
+            margin-left: 10px;
+            width: 72%;
+            margin-right: 10px;
+        }
+
+        @media (max-width: 767px) {
+            .mobile_view_card {
+                margin-top: 30px !important;
+                width: 95% !important;
+            }
+        }
     </style>
 @endsection
 @section('property_list_content')

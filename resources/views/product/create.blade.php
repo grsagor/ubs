@@ -7,9 +7,9 @@
     <section class="content-header">
         <h1>Add New</h1>
         <!-- <ol class="breadcrumb">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                            <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                            <li class="active">Here</li>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                        </ol> -->
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <li class="active">Here</li>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    </ol> -->
     </section>
 
     <!-- Main content -->
@@ -29,7 +29,7 @@
             <div class="row">
                 <div class="col-sm-4">
                     <div class="form-group">
-                        {!! Form::label('name', __('product.type') . ':*') !!}
+                        <label class="form-label">{{ __('product.type') }}: <span class="text-danger">*</span></label>
                         {!! Form::select(
                             'types',
                             ['product' => 'Product', 'service' => 'Service'],
@@ -139,7 +139,7 @@
 
                 <div class="col-sm-4 @if (!session('business.enable_category')) hide @endif">
                     <div class="form-group">
-                        {!! Form::label('category_id', __('product.category') . ':') !!}
+                        <label class="form-label">{{ __('product.category') }}: <span class="text-danger">*</span></label>
                         {!! Form::select(
                             'category_id',
                             $categories,
@@ -151,7 +151,7 @@
 
                 <div class="col-sm-4 @if (!(session('business.enable_category') && session('business.enable_sub_category'))) hide @endif">
                     <div class="form-group">
-                        {!! Form::label('sub_category_id', __('product.sub_category') . ':') !!}
+                        <label class="form-label">{{ __('product.sub_category') }}: <span class="text-danger">*</span></label>
                         {!! Form::select(
                             'sub_category_id',
                             $sub_categories,
@@ -164,7 +164,7 @@
 
                 <div class="col-sm-4 @if (!(session('business.enable_category') && session('business.enable_sub_category'))) hide @endif">
                     <div class="form-group">
-                        <label for="child_category_id">Child Category:</label>
+                        <label class="form-label">{{ __('product.child_category') }}: <span class="text-danger">*</span></label>
                         <select class="form-control select2" id="child_category_id" name="child_category_id">
                             <option selected="selected" value="">Please Select</option>
                             <option value="127">Pascale Haney-Vero accusantium lau</option>
@@ -174,7 +174,8 @@
 
                 <div class="col-sm-4">
                     <div class="form-group">
-                        {!! Form::label('product_locations', __('business.business_locations') . ':') !!} @show_tooltip(__('lang_v1.product_location_help'))
+                        <label class="form-label">{{ __('business.business_locations') }}: <span
+                                class="text-danger">*</span></label>@show_tooltip(__('lang_v1.product_location_help'))
                         {!! Form::select('product_locations[]', $business_locations, $default_location, [
                             'class' => 'form-control select2',
                             'multiple',
@@ -400,52 +401,6 @@
             </div>
         @endcomponent
 
-
-        @component('components.widget', ['class' => 'box-primary'])
-            <div class="row">
-
-                <div class="col-sm-4">
-                    <div class="form-group">
-                        {!! Form::label('name', __('product.work_placement') . ':') !!}
-                        {!! Form::select(
-                            'work_placement',
-                            ['Available' => 'Available', 'Unavailable' => 'Unavailable'],
-                            !empty($duplicate_product->work_placement) ? $duplicate_product->work_placement : null,
-                            [
-                                'placeholder' => __('messages.please_select'),
-                                'id' => 'work_placement',
-                                'class' => 'form-control select2',
-                                'required',
-                            ],
-                        ) !!}
-                    </div>
-                </div>
-                <div class="col-sm-8 hide" id="work-placement-description-section">
-                    <div class="form-group">
-                        {!! Form::label('work_placement_description', __('product.work_placement_description') . ':') !!}
-                        {!! Form::textarea(
-                            'work_placement_description',
-                            !empty(@$duplicate_product->work_placement_description) ? @$duplicate_product->work_placement_description : null,
-                            ['class' => 'form-control'],
-                        ) !!}
-                    </div>
-                </div>
-                <div class="clearfix hide" id="work-placement-description-clearfix"></div>
-
-                <div class="col-sm-12">
-                    <div class="form-group">
-                        {!! Form::label('general_facilities', __('lang_v1.general_facilities') . ':') !!}
-                        {!! Form::textarea(
-                            'general_facilities',
-                            !empty($duplicate_product->general_facilities) ? $duplicate_product->general_facilities : null,
-                            ['class' => 'form-control'],
-                        ) !!}
-                    </div>
-                </div>
-
-            </div>
-        @endcomponent
-
         @component('components.widget', ['class' => 'box-primary'])
             <div id="requirements-container">
                 <!-- Initial requirements section -->
@@ -491,7 +446,6 @@
             </div>
         @endcomponent
 
-
         @component('components.widget', ['class' => 'box-primary'])
             <div class="row">
 
@@ -511,7 +465,7 @@
 
                 <div class="col-sm-12">
                     <div class="form-group">
-                        {!! Form::label('name', __('Title') . ':*') !!}
+                        {!! Form::label('title', __('Title') . ':*') !!}
                         {!! Form::text('name', !empty($duplicate_product->name) ? $duplicate_product->name : null, [
                             'class' => 'form-control',
                             'required',
@@ -588,7 +542,7 @@
 
                 <div class="col-sm-4">
                     <div class="form-group">
-                        {!! Form::label('youtube_link', __('product.youtube_link') . ':*') !!}
+                        {!! Form::label('youtube_link', __('product.youtube_link')) !!}
                         {!! Form::text(
                             'youtube_link',
                             !empty($duplicate_product->youtube_link) ? $duplicate_product->youtube_link : null,
@@ -601,9 +555,36 @@
 
         @component('components.widget', ['class' => 'box-primary'])
             <div class="row">
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        {!! Form::label('work_placement', __('product.work_placement') . ':') !!}
+                        {!! Form::select(
+                            'work_placement',
+                            ['Available' => 'Available', 'Unavailable' => 'Unavailable'],
+                            !empty($duplicate_product->work_placement) ? $duplicate_product->work_placement : null,
+                            [
+                                'placeholder' => __('messages.please_select'),
+                                'id' => 'work_placement',
+                                'class' => 'form-control select2',
+                            ],
+                        ) !!}
+                    </div>
+                </div>
+                <div class="col-sm-8 hide" id="work-placement-description-section">
+                    <div class="form-group">
+                        {!! Form::label('work_placement_description', __('product.work_placement_description') . ':') !!}
+                        {!! Form::textarea(
+                            'work_placement_description',
+                            !empty(@$duplicate_product->work_placement_description) ? @$duplicate_product->work_placement_description : null,
+                            ['class' => 'form-control'],
+                        ) !!}
+                    </div>
+                </div>
+                <div class="clearfix hide" id="work-placement-description-clearfix"></div>
+
                 <div class="col-sm-12">
                     <div class="form-group">
-                        {!! Form::label('service_features', __('product.service_features') . ':') !!}
+                        {!! Form::label('service_features', __('product.service_features') . ':*') !!}
                         {!! Form::textarea(
                             'service_features',
                             !empty($duplicate_product->service_features) ? $duplicate_product->service_features : null,
@@ -613,7 +594,22 @@
                 </div>
                 <div class="col-sm-12">
                     <div class="form-group">
-                        {!! Form::label('experiences', __('product.experiences') . ':') !!}
+                        {!! Form::label('general_facilities', __('lang_v1.general_facilities') . ':') !!}
+                        {!! Form::textarea(
+                            'general_facilities',
+                            !empty($duplicate_product->general_facilities) ? $duplicate_product->general_facilities : null,
+                            ['class' => 'form-control'],
+                        ) !!}
+                    </div>
+                </div>
+            </div>
+        @endcomponent
+
+        @component('components.widget', ['class' => 'box-primary'])
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        {!! Form::label('experiences', __('product.experiences') . ':*') !!}
                         {!! Form::textarea(
                             'experiences',
                             !empty($duplicate_product->experiences) ? $duplicate_product->experiences : null,
@@ -623,7 +619,7 @@
                 </div>
                 <div class="col-sm-12">
                     <div class="form-group">
-                        {!! Form::label('specializations', __('product.specializations') . ':') !!}
+                        {!! Form::label('specializations', __('product.specializations') . ':*') !!}
                         {!! Form::textarea(
                             'specializations',
                             !empty($duplicate_product->specializations) ? $duplicate_product->specializations : null,
@@ -652,9 +648,22 @@
                             'tax',
                             $taxes,
                             !empty($duplicate_product->tax) ? $duplicate_product->tax : null,
-                            ['placeholder' => __('messages.please_select'), 'class' => 'form-control select2'],
+                            ['class' => 'form-control select2', 'required', 'placeholder' => __('messages.please_select')],
                             $tax_attributes,
                         ) !!}
+
+                        {{-- <div class="form-group">
+                            {!! Form::label('price_changeable', __('product.price_changeable') . ':*') !!}
+                            {!! Form::select(
+                                'price_changeable',
+                                ['1' => 'Yes', '0' => 'No'],
+                                !empty($duplicate_product->price_changeable) ? $duplicate_product->price_changeable : null,
+                                ['class' => 'form-control', 'required', 'placeholder' => __('messages.please_select')],
+                            ) !!}
+                        </div> --}}
+
+
+
                     </div>
                 </div>
 

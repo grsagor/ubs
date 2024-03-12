@@ -6,7 +6,7 @@
 @section('content')
     @includeIf('frontend.partials.global.common-header')
 
-    <div class="container">
+    <div class="container" style="height: 30vh;">
 
         <h4 class="footer-details-title mt-4"><u>Policy</u></h4>
 

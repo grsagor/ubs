@@ -2,11 +2,6 @@
 @section('title', $info->name)
 @section('css')
     <style>
-        /* .container {
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            margin-top: 10px;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            margin-bottom: 10px;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        } */
-
         .color-black {
             color: black !important;
         }
@@ -101,8 +96,8 @@
             margin-bottom: 10px;
         }
 
-        .mt-35 {
-            margin-top: 35px;
+        .mt-15 {
+            margin-top: 15px;
         }
 
         .txtbold {
@@ -164,7 +159,7 @@
         }
 
         .image_show {
-            width: 33%;
+            width: 49%;
             display: inline-block;
             vertical-align: top;
             box-sizing: border-box;
@@ -180,6 +175,13 @@
 
         }
 
+        #imageSlider .carousel-item img {
+            width: 100% !important;
+            height: 100% !important;
+            max-height: 100%;
+        }
+
+
         @media (max-width: 767px) {
             .reptitle {
                 font-size: 15px !important;
@@ -193,7 +195,7 @@
                 display: none;
             }
 
-            .mt-35 {
+            .mt-15 {
                 margin-top: 10px !important;
             }
 
@@ -208,6 +210,15 @@
                 text-align: center;
                 /* Center the content inside the div */
             }
+
+            .mobile_view_image_left {
+                text-align: center !important;
+            }
+
+            .mobile_image {
+                margin: 10px 0px 10px 0px !important;
+            }
+
         }
     </style>
 @endsection
@@ -287,22 +298,26 @@
                         </div>
 
 
-                        <div class="apply-section mt-1">
-                            <div class="apply-button d-flex align-items-center">
+                        <div class="apply-section mt-3">
 
-                                {{-- Order Now Button --}}
-                                <div>
+                            <div class="apply-button">
+
+                                <div class="d-flex gap-1" style="margin-top: 10px;">
+                                    {{-- <button type="button" class="btn alreadyApplied" disabled>Already applied</button> --}}
+
                                     <form action="#" method="POST" class="mx-auto mobileView"
                                         enctype="multipart/form-data">
                                         @csrf
                                         <button type="submit" class="btn applynow">Order Now</button>
                                     </form>
+                                    <button type="button" data-product_id="{{ $info->id }}" data-is_add="1"
+                                        class="btn applynow cart_btn">Add to cart</button>
                                 </div>
-
                                 {{-- Social Media Icons --}}
-                                <div style="margin-left: 20px;"> <!-- Add ml-3 class here for left margin -->
+                                <div> <!-- Add ml-3 class here for left margin -->
                                     @include('frontend.social_media_share.social_media')
                                 </div>
+
                             </div>
                         </div>
 
@@ -389,15 +404,15 @@
 
                                             @if ($info->home_students_fees)
                                                 <div class="col-md-6">
-                                                    Tution fees for home students: <span
-                                                        class="txtbold">{{ $info->home_students_fees ?? '' }}</span>
+                                                    Tution fees for home students: <span class="txtbold">&#163;
+                                                        {{ $info->home_students_fees ?? '' }}</span>
                                                 </div>
                                             @endif
 
                                             @if ($info->int_students_fees)
                                                 <div class="col-md-6">
-                                                    Tution fees for international students: <span
-                                                        class="txtbold">{{ $info->int_students_fees ?? '' }}</span>
+                                                    Tution fees for international students: <span class="txtbold">&#163;
+                                                        {{ $info->int_students_fees ?? '' }}</span>
                                                 </div>
                                             @endif
                                         </div>
@@ -413,24 +428,38 @@
 
                                         <div class="col-md-12 text-justify">
 
-                                            <div class="image_show">
-                                                <img src="{{ asset($info->thumbnail) }}" alt="">
-                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <img src="{{ asset($info->thumbnail) }}" alt="">
+                                                </div>
 
-                                            <div class="image_show">
-                                                @foreach (json_decode($info->image ?? '[]') as $item)
-                                                    <img src="{{ asset($item) }}" alt="">
-                                                    @php
-                                                        if ($key === 0) {
-                                                            break;
-                                                        }
-                                                    @endphp
-                                                @endforeach
-                                            </div>
+                                                <div class="col-md-6">
+                                                    <div id="imageSlider" class="carousel slide" data-bs-ride="carousel">
+                                                        <div class="carousel-inner">
+                                                            @foreach (json_decode($info->image ?? '[]') as $index => $item)
+                                                                <div
+                                                                    class="carousel-item {{ $index === 0 ? 'active' : '' }}">
+                                                                    <img src="{{ asset($item) }}" class="d-block w-100"
+                                                                        alt="">
+                                                                </div>
+                                                            @endforeach
+                                                        </div>
+                                                        <button class="carousel-control-prev" type="button"
+                                                            data-bs-target="#imageSlider" data-bs-slide="prev">
+                                                            <span class="carousel-control-prev-icon"
+                                                                aria-hidden="true"></span>
+                                                            <span class="visually-hidden">Previous</span>
+                                                        </button>
+                                                        <button class="carousel-control-next" type="button"
+                                                            data-bs-target="#imageSlider" data-bs-slide="next">
+                                                            <span class="carousel-control-next-icon"
+                                                                aria-hidden="true"></span>
+                                                            <span class="visually-hidden">Next</span>
+                                                        </button>
+                                                    </div>
+                                                </div>
 
-                                            <div class="image_show">
-                                                <img src="{{ asset('uploads/img/' . $info->product_brochure) }}"
-                                                    alt="">
+
                                             </div>
 
                                             @php
@@ -451,6 +480,27 @@
                                                 {!! $embedCode !!}
                                             </div>
 
+                                            <div class="accordion mt-4" id="accordionExample">
+                                                <div class="accordion-item">
+                                                    <h2 class="accordion-header" id="headingOne">
+                                                        <button class="accordion-button collapsed" type="button"
+                                                            data-bs-toggle="collapse" data-bs-target="#collapseOne"
+                                                            aria-expanded="false" aria-controls="collapseOne">
+                                                            Brochure
+                                                        </button>
+                                                    </h2>
+                                                    <div id="collapseOne" class="accordion-collapse collapse"
+                                                        aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                                                        <div class="accordion-body">
+                                                            <div class="brochure_show" style="text-align: center;">
+                                                                <img src="{{ asset('uploads/img/' . $info->product_brochure) }}"
+                                                                    alt="" style="width: 50% !important;">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
                                         </div>
                                     </div>
 
@@ -462,16 +512,16 @@
                         <div class="requirements-section row mt-3">
                             <div class="col-sm-12 ">
                                 <div class="requirements-card">
-                                    <h3 class="sectitle mb-3">Details</h3>
+                                    {{-- <h3 class="sectitle mb-3">Details</h3> --}}
                                     @if ($info->fee_installment_description)
-                                        <h3 class="sectitle mt-35 color-black">Instalments</h3>
+                                        <h3 class="sectitle">Instalments</h3>
                                         <div class="col-md-12 text-justify">
                                             {!! $info->fee_installment_description ?? '' !!}
                                         </div>
                                     @endif
 
                                     @if ($info->requirements)
-                                        <h3 class="sectitle mt-35 color-black">Requirements</h3>
+                                        <h3 class="sectitle mt-15">Requirements</h3>
                                         <div class="col-md-12 text-justify">
                                             {{ $info->requirements ?? '' }}
                                         </div>
@@ -481,28 +531,29 @@
                                     @endif
 
                                     @if ($info->service_features)
-                                        <h3 class="sectitle mt-35 color-black">Features</h3>
+                                        <h3 class="sectitle mt-15">Features</h3>
                                         <div class="col-md-12 text-justify">
                                             {!! $info->service_features ?? '' !!}
                                         </div>
                                     @endif
 
                                     @if ($info->general_facilities)
-                                        <h3 class="sectitle mt-35 color-black">Facilities</h3>
+                                        <h3 class="sectitle mt-15">Facilities</h3>
                                         <div class="col-md-12 text-justify">
                                             {!! $info->general_facilities ?? '' !!}
                                         </div>
                                     @endif
 
                                     @if ($info->product_description)
-                                        <h3 class="sectitle mt-35 color-black">More Info</h3>
+                                        <h3 class="sectitle mt-15">More Info</h3>
                                         <div class="col-md-12 text-justify">
                                             {!! $info->product_description ?? '' !!}
                                         </div>
                                     @endif
 
-                                    @if ($info->work_placement == 'Available')
-                                        <h3 class="sectitle mt-35 color-black">Work Placement</h3>
+                                    {{-- @if ($info->work_placement == 'Available') --}}
+                                    @if ($info->work_placement_description)
+                                        <h3 class="sectitle mt-15">Work Placement</h3>
                                         <div class="col-md-12 text-justify">
                                             {!! $info->work_placement_description ?? '' !!}
                                         </div>
@@ -525,13 +576,13 @@
                                 <div class="requirements-card">
                                     <h3 class="sectitle">About Provider</h3>
 
-                                    <div class="row header laptopp-view">
+                                    <div class="row header">
                                         <div class="col-md-9">
                                             <div class="card-text company-name color-black">
-                                                {{ $info->business_location ? $info->business_location->name : '' }}</div>
+                                                {{ $info->business ? $info->business->name : '' }}</div>
                                         </div>
 
-                                        <div class="col-md-3 text-end">
+                                        <div class="col-md-3 text-end mobile_view_image_left mobile_image">
                                             @php
                                                 $imageUrl =
                                                     $user_info &&
@@ -541,24 +592,51 @@
                                                         : 'https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg';
                                             @endphp
                                             <a
-                                                href="{{ $info->business_location ? route('shop.service', $info->business_location->id) : '#' }}">
+                                                href="{{ $info->business ? route('business.shop.service', $info->business->id) : '#' }}">
                                                 <div>
                                                     <img class="" src="{{ $imageUrl }}" alt=""
                                                         style="width: 35% !important;">
                                                 </div>
                                             </a>
+
+
+                                            @php
+                                                $businessLocation = $info->business_location;
+                                                $imageUrl =
+                                                    $businessLocation &&
+                                                    File::exists(public_path($businessLocation->logo))
+                                                        ? asset($businessLocation->logo)
+                                                        : 'https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg';
+                                            @endphp
+
+                                            {{-- <a
+                                                href="{{ $businessLocation ? route('shop.service', $businessLocation->id) : '#' }}">
+                                                <div>
+                                                    <img class="" src="{{ $imageUrl }}" alt=""
+                                                        width="100" height="100">
+                                                </div>
+                                                <strong
+                                                    style="font-size: 24px;">{{ $businessLocation ? $businessLocation->name : '' }}</strong>
+                                            </a> --}}
+
+
+
+
+
+
+
                                         </div>
                                     </div>
 
                                     @if ($info->experiences)
-                                        <h3 class="sectitle color-black mt-35">Experiences</h3>
+                                        <h3 class="sectitle color-black mt-15">Experiences</h3>
                                         <div class="col-md-12 text-justify">
                                             {!! $info->experiences ?? '' !!}
                                         </div>
                                     @endif
 
                                     @if ($info->specializations)
-                                        <h3 class="sectitle color-black mt-35">Specializations</h3>
+                                        <h3 class="sectitle color-black mt-15">Specializations</h3>
                                         <div class="col-md-12 text-justify">
                                             {!! $info->specializations ?? '' !!}
                                         </div>
@@ -612,4 +690,32 @@
     </div>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+@endsection
+@section('script')
+    <script>
+        $(document).ready(function() {
+            $(document).on('click', '.cart_btn', function() {
+                let product_id = $(this).data('product_id');
+                let is_add = $(this).data('is_add');
+                let data = {
+                    product_id: product_id,
+                    is_add: is_add
+                };
+                $.ajax({
+                    url: "{{ route('post.cart') }}",
+                    method: "POST",
+                    data: data,
+                    dataType: "json",
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            toastr.success(response.message);
+                        }
+                    }
+                })
+            })
+        })
+    </script>
 @endsection
