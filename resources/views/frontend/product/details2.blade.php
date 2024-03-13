@@ -305,13 +305,18 @@
                                 <div class="d-flex gap-1" style="margin-top: 10px;">
                                     {{-- <button type="button" class="btn alreadyApplied" disabled>Already applied</button> --}}
 
-                                    <form action="#" method="POST" class="mx-auto mobileView"
-                                        enctype="multipart/form-data">
-                                        @csrf
-                                        <button type="submit" class="btn applynow">Order Now</button>
-                                    </form>
-                                    <button type="button" data-product_id="{{ $info->id }}" data-is_add="1"
-                                        class="btn applynow cart_btn">Add to cart</button>
+                                        <a href="{{ route('front.checkout') }}" class="btn applynow">Order Now</a>
+                                    @if ($bought)
+                                        <button type="button" disabled class="btn btn-secondary">Bought</button>
+                                    @else
+                                        @if ($cart)
+                                            <button type="button" data-is_add="0" data-product_id="{{ $info->id }}"
+                                                class="btn btn-danger cart_btn">Remove from cart</button>
+                                        @else
+                                            <button type="button" data-is_add="1" data-product_id="{{ $info->id }}"
+                                                class="btn applynow cart_btn">Add to cart</button>
+                                        @endif
+                                    @endif
                                 </div>
                                 {{-- Social Media Icons --}}
                                 <div> <!-- Add ml-3 class here for left margin -->
@@ -695,8 +700,10 @@
     <script>
         $(document).ready(function() {
             $(document).on('click', '.cart_btn', function() {
-                let product_id = $(this).data('product_id');
-                let is_add = $(this).data('is_add');
+                let self = $(this); // Store reference to $(this)
+
+                let product_id = self.data('product_id');
+                let is_add = self.data('is_add');
                 let data = {
                     product_id: product_id,
                     is_add: is_add
@@ -712,10 +719,19 @@
                     success: function(response) {
                         if (response.success) {
                             toastr.success(response.message);
+                            if (is_add == 1) {
+                                self.text('Remove from cart');
+                                self.removeClass('applynow').addClass('btn-danger');
+                                self.data('is_add', 0);
+                            } else {
+                                self.text('Add to cart');
+                                self.addClass('applynow').removeClass('btn-danger');
+                                self.data('is_add', 1);
+                            }
                         }
                     }
-                })
-            })
+                });
+            });
         })
     </script>
 @endsection
