@@ -5,11 +5,13 @@ namespace App\Http\Controllers;
 use App\Brands;
 use App\Business;
 use App\BusinessLocation;
+use App\Cart;
 use App\Category;
 use App\ChildCategory;
 use App\Exports\ProductsExport;
 use App\Media;
 use App\Product;
+use App\ProductBuyingInfo;
 use App\ProductVariation;
 use App\PurchaseLine;
 use App\ResellingProduct;
@@ -31,6 +33,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
@@ -2597,6 +2600,8 @@ class ProductController extends Controller
         $data['user_info'] = Media::where('uploaded_by', $data['info']->user_id)
             ->where('model_type', 'App\\User')->first();
         $data['first_image'] = 'https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg';
+        $data['cart'] = Cart::where([['user_id', Auth::user()->id], ['product_id', $product->id]])->first();
+        $data['bought'] = ProductBuyingInfo::where([['user_id', Auth::user()->id], ['product_id', $product->id]])->first();
         return view('frontend.product.details2', $data);
     }
 

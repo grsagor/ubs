@@ -65,7 +65,7 @@
     <link rel="stylesheet" href="{{ asset('assets/front/webfonts/flaticon/flaticon.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/front/css/owl.carousel.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/front/css/template.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/front/css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/front/css/style.css') }}"> {{-- For this error message not showing. --}}
     <link rel="stylesheet" href="{{ asset('assets/front/css/category/default.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/front/css/toastr.min.css') }}">
     {{-- addde by huma --}}
@@ -202,6 +202,17 @@
             }
         }
     </script>
+
+    @if (session()->has('success'))
+        <script>
+            toastr.success(session()->get('success'));
+        </script>    
+    @endif
+    @if (session()->has('error'))
+        <script>
+            toastr.error(session()->get('error'));
+        </script>    
+    @endif
 
     <script>
         lazy();

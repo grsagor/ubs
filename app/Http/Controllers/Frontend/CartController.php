@@ -6,6 +6,7 @@ use App\Cart;
 use App\Http\Controllers\Controller;
 use App\Product;
 use App\ProductBuyingInfo;
+use App\TransactionHistory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -106,14 +107,26 @@ class CartController extends Controller
                 'description' => 'Payment for your purchase',
             ]);
 
+            $transaction_history = new TransactionHistory();
+            $transaction_history->user_id = Auth::user()->id;
+            $transaction_history->transaction_id = $charge->id;
+            $transaction_history->amount = $request->amount;
+            $transaction_history->save();
+
             $product_ids = explode(',', $request->product_ids);
 
             foreach ($product_ids as $product_id) {
+                $product = Product::with('variations')->find($product_id);
+                $price = 0;
+                foreach ($product->variations as $variation) {
+                    $price += $variation->default_sell_price;
+                }
+
                 $info = new ProductBuyingInfo();
                 $info->user_id = Auth::user()->id;
                 $info->product_id = $product_id;
-                $info->transaction_id = $charge->id;
-                $info->amount = $request->amount;
+                $info->transaction_id = $transaction_history->id;
+                $info->amount = $price;
                 $info->personal_name = $request->personal_name;
                 $info->personal_email = $request->personal_email;
                 $info->pass_check = $request->pass_check;
@@ -146,7 +159,7 @@ class CartController extends Controller
 
             DB::commit();
 
-            return back()->with('success', 'Successful.');
+            return redirect(route('homePage'))->with('success', 'Successful.');
         } catch (\Exception $e) {
             DB::rollBack();
             return back()->with('error', $e->getMessage());

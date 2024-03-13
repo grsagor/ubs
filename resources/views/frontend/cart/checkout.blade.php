@@ -77,7 +77,7 @@
                                                         <div class="col-lg-6">
                                                             <input type="text" id="personal-name" class="form-control"
                                                                 name="personal_name" placeholder="Enter Your Name"
-                                                                value="">
+                                                                value="" required>
                                                         </div>
                                                         <div class="col-lg-6">
                                                             <input type="email" id="personal-email" class="form-control"
@@ -85,13 +85,13 @@
                                                                 value="">
                                                         </div>
                                                     </div>
-                                                    <div class="row">
+                                                    {{-- <div class="row">
                                                         <div class="col-lg-12 mt-3">
                                                             <input class="styled-checkbox" id="open-pass" type="checkbox"
                                                                 value="1" name="pass_check">
                                                             <label for="open-pass">Create an account ?</label>
                                                         </div>
-                                                    </div>
+                                                    </div> --}}
                                                     <div class="row set-account-pass d-none">
                                                         <div class="col-lg-6">
                                                             <input type="password" name="personal_pass" id="personal-pass"
@@ -109,7 +109,7 @@
                                                         Billing Details
                                                     </h5>
                                                     <div class="row">
-                                                        <div class="col-lg-6 ">
+                                                        {{-- <div class="col-lg-6 ">
                                                             <select class="form-control" id="shipop" name="shipping"
                                                                 required="">
                                                                 <option value="shipto">Ship To Address</option>
@@ -124,7 +124,7 @@
                                                                 <option value="Kamarpara">Kamarpara</option>
                                                                 <option value="Uttara">Uttara</option>
                                                             </select>
-                                                        </div>
+                                                        </div> --}}
                                                         <div class="col-lg-6">
                                                             <input class="form-control" type="text"
                                                                 name="customer_name" placeholder="Full Name"
@@ -1250,14 +1250,14 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="row ">
+                                                {{-- <div class="row ">
                                                     <div class="col-lg-12 mt-3 d-flex">
                                                         <input class="styled-checkbox" id="ship-diff-address"
                                                             type="checkbox" value="value1">
                                                         <label for="ship-diff-address">Ship to a Different
                                                             Address?</label>
                                                     </div>
-                                                </div>
+                                                </div> --}}
                                                 <div class="ship-diff-addres-area d-none">
                                                     <h5 class="title">
                                                         Shipping Details
@@ -2517,15 +2517,15 @@
                                                     </div>
                                                 </div>
                                                 <div id="stripe_from" style="display: none;">
-                                                        <label for="card-element">
-                                                            Credit or debit card
-                                                        </label>
-                                                        <div id="card-element">
-                                                            <!-- A Stripe Element will be inserted here. -->
-                                                        </div>
+                                                    <label for="card-element">
+                                                        Credit or debit card
+                                                    </label>
+                                                    <div id="card-element">
+                                                        <!-- A Stripe Element will be inserted here. -->
+                                                    </div>
 
-                                                        <!-- Used to display form errors. -->
-                                                        <div id="card-errors" role="alert"></div>
+                                                    <!-- Used to display form errors. -->
+                                                    <div id="card-errors" role="alert"></div>
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-lg-12 mt-3">
@@ -2533,7 +2533,7 @@
                                                             <a href="javascript:;" data-go="2" data-hide="3"
                                                                 class="mybtn1 mr-3">Back</a>
                                                             <button type="submit" id="final-btn"
-                                                                class="mybtn1">Continue</button>
+                                                                class="btn btn-primary">Submit</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -2606,7 +2606,7 @@
                                         <span id="total-cost">{{ $total_price }}$</span>
                                     </p>
                                 </div>
-                                <div class="cupon-box">
+                                {{-- <div class="cupon-box">
                                     <div id="coupon-link">
                                         <img src="https://product.geniusocean.com/geniuscart/assets/front/images/tag.png">
                                         Have a promotion code?
@@ -2616,9 +2616,9 @@
                                             required="" autocomplete="off">
                                         <button type="submit">Apply</button>
                                     </form>
-                                </div>
+                                </div> --}}
 
-                                <div class="packeging-area">
+                                {{-- <div class="packeging-area">
                                     <h4 class="title">Shipping Method</h4>
                                     <div class="radio-design">
                                         <input type="radio" class="shipping" data-form="Free Shipping"
@@ -2662,10 +2662,10 @@
                                             <small>Exclusive Gift packaging</small>
                                         </label>
                                     </div>
-                                </div>
+                                </div> --}}
                                 <div class="final-price">
                                     <span>Final Price :</span>
-                                    <span id="final-cost">110$</span>
+                                    <span id="final-cost">{{ $total_price }}$</span>
                                 </div>
                                 <div class="wallet-price d-none">
                                     <span>Wallet Amount:</span>
@@ -2717,14 +2717,32 @@
     </script>
     <script>
         $(document).ready(function() {
-            $(document).on('click', '.mybtn1', function() {
+            $(document).on('click', '.mybtn1', function(event) {
+                event.preventDefault(); // Prevent default action of the button click
+
                 let go = $(this).data('go');
                 let hide = $(this).data('hide');
-                $(`#pills-step${go}`).addClass('active');
-                $(`#pills-step${go}-tab`).addClass('active');
-                $(`#pills-step${hide}`).removeClass('active');
-                $(`#pills-step${hide}-tab`).removeClass('active');
-                $(`#pills-step${hide}-tab`).addClass('disabled');
+                var isValid = true;
+
+                if (go > hide) {
+                    var form = document.getElementById('checkout_form');
+                    var inputFields = form.querySelectorAll('input, select, textarea');
+                    inputFields.forEach(function(inputField) {
+                        if (!inputField.checkValidity()) {
+                            inputField.focus(); // Focus on the first invalid input field
+                            form.reportValidity();
+                            isValid = false;
+                            return;
+                        }
+                    });
+                }
+                if (isValid) {
+                    $(`#pills-step${go}`).addClass('active');
+                    $(`#pills-step${go}-tab`).addClass('active');
+                    $(`#pills-step${hide}`).removeClass('active');
+                    $(`#pills-step${hide}-tab`).removeClass('active');
+                    $(`#pills-step${hide}-tab`).addClass('disabled');
+                }
             });
 
             $('input[type="radio"][name="payment_method"]').change(function() {
