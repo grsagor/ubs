@@ -2594,13 +2594,18 @@ class ProductController extends Controller
 
     public function productShow($id)
     {
+        $user = Auth::user();
         $product = Product::with('unit', 'brand', 'business_location')->findOrFail($id);
         $data['info'] = $product;
         $data['user_info'] = Media::where('uploaded_by', $data['info']->user_id)
             ->where('model_type', 'App\\User')->first();
         $data['first_image'] = 'https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg';
-        $data['cart'] = Cart::where([['user_id', Auth::user()->id], ['product_id', $product->id]])->first();
-        $data['bought'] = ProductBuyingInfo::where([['user_id', Auth::user()->id], ['product_id', $product->id]])->first();
+        if($user) {
+            $data['cart'] = Cart::where([['user_id', Auth::user()->id], ['product_id', $product->id]])->first();
+            $data['bought'] = ProductBuyingInfo::where([['user_id', Auth::user()->id], ['product_id', $product->id]])->first();
+            $data['user'] = $user;
+        }
+
         return view('frontend.product.details2', $data);
     }
 }
