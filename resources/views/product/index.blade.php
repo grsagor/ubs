@@ -9,9 +9,9 @@
             <small>@lang('lang_v1.manage_products')</small>
         </h1>
         <!-- <ol class="breadcrumb">
-            <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
-            <li class="active">Here</li>
-        </ol> -->
+                <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
+                <li class="active">Here</li>
+            </ol> -->
     </section>
 
     <!-- Main content -->
@@ -731,14 +731,14 @@
                                 footer_stock_value_by_sale_price += $(data[r].stock_value_by_sale_price)
                                     .data('orig-value') ?
                                     parseFloat($(data[r].stock_value_by_sale_price).data(
-                                    'orig-value')) : 0;
+                                        'orig-value')) : 0;
 
                                 total_potential_profit += $(data[r].potential_profit).data(
-                                    'orig-value') ?
+                                        'orig-value') ?
                                     parseFloat($(data[r].potential_profit).data('orig-value')) : 0;
 
                                 footer_total_mfg_stock += $(data[r].total_mfg_stock).data(
-                                    'orig-value') ?
+                                        'orig-value') ?
                                     parseFloat($(data[r].total_mfg_stock).data('orig-value')) : 0;
                             }
 
