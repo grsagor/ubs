@@ -305,8 +305,8 @@
                                 <div class="d-flex gap-1" style="margin-top: 10px;">
                                     {{-- <button type="button" class="btn alreadyApplied" disabled>Already applied</button> --}}
 
-                                        <a href="{{ route('front.checkout') }}" class="btn applynow">Order Now</a>
-                                    @if ($bought)
+                                    <a href="{{ route('front.checkout') }}" class="btn applynow">Order Now</a>
+                                    {{-- @if ($bought)
                                         <button type="button" disabled class="btn btn-secondary">Bought</button>
                                     @else
                                         @if ($cart)
@@ -316,7 +316,7 @@
                                             <button type="button" data-is_add="1" data-product_id="{{ $info->id }}"
                                                 class="btn applynow cart_btn">Add to cart</button>
                                         @endif
-                                    @endif
+                                    @endif --}}
                                 </div>
                                 {{-- Social Media Icons --}}
                                 <div> <!-- Add ml-3 class here for left margin -->

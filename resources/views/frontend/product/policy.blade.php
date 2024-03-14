@@ -6,9 +6,12 @@
 @section('content')
     @includeIf('frontend.partials.global.common-header')
 
-    <div class="container" style="height: 30vh;">
 
-        <h4 class="footer-details-title mt-4"><u>Policy</u></h4>
+    <div class="container" id="policy-container">
+        <h4 class="footer-details-title mt-4">
+            <u>Policy</u>
+            <a href="{{ route('product.show', $info->id) }}" class="sectitle">{{ $info->name }}</a>
+        </h4>
 
         <div class="header mv">
             <div class="welcome">
@@ -16,4 +19,27 @@
             </div>
         </div>
     </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            adjustContainerHeight();
+        });
+
+        $(window).resize(function() {
+            adjustContainerHeight();
+        });
+
+        function adjustContainerHeight() {
+            var container = $('#policy-container');
+            var contentHeight = container.find('.welcome').height();
+
+            if (contentHeight > 70 * window.innerHeight / 100) {
+                container.css('height', 'auto');
+            } else {
+                container.css('height', '70vh');
+            }
+        }
+    </script>
+
 @endsection
