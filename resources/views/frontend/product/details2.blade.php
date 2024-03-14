@@ -180,10 +180,13 @@
 
         }
 
+
         #imageSlider .carousel-item img {
-            width: 100% !important;
-            height: 100% !important;
-            max-height: 100%;
+            max-width: 400px;
+            max-height: 300px;
+            width: auto;
+            height: auto;
+            margin: auto;
         }
 
 
@@ -439,7 +442,7 @@
                                         <div class="col-md-12 text-justify">
 
                                             <div class="row">
-                                                <div class="col-md-6">
+                                                <div class="col-md-6 text-center">
                                                     <img src="{{ asset($info->thumbnail) }}" alt="">
                                                 </div>
 
