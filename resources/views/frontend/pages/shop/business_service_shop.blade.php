@@ -2,7 +2,9 @@
 @section('content')
     @includeIf('frontend.partials.global.common-header')
 
-    <style>
+    @include('frontend.pages.shop.css')
+
+    {{-- <style>
         .call_btn_size {
             font-size: 14px;
             /* line-height: 20px; */
@@ -77,10 +79,81 @@
             display: block;
             color: #fff;
         }
-    </style>
+    </style> --}}
 
-    <div class="container shadow mb-4 bg-white rounded">
-        <div class="row">
+    <div class="container shadow p-0 mt-4 mb-4 bg-white rounded custom_mobile">
+        <div class="row m-0 p-0 custom">
+            <div class="col-lg-4 d-flex pl-0 user-custom1">
+                <a href="{{ route('business.shop.service', $vendor->id) }}">
+                    <img class="lazy custom-left-img w-100 img-fluid rounded"
+                        data-src="{{ $vendor->photo ? asset($vendor->photo) : asset('assets/common_img/vendor_profile.jpeg') }}"
+                        alt="">
+                </a>
+                <div class="sub_company_details">
+                    <a href="{{ route('business.shop.service', $vendor->id) }}">
+                        <h5>{{ $vendor->name }}</h5>
+                    </a>
+                    <p class="call_btn_size">
+                        <span>Category</span>
+                        <span>{{ $vendor->address }}</span>
+                        <!-- <br> -->
+                        <span>5 year experience ['Business']</span>
+                        <!-- <br> -->
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        (0) Reviews
+                    </p>
+
+                </div>
+            </div>
+            <div class="col-lg-5 d-flex user-custom custom-class">
+                <img class="lazy custom-img w-100 img-fluid rounded"
+                    data-src="{{ $vendor->shop_image ? asset('assets/images/categories/' . $vendor->shop_image) : asset('assets/common_img/vendor_profile.jpeg') }}"
+                    alt="">
+                <div class="parter_company_details">
+                    <h5 class="mb-2">{{ $vendor->name }}</h5>
+                    <p class="call_btn_size">
+                        <span>Category</span>
+                        <span>40 Bracken house</span>
+                        <!-- {{ $vendor->address }} -->
+                        <!-- <br> -->
+                        <span>5 year experience ['Business Location']</span>
+                        <!-- <br> -->
+                        <!-- <span> -->
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <!-- <span class="ml-2"> -->
+                        (0) Reviews
+                        <!-- </span> -->
+                        <!-- </span> -->
+                    </p>
+                    @if ($vendor->website)
+                        <a href="{{ $vendor->website }}"><button
+                                class="btn btn-white mb-3 btn-sm website_btn">Website</button></a>
+                    @endif
+                    @if ($vendor->phone)
+                        <a href="javascript:void(0);" onclick="seeShopContact()"><button
+                                class="btn btn-white mb-3 btn-sm website_btn">Contact</button></a>
+                        <p class="shop_contact text-danger" style="display: none;margin-top: -10px">{{ $vendor->phone }}</p>
+                    @endif
+                </div>
+            </div>
+            <div class="col-lg-3 banner">
+                <img class="lazy banner-img w-100 img-fluid rounded"
+                    data-src="{{ $vendor->shop_banner ? asset('assets/images/categories/' . $vendor->shop_banner) : asset('assets/common_img/shop_banner.jpeg') }}"
+                    alt="">
+            </div>
+        </div>
+
+
+
+        {{-- <div class="row">
             <div class="col-md-4 d-flex align-items-center user-custom1">
                 <img class="lazy custom-img w-100 img-fluid rounded" alt=""
                     src="https://unipuller.com/assets/common_img/vendor_profile.jpeg" style="">
@@ -108,7 +181,7 @@
                     style="">
             </div>
 
-        </div>
+        </div> --}}
     </div>
 
     <div class="container mb-5">
@@ -163,7 +236,8 @@
                 <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">...
                     Coming soon
                 </div>
-                <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">...
+                <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">
+                    ...
                     Coming Soon
                 </div>
                 <div class="tab-pane fade" id="v-pills-company" role="tabpanel" aria-labelledby="v-pills-company-tab">
