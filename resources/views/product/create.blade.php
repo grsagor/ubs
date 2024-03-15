@@ -7,9 +7,9 @@
     <section class="content-header">
         <h1>Add New</h1>
         <!-- <ol class="breadcrumb">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <li class="active">Here</li>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    </ol> -->
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <li class="active">Here</li>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    </ol> -->
     </section>
 
     <!-- Main content -->
@@ -167,12 +167,23 @@
                         <label class="form-label">{{ __('product.child_category') }}: <span class="text-danger">*</span></label>
                         <select class="form-control select2" id="child_category_id" name="child_category_id">
                             <option selected="selected" value="">Please Select</option>
-                            <option value="127">Pascale Haney-Vero accusantium lau</option>
+                            {{-- <option value="127">Pascale Haney-Vero accusantium lau</option> --}}
                         </select>
                     </div>
                 </div>
 
                 <div class="col-sm-4">
+                    <div class="form-group">
+                        <label class="form-label">{{ __('business.business_locations') }}: <span
+                                class="text-danger">*</span></label>@show_tooltip(__('lang_v1.product_location_help'))
+                        {!! Form::select('business_location_id', $business_locations, $default_location, [
+                            'placeholder' => __('messages.please_select'),
+                            'class' => 'form-control select2',
+                        ]) !!}
+                    </div>
+                </div>
+
+                {{-- <div class="col-sm-4">
                     <div class="form-group">
                         <label class="form-label">{{ __('business.business_locations') }}: <span
                                 class="text-danger">*</span></label>@show_tooltip(__('lang_v1.product_location_help'))
@@ -182,7 +193,7 @@
                             'id' => 'product_locations',
                         ]) !!}
                     </div>
-                </div>
+                </div> --}}
 
                 {{-- @php
                     $default_location = null;

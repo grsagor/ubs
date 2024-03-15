@@ -493,6 +493,7 @@ class ProductController extends Controller
                 'brand_id',
                 'unit_id',
                 'category_id',
+                'business_location_id',
                 'type',
                 'barcode_type',
                 'sku',
