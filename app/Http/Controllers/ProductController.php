@@ -448,6 +448,7 @@ class ProductController extends Controller
     {
         $type = $request->type;
         $categories = [];
+        $business_id = $request->session()->get('user.business_id');
 
         // for product
         if ($type == 'product') {
@@ -456,7 +457,7 @@ class ProductController extends Controller
 
         // for service
         if ($type == 'service') {
-            $categories = Category::where([['parent_id', 0], ['category_type', 'service']])->get();
+            $categories = Category::where([['parent_id', 0], ['category_type', 'service'], ['business_id', $business_id]])->get();
         }
         return view('product.categories_options', compact('categories'));
     }
