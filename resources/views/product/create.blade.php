@@ -7,9 +7,9 @@
     <section class="content-header">
         <h1>Add New</h1>
         <!-- <ol class="breadcrumb">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <li class="active">Here</li>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    </ol> -->
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <li class="active">Here</li>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    </ol> -->
     </section>
 
     <!-- Main content -->
@@ -185,6 +185,7 @@
                         {!! Form::select('business_location_id', $business_locations, $default_location, [
                             'placeholder' => __('messages.please_select'),
                             'class' => 'form-control select2',
+                            'required',
                         ]) !!}
                     </div>
                 </div>
@@ -1142,6 +1143,27 @@
                 <!--custom fields-->
                 <div class="clearfix"></div>
                 @include('layouts.partials.module_form_part')
+
+                <div class="clearfix"></div>
+
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <label for="define_this_item" style="display: block">Define this item
+                            @show_tooltip(__('This item succinctly in 100 words.'))
+                        </label>
+                        <textarea name="define_this_item" id="define_this_item" rows="10" style="width: 100%;"></textarea>
+                    </div>
+                </div>
+
+                {{--
+                           {!! Form::label('define_this_item', __('Define this item') . ':') !!}
+                    {!! Form::textarea(
+                            'define_this_item',
+                            !empty($duplicate_product->define_this_item) ? $duplicate_product->define_this_item : null,
+                            [
+                                'class' => 'form-control',
+                            ],
+                        ) !!} --}}
             </div>
         @endcomponent
 

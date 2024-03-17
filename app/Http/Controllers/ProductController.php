@@ -533,7 +533,8 @@ class ProductController extends Controller
                 'policy',
                 'refund_policy',
                 'unipuller_data_policy',
-                'youtube_link'
+                'youtube_link',
+                'define_this_item'
             ];
 
             $module_form_fields = $this->moduleUtil->getModuleFormField('product_form_fields');
