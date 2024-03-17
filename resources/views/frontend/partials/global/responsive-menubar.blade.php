@@ -115,7 +115,7 @@
     </div>
 </div>
 
-<div class="header-sticky  py-10" style="background-color: #131921 !important">
+<div class="header-sticky" style="background-color: #131921 !important">
     <div class="container">
         <div class="row align-items-center d-flex justify-content-between">
             <div class="col-xxl-2 col-xl-2 col-lg-2 col-12 order-lg-1">
@@ -274,9 +274,9 @@
                             </div>
                         </nav>
                     </div>
-                    <a class="navbar-brand" style="margin-right: -64px !important;" href="{{ url('/') }}"><img
-                            class="nav-logo lazy" data-src="{{ asset('assets/images/logo.png') }}"
-                            alt="Image not found !"></a>
+                    <a class="navbar-brand p-0" style="margin-right: -64px !important;"
+                        href="{{ url('/') }}"><img class="nav-logo lazy"
+                            data-src="{{ asset('assets/images/logo.png') }}" alt="Image not found !"></a>
                 </div>
             </div>
             <div class="col-xxl-3 col-xl-2 col-lg-2 col-0 order-lg-3">

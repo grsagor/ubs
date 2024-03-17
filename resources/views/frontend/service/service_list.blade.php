@@ -21,6 +21,14 @@
                 margin-top: 30px !important;
                 width: 95% !important;
             }
+
+            .mobile_view_image {
+                width: 60% !important;
+            }
+
+            .mobile_view_center {
+                justify-content: center !important;
+            }
         }
     </style>
 @endsection
@@ -42,23 +50,23 @@
                 <div class="row">
                     @if ($item->image)
                         <a href="{{ route('product.show', $item->id) }}"
-                            class="woocommerce-LoopProduct-link col-lg-4 col-md-4 col-sm-12 d-flex p-0">
-                            <img class="lazy img-fluid rounded w-100" src="{{ asset($item->thumbnail) }}"
+                            class="woocommerce-LoopProduct-link col-lg-4 col-md-4 col-sm-12 d-flex mobile_view_center">
+                            <img class="lazy img-fluid rounded w-100 mobile_view_image" src="{{ asset($item->thumbnail) }}"
                                 alt="Product Image">
                         </a>
                     @else
                         <a href="{{ route('product.show', $item->id) }}"
-                            class="woocommerce-LoopProduct-link col-lg-4 col-md-4 col-sm-12 d-flex">
+                            class="woocommerce-LoopProduct-link col-lg-4 col-md-4 col-sm-12 d-flex mobile_view_center">
                             <img src="https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg"
-                                class="lazy img-fluid rounded w-100" alt="" style="height: 190px;">
+                                class="lazy img-fluid rounded w-100 mobile_view_image" alt="">
                         </a>
                     @endif
-                    <div class="col-lg-8 col-md-8 col-sm-12 d-flex flex-column">
+                    <div class="col-lg-8 col-md-8 col-sm-12 d-flex flex-column p-0" style="padding-right: 15px !important;">
                         <div class="p-1 flex-grow-1">
                             <h5 class="product-title" style="padding: 0; margin: 0;">
                                 <a class="text-dark" href="{{ route('product.show', $item->id) }}"
                                     style="font-weight: 600;">
-                                    {{ Str::limit($item->name, $limit = 42, $end = '...') }}
+                                    {{ Str::limit($item->name, $limit = 85, $end = '...') }}
                                 </a>
                             </h5>
                             <div class="text-center">
@@ -67,15 +75,27 @@
                                     <div
                                         style="display: inline-block; padding: 6px 6px 3px 6px; background-color: #fff; border-radius: 6%; box-shadow: 0 0px 4px rgba(0, 0, 0, 0.2);">
                                         <h6 style="margin: 0;">
-                                            {{ Str::limit($item->category ? $item->category->name : '', $limit = 375, $end = '...') }}
+                                            {{ Str::limit($item->category ? $item->category->name : '', $limit = 75, $end = '...') }}
                                         </h6>
                                     </div>
                                 @endif
                             </div>
 
                             <p class="text-dark" style="margin: 0; text-align: justify; padding: 0; line-height: 1.2;">
-                                {!! Str::limit($item->product_description, $limit = 170, $end = '...') !!}
+                                @if (mb_strlen($item->name) < 45)
+                                    {!! Str::limit($item->product_description, $limit = 255, $end = '...') !!}
+                                    @php
+                                        $remainingSpaces = max(0, 255 - mb_strlen($item->product_description));
+                                    @endphp
+                                @else
+                                    {!! Str::limit($item->product_description, $limit = 190, $end = '...') !!}
+                                    @php
+                                        $remainingSpaces = max(0, 190 - mb_strlen($item->product_description));
+                                    @endphp
+                                @endif
+                                {!! str_repeat('&nbsp;', $remainingSpaces) !!}
                             </p>
+
                         </div>
                         <div class="d-flex mr-10 text-center" style="background-color: white; padding: 1px">
                             <div class="col division" style="border: 1px  solid var(--green);">

@@ -214,10 +214,10 @@ class Product extends Model
         return $this->belongsToMany(\App\BusinessLocation::class, 'product_locations', 'product_id', 'location_id');
     }
 
-    // public function business_location()
-    // {
-    //     return $this->belongsTo(BusinessLocation::class, 'business_id');
-    // }
+    public function business_location()
+    {
+        return $this->belongsTo(BusinessLocation::class, 'business_location_id');
+    }
 
     public function business()
     {
@@ -542,7 +542,8 @@ class Product extends Model
     {
         return $this->hasMany(ResellingProduct::class, 'product_id');
     }
-    public function carts() {
+    public function carts()
+    {
         return $this->hasMany(Cart::class, 'product_id');
     }
 }

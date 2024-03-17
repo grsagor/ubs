@@ -7,9 +7,9 @@
     <section class="content-header">
         <h1>Add New</h1>
         <!-- <ol class="breadcrumb">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <li class="active">Here</li>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    </ol> -->
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <li class="active">Here</li>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    </ol> -->
     </section>
 
     <!-- Main content -->
@@ -156,7 +156,7 @@
                             'sub_category_id',
                             $sub_categories,
                             !empty($duplicate_product->sub_category_id) ? $duplicate_product->sub_category_id : null,
-                            ['placeholder' => __('messages.please_select'), 'class' => 'form-control select2'],
+                            ['placeholder' => __('messages.please_select'), 'class' => 'form-control select2', 'id' => 'sub_category_id'],
                         ) !!}
                     </div>
                 </div>
@@ -165,14 +165,32 @@
                 <div class="col-sm-4 @if (!(session('business.enable_category') && session('business.enable_sub_category'))) hide @endif">
                     <div class="form-group">
                         <label class="form-label">{{ __('product.child_category') }}: <span class="text-danger">*</span></label>
-                        <select class="form-control select2" id="child_category_id" name="child_category_id">
+                        {{-- <select class="form-control select2" id="child_category_id" name="child_category_id">
                             <option selected="selected" value="">Please Select</option>
-                            <option value="127">Pascale Haney-Vero accusantium lau</option>
-                        </select>
+                        </select> --}}
+
+                        {!! Form::select(
+                            'child_category_id',
+                            $sub_categories,
+                            !empty($duplicate_product->sub_category_id) ? $duplicate_product->sub_category_id : null,
+                            ['placeholder' => __('messages.please_select'), 'class' => 'form-control select2', 'id' => 'child_category_id'],
+                        ) !!}
                     </div>
                 </div>
 
                 <div class="col-sm-4">
+                    <div class="form-group">
+                        <label class="form-label">{{ __('business.business_locations') }}: <span
+                                class="text-danger">*</span></label>@show_tooltip(__('lang_v1.product_location_help'))
+                        {!! Form::select('business_location_id', $business_locations, $default_location, [
+                            'placeholder' => __('messages.please_select'),
+                            'class' => 'form-control select2',
+                            'required',
+                        ]) !!}
+                    </div>
+                </div>
+
+                {{-- <div class="col-sm-4">
                     <div class="form-group">
                         <label class="form-label">{{ __('business.business_locations') }}: <span
                                 class="text-danger">*</span></label>@show_tooltip(__('lang_v1.product_location_help'))
@@ -182,7 +200,7 @@
                             'id' => 'product_locations',
                         ]) !!}
                     </div>
-                </div>
+                </div> --}}
 
                 {{-- @php
                     $default_location = null;
@@ -1125,6 +1143,27 @@
                 <!--custom fields-->
                 <div class="clearfix"></div>
                 @include('layouts.partials.module_form_part')
+
+                <div class="clearfix"></div>
+
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <label for="define_this_item" style="display: block">Define this item
+                            @show_tooltip(__('This item succinctly in 100 words.'))
+                        </label>
+                        <textarea name="define_this_item" id="define_this_item" rows="10" style="width: 100%;"></textarea>
+                    </div>
+                </div>
+
+                {{--
+                           {!! Form::label('define_this_item', __('Define this item') . ':') !!}
+                    {!! Form::textarea(
+                            'define_this_item',
+                            !empty($duplicate_product->define_this_item) ? $duplicate_product->define_this_item : null,
+                            [
+                                'class' => 'form-control',
+                            ],
+                        ) !!} --}}
             </div>
         @endcomponent
 

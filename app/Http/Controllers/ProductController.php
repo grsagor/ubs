@@ -448,6 +448,7 @@ class ProductController extends Controller
     {
         $type = $request->type;
         $categories = [];
+        $business_id = $request->session()->get('user.business_id');
 
         // for product
         if ($type == 'product') {
@@ -456,7 +457,7 @@ class ProductController extends Controller
 
         // for service
         if ($type == 'service') {
-            $categories = Category::where([['parent_id', 0], ['category_type', 'service']])->get();
+            $categories = Category::where([['parent_id', 0], ['category_type', 'service'], ['business_id', $business_id]])->get();
         }
         return view('product.categories_options', compact('categories'));
     }
@@ -493,6 +494,7 @@ class ProductController extends Controller
                 'brand_id',
                 'unit_id',
                 'category_id',
+                'business_location_id',
                 'type',
                 'barcode_type',
                 'sku',
@@ -531,7 +533,8 @@ class ProductController extends Controller
                 'policy',
                 'refund_policy',
                 'unipuller_data_policy',
-                'youtube_link'
+                'youtube_link',
+                'define_this_item'
             ];
 
             $module_form_fields = $this->moduleUtil->getModuleFormField('product_form_fields');
@@ -2600,8 +2603,8 @@ class ProductController extends Controller
         $data['user_info'] = Media::where('uploaded_by', $data['info']->user_id)
             ->where('model_type', 'App\\User')->first();
         $data['first_image'] = 'https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg';
-        $data['cart'] = Cart::where([['user_id', Auth::user()->id], ['product_id', $product->id]])->first();
-        $data['bought'] = ProductBuyingInfo::where([['user_id', Auth::user()->id], ['product_id', $product->id]])->first();
+        // $data['cart'] = Cart::where([['user_id', Auth::user()->id], ['product_id', $product->id]])->first();
+        // $data['bought'] = ProductBuyingInfo::where([['user_id', Auth::user()->id], ['product_id', $product->id]])->first();
         return view('frontend.product.details2', $data);
     }
 

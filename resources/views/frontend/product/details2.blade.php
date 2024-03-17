@@ -2,6 +2,11 @@
 @section('title', $info->name)
 @section('css')
     <style>
+        .accordion-button {
+            text-align: center;
+        }
+
+
         .color-black {
             color: black !important;
         }
@@ -176,11 +181,25 @@
         }
 
         #imageSlider .carousel-item img {
-            width: 100% !important;
-            height: 100% !important;
-            max-height: 100%;
+            max-width: 350px;
+            max-height: 300px;
+            width: auto;
+            height: auto;
+            margin: auto;
         }
 
+        /* .carousel-control-next,
+                                                                                                    .carousel-control-prev {
+                                                                                                        filter: invert(100%);
+                                                                                                    } */
+
+        .carousel-control-prev-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='%23000' width='8' height='8' viewBox='0 0 8 8'%3e%3cpath d='M5.25 0l-4 4 4 4 1.5-1.5L4.25 4l2.5-2.5L5.25 0z'/%3e%3c/svg%3e");
+        }
+
+        .carousel-control-next-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='%23000' width='8' height='8' viewBox='0 0 8 8'%3e%3cpath d='M2.75 0l-1.5 1.5L3.75 4l-2.5 2.5L2.75 8l4-4-4-4z'/%3e%3c/svg%3e");
+        }
 
         @media (max-width: 767px) {
             .reptitle {
@@ -256,6 +275,14 @@
                                         }
                                     }
 
+                                    if ($info->child_category_id && $info->childCategory->name) {
+                                        if ($result) {
+                                            $result .= ', ' . $info->childCategory->name;
+                                        } else {
+                                            $result = $info->childCategory->name;
+                                        }
+                                    }
+
                                     if ($info->brand && $info->brand->name) {
                                         if ($result) {
                                             $result .= ', ' . $info->brand->name;
@@ -305,8 +332,8 @@
                                 <div class="d-flex gap-1" style="margin-top: 10px;">
                                     {{-- <button type="button" class="btn alreadyApplied" disabled>Already applied</button> --}}
 
-                                        <a href="{{ route('front.checkout') }}" class="btn applynow">Order Now</a>
-                                    @if ($bought)
+                                    <a href="{{ route('front.checkout') }}" class="btn applynow">Order Now</a>
+                                    {{-- @if ($bought)
                                         <button type="button" disabled class="btn btn-secondary">Bought</button>
                                     @else
                                         @if ($cart)
@@ -316,7 +343,7 @@
                                             <button type="button" data-is_add="1" data-product_id="{{ $info->id }}"
                                                 class="btn applynow cart_btn">Add to cart</button>
                                         @endif
-                                    @endif
+                                    @endif --}}
                                 </div>
                                 {{-- Social Media Icons --}}
                                 <div> <!-- Add ml-3 class here for left margin -->
@@ -426,85 +453,94 @@
                             </div>
                         @endif
 
-                        @if ($info->image)
+
+                        @if ($info->thumbnail || $info->image || $info->youtube_link || $info->product_brochure)
                             <div class="requirements-section row mt-3">
                                 <div class="col-sm-12 ">
                                     <div class="requirements-card">
-
                                         <div class="col-md-12 text-justify">
-
                                             <div class="row">
-                                                <div class="col-md-6">
-                                                    <img src="{{ asset($info->thumbnail) }}" alt="">
-                                                </div>
-
-                                                <div class="col-md-6">
-                                                    <div id="imageSlider" class="carousel slide" data-bs-ride="carousel">
-                                                        <div class="carousel-inner">
-                                                            @foreach (json_decode($info->image ?? '[]') as $index => $item)
-                                                                <div
-                                                                    class="carousel-item {{ $index === 0 ? 'active' : '' }}">
-                                                                    <img src="{{ asset($item) }}" class="d-block w-100"
-                                                                        alt="">
-                                                                </div>
-                                                            @endforeach
-                                                        </div>
-                                                        <button class="carousel-control-prev" type="button"
-                                                            data-bs-target="#imageSlider" data-bs-slide="prev">
-                                                            <span class="carousel-control-prev-icon"
-                                                                aria-hidden="true"></span>
-                                                            <span class="visually-hidden">Previous</span>
-                                                        </button>
-                                                        <button class="carousel-control-next" type="button"
-                                                            data-bs-target="#imageSlider" data-bs-slide="next">
-                                                            <span class="carousel-control-next-icon"
-                                                                aria-hidden="true"></span>
-                                                            <span class="visually-hidden">Next</span>
-                                                        </button>
+                                                @if ($info->thumbnail)
+                                                    <div class="col-md-6 text-center">
+                                                        <img src="{{ asset($info->thumbnail) }}" alt=""
+                                                            style="max-width: 350px; max-height: 300px; width: auto; height: auto;">
                                                     </div>
+                                                @endif
+
+                                                @if ($info->image)
+                                                    <div class="col-md-6" style="margin: auto;">
+                                                        <div id="imageSlider" class="carousel slide"
+                                                            data-bs-ride="carousel">
+                                                            <div class="carousel-inner">
+                                                                @foreach (json_decode($info->image ?? '[]') as $index => $item)
+                                                                    <div
+                                                                        class="carousel-item {{ $index === 0 ? 'active' : '' }}">
+                                                                        <img src="{{ asset($item) }}"
+                                                                            class="d-block w-100" alt="">
+                                                                    </div>
+                                                                @endforeach
+                                                            </div>
+                                                            @if (count(json_decode($info->image ?? '[]')) > 1)
+                                                                <button class="carousel-control-prev" type="button"
+                                                                    data-bs-target="#imageSlider" data-bs-slide="prev">
+                                                                    <span class="carousel-control-prev-icon"
+                                                                        aria-hidden="true"></span>
+                                                                    <span class="visually-hidden">Previous</span>
+                                                                </button>
+                                                                <button class="carousel-control-next" type="button"
+                                                                    data-bs-target="#imageSlider" data-bs-slide="next">
+                                                                    <span class="carousel-control-next-icon"
+                                                                        aria-hidden="true"></span>
+                                                                    <span class="visually-hidden">Next</span>
+                                                                </button>
+                                                            @endif
+                                                        </div>
+                                                    </div>
+                                                @endif
+                                            </div>
+
+                                            @if ($info->youtube_link)
+                                                @php
+                                                    // Extract video ID from YouTube URL
+                                                    $youtubeUrl = $info->youtube_link; // Assuming $info->youtube_link contains the YouTube video URL
+                                                    $videoId = '';
+                                                    parse_str(parse_url($youtubeUrl, PHP_URL_QUERY), $query);
+                                                    if (isset($query['v'])) {
+                                                        $videoId = $query['v'];
+                                                    }
+                                                    // Construct the embed iframe
+                                                    $embedCode = "<div style=\"width: 100%;\"><iframe width=\"100%\" height=\"375\" src=\"https://www.youtube.com/embed/$videoId\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe></div>";
+                                                @endphp
+
+                                                <div class="mt-4">
+                                                    {!! $embedCode !!}
                                                 </div>
+                                            @endif
 
-
-                                            </div>
-
-                                            @php
-                                                // Extract video ID from YouTube URL
-                                                $youtubeUrl = $info->youtube_link; // Assuming $info->youtube_link contains the YouTube video URL
-                                                $videoId = '';
-                                                parse_str(parse_url($youtubeUrl, PHP_URL_QUERY), $query);
-                                                if (isset($query['v'])) {
-                                                    $videoId = $query['v'];
-                                                }
-
-                                                // Construct the embed iframe
-                                                $embedCode = "<div style=\"width: 100%;\"><iframe width=\"100%\" height=\"375\" src=\"https://www.youtube.com/embed/$videoId\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe></div>";
-
-                                            @endphp
-
-                                            <div class="mt-4">
-                                                {!! $embedCode !!}
-                                            </div>
-
-                                            <div class="accordion mt-4" id="accordionExample">
-                                                <div class="accordion-item">
-                                                    <h2 class="accordion-header" id="headingOne">
-                                                        <button class="accordion-button collapsed" type="button"
-                                                            data-bs-toggle="collapse" data-bs-target="#collapseOne"
-                                                            aria-expanded="false" aria-controls="collapseOne">
-                                                            Brochure
-                                                        </button>
-                                                    </h2>
-                                                    <div id="collapseOne" class="accordion-collapse collapse"
-                                                        aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-                                                        <div class="accordion-body">
-                                                            <div class="brochure_show" style="text-align: center;">
-                                                                <img src="{{ asset('uploads/img/' . $info->product_brochure) }}"
-                                                                    alt="" style="width: 50% !important;">
+                                            @if ($info->product_brochure)
+                                                <div class="accordion mt-4" id="accordionExample">
+                                                    <div class="accordion-item">
+                                                        <h2 class="accordion-header" id="headingOne"
+                                                            style="background: rgb(194, 194, 194) !important;">
+                                                            <button class="accordion-button collapsed" type="button"
+                                                                data-bs-toggle="collapse" data-bs-target="#collapseOne"
+                                                                aria-expanded="false" aria-controls="collapseOne">
+                                                                <span style="display: block; width: 100%;">Brochure</span>
+                                                            </button>
+                                                        </h2>
+                                                        <div id="collapseOne" class="accordion-collapse collapse"
+                                                            aria-labelledby="headingOne"
+                                                            data-bs-parent="#accordionExample">
+                                                            <div class="accordion-body">
+                                                                <div class="brochure_show" style="text-align: center;">
+                                                                    <img src="{{ asset('uploads/img/' . $info->product_brochure) }}"
+                                                                        alt="" style="width: 100% !important;">
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            @endif
 
                                         </div>
                                     </div>
@@ -512,7 +548,6 @@
                                 </div>
                             </div>
                         @endif
-
 
                         <div class="requirements-section row mt-3">
                             <div class="col-sm-12 ">
@@ -581,57 +616,50 @@
                                 <div class="requirements-card">
                                     <h3 class="sectitle">About Provider</h3>
 
-                                    <div class="row header">
-                                        <div class="col-md-9">
-                                            <div class="card-text company-name color-black">
-                                                {{ $info->business ? $info->business->name : '' }}</div>
-                                        </div>
+                                    @if ($info->business_location_id)
+                                        <div class="row header">
+                                            <div class="col-md-9">
 
-                                        <div class="col-md-3 text-end mobile_view_image_left mobile_image">
-                                            @php
-                                                $imageUrl =
-                                                    $user_info &&
-                                                    $user_info->file_name &&
-                                                    File::exists(public_path("uploads/media/{$user_info->file_name}"))
-                                                        ? asset("uploads/media/{$user_info->file_name}")
-                                                        : 'https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg';
-                                            @endphp
-                                            <a
-                                                href="{{ $info->business ? route('business.shop.service', $info->business->id) : '#' }}">
-                                                <div>
-                                                    <img class="" src="{{ $imageUrl }}" alt=""
-                                                        style="width: 35% !important;">
+                                                <div class="card-text company-name color-black">
+                                                    <a href="{{ $info->business_location ? route('shop.service', $info->business_location->id) : '#' }}"
+                                                        class="color-black">
+                                                        {{ $info->business_location ? $info->business_location->name : '' }}
+                                                    </a>
                                                 </div>
-                                            </a>
+                                            </div>
+
+                                            <div class="col-md-3 text-end mobile_view_image_left mobile_image">
+                                                @php
+                                                    $imageUrl =
+                                                        $user_info &&
+                                                        $user_info->file_name &&
+                                                        File::exists(
+                                                            public_path("uploads/media/{$user_info->file_name}"),
+                                                        )
+                                                            ? asset("uploads/media/{$user_info->file_name}")
+                                                            : 'https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg';
+                                                @endphp
+                                                <a
+                                                    href="{{ $info->business_location ? route('shop.service', $info->business_location->id) : '#' }}">
+                                                    <div>
+                                                        <img class="" src="{{ $imageUrl }}" alt=""
+                                                            style="width: 35% !important;">
+                                                    </div>
+                                                </a>
 
 
-                                            @php
-                                                $businessLocation = $info->business_location;
-                                                $imageUrl =
-                                                    $businessLocation &&
-                                                    File::exists(public_path($businessLocation->logo))
-                                                        ? asset($businessLocation->logo)
-                                                        : 'https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg';
-                                            @endphp
+                                                @php
+                                                    $businessLocation = $info->business_location;
+                                                    $imageUrl =
+                                                        $businessLocation &&
+                                                        File::exists(public_path($businessLocation->logo))
+                                                            ? asset($businessLocation->logo)
+                                                            : 'https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg';
+                                                @endphp
 
-                                            {{-- <a
-                                                href="{{ $businessLocation ? route('shop.service', $businessLocation->id) : '#' }}">
-                                                <div>
-                                                    <img class="" src="{{ $imageUrl }}" alt=""
-                                                        width="100" height="100">
-                                                </div>
-                                                <strong
-                                                    style="font-size: 24px;">{{ $businessLocation ? $businessLocation->name : '' }}</strong>
-                                            </a> --}}
-
-
-
-
-
-
-
+                                            </div>
                                         </div>
-                                    </div>
+                                    @endif
 
                                     @if ($info->experiences)
                                         <h3 class="sectitle color-black mt-15">Experiences</h3>
