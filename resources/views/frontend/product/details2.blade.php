@@ -332,18 +332,18 @@
                                 <div class="d-flex gap-1" style="margin-top: 10px;">
                                     {{-- <button type="button" class="btn alreadyApplied" disabled>Already applied</button> --}}
 
-                                    <a href="{{ route('front.checkout') }}" class="btn applynow">Order Now</a>
-                                    {{-- @if ($bought)
-                                        <button type="button" disabled class="btn btn-secondary">Bought</button>
-                                    @else
+
+                                    <button type="button" id="order_now" data-id="{{ $info->id }}" class="btn applynow" >Order Now</button>
+                                    @if ($info->category->category_type == 'product')
                                         @if ($cart)
                                             <button type="button" data-is_add="0" data-product_id="{{ $info->id }}"
                                                 class="btn btn-danger cart_btn">Remove from cart</button>
                                         @else
                                             <button type="button" data-is_add="1" data-product_id="{{ $info->id }}"
-                                                class="btn applynow cart_btn">Add to cart</button>
+                                                class="btn applynow cart_btn">Add
+                                                to cart</button>
                                         @endif
-                                    @endif --}}
+                                    @endif
                                 </div>
                                 {{-- Social Media Icons --}}
                                 <div> <!-- Add ml-3 class here for left margin -->
@@ -760,6 +760,21 @@
                     }
                 });
             });
+            $(document).on('click', '#order_now', function() {
+                let id = $(this).data('id');
+                $.ajax({
+                    url: "{{ route('order.now') }}",
+                    method: "POST",
+                    data: { id: id },
+                    dataType: "json",
+                    headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+                    success: function(response) {
+                        if (response.success) {
+                            window.location.href = "{{ route('front.cart') }}";
+                        }
+                    }
+                });
+            })
         })
     </script>
 @endsection

@@ -18,26 +18,16 @@ class CartController extends Controller
 {
     public function cart(Request $request)
     {
-        $user = Auth::user();
-        $carts = Cart::with('product.variations')->where('user_id', $user->id)->get();
-        $products = [];
-        foreach ($carts as $cart) {
-            $product = $cart->product;
+        $current_carts= Session::get('current_carts');
+        $products = Product::whereIn('id', $current_carts)->get();
+        foreach ($products as $product) {
             $price = 0;
             foreach ($product->variations as $variation) {
                 $price += $variation->default_sell_price;
             }
             $product->price = $price;
-            $products[] = $product;
         }
-        // return $products;
-        $totalPrice = $cart->totalPrice;
-        $mainTotal = $totalPrice;
-
-        if ($request->ajax()) {
-            return view('frontend.ajax.cart-page', compact('products', 'totalPrice', 'mainTotal'));
-        }
-        return view('frontend.cart.cart', compact('products', 'totalPrice', 'mainTotal'));
+        return view('frontend.cart.cart', compact('products'));
     }
     public function postCart(Request $request)
     {
@@ -68,16 +58,14 @@ class CartController extends Controller
     public function checkout()
     {
         $user = Auth::user();
-        $carts = Cart::with('product.variations')->where('user_id', $user->id)->get();
-        $products = [];
-        foreach ($carts as $cart) {
-            $product = $cart->product;
+        $current_carts= Session::get('current_carts');
+        $products = Product::whereIn('id', $current_carts)->get();
+        foreach ($products as $product) {
             $price = 0;
             foreach ($product->variations as $variation) {
                 $price += $variation->default_sell_price;
             }
             $product->price = $price;
-            $products[] = $product;
         }
         $total_price = 0;
         foreach ($products as $product) {
@@ -154,7 +142,9 @@ class CartController extends Controller
                 $info->save();  
                 
                 $cart = Cart::where([['user_id', Auth::user()->id], ['product_id', $product_id]])->first();
-                $cart->delete();
+                if($cart) {
+                    $cart->delete();
+                }
             }
 
             DB::commit();
@@ -164,5 +154,26 @@ class CartController extends Controller
             DB::rollBack();
             return back()->with('error', $e->getMessage());
         }
+    }
+
+    public function orderNow(Request $request) {
+        try {
+            DB::beginTransaction();
+            $id = $request->id;
+            $product = Product::find($id);
+            Session::put('current_carts', [$id]);                
+            DB::commit();
+            $response = [
+                'success' => true,
+                'message' => 'Success'
+            ];
+        } catch (\Exception $e) {
+            DB::rollBack();
+            $response = [
+                'success' => false,
+                'message' => $e->getMessage()
+            ];
+        }
+        return response()->json($response);
     }
 }
