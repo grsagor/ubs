@@ -234,46 +234,18 @@
                                 <div class="d-flex gap-1" style="margin-top: 10px;">
                                     {{-- <button type="button" class="btn alreadyApplied" disabled>Already applied</button> --}}
 
-                                    @if (isset($user))
-                                        @if ($bought)
-                                            <button type="button" disabled class="btn btn-secondary">Bought</button>
+
+                                    <button type="button" id="order_now" data-id="{{ $info->id }}" class="btn applynow" >Order Now</button>
+                                    @if ($info->category->category_type == 'product')
+                                        @if ($cart)
+                                            <button type="button" data-is_add="0" data-product_id="{{ $info->id }}"
+                                                class="btn btn-danger cart_btn">Remove from cart</button>
                                         @else
-                                            <a href="{{ route('front.checkout') }}" class="btn applynow">Order Now</a>
-                                            @if ($cart)
-                                                <button type="button" data-is_add="0" data-product_id="{{ $info->id }}"
-                                                    class="btn btn-danger cart_btn">Remove from cart</button>
-                                            @else
-                                                <button type="button" data-is_add="1"
-                                                    data-product_id="{{ $info->id }}" class="btn applynow cart_btn">Add
-                                                    to cart</button>
-                                            @endif
+                                            <button type="button" data-is_add="1" data-product_id="{{ $info->id }}"
+                                                class="btn applynow cart_btn">Add
+                                                to cart</button>
                                         @endif
-                                    @else
-                                        <button type="button" class="btn applynow" data-bs-toggle="modal" data-bs-target="#loginErrorMessage">Order now</button>
-                                        <button type="button" class="btn applynow" data-bs-toggle="modal" data-bs-target="#loginErrorMessage">Add to cart</button>
-
-                                        <!-- Modal -->
-                                        <div class="modal fade" id="loginErrorMessage" tabindex="-1"
-                                            aria-labelledby="loginErrorMessageLabel" aria-hidden="true">
-                                            <div class="modal-dialog">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title" id="loginErrorMessageLabel"></h5>
-                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                            aria-label="Close"></button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        Please login first!
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary"
-                                                            data-bs-dismiss="modal">Close</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
                                     @endif
-
                                 </div>
                             </div>
                         </div>
@@ -559,6 +531,21 @@
                     }
                 });
             });
+            $(document).on('click', '#order_now', function() {
+                let id = $(this).data('id');
+                $.ajax({
+                    url: "{{ route('order.now') }}",
+                    method: "POST",
+                    data: { id: id },
+                    dataType: "json",
+                    headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+                    success: function(response) {
+                        if (response.success) {
+                            window.location.href = "{{ route('front.cart') }}";
+                        }
+                    }
+                });
+            })
         })
     </script>
 @endsection

@@ -224,6 +224,7 @@ Route::get('/payment-terms',                            [FrontendController::cla
 // CART SECTION
 Route::get('/carts', [CartController::class, 'cart'])->name('front.cart');
 Route::post('/post-cart', [CartController::class, 'postCart'])->name('post.cart');
+Route::post('/order-now', [CartController::class, 'orderNow'])->name('order.now');
 Route::get('/checkout', [CartController::class, 'checkout'])->name('front.checkout');
 Route::post('/checkout', [CartController::class, 'checkoutPost'])->name('checkout.post');
 Route::get('/addcart/{id}', [CartController::class, 'addcart'])->name('product.cart.add');
