@@ -83,14 +83,14 @@
 
                             <p class="text-dark" style="margin: 0; text-align: justify; padding: 0; line-height: 1.2;">
                                 @if (mb_strlen($item->name) < 45)
-                                    {!! Str::limit($item->product_description, $limit = 255, $end = '...') !!}
+                                    {!! Str::limit($item->define_this_item, $limit = 255, $end = '...') !!}
                                     @php
-                                        $remainingSpaces = max(0, 255 - mb_strlen($item->product_description));
+                                        $remainingSpaces = max(0, 255 - mb_strlen($item->define_this_item));
                                     @endphp
                                 @else
-                                    {!! Str::limit($item->product_description, $limit = 190, $end = '...') !!}
+                                    {!! Str::limit($item->define_this_item, $limit = 190, $end = '...') !!}
                                     @php
-                                        $remainingSpaces = max(0, 190 - mb_strlen($item->product_description));
+                                        $remainingSpaces = max(0, 190 - mb_strlen($item->define_this_item));
                                     @endphp
                                 @endif
                                 {!! str_repeat('&nbsp;', $remainingSpaces) !!}

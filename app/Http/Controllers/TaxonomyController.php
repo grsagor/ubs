@@ -33,6 +33,11 @@ class TaxonomyController extends Controller
      */
     public function index()
     {
+        $user = Auth::user();
+        if ($user->id !== 5) {
+            return response()->json(['error' => 'You are not authorized to access this page.'], 403);
+        }
+
         $category_type = request()->get('type');
         if ($category_type == 'product' && !auth()->user()->can('category.view') && !auth()->user()->can('category.create')) {
             abort(403, 'Unauthorized action.');

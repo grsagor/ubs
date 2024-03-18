@@ -189,9 +189,9 @@
         }
 
         /* .carousel-control-next,
-                                                                                                    .carousel-control-prev {
-                                                                                                        filter: invert(100%);
-                                                                                                    } */
+                                                                                                                            .carousel-control-prev {
+                                                                                                                                filter: invert(100%);
+                                                                                                                            } */
 
         .carousel-control-prev-icon {
             background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='%23000' width='8' height='8' viewBox='0 0 8 8'%3e%3cpath d='M5.25 0l-4 4 4 4 1.5-1.5L4.25 4l2.5-2.5L5.25 0z'/%3e%3c/svg%3e");
@@ -300,7 +300,7 @@
                                     // For service
                                     $service_price = null;
                                     foreach ($info->variations as $key => $value) {
-                                        $service_price = $value->dpp_inc_tax;
+                                        $service_price = $value->default_sell_price;
                                         break;
                                     }
                                 @endphp
@@ -333,7 +333,8 @@
                                     {{-- <button type="button" class="btn alreadyApplied" disabled>Already applied</button> --}}
 
 
-                                    <button type="button" id="order_now" data-id="{{ $info->id }}" class="btn applynow" >Order Now</button>
+                                    <button type="button" id="order_now" data-id="{{ $info->id }}"
+                                        class="btn applynow">Order Now</button>
                                     @if ($info->category->category_type == 'product')
                                         @if ($cart)
                                             <button type="button" data-is_add="0" data-product_id="{{ $info->id }}"
@@ -525,7 +526,7 @@
                                                             <button class="accordion-button collapsed" type="button"
                                                                 data-bs-toggle="collapse" data-bs-target="#collapseOne"
                                                                 aria-expanded="false" aria-controls="collapseOne">
-                                                                <span style="display: block; width: 100%;">Brochure</span>
+                                                                <span style="display: block; width: 50%;">Brochure</span>
                                                             </button>
                                                         </h2>
                                                         <div id="collapseOne" class="accordion-collapse collapse"
@@ -552,9 +553,15 @@
                         <div class="requirements-section row mt-3">
                             <div class="col-sm-12 ">
                                 <div class="requirements-card">
-                                    {{-- <h3 class="sectitle mb-3">Details</h3> --}}
+                                    @if ($info->product_description)
+                                        <h3 class="sectitle">Details</h3>
+                                        <div class="col-md-12 text-justify">
+                                            {!! $info->product_description ?? '' !!}
+                                        </div>
+                                    @endif
+
                                     @if ($info->fee_installment_description)
-                                        <h3 class="sectitle">Instalments</h3>
+                                        <h3 class="sectitle mt-15">Instalments</h3>
                                         <div class="col-md-12 text-justify">
                                             {!! $info->fee_installment_description ?? '' !!}
                                         </div>
@@ -598,18 +605,22 @@
                                             {!! $info->work_placement_description ?? '' !!}
                                         </div>
                                     @endif
-
-                                    <h3 class="policy">
-                                        <a href="{{ route('product.policy', $info->id) }}" target="_blank"
-                                            class="policy-button" style="float: right;">
-                                            Policy
-                                        </a>
-                                    </h3>
-
                                 </div>
                             </div>
                         </div>
 
+                        <div class="requirements-section row mt-3">
+                            <div class="col-sm-12 ">
+                                <div class="requirements-card">
+                                    @if ($info->policy)
+                                        <h3 class="sectitle mt-15">Policy</h3>
+                                        <div class="col-md-12 text-justify">
+                                            {!! $info->policy ?? '' !!}
+                                        </div>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
 
                         <div class="requirements-section row mt-3">
                             <div class="col-sm-12 ">
@@ -765,9 +776,13 @@
                 $.ajax({
                     url: "{{ route('order.now') }}",
                     method: "POST",
-                    data: { id: id },
+                    data: {
+                        id: id
+                    },
                     dataType: "json",
-                    headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
                     success: function(response) {
                         if (response.success) {
                             window.location.href = "{{ route('front.cart') }}";
