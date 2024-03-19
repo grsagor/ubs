@@ -194,6 +194,8 @@ class ProductController extends Controller
                 $products->where('products.repair_model_id', request()->get('repair_model_id'));
             }
 
+            $products->orderBy('id', 'desc');
+
             return Datatables::of($products)
                 ->addColumn(
                     'product_locations',
@@ -387,6 +389,7 @@ class ProductController extends Controller
 
         $tax_dropdown = TaxRate::forBusinessDropdown($business_id, true, true);
         $taxes = $tax_dropdown['tax_rates'];
+        unset($taxes['']);
         $tax_attributes = $tax_dropdown['attributes'];
 
         $barcode_types = $this->barcode_types;
@@ -2604,7 +2607,7 @@ class ProductController extends Controller
         $data['user_info'] = Media::where('uploaded_by', $data['info']->user_id)
             ->where('model_type', 'App\\User')->first();
         $data['first_image'] = 'https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg';
-        if($user) {
+        if ($user) {
             $data['cart'] = Cart::where([['user_id', Auth::user()->id], ['product_id', $product->id]])->first();
             $data['bought'] = ProductBuyingInfo::where([['user_id', Auth::user()->id], ['product_id', $product->id]])->first();
             $data['user'] = $user;

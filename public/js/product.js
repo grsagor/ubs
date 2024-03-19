@@ -180,7 +180,8 @@ $(document).ready(function () {
 
     var profit_percent = __read_number($("#profit_percent"));
     var selling_price = __add_percent(purchase_exc_tax, profit_percent);
-    __write_number($("input#single_dsp"), selling_price);
+    var result = selling_price + (purchase_inc_tax - purchase_exc_tax);
+    __write_number($("input#single_dsp"), result);
 
     var selling_price_inc_tax = __add_percent(selling_price, tax_rate);
     __write_number($("input#single_dsp_inc_tax"), selling_price_inc_tax);
@@ -202,6 +203,20 @@ $(document).ready(function () {
       var selling_price_inc_tax = __add_percent(selling_price, tax_rate);
       __write_number($("input#single_dsp_inc_tax"), selling_price_inc_tax);
     }
+
+    var tax_rate = $("select#tax").find(":selected").data("rate");
+    tax_rate = tax_rate == undefined ? 0 : tax_rate;
+
+    var purchase_exc_tax = __read_number($("#single_dpp"));
+    var profit_percent = __read_number($("#profit_percent"));
+    profit_percent = profit_percent == undefined ? 0 : profit_percent;
+
+    var purchase_inc_tax = __add_percent(purchase_exc_tax, tax_rate);
+    __write_number($("input#single_dpp_inc_tax"), purchase_inc_tax);
+
+    var selling_price = __add_percent(purchase_exc_tax, profit_percent);
+    var result = selling_price + (purchase_inc_tax - purchase_exc_tax);
+    __write_number($("input#single_dsp"), result);
   });
 
   //If purchase price inc tax is changed
@@ -219,7 +234,8 @@ $(document).ready(function () {
     var profit_percent = __read_number($("#profit_percent"));
     profit_percent = profit_percent == undefined ? 0 : profit_percent;
     var selling_price = __add_percent(purchase_exc_tax, profit_percent);
-    __write_number($("input#single_dsp"), selling_price);
+    var result = selling_price + (purchase_inc_tax - purchase_exc_tax);
+    __write_number($("input#single_dsp"), result);
 
     var selling_price_inc_tax = __add_percent(selling_price, tax_rate);
     __write_number($("input#single_dsp_inc_tax"), selling_price_inc_tax);
@@ -237,7 +253,8 @@ $(document).ready(function () {
 
     var profit_percent = __read_number($("input#profit_percent"));
     var selling_price = __add_percent(purchase_exc_tax, profit_percent);
-    __write_number($("input#single_dsp"), selling_price);
+    var result = selling_price + (purchase_inc_tax - purchase_exc_tax);
+    __write_number($("input#single_dsp"), result);
 
     var selling_price_inc_tax = __add_percent(selling_price, tax_rate);
     __write_number($("input#single_dsp_inc_tax"), selling_price_inc_tax);
@@ -249,13 +266,15 @@ $(document).ready(function () {
 
     var selling_price = __read_number($("input#single_dsp"));
     var purchase_exc_tax = __read_number($("input#single_dpp"));
+    var single_dpp_inc_tax = __read_number($("input#single_dpp_inc_tax"));
     var profit_percent = __read_number($("input#profit_percent"));
 
     //if purchase price not set
     if (purchase_exc_tax == 0) {
       profit_percent = 0;
     } else {
-      profit_percent = __get_rate(purchase_exc_tax, selling_price);
+      profit_percent =
+        ((selling_price - single_dpp_inc_tax) / purchase_exc_tax) * 100;
     }
 
     __write_number($("input#profit_percent"), profit_percent);

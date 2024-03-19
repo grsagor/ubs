@@ -29,6 +29,14 @@
             .mobile_view_center {
                 justify-content: center !important;
             }
+
+            .mobile_view_card_descripition {
+                padding-left: 15px !important;
+            }
+
+            .mr-10 {
+                margin-left: 10px !important;
+            }
         }
     </style>
 @endsection
@@ -61,7 +69,8 @@
                                 class="lazy img-fluid rounded w-100 mobile_view_image" alt="">
                         </a>
                     @endif
-                    <div class="col-lg-8 col-md-8 col-sm-12 d-flex flex-column p-0" style="padding-right: 15px !important;">
+                    <div class="col-lg-8 col-md-8 col-sm-12 d-flex flex-column p-0 mobile_view_card_descripition"
+                        style="padding-right: 15px !important">
                         <div class="p-1 flex-grow-1">
                             <h5 class="product-title" style="padding: 0; margin: 0;">
                                 <a class="text-dark" href="{{ route('product.show', $item->id) }}"
@@ -83,14 +92,14 @@
 
                             <p class="text-dark" style="margin: 0; text-align: justify; padding: 0; line-height: 1.2;">
                                 @if (mb_strlen($item->name) < 45)
-                                    {!! Str::limit($item->product_description, $limit = 255, $end = '...') !!}
+                                    {!! Str::limit($item->define_this_item, $limit = 245, $end = '...') !!}
                                     @php
-                                        $remainingSpaces = max(0, 255 - mb_strlen($item->product_description));
+                                        $remainingSpaces = max(0, 245 - mb_strlen($item->define_this_item));
                                     @endphp
                                 @else
-                                    {!! Str::limit($item->product_description, $limit = 190, $end = '...') !!}
+                                    {!! Str::limit($item->define_this_item, $limit = 190, $end = '...') !!}
                                     @php
-                                        $remainingSpaces = max(0, 190 - mb_strlen($item->product_description));
+                                        $remainingSpaces = max(0, 190 - mb_strlen($item->define_this_item));
                                     @endphp
                                 @endif
                                 {!! str_repeat('&nbsp;', $remainingSpaces) !!}

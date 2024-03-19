@@ -83,8 +83,12 @@
                             <span>Selling Price Group</span></a></li>
                     <li><a href="{{ route('units.index') }}"><i class="fa fas fa-balance-scale"></i>
                             <span>Units</span></a></li>
-                    <li><a href="{{ url('taxonomies?type=product') }}"><i class="fa fas fa-tags"></i>
-                            <span>Categories</span></a></li>
+
+                    @if (auth()->user()->id == 5)
+                        <li><a href="{{ url('taxonomies?type=product') }}"><i class="fa fas fa-tags"></i>
+                                <span>Categories</span></a></li>
+                    @endif
+
                     <li><a href="{{ route('brands.index') }}"><i class="fa fas fa-gem"></i>
                             <span>Brands</span></a></li>
                     <li><a href="{{ route('warranties.index') }}"><i class="fa fas fa-shield-alt"></i>
