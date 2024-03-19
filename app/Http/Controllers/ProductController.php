@@ -194,6 +194,8 @@ class ProductController extends Controller
                 $products->where('products.repair_model_id', request()->get('repair_model_id'));
             }
 
+            $products->orderBy('id', 'desc');
+
             return Datatables::of($products)
                 ->addColumn(
                     'product_locations',
