@@ -7,9 +7,9 @@
     <section class="content-header">
         <h1>Add New</h1>
         <!-- <ol class="breadcrumb">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                <li class="active">Here</li>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            </ol> -->
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <li class="active">Here</li>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    </ol> -->
     </section>
 
     <!-- Main content -->
@@ -1180,19 +1180,15 @@
                             @show_tooltip(__('Clear details faclitate quick customer understanding and draw attention
                             effectively.'))
                         </label>
-                        <textarea name="define_this_item" id="define_this_item" rows="10" style="width: 100%;" required></textarea>
-                    </div>
-                </div>
-
-                {{--
-                           {!! Form::label('define_this_item', __('Define this item') . ':') !!}
-                    {!! Form::textarea(
+                        {!! Form::textarea(
                             'define_this_item',
                             !empty($duplicate_product->define_this_item) ? $duplicate_product->define_this_item : null,
                             [
                                 'class' => 'form-control',
                             ],
-                        ) !!} --}}
+                        ) !!}
+                    </div>
+                </div>
             </div>
         @endcomponent
 
