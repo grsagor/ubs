@@ -63,6 +63,16 @@ $(document).ready(function () {
     }
   });
 
+  // On change of feeInstallment  Available
+  $("#course_module").on("change", function () {
+    let feeInstallment = $(this).val();
+    if (feeInstallment == "Available") {
+      $("#course-description-section").removeClass("hide");
+    } else {
+      $("#course-description-section").addClass("hide");
+    }
+  });
+
   // On change of resellingPrice  fixed or percentage validation
   $("#reselling_price").on("change", function () {
     let resellingPrice = $(this).val();
@@ -752,6 +762,12 @@ $(document).ready(function () {
   if ($("textarea#fee_installment_description").length > 0) {
     tinymce.init({
       selector: "textarea#fee_installment_description",
+      height: 250,
+    });
+  }
+  if ($("textarea#course_module_description").length > 0) {
+    tinymce.init({
+      selector: "textarea#course_module_description",
       height: 250,
     });
   }

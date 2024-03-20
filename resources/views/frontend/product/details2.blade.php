@@ -189,9 +189,9 @@
         }
 
         /* .carousel-control-next,
-                                                                                                                                            .carousel-control-prev {
-                                                                                                                                                filter: invert(100%);
-                                                                                                                                            } */
+                                                                                                                                                .carousel-control-prev {
+                                                                                                                                                    filter: invert(100%);
+                                                                                                                                                } */
 
         .carousel-control-prev-icon {
             background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='%23000' width='8' height='8' viewBox='0 0 8 8'%3e%3cpath d='M5.25 0l-4 4 4 4 1.5-1.5L4.25 4l2.5-2.5L5.25 0z'/%3e%3c/svg%3e");
@@ -567,6 +567,13 @@
                                         </div>
                                         <div class="col-md-12 text-justify mt-2 ">
                                             {!! $info->requirement_details ?? '' !!}
+                                        </div>
+                                    @endif
+
+                                    @if ($info->course_module_description)
+                                        <h3 class="sectitle mt-15">Course Module</h3>
+                                        <div class="col-md-12 text-justify mt-2 ">
+                                            {!! $info->course_module_description ?? '' !!}
                                         </div>
                                     @endif
 

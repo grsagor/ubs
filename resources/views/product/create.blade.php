@@ -7,9 +7,9 @@
     <section class="content-header">
         <h1>Add New</h1>
         <!-- <ol class="breadcrumb">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <li class="active">Here</li>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                </ol> -->
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <li class="active">Here</li>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                </ol> -->
     </section>
 
     <!-- Main content -->
@@ -410,6 +410,35 @@
                         {!! Form::textarea(
                             'fee_installment_description',
                             !empty(@$duplicate_product->fee_installment_description) ? @$duplicate_product->fee_installment_description : null,
+                            ['class' => 'form-control'],
+                        ) !!}
+                    </div>
+                </div>
+                {{-- <div class="clearfix hide" id="fee-installment-description-clearfix"></div> --}}
+
+                <div class="clearfix"></div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        {!! Form::label('course_module', __('Course Module') . ':') !!}
+                        {!! Form::select(
+                            'course_module',
+                            ['Available' => 'Available', 'Unavailable' => 'Unavailable'],
+                            !empty($duplicate_product->course_module) ? $duplicate_product->course_module : null,
+                            [
+                                'placeholder' => __('messages.please_select'),
+                                'id' => 'course_module',
+                                'class' => 'form-control select2',
+                            ],
+                        ) !!}
+                    </div>
+                </div>
+
+                <div class="col-sm-8 hide" id="course-description-section">
+                    <div class="form-group">
+                        {!! Form::label('course_module_description', __('Course Module Description') . ':') !!}
+                        {!! Form::textarea(
+                            'course_module_description',
+                            !empty(@$duplicate_product->course_module_description) ? @$duplicate_product->course_module_description : null,
                             ['class' => 'form-control'],
                         ) !!}
                     </div>
