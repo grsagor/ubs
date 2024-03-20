@@ -387,7 +387,8 @@ class ProductController extends Controller
         $brands = Brands::forDropdown($business_id);
         $units = Unit::forDropdown($business_id, true);
 
-        $tax_dropdown = TaxRate::forBusinessDropdown($business_id, true, true);
+        $tax_dropdown = TaxRate::forBusinessDropdown(null, true, true);
+
         $taxes = $tax_dropdown['tax_rates'];
         unset($taxes['']);
         $tax_attributes = $tax_dropdown['attributes'];
@@ -451,7 +452,6 @@ class ProductController extends Controller
     {
         $type = $request->type;
         $categories = [];
-        $business_id = $request->session()->get('user.business_id');
 
         // for product
         if ($type == 'product') {
@@ -460,7 +460,7 @@ class ProductController extends Controller
 
         // for service
         if ($type == 'service') {
-            $categories = Category::where([['parent_id', 0], ['category_type', 'service'], ['business_id', $business_id]])->get();
+            $categories = Category::where([['parent_id', 0], ['category_type', 'service']])->get();
         }
         return view('product.categories_options', compact('categories'));
     }
@@ -537,7 +537,9 @@ class ProductController extends Controller
                 'refund_policy',
                 'unipuller_data_policy',
                 'youtube_link',
-                'define_this_item'
+                'define_this_item',
+                'course_module',
+                'course_module_description'
             ];
 
             $module_form_fields = $this->moduleUtil->getModuleFormField('product_form_fields');

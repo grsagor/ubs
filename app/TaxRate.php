@@ -35,7 +35,13 @@ class TaxRate extends Model
         $include_attributes = false,
         $exclude_for_tax_group = true
     ) {
-        $all_taxes = TaxRate::where('business_id', $business_id);
+
+        $all_taxes = TaxRate::query();
+
+        // If business ID is not null, apply the where clause
+        if (!is_null($business_id)) {
+            $all_taxes->where('business_id', $business_id);
+        }
 
         if ($exclude_for_tax_group) {
             $all_taxes->ExcludeForTaxGroup();
@@ -69,9 +75,9 @@ class TaxRate extends Model
     public static function forBusiness($business_id)
     {
         $tax_rates = TaxRate::where('business_id', $business_id)
-                        ->select(['id', 'name', 'amount'])
-                        ->get()
-                        ->toArray();
+            ->select(['id', 'name', 'amount'])
+            ->get()
+            ->toArray();
 
         return $tax_rates;
     }
@@ -94,9 +100,9 @@ class TaxRate extends Model
     public static function groupTaxes($business_id)
     {
         $tax_rates = TaxRate::where('business_id', $business_id)
-                        ->where('is_tax_group', 1)
-                        ->with(['sub_taxes'])
-                        ->get();
+            ->where('is_tax_group', 1)
+            ->with(['sub_taxes'])
+            ->get();
 
         return $tax_rates;
     }

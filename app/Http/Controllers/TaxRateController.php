@@ -33,7 +33,7 @@ class TaxRateController extends Controller
      */
     public function index()
     {
-        if (! auth()->user()->can('tax_rate.view') && ! auth()->user()->can('tax_rate.create')) {
+        if (!auth()->user()->can('tax_rate.view') && !auth()->user()->can('tax_rate.create')) {
             abort(403, 'Unauthorized action.');
         }
 
@@ -41,8 +41,8 @@ class TaxRateController extends Controller
             $business_id = request()->session()->get('user.business_id');
 
             $tax_rates = TaxRate::where('business_id', $business_id)
-                        ->where('is_tax_group', '0')
-                        ->select(['name', 'amount', 'id', 'for_tax_group']);
+                ->where('is_tax_group', '0')
+                ->select(['name', 'amount', 'id', 'for_tax_group']);
 
             return Datatables::of($tax_rates)
                 ->addColumn(
@@ -73,7 +73,7 @@ class TaxRateController extends Controller
      */
     public function create()
     {
-        if (! auth()->user()->can('tax_rate.create')) {
+        if (!auth()->user()->can('tax_rate.create')) {
             abort(403, 'Unauthorized action.');
         }
 
@@ -88,7 +88,7 @@ class TaxRateController extends Controller
      */
     public function store(Request $request)
     {
-        if (! auth()->user()->can('tax_rate.create')) {
+        if (!auth()->user()->can('tax_rate.create')) {
             abort(403, 'Unauthorized action.');
         }
 
@@ -97,17 +97,19 @@ class TaxRateController extends Controller
             $input['business_id'] = $request->session()->get('user.business_id');
             $input['created_by'] = $request->session()->get('user.id');
             $input['amount'] = $this->taxUtil->num_uf($input['amount']);
-            $input['for_tax_group'] = ! empty($request->for_tax_group) ? 1 : 0;
+            $input['for_tax_group'] = !empty($request->for_tax_group) ? 1 : 0;
 
             $tax_rate = TaxRate::create($input);
-            $output = ['success' => true,
+            $output = [
+                'success' => true,
                 'data' => $tax_rate,
                 'msg' => __('tax_rate.added_success'),
             ];
         } catch (\Exception $e) {
-            \Log::emergency('File:'.$e->getFile().'Line:'.$e->getLine().'Message:'.$e->getMessage());
+            \Log::emergency('File:' . $e->getFile() . 'Line:' . $e->getLine() . 'Message:' . $e->getMessage());
 
-            $output = ['success' => false,
+            $output = [
+                'success' => false,
                 'msg' => __('messages.something_went_wrong'),
             ];
         }
@@ -134,7 +136,7 @@ class TaxRateController extends Controller
      */
     public function edit($id)
     {
-        if (! auth()->user()->can('tax_rate.update')) {
+        if (!auth()->user()->can('tax_rate.update')) {
             abort(403, 'Unauthorized action.');
         }
 
@@ -156,7 +158,7 @@ class TaxRateController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if (! auth()->user()->can('tax_rate.update')) {
+        if (!auth()->user()->can('tax_rate.update')) {
             abort(403, 'Unauthorized action.');
         }
 
@@ -168,24 +170,26 @@ class TaxRateController extends Controller
                 $tax_rate = TaxRate::where('business_id', $business_id)->findOrFail($id);
                 $tax_rate->name = $input['name'];
                 $tax_rate->amount = $this->taxUtil->num_uf($input['amount']);
-                $tax_rate->for_tax_group = ! empty($request->for_tax_group) ? 1 : 0;
+                $tax_rate->for_tax_group = !empty($request->for_tax_group) ? 1 : 0;
                 $tax_rate->save();
 
                 //update group tax amount
                 $group_taxes = GroupSubTax::where('tax_id', $id)
-                                            ->get();
+                    ->get();
 
                 foreach ($group_taxes as $group_tax) {
                     $this->taxUtil->updateGroupTaxAmount($group_tax->group_tax_id);
                 }
 
-                $output = ['success' => true,
+                $output = [
+                    'success' => true,
                     'msg' => __('tax_rate.updated_success'),
                 ];
             } catch (\Exception $e) {
-                \Log::emergency('File:'.$e->getFile().'Line:'.$e->getLine().'Message:'.$e->getMessage());
+                \Log::emergency('File:' . $e->getFile() . 'Line:' . $e->getLine() . 'Message:' . $e->getMessage());
 
-                $output = ['success' => false,
+                $output = [
+                    'success' => false,
                     'msg' => __('messages.something_went_wrong'),
                 ];
             }
@@ -202,7 +206,7 @@ class TaxRateController extends Controller
      */
     public function destroy($id)
     {
-        if (! auth()->user()->can('tax_rate.delete')) {
+        if (!auth()->user()->can('tax_rate.delete')) {
             abort(403, 'Unauthorized action.');
         }
 
@@ -210,25 +214,28 @@ class TaxRateController extends Controller
             try {
                 //update group tax amount
                 $group_taxes = GroupSubTax::where('tax_id', $id)
-                                            ->get();
+                    ->get();
                 if ($group_taxes->isEmpty()) {
                     $business_id = request()->user()->business_id;
 
                     $tax_rate = TaxRate::where('business_id', $business_id)->findOrFail($id);
                     $tax_rate->delete();
 
-                    $output = ['success' => true,
+                    $output = [
+                        'success' => true,
                         'msg' => __('tax_rate.deleted_success'),
                     ];
                 } else {
-                    $output = ['success' => false,
+                    $output = [
+                        'success' => false,
                         'msg' => __('tax_rate.can_not_be_deleted'),
                     ];
                 }
             } catch (\Exception $e) {
-                \Log::emergency('File:'.$e->getFile().'Line:'.$e->getLine().'Message:'.$e->getMessage());
+                \Log::emergency('File:' . $e->getFile() . 'Line:' . $e->getLine() . 'Message:' . $e->getMessage());
 
-                $output = ['success' => false,
+                $output = [
+                    'success' => false,
                     'msg' => __('messages.something_went_wrong'),
                 ];
             }
