@@ -56,12 +56,13 @@
 
     </div> --}}
     <div class="container-fluid middle-nav-bar">
-        <div class="row align-items-center justify-content-end  py-3">
+        <div class="row align-items-center justify-content-end" style="padding-top: 5px; padding-bottom: 5px;">
             <div class="col-lg-3 sm-mx-none">
                 <div class="d-flex align-items-center  text-general">
                     <i class="flaticon-phone-call flat-mini me-2 text-general"></i>
                     <a class="navbar-brand p-0" href="{{ url('/') }}"><img class="nav-logo lazy"
-                            data-src="{{ asset('assets/images/logo.png') }}" width="120" alt="Image not found !"></a>
+                            data-src="{{ asset('assets/images/logo.png') }}" width="120" alt="Image not found !"
+                            style="width: 225px !important; height: 55px !important;"></a>
                 </div>
             </div>
             <div class="col-lg-6 sm-mx-none">
@@ -278,7 +279,8 @@
                     </div> --}}
                     <div class="dropdown sign-in my-account-dropdown position-relative">
                         <a class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
-                            type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            type="button" data-bs-toggle="dropdown" aria-expanded="false"
+                            style="width: 45px !important; height: 45px !important;">
                             <i class="fa-solid fa-right-from-bracket"></i>
                         </a>
                         <ul class="dropdown-menu">

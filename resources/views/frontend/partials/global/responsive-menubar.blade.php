@@ -117,7 +117,8 @@
 
 <div class="header-sticky" style="background-color: #131921 !important">
     <div class="container">
-        <div class="row align-items-center d-flex justify-content-between">
+        <div class="row align-items-center d-flex justify-content-between"
+            style="padding-top: 5px; padding-bottom: 5px;">
             <div class="col-xxl-2 col-xl-2 col-lg-2 col-12 order-lg-1">
                 <div class="d-flex align-items-center justify-content-between h-100 md-py-10">
                     <a href="{{ url('/') }}">
@@ -274,16 +275,19 @@
                             </div>
                         </nav>
                     </div>
-                    <a class="navbar-brand p-0" style="margin-right: -64px !important;"
+                    <a class="navbar-brand p-0" style="margin-right: -41px !important;"
                         href="{{ url('/') }}"><img class="nav-logo lazy"
-                            data-src="{{ asset('assets/images/logo.png') }}" alt="Image not found !"></a>
+                            data-src="{{ asset('assets/images/logo.png') }}" alt="Image not found !"
+                            style="width: 225px !important;
+                            height: 55px !important;"></a>
                 </div>
             </div>
             <div class="col-xxl-3 col-xl-2 col-lg-2 col-0 order-lg-3">
                 <div class="d-none d-md-flex align-items-center justify-content-end h-100 md-py-10">
                     <div class="dropdown sign-in my-account-dropdown position-relative">
                         <a class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
-                            type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            type="button" data-bs-toggle="dropdown" aria-expanded="false"
+                            style="width: 45px !important; height: 45px !important;">
                             <i class="fa-solid fa-right-from-bracket"></i>
                         </a>
                         <ul class="dropdown-menu">
