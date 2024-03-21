@@ -53,10 +53,10 @@
             </td>
 
             <td>
-                <label><span class="dsp_label">@lang('product.exc_of_tax')</span></label>
+                <label><span class="dsp_label">@lang('Including')</span></label>
                 {!! Form::text('single_dsp', $default, [
                     'class' => 'form-control input-sm dsp input_number',
-                    'placeholder' => __('product.exc_of_tax'),
+                    'placeholder' => __('Including'),
                     'id' => 'single_dsp',
                     'required',
                 ]) !!}
