@@ -39,10 +39,10 @@
 
                 <div class="col-sm-4">
                     <div class="form-group">
-                        {!! Form::label('sku', __('product.sku') . ':*') !!} @show_tooltip(__('tooltip.sku'))
-                        {!! Form::text('sku', $product->sku, [
-                            'class' => 'form-control',
-                            'placeholder' => __('product.sku'),
+                        {!! Form::label('barcode_type', __('product.barcode_type') . ':*') !!}
+                        {!! Form::select('barcode_type', $barcode_types, $product->barcode_type, [
+                            'placeholder' => __('messages.please_select'),
+                            'class' => 'form-control select2',
                             'required',
                         ]) !!}
                     </div>
@@ -50,10 +50,10 @@
 
                 <div class="col-sm-4">
                     <div class="form-group">
-                        {!! Form::label('barcode_type', __('product.barcode_type') . ':*') !!}
-                        {!! Form::select('barcode_type', $barcode_types, $product->barcode_type, [
-                            'placeholder' => __('messages.please_select'),
-                            'class' => 'form-control select2',
+                        {!! Form::label('sku', __('product.sku') . ':*') !!} @show_tooltip(__('tooltip.sku'))
+                        {!! Form::text('sku', $product->sku, [
+                            'class' => 'form-control',
+                            'placeholder' => __('product.sku'),
                             'required',
                         ]) !!}
                     </div>
@@ -92,7 +92,6 @@
                         </select>
                     </div>
                 </div>
-
 
                 @if (!empty($common_settings['enable_secondary_unit']))
                     <div class="col-sm-4">
@@ -146,11 +145,13 @@
 
                 <div class="col-sm-4 @if (!(session('business.enable_category') && session('business.enable_sub_category'))) hide @endif">
                     <div class="form-group">
-                        {!! Form::label('sub_category_id', __('product.sub_category') . ':') !!}
-                        {!! Form::select('sub_category_id', $sub_categories, $product->sub_category_id, [
-                            'placeholder' => __('messages.please_select'),
-                            'class' => 'form-control select2',
-                        ]) !!}
+                        <label class="form-label">{{ __('product.child_category') }}: <span class="text-danger">*</span></label>
+                        {!! Form::select(
+                            'child_category_id',
+                            $sub_categories,
+                            !empty($duplicate_product->sub_category_id) ? $duplicate_product->sub_category_id : null,
+                            ['placeholder' => __('messages.please_select'), 'class' => 'form-control select2', 'id' => 'child_category_id'],
+                        ) !!}
                     </div>
                 </div>
 
@@ -159,15 +160,17 @@
                 <div class="col-sm-4">
                     <div class="form-group">
                         {!! Form::label('product_locations', __('business.business_locations') . ':') !!} @show_tooltip(__('lang_v1.product_location_help'))
-                        {!! Form::select('product_locations[]', $business_locations, $product->product_locations->pluck('id'), [
+                        {!! Form::select('business_location_id', $business_locations, $product->business_location_id, [
+                            'placeholder' => __('messages.please_select'),
                             'class' => 'form-control select2',
-                            'id' => 'product_locations',
                         ]) !!}
                     </div>
                 </div>
 
                 <div class="clearfix"></div>
+            @endcomponent
 
+            @component('components.widget', ['class' => 'box-primary'])
 
                 <div class="col-sm-4">
                     <div class="form-group">
@@ -181,11 +184,6 @@
                 </div>
 
                 <div class="clearfix"></div>
-
-
-            @endcomponent
-
-            @component('components.widget', ['class' => 'box-primary'])
                 <div class="col-sm-4">
                     <div class="form-group">
                         <br>

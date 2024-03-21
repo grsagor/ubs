@@ -189,9 +189,9 @@
         }
 
         /* .carousel-control-next,
-                                                                                                                                                .carousel-control-prev {
-                                                                                                                                                    filter: invert(100%);
-                                                                                                                                                } */
+                                                                                                                                                                .carousel-control-prev {
+                                                                                                                                                                    filter: invert(100%);
+                                                                                                                                                                } */
 
         .carousel-control-prev-icon {
             background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='%23000' width='8' height='8' viewBox='0 0 8 8'%3e%3cpath d='M5.25 0l-4 4 4 4 1.5-1.5L4.25 4l2.5-2.5L5.25 0z'/%3e%3c/svg%3e");
@@ -333,7 +333,7 @@
                                 <div class="d-flex gap-1" style="margin-top: 10px;">
                                     <button type="button" id="order_now" data-id="{{ $info->id }}"
                                         class="btn applynow">Order Now</button>
-                                    @if ($info->category->category_type == 'product')
+                                    @if ($info->category && $info->category->category_type == 'product')
                                         @if ($cart)
                                             <button type="button" data-is_add="0" data-product_id="{{ $info->id }}"
                                                 class="btn btn-danger cart_btn">Remove from cart</button>
