@@ -279,7 +279,7 @@
             <!-- Services Start -->
             <li class="treeview" id="tour_step9">
                 <a href="#">
-                    <i class="fa fas fa-chart-bar"></i> <span>Advertise</span>
+                    <i class="fa fas fa-chart-bar"></i> <span>Property</span>
                     <span class="pull-right-container">
                         <i class="fa fa-angle-left pull-right"></i>
                     </span>
@@ -317,8 +317,12 @@
                                 Settings</span></a></li>
                     <li><a href="{{ route('printers.index') }}"><i class="fa fas fa-share-alt"></i> <span>Receipt
                                 Printers</span></a></li>
-                    <li><a href="{{ route('tax-rates.index') }}"><i class="fa fas fa-bolt"></i> <span>Tax
-                                Rates</span></a></li>
+
+                    @if (auth()->user()->id == 5)
+                        <li><a href="{{ route('tax-rates.index') }}"><i class="fa fas fa-bolt"></i> <span>Tax
+                                    Rates</span></a></li>
+                    @endif
+
                     <li><a href="{{ url('modules/tables') }}"><i class="fa fas fa-table"></i>
                             <span>Tables</span></a></li>
                     <li><a href="{{ url('modules/modifiers') }}"><i class="fa fas fa-pizza-slice"></i>

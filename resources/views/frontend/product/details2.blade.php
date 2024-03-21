@@ -189,9 +189,9 @@
         }
 
         /* .carousel-control-next,
-                                                                                                                                        .carousel-control-prev {
-                                                                                                                                            filter: invert(100%);
-                                                                                                                                        } */
+                                                                                                                                                .carousel-control-prev {
+                                                                                                                                                    filter: invert(100%);
+                                                                                                                                                } */
 
         .carousel-control-prev-icon {
             background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='%23000' width='8' height='8' viewBox='0 0 8 8'%3e%3cpath d='M5.25 0l-4 4 4 4 1.5-1.5L4.25 4l2.5-2.5L5.25 0z'/%3e%3c/svg%3e");
@@ -328,15 +328,9 @@
                             </div> --}}
                         </div>
 
-
                         <div class="apply-section mt-3">
-
                             <div class="apply-button">
-
                                 <div class="d-flex gap-1" style="margin-top: 10px;">
-                                    {{-- <button type="button" class="btn alreadyApplied" disabled>Already applied</button> --}}
-
-
                                     <button type="button" id="order_now" data-id="{{ $info->id }}"
                                         class="btn applynow">Order Now</button>
                                     @if ($info->category->category_type == 'product')
@@ -354,10 +348,8 @@
                                 <div> <!-- Add ml-3 class here for left margin -->
                                     @include('frontend.social_media_share.social_media')
                                 </div>
-
                             </div>
                         </div>
-
 
                         @if (
                             $info->sku ||
@@ -386,7 +378,6 @@
                                                 </div>
                                             @endif
 
-
                                             @php
                                                 $selected_years = json_decode($info->selected_years);
                                                 $start_year = !empty($selected_years) ? $selected_years[0] : '';
@@ -408,7 +399,6 @@
                                                     Start-Month: <span class="txtbold">{{ $start_month }}</span>
                                                 </div>
                                             @endif
-
 
                                             @if ($info->name_of_institution)
                                                 <div class="col-md-6">
@@ -457,7 +447,6 @@
                                 </div>
                             </div>
                         @endif
-
 
                         @if ($info->thumbnail || $info->image || $info->youtube_link || $info->product_brochure)
                             <div class="requirements-section row mt-3">
@@ -581,6 +570,13 @@
                                         </div>
                                     @endif
 
+                                    @if ($info->course_module_description)
+                                        <h3 class="sectitle mt-15">Course Module</h3>
+                                        <div class="col-md-12 text-justify mt-2 ">
+                                            {!! $info->course_module_description ?? '' !!}
+                                        </div>
+                                    @endif
+
                                     @if ($info->service_features)
                                         <h3 class="sectitle mt-15">Features</h3>
                                         <div class="col-md-12 text-justify">
@@ -592,13 +588,6 @@
                                         <h3 class="sectitle mt-15">Facilities</h3>
                                         <div class="col-md-12 text-justify">
                                             {!! $info->general_facilities ?? '' !!}
-                                        </div>
-                                    @endif
-
-                                    @if ($info->product_description)
-                                        <h3 class="sectitle mt-15">More Info</h3>
-                                        <div class="col-md-12 text-justify">
-                                            {!! $info->product_description ?? '' !!}
                                         </div>
                                     @endif
 

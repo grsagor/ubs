@@ -6,6 +6,10 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>Add New</h1>
+        <!-- <ol class="breadcrumb">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <li class="active">Here</li>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        </ol> -->
     </section>
 
     <!-- Main content -->
@@ -28,7 +32,8 @@
                         <label class="form-label">{{ __('product.type') }}: <span class="text-danger">*</span></label>
                         {!! Form::select(
                             'types',
-                            ['product' => 'Product', 'service' => 'Service'],
+                            // ['product' => 'Product', 'service' => 'Service'],
+                            ['service' => 'Service'],
                             !empty($duplicate_product->type) ? $duplicate_product->type : null,
                             ['placeholder' => __('messages.please_select'), 'class' => 'form-control select2', 'required', 'id' => 'type'],
                         ) !!}
@@ -409,8 +414,35 @@
                         ) !!}
                     </div>
                 </div>
-                <div class="clearfix hide" id="fee-installment-description-clearfix"></div>
+                {{-- <div class="clearfix hide" id="fee-installment-description-clearfix"></div> --}}
 
+                <div class="clearfix"></div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        {!! Form::label('course_module', __('Course Module') . ':') !!}
+                        {!! Form::select(
+                            'course_module',
+                            ['Available' => 'Available', 'Unavailable' => 'Unavailable'],
+                            !empty($duplicate_product->course_module) ? $duplicate_product->course_module : null,
+                            [
+                                'placeholder' => __('messages.please_select'),
+                                'id' => 'course_module',
+                                'class' => 'form-control select2',
+                            ],
+                        ) !!}
+                    </div>
+                </div>
+
+                <div class="col-sm-8 hide" id="course-description-section">
+                    <div class="form-group">
+                        {!! Form::label('course_module_description', __('Course Module Description') . ':') !!}
+                        {!! Form::textarea(
+                            'course_module_description',
+                            !empty(@$duplicate_product->course_module_description) ? @$duplicate_product->course_module_description : null,
+                            ['class' => 'form-control'],
+                        ) !!}
+                    </div>
+                </div>
 
             </div>
         @endcomponent
@@ -1148,19 +1180,15 @@
                             @show_tooltip(__('Clear details faclitate quick customer understanding and draw attention
                             effectively.'))
                         </label>
-                        <textarea name="define_this_item" id="define_this_item" rows="10" style="width: 100%;" required></textarea>
-                    </div>
-                </div>
-
-                {{--
-                           {!! Form::label('define_this_item', __('Define this item') . ':') !!}
-                    {!! Form::textarea(
+                        {!! Form::textarea(
                             'define_this_item',
                             !empty($duplicate_product->define_this_item) ? $duplicate_product->define_this_item : null,
                             [
                                 'class' => 'form-control',
                             ],
-                        ) !!} --}}
+                        ) !!}
+                    </div>
+                </div>
             </div>
         @endcomponent
 

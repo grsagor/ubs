@@ -60,13 +60,14 @@
                         <a href="{{ route('product.show', $item->id) }}"
                             class="woocommerce-LoopProduct-link col-lg-4 col-md-4 col-sm-12 d-flex mobile_view_center">
                             <img class="lazy img-fluid rounded w-100 mobile_view_image" src="{{ asset($item->thumbnail) }}"
-                                alt="Product Image">
+                                alt="Product Image" style="height: 190px;">
                         </a>
                     @else
                         <a href="{{ route('product.show', $item->id) }}"
                             class="woocommerce-LoopProduct-link col-lg-4 col-md-4 col-sm-12 d-flex mobile_view_center">
                             <img src="https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg"
-                                class="lazy img-fluid rounded w-100 mobile_view_image" alt="">
+                                class="lazy img-fluid rounded w-100 mobile_view_image" alt=""
+                                style="height: 190px;">
                         </a>
                     @endif
                     <div class="col-lg-8 col-md-8 col-sm-12 d-flex flex-column p-0 mobile_view_card_descripition"
