@@ -28,6 +28,17 @@
 
                 <div class="col-sm-4">
                     <div class="form-group">
+                        <label class="form-label">{{ __('product.type') }}: <span class="text-danger">*</span></label>
+                        {!! Form::select('types', ['service' => 'Service'], $product->types, [
+                            'placeholder' => __('messages.please_select'),
+                            'class' => 'form-control select2',
+                            'required',
+                        ]) !!}
+                    </div>
+                </div>
+
+                <div class="col-sm-4">
+                    <div class="form-group">
                         {!! Form::label('sku', __('product.sku') . ':*') !!} @show_tooltip(__('tooltip.sku'))
                         {!! Form::text('sku', $product->sku, [
                             'class' => 'form-control',
@@ -50,13 +61,11 @@
 
                 <div class="clearfix"></div>
 
-
                 <div class="col-sm-4">
                     <div class="form-group">
                         {!! Form::label('unit_id', __('product.unit') . ':*') !!}
                         <div class="input-group">
                             {!! Form::select('unit_id', $units, $product->unit_id, [
-                                'placeholder' => __('messages.please_select'),
                                 'class' => 'form-control select2',
                                 'required',
                             ]) !!}
@@ -115,26 +124,6 @@
 
                 <div class="clearfix"></div>
 
-
-
-
-                <div class="col-sm-4">
-                    <div class="form-group">
-                        {!! Form::label('name', __('product.product_name') . ':*') !!}
-                        {!! Form::text('name', $product->name, [
-                            'class' => 'form-control',
-                            'required',
-                            'placeholder' => __('product.product_name'),
-                        ]) !!}
-                    </div>
-                </div>
-
-
-                <div class="clearfix"></div>
-
-
-
-
                 <div class="col-sm-4 @if (!session('business.enable_category')) hide @endif">
                     <div class="form-group">
                         {!! Form::label('category_id', __('product.category') . ':') !!}
@@ -155,12 +144,23 @@
                     </div>
                 </div>
 
+                <div class="col-sm-4 @if (!(session('business.enable_category') && session('business.enable_sub_category'))) hide @endif">
+                    <div class="form-group">
+                        {!! Form::label('sub_category_id', __('product.sub_category') . ':') !!}
+                        {!! Form::select('sub_category_id', $sub_categories, $product->sub_category_id, [
+                            'placeholder' => __('messages.please_select'),
+                            'class' => 'form-control select2',
+                        ]) !!}
+                    </div>
+                </div>
+
+                <div class="clearfix"></div>
+
                 <div class="col-sm-4">
                     <div class="form-group">
                         {!! Form::label('product_locations', __('business.business_locations') . ':') !!} @show_tooltip(__('lang_v1.product_location_help'))
                         {!! Form::select('product_locations[]', $business_locations, $product->product_locations->pluck('id'), [
                             'class' => 'form-control select2',
-                            'multiple',
                             'id' => 'product_locations',
                         ]) !!}
                     </div>
@@ -168,6 +168,24 @@
 
                 <div class="clearfix"></div>
 
+
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        {!! Form::label('name', __('product.product_name') . ':*') !!}
+                        {!! Form::text('name', $product->name, [
+                            'class' => 'form-control',
+                            'required',
+                            'placeholder' => __('product.product_name'),
+                        ]) !!}
+                    </div>
+                </div>
+
+                <div class="clearfix"></div>
+
+
+            @endcomponent
+
+            @component('components.widget', ['class' => 'box-primary'])
                 <div class="col-sm-4">
                     <div class="form-group">
                         <br>
@@ -245,7 +263,6 @@
                 </div>
             </div>
         @endcomponent
-
         @component('components.widget', ['class' => 'box-primary'])
             <div class="row">
                 @if (session('business.enable_product_expiry'))
