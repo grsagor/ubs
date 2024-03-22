@@ -1,18 +1,18 @@
 @extends('layouts.app')
-@section('title', __('tax_rate.tax_rates'))
+@section('title', __('Vat Rates'))
 
 @section('content')
 
     <!-- Content Header (Page header) -->
     <section class="content-header">
-        <h1>@lang('tax_rate.tax_rates')
-            <small>@lang('tax_rate.manage_your_tax_rates')</small>
+        <h1>@lang('Vat Rates')
+            <small>@lang('Manage your vat rates')</small>
         </h1>
     </section>
 
     <!-- Main content -->
     <section class="content">
-        @component('components.widget', ['class' => 'box-primary', 'title' => __('tax_rate.all_your_tax_rates')])
+        @component('components.widget', ['class' => 'box-primary', 'title' => __('All your vat rates')])
             @can('tax_rate.create')
                 @slot('tool')
                     <div class="box-tools">
@@ -29,7 +29,7 @@
                         <thead>
                             <tr>
                                 <th>@lang('tax_rate.name')</th>
-                                <th>@lang('tax_rate.rate')</th>
+                                <th>@lang('Vat Rate')</th>
                                 <th>@lang('messages.action')</th>
                             </tr>
                         </thead>
@@ -40,7 +40,7 @@
 
         @component('components.widget', ['class' => 'box-primary'])
             @slot('title')
-                @lang('tax_rate.tax_groups') ( @lang('lang_v1.combination_of_taxes') ) @show_tooltip(__('tooltip.tax_groups'))
+                @lang('Vat groups') ( @lang('Combination of multiple vats') ) @show_tooltip(__('tooltip.tax_groups'))
             @endslot
             @can('tax_rate.create')
                 @slot('tool')
@@ -58,8 +58,8 @@
                         <thead>
                             <tr>
                                 <th>@lang('tax_rate.name')</th>
-                                <th>@lang('tax_rate.rate')</th>
-                                <th>@lang('tax_rate.sub_taxes')</th>
+                                <th>@lang('Vat rate')</th>
+                                <th>@lang('Sub vats')</th>
                                 <th>@lang('messages.action')</th>
                             </tr>
                         </thead>
