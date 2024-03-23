@@ -387,7 +387,8 @@ class ProductController extends Controller
         $brands = Brands::forDropdown($business_id);
         $units = Unit::forDropdown($business_id, true);
 
-        $tax_dropdown = TaxRate::forBusinessDropdown(null, true, true);
+        // 5 means business_id = 5 and this is superadmin
+        $tax_dropdown = TaxRate::forBusinessDropdown(5, true, true);
 
         $taxes = $tax_dropdown['tax_rates'];
         unset($taxes['']);
@@ -460,7 +461,7 @@ class ProductController extends Controller
 
         // for service
         if ($type == 'service') {
-            $categories = Category::where([['parent_id', 0], ['category_type', 'service']])->get();
+            $categories = Category::where([['parent_id', 0], ['category_type', 'service'], ['created_by', 5]])->get();
         }
         return view('product.categories_options', compact('categories'));
     }
