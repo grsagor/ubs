@@ -761,7 +761,18 @@ class ProductController extends Controller
         }
 
         $business_id = request()->session()->get('user.business_id');
-        $categories = Category::forDropdown($business_id, 'product');
+
+        // $categories = Category::forDropdown($business_id, 'product');
+
+
+        $categories = Category::where('business_id', 5)
+            ->where('parent_id', 0)
+            ->whereIn('category_type', ['product', 'service'])
+            ->orderBy('name', 'asc')
+            ->get();
+
+        $categories = $categories->pluck('name', 'id');
+
         $brands = Brands::forDropdown($business_id);
 
         $tax_dropdown = TaxRate::forBusinessDropdown($business_id, true, true);
@@ -777,11 +788,20 @@ class ProductController extends Controller
 
         //Sub-category
         $sub_categories = [];
-        $sub_categories = Category::where('business_id', $business_id)
+        $sub_categories = Category::where('business_id', 5)
             ->where('parent_id', $product->category_id)
             ->pluck('name', 'id')
             ->toArray();
-        $sub_categories = ['' => 'None'] + $sub_categories;
+        // $sub_categories = ['' => 'None'] + $sub_categories;
+
+        //Sub-category
+        $child_categories = [];
+        $child_categories = Category::where('business_id', 5)
+            ->where('parent_id', $product->sub_category_id)
+            ->pluck('name', 'id')
+            ->toArray();
+        // $sub_categories = ['' => 'None'] + $sub_categories;
+
 
         $default_profit_percent = request()->session()->get('business.default_profit_percent');
 
@@ -807,7 +827,7 @@ class ProductController extends Controller
         $alert_quantity = !is_null($product->alert_quantity) ? $this->productUtil->num_f($product->alert_quantity, false, null, true) : null;
 
         return view('product.edit')
-            ->with(compact('categories', 'brands', 'units', 'sub_units', 'taxes', 'tax_attributes', 'barcode_types', 'product', 'sub_categories', 'default_profit_percent', 'business_locations', 'rack_details', 'selling_price_group_count', 'module_form_parts', 'product_types', 'common_settings', 'warranties', 'pos_module_data', 'alert_quantity'));
+            ->with(compact('categories', 'brands', 'units', 'sub_units', 'taxes', 'tax_attributes', 'barcode_types', 'product', 'sub_categories', 'child_categories', 'default_profit_percent', 'business_locations', 'rack_details', 'selling_price_group_count', 'module_form_parts', 'product_types', 'common_settings', 'warranties', 'pos_module_data', 'alert_quantity'));
     }
 
     /**

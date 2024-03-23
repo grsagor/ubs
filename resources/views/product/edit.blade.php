@@ -129,6 +129,7 @@
                         {!! Form::select('category_id', $categories, $product->category_id, [
                             'placeholder' => __('messages.please_select'),
                             'class' => 'form-control select2',
+                            'id' => 'categoryy_id',
                         ]) !!}
                     </div>
                 </div>
@@ -139,6 +140,7 @@
                         {!! Form::select('sub_category_id', $sub_categories, $product->sub_category_id, [
                             'placeholder' => __('messages.please_select'),
                             'class' => 'form-control select2',
+                            'id' => 'sub_category_id',
                         ]) !!}
                     </div>
                 </div>
@@ -146,12 +148,20 @@
                 <div class="col-sm-4 @if (!(session('business.enable_category') && session('business.enable_sub_category'))) hide @endif">
                     <div class="form-group">
                         <label class="form-label">{{ __('product.child_category') }}: <span class="text-danger">*</span></label>
-                        {!! Form::select(
-                            'child_category_id',
-                            $sub_categories,
-                            !empty($duplicate_product->sub_category_id) ? $duplicate_product->sub_category_id : null,
-                            ['placeholder' => __('messages.please_select'), 'class' => 'form-control select2', 'id' => 'child_category_id'],
-                        ) !!}
+
+                        {!! Form::select('child_category_id', $child_categories, $product->child_category_id, [
+                            'placeholder' => __('messages.please_select'),
+                            'class' => 'form-control select2',
+                            'id' => 'child_category_id',
+                        ]) !!}
+
+                        {{-- @else
+                            {!! Form::select(
+                                'child_category_id',
+                                !empty($duplicate_product->sub_category_id) ? $duplicate_product->sub_category_id : null,
+                                ['placeholder' => __('messages.please_select'), 'class' => 'form-control select2', 'id' => 'child_category_id'],
+                            ) !!}
+                        @endif --}}
                     </div>
                 </div>
 
@@ -544,6 +554,38 @@
     <script type="text/javascript">
         $(document).ready(function() {
             __page_leave_confirmation('#product_add_form');
+
+
+            $(document).on('change', '#categoryy_id', function() {
+                var category_id = $(this).val();
+                $.ajax({
+                    url: "{{ route('product.category_id.change') }}",
+                    type: "GET",
+                    data: {
+                        category_id: category_id
+                    },
+                    dataType: "html",
+                    success: function(html) {
+                        $('#sub_category_id').html(html);
+                        $('#child_category_id').html(
+                            '<option selected="selected" value="">Please Select</option>');
+                    }
+                })
+            })
+            $(document).on('change', '#sub_category_id', function() {
+                var sub_category_id = $(this).val();
+                $.ajax({
+                    url: "{{ route('product.sub_category.change') }}",
+                    type: "GET",
+                    data: {
+                        sub_category_id: sub_category_id
+                    },
+                    dataType: "html",
+                    success: function(html) {
+                        $('#child_category_id').html(html);
+                    }
+                })
+            })
         });
     </script>
 @endsection
