@@ -189,9 +189,9 @@
         }
 
         /* .carousel-control-next,
-                                                                                                                                                .carousel-control-prev {
-                                                                                                                                                    filter: invert(100%);
-                                                                                                                                                } */
+                                                                                                                                                        .carousel-control-prev {
+                                                                                                                                                            filter: invert(100%);
+                                                                                                                                                        } */
 
         .carousel-control-prev-icon {
             background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='%23000' width='8' height='8' viewBox='0 0 8 8'%3e%3cpath d='M5.25 0l-4 4 4 4 1.5-1.5L4.25 4l2.5-2.5L5.25 0z'/%3e%3c/svg%3e");
@@ -199,6 +199,14 @@
 
         .carousel-control-next-icon {
             background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='%23000' width='8' height='8' viewBox='0 0 8 8'%3e%3cpath d='M2.75 0l-1.5 1.5L3.75 4l-2.5 2.5L2.75 8l4-4-4-4z'/%3e%3c/svg%3e");
+        }
+
+        .details_page p {
+            margin-bottom: 5px;
+        }
+
+        .details_page ul {
+            margin-bottom: 13px;
         }
 
         @media (max-width: 767px) {
@@ -548,14 +556,14 @@
                                 <div class="requirements-card">
                                     @if ($info->product_description)
                                         <h3 class="sectitle">Details</h3>
-                                        <div class="col-md-12 text-justify">
+                                        <div class="col-md-12 text-justify details_page">
                                             {!! $info->product_description ?? '' !!}
                                         </div>
                                     @endif
 
                                     @if ($info->fee_installment_description)
                                         <h3 class="sectitle mt-15">Instalments</h3>
-                                        <div class="col-md-12 text-justify">
+                                        <div class="col-md-12 text-justify details_page">
                                             {!! $info->fee_installment_description ?? '' !!}
                                         </div>
                                     @endif
@@ -565,28 +573,28 @@
                                         <div class="col-md-12 text-justify">
                                             {{ $info->requirements ?? '' }}
                                         </div>
-                                        <div class="col-md-12 text-justify mt-2 ">
+                                        <div class="col-md-12 text-justify mt-2 details_page">
                                             {!! $info->requirement_details ?? '' !!}
                                         </div>
                                     @endif
 
                                     @if ($info->course_module_description)
                                         <h3 class="sectitle mt-15">Course Module</h3>
-                                        <div class="col-md-12 text-justify mt-2 ">
+                                        <div class="col-md-12 text-justify mt-2 details_page">
                                             {!! $info->course_module_description ?? '' !!}
                                         </div>
                                     @endif
 
                                     @if ($info->service_features)
                                         <h3 class="sectitle mt-15">Features</h3>
-                                        <div class="col-md-12 text-justify">
+                                        <div class="col-md-12 text-justify details_page">
                                             {!! $info->service_features ?? '' !!}
                                         </div>
                                     @endif
 
                                     @if ($info->general_facilities)
                                         <h3 class="sectitle mt-15">Facilities</h3>
-                                        <div class="col-md-12 text-justify">
+                                        <div class="col-md-12 text-justify details_page">
                                             {!! $info->general_facilities ?? '' !!}
                                         </div>
                                     @endif
@@ -594,7 +602,7 @@
                                     {{-- @if ($info->work_placement == 'Available') --}}
                                     @if ($info->work_placement_description)
                                         <h3 class="sectitle mt-15">Work Placement</h3>
-                                        <div class="col-md-12 text-justify">
+                                        <div class="col-md-12 text-justify details_page">
                                             {!! $info->work_placement_description ?? '' !!}
                                         </div>
                                     @endif
@@ -607,7 +615,7 @@
                                 <div class="requirements-card">
                                     @if ($info->policy)
                                         <h3 class="sectitle mt-15">Policy</h3>
-                                        <div class="col-md-12 text-justify">
+                                        <div class="col-md-12 text-justify details_page">
                                             {!! $info->policy ?? '' !!}
                                         </div>
                                     @endif
@@ -667,14 +675,14 @@
 
                                     @if ($info->experiences)
                                         <h3 class="sectitle color-black mt-15">Experiences</h3>
-                                        <div class="col-md-12 text-justify">
+                                        <div class="col-md-12 text-justify details_page">
                                             {!! $info->experiences ?? '' !!}
                                         </div>
                                     @endif
 
                                     @if ($info->specializations)
                                         <h3 class="sectitle color-black mt-15">Specializations</h3>
-                                        <div class="col-md-12 text-justify">
+                                        <div class="col-md-12 text-justify details_page">
                                             {!! $info->specializations ?? '' !!}
                                         </div>
                                     @endif
