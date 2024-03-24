@@ -23,21 +23,21 @@
         <tr>
             <td>
                 <div class="col-sm-6">
-                    {!! Form::label('single_dpp', trans('Exc. vat') . ':*') !!}
+                    {!! Form::label('single_dpp', trans('Exc. VAT') . ':*') !!}
 
                     {!! Form::text('single_dpp', $default, [
                         'class' => 'form-control input-sm dpp input_number',
-                        'placeholder' => __('Exc. vat'),
+                        'placeholder' => __('Exc. VAT'),
                         'required',
                     ]) !!}
                 </div>
 
                 <div class="col-sm-6">
-                    {!! Form::label('single_dpp_inc_tax', trans('Inc. vat') . ':*') !!}
+                    {!! Form::label('single_dpp_inc_tax', trans('Inc. VAT') . ':*') !!}
 
                     {!! Form::text('single_dpp_inc_tax', $default, [
                         'class' => 'form-control input-sm dpp_inc_tax input_number',
-                        'placeholder' => __('Inc. vat'),
+                        'placeholder' => __('Inc. VAT'),
                         'required',
                     ]) !!}
                 </div>
