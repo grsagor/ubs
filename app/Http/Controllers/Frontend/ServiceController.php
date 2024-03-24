@@ -59,7 +59,9 @@ class ServiceController extends Controller
 
         $data['products'] = new LengthAwarePaginator($currentPageItems, count($products), $perPage);
         $data['products']->setPath(url()->current());
-        $data['categories'] = Category::query()->where([['category_type', 'service'], ['parent_id', 0]])->orderBy('name')->pluck('name', 'id');
+
+        // Business id == 5 means superadmin
+        $data['categories'] = Category::query()->where([['category_type', 'service'], ['parent_id', 0], ['business_id', 5]])->orderBy('name')->pluck('name', 'id');
 
         $data['category_id'] = $request->category_id;
 
