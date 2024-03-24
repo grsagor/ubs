@@ -684,7 +684,7 @@
 
                 <div class="col-sm-4 @if (!session('business.enable_price_tax')) hide @endif">
                     <div class="form-group">
-                        {!! Form::label('tax', __('Applicable Vat') . ':') !!}
+                        {!! Form::label('tax', __('Applicable VAT') . ':') !!}
                         {!! Form::select(
                             'tax',
                             $taxes,
@@ -710,7 +710,7 @@
 
                 <div class="col-sm-4 @if (!session('business.enable_price_tax')) hide @endif">
                     <div class="form-group">
-                        {!! Form::label('tax_type', __('Selling Price Vat Type') . ':*') !!}
+                        {!! Form::label('tax_type', __('Selling Price VAT Type') . ':*') !!}
                         {!! Form::select(
                             'tax_type',
                             ['Inclusive' => __('product.inclusive'), 'Exclusive' => __('product.exclusive')],
