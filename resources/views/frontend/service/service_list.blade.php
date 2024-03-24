@@ -60,14 +60,14 @@
                         <a href="{{ route('product.show', $item->id) }}"
                             class="woocommerce-LoopProduct-link col-lg-4 col-md-4 col-sm-12 d-flex mobile_view_center">
                             <img class="lazy img-fluid rounded w-100 mobile_view_image" src="{{ asset($item->thumbnail) }}"
-                                alt="Product Image" style="height: 190px;">
+                                alt="Product Image" style="height: 171px;">
                         </a>
                     @else
                         <a href="{{ route('product.show', $item->id) }}"
                             class="woocommerce-LoopProduct-link col-lg-4 col-md-4 col-sm-12 d-flex mobile_view_center">
                             <img src="https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg"
                                 class="lazy img-fluid rounded w-100 mobile_view_image" alt=""
-                                style="height: 190px;">
+                                style="height: 171px;">
                         </a>
                     @endif
                     <div class="col-lg-8 col-md-8 col-sm-12 d-flex flex-column p-0 mobile_view_card_descripition"
@@ -93,9 +93,9 @@
 
                             <p class="text-dark" style="margin: 0; text-align: justify; padding: 0; line-height: 1.2;">
                                 @if (mb_strlen($item->name) < 45)
-                                    {!! Str::limit($item->define_this_item, $limit = 245, $end = '...') !!}
+                                    {!! Str::limit($item->define_this_item, $limit = 235, $end = '...') !!}
                                     @php
-                                        $remainingSpaces = max(0, 245 - mb_strlen($item->define_this_item));
+                                        $remainingSpaces = max(0, 235 - mb_strlen($item->define_this_item));
                                     @endphp
                                 @else
                                     {!! Str::limit($item->define_this_item, $limit = 190, $end = '...') !!}
