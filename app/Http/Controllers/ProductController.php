@@ -843,9 +843,11 @@ class ProductController extends Controller
             abort(403, 'Unauthorized action.');
         }
 
+        // dd($request->toArray());
+
         try {
             $business_id = $request->session()->get('user.business_id');
-            $product_details = $request->only(['name', 'brand_id', 'unit_id', 'category_id', 'tax', 'barcode_type', 'sku', 'alert_quantity', 'tax_type', 'weight', 'product_custom_field1', 'product_custom_field2', 'product_custom_field3', 'product_custom_field4', 'product_description', 'sub_unit_ids', 'preparation_time_in_minutes']);
+            $product_details = $request->only(['name', 'brand_id', 'sub_category_id', 'child_category_id', 'business_location_id', 'unit_id', 'category_id', 'tax', 'barcode_type', 'sku', 'alert_quantity', 'tax_type', 'weight', 'product_custom_field1', 'product_custom_field2', 'product_custom_field3', 'product_custom_field4', 'product_description', 'sub_unit_ids', 'preparation_time_in_minutes']);
 
             DB::beginTransaction();
 
@@ -880,6 +882,12 @@ class ProductController extends Controller
             $product->preparation_time_in_minutes = $product_details['preparation_time_in_minutes'];
             $product->warranty_id = !empty($request->input('warranty_id')) ? $request->input('warranty_id') : null;
             $product->secondary_unit_id = !empty($request->input('secondary_unit_id')) ? $request->input('secondary_unit_id') : null;
+
+            $product->sub_category_id = $product_details['sub_category_id'];
+            $product->child_category_id = $product_details['child_category_id'];
+            $product->business_location_id = $product_details['business_location_id'];
+
+
 
             if (!empty($request->input('enable_stock')) && $request->input('enable_stock') == 1) {
                 $product->enable_stock = 1;
