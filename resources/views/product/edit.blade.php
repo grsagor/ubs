@@ -148,20 +148,11 @@
                 <div class="col-sm-4 @if (!(session('business.enable_category') && session('business.enable_sub_category'))) hide @endif">
                     <div class="form-group">
                         <label class="form-label">{{ __('product.child_category') }}: <span class="text-danger">*</span></label>
-
                         {!! Form::select('child_category_id', $child_categories, $product->child_category_id, [
                             'placeholder' => __('messages.please_select'),
                             'class' => 'form-control select2',
                             'id' => 'child_category_id',
                         ]) !!}
-
-                        {{-- @else
-                            {!! Form::select(
-                                'child_category_id',
-                                !empty($duplicate_product->sub_category_id) ? $duplicate_product->sub_category_id : null,
-                                ['placeholder' => __('messages.please_select'), 'class' => 'form-control select2', 'id' => 'child_category_id'],
-                            ) !!}
-                        @endif --}}
                     </div>
                 </div>
 
@@ -403,19 +394,161 @@
                 </div>
             @endcomponent
 
-
             @component('components.widget', ['class' => 'box-primary'])
-                <div class="col-sm-4">
-                    <div class="form-group">
-                        {!! Form::label('name', __('product.product_name') . ':*') !!}
-                        {!! Form::text('name', $product->name, [
-                            'class' => 'form-control',
-                            'required',
-                            'placeholder' => __('product.product_name'),
-                        ]) !!}
+                <div class="row">
+
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            {!! Form::label('title', __('Title') . ':*') !!}
+                            {!! Form::text('name', $product->name, [
+                                'class' => 'form-control',
+                                'required',
+                                'placeholder' => __('product.product_name'),
+                            ]) !!}
+                        </div>
+                    </div>
+
+                    <div class="clearfix"></div>
+
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            {!! Form::label('product_description', __('Description') . ':') !!}
+                            {!! Form::textarea('product_description', $product->product_description, ['class' => 'form-control']) !!}
+                        </div>
+                    </div>
+
+                    {{-- Not correction --}}
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            {!! Form::label('image', __('Image') . ':') !!}
+                            {!! Form::file('image[]', [
+                                'id' => 'upload_image',
+                                'accept' => 'image/*',
+                                'required' => $is_image_required,
+                                'class' => 'upload-element',
+                                'multiple',
+                            ]) !!}
+                            <small>
+                                <p class="help-block">@lang('purchase.max_file_size', ['size' => config('constants.document_size_limit') / 1000000]) <br> @lang('lang_v1.aspect_ratio_should_be_1_1')</p>
+                            </small>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            {!! Form::label('image', __('Thumbnail') . ':') !!}
+                            {!! Form::file('thumbnail', [
+                                'id' => 'thumbnail_image',
+                                'accept' => 'image/*',
+                                'required' => $is_image_required,
+                                'class' => 'upload-element',
+                            ]) !!}
+                            <small>
+                                <p class="help-block">@lang('purchase.max_file_size', ['size' => config('constants.document_size_limit') / 1000000]) <br> @lang('lang_v1.aspect_ratio_should_be_1_1')</p>
+                            </small>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            {!! Form::label('product_brochure', __('Brochure') . ':') !!}
+                            {!! Form::file('product_brochure', [
+                                'id' => 'brochure_image',
+                                'accept' => implode(',', array_keys(config('constants.document_upload_mimes_types'))),
+                            ]) !!}
+                            <small>
+                                <p class="help-block">
+                                    @lang('purchase.max_file_size', ['size' => config('constants.document_size_limit') / 1000000])
+                                    @includeIf('components.document_help_text')
+                                </p>
+                            </small>
+                        </div>
+                    </div>
+                    {{-- Not correction --}}
+
+                    <!-- include module fields -->
+                    @if (!empty($pos_module_data))
+                        @foreach ($pos_module_data as $key => $value)
+                            @if (!empty($value['view_path']))
+                                @includeIf($value['view_path'], ['view_data' => $value['view_data']])
+                            @endif
+                        @endforeach
+                    @endif
+
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            {!! Form::label('youtube_link', __('product.youtube_link')) !!}
+                            {!! Form::text('youtube_link', $product->youtube_link, [
+                                'class' => 'form-control',
+                                'placeholder' => __('product.youtube_link'),
+                            ]) !!}
+                        </div>
                     </div>
                 </div>
+            @endcomponent
 
+            @component('components.widget', ['class' => 'box-primary'])
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            {!! Form::label('work_placement', __('product.work_placement') . ':') !!}
+                            {!! Form::select(
+                                'work_placement',
+                                ['Available' => 'Available', 'Unavailable' => 'Unavailable'],
+                                $product->work_placement,
+                                [
+                                    'placeholder' => __('messages.please_select'),
+                                    'id' => 'work_placement',
+                                    'class' => 'form-control select2',
+                                ],
+                            ) !!}
+                        </div>
+                    </div>
+                    <div class="col-sm-8 hide" id="work-placement-description-section">
+                        <div class="form-group">
+                            {!! Form::label('work_placement_description', __('product.work_placement_description') . ':') !!}
+                            {!! Form::textarea('work_placement_description', $product->work_placement_description, [
+                                'class' => 'form-control',
+                            ]) !!}
+                        </div>
+                    </div>
+                    <div class="clearfix hide" id="work-placement-description-clearfix"></div>
+
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            {!! Form::label('service_features', __('product.service_features') . ':*') !!}
+                            {!! Form::textarea('service_features', $product->service_features, ['class' => 'form-control']) !!}
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            {!! Form::label('general_facilities', __('lang_v1.general_facilities') . ':') !!}
+                            {!! Form::textarea('general_facilities', $product->general_facilities, ['class' => 'form-control']) !!}
+                        </div>
+                    </div>
+                </div>
+            @endcomponent
+
+            @component('components.widget', ['class' => 'box-primary'])
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            {!! Form::label('experiences', __('product.experiences') . ':*') !!}
+                            {!! Form::textarea('experiences', $product->experiences, ['class' => 'form-control']) !!}
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            {!! Form::label('specializations', __('product.specializations') . ':*') !!}
+                            {!! Form::textarea('specializations', $product->specializations, ['class' => 'form-control']) !!}
+                        </div>
+                    </div>
+                </div>
+            @endcomponent
+
+
+
+
+
+            @component('components.widget', ['class' => 'box-primary'])
                 <div class="clearfix"></div>
                 <div class="col-sm-4">
                     <div class="form-group">
@@ -438,33 +571,11 @@
                         ]) !!}
                     </div>
                 </div>
-                @if (!empty($common_settings['enable_product_warranty']))
-                    <div class="col-sm-4">
-                        <div class="form-group">
-                            {!! Form::label('warranty_id', __('lang_v1.warranty') . ':') !!}
-                            {!! Form::select('warranty_id', $warranties, $product->warranty_id, [
-                                'class' => 'form-control select2',
-                                'placeholder' => __('messages.please_select'),
-                            ]) !!}
-                        </div>
-                    </div>
-                @endif
-                <!-- include module fields -->
-                @if (!empty($pos_module_data))
-                    @foreach ($pos_module_data as $key => $value)
-                        @if (!empty($value['view_path']))
-                            @includeIf($value['view_path'], ['view_data' => $value['view_data']])
-                        @endif
-                    @endforeach
-                @endif
+
+
                 <div class="clearfix"></div>
-                <div class="col-sm-8">
-                    <div class="form-group">
-                        {!! Form::label('product_description', __('lang_v1.product_description') . ':') !!}
-                        {!! Form::textarea('product_description', $product->product_description, ['class' => 'form-control']) !!}
-                    </div>
-                </div>
-                <div class="col-sm-4">
+
+                {{-- <div class="col-sm-4">
                     <div class="form-group">
                         {!! Form::label('image', __('lang_v1.product_image') . ':') !!}
                         {!! Form::file('image', ['id' => 'upload_image', 'accept' => 'image/*', 'required' => $is_image_required]) !!}
@@ -491,7 +602,7 @@
                             </p>
                         </small>
                     </div>
-                </div>
+                </div> --}}
             @endcomponent
             @component('components.widget', ['class' => 'box-primary'])
                 <div class="row">

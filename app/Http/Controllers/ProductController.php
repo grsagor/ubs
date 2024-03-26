@@ -856,6 +856,11 @@ class ProductController extends Controller
                 'product_description', 'sub_unit_ids', 'preparation_time_in_minutes',
 
                 'study_time', 'name_of_institution', 'duration_year', 'duration_month', 'home_students_fees', 'int_students_fees', 'tuition_fee_installment', 'fee_installment_description', 'course_module', 'course_module_description', 'selected_years', 'selected_months',
+                'name', 'youtube_link',
+
+                'work_placement', 'work_placement_description',
+                'service_features', 'general_facilities',
+                'experiences', 'specializations',
             ]);
 
             DB::beginTransaction();
@@ -873,6 +878,7 @@ class ProductController extends Controller
             }
 
             $product->name = $product_details['name'];
+            $product->youtube_link = $product_details['youtube_link'];
             $product->brand_id = $product_details['brand_id'];
             $product->unit_id = $product_details['unit_id'];
             $product->category_id = $product_details['category_id'];
@@ -909,6 +915,13 @@ class ProductController extends Controller
             $product->course_module = $product_details['course_module'];
             $product->course_module_description = $product_details['course_module_description'];
 
+            $product->work_placement = $product_details['work_placement'];
+            $product->work_placement_description = $product_details['work_placement_description'];
+            $product->service_features = $product_details['service_features'];
+            $product->general_facilities = $product_details['general_facilities'];
+            $product->experiences = $product_details['experiences'];
+            $product->specializations = $product_details['specializations'];
+
             if (!empty($request->input('selected_years'))) {
                 $product->selected_years = $request->selected_years ? $request->selected_years : null;
             }
@@ -916,9 +929,6 @@ class ProductController extends Controller
             if (!empty($request->input('selected_months'))) {
                 $product->selected_months = $request->selected_months ? $request->selected_months : null;
             }
-
-
-
 
             if (!empty($request->input('enable_stock')) && $request->input('enable_stock') == 1) {
                 $product->enable_stock = 1;
