@@ -192,7 +192,6 @@
                         </div>
                     </div>
 
-                    {{-- Start not corrected --}}
                     <div class="col-sm-6">
                         <div class="form-group">
                             <div class="row" id="select-year-section">
@@ -212,8 +211,6 @@
                                         @endfor
                                     </select>
                                 </div>
-
-
 
                                 <div class="col-md-6">
                                     {!! Form::label('start_type', 'Select Month:') !!}
@@ -243,12 +240,9 @@
                                     </select>
                                 </div>
 
-
-
                             </div>
                         </div>
                     </div>
-                    {{-- End not corrected --}}
 
                     <div class="clearfix"></div>
                     <div class="col-sm-6">
@@ -376,6 +370,39 @@
                     </div>
                 </div>
             @endcomponent
+
+            @component('components.widget', ['class' => 'box-primary'])
+                <div id="requirements-container">
+                    <div class="row requirements-section">
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                {!! Form::label('requirement', __('product.requirements') . ':') !!}
+                                {!! Form::text(
+                                    'requirements',
+                                    !empty($duplicate_product->requirements) ? $duplicate_product->requirements : null,
+                                    ['class' => 'form-control', 'placeholder' => __('Name of reqirements')],
+                                ) !!}
+                            </div>
+                        </div>
+                        <div class="col-sm-8">
+                            <div class="form-group">
+                                {!! Form::label('requirement_details', __('product.requirement_details') . ':') !!}
+                                {!! Form::textarea(
+                                    'requirement_details',
+                                    !empty($duplicate_product->requirement_details) ? $duplicate_product->requirement_details : null,
+                                    ['class' => 'form-control requirement_details', 'id' => 'requirement_details'],
+                                ) !!}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="align-right">
+                    <button id="addRequirement" type="button" class="btn-success">Add</button>
+                    <button id="removeRequirement" type="button" class="btn-danger hide">Remove</button>
+                </div>
+            @endcomponent
+
 
             @component('components.widget', ['class' => 'box-primary'])
                 <div class="col-sm-4">

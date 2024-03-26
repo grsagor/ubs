@@ -855,10 +855,7 @@ class ProductController extends Controller
                 'product_custom_field2', 'product_custom_field3', 'product_custom_field4',
                 'product_description', 'sub_unit_ids', 'preparation_time_in_minutes',
 
-                'study_time', 'name_of_institution', 'duration_year',
-                'duration_month', 'home_students_fees', 'int_students_fees',
-                'tuition_fee_installment', 'fee_installment_description', 'course_module', 'course_module_description',
-                'selected_years', 'selected_months',
+                'study_time', 'name_of_institution', 'duration_year', 'duration_month', 'home_students_fees', 'int_students_fees', 'tuition_fee_installment', 'fee_installment_description', 'course_module', 'course_module_description', 'selected_years', 'selected_months',
             ]);
 
             DB::beginTransaction();
