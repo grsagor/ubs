@@ -847,7 +847,19 @@ class ProductController extends Controller
 
         try {
             $business_id = $request->session()->get('user.business_id');
-            $product_details = $request->only(['name', 'brand_id', 'sub_category_id', 'child_category_id', 'business_location_id', 'unit_id', 'category_id', 'tax', 'barcode_type', 'sku', 'alert_quantity', 'tax_type', 'weight', 'product_custom_field1', 'product_custom_field2', 'product_custom_field3', 'product_custom_field4', 'product_description', 'sub_unit_ids', 'preparation_time_in_minutes']);
+            $product_details = $request->only([
+                'name', 'brand_id', 'sub_category_id',
+                'child_category_id', 'business_location_id',
+                'unit_id', 'category_id', 'tax', 'barcode_type', 'sku',
+                'alert_quantity', 'tax_type', 'weight', 'product_custom_field1',
+                'product_custom_field2', 'product_custom_field3', 'product_custom_field4',
+                'product_description', 'sub_unit_ids', 'preparation_time_in_minutes',
+
+                'study_time', 'name_of_institution', 'duration_year',
+                'duration_month', 'home_students_fees', 'int_students_fees',
+                'tuition_fee_installment', 'fee_installment_description', 'course_module', 'course_module_description',
+                'selected_years', 'selected_months',
+            ]);
 
             DB::beginTransaction();
 
@@ -886,6 +898,28 @@ class ProductController extends Controller
             $product->sub_category_id = $product_details['sub_category_id'];
             $product->child_category_id = $product_details['child_category_id'];
             $product->business_location_id = $product_details['business_location_id'];
+
+            $product->study_time = $product_details['study_time'];
+            $product->name_of_institution = $product_details['name_of_institution'];
+            $product->duration_year = $product_details['duration_year'];
+
+            $product->duration_month = $product_details['duration_month'];
+            $product->home_students_fees = $product_details['home_students_fees'];
+            $product->int_students_fees = $product_details['int_students_fees'];
+
+            $product->tuition_fee_installment = $product_details['tuition_fee_installment'];
+            $product->fee_installment_description = $product_details['fee_installment_description'];
+            $product->course_module = $product_details['course_module'];
+            $product->course_module_description = $product_details['course_module_description'];
+
+            if (!empty($request->input('selected_years'))) {
+                $product->selected_years = $request->selected_years ? $request->selected_years : null;
+            }
+
+            if (!empty($request->input('selected_months'))) {
+                $product->selected_months = $request->selected_months ? $request->selected_months : null;
+            }
+
 
 
 

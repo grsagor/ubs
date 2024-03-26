@@ -199,20 +199,24 @@
                                 <div class="col-md-6">
                                     {!! Form::label('start_type', 'Start years:') !!}
                                     <select id="yearSelect" name="selected_years[]" class="form-control select2" multiple>
-                                        <option value="every_year">Every Year</option>
+                                        <option value="every_year" @if (in_array('every_year', json_decode($product->selected_years))) selected @endif>Every Year
+                                        </option>
                                         @php
                                             $currentYear = date('Y');
                                             $endYear = $currentYear + 5;
                                         @endphp
 
                                         @for ($year = $currentYear; $year <= $endYear; $year++)
-                                            <option value="{{ $year }}">{{ $year }}</option>
+                                            <option value="{{ $year }}"
+                                                @if (in_array($year, json_decode($product->selected_years))) selected @endif>{{ $year }}</option>
                                         @endfor
                                     </select>
                                 </div>
+
+
+
                                 <div class="col-md-6">
                                     {!! Form::label('start_type', 'Select Month:') !!}
-
                                     <select id="monthSelect" name="selected_months[]" class="form-control select2" multiple>
                                         @php
                                             $months = [
@@ -229,12 +233,18 @@
                                                 'November',
                                                 'December',
                                             ];
+
                                             foreach ($months as $month) {
-                                                echo "<option value='$month'>$month</option>";
+                                                $isSelected = in_array($month, json_decode($product->selected_months));
+                                                $selected = $isSelected ? 'selected' : '';
+                                                echo "<option value='$month' $selected>$month</option>";
                                             }
                                         @endphp
                                     </select>
                                 </div>
+
+
+
                             </div>
                         </div>
                     </div>
@@ -319,7 +329,7 @@
                             {!! Form::select(
                                 'tuition_fee_installment',
                                 ['Available' => 'Available', 'Unavailable' => 'Unavailable'],
-                                $product->int_students_fees,
+                                $product->tuition_fee_installment,
                                 [
                                     'placeholder' => __('messages.please_select'),
                                     'id' => 'fee_installment',
@@ -328,6 +338,7 @@
                             ) !!}
                         </div>
                     </div>
+
                     <div class="col-sm-8 hide" id="fee-installment-description-section">
                         <div class="form-group">
                             {!! Form::label('fee_installment_description', __('product.fee_installment_description') . ':') !!}
@@ -336,7 +347,9 @@
                             ]) !!}
                         </div>
                     </div>
+
                     <div class="clearfix"></div>
+
                     <div class="col-sm-4">
                         <div class="form-group">
                             {!! Form::label('course_module', __('Course Module') . ':') !!}
@@ -352,6 +365,7 @@
                             ) !!}
                         </div>
                     </div>
+
                     <div class="col-sm-8 hide" id="course-description-section">
                         <div class="form-group">
                             {!! Form::label('course_module_description', __('Course Module Description') . ':') !!}
