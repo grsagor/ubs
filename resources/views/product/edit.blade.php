@@ -189,7 +189,7 @@
                                 <div class="col-md-6">
                                     {!! Form::label('start_type', 'Start years:') !!}
                                     <select id="yearSelect" name="selected_years[]" class="form-control select2" multiple>
-                                        <option value="every_year" @if (in_array('every_year', json_decode($product->selected_years))) selected @endif>Every Year
+                                        <option value="every_year" @if (!is_null($product->selected_years) && in_array('every_year', json_decode($product->selected_years))) selected @endif>Every Year
                                         </option>
                                         @php
                                             $currentYear = date('Y');
@@ -198,9 +198,10 @@
 
                                         @for ($year = $currentYear; $year <= $endYear; $year++)
                                             <option value="{{ $year }}"
-                                                @if (in_array($year, json_decode($product->selected_years))) selected @endif>{{ $year }}</option>
+                                                @if (!is_null($product->selected_years) && in_array($year, json_decode($product->selected_years))) selected @endif>{{ $year }}</option>
                                         @endfor
                                     </select>
+
                                 </div>
 
                                 <div class="col-md-6">
@@ -222,13 +223,18 @@
                                                 'December',
                                             ];
 
+                                            $selectedMonths = is_null($product->selected_months)
+                                                ? []
+                                                : json_decode($product->selected_months);
+
                                             foreach ($months as $month) {
-                                                $isSelected = in_array($month, json_decode($product->selected_months));
+                                                $isSelected = in_array($month, $selectedMonths);
                                                 $selected = $isSelected ? 'selected' : '';
                                                 echo "<option value='$month' $selected>$month</option>";
                                             }
                                         @endphp
                                     </select>
+
                                 </div>
 
                             </div>
@@ -544,7 +550,6 @@
                 </div>
             @endcomponent
 
-
             @component('components.widget', ['class' => 'box-primary'])
                 <div class="row">
                     <div class="col-sm-4 @if (!session('business.enable_price_tax')) hide @endif">
@@ -604,6 +609,198 @@
                 </div>
             @endcomponent
 
+            @component('components.widget', ['class' => 'box-primary'])
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label>
+                                {!! Form::checkbox('disable_reselling', 1, $product->disable_reselling, ['class' => 'input-icheck']) !!} <strong>@lang('product.disable_reselling')</strong>
+                            </label> @show_tooltip(__('product.disable_reselling_info'))
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            {!! Form::label('price_changeable', __('product.price_changeable') . ':*') !!}
+                            {!! Form::select('price_changeable', ['1' => 'Yes', '0' => 'No'], $product->price_changeable, [
+                                'class' => 'form-control',
+                                'required',
+                                'placeholder' => __('messages.please_select'),
+                            ]) !!}
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            {!! Form::label('reselling_price', __('product.reselling_commission_type') . ':*') !!}
+                            {!! Form::select(
+                                'reselling_price',
+                                ['Percentage' => 'Percentage', 'Fixed' => 'Fixed'],
+                                $product->reselling_price,
+                                [
+                                    'class' => 'form-control select2',
+                                    'required',
+                                    'placeholder' => __('messages.please_select'),
+                                ],
+                            ) !!}
+                        </div>
+                    </div>
+
+                    {{-- Not correction --}}
+                    <div class="col-sm-4" id="resellingCommissionAmountFixedSection">
+                        <div class="form-group">
+                            {!! Form::label('reselling_commission_amount', __('product.reselling_commission_amount') . ':') !!}
+                            {!! Form::text('reselling_commission_amount', $product->reselling_commission_amount, [
+                                'class' => 'form-control',
+                                'required',
+                                'placeholder' => __('product.reselling_commission_amount'),
+                                'id' => 'resellingCommissionAmountFixed',
+                            ]) !!}
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4 hide" id="resellingCommissionAmountPercentageSection">
+                        <div class="form-group">
+                            {!! Form::label('reselling_commission_amount', __('product.reselling_commission_amount_percentage') . ' :') !!}
+                            {!! Form::select('reselling_commission_amount', range(0, 100), $product->reselling_commission_amount, [
+                                'class' => 'form-control',
+                                'required',
+                                'placeholder' => __('product.reselling_commission_amount'),
+                                'id' => 'resellingCommissionAmountPercentage',
+                            ]) !!}
+                        </div>
+                    </div>
+                    {{-- Not correction --}}
+
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            {!! Form::label('extra_commission', __('product.extra_commission') . ':') !!}
+                            {!! Form::number('extra_commission', $product->extra_commission, [
+                                'class' => 'form-control',
+                                'required',
+                                'placeholder' => __('product.extra_commission'),
+                            ]) !!}
+                        </div>
+                    </div>
+                </div>
+            @endcomponent
+
+            @component('components.widget', ['class' => 'box-primary'])
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            {!! Form::label('delivery_mode', __('product.delivery_mode') . ':*') !!}
+                            {!! Form::select('delivery_mode', ['Online', 'Offline', 'Online & Offline'], null, [
+                                'class' => 'form-control select2',
+                                'placeholder' => __('messages.please_select'),
+                            ]) !!}
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            {!! Form::label('delivery_area', __('product.delivery_area') . ':*') !!}
+                            {!! Form::select('delivery_area', ['National' => 'National', 'International' => 'International'], null, [
+                                'class' => 'form-control select2',
+                                'id' => 'delivery_area',
+                                'placeholder' => __('messages.please_select'),
+                            ]) !!}
+                        </div>
+                    </div>
+                    <div class="col-sm-4 hide" id="delivery_cities_section">
+                        <div class="form-group">
+                            {!! Form::label('delivery_cities', __('product.delivery_cities') . ':*') !!}
+                            {!! Form::select('delivery_cities', ['All Cities' => 'All Cities', 'London' => 'London'], null, [
+                                'class' => 'form-control',
+                                'id' => 'delivery_cities',
+                                'placeholder' => __('messages.please_select'),
+                            ]) !!}
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4 hide" id="delivery_countries_section">
+                        <div class="form-group">
+                            {!! Form::label('delivery_countries', __('product.delivery_countries') . ':*') !!}
+                            {!! Form::select('delivery_countries', ['All Countries' => 'All Countries', 'UK' => 'UK'], null, [
+                                'class' => 'form-control',
+                                'id' => 'delivery_countries',
+                                'placeholder' => __('messages.please_select'),
+                            ]) !!}
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+
+                    <div class="col-sm-4 hide" id="delivery_cities_excluded_section">
+                        <div class="form-group">
+                            {!! Form::label('delivery_excluded_cities', __('product.delivery_excluded_cities') . ':*') !!}
+                            {!! Form::select(
+                                'delivery_excluded_cities',
+                                ['London' => 'London', 'Manchester' => 'Manchester'],
+                                !empty($product->reselling_commission_amount) ? $product->reselling_commission_amount : null,
+                                ['class' => 'form-control', 'id' => 'delivery_excluded_cities', 'placeholder' => __('messages.please_select')],
+                            ) !!}
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4 hide" id="delivery_countries_excluded_section">
+                        <div class="form-group">
+                            {!! Form::label('delivery_excluded_countries', __('product.delivery_excluded_countries') . ':*') !!}
+                            {!! Form::select(
+                                'delivery_excluded_countries',
+                                ['UK' => 'UK', 'Bangladesh' => 'Bangladesh'],
+                                !empty($product->reselling_commission_amount) ? $product->reselling_commission_amount : null,
+                                ['class' => 'form-control', 'id' => 'delivery_excluded_countries', 'placeholder' => __('messages.please_select')],
+                            ) !!}
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4 hide" id="delivery_countries_excluded_cities_section">
+                        <div class="form-group">
+                            {!! Form::label('delivery_countries_excluded_cities', __('product.delivery_excluded_cities') . ':*') !!}
+                            {!! Form::select(
+                                'delivery_countries_excluded_cities',
+                                ['London' => 'London', 'Dhaka' => 'Dhaka'],
+                                !empty($product->reselling_commission_amount) ? $product->reselling_commission_amount : null,
+                                [
+                                    'class' => 'form-control',
+                                    'id' => 'delivery_countries_excluded_cities',
+                                    'placeholder' => __('messages.please_select'),
+                                ],
+                            ) !!}
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4 hide" id="delivery_area_national_section">
+                        <div class="form-group">
+                            {!! Form::label('delivery_area', __('product.area_specification') . ':*') !!}
+                            <select class="form-control select2" name="delivery_area_wise[]" multiple
+                                id="deliveryAreaWiseNational">
+                                <option disabled selected value="">Please Select</option>
+                                <option value="London"> London </option>
+                                <option value="Manchester"> Manchester </option>
+                                <option value="Birmingham"> Birmingham </option>
+                                <option value="Edinburgh"> Edinburgh </option>
+                                <option value="Glasgow"> Glasgow </option>
+                                <option value="Liverpool"> Liverpool </option>
+                                <option value="Bristol"> Bristol </option>
+                                <option value="Newcastle"> Newcastle </option>
+                                <option value="Cardiff"> Cardiff </option>
+                                <option value="Belfast"> Belfast </option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4 hide" id="delivery_area_international_section">
+                        <div class="form-group">
+                            {!! Form::label('delivery_area', __('product.area_specification') . ':*') !!}
+                            <select class="form-control select2" name="delivery_area_wise[]" multiple
+                                id="deliveryAreaWiseInternational">
+                                <option disabled selected value="">Please Select</option>
+                                <option value="London" disabled> United Kingdom </option>
+                                <option value="Manchester" disabled> Bangladesh </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            @endcomponent
 
             @component('components.widget', ['class' => 'box-primary'])
                 <div class="clearfix"></div>
@@ -861,7 +1058,40 @@
                 </div>
             @endcomponent
 
-
+            @component('components.widget', ['class' => 'box-primary'])
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            {!! Form::label('policy', __('Service Policy') . ':') !!}
+                            {!! Form::textarea('policy', $product->policy, [
+                                'class' => 'form-control',
+                            ]) !!}
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            {!! Form::label('refund_policy', __('Refund Policy') . ':') !!}
+                            {!! Form::textarea('refund_policy', $product->refund_policy, [
+                                'class' => 'form-control',
+                            ]) !!}
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label>
+                                {!! Form::checkbox('unipuller_data_policy', 1, $product->unipuller_data_policy, [
+                                    'class' => 'input-icheck',
+                                    'required',
+                                ]) !!}
+                            </label>
+                            <a href="{{ route('footer.details.policies.privacy_cookies') }}"
+                                target="__blank"><strong>@lang('product.unipuller_data_policy')*</strong>
+                            </a>
+                            @show_tooltip(__('product.unipuller_data_policy'))
+                        </div>
+                    </div>
+                </div>
+            @endcomponent
 
             <div class="row">
                 <input type="hidden" name="submit_type" id="submit_type">

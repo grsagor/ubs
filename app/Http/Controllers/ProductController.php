@@ -839,11 +839,11 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
+        // dd($request->toArray());
+
         if (!auth()->user()->can('product.update')) {
             abort(403, 'Unauthorized action.');
         }
-
-        // dd($request->toArray());
 
         try {
             $business_id = $request->session()->get('user.business_id');
@@ -861,6 +861,10 @@ class ProductController extends Controller
                 'work_placement', 'work_placement_description',
                 'service_features', 'general_facilities',
                 'experiences', 'specializations',
+                'policy', 'refund_policy', 'unipuller_data_policy',
+
+                'disable_reselling', 'price_changeable', 'reselling_price',
+                'reselling_commission_amount', 'extra_commission',
             ]);
 
             DB::beginTransaction();
@@ -921,6 +925,15 @@ class ProductController extends Controller
             $product->general_facilities = $product_details['general_facilities'];
             $product->experiences = $product_details['experiences'];
             $product->specializations = $product_details['specializations'];
+            $product->policy = $product_details['policy'];
+            $product->refund_policy = $product_details['refund_policy'];
+            $product->unipuller_data_policy = $product_details['unipuller_data_policy'];
+
+            $product->disable_reselling = $product_details['disable_reselling'];
+            $product->price_changeable = $product_details['price_changeable'];
+            $product->reselling_price = $product_details['reselling_price'];
+            $product->reselling_commission_amount = $product_details['reselling_commission_amount'];
+            $product->extra_commission = $product_details['extra_commission'];
 
             if (!empty($request->input('selected_years'))) {
                 $product->selected_years = $request->selected_years ? $request->selected_years : null;
