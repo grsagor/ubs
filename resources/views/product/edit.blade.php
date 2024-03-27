@@ -563,13 +563,14 @@
                     <div class="col-sm-4 @if (!session('business.enable_price_tax')) hide @endif">
                         <div class="form-group">
                             {!! Form::label('tax_type', __('product.selling_price_tax_type') . ':*') !!}
-                            {!! Form::select(
+                            {{-- {!! Form::select(
                                 'tax_type',
                                 ['inclusive' => __('product.inclusive'), 'exclusive' => __('product.exclusive')],
                                 $product->tax_type,
                                 ['class' => 'form-control select2', 'required'],
-                            ) !!}
-                            {{-- {!! Form::select(
+                            ) !!} --}}
+
+                            {!! Form::select(
                                 'tax_type',
                                 ['Inclusive' => __('product.inclusive'), 'Exclusive' => __('product.exclusive')],
                                 'Inclusive', // Set 'Inclusive' as the default selected value
@@ -578,7 +579,7 @@
                                     'required',
                                     'disabled' => true, // Disable the 'Inclusive' option
                                 ],
-                            ) !!} --}}
+                            ) !!}
                         </div>
                     </div>
 

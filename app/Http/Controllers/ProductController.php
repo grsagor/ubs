@@ -886,7 +886,7 @@ class ProductController extends Controller
             $product->barcode_type = $product_details['barcode_type'];
             $product->sku = $product_details['sku'];
             $product->alert_quantity = !empty($product_details['alert_quantity']) ? $this->productUtil->num_uf($product_details['alert_quantity']) : $product_details['alert_quantity'];
-            $product->tax_type = $product_details['tax_type'];
+            $product->tax_type = 'inclusive';
             $product->weight = $product_details['weight'];
             $product->product_custom_field1 = $product_details['product_custom_field1'];
             $product->product_custom_field2 = $product_details['product_custom_field2'];
