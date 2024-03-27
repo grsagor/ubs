@@ -802,34 +802,9 @@
                 </div>
             @endcomponent
 
-            @component('components.widget', ['class' => 'box-primary'])
+            {{-- @component('components.widget', ['class' => 'box-primary'])
                 <div class="clearfix"></div>
                 <div class="col-sm-4">
-                    <div class="form-group">
-                        <br>
-                        <label>
-                            {!! Form::checkbox('enable_stock', 1, $product->enable_stock, [
-                                'class' => 'input-icheck',
-                                'id' => 'enable_stock',
-                            ]) !!} <strong>@lang('product.manage_stock')</strong>
-                        </label>@show_tooltip(__('tooltip.enable_stock')) <p class="help-block"><i>@lang('product.enable_stock_help')</i></p>
-                    </div>
-                </div>
-                <div class="col-sm-4" id="alert_quantity_div" @if (!$product->enable_stock) style="display:none" @endif>
-                    <div class="form-group">
-                        {!! Form::label('alert_quantity', __('product.alert_quantity') . ':') !!} @show_tooltip(__('tooltip.alert_quantity'))
-                        {!! Form::text('alert_quantity', $alert_quantity, [
-                            'class' => 'form-control input_number',
-                            'placeholder' => __('product.alert_quantity'),
-                            'min' => '0',
-                        ]) !!}
-                    </div>
-                </div>
-
-
-                <div class="clearfix"></div>
-
-                {{-- <div class="col-sm-4">
                     <div class="form-group">
                         {!! Form::label('image', __('lang_v1.product_image') . ':') !!}
                         {!! Form::file('image', ['id' => 'upload_image', 'accept' => 'image/*', 'required' => $is_image_required]) !!}
@@ -856,8 +831,10 @@
                             </p>
                         </small>
                     </div>
-                </div> --}}
-            @endcomponent
+                </div>
+            @endcomponent --}}
+
+
             @component('components.widget', ['class' => 'box-primary'])
                 <div class="row">
                     @if (session('business.enable_product_expiry'))
@@ -909,11 +886,13 @@
                         </div>
                     @endif
                     <div class="col-sm-4">
-                        <div class="checkbox">
+                        <div class="form-group">
+                            <br>
                             <label>
-                                {!! Form::checkbox('enable_sr_no', 1, $product->enable_sr_no, ['class' => 'input-icheck']) !!} <strong>@lang('lang_v1.enable_imei_or_sr_no')</strong>
-                            </label>
-                            @show_tooltip(__('lang_v1.tooltip_sr_no'))
+                                {!! Form::checkbox('enable_sr_no', 1, $product->enable_sr_no, [
+                                    'class' => 'input-icheck',
+                                ]) !!} <strong>@lang('lang_v1.enable_imei_or_sr_no')</strong>
+                            </label> @show_tooltip(__('lang_v1.tooltip_sr_no'))
                         </div>
                     </div>
 
@@ -980,6 +959,30 @@
                             </div>
                         @endforeach
                     @endif
+
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <br>
+                            <label>
+                                {!! Form::checkbox('enable_stock', 1, $product->enable_stock, [
+                                    'class' => 'input-icheck',
+                                    'id' => 'enable_stock',
+                                ]) !!} <strong>@lang('product.manage_stock')</strong>
+                            </label>@show_tooltip(__('tooltip.enable_stock')) <p class="help-block"><i>@lang('product.enable_stock_help')</i>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-sm-4" id="alert_quantity_div"
+                        @if (!$product->enable_stock) style="display:none" @endif>
+                        <div class="form-group">
+                            {!! Form::label('alert_quantity', __('product.alert_quantity') . ':') !!} @show_tooltip(__('tooltip.alert_quantity'))
+                            {!! Form::text('alert_quantity', $alert_quantity, [
+                                'class' => 'form-control input_number',
+                                'placeholder' => __('product.alert_quantity'),
+                                'min' => '0',
+                            ]) !!}
+                        </div>
+                    </div>
 
 
                     <div class="col-sm-4">
@@ -1053,8 +1056,22 @@
                             ]) !!}
                         </div>
                     </div>
+                    <div class="clearfix"></div>
+
                     <!--custom fields-->
                     @include('layouts.partials.module_form_part')
+
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label for="define_this_item" style="display: block">Define this item in 100 words
+                                @show_tooltip(__('Clear details faclitate quick customer understanding and draw attention
+                                effectively.'))
+                            </label>
+                            {!! Form::textarea('define_this_item', $product->define_this_item, [
+                                'class' => 'form-control',
+                            ]) !!}
+                        </div>
+                    </div>
                 </div>
             @endcomponent
 

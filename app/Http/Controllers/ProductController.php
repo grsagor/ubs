@@ -865,6 +865,7 @@ class ProductController extends Controller
 
                 'disable_reselling', 'price_changeable', 'reselling_price',
                 'reselling_commission_amount', 'extra_commission',
+                'define_this_item',
             ]);
 
             DB::beginTransaction();
@@ -934,6 +935,7 @@ class ProductController extends Controller
             $product->reselling_price = $product_details['reselling_price'];
             $product->reselling_commission_amount = $product_details['reselling_commission_amount'];
             $product->extra_commission = $product_details['extra_commission'];
+            $product->define_this_item = $product_details['define_this_item'];
 
             if (!empty($request->input('selected_years'))) {
                 $product->selected_years = $request->selected_years ? $request->selected_years : null;
