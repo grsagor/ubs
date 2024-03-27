@@ -831,8 +831,7 @@
                         </div>
                     </div>
 
-                    <div class="clearfix"></div>
-                    <div class="col-sm-4">
+                    <div class="col-sm-4 hide">
                         <div class="form-group">
                             {!! Form::label('type', __('product.product_type') . ':*') !!} @show_tooltip(__('tooltip.product_type'))
                             {!! Form::select('type', $product_types, $product->type, [
@@ -844,6 +843,8 @@
                             ]) !!}
                         </div>
                     </div>
+
+                    <div class="clearfix"></div>
 
                     <div class="form-group col-sm-12" id="product_form_part"></div>
                     <input type="hidden" id="variation_counter" value="0">

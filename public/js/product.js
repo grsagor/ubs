@@ -194,7 +194,7 @@ $(document).ready(function () {
     __write_number($("input#single_dsp"), result);
 
     var selling_price_inc_tax = __add_percent(selling_price, tax_rate);
-    __write_number($("input#single_dsp_inc_tax"), selling_price_inc_tax);
+    __write_number($("input#single_dsp_inc_tax"), result);
   });
 
   //If tax rate is changed

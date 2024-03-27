@@ -389,7 +389,6 @@ class ProductController extends Controller
 
         // 5 means business_id = 5 and this is superadmin
         $tax_dropdown = TaxRate::forBusinessDropdown(5, true, true);
-
         $taxes = $tax_dropdown['tax_rates'];
         unset($taxes['']);
         $tax_attributes = $tax_dropdown['attributes'];
@@ -764,7 +763,6 @@ class ProductController extends Controller
 
         // $categories = Category::forDropdown($business_id, 'product');
 
-
         $categories = Category::where('business_id', 5)
             ->where('parent_id', 0)
             ->whereIn('category_type', ['product', 'service'])
@@ -775,8 +773,10 @@ class ProductController extends Controller
 
         $brands = Brands::forDropdown($business_id);
 
-        $tax_dropdown = TaxRate::forBusinessDropdown($business_id, true, true);
+        // 5 means business_id = 5 and this is superadmin
+        $tax_dropdown = TaxRate::forBusinessDropdown(5, true, true);
         $taxes = $tax_dropdown['tax_rates'];
+        unset($taxes['']);
         $tax_attributes = $tax_dropdown['attributes'];
 
         $barcode_types = $this->barcode_types;
