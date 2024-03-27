@@ -545,7 +545,63 @@
             @endcomponent
 
 
+            @component('components.widget', ['class' => 'box-primary'])
+                <div class="row">
+                    <div class="col-sm-4 @if (!session('business.enable_price_tax')) hide @endif">
+                        <div class="form-group">
+                            {!! Form::label('tax', __('product.applicable_tax') . ':') !!}
+                            {!! Form::select(
+                                'tax',
+                                $taxes,
+                                $product->tax,
+                                ['placeholder' => __('messages.please_select'), 'class' => 'form-control select2'],
+                                $tax_attributes,
+                            ) !!}
+                        </div>
+                    </div>
 
+                    <div class="col-sm-4 @if (!session('business.enable_price_tax')) hide @endif">
+                        <div class="form-group">
+                            {!! Form::label('tax_type', __('product.selling_price_tax_type') . ':*') !!}
+                            {!! Form::select(
+                                'tax_type',
+                                ['inclusive' => __('product.inclusive'), 'exclusive' => __('product.exclusive')],
+                                $product->tax_type,
+                                ['class' => 'form-control select2', 'required'],
+                            ) !!}
+                            {{-- {!! Form::select(
+                                'tax_type',
+                                ['Inclusive' => __('product.inclusive'), 'Exclusive' => __('product.exclusive')],
+                                'Inclusive', // Set 'Inclusive' as the default selected value
+                                [
+                                    'class' => 'form-control select2',
+                                    'required',
+                                    'disabled' => true, // Disable the 'Inclusive' option
+                                ],
+                            ) !!} --}}
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4 hide">
+                        <div class="form-group">
+                            {!! Form::label('type', __('product.product_type') . ':*') !!} @show_tooltip(__('tooltip.product_type'))
+                            {!! Form::select('type', $product_types, $product->type, [
+                                'class' => 'form-control select2',
+                                'required',
+                                'disabled',
+                                'data-action' => 'edit',
+                                'data-product_id' => $product->id,
+                            ]) !!}
+                        </div>
+                    </div>
+
+                    <div class="clearfix"></div>
+
+                    <div class="form-group col-sm-12" id="product_form_part"></div>
+                    <input type="hidden" id="variation_counter" value="0">
+                    <input type="hidden" id="default_profit_percent" value="{{ $default_profit_percent }}">
+                </div>
+            @endcomponent
 
 
             @component('components.widget', ['class' => 'box-primary'])
@@ -804,53 +860,7 @@
                 </div>
             @endcomponent
 
-            @component('components.widget', ['class' => 'box-primary'])
-                <div class="row">
-                    <div class="col-sm-4 @if (!session('business.enable_price_tax')) hide @endif">
-                        <div class="form-group">
-                            {!! Form::label('tax', __('product.applicable_tax') . ':') !!}
-                            {!! Form::select(
-                                'tax',
-                                $taxes,
-                                $product->tax,
-                                ['placeholder' => __('messages.please_select'), 'class' => 'form-control select2'],
-                                $tax_attributes,
-                            ) !!}
-                        </div>
-                    </div>
 
-                    <div class="col-sm-4 @if (!session('business.enable_price_tax')) hide @endif">
-                        <div class="form-group">
-                            {!! Form::label('tax_type', __('product.selling_price_tax_type') . ':*') !!}
-                            {!! Form::select(
-                                'tax_type',
-                                ['inclusive' => __('product.inclusive'), 'exclusive' => __('product.exclusive')],
-                                $product->tax_type,
-                                ['class' => 'form-control select2', 'required'],
-                            ) !!}
-                        </div>
-                    </div>
-
-                    <div class="col-sm-4 hide">
-                        <div class="form-group">
-                            {!! Form::label('type', __('product.product_type') . ':*') !!} @show_tooltip(__('tooltip.product_type'))
-                            {!! Form::select('type', $product_types, $product->type, [
-                                'class' => 'form-control select2',
-                                'required',
-                                'disabled',
-                                'data-action' => 'edit',
-                                'data-product_id' => $product->id,
-                            ]) !!}
-                        </div>
-                    </div>
-
-                    <div class="clearfix"></div>
-
-                    <div class="form-group col-sm-12" id="product_form_part"></div>
-                    <input type="hidden" id="variation_counter" value="0">
-                    <input type="hidden" id="default_profit_percent" value="{{ $default_profit_percent }}">
-                </div>
-            @endcomponent
 
             <div class="row">
                 <input type="hidden" name="submit_type" id="submit_type">
