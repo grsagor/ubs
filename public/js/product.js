@@ -118,6 +118,55 @@ $(document).ready(function () {
     }
   });
 
+  function toggleDescriptionVisibility() {
+    if ($("#fee_installment_edit").val() === "Available") {
+      $("#fee-installment-description-section").removeClass("hide");
+    } else {
+      $("#fee-installment-description-section").addClass("hide");
+    }
+  }
+
+  // Toggle visibility on page load
+  toggleDescriptionVisibility();
+
+  // Add onchange event listener to select element
+  $("#fee_installment_edit").on("change", function () {
+    toggleDescriptionVisibility();
+  });
+
+  // Function to toggle visibility based on selected option
+  function toggleCourseDescriptionVisibility() {
+    if ($("#course_module_edit").val() === "Available") {
+      $("#course-description-section").show();
+    } else {
+      $("#course-description-section").hide();
+    }
+  }
+
+  // Toggle visibility on page load
+  toggleCourseDescriptionVisibility();
+
+  // Add onchange event listener to select element
+  $("#course_module_edit").on("change", function () {
+    toggleCourseDescriptionVisibility();
+  });
+
+  function toggleWorkPlacementDescriptionVisibility() {
+    if ($("#work_placement_edit").val() === "Available") {
+      $("#work-placement-description-section").show();
+    } else {
+      $("#work-placement-description-section").hide();
+    }
+  }
+
+  // Toggle visibility on page load
+  toggleWorkPlacementDescriptionVisibility();
+
+  // Add onchange event listener to select element
+  $("#work_placement_edit").on("change", function () {
+    toggleWorkPlacementDescriptionVisibility();
+  });
+
   // On change of delivery area
   $("#delivery_area").on("change", function () {
     let deliveryArea = $(this).val();

@@ -314,6 +314,8 @@
                             </div>
                         </div>
                     </div>
+
+
                     <div class="col-sm-4">
                         <div class="form-group">
                             {!! Form::label('tuition_fee_installment', __('product.tuition_fee_installment') . ':') !!}
@@ -323,7 +325,7 @@
                                 $product->tuition_fee_installment,
                                 [
                                     'placeholder' => __('messages.please_select'),
-                                    'id' => 'fee_installment',
+                                    'id' => 'fee_installment_edit',
                                     'class' => 'form-control select2',
                                 ],
                             ) !!}
@@ -350,14 +352,15 @@
                                 $product->course_module,
                                 [
                                     'placeholder' => __('messages.please_select'),
-                                    'id' => 'course_module',
+                                    'id' => 'course_module_edit',
                                     'class' => 'form-control select2',
                                 ],
                             ) !!}
                         </div>
                     </div>
 
-                    <div class="col-sm-8 hide" id="course-description-section">
+                    <div class="col-sm-8" id="course-description-section"
+                        style="display: {{ $product->course_module == 'Available' ? 'block' : 'none' }}">
                         <div class="form-group">
                             {!! Form::label('course_module_description', __('Course Module Description') . ':') !!}
                             {!! Form::textarea('course_module_description', $product->course_module_description, [
@@ -502,13 +505,15 @@
                                 $product->work_placement,
                                 [
                                     'placeholder' => __('messages.please_select'),
-                                    'id' => 'work_placement',
+                                    'id' => 'work_placement_edit',
                                     'class' => 'form-control select2',
                                 ],
                             ) !!}
                         </div>
                     </div>
-                    <div class="col-sm-8 hide" id="work-placement-description-section">
+
+                    <div class="col-sm-8" id="work-placement-description-section"
+                        style="display: {{ $product->work_placement == 'Available' ? 'block' : 'none' }}">
                         <div class="form-group">
                             {!! Form::label('work_placement_description', __('product.work_placement_description') . ':') !!}
                             {!! Form::textarea('work_placement_description', $product->work_placement_description, [
@@ -516,6 +521,7 @@
                             ]) !!}
                         </div>
                     </div>
+
                     <div class="clearfix hide" id="work-placement-description-clearfix"></div>
 
                     <div class="col-sm-12">
