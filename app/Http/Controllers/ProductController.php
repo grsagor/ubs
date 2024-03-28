@@ -864,7 +864,7 @@ class ProductController extends Controller
                 'policy', 'refund_policy', 'unipuller_data_policy',
 
                 'disable_reselling', 'price_changeable', 'reselling_price',
-                'reselling_commission_amount', 'extra_commission',
+                'reselling_commission_amount', 'reselling_commission_amount_percentage', 'extra_commission',
                 'define_this_item',
             ]);
 
@@ -934,6 +934,7 @@ class ProductController extends Controller
             $product->price_changeable = $product_details['price_changeable'];
             $product->reselling_price = $product_details['reselling_price'];
             $product->reselling_commission_amount = $product_details['reselling_commission_amount'];
+            $product->reselling_commission_amount_percentage = $product_details['reselling_commission_amount_percentage'];
             $product->extra_commission = $product_details['extra_commission'];
             $product->define_this_item = $product_details['define_this_item'];
 

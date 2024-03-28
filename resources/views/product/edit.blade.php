@@ -629,6 +629,7 @@
                         </div>
                     </div>
                     <div class="clearfix"></div>
+
                     <div class="col-sm-4">
                         <div class="form-group">
                             {!! Form::label('reselling_price', __('product.reselling_commission_type') . ':*') !!}
@@ -640,36 +641,45 @@
                                     'class' => 'form-control select2',
                                     'required',
                                     'placeholder' => __('messages.please_select'),
+                                    'id' => 'reselling_price_edit', // Added id attribute
                                 ],
                             ) !!}
                         </div>
                     </div>
 
-                    {{-- Not correction --}}
-                    <div class="col-sm-4" id="resellingCommissionAmountFixedSection">
+                    <div class="col-sm-4" id="resellingCommissionAmountPercentageSection"
+                        style="{{ $product->reselling_price == 'Fixed' ? 'display:none;' : '' }}">
+                        <div class="form-group">
+                            {!! Form::label(
+                                'reselling_commission_amount_percentage',
+                                __('product.reselling_commission_amount_percentage') . ' :',
+                            ) !!}
+                            {!! Form::select(
+                                'reselling_commission_amount_percentage',
+                                range(0, 100),
+                                $product->reselling_commission_amount_percentage,
+                                [
+                                    'class' => 'form-control',
+                                    'required',
+                                    'placeholder' => __('product.reselling_commission_amount'),
+                                    'id' => 'resellingCommissionAmountPercentage', // Changed id attribute
+                                ],
+                            ) !!}
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4" id="resellingCommissionAmountFixedSection"
+                        style="{{ $product->reselling_price == 'Percentage' ? 'display:none;' : '' }}">
                         <div class="form-group">
                             {!! Form::label('reselling_commission_amount', __('product.reselling_commission_amount') . ':') !!}
                             {!! Form::text('reselling_commission_amount', $product->reselling_commission_amount, [
                                 'class' => 'form-control',
                                 'required',
                                 'placeholder' => __('product.reselling_commission_amount'),
-                                'id' => 'resellingCommissionAmountFixed',
+                                'id' => 'resellingCommissionAmountFixed', // Changed id attribute
                             ]) !!}
                         </div>
                     </div>
-
-                    <div class="col-sm-4 hide" id="resellingCommissionAmountPercentageSection">
-                        <div class="form-group">
-                            {!! Form::label('reselling_commission_amount', __('product.reselling_commission_amount_percentage') . ' :') !!}
-                            {!! Form::select('reselling_commission_amount', range(0, 100), $product->reselling_commission_amount, [
-                                'class' => 'form-control',
-                                'required',
-                                'placeholder' => __('product.reselling_commission_amount'),
-                                'id' => 'resellingCommissionAmountPercentage',
-                            ]) !!}
-                        </div>
-                    </div>
-                    {{-- Not correction --}}
 
                     <div class="col-sm-4">
                         <div class="form-group">

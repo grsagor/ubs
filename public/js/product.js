@@ -97,6 +97,27 @@ $(document).ready(function () {
     }
   });
 
+  let resellingPrice = $("#reselling_price_edit").val();
+  if (resellingPrice === "Percentage") {
+    $("#resellingCommissionAmountFixedSection").hide();
+    $("#resellingCommissionAmountPercentageSection").show();
+  } else if (resellingPrice === "Fixed") {
+    $("#resellingCommissionAmountFixedSection").show();
+    $("#resellingCommissionAmountPercentageSection").hide();
+  }
+
+  $("#reselling_price_edit").on("change", function () {
+    let resellingPrice = $(this).val();
+
+    if (resellingPrice === "Percentage") {
+      $("#resellingCommissionAmountFixedSection").hide();
+      $("#resellingCommissionAmountPercentageSection").show();
+    } else if (resellingPrice === "Fixed") {
+      $("#resellingCommissionAmountFixedSection").show();
+      $("#resellingCommissionAmountPercentageSection").hide();
+    }
+  });
+
   // On change of delivery area
   $("#delivery_area").on("change", function () {
     let deliveryArea = $(this).val();
