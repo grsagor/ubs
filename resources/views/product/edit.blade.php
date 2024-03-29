@@ -442,6 +442,8 @@
                             </small>
                         </div>
                     </div>
+                    {{-- Not correction --}}
+
                     <div class="col-sm-4">
                         <div class="form-group">
                             {!! Form::label('image', __('Thumbnail') . ':') !!}

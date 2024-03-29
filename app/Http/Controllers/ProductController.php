@@ -866,7 +866,7 @@ class ProductController extends Controller
                 'disable_reselling', 'price_changeable', 'reselling_price',
                 'reselling_commission_amount', 'reselling_commission_amount_percentage', 'extra_commission',
                 'define_this_item',
-                'thumbnail'
+                'image', 'thumbnail', 'product_brochure'
             ]);
 
             DB::beginTransaction();
@@ -931,7 +931,7 @@ class ProductController extends Controller
             $product->refund_policy = $product_details['refund_policy'];
             $product->unipuller_data_policy = $product_details['unipuller_data_policy'];
 
-            $product->disable_reselling = $product_details['disable_reselling'];
+            // $product->disable_reselling = $product_details['disable_reselling'];
             $product->price_changeable = $product_details['price_changeable'];
             $product->reselling_price = $product_details['reselling_price'];
             $product->reselling_commission_amount = $product_details['reselling_commission_amount'];
@@ -978,6 +978,42 @@ class ProductController extends Controller
                 $product->enable_sr_no = 0;
             }
 
+            //upload document
+            if ($request->hasFile('image')) {
+                // Define the path to the directory where images are stored
+                $imagePath = public_path('uploads/product/image');
+
+                // Decode the JSON-encoded image paths if they exist
+                $existingImages = json_decode($product->image, true);
+
+                // If there are existing images, unlink them
+                if (!empty($existingImages)) {
+                    foreach ($existingImages as $existingImage) {
+                        if (file_exists(public_path($existingImage))) {
+                            unlink(public_path($existingImage));
+                        }
+                    }
+                }
+
+                // Initialize an empty array to store the paths of the newly uploaded images
+                $images = [];
+
+                foreach ($request->file('image') as $img) {
+                    // Generate a unique image name using Str::uuid() to avoid conflicts
+                    $imageName = Str::uuid()->toString() . '.' . $img->getClientOriginalExtension();
+
+                    // Move the uploaded image to the specified directory
+                    $img->move($imagePath, $imageName);
+
+                    // Store the path of the newly uploaded image
+                    $images[] = 'uploads/product/image/' . $imageName;
+                }
+
+                // Encode the array of image paths to JSON and store it in the database
+                $product->image = json_encode($images);
+            }
+
+
             if ($request->hasFile('thumbnail')) {
 
                 if (!empty($product->thumbnail) && file_exists($product->thumbnail)) {
@@ -995,7 +1031,6 @@ class ProductController extends Controller
             }
 
             //upload document
-            // $product_details['product_brochure'] = $this->productUtil->uploadFile($request, 'product_brochure', config('constants.product_img_path'), 'product_brochure');
             $file_name = $this->productUtil->uploadFile($request, 'product_brochure', config('constants.product_img_path'), 'product_brochure');
             if (!empty($file_name)) {
                 // If previous image found then remove
