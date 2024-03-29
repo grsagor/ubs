@@ -931,7 +931,7 @@ class ProductController extends Controller
             $product->refund_policy = $product_details['refund_policy'];
             $product->unipuller_data_policy = $product_details['unipuller_data_policy'];
 
-            // $product->disable_reselling = $product_details['disable_reselling'];
+            $product->disable_reselling = $product_details['disable_reselling'];
             $product->price_changeable = $product_details['price_changeable'];
             $product->reselling_price = $product_details['reselling_price'];
             $product->reselling_commission_amount = $product_details['reselling_commission_amount'];
@@ -1002,8 +1002,6 @@ class ProductController extends Controller
                 $brochurePath = public_path('uploads/img/') . DIRECTORY_SEPARATOR . $product->product_brochure;
 
                 // Check the constructed path
-                // dd($brochurePath);
-
                 if (!empty($product->product_brochure) && file_exists($brochurePath)) {
                     unlink($brochurePath);
                 }

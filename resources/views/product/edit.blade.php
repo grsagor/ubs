@@ -619,8 +619,17 @@
                 <div class="row">
                     <div class="col-sm-4">
                         <div class="form-group">
-                            <label>
+                            {{-- <label>
                                 {!! Form::checkbox('disable_reselling', 1, $product->disable_reselling, ['class' => 'input-icheck']) !!} <strong>@lang('product.disable_reselling')</strong>
+                            </label> @show_tooltip(__('product.disable_reselling_info')) --}}
+
+                            <label>
+                                {!! Form::checkbox(
+                                    'disable_reselling',
+                                    1,
+                                    !empty($duplicate_product) ? $duplicate_product->disable_reselling : false,
+                                    ['class' => 'input-icheck'],
+                                ) !!} <strong>@lang('product.disable_reselling')</strong>
                             </label> @show_tooltip(__('product.disable_reselling_info'))
                         </div>
                     </div>
