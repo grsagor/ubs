@@ -866,6 +866,7 @@ class ProductController extends Controller
                 'disable_reselling', 'price_changeable', 'reselling_price',
                 'reselling_commission_amount', 'reselling_commission_amount_percentage', 'extra_commission',
                 'define_this_item',
+                'thumbnail'
             ]);
 
             DB::beginTransaction();
@@ -930,7 +931,7 @@ class ProductController extends Controller
             $product->refund_policy = $product_details['refund_policy'];
             $product->unipuller_data_policy = $product_details['unipuller_data_policy'];
 
-            $product->disable_reselling = $product_details['disable_reselling'];
+            // $product->disable_reselling = $product_details['disable_reselling'];
             $product->price_changeable = $product_details['price_changeable'];
             $product->reselling_price = $product_details['reselling_price'];
             $product->reselling_commission_amount = $product_details['reselling_commission_amount'];
@@ -977,20 +978,41 @@ class ProductController extends Controller
                 $product->enable_sr_no = 0;
             }
 
+            if ($request->hasFile('thumbnail')) {
+
+                if (!empty($product->thumbnail) && file_exists($product->thumbnail)) {
+                    unlink($product->thumbnail);
+                }
+
+                $image_path = public_path('uploads/product/thumbnail');
+                $image = $request->file('thumbnail');
+                $image_name = rand(123456, 999999) . '.' . $image->getClientOriginalExtension();
+                $image->move($image_path, $image_name);
+
+                $thumbnail = 'uploads/product/thumbnail/' . $image_name;
+
+                $product->thumbnail = $thumbnail;
+            }
+
             //upload document
-            $file_name = $this->productUtil->uploadFile($request, 'image', config('constants.product_img_path'), 'image');
+            // $product_details['product_brochure'] = $this->productUtil->uploadFile($request, 'product_brochure', config('constants.product_img_path'), 'product_brochure');
+            $file_name = $this->productUtil->uploadFile($request, 'product_brochure', config('constants.product_img_path'), 'product_brochure');
             if (!empty($file_name)) {
+                // If previous image found then remove
+                $brochurePath = public_path('uploads/img/') . DIRECTORY_SEPARATOR . $product->product_brochure;
 
-                //If previous image found then remove
-                if (!empty($product->image_path) && file_exists($product->image_path)) {
-                    unlink($product->image_path);
+                // Check the constructed path
+                // dd($brochurePath);
+
+                if (!empty($product->product_brochure) && file_exists($brochurePath)) {
+                    unlink($brochurePath);
                 }
 
-                $product->image = $file_name;
-                //If product image is updated update woocommerce media id
-                if (!empty($product->woocommerce_media_id)) {
-                    $product->woocommerce_media_id = null;
-                }
+                $product->product_brochure = $file_name;
+                // If product image is updated update woocommerce media id
+                // if (!empty($product->woocommerce_media_id)) {
+                //     $product->woocommerce_media_id = null;
+                // }
             }
 
             $product->save();
