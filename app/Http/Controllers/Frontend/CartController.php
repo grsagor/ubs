@@ -130,31 +130,35 @@ class CartController extends Controller
 
     public function checkout()
     {
-        $user = Auth::user();
-        $current_carts = Session::get('current_carts');
-        $products = Product::whereIn('id', $current_carts)->get();
-        foreach ($products as $product) {
-            $price = 0;
-            foreach ($product->variations as $variation) {
-                $price += $variation->default_sell_price;
+        try {
+            $user = Auth::user();
+            $current_carts = Session::get('current_carts');
+            $products = Product::whereIn('id', $current_carts)->get();
+            foreach ($products as $product) {
+                $price = 0;
+                foreach ($product->variations as $variation) {
+                    $price += $variation->default_sell_price;
+                }
+                $product->price = $price;
             }
-            $product->price = $price;
+            $total_price = 0;
+            foreach ($products as $product) {
+                $total_price += $product->price;
+            }
+            if (!count($products)) {
+                return back()->with('error', 'No products in cart.');
+            }
+            $product_ids = collect($products)->pluck('id')->toArray();
+            $data = [
+                'user' => $user,
+                'products' => $products,
+                'total_price' => $total_price,
+                'product_ids' => implode(',', $product_ids)
+            ];
+            return view('frontend.cart.checkout', $data);
+        } catch (\Exception $e) {
+            return back()->with('error', $e->getMessage());
         }
-        $total_price = 0;
-        foreach ($products as $product) {
-            $total_price += $product->price;
-        }
-        if (!count($products)) {
-            return back()->with('error', 'No products in cart.');
-        }
-        $product_ids = collect($products)->pluck('id')->toArray();
-        $data = [
-            'user' => $user,
-            'products' => $products,
-            'total_price' => $total_price,
-            'product_ids' => implode(',', $product_ids)
-        ];
-        return view('frontend.cart.checkout', $data);
     }
 
     // public function checkoutPost(Request $request)
