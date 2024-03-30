@@ -13,10 +13,31 @@
             margin: 10px 25px;
         }
 
+        #card-element {
+            background-color: #fff;
+            padding: 10px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+            margin: 0 auto;
+        }
+
+        /* Additional styles for input fields */
+        input[type="text"],
+        input[type="tel"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
         @media print {
 
             #page_wrapper> :not(.print_section),
-            footer, #toast-container {
+            footer,
+            #toast-container {
                 display: none;
             }
 
@@ -2775,19 +2796,6 @@
 
         var form = document.getElementById('checkout_form');
 
-        form.addEventListener('submit', function(event) {
-            event.preventDefault();
-
-            stripe.createToken(cardElement).then(function(result) {
-                if (result.error) {
-                    var errorElement = document.getElementById('card-errors');
-                    errorElement.textContent = result.error.message;
-                } else {
-                    stripeTokenHandler(result.token);
-                }
-            });
-        });
-
         function stripeTokenHandler(token) {
             var form = document.getElementById('checkout_form');
             var hiddenInput = document.createElement('input');
@@ -2795,7 +2803,6 @@
             hiddenInput.setAttribute('name', 'stripeToken');
             hiddenInput.setAttribute('value', token.id);
             form.appendChild(hiddenInput);
-            form.submit();
         }
     </script>
     <script>
@@ -2842,24 +2849,42 @@
     <script>
         $(document).ready(function() {
             $(document).on('click', '#final-btn', function() {
-                var checkout_form = $('#checkout_form');
-                var data = $(checkout_form).serialize();
-                $.ajax({
-                    url: "{{ route('checkout.post') }}",
-                    type: 'POST',
-                    data: data,
-                    dataType: 'json',
-                    success: function(result) {
-                        if (result.success == 1) {
-                            toastr.success(result.msg);
-                            //Check if enabled or not
-                            // if (result.receipt.is_enabled) {
-                            pos_print(result.receipt);
-                            // }
-                        } else {
-                            toastr.error(result.msg);
-                        }
-                    },
+                // stripe.createToken(cardElement).then(function(result) {
+                //     if (result.error) {
+                //         var errorElement = document.getElementById('card-errors');
+                //         errorElement.textContent = result.error.message;
+                //     } else {
+                //         stripeTokenHandler(result.token);
+                //     }
+                // });
+
+                stripe.createToken(cardElement).then(function(result) {
+                    if (result.error) {
+                        var errorElement = document.getElementById('card-errors');
+                        errorElement.textContent = result.error.message;
+                        toastr.error(result.error.message);
+                    } else {
+                        var checkout_form = $('#checkout_form');
+                        var data = checkout_form.serializeArray();
+                        data.push({ name: 'stripeToken', value: result.token.id });
+                        $.ajax({
+                            url: "{{ route('checkout.post') }}",
+                            type: 'POST',
+                            data: data,
+                            dataType: 'json',
+                            success: function(result) {
+                                if (result.success == 1) {
+                                    toastr.success(result.msg);
+                                    //Check if enabled or not
+                                    // if (result.receipt.is_enabled) {
+                                    pos_print(result.receipt);
+                                    // }
+                                } else {
+                                    toastr.error(result.msg);
+                                }
+                            },
+                        });
+                    }
                 });
             })
         })

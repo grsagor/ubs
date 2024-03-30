@@ -112,12 +112,12 @@
                                  <th>Subtotal</th>
                                  <td>
                                      <span><b
-                                             class="cart-total">{{ Session::has('cart') ? App\Product::convertPrice($totalPrice) : '0.00' }}</b>
+                                             class="cart-total">{{ $total_price }}</b>
                                      </span>
                                  </td>
                              </tr>
 
-                             <tr>
+                             {{-- <tr>
                                  <th>{{ __('Discount') }}</th>
                                  <td>
                                      <span>
@@ -126,12 +126,12 @@
                                              value="{{ App\Product::convertPrice(0) }}">
                                      </span>
                                  </td>
-                             </tr>
+                             </tr> --}}
 
                              <tr class="order-total">
                                  <th>Total</th>
                                  <td><strong><span
-                                             class="woocommerce-Price-amount amount main-total">{{ Session::has('cart') ? App\Product::convertPrice($mainTotal) : '0.00' }}</span></strong>
+                                             class="woocommerce-Price-amount amount main-total">{{ $total_price }}</span></strong>
                                  </td>
                              </tr>
                          </table>
