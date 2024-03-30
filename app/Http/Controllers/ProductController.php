@@ -389,7 +389,6 @@ class ProductController extends Controller
 
         // 5 means business_id = 5 and this is superadmin
         $tax_dropdown = TaxRate::forBusinessDropdown(5, true, true);
-
         $taxes = $tax_dropdown['tax_rates'];
         unset($taxes['']);
         $tax_attributes = $tax_dropdown['attributes'];
@@ -761,11 +760,23 @@ class ProductController extends Controller
         }
 
         $business_id = request()->session()->get('user.business_id');
-        $categories = Category::forDropdown($business_id, 'product');
+
+        // $categories = Category::forDropdown($business_id, 'product');
+
+        $categories = Category::where('business_id', 5)
+            ->where('parent_id', 0)
+            ->whereIn('category_type', ['product', 'service'])
+            ->orderBy('name', 'asc')
+            ->get();
+
+        $categories = $categories->pluck('name', 'id');
+
         $brands = Brands::forDropdown($business_id);
 
-        $tax_dropdown = TaxRate::forBusinessDropdown($business_id, true, true);
+        // 5 means business_id = 5 and this is superadmin
+        $tax_dropdown = TaxRate::forBusinessDropdown(5, true, true);
         $taxes = $tax_dropdown['tax_rates'];
+        unset($taxes['']);
         $tax_attributes = $tax_dropdown['attributes'];
 
         $barcode_types = $this->barcode_types;
@@ -777,11 +788,20 @@ class ProductController extends Controller
 
         //Sub-category
         $sub_categories = [];
-        $sub_categories = Category::where('business_id', $business_id)
+        $sub_categories = Category::where('business_id', 5)
             ->where('parent_id', $product->category_id)
             ->pluck('name', 'id')
             ->toArray();
-        $sub_categories = ['' => 'None'] + $sub_categories;
+        // $sub_categories = ['' => 'None'] + $sub_categories;
+
+        //Sub-category
+        $child_categories = [];
+        $child_categories = Category::where('business_id', 5)
+            ->where('parent_id', $product->sub_category_id)
+            ->pluck('name', 'id')
+            ->toArray();
+        // $sub_categories = ['' => 'None'] + $sub_categories;
+
 
         $default_profit_percent = request()->session()->get('business.default_profit_percent');
 
@@ -807,7 +827,7 @@ class ProductController extends Controller
         $alert_quantity = !is_null($product->alert_quantity) ? $this->productUtil->num_f($product->alert_quantity, false, null, true) : null;
 
         return view('product.edit')
-            ->with(compact('categories', 'brands', 'units', 'sub_units', 'taxes', 'tax_attributes', 'barcode_types', 'product', 'sub_categories', 'default_profit_percent', 'business_locations', 'rack_details', 'selling_price_group_count', 'module_form_parts', 'product_types', 'common_settings', 'warranties', 'pos_module_data', 'alert_quantity'));
+            ->with(compact('categories', 'brands', 'units', 'sub_units', 'taxes', 'tax_attributes', 'barcode_types', 'product', 'sub_categories', 'child_categories', 'default_profit_percent', 'business_locations', 'rack_details', 'selling_price_group_count', 'module_form_parts', 'product_types', 'common_settings', 'warranties', 'pos_module_data', 'alert_quantity'));
     }
 
     /**
@@ -819,13 +839,35 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
+        // dd($request->toArray());
+
         if (!auth()->user()->can('product.update')) {
             abort(403, 'Unauthorized action.');
         }
 
         try {
             $business_id = $request->session()->get('user.business_id');
-            $product_details = $request->only(['name', 'brand_id', 'unit_id', 'category_id', 'tax', 'barcode_type', 'sku', 'alert_quantity', 'tax_type', 'weight', 'product_custom_field1', 'product_custom_field2', 'product_custom_field3', 'product_custom_field4', 'product_description', 'sub_unit_ids', 'preparation_time_in_minutes']);
+            $product_details = $request->only([
+                'name', 'brand_id', 'sub_category_id',
+                'child_category_id', 'business_location_id',
+                'unit_id', 'category_id', 'tax', 'barcode_type', 'sku',
+                'alert_quantity', 'tax_type', 'weight', 'product_custom_field1',
+                'product_custom_field2', 'product_custom_field3', 'product_custom_field4',
+                'product_description', 'sub_unit_ids', 'preparation_time_in_minutes',
+
+                'study_time', 'name_of_institution', 'duration_year', 'duration_month', 'home_students_fees', 'int_students_fees', 'tuition_fee_installment', 'fee_installment_description', 'course_module', 'course_module_description', 'selected_years', 'selected_months',
+                'name', 'youtube_link',
+
+                'work_placement', 'work_placement_description',
+                'service_features', 'general_facilities',
+                'experiences', 'specializations',
+                'policy', 'refund_policy', 'unipuller_data_policy',
+
+                'disable_reselling', 'price_changeable', 'reselling_price',
+                'reselling_commission_amount', 'reselling_commission_amount_percentage', 'extra_commission',
+                'define_this_item',
+                'image', 'thumbnail', 'product_brochure'
+            ]);
 
             DB::beginTransaction();
 
@@ -842,6 +884,7 @@ class ProductController extends Controller
             }
 
             $product->name = $product_details['name'];
+            $product->youtube_link = $product_details['youtube_link'];
             $product->brand_id = $product_details['brand_id'];
             $product->unit_id = $product_details['unit_id'];
             $product->category_id = $product_details['category_id'];
@@ -849,7 +892,7 @@ class ProductController extends Controller
             $product->barcode_type = $product_details['barcode_type'];
             $product->sku = $product_details['sku'];
             $product->alert_quantity = !empty($product_details['alert_quantity']) ? $this->productUtil->num_uf($product_details['alert_quantity']) : $product_details['alert_quantity'];
-            $product->tax_type = $product_details['tax_type'];
+            $product->tax_type = 'inclusive';
             $product->weight = $product_details['weight'];
             $product->product_custom_field1 = $product_details['product_custom_field1'];
             $product->product_custom_field2 = $product_details['product_custom_field2'];
@@ -860,6 +903,49 @@ class ProductController extends Controller
             $product->preparation_time_in_minutes = $product_details['preparation_time_in_minutes'];
             $product->warranty_id = !empty($request->input('warranty_id')) ? $request->input('warranty_id') : null;
             $product->secondary_unit_id = !empty($request->input('secondary_unit_id')) ? $request->input('secondary_unit_id') : null;
+
+            $product->sub_category_id = $product_details['sub_category_id'];
+            $product->child_category_id = $product_details['child_category_id'];
+            $product->business_location_id = $product_details['business_location_id'];
+
+            $product->study_time = $product_details['study_time'];
+            $product->name_of_institution = $product_details['name_of_institution'];
+            $product->duration_year = $product_details['duration_year'];
+
+            $product->duration_month = $product_details['duration_month'];
+            $product->home_students_fees = $product_details['home_students_fees'];
+            $product->int_students_fees = $product_details['int_students_fees'];
+
+            $product->tuition_fee_installment = $product_details['tuition_fee_installment'];
+            $product->fee_installment_description = $product_details['fee_installment_description'];
+            $product->course_module = $product_details['course_module'];
+            $product->course_module_description = $product_details['course_module_description'];
+
+            $product->work_placement = $product_details['work_placement'];
+            $product->work_placement_description = $product_details['work_placement_description'];
+            $product->service_features = $product_details['service_features'];
+            $product->general_facilities = $product_details['general_facilities'];
+            $product->experiences = $product_details['experiences'];
+            $product->specializations = $product_details['specializations'];
+            $product->policy = $product_details['policy'];
+            $product->refund_policy = $product_details['refund_policy'];
+            $product->unipuller_data_policy = $product_details['unipuller_data_policy'];
+
+            // $product->disable_reselling = $product_details['disable_reselling'];
+            $product->price_changeable = $product_details['price_changeable'];
+            $product->reselling_price = $product_details['reselling_price'];
+            $product->reselling_commission_amount = $product_details['reselling_commission_amount'];
+            $product->reselling_commission_amount_percentage = $product_details['reselling_commission_amount_percentage'];
+            $product->extra_commission = $product_details['extra_commission'];
+            $product->define_this_item = $product_details['define_this_item'];
+
+            if (!empty($request->input('selected_years'))) {
+                $product->selected_years = $request->selected_years ? $request->selected_years : null;
+            }
+
+            if (!empty($request->input('selected_months'))) {
+                $product->selected_months = $request->selected_months ? $request->selected_months : null;
+            }
 
             if (!empty($request->input('enable_stock')) && $request->input('enable_stock') == 1) {
                 $product->enable_stock = 1;
@@ -893,19 +979,73 @@ class ProductController extends Controller
             }
 
             //upload document
-            $file_name = $this->productUtil->uploadFile($request, 'image', config('constants.product_img_path'), 'image');
+            if ($request->hasFile('image')) {
+                // Define the path to the directory where images are stored
+                $imagePath = public_path('uploads/product/image');
+
+                // Decode the JSON-encoded image paths if they exist
+                $existingImages = json_decode($product->image, true);
+
+                // If there are existing images, unlink them
+                if (!empty($existingImages)) {
+                    foreach ($existingImages as $existingImage) {
+                        if (file_exists(public_path($existingImage))) {
+                            unlink(public_path($existingImage));
+                        }
+                    }
+                }
+
+                // Initialize an empty array to store the paths of the newly uploaded images
+                $images = [];
+
+                foreach ($request->file('image') as $img) {
+                    // Generate a unique image name using Str::uuid() to avoid conflicts
+                    $imageName = Str::uuid()->toString() . '.' . $img->getClientOriginalExtension();
+
+                    // Move the uploaded image to the specified directory
+                    $img->move($imagePath, $imageName);
+
+                    // Store the path of the newly uploaded image
+                    $images[] = 'uploads/product/image/' . $imageName;
+                }
+
+                // Encode the array of image paths to JSON and store it in the database
+                $product->image = json_encode($images);
+            }
+
+
+            if ($request->hasFile('thumbnail')) {
+
+                if (!empty($product->thumbnail) && file_exists($product->thumbnail)) {
+                    unlink($product->thumbnail);
+                }
+
+                $image_path = public_path('uploads/product/thumbnail');
+                $image = $request->file('thumbnail');
+                $image_name = rand(123456, 999999) . '.' . $image->getClientOriginalExtension();
+                $image->move($image_path, $image_name);
+
+                $thumbnail = 'uploads/product/thumbnail/' . $image_name;
+
+                $product->thumbnail = $thumbnail;
+            }
+
+            //upload document
+            $file_name = $this->productUtil->uploadFile($request, 'product_brochure', config('constants.product_img_path'), 'product_brochure');
             if (!empty($file_name)) {
+                // If previous image found then remove
+                $brochurePath = public_path('uploads/img/') . DIRECTORY_SEPARATOR . $product->product_brochure;
 
-                //If previous image found then remove
-                if (!empty($product->image_path) && file_exists($product->image_path)) {
-                    unlink($product->image_path);
+                // Check the constructed path
+                if (!empty($product->product_brochure) && file_exists($brochurePath)) {
+                    unlink($brochurePath);
                 }
 
-                $product->image = $file_name;
-                //If product image is updated update woocommerce media id
-                if (!empty($product->woocommerce_media_id)) {
-                    $product->woocommerce_media_id = null;
-                }
+                $product->product_brochure = $file_name;
+                // If product image is updated update woocommerce media id
+                // if (!empty($product->woocommerce_media_id)) {
+                //     $product->woocommerce_media_id = null;
+                // }
             }
 
             $product->save();

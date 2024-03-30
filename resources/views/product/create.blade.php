@@ -7,9 +7,9 @@
     <section class="content-header">
         <h1>Add New</h1>
         <!-- <ol class="breadcrumb">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <li class="active">Here</li>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    </ol> -->
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <li class="active">Here</li>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        </ol> -->
     </section>
 
     <!-- Main content -->
@@ -37,7 +37,6 @@
                             !empty($duplicate_product->type) ? $duplicate_product->type : null,
                             ['placeholder' => __('messages.please_select'), 'class' => 'form-control select2', 'required', 'id' => 'type'],
                         ) !!}
-
                     </div>
                 </div>
 
@@ -166,10 +165,6 @@
                 <div class="col-sm-4 @if (!(session('business.enable_category') && session('business.enable_sub_category'))) hide @endif">
                     <div class="form-group">
                         <label class="form-label">{{ __('product.child_category') }}: <span class="text-danger">*</span></label>
-                        {{-- <select class="form-control select2" id="child_category_id" name="child_category_id">
-                            <option selected="selected" value="">Please Select</option>
-                        </select> --}}
-
                         {!! Form::select(
                             'child_category_id',
                             $sub_categories,
@@ -815,7 +810,7 @@
                     <div class="form-group">
                         {!! Form::label('reselling_commission_amount', __('product.reselling_commission_amount_percentage') . ' :') !!}
                         {!! Form::select(
-                            'reselling_commission_amount',
+                            'reselling_commission_amount_percentage',
                             range(0, 100),
                             !empty($duplicate_product->reselling_commission_amount) ? $duplicate_product->reselling_commission_amount : null,
                             [
