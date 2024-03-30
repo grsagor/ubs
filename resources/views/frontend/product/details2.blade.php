@@ -182,16 +182,16 @@
 
         #imageSlider .carousel-item img {
             /* max-width: 350px;
-                    max-height: 300px; */
+                                                max-height: 300px; */
             width: auto;
             height: auto;
             margin: auto;
         }
 
         /* .carousel-control-next,
-                                                                                                                                                                        .carousel-control-prev {
-                                                                                                                                                                            filter: invert(100%);
-                                                                                                                                                                        } */
+                    .carousel-control-prev {
+                        filter: invert(100%);
+                    } */
 
         .carousel-control-prev-icon {
             background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='%23000' width='8' height='8' viewBox='0 0 8 8'%3e%3cpath d='M5.25 0l-4 4 4 4 1.5-1.5L4.25 4l2.5-2.5L5.25 0z'/%3e%3c/svg%3e");
@@ -249,7 +249,6 @@
             .mobile_m_15 {
                 margin-top: 15px !important;
             }
-
         }
     </style>
 @endsection
@@ -536,12 +535,29 @@
                                                         <div id="collapseOne" class="accordion-collapse collapse"
                                                             aria-labelledby="headingOne"
                                                             data-bs-parent="#accordionExample">
+
                                                             <div class="accordion-body">
-                                                                <div class="brochure_show" style="text-align: center;">
-                                                                    <img src="{{ asset('uploads/img/' . $info->product_brochure) }}"
-                                                                        alt="" style="width: 100% !important;">
-                                                                </div>
+                                                                @php
+                                                                    $extension = pathinfo(
+                                                                        $info->product_brochure,
+                                                                        PATHINFO_EXTENSION,
+                                                                    );
+                                                                @endphp
+
+                                                                @if ($extension === 'pdf')
+                                                                    <iframe
+                                                                        src="{{ asset('uploads/img/' . $info->product_brochure) }}"
+                                                                        style="width: 100%; height: 500px;"></iframe>
+                                                                @elseif ($extension === 'jpg' || $extension === 'jpeg' || $extension === 'png' || $extension === 'gif')
+                                                                    <div class="brochure_show"
+                                                                        style="text-align: center;">
+                                                                        <img src="{{ asset('uploads/img/' . $info->product_brochure) }}"
+                                                                            alt=""
+                                                                            style="width: 100% !important;">
+                                                                    </div>
+                                                                @endif
                                                             </div>
+
                                                         </div>
                                                     </div>
                                                 </div>
@@ -662,7 +678,6 @@
                                                     </div>
                                                 </a>
 
-
                                                 @php
                                                     $businessLocation = $info->business_location;
                                                     $imageUrl =
@@ -671,7 +686,6 @@
                                                             ? asset($businessLocation->logo)
                                                             : 'https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg';
                                                 @endphp
-
                                             </div>
                                         </div>
                                     @endif
