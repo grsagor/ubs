@@ -1096,6 +1096,7 @@
                             </label>
                             {!! Form::textarea('define_this_item', $product->define_this_item, [
                                 'class' => 'form-control',
+                                'required',
                             ]) !!}
                         </div>
                     </div>
