@@ -1,4 +1,52 @@
 @extends('frontend.layouts.master_layout')
+@section('css')
+    <style>
+        .print_section {
+            display: none;
+        }
+
+        .invoice {
+            position: relative;
+            background: #fff;
+            border: 1px solid #f4f4f4;
+            padding: 20px;
+            margin: 10px 25px;
+        }
+
+        #card-element {
+            background-color: #fff;
+            padding: 10px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+            margin: 0 auto;
+        }
+
+        /* Additional styles for input fields */
+        input[type="text"],
+        input[type="tel"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        @media print {
+
+            #page_wrapper> :not(.print_section),
+            footer,
+            #toast-container {
+                display: none;
+            }
+
+            .print_section {
+                display: block;
+            }
+        }
+    </style>
+@endsection
 @section('content')
     @includeIf('frontend.partials.global.common-header')
     <!-- breadcrumb -->
@@ -20,7 +68,7 @@
         </div>
     </div>
     <!-- breadcrumb -->
-    <div class="load_cart">
+    <div class="load_cart content no-print">
         <section class="checkout">
             <div class="container">
                 <div class="row">
@@ -57,7 +105,7 @@
                         </div>
                     </div>
                     <div class="col-lg-8">
-                        <form action="{{ route('checkout.post') }}" method="POST" class="checkoutform" id="checkout_form">
+                        <form class="checkoutform" id="checkout_form">
                             @csrf
                             <div class="checkout-area">
                                 <div class="tab-content" id="pills-tabContent">
@@ -666,9 +714,8 @@
                                                                     rel="0" rel1="0" rel2="0"
                                                                     data-href="https://product.geniusocean.com/geniuscart/user/country/wise/state/119">
                                                                     Kuwait</option>
-                                                                <option value="Kyrgyzstan" data="120"
-                                                                    rel5="0" rel="0" rel1="0"
-                                                                    rel2="0"
+                                                                <option value="Kyrgyzstan" data="120" rel5="0"
+                                                                    rel="0" rel1="0" rel2="0"
                                                                     data-href="https://product.geniusocean.com/geniuscart/user/country/wise/state/120">
                                                                     Kyrgyzstan</option>
                                                                 <option value="Lao People's Democratic Republic"
@@ -2438,7 +2485,53 @@
                                                                     height="80" width="80" class="p-1">
                                                             </div>
                                                         </div>
-                                                        @foreach ($products as $product)
+                                                        @foreach ($products as $i => $product)
+                                                            <input type="hidden"
+                                                                name="products[{{ $i + 1 }}][product_type]"
+                                                                value="single">
+                                                            <input type="hidden"
+                                                                name="products[{{ $i + 1 }}][unit_price]"
+                                                                value="0.00">
+                                                            <input type="hidden"
+                                                                name="products[{{ $i + 1 }}][line_discount_type]"
+                                                                value="fixed">
+                                                            <input type="hidden"
+                                                                name="products[{{ $i + 1 }}][line_discount_amount]"
+                                                                value="0.00">
+                                                            <input type="hidden"
+                                                                name="products[{{ $i + 1 }}][item_tax]"
+                                                                value="0.00">
+                                                            <input type="hidden"
+                                                                name="products[{{ $i + 1 }}][tax_id]"
+                                                                value="">
+                                                            <input type="hidden"
+                                                                name="products[{{ $i + 1 }}][sell_line_note]"
+                                                                value="">
+                                                            <input type="hidden"
+                                                                name="products[{{ $i + 1 }}][product_id]"
+                                                                value="{{ $product->id }}">
+                                                            <input type="hidden"
+                                                                name="products[{{ $i + 1 }}][variation_id]"
+                                                                value="{{ $product->id }}">
+                                                            <input type="hidden"
+                                                                name="products[{{ $i + 1 }}][enable_stock]"
+                                                                value="0">
+                                                            <input type="hidden"
+                                                                name="products[{{ $i + 1 }}][quantity]"
+                                                                value="0">
+                                                            <input type="hidden"
+                                                                name="products[{{ $i + 1 }}][product_unit_id]"
+                                                                value="2">
+                                                            <input type="hidden"
+                                                                name="products[{{ $i + 1 }}][sub_unit_id]"
+                                                                value="2">
+                                                            <input type="hidden"
+                                                                name="products[{{ $i + 1 }}][base_unit_multiplier]"
+                                                                value="1">
+                                                            <input type="hidden"
+                                                                name="products[{{ $i + 1 }}][unit_price_inc_tax]"
+                                                                value="0.00">
+
                                                             <div class="product-content">
                                                                 <p class="name"><a href=""
                                                                         target="_blank">{{ $product->name }}</a></p>
@@ -2532,7 +2625,7 @@
                                                         <div class="bottom-area">
                                                             <a href="javascript:;" data-go="2" data-hide="3"
                                                                 class="mybtn1 mr-3">Back</a>
-                                                            <button type="submit" id="final-btn"
+                                                            <button type="button" id="final-btn"
                                                                 class="btn btn-primary">Submit</button>
                                                         </div>
                                                     </div>
@@ -2566,6 +2659,15 @@
                             <input type="hidden" name="coupon_discount" id="coupon_discount" value="">
                             <input type="hidden" name="coupon_id" id="coupon_id" value="">
                             <input type="hidden" name="user_id" id="user_id" value="">
+
+                            <input type="hidden" name="status" value="final">
+                            <input type="hidden" name="final_total" value="0.00">
+                            <input type="hidden" name="discount_type" value="percentage">
+                            <input type="hidden" name="discount_amount" value="10.00">
+                            <input type="hidden" name="tax_rate_id" value="">
+                            <input type="hidden" name="location_id" value="{{ $user->id }}">
+                            <input type="hidden" name="invoice_scheme_id" value="2">
+                            <input type="hidden" name="contact_id" value="{{ $user->id }}">
                         </form>
                     </div>
                     <div class="col-lg-4">
@@ -2678,6 +2780,8 @@
             </div>
         </section>
     </div>
+    <section class="invoice print_section" id="receipt_section">
+    </section>
 @endsection
 
 @section('script')
@@ -2692,19 +2796,6 @@
 
         var form = document.getElementById('checkout_form');
 
-        form.addEventListener('submit', function(event) {
-            event.preventDefault();
-
-            stripe.createToken(cardElement).then(function(result) {
-                if (result.error) {
-                    var errorElement = document.getElementById('card-errors');
-                    errorElement.textContent = result.error.message;
-                } else {
-                    stripeTokenHandler(result.token);
-                }
-            });
-        });
-
         function stripeTokenHandler(token) {
             var form = document.getElementById('checkout_form');
             var hiddenInput = document.createElement('input');
@@ -2712,7 +2803,6 @@
             hiddenInput.setAttribute('name', 'stripeToken');
             hiddenInput.setAttribute('value', token.id);
             form.appendChild(hiddenInput);
-            form.submit();
         }
     </script>
     <script>
@@ -2754,5 +2844,121 @@
                 }
             });
         })
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            $(document).on('click', '#final-btn', function() {
+                // stripe.createToken(cardElement).then(function(result) {
+                //     if (result.error) {
+                //         var errorElement = document.getElementById('card-errors');
+                //         errorElement.textContent = result.error.message;
+                //     } else {
+                //         stripeTokenHandler(result.token);
+                //     }
+                // });
+
+                stripe.createToken(cardElement).then(function(result) {
+                    if (result.error) {
+                        var errorElement = document.getElementById('card-errors');
+                        errorElement.textContent = result.error.message;
+                        toastr.error(result.error.message);
+                    } else {
+                        var checkout_form = $('#checkout_form');
+                        var data = checkout_form.serializeArray();
+                        data.push({ name: 'stripeToken', value: result.token.id });
+                        $.ajax({
+                            url: "{{ route('checkout.post') }}",
+                            type: 'POST',
+                            data: data,
+                            dataType: 'json',
+                            success: function(result) {
+                                if (result.success == 1) {
+                                    toastr.success(result.msg);
+                                    //Check if enabled or not
+                                    // if (result.receipt.is_enabled) {
+                                    pos_print(result.receipt);
+                                    // }
+                                } else {
+                                    toastr.error(result.msg);
+                                }
+                            },
+                        });
+                    }
+                });
+            })
+        })
+
+        function pos_print(receipt) {
+            //If printer type then connect with websocket
+            if (receipt.print_type == 'printer') {
+                var content = receipt;
+                content.type = 'print-receipt';
+
+                //Check if ready or not, then print.
+                if (socket.readyState != 1) {
+                    initializeSocket();
+                    setTimeout(function() {
+                        socket.send(JSON.stringify(content));
+                    }, 700);
+                } else {
+                    socket.send(JSON.stringify(content));
+                }
+            } else if (receipt.html_content != '') {
+                var title = document.title;
+                if (typeof receipt.print_title != 'undefined') {
+                    document.title = receipt.print_title;
+                }
+
+                //If printer type browser then print content
+                $('#receipt_section').html(receipt.html_content);
+                __currency_convert_recursively($('#receipt_section'));
+                setTimeout(function() {
+                    window.print();
+                    document.title = title;
+                }, 1000);
+            }
+        }
+
+        function __currency_convert_recursively(element, use_page_currency = false) {
+            element.find(".display_currency").each(function() {
+                var value = $(this).text();
+
+                var show_symbol = $(this).data("currency_symbol");
+                if (show_symbol == undefined || show_symbol != true) {
+                    show_symbol = false;
+                }
+
+                //If data-use_page_currency is present in the element use_page_currency
+                //value will be over written
+                if (typeof $(this).data("use_page_currency") !== "undefined") {
+                    use_page_currency = $(this).data("use_page_currency");
+                }
+
+                var highlight = $(this).data("highlight");
+                if (highlight == true) {
+                    __highlight(value, $(this));
+                }
+
+                var is_quantity = $(this).data("is_quantity");
+                if (is_quantity == undefined || is_quantity != true) {
+                    is_quantity = false;
+                }
+
+                if (is_quantity) {
+                    show_symbol = false;
+                }
+
+                $(this).text(
+                    __currency_trans_from_en(
+                        value,
+                        show_symbol,
+                        use_page_currency,
+                        __currency_precision,
+                        is_quantity
+                    )
+                );
+            });
+        }
     </script>
 @endsection
