@@ -532,6 +532,7 @@ class ProductController extends Controller
                 'price_changeable',
                 'reselling_price',
                 'reselling_commission_amount',
+                'reselling_commission_amount_percentage',
                 'extra_commission',
                 'policy',
                 'refund_policy',
