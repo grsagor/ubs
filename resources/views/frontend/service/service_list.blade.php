@@ -56,7 +56,7 @@
         <div class="col mb-4">
             <div class="product type-product rounded">
                 <div class="row">
-                    @if ($item->image)
+                    @if ($item->thumbnail)
                         <a href="{{ route('product.show', $item->id) }}"
                             class="woocommerce-LoopProduct-link col-lg-4 col-md-4 col-sm-12 d-flex mobile_view_center">
                             <img class="lazy img-fluid rounded w-100 mobile_view_image" src="{{ asset($item->thumbnail) }}"

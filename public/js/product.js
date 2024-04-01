@@ -167,6 +167,44 @@ $(document).ready(function () {
     toggleWorkPlacementDescriptionVisibility();
   });
 
+  // Function to count words and check limit
+  function countWordsAndCheckLimit() {
+    var text = document.getElementById("define_this_item").value.trim();
+    var wordCount = text.split(/\s+/).filter(function (word) {
+      return word.length > 0;
+    }).length;
+
+    document.getElementById("word_count").innerText =
+      "Word count: " + wordCount;
+
+    // Check if word count exceeds limit
+    if (wordCount > 100) {
+      document.getElementById("error_message_define_this_item").style.display =
+        "block";
+      // Disable the button
+      var buttons = document.querySelectorAll(".submit_product_form");
+      for (var i = 0; i < buttons.length; i++) {
+        buttons[i].disabled = true;
+      }
+    } else {
+      document.getElementById("error_message_define_this_item").style.display =
+        "none";
+      // Enable all buttons
+      var buttons = document.querySelectorAll(".submit_product_form");
+      for (var i = 0; i < buttons.length; i++) {
+        buttons[i].disabled = false;
+      }
+    }
+  }
+
+  // Attach event listener to textarea for keyup event
+  document
+    .getElementById("define_this_item")
+    .addEventListener("keyup", countWordsAndCheckLimit);
+
+  // Initial count when the page loads
+  countWordsAndCheckLimit();
+
   // On change of delivery area
   $("#delivery_area").on("change", function () {
     let deliveryArea = $(this).val();
