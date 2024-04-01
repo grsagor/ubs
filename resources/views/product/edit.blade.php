@@ -1097,7 +1097,12 @@
                             {!! Form::textarea('define_this_item', $product->define_this_item, [
                                 'class' => 'form-control',
                                 'required',
+                                'id' => 'define_this_item',
                             ]) !!}
+                            <div id="word_count"></div>
+                            <div id="error_message_define_this_item" style="color: red; display: none;">Word limit exceeded!
+                                Maximum 100 words
+                                allowed.</div>
                         </div>
                     </div>
                 </div>
