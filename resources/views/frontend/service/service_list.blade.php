@@ -58,9 +58,12 @@
                 <div class="row">
                     @if ($item->thumbnail)
                         <a href="{{ route('product.show', $item->id) }}"
-                            class="woocommerce-LoopProduct-link col-lg-4 col-md-4 col-sm-12 d-flex mobile_view_center">
-                            <img class="lazy img-fluid rounded w-100 mobile_view_image" src="{{ asset($item->thumbnail) }}"
-                                alt="Product Image" style="height: 171px;">
+                            class="woocommerce-LoopProduct-link col-lg-4 col-md-4 col-sm-12 d-flex mobile_view_center"
+                            style="padding-right: 0px;">
+                            <img class="lazy img-fluid w-100 mobile_view_image" src="{{ asset($item->thumbnail) }}"
+                                alt="Product Image"
+                                style="height: 171px;  border-top-left-radius: 0.25rem !important;
+                                border-bottom-left-radius: 0.25rem !important;">
                         </a>
                     @else
                         <a href="{{ route('product.show', $item->id) }}"
@@ -76,16 +79,17 @@
                             <h5 class="product-title" style="padding: 0; margin: 0;">
                                 <a class="text-dark" href="{{ route('product.show', $item->id) }}"
                                     style="font-weight: 600;">
-                                    {{ Str::limit($item->name, $limit = 85, $end = '...') }}
+                                    {{ Str::limit($item->name, $limit = 45, $end = '...') }}
                                 </a>
                             </h5>
                             <div class="text-center">
                                 <hr style="color: #38b2ac; height: 1px; width: 100% !important; margin: 0rem 0">
                                 @if ($item->category)
+                                    {{-- padding: 6px 6px 3px 6px; --}}
                                     <div
-                                        style="display: inline-block; padding: 6px 6px 3px 6px; background-color: #fff; border-radius: 6%; box-shadow: 0 0px 4px rgba(0, 0, 0, 0.2);">
+                                        style="display: inline-block; padding: 0px; background-color: #fff; border-radius: 6%; box-shadow: 0 0px 4px rgba(0, 0, 0, 0.2);">
                                         <h6 style="margin: 0;">
-                                            {{ Str::limit($item->category ? $item->category->name : '', $limit = 75, $end = '...') }}
+                                            {{ Str::limit($item->category ? $item->category->name : '', $limit = 50, $end = '...') }}
                                         </h6>
                                     </div>
                                 @endif
