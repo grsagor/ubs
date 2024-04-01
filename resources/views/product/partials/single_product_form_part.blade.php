@@ -53,7 +53,7 @@
             </td>
 
             <td>
-                <label><span class="dsp_label">@lang('Including')</span></label>
+                <label><span class="dsp_label">@lang('Including VAT.')</span></label>
                 {!! Form::text('single_dsp', $default, [
                     'class' => 'form-control input-sm dsp input_number',
                     'placeholder' => __('Including'),
