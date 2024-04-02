@@ -16,6 +16,33 @@
             margin-right: 10px;
         }
 
+        .product-wrapperrrrr {
+            position: relative;
+        }
+
+        .category-wrapper {
+            position: absolute;
+            background-color: #fff;
+            border-radius: 6%;
+            box-shadow: 0 0px 4px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+            background-color: #039f2d;
+            /* Ensure the category badge is above the image */
+        }
+
+        .category-badge h6 {
+            margin: 0;
+            padding: 3px;
+            font-size: 13px;
+            color: #fff;
+        }
+
+        .mobile_view_image {
+            border-top-left-radius: 0.25rem !important;
+            border-bottom-left-radius: 0.25rem !important;
+        }
+
+
         @media (max-width: 767px) {
             .mobile_view_card {
                 margin-top: 30px !important;
@@ -56,7 +83,8 @@
         <div class="col mb-4">
             <div class="product type-product rounded">
                 <div class="row">
-                    @if ($item->thumbnail)
+
+                    {{-- @if ($item->thumbnail)
                         <a href="{{ route('product.show', $item->id) }}"
                             class="woocommerce-LoopProduct-link col-lg-4 col-md-4 col-sm-12 d-flex mobile_view_center"
                             style="padding-right: 0px;">
@@ -65,14 +93,88 @@
                                 style="height: 171px;  border-top-left-radius: 0.25rem !important;
                                 border-bottom-left-radius: 0.25rem !important;">
                         </a>
+
+                        <div class="product-wrapperrrrr col-lg-4 col-md-4 col-sm-12 d-flex mobile_view_center"
+                            style="padding-right: 0px;">
+                            <a href="{{ route('product.show', $item->id) }}" class="woocommerce-LoopProduct-link">
+                                <img class="lazy img-fluid w-100 mobile_view_image" src="{{ asset($item->thumbnail) }}"
+                                    alt="Product Image" style="height: 171px;">
+                            </a>
+
+                            @if ($item->category)
+                                <div class="category-wrapper">
+                                    <div class="category-badge">
+                                        <h6>{{ Str::limit($item->category->name, $limit = 50, $end = '...') }}</h6>
+                                    </div>
+                                </div>
+                            @endif
+                        </div>
                     @else
                         <a href="{{ route('product.show', $item->id) }}"
-                            class="woocommerce-LoopProduct-link col-lg-4 col-md-4 col-sm-12 d-flex mobile_view_center">
+                            class="woocommerce-LoopProduct-link col-lg-4 col-md-4 col-sm-12 d-flex mobile_view_center"
+                            style="padding-right: 0px;">
                             <img src="https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg"
                                 class="lazy img-fluid rounded w-100 mobile_view_image" alt=""
                                 style="height: 171px;">
                         </a>
+
+                        <div class="product-wrapperrrrr d-flex col-lg-4 col-md-4 col-sm-12 d-flex mobile_view_center"
+                            style="padding-right: 0px;">
+                            <a href="{{ route('product.show', $item->id) }}" class="woocommerce-LoopProduct-link ">
+                                <img src="https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg"
+                                    class="lazy img-fluid rounded w-100 mobile_view_image" alt=""
+                                    style="height: 171px;">
+                            </a>
+
+                            @if ($item->category)
+                                <div class="category-wrapper">
+                                    <div class="category-badge">
+                                        <h6>{{ Str::limit($item->category->name, $limit = 50, $end = '...') }}</h6>
+                                    </div>
+                                </div>
+                            @endif
+                        </div>
+                    @endif --}}
+
+
+
+                    @if ($item->thumbnail)
+                        <div class="product-wrapperrrrr col-lg-4 col-md-4 col-sm-12 d-flex mobile-view-center"
+                            style="padding-right: 0px; height: 171px;">
+                            {{-- <a href="{{ route('product.show', $item->id) }}" class="woocommerce-LoopProduct-link"> --}}
+                            <img class="lazy img-fluid w-100 mobile-view-image" src="{{ asset($item->thumbnail) }}"
+                                alt="Product Image" style="">
+                            {{-- </a> --}}
+
+                            @if ($item->category)
+                                <div class="category-wrapper">
+                                    <div class="category-badge">
+                                        <h6>{{ Str::limit($item->category->name, $limit = 50, $end = '...') }}</h6>
+                                    </div>
+                                </div>
+                            @endif
+                        </div>
+                    @else
+                        <div class="product-wrapperrrrr col-lg-4 col-md-4 col-sm-12 d-flex mobile-view-center"
+                            style="padding-right: 0px;">
+                            {{-- <a href="{{ route('product.show', $item->id) }}" class="woocommerce-LoopProduct-link"> --}}
+                            <img src="https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg"
+                                class="lazy img-fluid rounded w-100 mobile-view-image" alt=""
+                                style="height: 171px;">
+                            {{-- </a> --}}
+
+                            @if ($item->category)
+                                <div class="category-wrapper">
+                                    <div class="category-badge">
+                                        <h6>{{ Str::limit($item->category->name, $limit = 50, $end = '...') }}</h6>
+                                    </div>
+                                </div>
+                            @endif
+                        </div>
                     @endif
+
+
+
                     <div class="col-lg-8 col-md-8 col-sm-12 d-flex flex-column p-0 mobile_view_card_descripition"
                         style="padding-right: 15px !important">
                         <div class="p-1 flex-grow-1">
@@ -82,10 +184,9 @@
                                     {{ Str::limit($item->name, $limit = 45, $end = '...') }}
                                 </a>
                             </h5>
-                            <div class="text-center">
-                                <hr style="color: #38b2ac; height: 1px; width: 100% !important; margin: 0rem 0">
+                            <hr style="color: #38b2ac; height: 1px; width: 100% !important; margin: 0rem 0">
+                            {{-- <div class="text-center">
                                 @if ($item->category)
-                                    {{-- padding: 6px 6px 3px 6px; --}}
                                     <div
                                         style="display: inline-block; padding: 0px; background-color: #fff; border-radius: 6%; box-shadow: 0 0px 4px rgba(0, 0, 0, 0.2);">
                                         <h6 style="margin: 0;">
@@ -93,25 +194,31 @@
                                         </h6>
                                     </div>
                                 @endif
-                            </div>
+                            </div> --}}
 
-                            <p class="text-dark" style="margin: 0; text-align: justify; padding: 0; line-height: 1.2;">
-                                @if (mb_strlen($item->name) < 45)
-                                    {!! Str::limit($item->define_this_item, $limit = 235, $end = '...') !!}
-                                    @php
-                                        $remainingSpaces = max(0, 235 - mb_strlen($item->define_this_item));
-                                    @endphp
-                                @else
-                                    {!! Str::limit($item->define_this_item, $limit = 190, $end = '...') !!}
-                                    @php
-                                        $remainingSpaces = max(0, 190 - mb_strlen($item->define_this_item));
-                                    @endphp
-                                @endif
-                                {!! str_repeat('&nbsp;', $remainingSpaces) !!}
-                            </p>
+                            <a href="{{ route('product.show', $item->id) }}">
+                                <p class="text-dark"
+                                    style="margin: 0; margin-top: 7px; text-align: justify; padding: 0; line-height: 1.2;">
+                                    {{-- @if (mb_strlen($item->name) < 45)
+                                        {!! Str::limit($item->define_this_item, $limit = 300, $end = '...') !!}
+                                        @php
+                                            $remainingSpaces = max(0, 300 - mb_strlen($item->define_this_item));
+                                        @endphp
+                                    @else
+                                        {!! Str::limit($item->define_this_item, $limit = 190, $end = '...') !!}
+                                        @php
+                                            $remainingSpaces = max(0, 190 - mb_strlen($item->define_this_item));
+                                        @endphp
+                                    @endif
+                                    {!! str_repeat('&nbsp;', $remainingSpaces) !!} --}}
+
+                                    {!! Str::limit($item->define_this_item, $limit = 290, $end = '...') !!}
+                                </p>
+                            </a>
 
                         </div>
-                        <div class="d-flex mr-10 text-center" style="background-color: white; padding: 1px">
+                        <div class="d-flex mr-10 text-center"
+                            style="background-color: white; padding: 1px; margin-left: 12px; margin-right: 5px;">
                             <div class="col division" style="border: 1px  solid var(--green);">
                                 <button type="button" class="btn-sm">Add to Cart</button>
                             </div>
@@ -125,66 +232,12 @@
                                 @php
                                     $amount = 0;
                                     foreach ($item->variations as $variation_data) {
-                                        $amount += $variation_data->dpp_inc_tax;
+                                        $amount += $variation_data->default_sell_price;
                                     }
                                 @endphp
                                 &pound; {{ number_format($amount, 2) }}
                             </div>
                         </div>
-                        {{-- <div class="d-flex text-center"
-                                 style="background-color: whitesmoke; border-top: 2px solid var(--green); padding: 1px">
-                                <span class="flex-fill mt-2">
-                                    <button type="button" class="btn-outline-secondary btn-sm">Add to Cart</button>
-                                </span>
-                                <div class="yith-wcwl-add-to-wishlist wishlist-fragment mt-4">
-                                    <div class="wishlist-button">
-                                        <a class="add_to_wishlist" href=""></a>
-                                    </div>
-                                </div>
-                                @if ($item->room_details !== 'null' && $item->room_details !== null)
-                                    @php
-                                        $roomDetails = json_decode($item->room_details, true);
-
-                                        // Check if $roomDetails is not null and is an array
-                                        if (is_array($roomDetails)) {
-                                            $finalData = []; // Initialize an empty array to store the results
-
-                                            foreach ($roomDetails as $key => $data) {
-                                                if ($data == 1) {
-                                                    $finalData[] = $key + 1 . '-Single'; // Concatenate key and value
-                                                } elseif ($data == 2) {
-                                                    $finalData[] = $key + 1 . '-Double'; // Concatenate key and value
-                                                } elseif ($data == 3) {
-                                                    $finalData[] = $key + 1 . '-Semi-double'; // Concatenate key and value
-                                                } elseif ($data == 4) {
-                                                    $finalData[] = $key + 1 . '-En-suit'; // Concatenate key and value
-                                                }
-                                            }
-
-                                            // Join the elements of the array into a string using a comma and space as separators
-                                            $output = implode(', ', $finalData);
-                                        }
-                                    @endphp
-                                @endif
-                                <span class="flex-fill mb-0 text-white">
-                                    <p class="lower-section-text mb-0 text-muted"
-                                       style="color: black !important; font-size: 15px;">
-                                        Discount Price
-                                    </p>
-                                    <p class="mb-0 text-muted">
-                                        &pound; {{ $item->price }}
-                                    </p>
-                                </span>
-                                <span class="flex-fill mb-0 text-white">
-                                    <p class="lower-section-text mb-0 text-muted"
-                                       style="color: black !important; font-size: 15px;">
-                                        Price
-                                    </p>
-                                    <p class="mb-0 text-muted">
-                                       &pound; {{ $item->price }}
-                                    </p>
-                                </span>
-                            </div> --}}
                     </div>
                 </div>
             </div>
