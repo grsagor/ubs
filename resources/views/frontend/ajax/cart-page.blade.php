@@ -45,7 +45,7 @@
                                      @endif
                                  </td>
                                  <td class="product-price">
-                                     <span>{{ $product->price }}</span>
+                                     <span>{{ $product->price }} $</span>
                                  </td>
 
 
@@ -86,7 +86,7 @@
                                  <td class="product-subtotal">
                                      <p class="d-inline-block"
                                          id="prc{{ $product->id . $product['size'] . $product['color'] . str_replace(str_split(' ,'), '', $product['values']) }}">
-                                         {{ $product->price }}
+                                         {{ $product->price }} $
                                      </p>
                                      @if ($product['discount'] != 0)
                                          <strong>{{ $product['discount'] }} %{{ __('off') }}</strong>
@@ -112,7 +112,7 @@
                                  <th>Subtotal</th>
                                  <td>
                                      <span><b
-                                             class="cart-total">{{ $total_price }}</b>
+                                             class="cart-total">{{ $total_price }} $</b>
                                      </span>
                                  </td>
                              </tr>
@@ -131,7 +131,7 @@
                              <tr class="order-total">
                                  <th>Total</th>
                                  <td><strong><span
-                                             class="woocommerce-Price-amount amount main-total">{{ $total_price }}</span></strong>
+                                             class="woocommerce-Price-amount amount main-total">{{ $total_price }} $</span></strong>
                                  </td>
                              </tr>
                          </table>

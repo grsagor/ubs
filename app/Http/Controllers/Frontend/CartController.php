@@ -136,14 +136,24 @@ class CartController extends Controller
             $products = Product::whereIn('id', $current_carts)->get();
             foreach ($products as $product) {
                 $price = 0;
+                $price_excluding_tax = 0;
+                $vat = 0;
                 foreach ($product->variations as $variation) {
-                    $price += $variation->default_sell_price;
+                    $price_excluding_tax += $variation->default_sell_price;
+                    $vat += ($variation->sell_price_inc_tax - $variation->default_sell_price);
+                    $price += $variation->sell_price_inc_tax;
                 }
                 $product->price = $price;
+                $product->price_excluding_tax = $price_excluding_tax;
+                $product->vat = $vat;
             }
             $total_price = 0;
+            $total_price_excluding_tax = 0;
+            $total_vat = 0;
             foreach ($products as $product) {
                 $total_price += $product->price;
+                $total_price_excluding_tax += $product->price_excluding_tax;
+                $total_vat += $product->vat;
             }
             if (!count($products)) {
                 return back()->with('error', 'No products in cart.');
@@ -153,6 +163,8 @@ class CartController extends Controller
                 'user' => $user,
                 'products' => $products,
                 'total_price' => $total_price,
+                'total_price_excluding_tax' => $total_price_excluding_tax,
+                'total_vat' => $total_vat,
                 'product_ids' => implode(',', $product_ids)
             ];
             return view('frontend.cart.checkout', $data);

@@ -50,7 +50,7 @@
 @section('content')
     @includeIf('frontend.partials.global.common-header')
     <!-- breadcrumb -->
-    <div class="full-row bg-light overlay-dark py-5" style="">
+    {{-- <div class="full-row bg-light overlay-dark py-5" style="">
         <div class="container">
             <div class="row text-center text-white">
                 <div class="col-12">
@@ -66,7 +66,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
     <!-- breadcrumb -->
     <div class="load_cart content no-print">
         <section class="checkout">
@@ -117,7 +117,7 @@
                                                     <img src="//geniusocean.com/demo/geniuscart/default/assets/images/loading_large.gif"
                                                         alt="">
                                                 </div>
-                                                <div class="personal-info">
+                                                {{-- <div class="personal-info">
                                                     <h5 class="title">
                                                         Personal Information :
                                                     </h5>
@@ -133,13 +133,13 @@
                                                                 value="">
                                                         </div>
                                                     </div>
-                                                    {{-- <div class="row">
+                                                    <div class="row">
                                                         <div class="col-lg-12 mt-3">
                                                             <input class="styled-checkbox" id="open-pass" type="checkbox"
                                                                 value="1" name="pass_check">
                                                             <label for="open-pass">Create an account ?</label>
                                                         </div>
-                                                    </div> --}}
+                                                    </div>
                                                     <div class="row set-account-pass d-none">
                                                         <div class="col-lg-6">
                                                             <input type="password" name="personal_pass" id="personal-pass"
@@ -151,7 +151,7 @@
                                                                 placeholder="Confirm Your Password">
                                                         </div>
                                                     </div>
-                                                </div>
+                                                </div> --}}
                                                 <div class="billing-address">
                                                     <h5 class="title">
                                                         Billing Details
@@ -2680,7 +2680,7 @@
                                             Total MRP
                                         </p>
                                         <p>
-                                            <b class="cart-total">{{ $total_price }}$</b>
+                                            <b class="cart-total">{{ $total_price_excluding_tax }}$</b>
                                         </p>
                                     </li>
                                     <li class="tax_show  d-none">
@@ -2705,7 +2705,15 @@
                                         Total
                                     </p>
                                     <p class="total-cost-dum">
-                                        <span id="total-cost">{{ $total_price }}$</span>
+                                        <span id="total-cost">{{ $total_price_excluding_tax }}$</span>
+                                    </p>
+                                </div>
+                                <div class="total-price">
+                                    <p>
+                                        Vat
+                                    </p>
+                                    <p class="total-cost-dum">
+                                        <span id="total-cost">{{ $total_vat }}$</span>
                                     </p>
                                 </div>
                                 {{-- <div class="cupon-box">
