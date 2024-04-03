@@ -132,6 +132,10 @@ class CartController extends Controller
     {
         try {
             $user = Auth::user();
+            if (!$user) {
+                session(['intended_url' => 'checkout']);
+                return redirect(url('login'));
+            }
             $current_carts = Session::get('current_carts');
             $products = Product::whereIn('id', $current_carts)->get();
             foreach ($products as $product) {
