@@ -1090,7 +1090,7 @@
 
                     <div class="col-sm-12">
                         <div class="form-group">
-                            <label for="define_this_item" style="display: block">Define this item in 100 words
+                            <label for="define_this_item" style="display: block">Define this item in less than 285 characters
                                 @show_tooltip(__('Clear details faclitate quick customer understanding and draw attention
                                 effectively.'))
                             </label>
@@ -1099,10 +1099,9 @@
                                 'required',
                                 'id' => 'define_this_item',
                             ]) !!}
-                            <div id="word_count"></div>
+                            <div id="char_count"></div>
                             <div id="error_message_define_this_item" style="color: red; display: none;">Word limit exceeded!
-                                Maximum 100 words
-                                allowed.</div>
+                                Maximum 285 characters allowed.</div>
                         </div>
                     </div>
                 </div>

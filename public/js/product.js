@@ -170,15 +170,13 @@ $(document).ready(function () {
   // Function to count words and check limit
   function countWordsAndCheckLimit() {
     var text = document.getElementById("define_this_item").value.trim();
-    var wordCount = text.split(/\s+/).filter(function (word) {
-      return word.length > 0;
-    }).length;
+    var charCount = text.length;
 
-    document.getElementById("word_count").innerText =
-      "Word count: " + wordCount;
+    document.getElementById("char_count").innerText =
+      "Character count: " + charCount;
 
     // Check if word count exceeds limit
-    if (wordCount > 100) {
+    if (charCount > 285) {
       document.getElementById("error_message_define_this_item").style.display =
         "block";
       // Disable the button
