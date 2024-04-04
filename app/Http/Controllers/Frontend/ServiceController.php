@@ -2,21 +2,28 @@
 
 namespace App\Http\Controllers\Frontend;
 
-use App\BusinessLocation;
+use App\Product;
 use App\Category;
 use App\ChildCategory;
-use App\Http\Controllers\Controller;
-use App\Product;
-use App\ResellingProduct;
 use App\ServiceCategory;
-use App\ServiceChildCategories;
+use App\BusinessLocation;
+use App\ResellingProduct;
 use App\ServiceEducation;
-use App\ServiceSubCategories;
 use Illuminate\Http\Request;
+use App\ServiceSubCategories;
+use App\ServiceChildCategories;
+use App\Services\DataSetService;
+use App\Http\Controllers\Controller;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class ServiceController extends Controller
 {
+    protected $dataSetService;
+
+    public function __construct(DataSetService $dataSetService)
+    {
+        $this->dataSetService = $dataSetService;
+    }
 
     public function serviceList(Request $request)
     {
@@ -67,6 +74,9 @@ class ServiceController extends Controller
 
         $data['category_id'] = $request->category_id;
 
+        $data['nestedDataSets'] = $this->dataSetService->getNestedDataSets();
+
+        // return  $data['nestedDataSets'];
         return view('frontend.service.service_list', $data);
     }
 
