@@ -69,13 +69,17 @@
 @section('property_list_content')
     <div class="product-search-one mb-3">
 
-        <form id="searchForm" class="search-form form-inline search-pill-shape bg-white" action="{{ route('service.list') }}"
+        <form id="searchForm" class="search-form form-inline search-pill-shape bg-white"
+            action="{{ route('service.list', array_merge(request()->except('page'), ['search' => strtolower(request()->input('search'))])) }}"
             method="GET">
-
             <input type="text" id="shop_name" class="col form-control search-field" name="search"
                 placeholder="Search service" value="{{ request()->input('search') }}">
+            <input type="hidden" name="category_id" value="{{ request()->input('category_id') }}">
+            <input type="hidden" name="sub_category_id" value="{{ request()->input('sub_category_id') }}">
+            <input type="hidden" name="child_category_id" value="{{ request()->input('child_category_id') }}">
             <button type="submit" class="search-submit"><i class="flaticon-search flat-mini text-white"></i></button>
         </form>
+
     </div>
 
     @foreach ($products as $item)
@@ -255,7 +259,17 @@
     </div>
 @endsection
 
+
 @section('script')
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('.toggle-category').click(function() {
+                $(this).siblings('ul').toggle();
+                return false;
+            });
+        });
+    </script>
     <script>
         setTimeout(function() {
             if ($(window).width() < 1350) {
@@ -339,4 +353,24 @@
 
         });
     </script>
+
+    <script>
+        $(document).ready(function() {
+            $('.toggle-category').click(function() {
+                var svg = $(this).find('.toggle-icon svg');
+                var beforeRotation = svg.css('transform');
+                console.log("Before rotation: " + beforeRotation);
+
+                var currentRotation = (beforeRotation === 'none' || beforeRotation ===
+                    'matrix(1, 0, 0, 1, 0, 0)') ? 0 : 90;
+                var newRotation = (currentRotation === 0) ? 90 : 0;
+                svg.toggleClass('rotate-90', newRotation === 90);
+                svg.css('transform', 'rotate(' + newRotation + 'deg)');
+
+                var afterRotation = svg.css('transform');
+                console.log("After rotation: " + afterRotation);
+            });
+        });
+    </script>
+
 @endsection
