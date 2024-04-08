@@ -69,8 +69,9 @@
 @section('property_list_content')
     <div class="product-search-one mb-3">
 
-        <form id="searchForm" class="search-form form-inline search-pill-shape bg-white"
-            action="{{ route(Route::currentRouteName()) }}" method="GET">
+        <form id="searchForm" class="search-form form-inline search-pill-shape bg-white" action="{{ route('service.list') }}"
+            method="GET">
+
             <input type="text" id="shop_name" class="col form-control search-field" name="search"
                 placeholder="Search service" value="{{ request()->input('search') }}">
             <button type="submit" class="search-submit"><i class="flaticon-search flat-mini text-white"></i></button>
@@ -367,23 +368,5 @@
             });
         });
     </script>
-    <script>
-        // Get the current URL
-        var currentUrl = new URL(window.location.href);
 
-        // Listen for form submit event
-        document.getElementById('searchForm').addEventListener('submit', function(event) {
-            // Get the search input value
-            var searchValue = document.getElementById('shop_name').value;
-
-            // Update the query parameters
-            currentUrl.searchParams.set('search', searchValue);
-
-            // Redirect to the updated URL
-            window.location.href = currentUrl.toString();
-
-            // Prevent the form from submitting normally
-            event.preventDefault();
-        });
-    </script>
 @endsection

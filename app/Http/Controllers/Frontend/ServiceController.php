@@ -31,7 +31,8 @@ class ServiceController extends Controller
             ->with('variations')
             ->search($request)
             ->with('variations')
-            ->latest()->paginate(10);
+            ->latest()
+            ->paginate(10);
 
         $data['nestedDataSets'] = $this->dataSetService->getNestedDataSets();
 
