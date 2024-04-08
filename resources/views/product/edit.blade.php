@@ -1100,7 +1100,8 @@
                                 'id' => 'define_this_item',
                             ]) !!}
                             <div id="char_count"></div>
-                            <div id="error_message_define_this_item" style="color: red; display: none;">Word limit exceeded!
+                            <div id="error_message_define_this_item" style="color: red; display: none;">characters limit
+                                exceeded!
                                 Maximum 285 characters allowed.</div>
                         </div>
                     </div>
