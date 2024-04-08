@@ -182,16 +182,16 @@
 
         #imageSlider .carousel-item img {
             /* max-width: 350px;
-                                                    max-height: 300px; */
+                                                                                                                    max-height: 300px; */
             width: auto;
             height: auto;
             margin: auto;
         }
 
         /* .carousel-control-next,
-                        .carousel-control-prev {
-                            filter: invert(100%);
-                        } */
+                                                                                        .carousel-control-prev {
+                                                                                            filter: invert(100%);
+                                                                                        } */
 
         .carousel-control-prev-icon {
             background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='%23000' width='8' height='8' viewBox='0 0 8 8'%3e%3cpath d='M5.25 0l-4 4 4 4 1.5-1.5L4.25 4l2.5-2.5L5.25 0z'/%3e%3c/svg%3e");
@@ -466,38 +466,36 @@
                                                         {{-- <img src="{{ asset($info->thumbnail) }}" alt=""
                                                             style="max-width: 350px; max-height: 300px; width: auto; height: auto;"> --}}
                                                         <img src="{{ asset($info->thumbnail) }}" alt=""
-                                                            style="width: auto; height: auto;">
+                                                            style="width: 590px !important; height: 300px;">
                                                     </div>
                                                 @endif
 
                                                 @if ($info->image)
-                                                    <div class="col-md-6 mobile_m_15" style="margin: auto;">
-                                                        <div id="imageSlider" class="carousel slide"
-                                                            data-bs-ride="carousel">
-                                                            <div class="carousel-inner">
-                                                                @foreach (json_decode($info->image ?? '[]') as $index => $item)
-                                                                    <div
-                                                                        class="carousel-item {{ $index === 0 ? 'active' : '' }}">
-                                                                        <img src="{{ asset($item) }}"
-                                                                            class="d-block w-100" alt="">
-                                                                    </div>
-                                                                @endforeach
-                                                            </div>
-                                                            @if (count(json_decode($info->image ?? '[]')) > 1)
-                                                                <button class="carousel-control-prev" type="button"
-                                                                    data-bs-target="#imageSlider" data-bs-slide="prev">
-                                                                    <span class="carousel-control-prev-icon"
-                                                                        aria-hidden="true"></span>
-                                                                    <span class="visually-hidden">Previous</span>
-                                                                </button>
-                                                                <button class="carousel-control-next" type="button"
-                                                                    data-bs-target="#imageSlider" data-bs-slide="next">
-                                                                    <span class="carousel-control-next-icon"
-                                                                        aria-hidden="true"></span>
-                                                                    <span class="visually-hidden">Next</span>
-                                                                </button>
-                                                            @endif
+                                                    <div id="imageSlider" class="carousel slide col-md-6 mobile_m_15"
+                                                        data-bs-ride="carousel" style="width: 590px; height: 300px;">
+                                                        <div class="carousel-inner">
+                                                            @foreach (json_decode($info->image ?? '[]') as $index => $item)
+                                                                <div
+                                                                    class="carousel-item {{ $index === 0 ? 'active' : '' }}">
+                                                                    <img src="{{ asset($item) }}" class="d-block w-100"
+                                                                        alt=""style="width: 590px !important; height: 300px;">
+                                                                </div>
+                                                            @endforeach
                                                         </div>
+                                                        @if (count(json_decode($info->image ?? '[]')) > 1)
+                                                            <button class="carousel-control-prev" type="button"
+                                                                data-bs-target="#imageSlider" data-bs-slide="prev">
+                                                                <span class="carousel-control-prev-icon"
+                                                                    aria-hidden="true"></span>
+                                                                <span class="visually-hidden">Previous</span>
+                                                            </button>
+                                                            <button class="carousel-control-next" type="button"
+                                                                data-bs-target="#imageSlider" data-bs-slide="next">
+                                                                <span class="carousel-control-next-icon"
+                                                                    aria-hidden="true"></span>
+                                                                <span class="visually-hidden">Next</span>
+                                                            </button>
+                                                        @endif
                                                     </div>
                                                 @endif
                                             </div>
