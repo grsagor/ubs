@@ -29,7 +29,7 @@
 
         p.category_text {
             /* min-height: 20px;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    max-height: 20px; */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    max-height: 20px; */
         }
 
         h5.product-title {
@@ -74,6 +74,7 @@
                         <div class="col-12 col-xl-3 col-lg-3">
                             <div id="sidebar" class="widget-title-bordered-full">
 
+
                                 <div id="woocommerce_product_categories-4"
                                     class="widget woocommerce widget_product_categories widget-toggle">
                                     <h2 class="widget-title">Categories</h2>
@@ -89,7 +90,8 @@
                                                         &nbsp;{{ $category['name'] }}
                                                         @if (!empty($category['children']))
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="16"
-                                                                height="16" viewBox="0 0 16 16" class="toggle-svg">
+                                                                height="16" viewBox="0 0 16 16" class="toggle-svg"
+                                                                style="{{ !empty($category['children']) && request()->category_id == $category['id'] ? 'transform: rotate(90deg);' : '' }}">
                                                                 <path fill="none" stroke="rgba(0,0,0,.5)"
                                                                     stroke-linecap="round" stroke-linejoin="round"
                                                                     stroke-width="2" d="M5 14l6-6-6-6" />
@@ -109,21 +111,18 @@
                                                                 @elseif (!empty($childCategory['children']))
                                                                     class="toggle-category" @endif>
                                                                     <span
-                                                                        class="{{ Route::currentRouteName() === 'service.list' && request()->sub_category_id == $childCategory['id'] ? 'text-danger' : '' }}">
+                                                                        class="toggle-icon{{ Route::currentRouteName() === 'service.list' && request()->sub_category_id == $childCategory['id'] ? 'text-danger' : '' }} toggle-icon">
                                                                         &nbsp;{{ $childCategory['name'] }}
                                                                         @if (!empty($childCategory['children']))
-                                                                            <span class="toggle-icon">
-                                                                                <svg xmlns="http://www.w3.org/2000/svg"
-                                                                                    width="16" height="16"
-                                                                                    viewBox="0 0 16 16" class="toggle-svg">
-                                                                                    <path fill="none"
-                                                                                        stroke="rgba(0,0,0,.5)"
-                                                                                        stroke-linecap="round"
-                                                                                        stroke-linejoin="round"
-                                                                                        stroke-width="2"
-                                                                                        d="M5 14l6-6-6-6" />
-                                                                                </svg>
-                                                                            </span>
+                                                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                                                width="16" height="16"
+                                                                                viewBox="0 0 16 16" class="toggle-svg"
+                                                                                style="{{ !empty($childCategory['children']) && request()->sub_category_id == $childCategory['id'] ? 'transform: rotate(90deg);' : '' }}">
+                                                                                <path fill="none" stroke="rgba(0,0,0,.5)"
+                                                                                    stroke-linecap="round"
+                                                                                    stroke-linejoin="round" stroke-width="2"
+                                                                                    d="M5 14l6-6-6-6" />
+                                                                            </svg>
                                                                         @endif
                                                                     </span>
                                                                 </a>

@@ -350,5 +350,23 @@
         });
     </script>
 
+    <script>
+        $(document).ready(function() {
+            $('.toggle-category').click(function() {
+                var svg = $(this).find('.toggle-icon svg');
+                var beforeRotation = svg.css('transform');
+                console.log("Before rotation: " + beforeRotation);
+
+                var currentRotation = (beforeRotation === 'none' || beforeRotation ===
+                    'matrix(1, 0, 0, 1, 0, 0)') ? 0 : 90;
+                var newRotation = (currentRotation === 0) ? 90 : 0;
+                svg.toggleClass('rotate-90', newRotation === 90);
+                svg.css('transform', 'rotate(' + newRotation + 'deg)');
+
+                var afterRotation = svg.css('transform');
+                console.log("After rotation: " + afterRotation);
+            });
+        });
+    </script>
 
 @endsection
