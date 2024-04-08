@@ -29,7 +29,7 @@
 
         p.category_text {
             /* min-height: 20px;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            max-height: 20px; */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    max-height: 20px; */
         }
 
         h5.product-title {
@@ -73,9 +73,96 @@
                         {{-- Left Side --}}
                         <div class="col-12 col-xl-3 col-lg-3">
                             <div id="sidebar" class="widget-title-bordered-full">
-                                {{-- <div class="dashbaord-sidebar-close d-xl-none d-lg-none">
-                                    <i class="fas fa-times"></i>
-                                </div> --}}
+
+                                <div id="woocommerce_product_categories-4"
+                                    class="widget woocommerce widget_product_categories widget-toggle">
+                                    <h2 class="widget-title">Categories</h2>
+                                    <ul class="product-categories">
+                                        @foreach ($nestedDataSets as $category)
+                                            <li class="cat-item cat-parent">
+                                                <a href="{{ route('service.list', ['category_id' => $category['id']]) }}"
+                                                    @if (!empty($category['children']) && request()->category_id == $category['id']) class="toggle-category expanded"
+                                                @elseif (!empty($category['children']))
+                                                    class="toggle-category" @endif>
+                                                    <span
+                                                        class="toggle-icon {{ Route::currentRouteName() === 'service.list' && request()->category_id == $category['id'] ? 'text-danger' : '' }}">
+                                                        &nbsp;{{ $category['name'] }}
+                                                        @if (!empty($category['children']))
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="16"
+                                                                height="16" viewBox="0 0 16 16" class="toggle-svg">
+                                                                <path fill="none" stroke="rgba(0,0,0,.5)"
+                                                                    stroke-linecap="round" stroke-linejoin="round"
+                                                                    stroke-width="2" d="M5 14l6-6-6-6" />
+                                                            </svg>
+                                                        @endif
+                                                    </span>
+                                                </a>
+
+                                                <!-- Subcategories -->
+                                                @if (!empty($category['children']))
+                                                    <ul class="children"
+                                                        @if (request()->category_id == $category['id']) style="display: block;" @endif>
+                                                        @foreach ($category['children'] as $childCategory)
+                                                            <li class="cat-item cat-parent">
+                                                                <a href="{{ route('service.list', ['category_id' => $category['id'], 'sub_category_id' => $childCategory['id']]) }}"
+                                                                    @if (!empty($childCategory['children']) && request()->sub_category_id == $childCategory['id']) class="toggle-category expanded"
+                                                                @elseif (!empty($childCategory['children']))
+                                                                    class="toggle-category" @endif>
+                                                                    <span
+                                                                        class="{{ Route::currentRouteName() === 'service.list' && request()->sub_category_id == $childCategory['id'] ? 'text-danger' : '' }}">
+                                                                        &nbsp;{{ $childCategory['name'] }}
+                                                                        @if (!empty($childCategory['children']))
+                                                                            <span class="toggle-icon">
+                                                                                <svg xmlns="http://www.w3.org/2000/svg"
+                                                                                    width="16" height="16"
+                                                                                    viewBox="0 0 16 16" class="toggle-svg">
+                                                                                    <path fill="none"
+                                                                                        stroke="rgba(0,0,0,.5)"
+                                                                                        stroke-linecap="round"
+                                                                                        stroke-linejoin="round"
+                                                                                        stroke-width="2"
+                                                                                        d="M5 14l6-6-6-6" />
+                                                                                </svg>
+                                                                            </span>
+                                                                        @endif
+                                                                    </span>
+                                                                </a>
+
+                                                                <!-- Sub child categories -->
+                                                                @if (!empty($childCategory['children']))
+                                                                    <ul class="sub-children"
+                                                                        @if (request()->sub_category_id == $childCategory['id']) style="display: block;" @else style="display: none;" @endif>
+                                                                        @foreach ($childCategory['children'] as $subChildCategory)
+                                                                            <li class="cat-item cat-parent">
+                                                                                <a
+                                                                                    href="{{ route('service.list', ['category_id' => $category['id'], 'sub_category_id' => $childCategory['id'], 'child_category_id' => $subChildCategory['id']]) }}">
+                                                                                    <span
+                                                                                        class="{{ Route::currentRouteName() === 'service.list' && request()->child_category_id == $subChildCategory['id'] ? 'text-danger' : '' }}">
+                                                                                        &nbsp; &nbsp;
+                                                                                        &nbsp;{{ $subChildCategory['name'] }}
+                                                                                    </span>
+                                                                                </a>
+                                                                            </li>
+                                                                        @endforeach
+                                                                    </ul>
+                                                                @endif
+                                                            </li>
+                                                        @endforeach
+                                                    </ul>
+                                                @endif
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+
+
+
+
+
+
+
+
+
 
                                 {{-- <div id="woocommerce_product_categories-4"
                                     class="widget woocommerce widget_product_categories widget-toggle">
@@ -92,71 +179,9 @@
                                             </li>
                                         @endforeach
                                     </ul>
-                                </div> --}}
-
-                                <div id="woocommerce_product_categories-4"
-                                    class="widget woocommerce widget_product_categories widget-toggle">
-                                    <h2 class="widget-title">Categories</h2>
-                                    <ul class="product-categories">
-                                        @foreach ($nestedDataSets as $category)
-                                            <li class="cat-item cat-parent">
-                                                <a href="#" class="toggle-category">
-                                                    <span
-                                                        class="{{ Route::currentRouteName() === 'service.list' && request()->category_id == $category['id'] ? 'text-danger' : '' }}">
-                                                        {{ $category['name'] }}
-                                                        @if (!empty($category['children']))
-                                                            &nbsp;&nbsp;&gt;
-                                                        @endif
-                                                    </span>
-                                                </a>
-                                                @if (!empty($category['children']))
-                                                    <ul class="children" style="display: none;">
-                                                        @foreach ($category['children'] as $childCategory)
-                                                            <li class="cat-item cat-parent">
-                                                                <a href="#" class="toggle-category">
-                                                                    <span +
-                                                                        class="{{ Route::currentRouteName() === 'service.list' && request()->category_id == $childCategory['id'] ? 'text-danger' : '' }}">
-                                                                        {{ $childCategory['name'] }}
-                                                                    </span>
-                                                                    @if (!empty($childCategory['children']))
-                                                                        &nbsp;&gt;
-                                                                    @endif
-                                                                </a>
-
-
-
-                                                                @if (!empty($childCategory['children']))
-                                                                    <ul class="sub-children" style="display: none;">
-                                                                        @foreach ($childCategory['children'] as $subChildCategory)
-                                                                            <li class="cat-item cat-parent">
-                                                                                <a
-                                                                                    href="{{ route('service.list', ['category_id' => $subChildCategory['id']]) }}">
-                                                                                    <span
-                                                                                        class="{{ Route::currentRouteName() === 'service.list' && request()->category_id == $subChildCategory['id'] ? 'text-danger' : '' }}">
-                                                                                        &nbsp;
-                                                                                        {{ $subChildCategory['name'] }}
-                                                                                    </span>
-                                                                                </a>
-                                                                            </li>
-                                                                        @endforeach
-                                                                    </ul>
-                                                                @endif
-                                                            </li>
-                                                        @endforeach
-
-                                                    </ul>
-                                                @endif
-
-                                            </li>
-                                        @endforeach
-
-                                    </ul>
-
                                 </div>
 
-
-
-                                {{-- <div id="woocommerce_product_categories-4"
+                                <div id="woocommerce_product_categories-4"
                                     class="widget woocommerce widget_product_categories widget-toggle">
 
                                     <h2 class="widget-title">Sub-Categories</h2>
@@ -231,7 +256,6 @@
                                         <div class="col-md-3">
 
                                             <div class="card">
-                                                {{-- <img class="card-img-top" src="..." alt="Card image cap"> --}}
                                                 <div class="card-body">
                                                     <h5 class="card-title">Advertise your service</h5>
                                                     <p class="card-text">List your service unlimited and completely free.
@@ -243,7 +267,6 @@
                                             <br>
 
                                             <div class="card">
-                                                {{-- <img class="card-img-top" src="..." alt="Card image cap"> --}}
                                                 <div class="card-body">
                                                     <h5 class="card-title">Can't find your service?</h5>
                                                     <p class="card-text">Contact us to get what you need. We will connect
@@ -267,7 +290,6 @@
                                             <br>
 
                                             <div class="card">
-                                                {{-- <img class="card-img-top" src="..." alt="Card image cap"> --}}
                                                 <div class="card-body">
                                                     <h5 class="card-title">Find your favourite company.</h5>
                                                     <ol>
@@ -315,11 +337,6 @@
             </div>
         </div>
     </div>
-    <style>
-        .active_child_category {
-            color: red !important;
-        }
-    </style>
 @endsection
 
 @section('script')

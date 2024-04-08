@@ -28,7 +28,7 @@ class ServiceController extends Controller
     public function serviceList(Request $request)
     {
         $categories_id = Category::where('category_type', 'service')->get()->pluck('id');
-        $data['per_page'] = 10;
+        $data['per_page'] = 100;
         $price = 200;
         $products = Product::whereIn('category_id', $categories_id)
             // ->with(['variations' => function ($query) {
