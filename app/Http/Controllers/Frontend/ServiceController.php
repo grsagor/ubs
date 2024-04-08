@@ -27,56 +27,14 @@ class ServiceController extends Controller
 
     public function serviceList(Request $request)
     {
-        $categories_id = Category::where('category_type', 'service')->get()->pluck('id');
-        $data['per_page'] = 100;
-        $price = 200;
-        $products = Product::whereIn('category_id', $categories_id)
-            // ->with(['variations' => function ($query) {
-            //     $query->take(1); // Retrieve only the first variation
-            // }])
+        $data['products'] = Product::where('types', 'service')
             ->with('variations')
             ->search($request)
-            ->latest()
             ->with('variations')
-            ->get();
-
-        // return $products;
-        if ($request->category_id) {
-            $products = Product::where('category_id', $request->category_id)->get();
-        }
-        if ($request->sub_category_id) {
-            $products = Product::where('sub_category_id', $request->sub_category_id)->get();
-        }
-        if ($request->child_category_id) {
-            $products = Product::where('child_category_id', $request->child_category_id)->get();
-        }
-        $data['products'] = $products->sortByDesc('updated_at')->values();
-        // $data['products'] = Product::active()->with('category')->latest();
-
-        if ($request->category_id !== null) {
-            $data['products'] = $data['products']->where('category_id', $request->category_id);
-            $data['sub_categories'] = Category::query()->where('parent_id', $request->category_id)->pluck('name', 'id');
-        }
-        if ($request->sub_category_id !== null) {
-            $data['products'] = $data['products']->where('sub_category_id', $request->sub_category_id);
-            $data['child_categories'] = Category::query()->where('parent_id', $request->sub_category_id)->pluck('name', 'id');
-        }
-
-        $page = LengthAwarePaginator::resolveCurrentPage();
-        $perPage = $data['per_page'];
-        $currentPageItems = $products->slice(($page - 1) * $perPage, $perPage)->all();
-
-        $data['products'] = new LengthAwarePaginator($currentPageItems, count($products), $perPage);
-        $data['products']->setPath(url()->current());
-
-        // Business id == 5 means superadmin
-        $data['categories'] = Category::query()->where([['category_type', 'service'], ['parent_id', 0], ['business_id', 5]])->orderBy('name')->pluck('name', 'id');
-
-        $data['category_id'] = $request->category_id;
+            ->latest()->paginate(10);
 
         $data['nestedDataSets'] = $this->dataSetService->getNestedDataSets();
 
-        // return  $data['nestedDataSets'];
         return view('frontend.service.service_list', $data);
     }
 

@@ -63,7 +63,17 @@ class Product extends Model
     public function scopeSearch($query, $request)
     {
         if ($request->has('search') && $request->filled('search')) {
-            return $query->where('name', 'LIKE', '%' . $request->search . '%');
+            $query->where('name', 'LIKE', '%' . $request->search . '%');
+        }
+
+        if ($request->category_id) {
+            $query->where('category_id', $request->category_id);
+        }
+        if ($request->sub_category_id) {
+            $query->where('sub_category_id', $request->sub_category_id);
+        }
+        if ($request->child_category_id) {
+            $query->where('child_category_id', $request->child_category_id);
         }
 
         return $query;
