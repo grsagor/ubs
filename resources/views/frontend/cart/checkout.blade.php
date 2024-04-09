@@ -1,4 +1,5 @@
 @extends('frontend.layouts.master_layout')
+@section('title', 'Checkout - ')
 @section('css')
     <style>
         .print_section {
@@ -2598,13 +2599,13 @@
                                                         <div class="col-lg-12">
                                                             <label class="form_input form_radio">
                                                                 <input type="radio" name="payment_method"
-                                                                    value=cash_on_delivery>
+                                                                    value="cash_on_delivery" required>
                                                                 Cash On Delivery
                                                             </label>
                                                             <label class="form_input form_radio">
                                                                 <input type="radio" name="payment_method"
-                                                                    value="stripe">
-                                                                Stripe
+                                                                    value="stripe" required>
+                                                                    Debit or Credit  Card
                                                             </label>
                                                         </div>
                                                     </div>
@@ -2661,13 +2662,14 @@
                             <input type="hidden" name="user_id" id="user_id" value="">
 
                             <input type="hidden" name="status" value="final">
-                            <input type="hidden" name="final_total" value="0.00">
+                            <input type="hidden" name="final_total" value="{{$total_price}}">
                             <input type="hidden" name="discount_type" value="percentage">
                             <input type="hidden" name="discount_amount" value="10.00">
                             <input type="hidden" name="tax_rate_id" value="">
-                            <input type="hidden" name="location_id" value="{{ $user->id }}">
+                            <input type="hidden" name="location_id" value="{{ $product->business_location->id }}">
                             <input type="hidden" name="invoice_scheme_id" value="2">
-                            <input type="hidden" name="contact_id" value="{{ $user->id }}">
+                            <input type="hidden" name="contact_id" value="{{ $product->contact_id }}">
+                            <input type="hidden" name="business_id" value="{{ $product->business_id }}">
                         </form>
                     </div>
                     <div class="col-lg-4">
@@ -2680,7 +2682,15 @@
                                             Total MRP
                                         </p>
                                         <p>
-                                            <b class="cart-total">{{ $total_price_excluding_tax }}$</b>
+                                            <b class="cart-total">$ {{ $total_price_excluding_tax }}</b>
+                                        </p>
+                                    </li>
+                                    <li>
+                                        <p>
+                                            Vat
+                                        </p>
+                                        <p>
+                                            <b class="cart-total">$ {{ $total_vat }}</b>
                                         </p>
                                     </li>
                                     <li class="tax_show  d-none">
@@ -2705,15 +2715,7 @@
                                         Total
                                     </p>
                                     <p class="total-cost-dum">
-                                        <span id="total-cost">{{ $total_price_excluding_tax }}$</span>
-                                    </p>
-                                </div>
-                                <div class="total-price">
-                                    <p>
-                                        Vat
-                                    </p>
-                                    <p class="total-cost-dum">
-                                        <span id="total-cost">{{ $total_vat }}$</span>
+                                        <span id="total-cost">$ {{ $total_price }}</span>
                                     </p>
                                 </div>
                                 {{-- <div class="cupon-box">
@@ -2775,7 +2777,7 @@
                                 </div> --}}
                                 <div class="final-price">
                                     <span>Final Price :</span>
-                                    <span id="final-cost">{{ $total_price }}$</span>
+                                    <span id="final-cost">$ {{ $total_price }}</span>
                                 </div>
                                 <div class="wallet-price d-none">
                                     <span>Wallet Amount:</span>
@@ -2793,13 +2795,15 @@
 @endsection
 
 @section('script')
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <script src="{{ asset('assets/front/js/custom.js') }}"></script>
     <script src="https://js.stripe.com/v3/"></script>
     <script>
         var stripe = Stripe('{{ env('STRIPE_PUB_KEY') }}');
         var elements = stripe.elements();
-        var cardElement = elements.create('card');
-
+        var cardElement = elements.create('card', {
+            hidePostalCode: true // This option will hide the postal code field
+        });
         cardElement.mount('#card-element');
 
         var form = document.getElementById('checkout_form');
@@ -2824,7 +2828,8 @@
 
                 if (go > hide) {
                     var form = document.getElementById('checkout_form');
-                    var inputFields = form.querySelectorAll('input, select, textarea');
+                    var checkTab = document.getElementById(`pills-step${hide}`);
+                    var inputFields = checkTab.querySelectorAll('input, select, textarea');
                     inputFields.forEach(function(inputField) {
                         if (!inputField.checkValidity()) {
                             inputField.focus(); // Focus on the first invalid input field
@@ -2857,45 +2862,52 @@
     <script>
         $(document).ready(function() {
             $(document).on('click', '#final-btn', function() {
-                // stripe.createToken(cardElement).then(function(result) {
-                //     if (result.error) {
-                //         var errorElement = document.getElementById('card-errors');
-                //         errorElement.textContent = result.error.message;
-                //     } else {
-                //         stripeTokenHandler(result.token);
-                //     }
-                // });
-
-                stripe.createToken(cardElement).then(function(result) {
+                var payment_method = $('input[type="radio"][name="payment_method"]:checked').val();
+                if (payment_method == 'stripe') {
+                    stripe.createToken(cardElement).then(function(result) {
                     if (result.error) {
-                        var errorElement = document.getElementById('card-errors');
-                        errorElement.textContent = result.error.message;
-                        toastr.error(result.error.message);
+                        // var errorElement = document.getElementById('card-errors');
+                        // errorElement.textContent = result.error.message;
+                        Swal.fire({
+                            icon: 'error',
+                            title: result.error.message,
+                            position: 'center',
+                        })
                     } else {
-                        var checkout_form = $('#checkout_form');
-                        var data = checkout_form.serializeArray();
-                        data.push({ name: 'stripeToken', value: result.token.id });
-                        $.ajax({
-                            url: "{{ route('checkout.post') }}",
-                            type: 'POST',
-                            data: data,
-                            dataType: 'json',
-                            success: function(result) {
-                                if (result.success == 1) {
-                                    toastr.success(result.msg);
-                                    //Check if enabled or not
-                                    // if (result.receipt.is_enabled) {
-                                    pos_print(result.receipt);
-                                    // }
-                                } else {
-                                    toastr.error(result.msg);
-                                }
-                            },
-                        });
+                        saveCheckoutForm(result.token.id);
                     }
                 });
+                } else if (payment_method == 'cash_on_delivery') {
+                    saveCheckoutForm();
+                }
             })
         })
+
+        function saveCheckoutForm(stripeToken) {
+            var checkout_form = $('#checkout_form');
+            var data = checkout_form.serializeArray();
+            data.push({ name: 'stripeToken', value: stripeToken });
+            $.ajax({
+                url: "{{ route('checkout.post') }}",
+                type: 'POST',
+                data: data,
+                dataType: 'json',
+                success: function(result) {
+                    if (result.success == 1) {
+                        //Check if enabled or not
+                        // if (result.receipt.is_enabled) {
+                        pos_print(result.receipt);
+                        // }
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: result.msg,
+                            position: 'center',
+                        })
+                    }
+                },
+            });
+        }
 
         function pos_print(receipt) {
             //If printer type then connect with websocket

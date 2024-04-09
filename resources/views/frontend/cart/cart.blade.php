@@ -24,3 +24,11 @@
         @include('frontend.ajax.cart-page')
     </div>
 @endsection
+@section('script')
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+@if (session()->has('error'))
+    <script>
+        console.log("{{ session()->get('error') }}");
+    </script>
+@endif
+@endsection

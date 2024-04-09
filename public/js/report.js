@@ -1,4 +1,5 @@
 $(document).ready(function() {
+    console.log('ready called')
     //Purchase & Sell report
     //Date range as a button
     if ($('#purchase_sell_date_filter').length == 1) {
@@ -1456,6 +1457,7 @@ $(document).ready(function() {
 });
 
 function updatePurchaseSell() {
+    alert('called')
     var start = $('#purchase_sell_date_filter')
         .data('daterangepicker')
         .startDate.format('YYYY-MM-DD');

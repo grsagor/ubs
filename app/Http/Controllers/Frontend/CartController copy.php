@@ -2,21 +2,13 @@
 
 namespace App\Http\Controllers\Frontend;
 
-use App\Business;
 use App\BusinessLocation;
 use App\Cart;
-use App\Contact;
 use App\Http\Controllers\Controller;
-use App\InvoiceScheme;
 use App\Media;
 use App\Product;
 use App\ProductBuyingInfo;
-use App\ReferenceCount;
-use App\Transaction;
 use App\TransactionHistory;
-use App\TransactionPayment;
-use App\User;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -148,19 +140,16 @@ class CartController extends Controller
             $current_carts = Session::get('current_carts');
             $products = Product::whereIn('id', $current_carts)->get();
             foreach ($products as $product) {
-                $product->contact_id = Contact::where('business_id', $product->business_id)->first()->id;
                 $price = 0;
                 $price_excluding_tax = 0;
                 $vat = 0;
-                $mrp = 0;
                 foreach ($product->variations as $variation) {
-                    $mrp += $variation->default_purchase_price + (($variation->default_purchase_price * $variation->profit_percent) / 100);
-                    $percentage = (($variation->dpp_inc_tax - $variation->default_purchase_price) * 100 ) / $variation->dpp_inc_tax;
-                    $vat = ($mrp * $percentage) / 100;
-                    $price += $mrp + $vat;
+                    $price_excluding_tax += $variation->default_purchase_price + ( $variation->default_purchase_price * ($variation->profit_percent / 100));
+                    $vat += ($variation->dpp_inc_tax - $variation->default_purchase_price);
+                    $price += $price_excluding_tax + $vat;
                 }
                 $product->price = $price;
-                $product->price_excluding_tax = $mrp;
+                $product->price_excluding_tax = $price_excluding_tax;
                 $product->vat = $vat;
             }
             $total_price = 0;
@@ -263,7 +252,20 @@ class CartController extends Controller
     // }
     public function checkoutPost(Request $request)
     {
+        // if (! auth()->user()->can('sell.create') && ! auth()->user()->can('direct_sell.access') && ! auth()->user()->can('so.create')) {
+        //     abort(403, 'Unauthorized action.');
+        // }
+
         $is_direct_sale = false;
+        // if (!empty($request->input('is_direct_sale'))) {
+        //     $is_direct_sale = true;
+        // }
+
+        //Check if there is a open register, if no then redirect to Create Register screen.
+        // if (!$is_direct_sale && $this->cashRegisterUtil->countOpenedRegister() == 0) {
+        //     return redirect()->action([\App\Http\Controllers\CashRegisterController::class, 'create']);
+        // }
+
         try {
             if ($request->payment_method == 'stripe') {
                 Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
@@ -295,8 +297,36 @@ class CartController extends Controller
                 unset($input['payment']['change_return']);
             }
 
-            $business_id = $input['business_id'];
-            $user_id = Auth::user()->id;
+            //Check Customer credit limit
+            $is_credit_limit_exeeded = $this->transactionUtil->isCustomerCreditLimitExeeded($input);
+
+            if ($is_credit_limit_exeeded !== false) {
+                $credit_limit_amount = $this->transactionUtil->num_f($is_credit_limit_exeeded, true);
+                $output = [
+                    'success' => 0,
+                    'msg' => __('lang_v1.cutomer_credit_limit_exeeded', ['credit_limit' => $credit_limit_amount]),
+                ];
+                if (!$is_direct_sale) {
+                    return $output;
+                } else {
+                    return redirect()
+                        ->action([\App\Http\Controllers\SellController::class, 'index'])
+                        ->with('status', $output);
+                }
+            }
+
+            // if (! empty($input['products'])) {
+            $business_id = $request->session()->get('user.business_id');
+
+            //Check if subscribed or not, then check for users quota
+            // if (!$this->moduleUtil->isSubscribed($business_id)) {
+            //     return $this->moduleUtil->expiredResponse();
+            // } elseif (!$this->moduleUtil->isQuotaAvailable('invoices', $business_id)) {
+            //     return $this->moduleUtil->quotaExpiredResponse('invoices', $business_id, action([\App\Http\Controllers\SellPosController::class, 'index']));
+            // }
+
+            $user_id = $request->session()->get('user.id');
+
             $discount = [
                 'discount_type' => $input['discount_type'],
                 'discount_amount' => $input['discount_amount'],
@@ -305,7 +335,11 @@ class CartController extends Controller
 
             DB::beginTransaction();
 
-            $input['transaction_date'] = \Carbon::now();
+            if (empty($request->input('transaction_date'))) {
+                $input['transaction_date'] = \Carbon::now();
+            } else {
+                $input['transaction_date'] = $this->productUtil->uf_date($request->input('transaction_date'), true);
+            }
             if ($is_direct_sale) {
                 $input['is_direct_sale'] = 1;
             }
@@ -317,7 +351,7 @@ class CartController extends Controller
                 $input['commission_agent'] = $user_id;
             }
 
-            if (isset($input['exchange_rate']) && $this->num_uf($input['exchange_rate']) == 0) {
+            if (isset($input['exchange_rate']) && $this->transactionUtil->num_uf($input['exchange_rate']) == 0) {
                 $input['exchange_rate'] = 1;
             }
 
@@ -340,8 +374,8 @@ class CartController extends Controller
             //Generate reference number
             if (!empty($input['is_recurring'])) {
                 //Update reference count
-                $ref_count = $this->setAndGetReferenceCount('subscription');
-                $input['subscription_no'] = $this->generateReferenceNumber('subscription', $ref_count);
+                $ref_count = $this->transactionUtil->setAndGetReferenceCount('subscription');
+                $input['subscription_no'] = $this->transactionUtil->generateReferenceNumber('subscription', $ref_count);
             }
 
             if (!empty($request->input('invoice_scheme_id'))) {
@@ -353,7 +387,7 @@ class CartController extends Controller
                 $input['types_of_service_id'] = $request->input('types_of_service_id');
                 $price_group_id = !empty($request->input('types_of_service_price_group')) ? $request->input('types_of_service_price_group') : $price_group_id;
                 $input['packing_charge'] = !empty($request->input('packing_charge')) ?
-                    $this->num_uf($request->input('packing_charge')) : 0;
+                    $this->transactionUtil->num_uf($request->input('packing_charge')) : 0;
                 $input['packing_charge_type'] = $request->input('packing_charge_type');
                 $input['service_custom_field_1'] = !empty($request->input('service_custom_field_1')) ?
                     $request->input('service_custom_field_1') : null;
@@ -401,7 +435,7 @@ class CartController extends Controller
             //upload document
             $input['document'] = $this->transactionUtil->uploadFile($request, 'sell_document', 'documents');
 
-            $transaction = $this->createSellTransaction($business_id, $input, $invoice_total, $user_id);
+            $transaction = $this->transactionUtil->createSellTransaction($business_id, $input, $invoice_total, $user_id);
 
             //Upload Shipping documents
             Media::uploadMedia($business_id, $transaction, $request, 'shipping_documents', false, 'shipping_document');
@@ -430,14 +464,14 @@ class CartController extends Controller
                             if (!empty($product->preparation_time_in_minutes)) {
                                 $service_staff = User::find($product_line['res_service_staff_id']);
 
-                                $base_time = Carbon::parse($transaction->transaction_date);
+                                $base_time = \Carbon::parse($transaction->transaction_date);
 
                                 //if already assigned set base time as available_at
-                                if (!empty($service_staff->available_at) && Carbon::parse($service_staff->available_at)->gt(Carbon::now())) {
-                                    $base_time = Carbon::parse($service_staff->available_at);
+                                if (!empty($service_staff->available_at) && \Carbon::parse($service_staff->available_at)->gt(\Carbon::now())) {
+                                    $base_time = \Carbon::parse($service_staff->available_at);
                                 }
 
-                                $total_minutes = $product->preparation_time_in_minutes * $this->num_uf($product_line['quantity']);
+                                $total_minutes = $product->preparation_time_in_minutes * $this->transactionUtil->num_uf($product_line['quantity']);
 
                                 $service_staff->available_at = $base_time->addMinutes($total_minutes);
                                 $service_staff->save();
@@ -447,7 +481,8 @@ class CartController extends Controller
                 }
                 //update product stock
                 foreach ($input['products'] as $product) {
-                    $decrease_qty = $this->num_uf($product['quantity']);
+                    $decrease_qty = $this->productUtil
+                        ->num_uf($product['quantity']);
                     if (!empty($product['base_unit_multiplier'])) {
                         $decrease_qty = $decrease_qty * $product['base_unit_multiplier'];
                     }
@@ -477,11 +512,9 @@ class CartController extends Controller
                 }
 
                 //Update payment status
-                if ($request->payment_method == 'stripe') {
-                    $transaction->payment_status = 'paid';
-                } else {
-                    $transaction->payment_status = 'due';
-                }
+                $payment_status = $this->transactionUtil->updatePaymentStatus($transaction->id, $transaction->final_total);
+
+                $transaction->payment_status = $payment_status;
 
                 if ($request->session()->get('business.enable_rp') == 1) {
                     $redeemed = !empty($input['rp_redeemed']) ? $input['rp_redeemed'] : 0;
@@ -503,7 +536,7 @@ class CartController extends Controller
                 $this->transactionUtil->mapPurchaseSell($business, $transaction->sell_lines, 'purchase');
 
                 //Auto send notification
-                // $whatsapp_link = $this->notificationUtil->autoSendNotification($business_id, 'new_sale', $transaction, $transaction->contact);
+                $whatsapp_link = $this->notificationUtil->autoSendNotification($business_id, 'new_sale', $transaction, $transaction->contact);
             }
 
             if (!empty($transaction->sales_order_ids)) {
@@ -515,17 +548,6 @@ class CartController extends Controller
             Media::uploadMedia($business_id, $transaction, $request, 'documents');
 
             $this->transactionUtil->activityLog($transaction, 'added');
-
-            $transaction_payment = new TransactionPayment();
-            $transaction_payment->transaction_id = $transaction->id;
-            $transaction_payment->business_id = $business_id;
-            $transaction_payment->amount = $input['final_total'];
-            if ($request->payment_method == 'stripe') {
-                $transaction_payment->method = 'card';
-            } else {
-                $transaction_payment->method = 'cash';
-            }
-            $transaction_payment->save();
 
             DB::commit();
 
@@ -578,18 +600,8 @@ class CartController extends Controller
             // }
         } catch (\Exception $e) {
             DB::rollBack();
-            // \Log::emergency('File:' . $e->getFile() . 'Line:' . $e->getLine() . 'Message:' . $e->getMessage());
-            $msg = $e->getMessage();
-            \Log::emergency('Error Stack Trace:');
-            $stackTrace = $e->getTrace();
-            foreach ($stackTrace as $index => $trace) {
-                $file = isset($trace['file']) ? $trace['file'] : 'Unknown File';
-                $line = isset($trace['line']) ? $trace['line'] : 'Unknown Line';
-                $function = isset($trace['function']) ? $trace['function'] : 'Unknown Function';
-                $class = isset($trace['class']) ? $trace['class'] : 'Unknown Class';
-
-                \Log::emergency("{$index}: File: {$file}, Line: {$line}, Function: {$function}, Class: {$class}");
-            }
+            \Log::emergency('File:' . $e->getFile() . 'Line:' . $e->getLine() . 'Message:' . $e->getMessage());
+            $msg = 'File:' . $e->getFile() . 'Line:' . $e->getLine() . 'Message:' . $e->getMessage();
 
             if (get_class($e) == \App\Exceptions\PurchaseSellMismatch::class) {
                 $msg = $e->getMessage();
@@ -639,252 +651,6 @@ class CartController extends Controller
             }
         }
     }
-
-    private function createSellTransaction($business_id, $input, $invoice_total, $user_id, $uf_data = true)
-    {
-        $sale_type = !empty($input['type']) ? $input['type'] : 'sell';
-        $invoice_scheme_id = !empty($input['invoice_scheme_id']) ? $input['invoice_scheme_id'] : null;
-        $invoice_no = !empty($input['invoice_no']) ? $input['invoice_no'] : $this->getInvoiceNumber($business_id, $input['status'], $input['location_id'], $invoice_scheme_id, $sale_type);
-
-        $final_total = $uf_data ? $this->num_uf($input['final_total']) : $input['final_total'];
-
-        $pay_term_number = isset($input['pay_term_number']) ? $input['pay_term_number'] : null;
-        $pay_term_type = isset($input['pay_term_type']) ? $input['pay_term_type'] : null;
-
-        //if pay term empty set contact pay term
-        // if (empty($pay_term_number) || empty($pay_term_type)) {
-        //     $contact = Contact::find($input['contact_id']);
-        //     $pay_term_number = $contact->pay_term_number;
-        //     $pay_term_type = $contact->pay_term_type;
-        // }
-        $pay_term_number = null;
-        $pay_term_type = null;
-        $transaction = Transaction::create([
-            'business_id' => $business_id,
-            'location_id' => $input['location_id'],
-            'type' => $sale_type,
-            'status' => $input['status'],
-            'sub_status' => !empty($input['sub_status']) ? $input['sub_status'] : null,
-            'contact_id' => $input['contact_id'],
-            'customer_group_id' => !empty($input['customer_group_id']) ? $input['customer_group_id'] : null,
-            'invoice_no' => $invoice_no,
-            'ref_no' => '',
-            'source' => !empty($input['source']) ? $input['source'] : null,
-            'total_before_tax' => $invoice_total['total_before_tax'],
-            'transaction_date' => $input['transaction_date'],
-            'tax_id' => !empty($input['tax_rate_id']) ? $input['tax_rate_id'] : null,
-            'discount_type' => !empty($input['discount_type']) ? $input['discount_type'] : null,
-            'discount_amount' => $uf_data ? $this->num_uf($input['discount_amount']) : $input['discount_amount'],
-            'tax_amount' => $invoice_total['tax'],
-            'final_total' => $final_total,
-            'additional_notes' => !empty($input['sale_note']) ? $input['sale_note'] : null,
-            'staff_note' => !empty($input['staff_note']) ? $input['staff_note'] : null,
-            'created_by' => $user_id,
-            'document' => !empty($input['document']) ? $input['document'] : null,
-            'custom_field_1' => !empty($input['custom_field_1']) ? $input['custom_field_1'] : null,
-            'custom_field_2' => !empty($input['custom_field_2']) ? $input['custom_field_2'] : null,
-            'custom_field_3' => !empty($input['custom_field_3']) ? $input['custom_field_3'] : null,
-            'custom_field_4' => !empty($input['custom_field_4']) ? $input['custom_field_4'] : null,
-            'is_direct_sale' => !empty($input['is_direct_sale']) ? $input['is_direct_sale'] : 0,
-            'commission_agent' => $input['commission_agent'] ?? null,
-            'is_quotation' => isset($input['is_quotation']) ? $input['is_quotation'] : 0,
-            'shipping_details' => isset($input['shipping_details']) ? $input['shipping_details'] : null,
-            'shipping_address' => isset($input['shipping_address']) ? $input['shipping_address'] : null,
-            'shipping_status' => isset($input['shipping_status']) ? $input['shipping_status'] : null,
-            'delivered_to' => isset($input['delivered_to']) ? $input['delivered_to'] : null,
-            'shipping_charges' => isset($input['shipping_charges']) ? $uf_data ? $this->num_uf($input['shipping_charges']) : $input['shipping_charges'] : 0,
-            'shipping_custom_field_1' => !empty($input['shipping_custom_field_1']) ? $input['shipping_custom_field_1'] : null,
-            'shipping_custom_field_2' => !empty($input['shipping_custom_field_2']) ? $input['shipping_custom_field_2'] : null,
-            'shipping_custom_field_3' => !empty($input['shipping_custom_field_3']) ? $input['shipping_custom_field_3'] : null,
-            'shipping_custom_field_4' => !empty($input['shipping_custom_field_4']) ? $input['shipping_custom_field_4'] : null,
-            'shipping_custom_field_5' => !empty($input['shipping_custom_field_5']) ? $input['shipping_custom_field_5'] : null,
-            'exchange_rate' => !empty($input['exchange_rate']) ?
-                $uf_data ? $this->num_uf($input['exchange_rate']) : $input['exchange_rate'] : 1,
-            'selling_price_group_id' => isset($input['selling_price_group_id']) ? $input['selling_price_group_id'] : null,
-            'pay_term_number' => $pay_term_number,
-            'pay_term_type' => $pay_term_type,
-            'is_suspend' => !empty($input['is_suspend']) ? 1 : 0,
-            'is_recurring' => !empty($input['is_recurring']) ? $input['is_recurring'] : 0,
-            'recur_interval' => !empty($input['recur_interval']) ? $input['recur_interval'] : 1,
-            'recur_interval_type' => !empty($input['recur_interval_type']) ? $input['recur_interval_type'] : null,
-            'subscription_repeat_on' => !empty($input['subscription_repeat_on']) ? $input['subscription_repeat_on'] : null,
-            'subscription_no' => !empty($input['subscription_no']) ? $input['subscription_no'] : null,
-            'recur_repetitions' => !empty($input['recur_repetitions']) ? $input['recur_repetitions'] : 0,
-            'order_addresses' => !empty($input['order_addresses']) ? $input['order_addresses'] : null,
-            'sub_type' => !empty($input['sub_type']) ? $input['sub_type'] : null,
-            'rp_earned' => $input['status'] == 'final' ? $this->calculateRewardPoints($business_id, $final_total) : 0,
-            'rp_redeemed' => !empty($input['rp_redeemed']) ? $input['rp_redeemed'] : 0,
-            'rp_redeemed_amount' => !empty($input['rp_redeemed_amount']) ? $input['rp_redeemed_amount'] : 0,
-            'is_created_from_api' => !empty($input['is_created_from_api']) ? 1 : 0,
-            'types_of_service_id' => !empty($input['types_of_service_id']) ? $input['types_of_service_id'] : null,
-            'packing_charge' => !empty($input['packing_charge']) ? $input['packing_charge'] : 0,
-            'packing_charge_type' => !empty($input['packing_charge_type']) ? $input['packing_charge_type'] : null,
-            'service_custom_field_1' => !empty($input['service_custom_field_1']) ? $input['service_custom_field_1'] : null,
-            'service_custom_field_2' => !empty($input['service_custom_field_2']) ? $input['service_custom_field_2'] : null,
-            'service_custom_field_3' => !empty($input['service_custom_field_3']) ? $input['service_custom_field_3'] : null,
-            'service_custom_field_4' => !empty($input['service_custom_field_4']) ? $input['service_custom_field_4'] : null,
-            'service_custom_field_5' => !empty($input['service_custom_field_5']) ? $input['service_custom_field_5'] : null,
-            'service_custom_field_6' => !empty($input['service_custom_field_6']) ? $input['service_custom_field_6'] : null,
-            'round_off_amount' => !empty($input['round_off_amount']) ? $input['round_off_amount'] : 0,
-            'import_batch' => !empty($input['import_batch']) ? $input['import_batch'] : null,
-            'import_time' => !empty($input['import_time']) ? $input['import_time'] : null,
-            'res_table_id' => !empty($input['res_table_id']) ? $input['res_table_id'] : null,
-            'res_waiter_id' => !empty($input['res_waiter_id']) ? $input['res_waiter_id'] : null,
-            'sales_order_ids' => !empty($input['sales_order_ids']) ? $input['sales_order_ids'] : null,
-            'prefer_payment_method' => !empty($input['prefer_payment_method']) ? $input['prefer_payment_method'] : null,
-            'prefer_payment_account' => !empty($input['prefer_payment_account']) ? $input['prefer_payment_account'] : null,
-            'is_export' => !empty($input['is_export']) ? 1 : 0,
-            'export_custom_fields_info' => (!empty($input['is_export']) && !empty($input['export_custom_fields_info'])) ? $input['export_custom_fields_info'] : null,
-            'additional_expense_value_1' => isset($input['additional_expense_value_1']) ? $uf_data ? $this->num_uf($input['additional_expense_value_1']) : $input['additional_expense_value_1'] : 0,
-            'additional_expense_value_2' => isset($input['additional_expense_value_2']) ? $uf_data ? $this->num_uf($input['additional_expense_value_2']) : $input['additional_expense_value_2'] : 0,
-            'additional_expense_value_3' => isset($input['additional_expense_value_3']) ? $uf_data ? $this->num_uf($input['additional_expense_value_3']) : $input['additional_expense_value_3'] : 0,
-            'additional_expense_value_4' => isset($input['additional_expense_value_4']) ? $uf_data ? $this->num_uf($input['additional_expense_value_4']) : $input['additional_expense_value_4'] : 0,
-            'additional_expense_key_1' => !empty($input['additional_expense_key_1']) ? $input['additional_expense_key_1'] : null,
-            'additional_expense_key_2' => !empty($input['additional_expense_key_2']) ? $input['additional_expense_key_2'] : null,
-            'additional_expense_key_3' => !empty($input['additional_expense_key_3']) ? $input['additional_expense_key_3'] : null,
-            'additional_expense_key_4' => !empty($input['additional_expense_key_4']) ? $input['additional_expense_key_4'] : null,
-
-        ]);
-
-        return $transaction;
-    }
-
-    private function getInvoiceNumber($business_id, $status, $location_id, $invoice_scheme_id = null, $sale_type = null)
-    {
-        if ($status == 'final') {
-            if (empty($invoice_scheme_id)) {
-                $scheme = $this->getInvoiceScheme($business_id, $location_id);
-            } else {
-                $scheme = InvoiceScheme::find($invoice_scheme_id);
-            }
-
-            if ($scheme->scheme_type == 'blank') {
-                $prefix = $scheme->prefix;
-            } else {
-                $prefix = $scheme->prefix . date('Y') . config('constants.invoice_scheme_separator');
-            }
-
-            //Count
-            $count = $scheme->start_number + $scheme->invoice_count;
-            $count = str_pad($count, $scheme->total_digits, '0', STR_PAD_LEFT);
-
-            //Prefix + count
-            $invoice_no = $prefix . $count;
-
-            //Increment the invoice count
-            $scheme->invoice_count = $scheme->invoice_count + 1;
-            $scheme->save();
-
-            return $invoice_no;
-        } elseif ($status == 'draft') {
-            $ref_count = $this->setAndGetReferenceCount('draft', $business_id);
-            $invoice_no = $this->generateReferenceNumber('draft', $ref_count, $business_id);
-
-            return $invoice_no;
-        } elseif ($sale_type == 'sales_order') {
-            $ref_count = $this->setAndGetReferenceCount('sales_order', $business_id);
-            $invoice_no = $this->generateReferenceNumber('sales_order', $ref_count, $business_id);
-
-            return $invoice_no;
-        } else {
-            return Str::random(5);
-        }
-    }
-    private function num_uf($input_number, $currency_details = null)
-    {
-        $thousand_separator = '';
-        $decimal_separator = '';
-
-        if (!empty($currency_details)) {
-            $thousand_separator = $currency_details->thousand_separator;
-            $decimal_separator = $currency_details->decimal_separator;
-        } else {
-            $thousand_separator = session()->has('currency') ? session('currency')['thousand_separator'] : '';
-            $decimal_separator = session()->has('currency') ? session('currency')['decimal_separator'] : '';
-        }
-
-        $num = str_replace($thousand_separator, '', $input_number);
-        $num = str_replace($decimal_separator, '.', $num);
-
-        return (float) $num;
-    }
-    private function calculateRewardPoints($business_id, $total)
-    {
-        if (session()->has('business')) {
-            $business = session()->get('business');
-        } else {
-            $business = Business::find($business_id);
-        }
-        $total_points = 0;
-
-        // if ($business->enable_rp == 1) {
-        //     //check if order total elegible for reward
-        //     if ($business->min_order_total_for_rp > $total) {
-        //         return $total_points;
-        //     }
-        //     $amount_per_unit_point = $business->amount_for_unit_rp;
-
-        //     $total_points = floor($total / $amount_per_unit_point);
-
-        //     if (! empty($business->max_rp_per_order) && $business->max_rp_per_order < $total_points) {
-        //         $total_points = $business->max_rp_per_order;
-        //     }
-        // }
-
-        return $total_points;
-    }
-    private function setAndGetReferenceCount($type, $business_id = null)
-    {
-        if (empty($business_id)) {
-            $business_id = request()->session()->get('user.business_id');
-        }
-
-        $ref = ReferenceCount::where('ref_type', $type)
-            ->where('business_id', $business_id)
-            ->first();
-        if (!empty($ref)) {
-            $ref->ref_count += 1;
-            $ref->save();
-
-            return $ref->ref_count;
-        } else {
-            $new_ref = ReferenceCount::create([
-                'ref_type' => $type,
-                'business_id' => $business_id,
-                'ref_count' => 1,
-            ]);
-
-            return $new_ref->ref_count;
-        }
-    }
-    public function generateReferenceNumber($type, $ref_count, $business_id = null, $default_prefix = null)
-    {
-        $prefix = '';
-
-        if (session()->has('business') && !empty(request()->session()->get('business.ref_no_prefixes')[$type])) {
-            $prefix = request()->session()->get('business.ref_no_prefixes')[$type];
-        }
-        if (!empty($business_id)) {
-            $business = Business::find($business_id);
-            $prefixes = $business->ref_no_prefixes;
-            $prefix = !empty($prefixes[$type]) ? $prefixes[$type] : '';
-        }
-
-        if (!empty($default_prefix)) {
-            $prefix = $default_prefix;
-        }
-
-        $ref_digits = str_pad($ref_count, 4, 0, STR_PAD_LEFT);
-
-        if (!in_array($type, ['contacts', 'business_location', 'username'])) {
-            $ref_year = Carbon::now()->year;
-            $ref_number = $prefix . $ref_year . '/' . $ref_digits;
-        } else {
-            $ref_number = $prefix . $ref_digits;
-        }
-
-        return $ref_number;
-    }
     private function receiptContent(
         $business_id,
         $location_id,
@@ -906,9 +672,9 @@ class CartController extends Controller
         $business_details = $this->businessUtil->getDetails($business_id);
         $location_details = BusinessLocation::find($location_id);
 
-        // if ($from_pos_screen && $location_details->print_receipt_on_invoice != 1) {
-        //     return $output;
-        // }
+        if ($from_pos_screen && $location_details->print_receipt_on_invoice != 1) {
+            return $output;
+        }
         //Check if printing of invoice is enabled or not.
         //If enabled, get print type.
         $output['is_enabled'] = true;
