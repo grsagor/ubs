@@ -1,4 +1,5 @@
 @extends('frontend.layouts.master_layout')
+@section('title', 'Checkout - ')
 @section('css')
     <style>
         .print_section {
@@ -50,7 +51,7 @@
 @section('content')
     @includeIf('frontend.partials.global.common-header')
     <!-- breadcrumb -->
-    <div class="full-row bg-light overlay-dark py-5" style="">
+    {{-- <div class="full-row bg-light overlay-dark py-5" style="">
         <div class="container">
             <div class="row text-center text-white">
                 <div class="col-12">
@@ -66,7 +67,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
     <!-- breadcrumb -->
     <div class="load_cart content no-print">
         <section class="checkout">
@@ -117,7 +118,7 @@
                                                     <img src="//geniusocean.com/demo/geniuscart/default/assets/images/loading_large.gif"
                                                         alt="">
                                                 </div>
-                                                <div class="personal-info">
+                                                {{-- <div class="personal-info">
                                                     <h5 class="title">
                                                         Personal Information :
                                                     </h5>
@@ -133,13 +134,13 @@
                                                                 value="">
                                                         </div>
                                                     </div>
-                                                    {{-- <div class="row">
+                                                    <div class="row">
                                                         <div class="col-lg-12 mt-3">
                                                             <input class="styled-checkbox" id="open-pass" type="checkbox"
                                                                 value="1" name="pass_check">
                                                             <label for="open-pass">Create an account ?</label>
                                                         </div>
-                                                    </div> --}}
+                                                    </div>
                                                     <div class="row set-account-pass d-none">
                                                         <div class="col-lg-6">
                                                             <input type="password" name="personal_pass" id="personal-pass"
@@ -151,7 +152,7 @@
                                                                 placeholder="Confirm Your Password">
                                                         </div>
                                                     </div>
-                                                </div>
+                                                </div> --}}
                                                 <div class="billing-address">
                                                     <h5 class="title">
                                                         Billing Details
@@ -2598,13 +2599,13 @@
                                                         <div class="col-lg-12">
                                                             <label class="form_input form_radio">
                                                                 <input type="radio" name="payment_method"
-                                                                    value=cash_on_delivery>
+                                                                    value="cash_on_delivery" required>
                                                                 Cash On Delivery
                                                             </label>
                                                             <label class="form_input form_radio">
                                                                 <input type="radio" name="payment_method"
-                                                                    value="stripe">
-                                                                Stripe
+                                                                    value="stripe" required>
+                                                                    Debit or Credit  Card
                                                             </label>
                                                         </div>
                                                     </div>
@@ -2661,13 +2662,14 @@
                             <input type="hidden" name="user_id" id="user_id" value="">
 
                             <input type="hidden" name="status" value="final">
-                            <input type="hidden" name="final_total" value="0.00">
+                            <input type="hidden" name="final_total" value="{{$total_price}}">
                             <input type="hidden" name="discount_type" value="percentage">
                             <input type="hidden" name="discount_amount" value="10.00">
                             <input type="hidden" name="tax_rate_id" value="">
-                            <input type="hidden" name="location_id" value="{{ $user->id }}">
+                            <input type="hidden" name="location_id" value="{{ $product->business_location->id }}">
                             <input type="hidden" name="invoice_scheme_id" value="2">
-                            <input type="hidden" name="contact_id" value="{{ $user->id }}">
+                            <input type="hidden" name="contact_id" value="{{ $product->contact_id }}">
+                            <input type="hidden" name="business_id" value="{{ $product->business_id }}">
                         </form>
                     </div>
                     <div class="col-lg-4">
@@ -2680,7 +2682,15 @@
                                             Total MRP
                                         </p>
                                         <p>
-                                            <b class="cart-total">{{ $total_price }}$</b>
+                                            <b class="cart-total">$ {{ $total_price_excluding_tax }}</b>
+                                        </p>
+                                    </li>
+                                    <li>
+                                        <p>
+                                            Vat
+                                        </p>
+                                        <p>
+                                            <b class="cart-total">$ {{ $total_vat }}</b>
                                         </p>
                                     </li>
                                     <li class="tax_show  d-none">
@@ -2705,7 +2715,7 @@
                                         Total
                                     </p>
                                     <p class="total-cost-dum">
-                                        <span id="total-cost">{{ $total_price }}$</span>
+                                        <span id="total-cost">$ {{ $total_price }}</span>
                                     </p>
                                 </div>
                                 {{-- <div class="cupon-box">
@@ -2767,7 +2777,7 @@
                                 </div> --}}
                                 <div class="final-price">
                                     <span>Final Price :</span>
-                                    <span id="final-cost">{{ $total_price }}$</span>
+                                    <span id="final-cost">$ {{ $total_price }}</span>
                                 </div>
                                 <div class="wallet-price d-none">
                                     <span>Wallet Amount:</span>
@@ -2785,13 +2795,15 @@
 @endsection
 
 @section('script')
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <script src="{{ asset('assets/front/js/custom.js') }}"></script>
     <script src="https://js.stripe.com/v3/"></script>
     <script>
         var stripe = Stripe('{{ env('STRIPE_PUB_KEY') }}');
         var elements = stripe.elements();
-        var cardElement = elements.create('card');
-
+        var cardElement = elements.create('card', {
+            hidePostalCode: true // This option will hide the postal code field
+        });
         cardElement.mount('#card-element');
 
         var form = document.getElementById('checkout_form');
@@ -2816,7 +2828,8 @@
 
                 if (go > hide) {
                     var form = document.getElementById('checkout_form');
-                    var inputFields = form.querySelectorAll('input, select, textarea');
+                    var checkTab = document.getElementById(`pills-step${hide}`);
+                    var inputFields = checkTab.querySelectorAll('input, select, textarea');
                     inputFields.forEach(function(inputField) {
                         if (!inputField.checkValidity()) {
                             inputField.focus(); // Focus on the first invalid input field
@@ -2849,45 +2862,52 @@
     <script>
         $(document).ready(function() {
             $(document).on('click', '#final-btn', function() {
-                // stripe.createToken(cardElement).then(function(result) {
-                //     if (result.error) {
-                //         var errorElement = document.getElementById('card-errors');
-                //         errorElement.textContent = result.error.message;
-                //     } else {
-                //         stripeTokenHandler(result.token);
-                //     }
-                // });
-
-                stripe.createToken(cardElement).then(function(result) {
+                var payment_method = $('input[type="radio"][name="payment_method"]:checked').val();
+                if (payment_method == 'stripe') {
+                    stripe.createToken(cardElement).then(function(result) {
                     if (result.error) {
-                        var errorElement = document.getElementById('card-errors');
-                        errorElement.textContent = result.error.message;
-                        toastr.error(result.error.message);
+                        // var errorElement = document.getElementById('card-errors');
+                        // errorElement.textContent = result.error.message;
+                        Swal.fire({
+                            icon: 'error',
+                            title: result.error.message,
+                            position: 'center',
+                        })
                     } else {
-                        var checkout_form = $('#checkout_form');
-                        var data = checkout_form.serializeArray();
-                        data.push({ name: 'stripeToken', value: result.token.id });
-                        $.ajax({
-                            url: "{{ route('checkout.post') }}",
-                            type: 'POST',
-                            data: data,
-                            dataType: 'json',
-                            success: function(result) {
-                                if (result.success == 1) {
-                                    toastr.success(result.msg);
-                                    //Check if enabled or not
-                                    // if (result.receipt.is_enabled) {
-                                    pos_print(result.receipt);
-                                    // }
-                                } else {
-                                    toastr.error(result.msg);
-                                }
-                            },
-                        });
+                        saveCheckoutForm(result.token.id);
                     }
                 });
+                } else if (payment_method == 'cash_on_delivery') {
+                    saveCheckoutForm();
+                }
             })
         })
+
+        function saveCheckoutForm(stripeToken) {
+            var checkout_form = $('#checkout_form');
+            var data = checkout_form.serializeArray();
+            data.push({ name: 'stripeToken', value: stripeToken });
+            $.ajax({
+                url: "{{ route('checkout.post') }}",
+                type: 'POST',
+                data: data,
+                dataType: 'json',
+                success: function(result) {
+                    if (result.success == 1) {
+                        //Check if enabled or not
+                        // if (result.receipt.is_enabled) {
+                        pos_print(result.receipt);
+                        // }
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: result.msg,
+                            position: 'center',
+                        })
+                    }
+                },
+            });
+        }
 
         function pos_print(receipt) {
             //If printer type then connect with websocket

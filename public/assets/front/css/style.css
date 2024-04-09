@@ -449,8 +449,25 @@ input[type="checkbox"]+label {
 }
 
 .mybtn1:hover {
-    background: #fff;
-    color: #c9030f;
+    background: #424a4db0 !important;
+    color: #fff;
+}
+
+.bottom-area {
+    display: flex;
+    gap: 8px;
+}
+
+#final-btn {
+    margin-bottom: 10px;
+    border-radius: 3px;
+    font-size: 16px;
+    font-weight: 400;
+}
+
+#final-btn:hover {
+    color: #fff !important;
+    background-color: #c9030f9e !important;
 }
 
 .order-table {
@@ -8787,10 +8804,6 @@ table.cart {
 
 .checkout-area .content-box .content .set-account-pass {
     margin-top: 10px;
-}
-
-.checkout-area .content-box .content .billing-address {
-    margin-top: 25px;
 }
 
 .checkout-area .content-box .content .ship-diff-addres-area {

@@ -34,9 +34,9 @@ class SellController extends Controller
     {
         $business_id = request()->session()->get('user.business_id');
 
-        $contact_type = Contact::where('business_id', $business_id)
-            ->find(auth()->user()->crm_contact_id)
-            ->type;
+        // $contact_type = Contact::where('business_id', $business_id)
+        //     ->find(auth()->user()->crm_contact_id)
+        //     ->type;
 
         // if (!(auth()->user()->can('superadmin') || $this->moduleUtil->hasThePermissionInSubscription($business_id, 'crm_module') && in_array($contact_type, ['customer', 'both']))) {
         //     abort(403, 'Unauthorized action.');

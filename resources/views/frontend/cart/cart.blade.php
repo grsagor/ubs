@@ -2,7 +2,7 @@
 @section('content')
     @includeIf('frontend.partials.global.common-header')
     <!-- breadcrumb -->
-    <div class="full-row bg-light overlay-dark py-5" style="">
+    {{-- <div class="full-row bg-light overlay-dark py-5" style="">
         <div class="container">
             <div class="row text-center text-white">
                 <div class="col-12">
@@ -18,9 +18,17 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
     <!-- breadcrumb -->
     <div class="load_cart">
         @include('frontend.ajax.cart-page')
     </div>
+@endsection
+@section('script')
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+@if (session()->has('error'))
+    <script>
+        console.log("{{ session()->get('error') }}");
+    </script>
+@endif
 @endsection
