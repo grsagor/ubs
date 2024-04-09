@@ -29,7 +29,7 @@
                 <div class="col-sm-4">
                     <div class="form-group">
                         <label class="form-label">{{ __('product.type') }}: <span class="text-danger">*</span></label>
-                        {!! Form::select('types', ['service' => 'Service'], $product->types, [
+                        {!! Form::select('types', ['product' => 'Product', 'service' => 'Service'], $product->types, [
                             'placeholder' => __('messages.please_select'),
                             'class' => 'form-control select2',
                             'required',
