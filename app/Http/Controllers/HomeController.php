@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Business;
 use App\BusinessLocation;
 use App\Charts\CommonChart;
 use App\Currency;
 use App\Media;
 use App\Transaction;
+use App\TransactionPayment;
 use App\User;
 use App\Utils\BusinessUtil;
 use App\Utils\ModuleUtil;
@@ -241,6 +243,9 @@ class HomeController extends Controller
                 $location_id
             );
 
+            $total_sell = TransactionPayment::where('business_id', $business_id)->sum('amount');
+            $business = Business::find($business_id);
+
             $total_purchase_inc_tax = !empty($purchase_details['total_purchase_inc_tax']) ? $purchase_details['total_purchase_inc_tax'] : 0;
             $total_purchase_return_inc_tax = $transaction_totals['total_purchase_return_inc_tax'];
 
@@ -253,7 +258,9 @@ class HomeController extends Controller
             $total_sell_return_inc_tax = !empty($transaction_totals['total_sell_return_inc_tax']) ? $transaction_totals['total_sell_return_inc_tax'] : 0;
             $output['total_sell_return_paid'] = $this->transactionUtil->getTotalSellReturnPaid($business_id, $start, $end, $location_id);
 
-            $output['total_sell'] = $total_sell_inc_tax;
+            // $output['total_sell'] = $total_sell_inc_tax;
+            $output['total_sell'] = $total_sell;
+            $output['available_balance'] = $business->wallet;
             $output['total_sell_return'] = $total_sell_return_inc_tax;
 
             $output['invoice_due'] = $sell_details['invoice_due'] - $total_ledger_discount['total_sell_discount'];
