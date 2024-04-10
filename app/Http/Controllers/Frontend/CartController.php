@@ -266,6 +266,10 @@ class CartController extends Controller
         $is_direct_sale = false;
         try {
             if ($request->payment_method == 'stripe') {
+                $business = Business::find($request->business_id);
+                $business->wallet = $business->wallet + $request->amount;
+                $business->save();
+
                 Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
                 $charge = Charge::create([
                     'amount' => $request->amount * 100,

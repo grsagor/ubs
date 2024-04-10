@@ -62,6 +62,19 @@
                     </div>
                     <div class="col-md-3 col-sm-6 col-xs-12 col-custom">
                         <div class="info-box info-box-new-style">
+                            <span class="info-box-icon bg-aqua"><i class="ion ion-ios-cart-outline"></i></span>
+
+                            <div class="info-box-content">
+                                <span class="info-box-text">Available Balance</span>
+                                <span class="info-box-number available_balance"><i
+                                        class="fas fa-sync fa-spin fa-fw margin-bottom"></i></span>
+                            </div>
+                            <!-- /.info-box-content -->
+                        </div>
+                        <!-- /.info-box -->
+                    </div>
+                    <div class="col-md-3 col-sm-6 col-xs-12 col-custom">
+                        <div class="info-box info-box-new-style">
                             <span class="info-box-icon bg-green">
                                 <i class="ion ion-ios-paper-outline"></i>
 

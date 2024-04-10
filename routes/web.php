@@ -1,6 +1,7 @@
 <?php
 include 'customer.php';
 
+use App\Http\Controllers\Backend\WithdrawController;
 use App\Http\Controllers\Install;
 use App\Http\Controllers\Restaurant;
 use Illuminate\Support\Facades\Route;
@@ -690,6 +691,13 @@ Route::middleware(['checkAdmin', 'SetSessionData'])->group(function () {
 
     Route::prefix('account')->group(function () {
         Route::resource('/account', AccountController::class);
+        // Withdraw routes
+        Route::get('/withdraw', [WithdrawController::class, 'index']);
+        Route::get('/withdraw-list', [WithdrawController::class, 'getWithdrawList'])->name('account.withdraw.list');
+        Route::get('/withdraw-superadmin-list', [WithdrawController::class, 'getSuperadminList'])->name('account.withdraw.superadmin.list');
+        Route::get('/withdraw-add-request', [WithdrawController::class, 'addRequest'])->name('account.withdraw.add.request');
+        Route::post('/withdraw-store-request', [WithdrawController::class, 'storeWithdrawRequest'])->name('account.withdraw.store.request');
+
         Route::get('/fund-transfer/{id}', [AccountController::class, 'getFundTransfer']);
         Route::post('/fund-transfer', [AccountController::class, 'postFundTransfer']);
         Route::get('/deposit/{id}', [AccountController::class, 'getDeposit']);

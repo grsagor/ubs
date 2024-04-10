@@ -205,6 +205,7 @@
                     </span>
                 </a>
                 <ul class="treeview-menu">
+                    <li><a href="{{ url('account/withdraw') }}"><i class="fa fas fa-list"></i> <span>Withdraw</span></a></li>
                     <li><a href="{{ url('account/account') }}"><i class="fa fas fa-list"></i> <span>List
                                 Accounts</span></a></li>
                     <li><a href="{{ url('account/balance-sheet') }}"><i class="fa fas fa-book"></i>
