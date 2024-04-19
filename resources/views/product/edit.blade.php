@@ -170,20 +170,20 @@
 
                 {{-- @php
                     $default_location = null;
-                    if (count($business_locations) == 1) {
+                    if (count($business_locations) == $business_location_new->location_id) {
                         $default_location = array_key_first($business_locations->toArray());
                     }
-                @endphp
+                @endphp --}}
                 <div class="col-sm-4">
                     <div class="form-group">
                         {!! Form::label('product_locations', __('business.business_locations') . ':') !!} @show_tooltip(__('lang_v1.product_location_help'))
-                        {!! Form::select('product_locations[]', $business_locations, $default_location, [
+                        {!! Form::select('product_locations[]', $business_locations, $business_location_new->location_id, [
                             'class' => 'form-control select2',
-                            'multiple',
                             'id' => 'product_locations',
+                            'required',
                         ]) !!}
                     </div>
-                </div> --}}
+                </div>
 
                 <div class="clearfix"></div>
             @endcomponent
