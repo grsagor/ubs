@@ -786,6 +786,8 @@ class ProductController extends Controller
             ->where('id', $id)
             ->firstOrFail();
 
+        $business_location_new = DB::table('product_locations')->where('product_id', $id)->first();
+
         //Sub-category
         $sub_categories = [];
         $sub_categories = Category::where('business_id', 5)
@@ -827,7 +829,7 @@ class ProductController extends Controller
         $alert_quantity = !is_null($product->alert_quantity) ? $this->productUtil->num_f($product->alert_quantity, false, null, true) : null;
 
         return view('product.edit')
-            ->with(compact('categories', 'brands', 'units', 'sub_units', 'taxes', 'tax_attributes', 'barcode_types', 'product', 'sub_categories', 'child_categories', 'default_profit_percent', 'business_locations', 'rack_details', 'selling_price_group_count', 'module_form_parts', 'product_types', 'common_settings', 'warranties', 'pos_module_data', 'alert_quantity'));
+            ->with(compact('categories', 'brands', 'units', 'sub_units', 'taxes', 'tax_attributes', 'barcode_types', 'product', 'sub_categories', 'child_categories', 'default_profit_percent', 'business_locations', 'rack_details', 'selling_price_group_count', 'module_form_parts', 'product_types', 'common_settings', 'warranties', 'pos_module_data', 'alert_quantity', 'business_location_new'));
     }
 
     /**
@@ -849,7 +851,7 @@ class ProductController extends Controller
             $business_id = $request->session()->get('user.business_id');
             $product_details = $request->only([
                 'name', 'brand_id', 'sub_category_id',
-                'child_category_id', 'business_location_id',
+                'child_category_id',
                 'unit_id', 'category_id', 'tax', 'barcode_type', 'sku',
                 'alert_quantity', 'tax_type', 'weight', 'product_custom_field1',
                 'product_custom_field2', 'product_custom_field3', 'product_custom_field4',
@@ -906,7 +908,7 @@ class ProductController extends Controller
 
             $product->sub_category_id = $product_details['sub_category_id'];
             $product->child_category_id = $product_details['child_category_id'];
-            $product->business_location_id = $product_details['business_location_id'];
+            // $product->business_location_id = $product_details['business_location_id'];
 
             $product->study_time = $product_details['study_time'];
             $product->name_of_institution = $product_details['name_of_institution'];
