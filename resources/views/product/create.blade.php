@@ -7,9 +7,9 @@
     <section class="content-header">
         <h1>Add New</h1>
         <!-- <ol class="breadcrumb">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <li class="active">Here</li>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        </ol> -->
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                <li class="active">Here</li>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            </ol> -->
     </section>
 
     <!-- Main content -->
@@ -173,7 +173,7 @@
                     </div>
                 </div>
 
-                <div class="col-sm-4">
+                {{-- <div class="col-sm-4">
                     <div class="form-group">
                         <label class="form-label">{{ __('business.business_locations') }}: <span
                                 class="text-danger">*</span></label>@show_tooltip(__('lang_v1.product_location_help'))
@@ -183,7 +183,7 @@
                             'required',
                         ]) !!}
                     </div>
-                </div>
+                </div> --}}
 
                 {{-- <div class="col-sm-4">
                     <div class="form-group">
@@ -197,7 +197,7 @@
                     </div>
                 </div> --}}
 
-                {{-- @php
+                @php
                     $default_location = null;
                     if (count($business_locations) == 1) {
                         $default_location = array_key_first($business_locations->toArray());
@@ -207,12 +207,13 @@
                     <div class="form-group">
                         {!! Form::label('product_locations', __('business.business_locations') . ':') !!} @show_tooltip(__('lang_v1.product_location_help'))
                         {!! Form::select('product_locations[]', $business_locations, $default_location, [
+                            'placeholder' => __('messages.please_select'),
                             'class' => 'form-control select2',
-                            'multiple',
                             'id' => 'product_locations',
+                            'required',
                         ]) !!}
                     </div>
-                </div> --}}
+                </div>
 
             </div>
         @endcomponent
