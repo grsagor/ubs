@@ -2758,6 +2758,10 @@ class ProductController extends Controller
             $data['user'] = $user;
         }
 
+        $location_id = DB::table('product_locations')->where('product_id', $id)->value('location_id');
+
+        $data['business_data'] = BusinessLocation::findOrFail($location_id);
+
         return view('frontend.product.details2', $data);
     }
 

@@ -195,14 +195,6 @@ $(document).ready(function () {
     }
   }
 
-  // Attach event listener to textarea for keyup event
-  document
-    .getElementById("define_this_item")
-    .addEventListener("keyup", countWordsAndCheckLimit);
-
-  // Initial count when the page loads
-  countWordsAndCheckLimit();
-
   // On change of delivery area
   $("#delivery_area").on("change", function () {
     let deliveryArea = $(this).val();
