@@ -212,7 +212,7 @@ class ProductController extends Controller
 
                         if (auth()->user()->can('product.view')) {
                             $html .=
-                                '<li><a href="' . action([\App\Http\Controllers\ProductController::class, 'view'], [$row->id]) . '" class="view-product"><i class="fa fa-eye"></i> ' . __('messages.view') . '</a></li>';
+                                '<li><p class="view-product" style=" padding: 3px 20px; margin: 0px;">  <i class="fa fa-eye" style=" margin-right: 10px;"></i> ' . __('messages.view') . '</p></li>';
                         }
 
                         if (auth()->user()->can('product.update')) {
