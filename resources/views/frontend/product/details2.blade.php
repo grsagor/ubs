@@ -182,16 +182,16 @@
 
         #imageSlider .carousel-item img {
             /* max-width: 350px;
-                                                                                                                                max-height: 300px; */
+                                                                                                                                        max-height: 300px; */
             width: auto;
             height: auto;
             margin: auto;
         }
 
         /* .carousel-control-next,
-                                                                                                    .carousel-control-prev {
-                                                                                                        filter: invert(100%);
-                                                                                                    } */
+                                                                                                            .carousel-control-prev {
+                                                                                                                filter: invert(100%);
+                                                                                                            } */
 
         .carousel-control-prev-icon {
             background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='%23000' width='8' height='8' viewBox='0 0 8 8'%3e%3cpath d='M5.25 0l-4 4 4 4 1.5-1.5L4.25 4l2.5-2.5L5.25 0z'/%3e%3c/svg%3e");
@@ -645,7 +645,7 @@
                                 <div class="requirements-card">
                                     <h3 class="sectitle">About Provider</h3>
 
-                                    @if ($business_data)
+                                    {{-- @if ($business_data)
                                         <div class="row header">
                                             <div class="col-md-9">
 
@@ -686,7 +686,48 @@
                                                 @endphp
                                             </div>
                                         </div>
+                                    @endif --}}
+
+                                    @if (isset($business_data) && $business_data)
+                                        <div class="row header">
+                                            <div class="col-md-9">
+                                                <div class="card-text company-name color-black">
+                                                    <a href="{{ route('shop.service', $business_data->id) }}"
+                                                        class="color-black">
+                                                        {{ $business_data->name }}
+                                                    </a>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-3 text-end mobile_view_image_left mobile_image">
+                                                @php
+                                                    $imageUrl =
+                                                        $user_info &&
+                                                        $user_info->file_name &&
+                                                        File::exists(
+                                                            public_path("uploads/media/{$user_info->file_name}"),
+                                                        )
+                                                            ? asset("uploads/media/{$user_info->file_name}")
+                                                            : 'https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg';
+                                                @endphp
+                                                <a href="{{ route('shop.service', $business_data->id) }}">
+                                                    <div>
+                                                        <img class="" src="{{ $imageUrl }}" alt=""
+                                                            style="width: 35% !important;">
+                                                    </div>
+                                                </a>
+
+                                                @php
+                                                    $imageUrl =
+                                                        $business_data &&
+                                                        File::exists(public_path($business_data->logo))
+                                                            ? asset($business_data->logo)
+                                                            : 'https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg';
+                                                @endphp
+                                            </div>
+                                        </div>
                                     @endif
+
 
                                     @if ($info->experiences)
                                         <h3 class="sectitle color-black mt-15">Experiences</h3>
