@@ -222,6 +222,9 @@ Route::get('/condition-of-use-and-sale',                [FrontendController::cla
 Route::get('/return-and-return-policies',               [FrontendController::class, 'return_refund_policies'])->name('footer.details.policies.return_refund_policies');
 Route::get('/payment-terms',                            [FrontendController::class, 'payment_terms'])->name('footer.details.policies.payment_terms');
 
+// Contact us
+Route::get('/contact-us',                               [FrontendController::class, 'contact_us'])->name('footer.details.contact_us');
+
 // CART SECTION
 Route::get('/carts', [CartController::class, 'cart'])->name('front.cart');
 Route::post('/post-cart', [CartController::class, 'postCart'])->name('post.cart');
