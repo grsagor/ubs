@@ -1,11 +1,6 @@
 @extends('frontend.layouts.master_layout')
 @section('title', 'Contact us')
 @section('css')
-    {{-- @include('frontend.footerDetails.css') --}}
-@endsection
-@section('content')
-    @includeIf('frontend.partials.global.common-header')
-
     <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
 
     <style>
@@ -15,6 +10,10 @@
             font-family: 'Exo 2', sans-serif;
             font-weight: 600;
             color: black;
+        }
+
+        .text-black {
+            color: black !important;
         }
 
         .contact-info h4 {
@@ -62,6 +61,12 @@
             width: 100%;
         }
     </style>
+@endsection
+@section('content')
+    @includeIf('frontend.partials.global.common-header')
+
+
+
 
     <div class="container main m-auto">
         <div class="contact-us">
@@ -80,19 +85,25 @@
                             <i class="fas fa-phone"></i>
                         </h4>
                         <p class="text-center">Phone</p>
-                        <p class="text-center">{!! $footerData['contact-us-phone'] ?? '' !!}</p>
+                        <!-- Make phone number clickable -->
+                        <p class="text-center"><a href="tel:{!! $footerData['contact-us-phone'] ?? '' !!}"
+                                class="text-black">{!! $footerData['contact-us-phone'] ?? '' !!}</a>
+                        </p>
                     </div>
                     <div class="col-md-4">
                         <h4 class="text-center">
                             <i class="fas fa-envelope"></i>
                         </h4>
-                        <p class="text-center">Email</p>
-                        <p class="text-center">{!! $footerData['contact-us-email'] ?? '' !!}</p>
+                        <p class="text-center ">Email</p>
+                        <!-- Make email address clickable -->
+                        <p class="text-center"><a href="mailto:{!! $footerData['contact-us-email'] ?? '' !!}"
+                                class="text-black">{!! $footerData['contact-us-email'] ?? '' !!}</a></p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
 
 
 @endsection
