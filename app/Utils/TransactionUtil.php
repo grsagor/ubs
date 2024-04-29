@@ -1948,7 +1948,7 @@ class TransactionUtil extends Util
      *
      * @return array
      */
-    protected function _receiptDetailsSellLines($lines, $il, $business_details)
+    public function _receiptDetailsSellLines($lines, $il, $business_details)
     {
         $is_lot_number_enabled = $business_details->enable_lot_number;
         $is_product_expiry_enabled = $business_details->enable_product_expiry;

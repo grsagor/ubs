@@ -46,128 +46,6 @@
                 display: block;
             }
         }
-
-        .acceepted_cards_container {
-            display: flex;
-            margin-bottom: 20px;
-        }
-
-        .acceepted_cards_container img {
-            width: 50px;
-            height: 20px;
-            object-fit: cover;
-        }
-
-        #stripeModal,
-        #stripeModal .modal-title,
-        #stripeModal .stripe-proceed-btn {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif !important;
-        }
-
-        /* .StripeElement>div>iframe {
-        height: 32px !important;
-    } */
-
-        .stripe-element-container {
-            padding: 4px;
-            box-shadow: 0px 0px 3px 1px black;
-            margin-bottom: 8px;
-        }
-
-        button.btn.btn-primary.stripe-proceed-btn {
-            background: #00afe1;
-            font-size: 18px;
-            width: 100%;
-        }
-
-        .stripe-proceed-btn:hover,
-        .stripe-proceed-btn:active {
-            background: #0183a9 !important;
-            color: #fff !important;
-            border: none !important;
-        }
-
-        #stripe-error-container {
-            color: red;
-        }
-        .stripe_checkbox_container {
-    display: flex;
-    justify-content: start;
-    align-items: center;
-    gap: 14px;
-}
-        .stripe_checkbox_container label{
-            width: fit-content;
-}
-#open_stripe_modal--btn {
-    padding: 4px;
-    line-height: 14px;
-    border-radius: 4px;
-    background: #00afe1;
-}
-#open_stripe_modal--btn:hover {
-    color: #fff !important;
-    background: #0183a9 !important;
-    border: none !important;
-}
-#payment_animation_container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: #EBEBEB;
-    z-index: 99999999;
-}
-#payment_animation_container img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-}
-#payment_success_container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: #EBEBEB;
-    z-index: 999999999;
-}
-#payment_success_container>div {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    font-size: 84px;
-}
-#payment_thanks_container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: #EBEBEB;
-    z-index: 999999999;
-}
-#payment_thanks_container>div {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-#payment_thanks_container .btn {
-    background: #7abad3 !important;
-    color: white !important;
-}
-#payment_thanks_container .btn:hover {
-    background: #61a0b9 !important;
-    color: white !important;
-}
-#create_invoice_btn {
-    width: 100px;
-}
     </style>
 @endsection
 @section('content')
@@ -297,30 +175,35 @@
                                                             </select>
                                                         </div> --}}
                                                         <div class="col-lg-6">
-                                                            <input class="form-control" type="text" name="customer_name"
-                                                                placeholder="Full Name" required="" value="">
-                                                        </div>
-                                                        <div class="col-lg-6">
-                                                            <input class="form-control" type="text" name="customer_email"
-                                                                placeholder="Email" required="" value="">
-                                                        </div>
-                                                        <div class="col-lg-6">
-                                                            <input class="form-control" type="text" name="customer_phone"
-                                                                placeholder="Phone Number" required="" value="">
+                                                            <input class="form-control" type="text"
+                                                                name="customer_name" placeholder="Full Name"
+                                                                required="" value="">
                                                         </div>
                                                         <div class="col-lg-6">
                                                             <input class="form-control" type="text"
-                                                                name="customer_address" placeholder="Address" required=""
+                                                                name="customer_email" placeholder="Email" required=""
                                                                 value="">
                                                         </div>
                                                         <div class="col-lg-6">
-                                                            <input class="form-control" type="text" name="customer_city"
-                                                                placeholder="City" required="" value="">
+                                                            <input class="form-control" type="text"
+                                                                name="customer_phone" placeholder="Phone Number"
+                                                                required="" value="">
+                                                        </div>
+                                                        <div class="col-lg-6">
+                                                            <input class="form-control" type="text"
+                                                                name="customer_address" placeholder="Address"
+                                                                required="" value="">
+                                                        </div>
+                                                        <div class="col-lg-6">
+                                                            <input class="form-control" type="text"
+                                                                name="customer_city" placeholder="City" required=""
+                                                                value="">
                                                         </div>
 
                                                         <div class="col-lg-6">
-                                                            <input class="form-control" type="text" name="customer_zip"
-                                                                placeholder="Postal Code" required="" value="">
+                                                            <input class="form-control" type="text"
+                                                                name="customer_zip" placeholder="Postal Code"
+                                                                required="" value="">
                                                         </div>
                                                         <div class="col-lg-6">
                                                             <select class="form-control" id="select_country"
@@ -867,8 +750,9 @@
                                                                     rel2="0"
                                                                     data-href="https://product.geniusocean.com/geniuscart/user/country/wise/state/127">
                                                                     Liechtenstein</option>
-                                                                <option value="Lithuania" data="128" rel5="0"
-                                                                    rel="0" rel1="0" rel2="0"
+                                                                <option value="Lithuania" data="128"
+                                                                    rel5="0" rel="0" rel1="0"
+                                                                    rel2="0"
                                                                     data-href="https://product.geniusocean.com/geniuscart/user/country/wise/state/128">
                                                                     Lithuania</option>
                                                                 <option value="Luxembourg" data="129"
@@ -2718,79 +2602,24 @@
                                                                     value="cash_on_delivery" required>
                                                                 Cash On Delivery
                                                             </label>
-                                                            <div class="stripe_checkbox_container">
-                                                                <label class="form_input form_radio">
-                                                                    <input type="radio" name="payment_method"
-                                                                        value="stripe" required="">
-                                                                    Debit or Credit Card
-                                                                </label>
-                                                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#stripeModal"
-                                                                    class="btn btn-primary" id="open_stripe_modal--btn">Open
-                                                                    Stripe Modal</button>
-                                                            </div>
+                                                            <label class="form_input form_radio">
+                                                                <input type="radio" name="payment_method"
+                                                                    value="stripe" required>
+                                                                    Debit or Credit  Card
+                                                            </label>
                                                         </div>
-                                                        <p id="stripe_error_message" class="m-0 text-danger"></p>
+                                                    </div>
+                                                </div>
+                                                <div id="stripe_from" style="display: none;">
+                                                    <label for="card-element">
+                                                        Credit or debit card
+                                                    </label>
+                                                    <div id="card-element">
+                                                        <!-- A Stripe Element will be inserted here. -->
                                                     </div>
 
-                                                    <div class="modal fade" id="stripeModal" tabindex="-1"
-                                                        aria-labelledby="stripeModalLabel" aria-hidden="true">
-                                                        <div class="modal-dialog">
-                                                            <div class="modal-content">
-                                                                <div class="modal-header">
-                                                                    <h5 class="modal-title" id="stripeModalLabel">
-                                                                        Payment</h5>
-                                                                    <button type="button" class="btn-close"
-                                                                        data-bs-dismiss="modal"
-                                                                        aria-label="Close"></button>
-                                                                </div>
-                                                                <div class="modal-body">
-                                                                    <label for="card-element">
-                                                                        Accepted Card
-                                                                    </label>
-                                                                    <div class="acceepted_cards_container">
-                                                                        <img src="{{ asset('images/cards/visa.jpg') }}"
-                                                                            alt="">
-                                                                        <img src="{{ asset('images/cards/mastercard.png') }}"
-                                                                            alt="">
-                                                                    </div>
-                                                                    <div class="form-row">
-                                                                        <label for="card-number">
-                                                                            Card Number
-                                                                        </label>
-                                                                        <div class="stripe-element-container"
-                                                                            id="card-number">
-                                                                            <!-- A Stripe Element will be inserted here. -->
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="form-row">
-                                                                        <label for="card-expiry-month">
-                                                                            Expiry Date
-                                                                        </label>
-                                                                        <div class="stripe-element-container"
-                                                                            id="card-expiry-month">
-                                                                            <!-- A Stripe Element will be inserted here. -->
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="form-row">
-                                                                        <label for="card-cvc">
-                                                                            CVC
-                                                                        </label>
-                                                                        <div class="stripe-element-container"
-                                                                            id="card-cvc">
-                                                                            <!-- A Stripe Element will be inserted here. -->
-                                                                        </div>
-                                                                    </div>
-                                                                    <div id="stripe-error-container"
-                                                                        style="display: none;"></div>
-                                                                </div>
-                                                                <div class="modal-footer">
-                                                                    <button type="button" id="proceed_to_checkout"
-                                                                        class="btn btn-primary stripe-proceed-btn">Proceed
-                                                                        to checkout</button>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
+                                                    <!-- Used to display form errors. -->
+                                                    <div id="card-errors" role="alert"></div>
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-lg-12 mt-3">
@@ -2833,11 +2662,11 @@
                             <input type="hidden" name="user_id" id="user_id" value="">
 
                             <input type="hidden" name="status" value="final">
-                            <input type="hidden" name="final_total" value="{{ $total_price }}">
+                            <input type="hidden" name="final_total" value="{{$total_price}}">
                             <input type="hidden" name="discount_type" value="percentage">
                             <input type="hidden" name="discount_amount" value="10.00">
                             <input type="hidden" name="tax_rate_id" value="">
-                            <input type="hidden" name="location_id" value="{{ $product->location_id }}">
+                            {{-- <input type="hidden" name="location_id" value="{{ $product->business_location->id }}"> --}}
                             <input type="hidden" name="invoice_scheme_id" value="2">
                             <input type="hidden" name="contact_id" value="{{ $product->contact_id }}">
                             <input type="hidden" name="business_id" value="{{ $product->business_id }}">
@@ -2960,87 +2789,46 @@
                 </div>
             </div>
         </section>
-        <div id="payment_animation_container" style="display: none;">
-            <img src="{{ asset('images/cards/payment-animation.gif') }}" alt="">
-        </div>
-        <div id="payment_success_container" style="display: none;">
-            <div>
-                <i class="fa-solid fa-check"></i>
-            <h1>Payment Successfull</h1>
-            </div>
-        </div>
-        <div id="payment_thanks_container" style="display: none;">
-            <div>
-                <h1>Thank you for</h1>
-                <h1 class="mb-5">Your Order!</h1>
-                {{-- <p>A confirmation message was sent!</p> --}}
-                <div class="d-flex flex-column flex-md-row gap-4">
-                    <a class="btn" href="{{ route('service.list') }}">Buy more</a>
-                    <button class="btn" id="create_invoice_btn" type="button">
-                        <span id="create_invoice_btn_text">Invoice</span>
-                        <div id="create_invoice_btn_loader" style="display: none;">
-                            <div class="d-flex justify-content-center align-items-center">
-                                    <div class="spinner-border" role="status">
-                                                    <span class="visually-hidden">Loading...</span>
-                                                  </div>
-                            </div>
-                        </div>
-                    </button>
-                    <a class="btn">Dashboard</a>
-                </div>
-            </div>
-        </div>
     </div>
     <section class="invoice print_section" id="receipt_section">
     </section>
 @endsection
 
 @section('script')
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <script src="{{ asset('assets/front/js/custom.js') }}"></script>
     <script src="https://js.stripe.com/v3/"></script>
     <script>
-        var receipt;
         var stripe = Stripe('{{ env('STRIPE_PUB_KEY') }}');
         var elements = stripe.elements();
         var style = {
-            base: {
-                color: '#32325d',
-                fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
-                fontSmoothing: 'antialiased',
-                fontSize: '16px',
-                '::placeholder': {
-                    color: '#aab7c4',
-                },
-                border: '1px solid #ccc', // Border
-                padding: '10px' // Padding
-            },
-            invalid: {
-                color: '#fa755a',
-                iconColor: '#fa755a',
-            },
-        };
+  base: {
+    color: '#32325d',
+    fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+    fontSmoothing: 'antialiased',
+    fontSize: '16px',
+    '::placeholder': {
+      color: '#aab7c4',
+    },
+  },
+  invalid: {
+    color: '#fa755a',
+    iconColor: '#fa755a',
+  },
+};
+        var cardElement = elements.create('card', { style: style });
+        cardElement.mount('#card-element');
 
-        // Create Card Element for card number
-        var cardNumber = elements.create('cardNumber', {
-            style: style
-        });
-        cardNumber.mount('#card-number');
+        var form = document.getElementById('checkout_form');
 
-        // Create Card Element for expiry month
-        var cardExpiryMonth = elements.create('cardExpiry', {
-            style: style,
-            base: {
-                fontSize: '16px'
-            }
-        });
-        cardExpiryMonth.mount('#card-expiry-month');
-
-        // Create Card Element for CVC
-        var cardCvc = elements.create('cardCvc', {
-            style: style
-        });
-        cardCvc.mount('#card-cvc');
+        function stripeTokenHandler(token) {
+            var form = document.getElementById('checkout_form');
+            var hiddenInput = document.createElement('input');
+            hiddenInput.setAttribute('type', 'hidden');
+            hiddenInput.setAttribute('name', 'stripeToken');
+            hiddenInput.setAttribute('value', token.id);
+            form.appendChild(hiddenInput);
+        }
     </script>
     <script>
         $(document).ready(function() {
@@ -3076,19 +2864,9 @@
             $('input[type="radio"][name="payment_method"]').change(function() {
                 let payment_method = $(this).val();
                 if (payment_method == 'stripe') {
-                    $('#stripeModal').modal('show');
-                    stripe.createToken(cardNumber).then(function(result) {
-                        if (result.error) {
-                            $('#stripe_error_message').text('Please provide your card information in the modal.');
-                            $('#stripe_error_message').show();
-                        } else {
-                            $('#stripe_error_message').text('You have already provided your card information.');
-                            $('#stripe_error_message').show();
-                        }
-                    });
+                    $('#stripe_from').show();
                 } else {
-                    $('#stripeModal').modal('hide');
-                    $('#stripe_error_message').hide();
+                    $('#stripe_from').hide();
                 }
             });
         })
@@ -3096,85 +2874,42 @@
 
     <script>
         $(document).ready(function() {
-            $(document).on('click', '#proceed_to_checkout', function() {
-                stripe.createToken(cardNumber).then(function(result) {
-                    if (result.error) {
-                        $('#stripe-error-container').text(result.error.message);
-                        $('#stripe-error-container').show();
-                    } else {
-                        $('#stripe-error-container').hide();
-                        $('#stripeModal').modal('hide');
-
-                        $('#stripe_error_message').hide();
-                    }
-                });
-            })
             $(document).on('click', '#final-btn', function() {
                 var payment_method = $('input[type="radio"][name="payment_method"]:checked').val();
                 if (payment_method == 'stripe') {
-                    stripe.createToken(cardNumber).then(function(result) {
-                        if (result.error) {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Open stripe modal and submit your card information.',
-                                position: 'center',
-                            })
-                        } else {
-                            saveCheckoutForm(result.token.id);
-                        }
-                    });
+                    stripe.createToken(cardElement).then(function(result) {
+                    if (result.error) {
+                        // var errorElement = document.getElementById('card-errors');
+                        // errorElement.textContent = result.error.message;
+                        Swal.fire({
+                            icon: 'error',
+                            title: result.error.message,
+                            position: 'center',
+                        })
+                    } else {
+                        saveCheckoutForm(result.token.id);
+                    }
+                });
                 } else if (payment_method == 'cash_on_delivery') {
                     saveCheckoutForm();
                 }
             })
         })
 
-        $(document).on('click', '#create_invoice_btn', async function() {
-            $('#create_invoice_btn_text').hide();
-            $('#create_invoice_btn_loader').show();
-            const response = await pos_print(receipt);
-            if (response) {
-                setTimeout(function() {
-                    $('#create_invoice_btn_text').show();
-                    $('#create_invoice_btn_loader').hide();  
-                }, 3000);
-            }     
-        })
-
-        function handleShowHide(containerId, isShow) {
-            if (isShow) {
-                $(`#${containerId}`).show();
-                $('body').addClass('h-100 overflow-hidden');
-            } else {
-                $(`${containerId}`).hide();
-                $('body').removeClass('h-100 overflow-hidden');
-            }
-        }
-
         function saveCheckoutForm(stripeToken) {
-            handleShowHide('payment_animation_container', true);
             var checkout_form = $('#checkout_form');
             var data = checkout_form.serializeArray();
-            data.push({
-                name: 'stripeToken',
-                value: stripeToken
-            });
+            data.push({ name: 'stripeToken', value: stripeToken });
             $.ajax({
                 url: "{{ route('checkout.post') }}",
                 type: 'POST',
                 data: data,
                 dataType: 'json',
-                success: async function(result) {
+                success: function(result) {
                     if (result.success == 1) {
                         //Check if enabled or not
                         // if (result.receipt.is_enabled) {
-                        await handleShowHide('payment_success_container', true);
-                        setTimeout(function() {
-                            handleShowHide('payment_thanks_container', true);
-                        }, 2000);
-                        receipt = result.receipt;
-
-                        // pos_print(result.receipt);
+                        pos_print(result.receipt);
                         // }
                     } else {
                         Swal.fire({
@@ -3229,45 +2964,45 @@
         }
 
         function __currency_trans_from_en(
-            input,
-            show_symbol = true,
-            use_page_currency = false,
-            precision,
-            is_quantity = false
-        ) {
-            if (use_page_currency && __p_currency_symbol) {
-                var s = __p_currency_symbol;
-                var thousand = __p_currency_thousand_separator;
-                var decimal = __p_currency_decimal_separator;
-            } else {
-                var s = '$';
-                var thousand = '';
-                var decimal = '';
-            }
+  input,
+  show_symbol = true,
+  use_page_currency = false,
+  precision,
+  is_quantity = false
+) {
+  if (use_page_currency && __p_currency_symbol) {
+    var s = __p_currency_symbol;
+    var thousand = __p_currency_thousand_separator;
+    var decimal = __p_currency_decimal_separator;
+  } else {
+    var s = '$';
+    var thousand = '';
+    var decimal = '';
+  }
 
-            symbol = "";
-            var format = "%s%v";
-            if (show_symbol) {
-                symbol = s;
-                format = "%s %v";
-                if (__currency_symbol_placement == "after") {
-                    format = "%v %s";
-                }
-            }
+  symbol = "";
+  var format = "%s%v";
+  if (show_symbol) {
+    symbol = s;
+    format = "%s %v";
+    if (__currency_symbol_placement == "after") {
+      format = "%v %s";
+    }
+  }
 
-            if (is_quantity) {
-                precision = __quantity_precision;
-            }
+  if (is_quantity) {
+    precision = __quantity_precision;
+  }
 
-            return accounting.formatMoney(
-                input,
-                symbol,
-                precision,
-                thousand,
-                decimal,
-                format
-            );
-        }
+  return accounting.formatMoney(
+    input,
+    symbol,
+    precision,
+    thousand,
+    decimal,
+    format
+  );
+}
 
         function pos_print(receipt) {
             //If printer type then connect with websocket
@@ -3298,8 +3033,6 @@
                     document.title = title;
                 }, 1000);
             }
-
-            return 1;
         }
     </script>
 @endsection
