@@ -149,6 +149,18 @@ class FrontendController extends Controller
         return $this->footer_Details('it-solution');
     }
 
+    public function contact_us()
+    {
+        $slugs = ['contact-us-address', 'contact-us-phone', 'contact-us-email'];
+
+        $footerData = Footer::whereIn('slug', $slugs)
+            ->pluck('description', 'slug')
+            ->toArray();
+
+        return view('frontend.footerDetails.contact_us.index', compact('footerData'));
+    }
+
+
 
     public function footer_Details($slug)
     {

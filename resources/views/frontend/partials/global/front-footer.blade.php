@@ -126,7 +126,7 @@
 
         <ul>
             <li><span>Connect</span></li>
-            <li><a href="">Help and support</a></li>
+            <li><a href="{{ route('footer.details.contact_us') }}">Help and support</a></li>
             <li>
                 <ul class="d-flex flex-row gap-3 mt-2" style="padding: 0px !important;">
                     <li>
