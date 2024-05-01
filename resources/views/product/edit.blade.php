@@ -177,11 +177,17 @@
                 {{-- <div class="col-sm-4">
                     <div class="form-group">
                         {!! Form::label('product_locations', __('business.business_locations') . ':') !!} @show_tooltip(__('lang_v1.product_location_help'))
-                        {!! Form::select('product_locations[]', $business_locations, $business_location_new->location_id, [
-                            'class' => 'form-control select2',
-                            'id' => 'product_locations',
-                            'required',
-                        ]) !!}
+                        {!! Form::select(
+                            'product_locations[]',
+                            $business_locations,
+                            isset($business_location_new) ? $business_location_new->location_id : null,
+                            [
+                                'placeholder' => 'Please select',
+                                'class' => 'form-control select2',
+                                'id' => 'product_locations',
+                                'required',
+                            ],
+                        ) !!}
                     </div>
                 </div> --}}
 
