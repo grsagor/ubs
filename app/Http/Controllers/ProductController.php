@@ -2,38 +2,39 @@
 
 namespace App\Http\Controllers;
 
-use App\Brands;
-use App\Business;
-use App\BusinessLocation;
-use App\Cart;
-use App\Category;
-use App\ChildCategory;
-use App\Exports\ProductsExport;
-use App\Media;
-use App\Product;
-use App\ProductBuyingInfo;
-use App\ProductVariation;
-use App\PurchaseLine;
-use App\ResellingProduct;
-use App\SellingPriceGroup;
-use App\SubCategory;
-use App\TaxRate;
-use App\Unit;
-use App\Utils\ModuleUtil;
-use App\Utils\ProductUtil;
-use App\Variation;
-use App\VariationGroupPrice;
-use App\VariationLocationDetails;
-use App\VariationTemplate;
-use App\Warranty;
 use Excel;
+use App\Cart;
+use App\Unit;
+use App\Media;
+use App\Brands;
+use App\Footer;
+use App\Product;
+use App\TaxRate;
+use App\Business;
+use App\Category;
+use App\Warranty;
+use App\Variation;
+use App\SubCategory;
+use App\PurchaseLine;
+use App\ChildCategory;
+use App\BusinessLocation;
+use App\ProductVariation;
+use App\ResellingProduct;
+use App\Utils\ModuleUtil;
+use App\ProductBuyingInfo;
+use App\SellingPriceGroup;
+use App\Utils\ProductUtil;
+use App\VariationTemplate;
+use Illuminate\Support\Str;
+use App\VariationGroupPrice;
 use Illuminate\Http\Request;
-use Illuminate\Pagination\LengthAwarePaginator;
+use App\Exports\ProductsExport;
+use App\VariationLocationDetails;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\Facades\DataTables;
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class ProductController extends Controller
 {
@@ -2763,6 +2764,12 @@ class ProductController extends Controller
         if ($location_id) {
             $data['business_data'] = BusinessLocation::findOrFail($location_id);
         }
+
+        $slugs = ['contact-us-phone', 'contact-us-email-error'];
+
+        $data['othersInfo'] = Footer::whereIn('slug', $slugs)
+            ->pluck('description', 'slug')
+            ->toArray();
 
         return view('frontend.product.details2', $data);
     }
