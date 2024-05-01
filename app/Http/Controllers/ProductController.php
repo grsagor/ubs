@@ -2765,7 +2765,7 @@ class ProductController extends Controller
             $data['business_data'] = BusinessLocation::findOrFail($location_id);
         }
 
-        $slugs = ['contact-us-phone', 'contact-us-email-error'];
+        $slugs = ['contact-us-phone', 'contact-us-email-complain'];
 
         $data['othersInfo'] = Footer::whereIn('slug', $slugs)
             ->pluck('description', 'slug')
