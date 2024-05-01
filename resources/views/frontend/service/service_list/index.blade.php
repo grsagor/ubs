@@ -87,60 +87,6 @@
             <div class="product type-product rounded">
                 <div class="row">
 
-                    {{-- @if ($item->thumbnail)
-                        <a href="{{ route('product.show', $item->id) }}"
-                            class="woocommerce-LoopProduct-link col-lg-4 col-md-4 col-sm-12 d-flex mobile_view_center"
-                            style="padding-right: 0px;">
-                            <img class="lazy img-fluid w-100 mobile_view_image" src="{{ asset($item->thumbnail) }}"
-                                alt="Product Image"
-                                style="height: 171px;  border-top-left-radius: 0.25rem !important;
-                                border-bottom-left-radius: 0.25rem !important;">
-                        </a>
-
-                        <div class="product-wrapperrrrr col-lg-4 col-md-4 col-sm-12 d-flex mobile_view_center"
-                            style="padding-right: 0px;">
-                            <a href="{{ route('product.show', $item->id) }}" class="woocommerce-LoopProduct-link">
-                                <img class="lazy img-fluid w-100 mobile_view_image" src="{{ asset($item->thumbnail) }}"
-                                    alt="Product Image" style="height: 171px;">
-                            </a>
-
-                            @if ($item->category)
-                                <div class="category-wrapper">
-                                    <div class="category-badge">
-                                        <h6>{{ Str::limit($item->category->name, $limit = 50, $end = '...') }}</h6>
-                                    </div>
-                                </div>
-                            @endif
-                        </div>
-                    @else
-                        <a href="{{ route('product.show', $item->id) }}"
-                            class="woocommerce-LoopProduct-link col-lg-4 col-md-4 col-sm-12 d-flex mobile_view_center"
-                            style="padding-right: 0px;">
-                            <img src="https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg"
-                                class="lazy img-fluid rounded w-100 mobile_view_image" alt=""
-                                style="height: 171px;">
-                        </a>
-
-                        <div class="product-wrapperrrrr d-flex col-lg-4 col-md-4 col-sm-12 d-flex mobile_view_center"
-                            style="padding-right: 0px;">
-                            <a href="{{ route('product.show', $item->id) }}" class="woocommerce-LoopProduct-link ">
-                                <img src="https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg"
-                                    class="lazy img-fluid rounded w-100 mobile_view_image" alt=""
-                                    style="height: 171px;">
-                            </a>
-
-                            @if ($item->category)
-                                <div class="category-wrapper">
-                                    <div class="category-badge">
-                                        <h6>{{ Str::limit($item->category->name, $limit = 50, $end = '...') }}</h6>
-                                    </div>
-                                </div>
-                            @endif
-                        </div>
-                    @endif --}}
-
-
-
                     @if ($item->thumbnail)
                         <a href="{{ route('product.show', $item->id) }}"
                             class="product-wrapperrrrr col-lg-4 col-md-4 col-sm-12 d-flex mobile-view-center"
@@ -185,31 +131,10 @@
                                 </a>
                             </h5>
                             <hr style="color: #38b2ac; height: 1px; width: 100% !important; margin: 0rem 0">
-                            {{-- <div class="text-center">
-                                @if ($item->category)
-                                    <div
-                                        style="display: inline-block; padding: 0px; background-color: #fff; border-radius: 6%; box-shadow: 0 0px 4px rgba(0, 0, 0, 0.2);">
-                                        <h6 style="margin: 0;">
-                                            {{ Str::limit($item->category ? $item->category->name : '', $limit = 50, $end = '...') }}
-                                        </h6>
-                                    </div>
-                                @endif
-                            </div> --}}
+
 
                             <p class="text-dark"
                                 style="margin: 0; margin-top: 7px; text-align: justify; padding: 0; line-height: 1.5;">
-                                {{-- @if (mb_strlen($item->name) < 45)
-                                        {!! Str::limit($item->define_this_item, $limit = 300, $end = '...') !!}
-                                        @php
-                                            $remainingSpaces = max(0, 300 - mb_strlen($item->define_this_item));
-                                        @endphp
-                                    @else
-                                        {!! Str::limit($item->define_this_item, $limit = 190, $end = '...') !!}
-                                        @php
-                                            $remainingSpaces = max(0, 190 - mb_strlen($item->define_this_item));
-                                        @endphp
-                                    @endif
-                                    {!! str_repeat('&nbsp;', $remainingSpaces) !!} --}}
 
                                 {!! Str::limit($item->define_this_item, $limit = 285, $end = '...') !!}
                             </p>
@@ -225,7 +150,6 @@
                                     <i class="fa-regular fa-heart mt-2"></i>
                                 </a>
                             </div>
-                            {{-- <div class="col division" style="border: 1px solid var(--green);">Details</div> --}}
                             <a class="col division" style="border: 1px solid var(--green); color: inherit;"
                                 href="{{ route('product.show', $item->id) }}">Details
                             </a>
@@ -269,6 +193,22 @@
                 return false;
             });
         });
+    </script>
+
+    <script>
+        function handleMinWidth992px() {
+            if (window.innerWidth <= 992) {
+                $('.widget-toggle').addClass('closed')
+            } else {
+                $('.widget-toggle').removeClass('closed')
+            }
+        }
+
+        // Attach the event listener to the window's resize event
+        window.addEventListener('resize', handleMinWidth992px);
+
+        // Call the function initially to check the condition
+        handleMinWidth992px();
     </script>
     <script>
         setTimeout(function() {

@@ -36,7 +36,7 @@ class ServiceController extends Controller
 
         $data['nestedDataSets'] = $this->dataSetService->getNestedDataSets();
 
-        return view('frontend.service.service_list', $data);
+        return view('frontend.service.service_list.index', $data);
     }
 
     public function serviceCreate()
