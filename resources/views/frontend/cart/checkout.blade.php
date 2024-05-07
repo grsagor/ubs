@@ -65,8 +65,8 @@
         }
 
         /* .StripeElement>div>iframe {
-        height: 32px !important;
-    } */
+                    height: 32px !important;
+                } */
 
         .stripe-element-container {
             padding: 4px;
@@ -90,84 +90,97 @@
         #stripe-error-container {
             color: red;
         }
+
         .stripe_checkbox_container {
-    display: flex;
-    justify-content: start;
-    align-items: center;
-    gap: 14px;
-}
-        .stripe_checkbox_container label{
+            display: flex;
+            justify-content: start;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .stripe_checkbox_container label {
             width: fit-content;
-}
-#open_stripe_modal--btn {
-    padding: 4px;
-    line-height: 14px;
-    border-radius: 4px;
-    background: #00afe1;
-}
-#open_stripe_modal--btn:hover {
-    color: #fff !important;
-    background: #0183a9 !important;
-    border: none !important;
-}
-#payment_animation_container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: #EBEBEB;
-    z-index: 99999999;
-}
-#payment_animation_container img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-}
-#payment_success_container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: #EBEBEB;
-    z-index: 999999999;
-}
-#payment_success_container>div {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    font-size: 84px;
-}
-#payment_thanks_container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: #EBEBEB;
-    z-index: 999999999;
-}
-#payment_thanks_container>div {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-#payment_thanks_container .btn {
-    background: #7abad3 !important;
-    color: white !important;
-}
-#payment_thanks_container .btn:hover {
-    background: #61a0b9 !important;
-    color: white !important;
-}
-#create_invoice_btn {
-    width: 100px;
-}
+        }
+
+        #open_stripe_modal--btn {
+            background: #00afe1;
+        }
+
+        #open_stripe_modal--btn:hover {
+            color: #fff !important;
+            background: #0183a9 !important;
+            border: none !important;
+        }
+
+        #payment_animation_container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: #EBEBEB;
+            z-index: 99999999;
+        }
+
+        #payment_animation_container img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        #payment_success_container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: #EBEBEB;
+            z-index: 999999999;
+        }
+
+        #payment_success_container>div {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-size: 84px;
+        }
+
+        #payment_thanks_container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: #EBEBEB;
+            z-index: 999999999;
+        }
+
+        #payment_thanks_container>div {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #payment_thanks_container .btn {
+            background: #7abad3 !important;
+            color: white !important;
+        }
+
+        #payment_thanks_container .btn:hover {
+            background: #61a0b9 !important;
+            color: white !important;
+        }
+        #payment_thanks_container .btn {
+            width: 130px !important;
+        }
+        .last_back_btn {
+            padding: 0 25px;
+            line-height: 45px;
+        }
     </style>
 @endsection
 @section('content')
@@ -2596,13 +2609,13 @@
                                             <div class="content">
                                                 <div class="order-area">
                                                     <div class="order-item">
+                                                        @foreach ($products as $i => $product)
                                                         <div class="product-img">
                                                             <div class="d-flex">
-                                                                <img src=" https://product.geniusocean.com/geniuscart/assets/images/products/1639377187LerG6ypK.png"
+                                                                <img src="{{ asset($product->thumbnail) }}"
                                                                     height="80" width="80" class="p-1">
                                                             </div>
                                                         </div>
-                                                        @foreach ($products as $i => $product)
                                                             <input type="hidden"
                                                                 name="products[{{ $i + 1 }}][product_type]"
                                                                 value="single">
@@ -2688,37 +2701,27 @@
                                         aria-labelledby="pills-step3-tab">
                                         <div class="content-box">
                                             <div class="content">
-                                                <div class="billing-info-area ">
-                                                    <h4 class="title">
-                                                        Shipping Info
-                                                    </h4>
-                                                    <ul class="info-list">
-                                                        <li>
-                                                            <p id="shipping_user"></p>
-                                                        </li>
-                                                        <li>
-                                                            <p id="shipping_location"></p>
-                                                        </li>
-                                                        <li>
-                                                            <p id="shipping_phone"></p>
-                                                        </li>
-                                                        <li>
-                                                            <p id="shipping_email"></p>
-                                                        </li>
-                                                    </ul>
-                                                </div>
                                                 <div class="payment-information">
                                                     <h4 class="title">
                                                         Payment Info
                                                     </h4>
                                                     <div class="row">
-                                                        <div class="col-lg-12">
-                                                            <label class="form_input form_radio">
+                                                        <div class="col-lg-12 d-flex gap-2">
+                                                            <input type="hidden" id="payment_method"
+                                                                name="payment_method">
+                                                            {{-- <label class="form_input form_radio">
                                                                 <input type="radio" name="payment_method"
                                                                     value="cash_on_delivery" required>
                                                                 Cash On Delivery
-                                                            </label>
-                                                            <div class="stripe_checkbox_container">
+                                                            </label> --}}
+                                                            <a href="javascript:;" data-go="2" data-hide="3"
+                                                            class="mybtn1 mr-3 mb-0 last_back_btn">Back</a>
+                                                            <button type="button" id="final-btn"
+                                                                class="btn btn-primary">Cash</button>
+                                                            <button type="button" class="btn btn-primary"
+                                                                id="open_stripe_modal--btn" data-bs-toggle="modal"
+                                                                data-bs-target="#stripeModal">Card</button>
+                                                            {{-- <div class="stripe_checkbox_container">
                                                                 <label class="form_input form_radio">
                                                                     <input type="radio" name="payment_method"
                                                                         value="stripe" required="">
@@ -2727,7 +2730,7 @@
                                                                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#stripeModal"
                                                                     class="btn btn-primary" id="open_stripe_modal--btn">Open
                                                                     Stripe Modal</button>
-                                                            </div>
+                                                            </div> --}}
                                                         </div>
                                                         <p id="stripe_error_message" class="m-0 text-danger"></p>
                                                     </div>
@@ -2792,16 +2795,6 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="row">
-                                                    <div class="col-lg-12 mt-3">
-                                                        <div class="bottom-area">
-                                                            <a href="javascript:;" data-go="2" data-hide="3"
-                                                                class="mybtn1 mr-3">Back</a>
-                                                            <button type="button" id="final-btn"
-                                                                class="btn btn-primary">Submit</button>
-                                                        </div>
-                                                    </div>
-                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -2853,7 +2846,7 @@
                                             Total MRP
                                         </p>
                                         <p>
-                                            <b class="cart-total">$ {{ $total_price_excluding_tax }}</b>
+                                            <b class="cart-total">£ {{ $total_price_excluding_tax }}</b>
                                         </p>
                                     </li>
                                     <li>
@@ -2861,7 +2854,7 @@
                                             Vat
                                         </p>
                                         <p>
-                                            <b class="cart-total">$ {{ $total_vat }}</b>
+                                            <b class="cart-total">£ {{ $total_vat }}</b>
                                         </p>
                                     </li>
                                     <li class="tax_show  d-none">
@@ -2886,7 +2879,7 @@
                                         Total
                                     </p>
                                     <p class="total-cost-dum">
-                                        <span id="total-cost">$ {{ $total_price }}</span>
+                                        <span id="total-cost">£ {{ $total_price }}</span>
                                     </p>
                                 </div>
                                 {{-- <div class="cupon-box">
@@ -2948,7 +2941,7 @@
                                 </div> --}}
                                 <div class="final-price">
                                     <span>Final Price :</span>
-                                    <span id="final-cost">$ {{ $total_price }}</span>
+                                    <span id="final-cost">£ {{ $total_price }}</span>
                                 </div>
                                 <div class="wallet-price d-none">
                                     <span>Wallet Amount:</span>
@@ -2960,33 +2953,38 @@
                 </div>
             </div>
         </section>
+
+
         <div id="payment_animation_container" style="display: none;">
             <img src="{{ asset('images/cards/payment-animation.gif') }}" alt="">
         </div>
         <div id="payment_success_container" style="display: none;">
             <div>
                 <i class="fa-solid fa-check"></i>
-            <h1>Payment Successfull</h1>
+                <h1>Payment Successfull</h1>
             </div>
         </div>
         <div id="payment_thanks_container" style="display: none;">
             <div>
                 <h1>Thank you for</h1>
                 <h1 class="mb-5">Your Order!</h1>
-                {{-- <p>A confirmation message was sent!</p> --}}
                 <div class="d-flex flex-column flex-md-row gap-4">
                     <a class="btn" href="{{ route('service.list') }}">Buy more</a>
                     <button class="btn" id="create_invoice_btn" type="button">
                         <span id="create_invoice_btn_text">Invoice</span>
                         <div id="create_invoice_btn_loader" style="display: none;">
                             <div class="d-flex justify-content-center align-items-center">
-                                    <div class="spinner-border" role="status">
-                                                    <span class="visually-hidden">Loading...</span>
-                                                  </div>
+                                <div class="spinner-border" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
                             </div>
                         </div>
                     </button>
-                    <a class="btn">Dashboard</a>
+                    @if (Auth::user() && Auth::user()->user_type == 'user_customer')
+                        <a href="{{ url('contact/contact-dashboard') }}" class="btn">Dashboard</a>
+                    @else
+                        <a href="{{ url('home') }}" class="btn">Dashboard</a>
+                    @endif
                 </div>
             </div>
         </div>
@@ -3079,10 +3077,12 @@
                     $('#stripeModal').modal('show');
                     stripe.createToken(cardNumber).then(function(result) {
                         if (result.error) {
-                            $('#stripe_error_message').text('Please provide your card information in the modal.');
+                            $('#stripe_error_message').text(
+                                'Please provide your card information in the modal.');
                             $('#stripe_error_message').show();
                         } else {
-                            $('#stripe_error_message').text('You have already provided your card information.');
+                            $('#stripe_error_message').text(
+                                'You have already provided your card information.');
                             $('#stripe_error_message').show();
                         }
                     });
@@ -3103,29 +3103,26 @@
                         $('#stripe-error-container').show();
                     } else {
                         $('#stripe-error-container').hide();
-                        $('#stripeModal').modal('hide');
-
                         $('#stripe_error_message').hide();
+                        $('#payment_method').val('stripe');
+
+                        stripe.createToken(cardNumber).then(function(result) {
+                            if (result.error) {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Open stripe modal and submit your card information.',
+                                    position: 'center',
+                                })
+                            } else {
+                                saveCheckoutForm(result.token.id);
+                            }
+                        });
                     }
                 });
             })
             $(document).on('click', '#final-btn', function() {
-                var payment_method = $('input[type="radio"][name="payment_method"]:checked').val();
-                if (payment_method == 'stripe') {
-                    stripe.createToken(cardNumber).then(function(result) {
-                        if (result.error) {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Open stripe modal and submit your card information.',
-                                position: 'center',
-                            })
-                        } else {
-                            saveCheckoutForm(result.token.id);
-                        }
-                    });
-                } else if (payment_method == 'cash_on_delivery') {
-                    saveCheckoutForm();
-                }
+                $('#payment_method').val('cash_on_delivery');
+                saveCheckoutForm();
             })
         })
 
@@ -3136,9 +3133,9 @@
             if (response) {
                 setTimeout(function() {
                     $('#create_invoice_btn_text').show();
-                    $('#create_invoice_btn_loader').hide();  
+                    $('#create_invoice_btn_loader').hide();
                 }, 3000);
-            }     
+            }
         })
 
         function handleShowHide(containerId, isShow) {
@@ -3146,7 +3143,7 @@
                 $(`#${containerId}`).show();
                 $('body').addClass('h-100 overflow-hidden');
             } else {
-                $(`${containerId}`).hide();
+                $(`#${containerId}`).hide();
                 $('body').removeClass('h-100 overflow-hidden');
             }
         }
@@ -3169,14 +3166,22 @@
                         //Check if enabled or not
                         // if (result.receipt.is_enabled) {
                         await handleShowHide('payment_success_container', true);
+                        $('#stripeModal').modal('hide');
                         setTimeout(function() {
                             handleShowHide('payment_thanks_container', true);
+                            $('.ecommerce-header').css({
+                                'position': 'fixed',
+                                'top': '0',
+                                'z-index': '9999999999999999999',
+                                'width': '100vw',
+                            });
                         }, 2000);
                         receipt = result.receipt;
 
                         // pos_print(result.receipt);
                         // }
                     } else {
+                        handleShowHide('payment_animation_container', false);
                         Swal.fire({
                             icon: 'error',
                             title: result.msg,

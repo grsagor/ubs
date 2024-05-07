@@ -397,7 +397,7 @@
                                         </small>
                                     @endif
                         </td>
-                        <td>{{$receipt_details->total}}</td>
+                        <td>{{ $receipt_details->total }}</td>
                     </tr>
                 @endforeach
             </tbody>
@@ -429,13 +429,15 @@
         </div>
         <div class="flex-box">
             <p class="width-50 text-right sub-headings">Paid</p>
-            <p class="width-50 text-right sub-headings">{{ $payment_method == 'stripe' ? $receipt_details->total : '0' }}</p>
+            <p class="width-50 text-right sub-headings">
+                {{ $payment_method == 'stripe' ? $receipt_details->total : '0' }}</p>
         </div>
         <div class="flex-box">
             <p class="width-50 text-right sub-headings">Due</p>
-            <p class="width-50 text-right sub-headings">{{ $payment_method == 'stripe' ? '0' : $receipt_details->total }}</p>
+            <p class="width-50 text-right sub-headings">
+                {{ $payment_method == 'stripe' ? '0' : $receipt_details->total }}</p>
         </div>
-            
+
         @if (!empty($receipt_details->total_in_words))
             <p colspan="2" class="text-right mb-0">
                 <small>
@@ -619,6 +621,7 @@
     .bw {
         word-break: break-word;
     }
+
     .width-100 {
         width: 100% !important;
     }
