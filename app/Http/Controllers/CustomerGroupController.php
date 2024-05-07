@@ -80,7 +80,9 @@ class CustomerGroupController extends Controller
 
     public function getRegister($business_id = null)
     {
-        return view('customer_group.register', compact('business_id'));
+        $sessionLink = session('link');
+
+        return view('customer_group.register', compact('business_id', 'sessionLink'));
     }
 
     public function postRegister(Request $request)
@@ -196,7 +198,9 @@ class CustomerGroupController extends Controller
                     'msg' => ('Register successfull!!!'),
                 ];
 
-                return redirect(url('login'))->with('status', $output);
+                $sessionLink = session('link');
+
+                return redirect(url('login'))->with('status', $output)->with('sessionLink', $sessionLink);
             }
         } catch (\Throwable $e) {
             DB::rollBack();

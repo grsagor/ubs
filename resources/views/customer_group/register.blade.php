@@ -6,7 +6,8 @@
 
         <p class="form-header text-white">@lang('business.register_and_get_started_in_minutes')</p>
         {{-- Form will be start here --}}
-        <form action="{{ route('customer.postRegister') }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('customer.postRegister', ['link' => session('link')]) }}" method="POST"
+            enctype="multipart/form-data">
             @csrf
 
             <input type="hidden" name="business_id" value="{{ $business_id }}">
@@ -23,8 +24,8 @@
                     <div class="col-md-5">
                         <div class="form-group">
                             <label for="first_name">First Name:*</label>
-                            <input class="form-control" placeholder="First Name" id="first_name"
-                                name="first_name" type="text" aria-required="true" required>
+                            <input class="form-control" placeholder="First Name" id="first_name" name="first_name"
+                                type="text" aria-required="true" required>
                         </div>
                     </div>
                     <div class="col-md-5">
@@ -38,7 +39,8 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="email">Email:*</label>
-                            <input class="form-control" placeholder="Email" id="email" name="email" type="email" required>
+                            <input class="form-control" placeholder="Email" id="email" name="email" type="email"
+                                required>
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -87,8 +89,7 @@
                                 <span class="input-group-addon">
                                     <i class="fa fa-map-marker"></i>
                                 </span>
-                                <input class="form-control" placeholder="City" name="city" type="text"
-                                    id="city">
+                                <input class="form-control" placeholder="City" name="city" type="text" id="city">
                             </div>
                         </div>
                     </div>
@@ -135,8 +136,8 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="username">Username:*</label>
-                            <input class="form-control" placeholder="Username" id="username"
-                                name="username" type="text" aria-required="true" required>
+                            <input class="form-control" placeholder="Username" id="username" name="username"
+                                type="text" aria-required="true" required>
                         </div>
                     </div>
                     <div class="col-md-6">
