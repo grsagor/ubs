@@ -7,8 +7,8 @@
     @if (config('constants.allow_registration'))
         @if (session()->has('from'))
             @if (session()->get('from') == 'customer')
-                <a href="{{ url('customer/register') }}" class="btn dropdown-toggle bg-maroon btn-flat" role="button"
-                    aria-haspopup="true" aria-expanded="false">
+                <a href="{{ url('customer/register', ['link' => session('link')]) }}"
+                    class="btn dropdown-toggle bg-maroon btn-flat" role="button" aria-haspopup="true" aria-expanded="false">
                     <b>Register as customer</b>
                 </a>
             @endif
