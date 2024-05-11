@@ -91,6 +91,8 @@ class CustomerGroupController extends Controller
             if ($request->business_id !== null) {
                 $business_id = $request->business_id;
 
+                $validator = $this->validator($request->all())->validate();
+
                 //Check if subscribed or not
                 if (!$this->moduleUtil->isSubscribed($business_id)) {
                     return $this->moduleUtil->expiredResponse();
