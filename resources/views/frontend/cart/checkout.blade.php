@@ -3097,28 +3097,39 @@
     <script>
         $(document).ready(function() {
             $(document).on('click', '#proceed_to_checkout', function() {
-                stripe.createToken(cardNumber).then(function(result) {
-                    if (result.error) {
-                        $('#stripe-error-container').text(result.error.message);
-                        $('#stripe-error-container').show();
-                    } else {
-                        $('#stripe-error-container').hide();
-                        $('#stripe_error_message').hide();
-                        $('#payment_method').val('stripe');
-
-                        stripe.createToken(cardNumber).then(function(result) {
+                const amount = "{{ $total_price }}"
+                $.ajax({
+                    url: "{{ route('get.stripe.client.secret') }}",
+                    type: 'get',
+                    data: { amount: amount },
+                    dataType: 'json',
+                    success: function(response) {
+                        stripe.confirmCardPayment(response.client_secret, {
+                        payment_method: {
+                            card: cardNumber,
+                            billing_details: {
+                                name: response.name,
+                                email: response.email
+                            }
+                        },
+                        setup_future_usage: 'off_session'
+                        }).then(function(result) {
                             if (result.error) {
                                 Swal.fire({
                                     icon: 'error',
-                                    title: 'Open stripe modal and submit your card information.',
+                                    title: result.error.message,
                                     position: 'center',
                                 })
                             } else {
-                                saveCheckoutForm(result.token.id);
+                                if (result.paymentIntent.status === 'succeeded') {
+                                    $('#payment_method').val('stripe');
+                                    saveCheckoutForm();
+                                }
+                                return false;
                             }
                         });
                     }
-                });
+                })
             })
             $(document).on('click', '#final-btn', function() {
                 $('#payment_method').val('cash_on_delivery');

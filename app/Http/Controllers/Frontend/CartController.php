@@ -269,24 +269,34 @@ class CartController extends Controller
     //         return back()->with('error', $e->getMessage());
     //     }
     // }
+    public function getClientSecret(Request $request) {
+        try {
+            \Stripe\Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
+  
+            $intent = \Stripe\PaymentIntent::create([
+                  'amount' => ($request->amount)*100,
+                  'currency' => 'GBP',
+                  'metadata' => ['integration_check'=>'accept_a_payment']
+            ]);
+
+            $user = Auth::user();
+            $name = ($user->surname ? $user->surname . ' ' : '') . ($user->first_name ? $user->first_name . ' ' : '') . ($user->last_name ? $user->last_name : '');
+            $data = [
+                 'name'=> $name,
+                 'email'=> $user->email,
+                 'amount'=> $request->amount,
+                 'client_secret'=> $intent->client_secret,
+            ];
+
+            return response()->json($data);
+        } catch (\Exception $e) {
+            return response()->json($e);
+        }
+    }
     public function checkoutPost(Request $request)
     {
         $is_direct_sale = false;
         try {
-            if ($request->payment_method == 'stripe') {
-                $business = Business::find($request->business_id);
-                $business->wallet = $business->wallet + $request->amount;
-                $business->save();
-
-                Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
-                $charge = Charge::create([
-                    'amount' => intval($request->amount * 100),
-                    'currency' => 'usd',
-                    'source' => $request->stripeToken,
-                    'description' => 'Payment for your purchase',
-                ]);
-            }
-
             $input = $request->except('_token');
 
             $input['is_quotation'] = 0;
@@ -538,7 +548,7 @@ class CartController extends Controller
                 $transaction_payment->method = 'cash';
             }
             $transaction_payment->save();
-            Session::put('current_carts', null);
+            // Session::put('current_carts', null);
             DB::commit();
 
             if ($request->input('is_save_and_print') == 1) {
