@@ -8,7 +8,8 @@
         @foreach ($categories as $category)
             <div class="col-lg-3 col-md-3 col-sm-6 text-center">
                 <ul class="list-group border-0">
-                    <li class="list-group-item"><a href="" class="text-dark">{{ $category->name }}</a></li>
+                    <li class="list-group-item"><a href="{{ route('products.index') }}"
+                            class="text-dark">{{ $category->name }}</a></li>
                 </ul>
             </div>
         @endforeach
