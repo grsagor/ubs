@@ -1,5 +1,13 @@
 @extends('layouts.app')
 @section('title', __('sale.products'))
+@section('css')
+    <style>
+        .view-product:hover {
+            background-color: #e1e3e9;
+            color: #333;
+        }
+    </style>
+@endsection
 
 @section('content')
 
@@ -9,9 +17,9 @@
             <small>@lang('lang_v1.manage_products')</small>
         </h1>
         <!-- <ol class="breadcrumb">
-                <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
-                <li class="active">Here</li>
-            </ol> -->
+                    <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
+                    <li class="active">Here</li>
+                </ol> -->
     </section>
 
     <!-- Main content -->

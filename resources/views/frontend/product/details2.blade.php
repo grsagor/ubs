@@ -159,6 +159,13 @@
             margin-right: 5px;
         }
 
+        .contact-phone p {
+            margin-top: 0px;
+            margin-bottom: 0px;
+            line-height: 0px;
+            font-size: 16px;
+        }
+
         .mobile-view {
             display: none;
         }
@@ -182,16 +189,16 @@
 
         #imageSlider .carousel-item img {
             /* max-width: 350px;
-                                                                                                                    max-height: 300px; */
+                                                                                                                                                                                                    max-height: 300px; */
             width: auto;
             height: auto;
             margin: auto;
         }
 
         /* .carousel-control-next,
-                                                                                        .carousel-control-prev {
-                                                                                            filter: invert(100%);
-                                                                                        } */
+                                                                                                                                                                        .carousel-control-prev {
+                                                                                                                                                                            filter: invert(100%);
+                                                                                                                                                                        } */
 
         .carousel-control-prev-icon {
             background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='%23000' width='8' height='8' viewBox='0 0 8 8'%3e%3cpath d='M5.25 0l-4 4 4 4 1.5-1.5L4.25 4l2.5-2.5L5.25 0z'/%3e%3c/svg%3e");
@@ -645,14 +652,14 @@
                                 <div class="requirements-card">
                                     <h3 class="sectitle">About Provider</h3>
 
-                                    @if ($info->business_location_id)
+                                    {{-- @if ($business_data)
                                         <div class="row header">
                                             <div class="col-md-9">
 
                                                 <div class="card-text company-name color-black">
-                                                    <a href="{{ $info->business_location ? route('shop.service', $info->business_location->id) : '#' }}"
+                                                    <a href="{{ $business_data ? route('shop.service', $business_data->id) : '#' }}"
                                                         class="color-black">
-                                                        {{ $info->business_location ? $info->business_location->name : '' }}
+                                                        {{ $business_data ? $business_data->name : '' }}
                                                     </a>
                                                 </div>
                                             </div>
@@ -669,7 +676,7 @@
                                                             : 'https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg';
                                                 @endphp
                                                 <a
-                                                    href="{{ $info->business_location ? route('shop.service', $info->business_location->id) : '#' }}">
+                                                    href="{{ $business_data ? route('shop.service', $business_data->id) : '#' }}">
                                                     <div>
                                                         <img class="" src="{{ $imageUrl }}" alt=""
                                                             style="width: 35% !important;">
@@ -677,7 +684,7 @@
                                                 </a>
 
                                                 @php
-                                                    $businessLocation = $info->business_location;
+                                                    $businessLocation = $business_data;
                                                     $imageUrl =
                                                         $businessLocation &&
                                                         File::exists(public_path($businessLocation->logo))
@@ -686,7 +693,48 @@
                                                 @endphp
                                             </div>
                                         </div>
+                                    @endif --}}
+
+                                    @if (isset($business_data) && $business_data)
+                                        <div class="row header">
+                                            <div class="col-md-9">
+                                                <div class="card-text company-name color-black">
+                                                    <a href="{{ route('shop.service', $business_data->id) }}"
+                                                        class="color-black">
+                                                        {{ $business_data->name }}
+                                                    </a>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-3 text-end mobile_view_image_left mobile_image">
+                                                @php
+                                                    $imageUrl =
+                                                        $user_info &&
+                                                        $user_info->file_name &&
+                                                        File::exists(
+                                                            public_path("uploads/media/{$user_info->file_name}"),
+                                                        )
+                                                            ? asset("uploads/media/{$user_info->file_name}")
+                                                            : 'https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg';
+                                                @endphp
+                                                <a href="{{ route('shop.service', $business_data->id) }}">
+                                                    <div>
+                                                        <img class="" src="{{ $imageUrl }}" alt=""
+                                                            style="width: 35% !important;">
+                                                    </div>
+                                                </a>
+
+                                                @php
+                                                    $imageUrl =
+                                                        $business_data &&
+                                                        File::exists(public_path($business_data->logo))
+                                                            ? asset($business_data->logo)
+                                                            : 'https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg';
+                                                @endphp
+                                            </div>
+                                        </div>
                                     @endif
+
 
                                     @if ($info->experiences)
                                         <h3 class="sectitle color-black mt-15">Experiences</h3>
@@ -727,16 +775,12 @@
 
                                     <div class="complain-information">
                                         <div class="complain-info-item">
-                                            <i class="fas fa-info-circle"></i>
-                                            <div>
-                                                +44 (0) 7460497454
-                                            </div>
+                                            <span class="info-icon"><i class="fas fa-info-circle"></i></span>
+                                            <span class="contact-phone">{!! $othersInfo['contact-us-phone'] ?? '' !!}</span>
                                         </div>
                                         <div class="complain-info-item">
-                                            <i class="fas fa-envelope"></i>
-                                            <div>
-                                                complain@unipuler.com
-                                            </div>
+                                            <span class="info-icon"><i class="fas fa-envelope"></i></span>
+                                            <span class="contact-phone">{!! $othersInfo['contact-us-email-complain'] ?? '' !!}</span>
                                         </div>
                                     </div>
                                 </div>

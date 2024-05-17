@@ -2,38 +2,39 @@
 
 namespace App\Http\Controllers;
 
-use App\Brands;
-use App\Business;
-use App\BusinessLocation;
-use App\Cart;
-use App\Category;
-use App\ChildCategory;
-use App\Exports\ProductsExport;
-use App\Media;
-use App\Product;
-use App\ProductBuyingInfo;
-use App\ProductVariation;
-use App\PurchaseLine;
-use App\ResellingProduct;
-use App\SellingPriceGroup;
-use App\SubCategory;
-use App\TaxRate;
-use App\Unit;
-use App\Utils\ModuleUtil;
-use App\Utils\ProductUtil;
-use App\Variation;
-use App\VariationGroupPrice;
-use App\VariationLocationDetails;
-use App\VariationTemplate;
-use App\Warranty;
 use Excel;
+use App\Cart;
+use App\Unit;
+use App\Media;
+use App\Brands;
+use App\Footer;
+use App\Product;
+use App\TaxRate;
+use App\Business;
+use App\Category;
+use App\Warranty;
+use App\Variation;
+use App\SubCategory;
+use App\PurchaseLine;
+use App\ChildCategory;
+use App\BusinessLocation;
+use App\ProductVariation;
+use App\ResellingProduct;
+use App\Utils\ModuleUtil;
+use App\ProductBuyingInfo;
+use App\SellingPriceGroup;
+use App\Utils\ProductUtil;
+use App\VariationTemplate;
+use Illuminate\Support\Str;
+use App\VariationGroupPrice;
 use Illuminate\Http\Request;
-use Illuminate\Pagination\LengthAwarePaginator;
+use App\Exports\ProductsExport;
+use App\VariationLocationDetails;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\Facades\DataTables;
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class ProductController extends Controller
 {
@@ -212,7 +213,7 @@ class ProductController extends Controller
 
                         if (auth()->user()->can('product.view')) {
                             $html .=
-                                '<li><a href="' . action([\App\Http\Controllers\ProductController::class, 'view'], [$row->id]) . '" class="view-product"><i class="fa fa-eye"></i> ' . __('messages.view') . '</a></li>';
+                                '<li><p class="view-product" style=" padding: 3px 20px; margin: 0px;">  <i class="fa fa-eye" style=" margin-right: 10px;"></i> ' . __('messages.view') . '</p></li>';
                         }
 
                         if (auth()->user()->can('product.update')) {
@@ -497,7 +498,6 @@ class ProductController extends Controller
                 'brand_id',
                 'unit_id',
                 'category_id',
-                'business_location_id',
                 'type',
                 'barcode_type',
                 'sku',
@@ -787,6 +787,8 @@ class ProductController extends Controller
             ->where('id', $id)
             ->firstOrFail();
 
+        $business_location_new = DB::table('product_locations')->where('product_id', $id)->first();
+
         //Sub-category
         $sub_categories = [];
         $sub_categories = Category::where('business_id', 5)
@@ -828,7 +830,7 @@ class ProductController extends Controller
         $alert_quantity = !is_null($product->alert_quantity) ? $this->productUtil->num_f($product->alert_quantity, false, null, true) : null;
 
         return view('product.edit')
-            ->with(compact('categories', 'brands', 'units', 'sub_units', 'taxes', 'tax_attributes', 'barcode_types', 'product', 'sub_categories', 'child_categories', 'default_profit_percent', 'business_locations', 'rack_details', 'selling_price_group_count', 'module_form_parts', 'product_types', 'common_settings', 'warranties', 'pos_module_data', 'alert_quantity'));
+            ->with(compact('categories', 'brands', 'units', 'sub_units', 'taxes', 'tax_attributes', 'barcode_types', 'product', 'sub_categories', 'child_categories', 'default_profit_percent', 'business_locations', 'rack_details', 'selling_price_group_count', 'module_form_parts', 'product_types', 'common_settings', 'warranties', 'pos_module_data', 'alert_quantity', 'business_location_new'));
     }
 
     /**
@@ -850,7 +852,7 @@ class ProductController extends Controller
             $business_id = $request->session()->get('user.business_id');
             $product_details = $request->only([
                 'name', 'brand_id', 'sub_category_id',
-                'child_category_id', 'business_location_id',
+                'child_category_id',
                 'unit_id', 'category_id', 'tax', 'barcode_type', 'sku',
                 'alert_quantity', 'tax_type', 'weight', 'product_custom_field1',
                 'product_custom_field2', 'product_custom_field3', 'product_custom_field4',
@@ -907,7 +909,7 @@ class ProductController extends Controller
 
             $product->sub_category_id = $product_details['sub_category_id'];
             $product->child_category_id = $product_details['child_category_id'];
-            $product->business_location_id = $product_details['business_location_id'];
+            // $product->business_location_id = $product_details['business_location_id'];
 
             $product->study_time = $product_details['study_time'];
             $product->name_of_institution = $product_details['name_of_institution'];
@@ -2756,6 +2758,18 @@ class ProductController extends Controller
             $data['bought'] = ProductBuyingInfo::where([['user_id', Auth::user()->id], ['product_id', $product->id]])->first();
             $data['user'] = $user;
         }
+
+        $location_id = DB::table('product_locations')->where('product_id', $id)->value('location_id');
+
+        if ($location_id) {
+            $data['business_data'] = BusinessLocation::findOrFail($location_id);
+        }
+
+        $slugs = ['contact-us-phone', 'contact-us-email-complain'];
+
+        $data['othersInfo'] = Footer::whereIn('slug', $slugs)
+            ->pluck('description', 'slug')
+            ->toArray();
 
         return view('frontend.product.details2', $data);
     }

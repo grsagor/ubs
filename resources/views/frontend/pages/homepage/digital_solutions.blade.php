@@ -38,7 +38,9 @@
                                             <li class="list-group-item"><i class="bi bi-check-circle-fill"></i> Digital
                                                 content</li>
                                         </ul>
-                                        <a href="" target="__blank" class="btn  btn-dark mt-3">Get Digital
+                                        <a href="{{ route('digitalMarketing') }}" target="__blank"
+                                            class="btn  btn-dark mt-3">Get
+                                            Digital
                                             Solution</a>
                                     </div>
                                 </div>

@@ -56,6 +56,7 @@ class LoginController extends Controller
         if (session('previous_page') === 'recruitment-create') {
             session(['link' => url()->previous()]);
         }
+        // dd(session('link'));
 
         return view('auth.login');
     }

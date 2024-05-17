@@ -1,9 +1,7 @@
 {{-- s  main-features-section --}}
 @php
     // currently the tables are not proerly structured so i have to just make it dynamic --added by huma
-    $subcategories = DB::table('products')
-        ->take(4)
-        ->get();
+    $subcategories = DB::table('products')->take(4)->get();
     // $shopUser = DB::table('user_shops')
     //     ->take(4)
     //     ->get();
@@ -91,7 +89,7 @@
                                 </div>
                             </div>
                         </div>
-                        <a href="{{ route('login') }}" class="card-link mt-2">Show more details</a>
+                        <a href="{{ route('products.create') }}" class="card-link mt-2">Show more details</a>
                     </div>
                 </div>
             </a>
@@ -151,7 +149,7 @@
                                 </a>
                             </div>
                         </div>
-                        <a href="{{ route('education.list') }}" class="card-link mt-2">Show more details</a>
+                        <a href="{{ route('products.index') }}" class="card-link mt-2">Show more details</a>
                     </div>
                 </div>
             </a>
@@ -300,7 +298,7 @@
                                 </div>
                             </div>
                         </div>
-                        <a href="https://shop.unipuller.com/" target="__blank" class="card-link mt-2">Show more
+                        <a href="https://shop.unipuler.com/" target="__blank" class="card-link mt-2">Show more
                             details</a>
                     </div>
                 </div>
