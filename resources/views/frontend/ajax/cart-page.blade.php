@@ -18,10 +18,16 @@
                          .s_table tr th {
                              background: var(--theme-light-color);
                          }
+                         .cart-table {
+                            overflow-x: scroll;
+                         }
+                         .cart-table table * {
+                            text-wrap: nowrap;
+                         }
                      </style>
                      <table class="s_table table table-responsive-sm">
                          <tr class="text-center">
-                             {{-- <th class="product-thumbnail">&nbsp;</th> --}}
+                             <th class="product-thumbnail">&nbsp;</th>
                              <th class="product-name">Product</th>
                              <th class="product-price">Price</th>
                              <th class="product-quantity">Quantity</th>
@@ -31,10 +37,10 @@
 
                          @foreach ($products as $product)
                              <tr class="woocommerce-cart-form__cart-item cart_item text-center">
-                                 {{-- <td class="product-thumbnail">
-                                <a href="{{ route('front.product', $product->slug) }}"><img src="{{ $product->photo ? asset('assets/images/products/'.$product->photo) : asset('assets/images/noimage.png') }}" alt="Product image"></a>
-                            </td> --}}
-                                 <td class="product-name">
+                                 <td class="product-thumbnail">
+                                <img width="120" height="80" src="{{ $product->thumbnail ? asset($product->thumbnail) : asset('assets/images/noimage.png') }}" alt="Product image">
+                            </td>
+                                 <td class="product-name text-start">
                                      <a href="">{{ $product->name }}</a>
                                      @if (!empty($product['color']))
                                          <div class="d-flex mt-2 ml-1">
@@ -45,7 +51,7 @@
                                      @endif
                                  </td>
                                  <td class="product-price">
-                                     <span>$ {{ $product->price }}</span>
+                                     <span>£ {{ $product->price }}</span>
                                  </td>
 
 
@@ -86,7 +92,7 @@
                                  <td class="product-subtotal">
                                      <p class="d-inline-block"
                                          id="prc{{ $product->id . $product['size'] . $product['color'] . str_replace(str_split(' ,'), '', $product['values']) }}">
-                                         $ {{ $product->price }}
+                                         £ {{ $product->price }}
                                      </p>
                                      @if ($product['discount'] != 0)
                                          <strong>{{ $product['discount'] }} %{{ __('off') }}</strong>
@@ -112,7 +118,15 @@
                                  <th>Subtotal</th>
                                  <td>
                                      <span><b
-                                             class="cart-total">$ {{ $total_price }}</b>
+                                             class="cart-total">£ {{ $total_price_excluding_tax }}</b>
+                                     </span>
+                                 </td>
+                             </tr>
+                             <tr>
+                                 <th>Vat</th>
+                                 <td>
+                                     <span><b
+                                             class="cart-total">£ {{ $total_vat }}</b>
                                      </span>
                                  </td>
                              </tr>
@@ -131,7 +145,7 @@
                              <tr class="order-total">
                                  <th>Total</th>
                                  <td><strong><span
-                                             class="woocommerce-Price-amount amount main-total">$ {{ $total_price }}</span></strong>
+                                             class="woocommerce-Price-amount amount main-total">£ {{ $total_price }}</span></strong>
                                  </td>
                              </tr>
                          </table>

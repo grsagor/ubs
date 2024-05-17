@@ -2667,7 +2667,7 @@
                                                                         target="_blank">{{ $product->name }}</a></p>
                                                                 <div class="unit-price d-flex">
                                                                     <h5 class="label mr-2">Price : </h5>
-                                                                    <p>£ {{ $product->price }}</p>
+                                                                    <p>{{ $product->price }}$</p>
                                                                 </div>
                                                                 {{-- <div class="quantity d-flex">
                                                                 <h5 class="label mr-2">Quantity : </h5>
@@ -3097,39 +3097,28 @@
     <script>
         $(document).ready(function() {
             $(document).on('click', '#proceed_to_checkout', function() {
-                const amount = "{{ $total_price }}"
-                $.ajax({
-                    url: "{{ route('get.stripe.client.secret') }}",
-                    type: 'get',
-                    data: { amount: amount },
-                    dataType: 'json',
-                    success: function(response) {
-                        stripe.confirmCardPayment(response.client_secret, {
-                        payment_method: {
-                            card: cardNumber,
-                            billing_details: {
-                                name: response.name,
-                                email: response.email
-                            }
-                        },
-                        setup_future_usage: 'off_session'
-                        }).then(function(result) {
+                stripe.createToken(cardNumber).then(function(result) {
+                    if (result.error) {
+                        $('#stripe-error-container').text(result.error.message);
+                        $('#stripe-error-container').show();
+                    } else {
+                        $('#stripe-error-container').hide();
+                        $('#stripe_error_message').hide();
+                        $('#payment_method').val('stripe');
+
+                        stripe.createToken(cardNumber).then(function(result) {
                             if (result.error) {
                                 Swal.fire({
                                     icon: 'error',
-                                    title: result.error.message,
+                                    title: 'Open stripe modal and submit your card information.',
                                     position: 'center',
                                 })
                             } else {
-                                if (result.paymentIntent.status === 'succeeded') {
-                                    $('#payment_method').val('stripe');
-                                    saveCheckoutForm();
-                                }
-                                return false;
+                                saveCheckoutForm(result.token.id);
                             }
                         });
                     }
-                })
+                });
             })
             $(document).on('click', '#final-btn', function() {
                 $('#payment_method').val('cash_on_delivery');

@@ -227,6 +227,7 @@ Route::get('/contact-us',                               [FrontendController::cla
 
 // CART SECTION
 Route::get('/carts', [CartController::class, 'cart'])->name('front.cart');
+Route::get('/get-client-secret', [CartController::class, 'getClientSecret'])->name('get.stripe.client.secret');
 Route::post('/post-cart', [CartController::class, 'postCart'])->name('post.cart');
 Route::post('/order-now', [CartController::class, 'orderNow'])->name('order.now');
 Route::get('/checkout', [CartController::class, 'checkout'])->name('front.checkout');
