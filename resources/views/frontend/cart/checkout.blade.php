@@ -2667,7 +2667,7 @@
                                                                         target="_blank">{{ $product->name }}</a></p>
                                                                 <div class="unit-price d-flex">
                                                                     <h5 class="label mr-2">Price : </h5>
-                                                                    <p>{{ $product->price }}$</p>
+                                                                    <p>£ {{ $product->price }}</p>
                                                                 </div>
                                                                 {{-- <div class="quantity d-flex">
                                                                 <h5 class="label mr-2">Quantity : </h5>

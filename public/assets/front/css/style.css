@@ -766,9 +766,10 @@ button:not(:disabled) {
 
 .checkout-area .content-box .content .order-area .order-item .product-img img {
     width: 135px;
-    height: auto;
+    height: 80px;
     margin-right: 20px;
-}
+    object-fit: cover;
+    }
 
 .checkout-area .content-box .content .order-area .order-item .product-content {
     -webkit-box-flex: 1;
@@ -8827,11 +8828,6 @@ table.cart {
     border-bottom: 0px;
 }
 */
-.checkout-area .content-box .content .order-area .order-item .product-img img {
-    width: 135px;
-    height: auto;
-    margin-right: 20px;
-}
 
 .checkout-area .content-box .content .order-area .order-item .product-content {
     -webkit-box-flex: 1;

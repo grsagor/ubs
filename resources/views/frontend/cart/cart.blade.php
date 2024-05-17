@@ -32,3 +32,10 @@
     </script>
 @endif
 @endsection
+@section('css')
+    <style>
+        .product-thumbnail img {
+            object-fit: cover;
+        }
+    </style>
+@endsection

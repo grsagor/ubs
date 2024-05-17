@@ -98,18 +98,36 @@ class CartController extends Controller
             return redirect(route('homePage'))->with('error', "No product/service selected.");
         }
         $products = Product::whereIn('id', $current_carts)->get();
-        $total_price = 0;
         foreach ($products as $product) {
+            $product->contact_id = Contact::where('business_id', $product->business_id)->first()->id;
             $price = 0;
+            $price_excluding_tax = 0;
+            $vat = 0;
+            $mrp = 0;
             foreach ($product->variations as $variation) {
-                $price += $variation->default_sell_price;
+                $mrp += $variation->default_purchase_price + (($variation->default_purchase_price * $variation->profit_percent) / 100);
+                $percentage = (($variation->dpp_inc_tax - $variation->default_purchase_price) * 100 ) / $variation->default_purchase_price;
+                $vat = ($mrp * $percentage) / 100;
+                $price += $mrp + $vat;
             }
             $product->price = $price;
-            $total_price += $price;
+            $product->price_excluding_tax = $mrp;
+            $product->vat = $vat;
+        }
+        $total_price = 0;
+        $total_price_excluding_tax = 0;
+        $total_vat = 0;
+        foreach ($products as $product) {
+            $product->location_id = BusinessLocation::where('business_id', $product->business_id)->first()->id;
+            $total_price += $product->price;
+            $total_price_excluding_tax += $product->price_excluding_tax;
+            $total_vat += $product->vat;
         }
         $data = [
             'products' => $products,
-            'total_price' => $total_price
+            'total_price' => $total_price,
+            'total_price_excluding_tax' => $total_price_excluding_tax,
+            'total_vat' => $total_vat,
         ];
 
         return view('frontend.cart.cart', $data);
