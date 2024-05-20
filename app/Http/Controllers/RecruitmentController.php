@@ -54,13 +54,13 @@ class RecruitmentController extends Controller
     {
         $user = Auth::user();
         $data['recruitments'] = AppliedJob::query()
-            ->searchApplicants(request()->get('search'))
-            ->with('JobId', 'recuimentId')
+            ->searchApplicants($request->get('search'))
+            ->with('JobId', 'recuimentId', 'JobId.business_location', 'recuimentId.countryResidence', 'recuimentId.birthCountry', 'createdBy')
             ->whereHas('JobId.business_location', function ($query) use ($user) {
                 $query->where('business_id', $user->business_id);
             })
             ->latest()
-            ->paginate(10);
+            ->get();
 
         return view('frontend.recruitment.index', $data);
     }
