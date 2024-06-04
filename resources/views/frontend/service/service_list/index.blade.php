@@ -175,12 +175,34 @@
             <div class="pagination-style-one mx-auto">
                 <nav aria-label="Page navigation example">
                     <ul class="pagination">
-                        {{ $products->appends(['page' => $products->currentPage()])->links() }}
+                        @if ($products->lastPage() > 1)
+                            <li class="page-item{{ $products->currentPage() == 1 ? ' hide' : '' }}">
+                                <a class="page-link" href="{{ $products->url(1) }}" aria-label="First">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            </li>
+                            @for ($i = max(1, $products->currentPage() - 1); $i <= min($products->lastPage(), $products->currentPage() + 1); $i++)
+                                <li class="page-item{{ $products->currentPage() == $i ? ' active' : '' }}">
+                                    <a class="page-link" href="{{ $products->url($i) }}">{{ $i }}</a>
+                                </li>
+                            @endfor
+                            <li
+                                class="page-item{{ $products->currentPage() == $products->lastPage() ? ' disabled' : '' }}">
+                                <a class="page-link" href="{{ $products->url($products->lastPage()) }}" aria-label="Last">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            </li>
+                        @endif
                     </ul>
                 </nav>
             </div>
         </div>
     </div>
+
+
+
+
+
 @endsection
 
 

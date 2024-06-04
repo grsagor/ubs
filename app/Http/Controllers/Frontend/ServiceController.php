@@ -27,14 +27,29 @@ class ServiceController extends Controller
 
     public function serviceList(Request $request)
     {
+        // $data['products'] = Product::where('types', 'service')
+        //     ->with('variations')
+        //     ->search($request)
+        //     ->with('variations')
+        //     ->latest()
+        //     ->paginate(10);
+
+        // $data['nestedDataSets'] = $this->dataSetService->getNestedDataSets();
+
         $data['products'] = Product::where('types', 'service')
             ->with('variations')
             ->search($request)
-            ->with('variations')
             ->latest()
             ->paginate(10);
 
         $data['nestedDataSets'] = $this->dataSetService->getNestedDataSets();
+
+        $page = $data['products']->currentPage(); // Changed to use current page from products pagination
+        $perPage = $data['products']->perPage(); // Changed to use per page from products pagination
+        $total_products = $data['products']->total(); // Assuming this represents the total number of products
+
+        $currentPageItems = $data['products']->slice(($page - 1) * $perPage, $perPage)->all(); // Corrected to use products pagination
+
 
         return view('frontend.service.service_list.index', $data);
     }
