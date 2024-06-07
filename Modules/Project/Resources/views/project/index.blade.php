@@ -116,6 +116,16 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <input class="form-control" type="text" name="project_live_filter" id="project_live_filter"
+                                placeholder="Search by name" value="{{ old('project_live_filter') }}">
+                        </div>
+                    </div>
+                </div>
+
                 @if ($project_view == 'list_view')
                     <div class="project_html">
                     </div>
@@ -160,5 +170,54 @@
                 getProjectList();
             }
         });
+
+
+
+        // on keyup project filter get project
+        $(document).on("keyup", "#project_live_filter", function() {
+            var project_view = urlSearchParam("project_view");
+
+            if (project_view == "kanban") {
+                initializeProjectKanbanBoard();
+            } else if (project_view == "list_view") {
+                $(".project_html").html("");
+                getProjectList();
+            }
+        });
+
+        function getProjectList(url = "") {
+            var project_view = urlSearchParam("project_view");
+            var data = {
+                status: $("#project_status_filter").val(),
+                end_date: $("#project_end_date_filter").val(),
+                category_id: $("#project_categories_filter").val(),
+                project_live_filter: $("#project_live_filter").val(),
+                project_view: project_view,
+            };
+
+            if (url.length == 0) {
+                url = "/project/project";
+            }
+
+            $.ajax({
+                method: "GET",
+                dataType: "json",
+                url: url,
+                data: data,
+                success: function(result) {
+
+
+                    if (result.success) {
+                        // console.log(result.projects_html);
+                        $(".load_more_project").hide();
+                        $(".project_html").html(result
+                            .projects_html); // Clear the previous content and set the new content
+                    } else {
+                        toastr.error(result.msg);
+                    }
+
+                },
+            });
+        }
     </script>
 @endsection

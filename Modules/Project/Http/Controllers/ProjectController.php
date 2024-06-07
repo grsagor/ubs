@@ -105,6 +105,25 @@ class ProjectController extends Controller
                     });
                 }
 
+                // filter by search
+                if (!empty(request()->get('project_live_filter'))) {
+                    $item = request()->get('project_live_filter');
+                    $projects->where(function ($query) use ($item) {
+                        $query->where('name', 'like', '%' . $item . '%')
+                            ->orWhereHas('customer', function ($q) use ($item) {
+                                $q->where('name', 'like', '%' . $item . '%');
+                            })
+                            ->orWhereHas('lead', function ($q) use ($item) {
+                                $q->where(function ($q2) use ($item) {
+                                    $q2->where('surname', 'like', '%' . $item . '%')
+                                        ->orWhere('first_name', 'like', '%' . $item . '%')
+                                        ->orWhere('last_name', 'like', '%' . $item . '%');
+                                });
+                            });
+                    });
+                }
+
+
                 if ($project_view == 'list_view') {
                     $projects = $projects->latest()
                         ->simplePaginate(10);
