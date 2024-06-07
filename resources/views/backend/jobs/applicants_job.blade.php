@@ -41,7 +41,7 @@
                 <table class="table table-bordered table-striped table-hover text-center">
                     <thead>
                         <tr>
-                            <th colspan="5">
+                            <th colspan="9">
                                 <a href="{{ route('recruitment.details', $job->uuid) }}">{{ $job->title }}
                                 </a>
                             </th>
@@ -51,7 +51,10 @@
                             <th>Name</th>
                             <th>Phone</th>
                             <th>Email</th>
-                            <th>Applied date</th>
+                            <th>Date & Time</th>
+                            <th>Current address</th>
+                            <th>Counrtry of residence</th>
+                            <th>Origin</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -62,7 +65,10 @@
                                 <td>{{ $item->recuimentId->name ?? '' }}</td>
                                 <td>{{ $item->recuimentId->phone ?? '' }}</td>
                                 <td>{{ $item->recuimentId->email ?? '' }}</td>
-                                <td>{{ $item->created_at->format('d F Y') ?? '' }}</td>
+                                <td>{{ $item->created_at->format('jS F Y h:i A') }}</td>
+                                <td>{{ $item->recuimentId->current_address ?? '' }}</td>
+                                <td>{{ $item->recuimentId->countryResidence->country_name ?? '' }}</td>
+                                <td>{{ $item->recuimentId->birthCountry->country_name ?? '' }}</td>
                                 <td>
                                     <a href="{{ route('recruitment.show', $item->recruitment_id) }}"
                                         class="btn btn-xs btn-primary">

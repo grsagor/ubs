@@ -31,10 +31,10 @@
                         <th>Name</th>
                         <th>Phone</th>
                         <th>Email</th>
-                        <th>Applied Date</th>
+                        <th>Date & Time</th>
                         <th>Current Address</th>
                         <th>Country of Residence</th>
-                        <th>Birth Country</th>
+                        <th>Origin</th>
                         <th>Created By</th>
                         <th>Action</th>
                     </tr>
@@ -50,7 +50,7 @@
                             <td>{{ $item->recuimentId->name ?? '' }}</td>
                             <td>{{ $item->recuimentId->phone ?? '' }}</td>
                             <td>{{ $item->recuimentId->email ?? '' }}</td>
-                            <td>{{ $item->created_at->format('Y-m-d') }}</td>
+                            <td>{{ $item->created_at->format('jS F Y h:i A') }}</td>
                             <td>{{ $item->recuimentId->current_address ?? '' }}</td>
                             <td>{{ $item->recuimentId->countryResidence->country_name ?? '' }}</td>
                             <td>{{ $item->recuimentId->birthCountry->country_name ?? '' }}</td>
