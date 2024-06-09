@@ -69,12 +69,12 @@ class RecruitmentController extends Controller
     {
         $authUserId = Auth::id();
         $data['appliedJobs'] = AppliedJob::query()
-            ->search(request()->get('search')) // Assuming a custom search scope or method is applied
+            ->search($request->get('search')) // Assuming a custom search scope or method is applied
             ->with('JobId', 'recuimentId', 'createdBy') // Eager loading related country information
             ->where('created_by', $authUserId)
             ->latest() // Ordering by the latest
-            ->paginate(10); // Paginating the results
-        // return $data;
+            ->get(); // Paginating the results
+
         return view('frontend.recruitment.my_applications', $data);
     }
 
