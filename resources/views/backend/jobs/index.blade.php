@@ -2,42 +2,22 @@
 @section('title', 'Job')
 @section('content')
     <section class="content-header">
-        <h1>All your Job</h1>
+        <h1>All your Jobss</h1>
     </section>
 
     <section class="content">
 
         <div class="form-container box box-primary">
 
-            <div class="box-header" style="display: flex; justify-content: space-between; align-items: center;">
-                <!-- Search form -->
-                <form action="{{ route('jobs.index') }}" method="GET" style="flex: 1; margin-right: 10px;">
-                    <div class="input-group">
-                        <input type="text" name="search" class="form-control" placeholder="Search...">
-                        <span class="input-group-btn">
-                            <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
-                        </span>
-                    </div>
-                </form>
-
-                <!-- Buttons -->
-                <div>
-                    <!-- Clear button -->
-                    <a href="{{ request()->url() }}" class="btn btn-success">
-                        <i class="fa fa-hands-wash"></i> Clear
-                    </a>
-                    <!-- Add button -->
-                    <a href="{{ route('jobs.create') }}" class="btn btn-primary">
-                        <i class="fa fa-plus"></i> Add
-                    </a>
+            <div class="box-header">
+                <div class="box-tools">
+                    <a type="button" class="btn btn-block btn-primary" href="{{ route('jobs.create') }}">
+                        <i class="fa fa-plus"></i> Add</a>
                 </div>
             </div>
 
-
             <div class="box-body" style="overflow-x: scroll;">
-
-                <table class="table table-bordered table-striped table-hover">
-                    <!-- Table header -->
+                <table id="jobs_Table" class="table table-bordered table-striped table-hover">
                     <thead>
                         <tr>
                             <th>No.</th>
@@ -57,7 +37,7 @@
                     <tbody>
                         @forelse ($jobs as $item)
                             <tr>
-                                <td>{{ serialNumber($jobs, $loop) }}</td>
+                                <td>{{ $loop->iteration }}</td>
                                 <td>{{ $item->reference }}</td>
                                 <td>{{ $item->job_category->name ?? '' }}</td>
                                 <td>{{ $item->title }}</td>
@@ -109,7 +89,7 @@
                         @endforelse
                     </tbody>
                 </table>
-                {{ $jobs->links() }}
+
             </div>
         </div>
     </section>

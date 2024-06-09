@@ -22,7 +22,7 @@ class JobController extends Controller
                 $query->where('business_id', $user->business_id);
             })
             ->latest()
-            ->paginate(10);
+            ->get();
 
         return view('backend.jobs.index', $data);
     }

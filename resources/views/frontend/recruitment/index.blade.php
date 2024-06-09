@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Jobs')
+@section('title', 'Applicants')
 @section('css')
     <style>
         .job-title-column {
