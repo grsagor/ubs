@@ -27,16 +27,15 @@ class JobController extends Controller
         return view('backend.jobs.index', $data);
     }
 
-    public function applicantList($jobID)
+    public function applicantList(Request $request, $jobID)
     {
         $data['job'] = Job::where('uuid', $jobID)->first();
         $data['applicants'] = AppliedJob::query()
-            ->search(request()->get('search')) // Assuming a custom search scope or method is applied
-            ->with('JobId', 'recuimentId', 'createdBy') // Eager loading related country information
-            ->latest() // Ordering by the latest
+            ->with('JobId', 'recuimentId', 'createdBy')
             ->where('job_id', $jobID)
-            ->paginate(10); // Paginating the results
-        // return $data;
+            ->latest()
+            ->get();
+
         return view('backend.jobs.applicants_job', $data);
     }
 
