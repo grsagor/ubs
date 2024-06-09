@@ -14,7 +14,7 @@
                                 class="toggle-icon {{ Route::currentRouteName() === 'service.list' && request()->category_id == $category['id'] ? 'text-danger' : '' }}">
                                 &nbsp;{{ $category['name'] }}
                                 @if (!empty($category['children']))
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
                                         viewBox="0 0 16 16" class="toggle-svg"
                                         style="{{ !empty($category['children']) && request()->category_id == $category['id'] ? 'transform: rotate(90deg);' : '' }}">
                                         <path fill="none" stroke="rgba(0,0,0,.5)" stroke-linecap="round"
@@ -37,8 +37,8 @@
                                                 class="toggle-icon {{ Route::currentRouteName() === 'service.list' && request()->sub_category_id == $childCategory['id'] ? 'text-danger' : '' }} toggle-icon">
                                                 &nbsp;{{ $childCategory['name'] }}
                                                 @if (!empty($childCategory['children']))
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16"
-                                                        height="16" viewBox="0 0 16 16" class="toggle-svg"
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="12"
+                                                        height="12" viewBox="0 0 16 16" class="toggle-svg"
                                                         style="{{ !empty($childCategory['children']) && request()->sub_category_id == $childCategory['id'] ? 'transform: rotate(90deg);' : '' }}">
                                                         <path fill="none" stroke="rgba(0,0,0,.5)"
                                                             stroke-linecap="round" stroke-linejoin="round"

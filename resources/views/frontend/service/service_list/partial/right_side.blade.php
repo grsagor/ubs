@@ -4,6 +4,8 @@
 
         <div class="row mb-4 g-3 product-style-1 shop-list product-list  e-title-hover-primary e-hover-image-zoom"
             style="padding: 0px !important;">
+
+            {{-- Service part --}}
             <div class="col-md-9 laptop_view_card mobile_view_card">
                 @if (count($products) > 0)
                     @yield('property_list_content')
@@ -20,7 +22,6 @@
 
             {{-- Right side Advertise widget --}}
             <div class="col-md-3">
-
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">Advertise your service</h5>
@@ -29,9 +30,7 @@
                         <a href="{{ route('products.create') }}" class="button-31">Add</a>
                     </div>
                 </div>
-
                 <br>
-
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">Can't find your service?</h5>
@@ -40,9 +39,7 @@
                         <a href="#" class="button-31">Add</a>
                     </div>
                 </div>
-
                 <br>
-
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">Software to run your business?</h5>
@@ -52,9 +49,7 @@
                         <a href="{{ url('business/register') }}" class="button-31">Add</a>
                     </div>
                 </div>
-
                 <br>
-
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">Find your favourite company.</h5>
@@ -67,12 +62,8 @@
                         <a href="{{ route('shop.list') }}" class="button-31">Details</a>
                     </div>
                 </div>
-
                 <br>
-
             </div>
         </div>
-
     </div>
-
 </div>
