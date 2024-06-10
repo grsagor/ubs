@@ -336,12 +336,18 @@ class ProjectController extends Controller
                 'enable_timelog' => 1,
                 'enable_invoice' => 1,
                 'enable_notes_documents' => 1,
-                'members_crud_task' => 0,
-                'members_crud_note' => 0,
-                'members_crud_timelog' => 0,
+                'members_crud_task' => 1,
+                'members_crud_note' => 1,
+                'members_crud_timelog' => 1,
                 'task_view' => 'list_view',
                 'task_id_prefix' => '#'
             ];
+
+            // Previous value Important ******
+            // 'members_crud_task' => 0 
+            // 'members_crud_note' => 0
+            // 'members_crud_timelog' => 0
+            // Previous vlaue Important ******
 
             $members = $request->input('user_id');
             array_push($members, $request->input('lead_id'));
