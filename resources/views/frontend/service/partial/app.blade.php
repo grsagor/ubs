@@ -25,13 +25,13 @@
 
         p.category_text {
             /* min-height: 20px;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                max-height: 20px; */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    max-height: 20px; */
         }
 
         /* h5.product-title {
-                                                                min-height: 35px;
-                                                                max-height: 35px;
-                                                            } */
+                                                                    min-height: 35px;
+                                                                    max-height: 35px;
+                                                                } */
 
         .product-info .product-title a {
             font-size: 18px !important;
@@ -118,8 +118,6 @@
                                 </div>
 
 
-
-
                                 <div id="woocommerce_product_categories-4"
                                     class="widget woocommerce widget_product_categories widget-toggle mb-3 mb-lg-0">
 
@@ -157,9 +155,7 @@
                                 </form>
                             </div>
 
-
                             <div class="showing-products pt-30 pb-50 border-2 border-bottom border-light" id="ajaxContent">
-
 
                                 <div class="row mb-4 g-3 product-style-1 shop-list product-list  e-title-hover-primary e-hover-image-zoom"
                                     style="padding: 0px !important;">
@@ -167,7 +163,6 @@
                                         <div class="col-md-9">
                                             @yield('property_list_content')
                                         </div>
-
 
                                         {{-- Right side Advertise widget --}}
                                         <div class="col-md-3">
@@ -244,21 +239,7 @@
                                 </div>
 
                             </div>
-                            {{-- <div class="col-lg-8 mt-3 text-center">
-                                <div class="d-flex align-items-start pt-3" id="custom-pagination">
-                                    <div class="pagination-style-one mx-auto">
-                                        <nav aria-label="Page navigation example">
-                                            <ul class="pagination">
-                                                {{ $rooms->links() }}
-                                            </ul>
-                                        </nav>
-                                    </div>
-                                </div>
-                            </div> --}}
-
                         </div>
-
-
                     </div>
                 </div>
             </div>

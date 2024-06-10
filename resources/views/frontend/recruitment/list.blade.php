@@ -223,6 +223,9 @@
                             </a>
                         </div>
                     @endforeach
+
+                    {{-- Pagination --}}
+                    @include('frontend.pagination.pagination', ['paginator' => $jobs])
                 @else
                     <div class="card">
                         <div class="card-body">
@@ -235,4 +238,6 @@
             </div>
         </div>
     </div>
+@endsection
+@section('script')
 @endsection

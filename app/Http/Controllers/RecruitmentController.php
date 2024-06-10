@@ -19,7 +19,11 @@ class RecruitmentController extends Controller
 
     public function list(Request $request)
     {
-        $data['jobs'] = Job::searchAndFilter($request)->active()->with('job_category')->latest()->get();
+        $data['jobs'] = Job::searchAndFilter($request)
+            ->active()
+            ->with('job_category')
+            ->latest()
+            ->paginate(10);
 
         $data['jobsCategory'] = JobCategory::query()
             ->active()
