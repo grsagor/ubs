@@ -146,7 +146,8 @@
             </div>
         </div>
         <!-- /.box -->
-        <div class="modal fade" tabindex="-1" role="dialog" id="project_model"></div>
+        <div class="modal fade" tabindex="-1" role="dialog" id="project_model" class="modal hide" data-backdrop="static"
+            data-keyboard="false"></div>
     </section>
     <link rel="stylesheet" href="{{ asset('modules/project/sass/project.css?v=' . $asset_v) }}">
 @endsection
