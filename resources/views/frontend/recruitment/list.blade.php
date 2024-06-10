@@ -2,11 +2,6 @@
 @section('title', 'Jobs')
 @section('css')
     <style>
-        .container {
-            margin-top: 10px;
-            margin-bottom: 10px;
-        }
-
         .color-black {
             color: black !important;
         }
