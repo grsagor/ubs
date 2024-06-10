@@ -91,15 +91,58 @@ class TaskController extends Controller
             }
 
             // filter by due date
+            // if (!empty(request()->get('due_date'))) {
+            //     if (request()->get('due_date') == 'overdue') {
+            //         $project_task->where('due_date', '<', Carbon::today())
+            //             ->where('status', '!=', 'completed');
+            //     } elseif (request()->get('due_date') == 'today') {
+            //         $project_task->where('due_date', Carbon::today())
+            //             ->where('status', '!=', 'completed');
+            //     } elseif (request()->get('due_date') == 'less_than_one_week') {
+            //         $project_task->whereBetween('due_date', [Carbon::today(), Carbon::today()->addWeek()])
+            //             ->where('status', '!=', 'completed');
+            //     }
+            // }
+
+            // filter by due date
             if (!empty(request()->get('due_date'))) {
-                if (request()->get('due_date') == 'overdue') {
+                $due_date = request()->get('due_date');
+
+                if ($due_date == 'overdue') {
                     $project_task->where('due_date', '<', Carbon::today())
                         ->where('status', '!=', 'completed');
-                } elseif (request()->get('due_date') == 'today') {
+                } elseif ($due_date == 'today') {
                     $project_task->where('due_date', Carbon::today())
                         ->where('status', '!=', 'completed');
-                } elseif (request()->get('due_date') == 'less_than_one_week') {
+                } elseif ($due_date == 'tomorrow') {
+                    $project_task->where('due_date', Carbon::tomorrow())
+                        ->where('status', '!=', 'completed');
+                } elseif ($due_date == 'less_than_one_week') {
                     $project_task->whereBetween('due_date', [Carbon::today(), Carbon::today()->addWeek()])
+                        ->where('status', '!=', 'completed');
+                } elseif ($due_date == 'end_after_one_days') {
+                    $project_task->where('due_date', Carbon::today()->addDays(1))
+                        ->where('status', '!=', 'completed');
+                } elseif ($due_date == 'end_after_two_days') {
+                    $project_task->where('due_date', Carbon::today()->addDays(2))
+                        ->where('status', '!=', 'completed');
+                } elseif ($due_date == 'end_after_three_days') {
+                    $project_task->where('due_date', Carbon::today()->addDays(3))
+                        ->where('status', '!=', 'completed');
+                } elseif ($due_date == 'end_after_four_days') {
+                    $project_task->where('due_date', Carbon::today()->addDays(4))
+                        ->where('status', '!=', 'completed');
+                } elseif ($due_date == 'end_after_five_days') {
+                    $project_task->where('due_date', Carbon::today()->addDays(5))
+                        ->where('status', '!=', 'completed');
+                } elseif ($due_date == 'end_after_six_days') {
+                    $project_task->where('due_date', Carbon::today()->addDays(6))
+                        ->where('status', '!=', 'completed');
+                } elseif ($due_date == 'end_after_fifteen_days') {
+                    $project_task->where('due_date', Carbon::today()->addDays(15))
+                        ->where('status', '!=', 'completed');
+                } elseif ($due_date == 'end_after_thirty_days') {
+                    $project_task->where('due_date', Carbon::today()->addDays(30))
                         ->where('status', '!=', 'completed');
                 }
             }
@@ -316,7 +359,8 @@ class TaskController extends Controller
         $business_id = request()->session()->get('user.business_id');
         $users = User::forDropdown($business_id, false);
         $priorities = ProjectTask::prioritiesDropdown();
-        $due_dates = ProjectTask::dueDatesDropdown();
+        // $due_dates = ProjectTask::dueDatesDropdown();
+        $due_dates = ProjectTask::dueDatesDropdownNew();
 
         // if not admin get assigned project for filter
         $user_id = null;

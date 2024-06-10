@@ -14,22 +14,22 @@ class ProjectTask extends Model
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
-        ->logOnly(['name', 'text']);
+            ->logOnly(['name', 'text']);
         // Chain fluent methods for configuration options
     }
 
     /**
-    * The table associated with the model.
-    *
-    * @var string
-    */
+     * The table associated with the model.
+     *
+     * @var string
+     */
     protected $table = 'pjt_project_tasks';
 
     /**
-    * The attributes that aren't mass assignable.
-    *
-    * @var array
-    */
+     * The attributes that aren't mass assignable.
+     *
+     * @var array
+     */
     protected $guarded = ['id'];
 
     protected static $logUnguarded = true;
@@ -81,11 +81,11 @@ class ProjectTask extends Model
     public static function prioritiesDropdown()
     {
         $priorities = [
-                'low' => __('project::lang.low'),
-                'medium' =>  __('project::lang.medium'),
-                'high' => __('project::lang.high'),
-                'urgent' => __('project::lang.urgent')
-            ];
+            'low' => __('project::lang.low'),
+            'medium' =>  __('project::lang.medium'),
+            'high' => __('project::lang.high'),
+            'urgent' => __('project::lang.urgent')
+        ];
 
         return $priorities;
     }
@@ -96,15 +96,15 @@ class ProjectTask extends Model
     public static function priorityColors()
     {
         $priority_colors = [
-                'low' => 'bg-green',
-                'medium' => 'bg-yellow',
-                'high' => 'bg-orange',
-                'urgent' => 'bg-red'
-            ];
+            'low' => 'bg-green',
+            'medium' => 'bg-yellow',
+            'high' => 'bg-orange',
+            'urgent' => 'bg-red'
+        ];
 
         return $priority_colors;
     }
-    
+
     /**
      * Return the task for dropdown.
      */
@@ -113,7 +113,7 @@ class ProjectTask extends Model
         $project_tasks = ProjectTask::where('project_id', $project_id)
             ->select('id', DB::raw("concat(subject, ' (', task_id, ')') as subject"))
             ->pluck('subject', 'id');
-                            
+
         return $project_tasks;
     }
 
@@ -124,12 +124,12 @@ class ProjectTask extends Model
     public static function taskStatuses()
     {
         $statuses = [
-                'not_started' => __('project::lang.not_started'),
-                'in_progress' =>  __('project::lang.in_progress'),
-                'on_hold' => __('project::lang.on_hold'),
-                'cancelled' => __('project::lang.cancelled'),
-                'completed' => __('project::lang.completed')
-            ];
+            'not_started' => __('project::lang.not_started'),
+            'in_progress' =>  __('project::lang.in_progress'),
+            'on_hold' => __('project::lang.on_hold'),
+            'cancelled' => __('project::lang.cancelled'),
+            'completed' => __('project::lang.completed')
+        ];
 
         return $statuses;
     }
@@ -143,6 +143,24 @@ class ProjectTask extends Model
             'overdue' => __('project::lang.overdue'),
             'today' => __('home.today'),
             'less_than_one_week' => __('project::lang.less_than_1_week')
+        ];
+
+        return $due_dates;
+    }
+    public static function dueDatesDropdownNew()
+    {
+        $due_dates = [
+            'overdue' => __('project::lang.overdue'),
+            'today' => __('home.today'),
+            'tomorrow' => __('Tomorrow'),
+            'end_after_one_days' => __('End after 1 days'),
+            'end_after_two_days' => __('End after 2 days'),
+            'end_after_three_days' => __('End after 3 days'),
+            'end_after_four_days' => __('End after 4 days'),
+            'end_after_five_days' => __('End after 5 days'),
+            'end_after_six_days' => __('End after 6 days'),
+            'end_after_fifteen_days' => __('End after 15 days'),
+            'end_after_thirty_days' => __('End after 30 days'),
         ];
 
         return $due_dates;
