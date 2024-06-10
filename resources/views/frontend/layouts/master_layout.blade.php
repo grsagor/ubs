@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>@yield('title')Unipuler</title>
+    <title>@yield('title') Unipuler</title>
 
     @if (isset($page->meta_tag) && isset($page->meta_description))
         <meta name="keywords" content="{{ $page->meta_tag }}">
@@ -42,7 +42,7 @@
         {{-- <title>{{ $gs->title }}</title> --}}
     @endif
 
-    <link rel="icon" type="image/x-icon" href="{{ asset('assets/images/logo.png') }}" />
+    <link rel="icon" type="image/x-icon" href="{{ asset('assets/images/title_logo.jpeg') }}" />
     <!-- Google Font -->
     <!-- 7:24 PM -->
     {{-- @if ($default_font->font_value)
@@ -206,12 +206,12 @@
     @if (session()->has('success'))
         <script>
             toastr.success('{{ session()->get('success') }}');
-        </script>    
+        </script>
     @endif
     @if (session()->has('error'))
         <script>
             toastr.error('{{ session()->get('error') }}');
-        </script>    
+        </script>
     @endif
 
     <script>
