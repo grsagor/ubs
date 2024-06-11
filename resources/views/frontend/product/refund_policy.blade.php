@@ -9,7 +9,8 @@
     <div class="container" id="policy-container">
         <h4 class="footer-details-title mt-4">
             <u>Refund Policy</u>
-            <a href="{{ route('product.show', $info->id) }}" class="sectitle">{{ $info->name }}</a>
+            <a href="{{ route('product.show', ['id' => $item->id, 'name' => urlencode($item->name)]) }}"
+                class="sectitle">{{ $info->name }}</a>
         </h4>
 
         <div class="header mv">
