@@ -84,15 +84,58 @@ class ProjectController extends Controller
                 }
 
                 // filter by end date
+                // if (!empty(request()->get('end_date'))) {
+                //     if (request()->get('end_date') == 'overdue') {
+                //         $projects->where('end_date', '<', Carbon::today())
+                //             ->where('status', '!=', 'completed');
+                //     } elseif (request()->get('end_date') == 'today') {
+                //         $projects->where('end_date', Carbon::today())
+                //             ->where('status', '!=', 'completed');
+                //     } elseif (request()->get('end_date') == 'less_than_one_week') {
+                //         $projects->whereBetween('end_date', [Carbon::today(), Carbon::today()->addWeek()])
+                //             ->where('status', '!=', 'completed');
+                //     }
+                // }
+
+                // filter by due date
                 if (!empty(request()->get('end_date'))) {
-                    if (request()->get('end_date') == 'overdue') {
+                    $end_date = request()->get('end_date');
+
+                    if ($end_date == 'overdue') {
                         $projects->where('end_date', '<', Carbon::today())
                             ->where('status', '!=', 'completed');
-                    } elseif (request()->get('end_date') == 'today') {
+                    } elseif ($end_date == 'today') {
                         $projects->where('end_date', Carbon::today())
                             ->where('status', '!=', 'completed');
-                    } elseif (request()->get('end_date') == 'less_than_one_week') {
+                    } elseif ($end_date == 'tomorrow') {
+                        $projects->where('end_date', Carbon::tomorrow())
+                            ->where('status', '!=', 'completed');
+                    } elseif ($end_date == 'less_than_one_week') {
                         $projects->whereBetween('end_date', [Carbon::today(), Carbon::today()->addWeek()])
+                            ->where('status', '!=', 'completed');
+                    } elseif ($end_date == 'end_after_one_days') {
+                        $projects->where('end_date', Carbon::today()->addDays(1))
+                            ->where('status', '!=', 'completed');
+                    } elseif ($end_date == 'end_after_two_days') {
+                        $projects->where('end_date', Carbon::today()->addDays(2))
+                            ->where('status', '!=', 'completed');
+                    } elseif ($end_date == 'end_after_three_days') {
+                        $projects->where('end_date', Carbon::today()->addDays(3))
+                            ->where('status', '!=', 'completed');
+                    } elseif ($end_date == 'end_after_four_days') {
+                        $projects->where('end_date', Carbon::today()->addDays(4))
+                            ->where('status', '!=', 'completed');
+                    } elseif ($end_date == 'end_after_five_days') {
+                        $projects->where('end_date', Carbon::today()->addDays(5))
+                            ->where('status', '!=', 'completed');
+                    } elseif ($end_date == 'end_after_six_days') {
+                        $projects->where('end_date', Carbon::today()->addDays(6))
+                            ->where('status', '!=', 'completed');
+                    } elseif ($end_date == 'end_after_fifteen_days') {
+                        $projects->where('end_date', Carbon::today()->addDays(15))
+                            ->where('status', '!=', 'completed');
+                    } elseif ($end_date == 'end_after_thirty_days') {
+                        $projects->where('end_date', Carbon::today()->addDays(30))
                             ->where('status', '!=', 'completed');
                     }
                 }
@@ -282,7 +325,8 @@ class ProjectController extends Controller
             ->groupBy('status')
             ->get();
 
-        $due_dates = ProjectTask::dueDatesDropdown();
+        // $due_dates = ProjectTask::dueDatesDropdown();
+        $due_dates = ProjectTask::dueDatesDropdownNew();
         $categories = ProjectCategory::forDropdown($business_id, 'project');
         return view('project::project.index')
             ->with(compact('statuses', 'due_dates', 'project_stats', 'categories', 'project_view'));
