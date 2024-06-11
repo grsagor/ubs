@@ -1,6 +1,10 @@
 @extends('layouts.app')
 @section('title', __('project::lang.project'))
 
+@section('css')
+
+@endsection
+
 @section('content')
     @include('project::layouts.nav')
     <section class="content-header">
@@ -120,11 +124,13 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="form-group">
-                            <input class="form-control" type="text" name="project_live_filter" id="project_live_filter"
-                                placeholder="Search by name" value="{{ old('project_live_filter') }}">
+                            <input class="form-control text-center" type="text" name="project_live_filter"
+                                id="project_live_filter" placeholder="Search by title or customer or leader name"
+                                value="{{ old('project_live_filter') }}">
                         </div>
                     </div>
                 </div>
+
 
                 @if ($project_view == 'list_view')
                     <div class="project_html">
