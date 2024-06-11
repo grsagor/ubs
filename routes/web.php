@@ -4,6 +4,7 @@ include 'customer.php';
 use App\Http\Controllers\Backend\WithdrawController;
 use App\Http\Controllers\Install;
 use App\Http\Controllers\Restaurant;
+use App\Http\Controllers\WithdrawRequestController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\JobController;
 use Illuminate\Support\Facades\Artisan;
@@ -161,11 +162,11 @@ Route::get('/digital-marketing',                                    [FrontendCon
 Route::get('/it-solutions',                                         [FrontendController::class, 'it_solutions'])->name('itSolutions');
 Route::get('/partner-boarding',                                     [FrontendController::class, 'partner_boarding'])->name('partnerBoarding');
 
-Route::get('/recruitment/list',                                      [RecruitmentController::class, 'list'])->name('recruitment.list');
-Route::get('/recruitment/{id}',                                      [RecruitmentController::class, 'details'])->name('recruitment.details');
-Route::get('/recruitment/create/{id}',                               [RecruitmentController::class, 'create'])->name('recruitment.create');
-Route::post('/recruitment',                                          [RecruitmentController::class, 'store'])->name('recruitment.store');
-Route::get('/recruitment-success',                                   [RecruitmentController::class, 'success'])->name('recruitment.success');
+Route::get('/recruitment/list', [RecruitmentController::class, 'list'])->name('recruitment.list');
+Route::get('/recruitment/{id}', [RecruitmentController::class, 'details'])->name('recruitment.details');
+Route::get('/recruitment/create/{id}', [RecruitmentController::class, 'create'])->name('recruitment.create');
+Route::post('/recruitment', [RecruitmentController::class, 'store'])->name('recruitment.store');
+Route::get('/recruitment-success', [RecruitmentController::class, 'success'])->name('recruitment.success');
 Route::get('/recruitment-userCheck/{jobID}',                         [RecruitmentController::class, 'userCheck'])->name('recruitment.userCheck');
 Route::post('/recruitment/applyJob/{jobID}',                         [RecruitmentController::class, 'applyJob'])->name('recruitment.applyJob');
 
@@ -696,11 +697,14 @@ Route::middleware(['checkAdmin', 'SetSessionData'])->group(function () {
     Route::prefix('account')->group(function () {
         Route::resource('/account', AccountController::class);
         // Withdraw routes
-        Route::get('/withdraw', [WithdrawController::class, 'index']);
-        Route::get('/withdraw-list', [WithdrawController::class, 'getWithdrawList'])->name('account.withdraw.list');
-        Route::get('/withdraw-superadmin-list', [WithdrawController::class, 'getSuperadminList'])->name('account.withdraw.superadmin.list');
-        Route::get('/withdraw-add-request', [WithdrawController::class, 'addRequest'])->name('account.withdraw.add.request');
-        Route::post('/withdraw-store-request', [WithdrawController::class, 'storeWithdrawRequest'])->name('account.withdraw.store.request');
+        Route::get('/withdraw', [WithdrawRequestController::class, 'index']);
+        Route::get('/withdraw-list', [WithdrawRequestController::class, 'getWithdrawList'])->name('account.withdraw.list');
+        Route::get('/withdraw-superadmin-list', [WithdrawRequestController::class, 'getSuperadminList'])->name('account.withdraw.superadmin.list');
+        Route::get('/withdraw-add-request', [WithdrawRequestController::class, 'addRequest'])->name('account.withdraw.add.request');
+        Route::post('/withdraw-store-request', [WithdrawRequestController::class, 'storeWithdrawRequest'])->name('account.withdraw.store.request');
+        Route::get('/withdraw-view-request', [WithdrawRequestController::class, 'viewWithdrawRequest'])->name('account.withdraw.view.request');
+        Route::get('/withdraw-take-action', [WithdrawRequestController::class, 'takeAction'])->name('account.withdraw.take.action');
+        Route::post('/withdraw-take-action-store', [WithdrawRequestController::class, 'takeActionStore'])->name('account.withdraw.store.take.action');
 
         Route::get('/fund-transfer/{id}', [AccountController::class, 'getFundTransfer']);
         Route::post('/fund-transfer', [AccountController::class, 'postFundTransfer']);
@@ -781,6 +785,12 @@ Route::middleware(['checkAdmin', 'SetSessionData'])->group(function () {
     Route::get('reports/activity-log', [ReportController::class, 'activityLog']);
     Route::get('user-location/{latlng}', [HomeController::class, 'getUserLocation']);
 });
+
+Route::get('/withdraw', [WithdrawRequestController::class, 'index']);
+Route::get('/withdraw-list', [WithdrawRequestController::class, 'getWithdrawList'])->name('account.withdraw.list');
+Route::get('/withdraw-superadmin-list', [WithdrawRequestController::class, 'getSuperadminList'])->name('account.withdraw.superadmin.list');
+Route::get('/withdraw-add-request', [WithdrawRequestController::class, 'addRequest'])->name('account.withdraw.add.request');
+Route::post('/withdraw-store-request', [WithdrawRequestController::class, 'storeWithdrawRequest'])->name('account.withdraw.store.request');
 
 // Route::middleware(['EcomApi'])->prefix('api/ecom')->group(function () {
 //     Route::get('products/{id?}', [ProductController::class, 'getProductsApi']);

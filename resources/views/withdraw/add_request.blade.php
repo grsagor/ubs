@@ -36,7 +36,7 @@
                 <div class="form-group">
                     <label for="amount">Withdraw Amount:</label>
                     <input class="form-control input_number" placeholder="Withdraw Amount" name="amount"
-                        type="text" value="0" id="amount" required>
+                        type="number" value="0" id="amount" required>
                 </div>
             </div>
 

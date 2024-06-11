@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\BusinessCustomer;
+use App\BusinessLocation;
 use App\Job;
 use App\Country;
 use App\AppliedJob;
@@ -25,6 +27,8 @@ class RecruitmentController extends Controller
             ->active()
             ->latest()
             ->get();
+
+            return $data;
 
         return view('frontend.recruitment.list', $data);
     }
@@ -168,6 +172,19 @@ class RecruitmentController extends Controller
                 $appliedJob['recruitment_id'] = $info->uuid;
 
                 AppliedJob::create($appliedJob);
+
+                $job = Job::find($request->job_id);
+                $business_location = BusinessLocation::find($job->business_location_id);
+
+                $business_customer = BusinessCustomer::where([['business_id', $business_location->business_id], ['customer_id', Auth::user()->id]])->first();
+                if(!$business_customer) {
+                    $business_customer = new BusinessCustomer();
+                }
+                
+                $business_customer->business_id = $business_location->business_id;
+                $business_customer->business_location_id = $business_location->id;
+                $business_customer->customer_id = Auth::user()->id;
+                $business_customer->save();
 
                 $output = [
                     'success' => true,
