@@ -25,13 +25,13 @@
 
         p.category_text {
             /* min-height: 20px;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    max-height: 20px; */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                max-height: 20px; */
         }
 
         /* h5.product-title {
-                                                                    min-height: 35px;
-                                                                    max-height: 35px;
-                                                                } */
+                                                                                min-height: 35px;
+                                                                                max-height: 35px;
+                                                                            } */
 
         .product-info .product-title a {
             font-size: 18px !important;
@@ -155,7 +155,7 @@
                                 </form>
                             </div>
 
-                            <div class="showing-products pt-30 pb-50 border-2 border-bottom border-light" id="ajaxContent">
+                            <div class="showing-products pt-30 border-2 border-bottom border-light" id="ajaxContent">
 
                                 <div class="row mb-4 g-3 product-style-1 shop-list product-list  e-title-hover-primary e-hover-image-zoom"
                                     style="padding: 0px !important;">

@@ -6,11 +6,11 @@
         }
 
         /* .carousel-container {
-                                                                                                        position: relative !important;
-                                                                                                        display: flex;
-                                                                                                        justify-content: center;
-                                                                                                        align-items: center;
-                                                                                                    } */
+                                                                                                                position: relative !important;
+                                                                                                                display: flex;
+                                                                                                                justify-content: center;
+                                                                                                                align-items: center;
+                                                                                                            } */
 
         .mySlides {
             display: none;
@@ -66,8 +66,8 @@
         }
 
         /* .active {
-                                                                            background-color: #333;
-                                                                        } */
+                                                                                    background-color: #333;
+                                                                                } */
     </style>
 @endsection
 @section('property_list_content')
@@ -264,17 +264,9 @@
         </div>
     @endforeach
 
-    <div class="col-lg-12 mt-3 text-center">
-        <div class="d-flex align-items-start pt-3" id="custom-pagination">
-            <div class="pagination-style-one mx-auto">
-                <nav aria-label="Page navigation example">
-                    <ul class="pagination">
-                        {{ $rooms->links() }}
-                    </ul>
-                </nav>
-            </div>
-        </div>
-    </div>
+    {{-- Pagination --}}
+    @include('frontend.pagination.pagination', ['paginator' => $rooms])
+
 @endsection
 @section('script')
 @endsection
