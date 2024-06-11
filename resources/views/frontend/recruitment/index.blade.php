@@ -11,6 +11,15 @@
             overflow: hidden;
             text-overflow: ellipsis;
         }
+
+        .date-time-column {
+            min-width: 150px;
+            max-width: 150px;
+            white-space: nowrap;
+            /* Prevent wrapping of text */
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
     </style>
 @endsection
 
@@ -31,7 +40,7 @@
                             <th>Name</th>
                             <th>Phone</th>
                             <th>Email</th>
-                            <th>Date & Time</th>
+                            <th class="date-time-column">Date & Time</th>
                             <th>Current Address</th>
                             <th>Country of Residence</th>
                             <th>Origin</th>
