@@ -1030,14 +1030,15 @@ function initializeInvoiceDatatable() {
       ],
       aaSorting: [[2, "asc"]],
       columns: [
-        { data: "action", name: "action" },
-        { data: "invoice_no", name: "invoice_no" },
-        { data: "transaction_date", name: "transaction_date" },
-        { data: "contact_id", name: "contact_id" },
-        { data: "pjt_title", name: "pjt_title" },
-        { data: "payment_status", name: "payment_status" },
-        { data: "final_total", name: "final_total" },
-        { data: "status", name: "status" },
+        { data: "id", name: "id" },
+        { data: "id", name: "id" },
+        { data: "id", name: "id" },
+        { data: "id", name: "id" },
+        { data: "id", name: "id" },
+        { data: "id", name: "id" },
+        { data: "id", name: "id" },
+        { data: "id", name: "id" },
+        { data: "id", name: "id" },
       ],
       fnDrawCallback: function (oSettings) {
         __currency_convert_recursively($("#project_invoice_table"));
