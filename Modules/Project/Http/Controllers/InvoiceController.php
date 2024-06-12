@@ -58,50 +58,50 @@ class InvoiceController extends Controller
             return Datatables::of($transactions)
                 ->addColumn('action', function ($row) {
                     $html = '<div class="btn-group">
-                                <button class="btn btn-info dropdown-toggle btn-xs" type="button"  data-toggle="dropdown" aria-expanded="false">
-                                    ' . __("messages.action") . '
-                                    <span class="caret"></span>
-                                    <span class="sr-only">
-                                    ' . __("messages.action") . '
-                                    </span>
-                                </button>
-                                <ul class="dropdown-menu dropdown-menu-left" role="menu">';
+                            <button class="btn btn-info dropdown-toggle btn-xs" type="button"  data-toggle="dropdown" aria-expanded="false">
+                                ' . __("messages.action") . '
+                                <span class="caret"></span>
+                                <span class="sr-only">
+                                ' . __("messages.action") . '
+                                </span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-left" role="menu">';
 
                     if ($row->payment_status != "paid") {
                         $html .= '<li>
-                                    <a href="' . action('TransactionPaymentController@addPayment', ['id' => $row->id]) . '" class="add_payment_modal">
-                                        <i class="fas fa-credit-card"></i>
-                                        ' . __("purchase.add_payment") . '
-                                    </a>
-                                </li>';
+                                <a href="' . action('App\Http\Controllers\TransactionPaymentController@addPayment', ['transaction_id' => $row->id]) . '" class="add_payment_modal">
+                                    <i class="fas fa-credit-card"></i>
+                                    ' . __("purchase.add_payment") . '
+                                </a>
+                            </li>';
                     }
 
                     $html .= '
-                                    <li>
-                                        <a href="' . action('TransactionPaymentController@show', [$row->id]) . '" class="view_payment_modal">
-                                            <i class="fas fa-money-check"></i> ' . __("purchase.view_payments") . '
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a data-href="' . action('\Modules\Project\Http\Controllers\InvoiceController@show', ['id' => $row->id, 'project_id' => $row->pjt_project_id]) . '" class="cursor-pointer view_a_project_invoice">
-                                            <i class="fa fa-eye"></i>
-                                            ' . __("messages.view") . '
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="' . action('\Modules\Project\Http\Controllers\InvoiceController@edit', ['id' => $row->id, 'project_id' => $row->pjt_project_id]) . '" class="cursor-pointer edit_a_invoice">
-                                            <i class="fa fa-edit"></i>
-                                            ' . __("messages.edit") . '
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a data-href="' . action('\Modules\Project\Http\Controllers\InvoiceController@destroy', ['id' => $row->id, 'project_id' => $row->pjt_project_id]) . '" class="cursor-pointer delete_a_invoice">
-                                            <i class="fas fa-trash"></i>
-                                            ' . __("messages.delete") . '
-                                        </a>
-                                    </li>';
+                                <li>
+                                    <a href="' . action('App\Http\Controllers\TransactionPaymentController@show', [$row->id]) . '" class="view_payment_modal">
+                                        <i class="fas fa-money-check"></i> ' . __("purchase.view_payments") . '
+                                    </a>
+                                </li>
+                                <li>
+                                    <a data-href="' . action('\Modules\Project\Http\Controllers\InvoiceController@show', ['invoice' => $row->id, 'project_id' => $row->pjt_project_id]) . '" class="cursor-pointer view_a_project_invoice">
+                                        <i class="fa fa-eye"></i>
+                                        ' . __("messages.view") . '
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="' . action('\Modules\Project\Http\Controllers\InvoiceController@edit', ['invoice' => $row->id, 'project_id' => $row->pjt_project_id]) . '" class="cursor-pointer edit_a_invoice">
+                                        <i class="fa fa-edit"></i>
+                                        ' . __("messages.edit") . '
+                                    </a>
+                                </li>
+                                <li>
+                                    <a data-href="' . action('\Modules\Project\Http\Controllers\InvoiceController@destroy', ['invoice' => $row->id, 'project_id' => $row->pjt_project_id]) . '" class="cursor-pointer delete_a_invoice">
+                                        <i class="fas fa-trash"></i>
+                                        ' . __("messages.delete") . '
+                                    </a>
+                                </li>';
                     $html .= '</ul>
-                                    </div>';
+                                </div>';
 
                     return $html;
                 })
@@ -112,18 +112,18 @@ class InvoiceController extends Controller
                     return $row->contact->name;
                 })
                 ->editColumn('invoice_no', '
-                            <a data-href="{{action("\Modules\Project\Http\Controllers\InvoiceController@show", ["id" => $id, "project_id" => $pjt_project_id])}}" class="cursor-pointer view_a_project_invoice text-black">
+                            <a data-href="{{action("\Modules\Project\Http\Controllers\InvoiceController@show", ["invoice" => $id, "project_id" => $pjt_project_id])}}" class="cursor-pointer view_a_project_invoice text-black">
                                 {{$invoice_no}}
                             </a>
                         ')
                 ->editColumn('pjt_title', '
-                            <a data-href="{{action("\Modules\Project\Http\Controllers\InvoiceController@show", ["id" => $id, "project_id" => $pjt_project_id])}}" class="cursor-pointer view_a_project_invoice text-black">
+                            <a data-href="{{action("\Modules\Project\Http\Controllers\InvoiceController@show", ["invoice" => $id, "project_id" => $pjt_project_id])}}" class="cursor-pointer view_a_project_invoice text-black">
                                 {{$pjt_title}}
                             </a>
                         ')
                 ->editColumn(
                     'payment_status',
-                    '<a href="{{ action("TransactionPaymentController@show", [$id])}}" class="view_payment_modal payment-status-label" data-orig-value="{{$payment_status}}" data-status-name="{{__(\'lang_v1.\' . $payment_status)}}">
+                    '<a href="{{ action("App\Http\Controllers\TransactionPaymentController@show", [$id])}}" class="view_payment_modal payment-status-label" data-orig-value="{{$payment_status}}" data-status-name="{{__(\'lang_v1.\' . $payment_status)}}">
                                     <span class="label @payment_status($payment_status)">{{__(\'lang_v1.\' . $payment_status)}}
                                     </span>
                             </a>'
@@ -463,9 +463,11 @@ class InvoiceController extends Controller
                 ->where('transactions.type', 'sell')
                 ->where('transactions.sub_type', 'project_invoice')
                 ->where('transactions.status', 'final')
-                ->with(['invoiceLines' => function ($q) {
-                    $q->whereNotNull('pjt_invoice_lines.tax_rate_id');
-                }])
+                ->with([
+                    'invoiceLines' => function ($q) {
+                        $q->whereNotNull('pjt_invoice_lines.tax_rate_id');
+                    }
+                ])
                 ->select(
                     'c.name as contact_name',
                     'c.tax_number',
@@ -483,7 +485,7 @@ class InvoiceController extends Controller
 
             if (!empty(request()->start_date) && !empty(request()->end_date)) {
                 $start = request()->start_date;
-                $end =  request()->end_date;
+                $end = request()->end_date;
                 $transactions->whereDate('transactions.transaction_date', '>=', $start)
                     ->whereDate('transactions.transaction_date', '<=', $end);
             }

@@ -1,6 +1,14 @@
 @extends('layouts.app')
 @section('title', 'Withdraw')
 
+@section('css')
+    <style>
+        .action_btn, .view_request {
+            cursor: pointer;
+        }
+    </style>
+@endsection
+
 @section('content')
     <!-- Content Header (Page header) -->
     <section class="content-header">
@@ -23,7 +31,7 @@
                                         <div class="col-md-4">
                                         </div>
                                         <div class="col-md-8">
-                                            <button type="button" class="btn btn-primary add_withdraw_request">
+                                            <button type="button" class="btn btn-primary pull-right add_withdraw_request">
                                                 <i class="fa fa-plus"></i> @lang('messages.add')</button>
                                         </div>
                                     @endcomponent
@@ -34,9 +42,11 @@
                                         <table class="table table-bordered table-striped" id="withdraws">
                                             <thead>
                                                 <tr>
-                                                    <th>Serial No.</th>
+                                                    <th>#</th>
+                                                    <th>BusinessID</th>
+                                                    <th>Amount</th>
                                                     <th>Status</th>
-                                                    <th>Action</th>
+                                                    {{-- <th>Action</th> --}}
                                                 </tr>
                                             </thead>
                                         </table>
@@ -84,16 +94,24 @@
                         "className": "text-center"
                     },
                     {
-                        data: 'id',
-                        name: 'id'
+                        data: 'business_id',
+                        name: 'business_id'
                     },
                     {
-                        data: 'action',
-                        name: 'action',
-                        orderable: false,
-                        searchable: false,
-                        "className": "text-center w-10"
+                        data: 'amount',
+                        name: 'amount'
                     },
+                    {
+                        data: 'status',
+                        name: 'status'
+                    },
+                    // {
+                    //     data: 'action',
+                    //     name: 'action',
+                    //     orderable: false,
+                    //     searchable: false,
+                    //     "className": "text-center w-10"
+                    // },
                 ]
             });
 
@@ -110,10 +128,138 @@
                     type: "get",
                     dataType: "json",
                     success: function(data) {
-
-                    }
+                        if (data.success) {
+                            $('#withdraw_modal').html(data.html);
+                            $('#withdraw_modal').modal('show');
+                        }
+                    },
                 })
-            })
+            });
+
+            $(document).on('click', '#request_btn', function(e) {
+                e.preventDefault();
+                let form = document.getElementById('add_request_form');
+                var formData = new FormData(form);
+                $.ajax({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    url: "{{ route('account.withdraw.store.request') }}",
+                    type: "POST",
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(data) {
+                        if (data.success) {
+                            swal({
+                                title: data.message,
+                                icon: "success",
+                                buttons: true,
+                                dangerMode: true,
+                            });
+                            $('#withdraws').DataTable().destroy();
+                            getusers();
+                            $('#withdraw_modal').modal('hide');
+                        } else {
+                            swal({
+                                title: data.message,
+                                icon: "error",
+                                buttons: true,
+                                dangerMode: true,
+                            });
+                        }
+                    },
+                    error: function(xhr) {
+                        let errorMessage = '';
+                        $.each(xhr.responseJSON.errors, function(key, value) {
+                            errorMessage += ('' + value + '<br>');
+                        });
+                        $('#withdraw_modal .server_side_error').html(
+                            '<div class="alert alert-danger alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' +
+                            errorMessage + '</div>'
+                        );
+                    },
+                })
+            });
+
+            $(document).on('click', '.view_request', function() {
+                const id = $(this).data('id');
+                $.ajax({
+                    url: "{{ route('account.withdraw.view.request') }}",
+                    type: "get",
+                    dataType: "json",
+                    data: {id: id},
+                    success: function(data) {
+                        if (data.success) {
+                            $('#view_withdraw_modal').html(data.html);
+                            $('#view_withdraw_modal').modal('show');
+                        }
+                    },
+                })
+            });
+            $(document).on('click', '.action_btn', function() {
+                const id = $(this).data('id');
+                const action = $(this).data('action');
+                $.ajax({
+                    url: "{{ route('account.withdraw.take.action') }}",
+                    type: "get",
+                    dataType: "json",
+                    data: {id: id, action: action},
+                    success: function(data) {
+                        if (data.success) {
+                            $('#take_action_withdraw_modal').html(data.html);
+                            $('#take_action_withdraw_modal').modal('show');
+                        }
+                    },
+                })
+            });
+
+            $(document).on('click', '#take_action_btn', function(e) {
+                e.preventDefault();
+                let form = document.getElementById('take_action_form');
+                var formData = new FormData(form);
+                $.ajax({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    url: "{{ route('account.withdraw.store.take.action') }}",
+                    type: "POST",
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(data) {
+                        if (data.success) {
+                            swal({
+                                title: data.message,
+                                icon: "success",
+                                buttons: true,
+                                dangerMode: true,
+                            });
+                            $('#withdraws').DataTable().destroy();
+                            getusers();
+                            $('#take_action_withdraw_modal').modal('hide');
+                        } else {
+                            swal({
+                                title: data.message,
+                                icon: "error",
+                                buttons: true,
+                                dangerMode: true,
+                            });
+                            $('#take_action_withdraw_modal').modal('hide');
+                        }
+                    },
+                    error: function(xhr) {
+                        let errorMessage = '';
+                        $.each(xhr.responseJSON.errors, function(key, value) {
+                            errorMessage += ('' + value + '<br>');
+                        });
+                        $('#withdraw_modal .server_side_error').html(
+                            '<div class="alert alert-danger alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' +
+                            errorMessage + '</div>'
+                        );
+                    },
+                })
+            });
         });
 
         $(document).on('click', 'button.activate_account', function() {
