@@ -562,11 +562,16 @@ class CartController extends Controller
             $transaction_payment->amount = $input['final_total'];
             if ($request->payment_method == 'stripe') {
                 $transaction_payment->method = 'card';
+
+                $business = Business::find($business_id);
+                $wallet = $business->wallet + $request->amount;
+                $business->wallet = $wallet;
+                $business->save();
             } else {
                 $transaction_payment->method = 'cash';
             }
             $transaction_payment->save();
-            // Session::put('current_carts', null);
+            Session::put('current_carts', null);
             DB::commit();
 
             if ($request->input('is_save_and_print') == 1) {

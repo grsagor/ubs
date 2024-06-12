@@ -181,6 +181,9 @@
             padding: 0 25px;
             line-height: 45px;
         }
+        .btn-primary:hover {
+    border: none !important;
+}
     </style>
 @endsection
 @section('content')
@@ -2765,22 +2768,24 @@
                                                                             <!-- A Stripe Element will be inserted here. -->
                                                                         </div>
                                                                     </div>
-                                                                    <div class="form-row">
-                                                                        <label for="card-expiry-month">
-                                                                            Expiry Date
-                                                                        </label>
-                                                                        <div class="stripe-element-container"
-                                                                            id="card-expiry-month">
-                                                                            <!-- A Stripe Element will be inserted here. -->
+                                                                    <div class="row row-cols-2">
+                                                                        <div class="form-row">
+                                                                            <label for="card-expiry-month">
+                                                                                Expiry Date
+                                                                            </label>
+                                                                            <div class="stripe-element-container"
+                                                                                id="card-expiry-month">
+                                                                                <!-- A Stripe Element will be inserted here. -->
+                                                                            </div>
                                                                         </div>
-                                                                    </div>
-                                                                    <div class="form-row">
-                                                                        <label for="card-cvc">
-                                                                            CVC
-                                                                        </label>
-                                                                        <div class="stripe-element-container"
-                                                                            id="card-cvc">
-                                                                            <!-- A Stripe Element will be inserted here. -->
+                                                                        <div class="form-row">
+                                                                            <label for="card-cvc">
+                                                                                CVC
+                                                                            </label>
+                                                                            <div class="stripe-element-container"
+                                                                                id="card-cvc">
+                                                                                <!-- A Stripe Element will be inserted here. -->
+                                                                            </div>
                                                                         </div>
                                                                     </div>
                                                                     <div id="stripe-error-container"
@@ -3097,6 +3102,7 @@
     <script>
         $(document).ready(function() {
             $(document).on('click', '#proceed_to_checkout', function() {
+                handleShowHide('payment_animation_container', true);
                 const amount = "{{ $total_price }}"
                 $.ajax({
                     url: "{{ route('get.stripe.client.secret') }}",
@@ -3115,6 +3121,7 @@
                         setup_future_usage: 'off_session'
                         }).then(function(result) {
                             if (result.error) {
+                                handleShowHide('payment_animation_container', false);
                                 Swal.fire({
                                     icon: 'error',
                                     title: result.error.message,

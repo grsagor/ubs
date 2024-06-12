@@ -1,6 +1,14 @@
 @extends('layouts.app')
 @section('title', 'Withdraw')
 
+@section('css')
+    <style>
+        .action_btn, .view_request {
+            cursor: pointer;
+        }
+    </style>
+@endsection
+
 @section('content')
     <!-- Content Header (Page header) -->
     <section class="content-header">
@@ -126,7 +134,7 @@
                         }
                     },
                 })
-            })
+            });
 
             $(document).on('click', '#request_btn', function(e) {
                 e.preventDefault();
@@ -172,7 +180,86 @@
                         );
                     },
                 })
-            })
+            });
+
+            $(document).on('click', '.view_request', function() {
+                const id = $(this).data('id');
+                $.ajax({
+                    url: "{{ route('account.withdraw.view.request') }}",
+                    type: "get",
+                    dataType: "json",
+                    data: {id: id},
+                    success: function(data) {
+                        if (data.success) {
+                            $('#view_withdraw_modal').html(data.html);
+                            $('#view_withdraw_modal').modal('show');
+                        }
+                    },
+                })
+            });
+            $(document).on('click', '.action_btn', function() {
+                const id = $(this).data('id');
+                const action = $(this).data('action');
+                $.ajax({
+                    url: "{{ route('account.withdraw.take.action') }}",
+                    type: "get",
+                    dataType: "json",
+                    data: {id: id, action: action},
+                    success: function(data) {
+                        if (data.success) {
+                            $('#take_action_withdraw_modal').html(data.html);
+                            $('#take_action_withdraw_modal').modal('show');
+                        }
+                    },
+                })
+            });
+
+            $(document).on('click', '#take_action_btn', function(e) {
+                e.preventDefault();
+                let form = document.getElementById('take_action_form');
+                var formData = new FormData(form);
+                $.ajax({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    url: "{{ route('account.withdraw.store.take.action') }}",
+                    type: "POST",
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(data) {
+                        if (data.success) {
+                            swal({
+                                title: data.message,
+                                icon: "success",
+                                buttons: true,
+                                dangerMode: true,
+                            });
+                            $('#withdraws').DataTable().destroy();
+                            getusers();
+                            $('#take_action_withdraw_modal').modal('hide');
+                        } else {
+                            swal({
+                                title: data.message,
+                                icon: "error",
+                                buttons: true,
+                                dangerMode: true,
+                            });
+                            $('#take_action_withdraw_modal').modal('hide');
+                        }
+                    },
+                    error: function(xhr) {
+                        let errorMessage = '';
+                        $.each(xhr.responseJSON.errors, function(key, value) {
+                            errorMessage += ('' + value + '<br>');
+                        });
+                        $('#withdraw_modal .server_side_error').html(
+                            '<div class="alert alert-danger alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' +
+                            errorMessage + '</div>'
+                        );
+                    },
+                })
+            });
         });
 
         $(document).on('click', 'button.activate_account', function() {
