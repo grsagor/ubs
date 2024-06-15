@@ -10,8 +10,9 @@
     <div class="container" id="policy-container">
         <h4 class="footer-details-title mt-4">
             <u>Policy</u>
-            <a href="{{ route('product.show', ['id' => $item->id, 'name' => urlencode($item->name)]) }}"
+            <a href="{{ route('product.show', ['id' => $item->id, 'name' => rawurlencode($item->name)]) }}"
                 class="sectitle">{{ $info->name }}</a>
+
         </h4>
 
         <div class="header mv">

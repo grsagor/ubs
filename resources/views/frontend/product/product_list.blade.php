@@ -12,13 +12,13 @@
             <div class="product type-product rounded ">
                 <div class="row">
                     @if ($item->image)
-                        <a href="{{ route('product.show', ['id' => $item->id, 'name' => urlencode($item->name)]) }}"
+                        <a href="{{ route('product.show', ['id' => $item->id, 'name' => rawurlencode($item->name)]) }}"
                             class="woocommerce-LoopProduct-link col-lg-4 col-md-4 col-sm-12 d-flex p-0">
                             <img class="lazy img-fluid rounded w-100" src="{{ asset('upload/' . $item->image) }}"
                                 alt="Product Image">
                         </a>
                     @else
-                        <a href="{{ route('product.show', ['id' => $item->id, 'name' => urlencode($item->name)]) }}"
+                        <a href="{{ route('product.show', ['id' => $item->id, 'name' => rawurlencode($item->name)]) }}"
                             class="woocommerce-LoopProduct-link col-lg-4 col-md-4 col-sm-12 d-flex">
                             <img src="https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg"
                                 class="swiper-lazy" alt="" style="height: 270px;">
@@ -28,7 +28,7 @@
                         <div class="p-1 flex-grow-1">
                             <h5 class="product-title" style="padding: 0; margin: 0;">
                                 <a class="text-dark"
-                                    href="{{ route('product.show', ['id' => $item->id, 'name' => urlencode($item->name)]) }}"
+                                    href="{{ route('product.show', ['id' => $item->id, 'name' => rawurlencode($item->name)]) }}"
                                     style="font-weight: 600;">
                                     {{ Str::limit($item->name, $limit = 92, $end = '...') }}
                                 </a>

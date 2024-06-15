@@ -2779,11 +2779,14 @@ class ProductController extends Controller
         $user = Auth::user();
         $product = Product::with('unit', 'brand', 'business_location')->findOrFail($id);
 
-        // URL encode the product name
-        $productNameUrlEncoded = urlencode($product->name);
+        // URL encode the product name using rawurlencode
+        $productNameUrlEncoded = rawurlencode($product->name);
+
+        // URL decode the name parameter from the URL
+        $nameFromUrlDecoded = urldecode($name);
 
         // If the name is missing or incorrect, redirect to the correct URL
-        if ($name !== $productNameUrlEncoded) {
+        if ($nameFromUrlDecoded !== $product->name) {
             return redirect()->route('product.show', ['id' => $id, 'name' => $productNameUrlEncoded]);
         }
 
@@ -2809,6 +2812,11 @@ class ProductController extends Controller
 
         return view('frontend.product.details', $data);
     }
+
+
+
+
+
 
     public function productPolicy($id)
     {
