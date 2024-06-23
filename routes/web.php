@@ -230,6 +230,7 @@ Route::get('/contact-us',                               [FrontendController::cla
 Route::get('/carts', [CartController::class, 'cart'])->name('front.cart');
 Route::get('/get-client-secret', [CartController::class, 'getClientSecret'])->name('get.stripe.client.secret');
 Route::post('/post-cart', [CartController::class, 'postCart'])->name('post.cart');
+Route::post('/removecart', [CartController::class, 'removecart'])->name('product.cart.remove');
 Route::post('/order-now', [CartController::class, 'orderNow'])->name('order.now');
 Route::get('/checkout', [CartController::class, 'checkout'])->name('front.checkout');
 Route::post('/checkout-post', [CartController::class, 'checkoutPost'])->name('checkout.post');
@@ -241,7 +242,6 @@ Route::get('/addservicetonumcart', 'Front\CartController@addservicetonumcart');
 Route::get('/addbyone', 'Front\CartController@addbyone');
 Route::get('/reducebyone', 'Front\CartController@reducebyone');
 Route::get('/upcolor', 'Front\CartController@upcolor');
-Route::get('/removecart/{id}', 'Front\CartController@removecart')->name('product.cart.remove');
 // Route::get('/carts/coupon', 'Front\CouponController@coupon');
 // CART SECTION ENDS
 

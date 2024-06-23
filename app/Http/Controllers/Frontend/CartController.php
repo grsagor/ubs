@@ -157,7 +157,16 @@ class CartController extends Controller
 
         return response()->json($response);
     }
-
+    public function removecart(Request $request) {
+        $current_carts = Session::get('current_carts', []);
+        $item_to_remove = $request->input('id');
+        $current_carts = array_filter($current_carts, function($item) use ($item_to_remove) {
+            return $item != $item_to_remove;
+        });
+        $current_carts = array_values($current_carts);
+        Session::put('current_carts', $current_carts);
+        return back()->with('success', 'The product removed from cart.');
+    }
     public function checkout()
     {
         try {

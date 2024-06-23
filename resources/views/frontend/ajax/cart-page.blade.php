@@ -18,11 +18,13 @@
                          .s_table tr th {
                              background: var(--theme-light-color);
                          }
+
                          .cart-table {
-                            overflow-x: scroll;
+                             overflow-x: scroll;
                          }
+
                          .cart-table table * {
-                            text-wrap: nowrap;
+                             text-wrap: nowrap;
                          }
                      </style>
                      <table class="s_table table table-responsive-sm">
@@ -38,8 +40,10 @@
                          @foreach ($products as $product)
                              <tr class="woocommerce-cart-form__cart-item cart_item text-center">
                                  <td class="product-thumbnail">
-                                <img width="120" height="80" src="{{ $product->thumbnail ? asset($product->thumbnail) : asset('assets/images/noimage.png') }}" alt="Product image">
-                            </td>
+                                     <img width="120" height="80"
+                                         src="{{ $product->thumbnail ? asset($product->thumbnail) : asset('assets/images/noimage.png') }}"
+                                         alt="Product image">
+                                 </td>
                                  <td class="product-name text-start">
                                      <a href="">{{ $product->name }}</a>
                                      @if (!empty($product['color']))
@@ -100,9 +104,11 @@
 
                                  </td>
                                  <td class="product-remove">
-                                     <a href="#" class="remove cart-remove"
-                                         data-class="cremove{{ $product->id . $product['size'] . $product['color'] . str_replace(str_split(' ,'), '', $product['values']) }}"
-                                         data-href="{{ route('product.cart.remove', $product->id . $product['size'] . $product['color'] . str_replace(str_split(' ,'), '', $product['values'])) }}">×</a>
+                                     <form action="{{ route('product.cart.remove') }}" method="POST">
+                                         @csrf
+                                         <input type="hidden" name="id" value="{{ $product->id }}">
+                                         <button type="submit" class="remove-btn">x</button>
+                                     </form>
                                  </td>
                              </tr>
                          @endforeach
@@ -117,16 +123,14 @@
                              <tr>
                                  <th>Subtotal</th>
                                  <td>
-                                     <span><b
-                                             class="cart-total">£ {{ $total_price_excluding_tax }}</b>
+                                     <span><b class="cart-total">£ {{ $total_price_excluding_tax }}</b>
                                      </span>
                                  </td>
                              </tr>
                              <tr>
                                  <th>Vat</th>
                                  <td>
-                                     <span><b
-                                             class="cart-total">£ {{ $total_vat }}</b>
+                                     <span><b class="cart-total">£ {{ $total_vat }}</b>
                                      </span>
                                  </td>
                              </tr>
@@ -144,8 +148,8 @@
 
                              <tr class="order-total">
                                  <th>Total</th>
-                                 <td><strong><span
-                                             class="woocommerce-Price-amount amount main-total">£ {{ $total_price }}</span></strong>
+                                 <td><strong><span class="woocommerce-Price-amount amount main-total">£
+                                             {{ $total_price }}</span></strong>
                                  </td>
                              </tr>
                          </table>

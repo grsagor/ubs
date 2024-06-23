@@ -37,5 +37,11 @@
         .product-thumbnail img {
             object-fit: cover;
         }
+        .remove-btn {
+            font-family: 'Amazon Ember', sans-serif;
+            position: relative;
+            text-align: center;
+            color: #0d6efd;
+        }
     </style>
 @endsection
