@@ -14,8 +14,8 @@ use App\Http\Controllers\PropertyWantedCustomerController;
 Route::group(['middleware' => ['checkCustomer'], 'prefix' => 'contact',], function () {
     Route::get('/property-wanted-create', [PropertyWantedCustomerController::class, 'createPropertyPage'])->name('property.add.page');
     Route::post('/property-wanted-store', [PropertyWantedCustomerController::class, 'storeProperty']);
-    Route::resource('/property-wanted',     PropertyWantedCustomerController::class);
-    Route::resource('/service_wanted',     ServiceWantedCustomerController::class);
+    Route::resource('/property-wanted', PropertyWantedCustomerController::class);
+    Route::resource('/service_wanted', ServiceWantedCustomerController::class);
     Route::get('/show-occupants-details-inputs', [PropertyWantedCustomerController::class, 'showOccupantsDetailsInputs']);
     Route::get('/show-occupants-details-inputs-create', [PropertyWantedCustomerController::class, 'showOccupantsDetailsInputsCreate']);
     Route::get('/show-room-details-inputs', [PropertyWantedCustomerController::class, 'showRoomDetailsInputs']);
@@ -25,9 +25,9 @@ Route::group(['middleware' => ['checkCustomer'], 'prefix' => 'contact',], functi
     Route::post('/update-property-wanted', [PropertyWantedCustomerController::class, 'updatePropertyWanted']);
     Route::post('/property-wanted/upgrade', [PropertyWantedCustomerController::class, 'propertyWantedUpgradePage']);
 
-    Route::get('/my-information/{id}/edit',        [RecruitmentController::class, 'edit'])->name('recruitment.edit');
-    Route::put('/my-information/{id}',             [RecruitmentController::class, 'update'])->name('recruitment.update');
-    Route::get('/my-applications',                   [RecruitmentController::class, 'appliedJobsCustomer'])->name('recruitment.appliedJobsCustomer');
+    Route::get('/my-information/{id}/edit', [RecruitmentController::class, 'edit'])->name('recruitment.edit');
+    Route::put('/my-information/{id}', [RecruitmentController::class, 'update'])->name('recruitment.update');
+    Route::get('/my-applications', [RecruitmentController::class, 'appliedJobsCustomer'])->name('recruitment.appliedJobsCustomer');
 
     Route::get('/show-student-info-container-edit', [PropertyWantedCustomerController::class, 'showStudentInfoContainerEdit']);
     Route::get('/show-student-info-container-create', [PropertyWantedCustomerController::class, 'showStudentInfoContainerCreate']);

@@ -262,74 +262,74 @@ $(document).ready(function () {
         },
       })
       .autocomplete("instance")._renderItem = function (ul, item) {
-      var is_overselling_allowed = false;
-      if ($("input#is_overselling_allowed").length) {
-        is_overselling_allowed = true;
-      }
-
-      var for_so = false;
-      if ($("#sale_type").length && $("#sale_type").val() == "sales_order") {
-        for_so = true;
-      }
-      var is_draft = false;
-      if (
-        $("input#status") &&
-        ($("input#status").val() == "quotation" ||
-          $("input#status").val() == "draft")
-      ) {
-        var is_draft = true;
-      }
-
-      if (
-        item.enable_stock == 1 &&
-        item.qty_available <= 0 &&
-        !is_overselling_allowed &&
-        !for_so &&
-        !is_draft
-      ) {
-        var string = '<li class="ui-state-disabled">' + item.name;
-        if (item.type == "variable") {
-          string += "-" + item.variation;
-        }
-        var selling_price = item.selling_price;
-        if (item.variation_group_price) {
-          selling_price = item.variation_group_price;
-        }
-        string +=
-          " (" +
-          item.sub_sku +
-          ")" +
-          "<br> Price: " +
-          selling_price +
-          " (Out of stock) </li>";
-        return $(string).appendTo(ul);
-      } else {
-        var string = "<div>" + item.name;
-        if (item.type == "variable") {
-          string += "-" + item.variation;
+        var is_overselling_allowed = false;
+        if ($("input#is_overselling_allowed").length) {
+          is_overselling_allowed = true;
         }
 
-        var selling_price = item.selling_price;
-        if (item.variation_group_price) {
-          selling_price = item.variation_group_price;
+        var for_so = false;
+        if ($("#sale_type").length && $("#sale_type").val() == "sales_order") {
+          for_so = true;
+        }
+        var is_draft = false;
+        if (
+          $("input#status") &&
+          ($("input#status").val() == "quotation" ||
+            $("input#status").val() == "draft")
+        ) {
+          var is_draft = true;
         }
 
-        string += " (" + item.sub_sku + ")" + "<br> Price: " + selling_price;
-        if (item.enable_stock == 1) {
-          var qty_available = __currency_trans_from_en(
-            item.qty_available,
-            false,
-            false,
-            __currency_precision,
-            true
-          );
-          string += " - " + qty_available + item.unit;
-        }
-        string += "</div>";
+        if (
+          item.enable_stock == 1 &&
+          item.qty_available <= 0 &&
+          !is_overselling_allowed &&
+          !for_so &&
+          !is_draft
+        ) {
+          var string = '<li class="ui-state-disabled">' + item.name;
+          if (item.type == "variable") {
+            string += "-" + item.variation;
+          }
+          var selling_price = item.selling_price;
+          if (item.variation_group_price) {
+            selling_price = item.variation_group_price;
+          }
+          string +=
+            " (" +
+            item.sub_sku +
+            ")" +
+            "<br> Price: " +
+            selling_price +
+            " (Out of stock) </li>";
+          return $(string).appendTo(ul);
+        } else {
+          var string = "<div>" + item.name;
+          if (item.type == "variable") {
+            string += "-" + item.variation;
+          }
 
-        return $("<li>").append(string).appendTo(ul);
-      }
-    };
+          var selling_price = item.selling_price;
+          if (item.variation_group_price) {
+            selling_price = item.variation_group_price;
+          }
+
+          string += " (" + item.sub_sku + ")" + "<br> Price: " + selling_price;
+          if (item.enable_stock == 1) {
+            var qty_available = __currency_trans_from_en(
+              item.qty_available,
+              false,
+              false,
+              __currency_precision,
+              true
+            );
+            string += " - " + qty_available + item.unit;
+          }
+          string += "</div>";
+
+          return $("<li>").append(string).appendTo(ul);
+        }
+      };
   }
 
   //Update line total and check for quantity not greater than max quantity
@@ -845,8 +845,8 @@ $(document).ready(function () {
             is_msp_valid = false;
             error_msg_td.append(
               '<label class="error">' +
-                $(this).data("msg-min-value") +
-                "</label>"
+              $(this).data("msg-min-value") +
+              "</label>"
             );
           } else {
             error_msg_td.find("label.error").remove();
@@ -2620,8 +2620,8 @@ $(document).on("click", ".service_modal_btn", function (e) {
 $(document).on("change", ".payment_types_dropdown", function (e) {
   var default_accounts = $("select#select_location_id").length
     ? $("select#select_location_id")
-        .find(":selected")
-        .data("default_payment_accounts")
+      .find(":selected")
+      .data("default_payment_accounts")
     : $("#location_id").data("default_payment_accounts");
   var payment_type = $(this).val();
   var payment_row = $(this).closest(".payment_row");

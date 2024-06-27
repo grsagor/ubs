@@ -106,8 +106,20 @@ class SellPosController extends Controller
         $this->notificationUtil = $notificationUtil;
 
         $this->dummyPaymentLine = [
-            'method' => 'cash', 'amount' => 0, 'note' => '', 'card_transaction_number' => '', 'card_number' => '', 'card_type' => '', 'card_holder_name' => '', 'card_month' => '', 'card_year' => '', 'card_security' => '', 'cheque_number' => '', 'bank_account_number' => '',
-            'is_return' => 0, 'transaction_no' => '',
+            'method' => 'cash',
+            'amount' => 0,
+            'note' => '',
+            'card_transaction_number' => '',
+            'card_number' => '',
+            'card_type' => '',
+            'card_holder_name' => '',
+            'card_month' => '',
+            'card_year' => '',
+            'card_security' => '',
+            'cheque_number' => '',
+            'bank_account_number' => '',
+            'is_return' => 0,
+            'transaction_no' => '',
         ];
     }
 
@@ -263,39 +275,41 @@ class SellPosController extends Controller
         $users = config('constants.enable_contact_assign') ? User::forDropdown($business_id, false, false, false, true) : [];
 
         return view('sale_pos.create')
-            ->with(compact(
-                'edit_discount',
-                'edit_price',
-                'business_locations',
-                'bl_attributes',
-                'business_details',
-                'taxes',
-                'payment_types',
-                'walk_in_customer',
-                'payment_lines',
-                'default_location',
-                'shortcuts',
-                'commission_agent',
-                'categories',
-                'brands',
-                'pos_settings',
-                'change_return',
-                'types',
-                'customer_groups',
-                'accounts',
-                'price_groups',
-                'types_of_service',
-                'default_price_group_id',
-                'shipping_statuses',
-                'default_datetime',
-                'featured_products',
-                'sub_type',
-                'pos_module_data',
-                'invoice_schemes',
-                'default_invoice_schemes',
-                'invoice_layouts',
-                'users'
-            ));
+            ->with(
+                compact(
+                    'edit_discount',
+                    'edit_price',
+                    'business_locations',
+                    'bl_attributes',
+                    'business_details',
+                    'taxes',
+                    'payment_types',
+                    'walk_in_customer',
+                    'payment_lines',
+                    'default_location',
+                    'shortcuts',
+                    'commission_agent',
+                    'categories',
+                    'brands',
+                    'pos_settings',
+                    'change_return',
+                    'types',
+                    'customer_groups',
+                    'accounts',
+                    'price_groups',
+                    'types_of_service',
+                    'default_price_group_id',
+                    'shipping_statuses',
+                    'default_datetime',
+                    'featured_products',
+                    'sub_type',
+                    'pos_module_data',
+                    'invoice_schemes',
+                    'default_invoice_schemes',
+                    'invoice_layouts',
+                    'users'
+                )
+            );
     }
 
     /**
@@ -795,10 +809,12 @@ class SellPosController extends Controller
     {
         $business_id = request()->session()->get('user.business_id');
 
-        if (!(auth()->user()->can('superadmin') || auth()->user()->can('sell.update')
-            || auth()->user()->can('edit_pos_payment')
-            || ($this->moduleUtil->hasThePermissionInSubscription($business_id, 'repair_module') &&
-                auth()->user()->can('repair.update')))) {
+        if (
+            !(auth()->user()->can('superadmin') || auth()->user()->can('sell.update')
+                || auth()->user()->can('edit_pos_payment')
+                || ($this->moduleUtil->hasThePermissionInSubscription($business_id, 'repair_module') &&
+                    auth()->user()->can('repair.update')))
+        ) {
             abort(403, 'Unauthorized action.');
         }
 
@@ -1081,40 +1097,42 @@ class SellPosController extends Controller
         $only_payment = request()->segment(2) == 'payment';
 
         return view('sale_pos.edit')
-            ->with(compact(
-                'business_details',
-                'taxes',
-                'payment_types',
-                'walk_in_customer',
-                'sell_details',
-                'transaction',
-                'payment_lines',
-                'location_printer_type',
-                'shortcuts',
-                'commission_agent',
-                'categories',
-                'pos_settings',
-                'change_return',
-                'types',
-                'customer_groups',
-                'brands',
-                'accounts',
-                'waiters',
-                'redeem_details',
-                'edit_price',
-                'edit_discount',
-                'shipping_statuses',
-                'warranties',
-                'sub_type',
-                'pos_module_data',
-                'invoice_schemes',
-                'default_invoice_schemes',
-                'invoice_layouts',
-                'featured_products',
-                'customer_due',
-                'users',
-                'only_payment'
-            ));
+            ->with(
+                compact(
+                    'business_details',
+                    'taxes',
+                    'payment_types',
+                    'walk_in_customer',
+                    'sell_details',
+                    'transaction',
+                    'payment_lines',
+                    'location_printer_type',
+                    'shortcuts',
+                    'commission_agent',
+                    'categories',
+                    'pos_settings',
+                    'change_return',
+                    'types',
+                    'customer_groups',
+                    'brands',
+                    'accounts',
+                    'waiters',
+                    'redeem_details',
+                    'edit_price',
+                    'edit_discount',
+                    'shipping_statuses',
+                    'warranties',
+                    'sub_type',
+                    'pos_module_data',
+                    'invoice_schemes',
+                    'default_invoice_schemes',
+                    'invoice_layouts',
+                    'featured_products',
+                    'customer_due',
+                    'users',
+                    'only_payment'
+                )
+            );
     }
 
     /**

@@ -78,13 +78,13 @@ class ProjectTimeLogController extends Controller
                         if ($can_crud) {
                             $html .= '<ul class="dropdown-menu dropdown-menu-left" role="menu">
                                 <li>
-                                    <a data-href="' . action('\Modules\Project\Http\Controllers\ProjectTimeLogController@edit', ['id' => $row->id, 'project_id' => $row->project_id]) . '" class="cursor-pointer time_log_btn">
+                                    <a data-href="' . action('\Modules\Project\Http\Controllers\ProjectTimeLogController@edit', ['project_task_time_log' => $row->id, 'project_id' => $row->project_id]) . '" class="cursor-pointer time_log_btn">
                                         <i class="fa fa-edit"></i>
                                         '.__("messages.edit").'
                                     </a>
                                 </li>
                                 <li>
-                                    <a data-href="' . action('\Modules\Project\Http\Controllers\ProjectTimeLogController@destroy', ['id' => $row->id]) . '"  id="delete_a_time_log" class="cursor-pointer">
+                                    <a data-href="' . action('\Modules\Project\Http\Controllers\ProjectTimeLogController@destroy', ['project_task_time_log' => $row->id]) . '"  id="delete_a_time_log" class="cursor-pointer">
                                         <i class="fas fa-trash"></i>
                                         '.__("messages.delete").'
                                     </a>
