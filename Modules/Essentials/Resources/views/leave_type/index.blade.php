@@ -53,12 +53,48 @@
 
         });
 
+        // $(document).on('submit', 'form#add_leave_type_form, form#edit_leave_type_form', function(e) {
+        //     e.preventDefault();
+        //     var data = $(this).serialize();
+        //     $.ajax({
+        //         method: $(this).attr('method'),
+        //         url: "/hrm/leave-type",
+        //         dataType: 'json',
+        //         data: data,
+        //         success: function(result) {
+        //             if (result.success == true) {
+        //                 $('div#add_leave_type_modal').modal('hide');
+        //                 $('.view_modal').modal('hide');
+        //                 toastr.success(result.msg);
+        //                 leave_type_table.ajax.reload();
+        //                 $('form#add_leave_type_form')[0].reset();
+        //             } else {
+        //                 toastr.error(result.msg);
+        //             }
+        //         },
+        //     });
+        // })
+
         $(document).on('submit', 'form#add_leave_type_form, form#edit_leave_type_form', function(e) {
             e.preventDefault();
-            var data = $(this).serialize();
+
+            var form = $(this);
+            var data = form.serialize();
+            var method = form.attr('method');
+            var url = form.attr('action');
+
+            // Ensure the URL is correct based on the form ID
+            if (form.attr('id') === 'add_leave_type_form') {
+                url = '/hrm/leave-type';
+            } else if (form.attr('id') === 'edit_leave_type_form') {
+                url: $(this).attr('action');
+            }
+
+            console.log("URL: " + url);
+
             $.ajax({
-                method: $(this).attr('method'),
-                url: "/hrm/leave-type",
+                type: method,
+                url: url,
                 dataType: 'json',
                 data: data,
                 success: function(result) {
@@ -72,7 +108,10 @@
                         toastr.error(result.msg);
                     }
                 },
+                error: function(xhr, status, error) {
+                    toastr.error('An error occurred: ' + error);
+                }
             });
-        })
+        });
     </script>
 @endsection
