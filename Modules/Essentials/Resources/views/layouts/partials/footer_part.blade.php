@@ -1,10 +1,10 @@
-@if(Module::has('Essentials'))
-  @include('essentials::attendance.clock_in_clock_out_modal')
+@if (Module::has('Essentials'))
+    @include('essentials::attendance.clock_in_clock_out_modal')
 @endif
 <script type="text/javascript">
-	$(document).ready( function(){
+    $(document).ready(function() {
         $('#essentials_dob').datepicker();
-		$('.clock_in_btn, .clock_out_btn').click( function() {
+        $('.clock_in_btn, .clock_out_btn').click(function() {
             var type = $(this).data('type');
             if (type == 'clock_in') {
                 $('#clock_in_clock_out_modal').find('#clock_in_text').removeClass('hide');
@@ -21,22 +21,37 @@
 
             $('#clock_in_clock_out_modal').modal('show');
         });
-	});
+    });
 
-	$(document).on('submit', 'form#clock_in_clock_out_form', function(e) {
+    $(document).on('submit', 'form#clock_in_clock_out_form', function(e) {
         e.preventDefault();
         $(this).find('button[type="submit"]').attr('disabled', true);
-        var data = $(this).serialize();
+
+
+        var form = $(this);
+        var data = form.serialize();
+        var method = form.attr('method');
+        var url = form.attr('action');
+
+        // Ensure the URL is correct based on the form ID
+        if (form.attr('id') === 'clock_in_clock_out_form') {
+            url = '/hrm/clock-in-clock-out';
+        } else if (form.attr('id') === 'clock_in_clock_out_form') {
+            url: $(this).attr('action');
+        }
+
+        console.log('URL: ' + url);
 
         $.ajax({
-            method: $(this).attr('method'),
-            url: $(this).attr('action'),
+            type: method,
+            url: url,
             dataType: 'json',
             data: data,
+
             success: function(result) {
+
                 if (result.success == true) {
                     $('div#clock_in_clock_out_modal').modal('hide');
-
                     var shift_details = document.createElement("div");
                     if (result.current_shift) {
                         shift_details.innerHTML = result.current_shift;
@@ -54,7 +69,7 @@
                     if (result.type == 'clock_in') {
                         $('.clock_in_btn').addClass('hide');
                         $('.clock_out_btn').removeClass('hide');
-                    } else if(result.type == 'clock_out') {
+                    } else if (result.type == 'clock_out') {
                         $('.clock_out_btn').addClass('hide');
                         $('.clock_in_btn').removeClass('hide');
                     }
@@ -75,45 +90,45 @@
             },
         });
     });
-    
-    $(document).on('click', '#get_current_location', function(){
+
+    $(document).on('click', '#get_current_location', function() {
         getFullAddress();
     });
 
     function getFullAddress() {
         if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition(
-            (position) => {
-                var latitude = position.coords.latitude;
-                var longitude = position.coords.longitude;
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    var latitude = position.coords.latitude;
+                    var longitude = position.coords.longitude;
 
-                $.ajax({
-                    url: '/user-location/' + latitude + ',' + longitude,
-                    dataType: 'json',
-                    success: function(result) {
-                        if (typeof result.address !== 'undefined') {
+                    $.ajax({
+                        url: '/user-location/' + latitude + ',' + longitude,
+                        dataType: 'json',
+                        success: function(result) {
+                            if (typeof result.address !== 'undefined') {
 
-                            $("input#clock_in_out_location").val(result.address);
-                            $("span.clock_in_out_location").text(result.address);
-                            $("div.ask_location").hide();
-                        } else if (typeof result.error_message !== 'undefined') {
-                            console.log(result.error_message);
+                                $("input#clock_in_out_location").val(result.address);
+                                $("span.clock_in_out_location").text(result.address);
+                                $("div.ask_location").hide();
+                            } else if (typeof result.error_message !== 'undefined') {
+                                console.log(result.error_message);
+                            }
                         }
-                    }
-                });
+                    });
 
-            },
-            () => {
-                $("div.ask_location").show();
-                $("span.location_required").text("{{__('essentials::lang.you_must_enable_location')}}")
-              console.log( "Error: The Geolocation service failed.");
-            }
-          );
+                },
+                () => {
+                    $("div.ask_location").show();
+                    $("span.location_required").text("{{ __('essentials::lang.you_must_enable_location') }}")
+                    console.log("Error: The Geolocation service failed.");
+                }
+            );
         } else {
             $("div.ask_location").show();
-            $("span.location_required").text("{{__('essentials::lang.you_must_enable_location')}}")
-          // Browser doesn't support Geolocation
-          console.log("Browser doesn't support Geolocation");
+            $("span.location_required").text("{{ __('essentials::lang.you_must_enable_location') }}")
+            // Browser doesn't support Geolocation
+            console.log("Browser doesn't support Geolocation");
         }
     }
 </script>
