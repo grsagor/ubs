@@ -58,7 +58,7 @@
             var data = $(this).serialize();
             $.ajax({
                 method: $(this).attr('method'),
-                url: "hrm/leave-type",
+                url: "/hrm/leave-type",
                 dataType: 'json',
                 data: data,
                 success: function(result) {
