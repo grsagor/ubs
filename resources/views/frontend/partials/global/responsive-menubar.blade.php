@@ -117,13 +117,12 @@
 
 <div class="header-sticky" style="background-color: #131921 !important">
     <div class="container">
-        <div class="row align-items-center d-flex justify-content-between"
-            style="padding-top: 5px; padding-bottom: 5px;">
+        <div class="row align-items-center d-flex justify-content-between">
             <div class="col-xxl-2 col-xl-2 col-lg-2 col-12 order-lg-1">
-                <div class="d-flex align-items-center justify-content-between h-100 md-py-10">
+                <div class="d-flex align-items-center justify-content-between h-100">
                     <a href="{{ url('/') }}">
-                        <img class="d-block d-md-none" src="{{ asset('assets/images/logo.png') }}" alt=""
-                            style="width: 170px;">
+                        <img class="d-block d-md-none" src="{{ asset('assets/images/header_logo.png') }}"
+                            alt="" style="width: 170px;">
                     </a>
                     <div class="nav-leftpush-overlay">
                         <nav class="navbar navbar-expand-lg nav-general nav-primary-hover">
@@ -277,9 +276,9 @@
                     </div>
                     <a class="navbar-brand p-0" style="margin-right: -41px !important;"
                         href="{{ url('/') }}"><img class="nav-logo lazy"
-                            data-src="{{ asset('assets/images/logo.png') }}" alt="Image not found !"
+                            data-src="{{ asset('assets/images/header_logo.png') }}" alt="Image not found !"
                             style="width: 225px !important;
-                            height: 55px !important;"></a>
+                            height: 63px !important;"></a>
                 </div>
             </div>
             <div class="col-xxl-3 col-xl-2 col-lg-2 col-0 order-lg-3">
