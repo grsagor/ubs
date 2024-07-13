@@ -33,8 +33,7 @@
     <title>@yield('title')</title>
 
     <!-- Title logo -->
-    {{-- <link rel="icon" type="image/x-icon" href="{{ asset('assets/images/logo.png') }}" /> --}}
-    <link rel="icon" type="image/x-icon" href="{{ asset('assets/images/title_logo.png') }}" />
+    <link rel="icon" type="image/x-icon" href="{{ asset('assets/images/title_fav.png') }}" />
 
     @include('layouts.partials.css')
 
