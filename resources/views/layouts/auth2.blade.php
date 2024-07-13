@@ -12,6 +12,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>@yield('title') - {{ config('app.name', 'Unipuller') }}</title>
+    <link rel="icon" type="image/x-icon" href="{{ asset('assets/images/title_fav.png') }}" />
 
     @include('layouts.partials.css')
 

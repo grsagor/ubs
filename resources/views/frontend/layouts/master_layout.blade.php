@@ -43,7 +43,7 @@
         {{-- <title>{{ $gs->title }}</title> --}}
     @endif
 
-    <link rel="icon" type="image/x-icon" href="{{ asset('assets/images/title_logo.png') }}" />
+    <link rel="icon" type="image/x-icon" href="{{ asset('assets/images/title_fav.png') }}" />
     <!-- Google Font -->
     <!-- 7:24 PM -->
     {{-- @if ($default_font->font_value)
