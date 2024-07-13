@@ -61,8 +61,8 @@
                 <div class="d-flex align-items-center  text-general">
                     <i class="flaticon-phone-call flat-mini me-2 text-general"></i>
                     <a class="navbar-brand p-0" href="{{ url('/') }}"><img class="nav-logo lazy"
-                            data-src="{{ asset('assets/images/logo.png') }}" width="120" alt="Image not found !"
-                            style="width: 170px !important; height: 45px !important;"></a>
+                            data-src="{{ asset('assets/images/header_logo.png') }}" width="120"
+                            alt="Image not found !" style="width: 160px !important; height: 55px !important;"></a>
                 </div>
             </div>
             <div class="col-lg-6 sm-mx-none">
