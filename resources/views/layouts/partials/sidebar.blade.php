@@ -1,13 +1,20 @@
 <!-- Left side column. contains the logo and sidebar -->
 <aside class="main-sidebar">
 
+    <a href="{{ route('business.shop.service', Session::get('business.id')) }}" target="_blank" class="logo"
+        style="background-color: #504191 ;">
+
+        <span class="logo-lg">{{ Session::get('business.name') }} <i class="fa fa-circle text-success"
+                id="online_indicator"></i></span>
+    </a>
     <!-- sidebar: style can be found in sidebar.less -->
     <section class="sidebar">
 
         <!-- Sidebar Menu -->
         <ul class="sidebar-menu tree" data-widget="tree">
             @if (auth()->user()->id == 5)
-                <li><a href="{{ url('superadmin') }}"><i class="fa fas fa-users-cog"></i> <span>Superadmin</span></a></li>
+                <li><a href="{{ url('superadmin') }}"><i class="fa fas fa-users-cog"></i> <span>Superadmin</span></a>
+                </li>
             @endif
             <li><a href="{{ route('home') }}"><i class="fa fas fa-tachometer-alt"></i> <span>Home</span></a></li>
 
@@ -205,7 +212,8 @@
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="{{ url('account/withdraw') }}"><i class="fa fas fa-list"></i> <span>Withdraw</span></a></li>
+                    <li><a href="{{ url('account/withdraw') }}"><i class="fa fas fa-list"></i>
+                            <span>Withdraw</span></a></li>
                     <li><a href="{{ url('account/account') }}"><i class="fa fas fa-list"></i> <span>List
                                 Accounts</span></a></li>
                     <li><a href="{{ url('account/balance-sheet') }}"><i class="fa fas fa-book"></i>
