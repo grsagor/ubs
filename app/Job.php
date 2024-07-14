@@ -16,6 +16,10 @@ class Job extends Model
     protected $keyType = 'string';
     public $incrementing = false;
 
+    protected $casts = [
+        'hour_type' => 'array',
+        'job_type' => 'array',
+    ];
     protected $fillable = [
         'uuid',
         'business_location_id',
@@ -33,6 +37,8 @@ class Job extends Model
         'description',
         'status',
     ];
+
+
 
     public function scopeActive($query)
     {

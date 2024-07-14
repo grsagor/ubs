@@ -30,7 +30,7 @@
                     <div class="col-sm-6">
                         <div class="form-group">
                             <label for="selling_price_group_id">Category <span class="text-danger">*</span></label>
-                            <select class="form-control" name="job_category_id" required>
+                            <select class="form-control select2" name="job_category_id" required>
                                 <option value="">Select</option>
                                 @foreach ($job_categories as $cat)
                                     <option value="{{ $cat->id }}"
@@ -45,30 +45,32 @@
                     <div class="col-sm-6">
                         <div class="form-group">
                             <label class="form-label">Employee status <span class="text-danger">*</span></label>
-                            <select class="form-control" name="hour_type" required>
-                                <option value="" selected disabled>Select type</option>
-                                <option value="Full time" {{ old('hour_type') == 'Full time' ? 'selected' : '' }}>Full time
+                            <select class="form-control select2" multiple name="hour_type[]" required>
+                                <option value="" disabled>Select type</option>
+                                <option value="Full time"
+                                    {{ in_array('Full time', old('hour_type', [])) ? 'selected' : '' }}>Full time</option>
+                                <option value="Part time"
+                                    {{ in_array('Part time', old('hour_type', [])) ? 'selected' : '' }}>Part time</option>
+                                <option value="Freelancing"
+                                    {{ in_array('Freelancing', old('hour_type', [])) ? 'selected' : '' }}>Freelancing
                                 </option>
-                                <option value="Part time" {{ old('hour_type') == 'Part time' ? 'selected' : '' }}>Part time
+                                <option value="Contractual"
+                                    {{ in_array('Contractual', old('hour_type', [])) ? 'selected' : '' }}>Contractual
                                 </option>
-                                <option value="Freelancing" {{ old('hour_type') == 'Freelancing' ? 'selected' : '' }}>
-                                    Freelancing</option>
-                                <option value="Contractual" {{ old('hour_type') == 'Contractual' ? 'selected' : '' }}>
-                                    Contractual</option>
                             </select>
-
                         </div>
                     </div>
+                    <div class="clearfix"></div>
 
                     <div class="col-sm-6">
                         <div class="form-group">
                             <label class="form-label">Job type <span class="text-danger">*</span></label>
-                            <select class="form-control" name="job_type" required>
-                                <option value="" selected disabled>Select type</option>
-                                <option value="Permanent" {{ old('job_type') == 'Permanent' ? 'selected' : '' }}>Permanent
-                                </option>
-                                <option value="Temporary" {{ old('job_type') == 'Temporary' ? 'selected' : '' }}>
-                                    Temporary</option>
+                            <select class="form-control select2" multiple name="job_type[]" required>
+                                <option value="" disabled>Select type</option>
+                                <option value="Permanent"
+                                    {{ in_array('Permanent', old('job_type', [])) ? 'selected' : '' }}>Permanent</option>
+                                <option value="Temporary"
+                                    {{ in_array('Temporary', old('job_type', [])) ? 'selected' : '' }}>Temporary</option>
                             </select>
                         </div>
                     </div>
@@ -83,18 +85,19 @@
                             @enderror
                         </div>
                     </div>
+                    <div class="clearfix"></div>
 
                     <div class="col-sm-6">
                         <div class="form-group">
                             <label class="form-label">Company Name <span class="text-danger">*</span></label>
                             <input class="form-control" type="text" name="company_name" required
-                                placeholder="Name of company" value="{{ old('company_name') }}">
+                                placeholder="Name of the company" value="{{ old('company_name') }}">
                         </div>
                     </div>
 
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <label class="form-label">Salary </label>
+                            <label class="form-label">Salary <span class="text-danger">*</span> </label>
                             <input class="form-control" type="number" step="0.01" name="salary" required
                                 placeholder="Ex. 10000" value="{{ old('salary') }}" id="amountField">
                         </div>
@@ -103,7 +106,7 @@
                     <div class="col-sm-6">
                         <div class="form-group">
                             <label class="form-label">Salary type <span class="text-danger">*</span></label>
-                            <select class="form-control" name="salary_type" id="salary_type" required>
+                            <select class="form-control select2" name="salary_type" id="salary_type" required>
                                 <option value="" selected disabled>Select type</option>
                                 <option value="Hourly" {{ old('salary_type') == 'Hourly' ? 'selected' : '' }}>Hourly
                                 </option>
@@ -128,7 +131,7 @@
                         <div class="form-group">
                             <label for="selling_price_group_id">Business location <span
                                     class="text-danger">*</span></label>
-                            <select class="form-control" name="business_location_id">
+                            <select class="form-control select2" name="business_location_id" required>
                                 <option value="">Select</option>
                                 @foreach ($business_locations as $item)
                                     <option value="{{ $item->id }}"
@@ -143,7 +146,7 @@
                     <div class="col-sm-6">
                         <div class="form-group">
                             <label class="form-label">Status <span class="text-danger">*</span></label>
-                            <select class="form-control" name="status">
+                            <select class="form-control select2" name="status">
                                 <option selected="" value="">Select Status</option>
                                 @foreach (getStatus() as $status)
                                     <option value="{{ $status['value'] }}"
