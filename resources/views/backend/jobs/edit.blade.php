@@ -1,16 +1,14 @@
 @extends('layouts.app')
-@section('title', 'Job')
+@section('title', 'Job-Edit')
 @section('content')
     <section class="content-header">
-        <h1>Job
-            {{-- <small>Fill up what you want</small> --}}
-        </h1>
+        <h1>Job form </h1>
     </section>
 
     <section class="content">
         <div class="form-container box box-primary">
             <div class="box-header">
-                <h3 class="box-title">All your job</h3>
+                <h3 class="box-title">Fill Job details </h3>
                 <div class="box-tools">
                     <a href="{{ route('jobs.index') }}" class="btn btn-block btn-primary">
                         <i class="fa fa-list"></i> List</a>
@@ -32,8 +30,8 @@
                     <div class="col-sm-6">
                         <div class="form-group">
                             <label for="selling_price_group_id">Category <span class="text-danger">*</span></label>
-                            <select class="form-control" name="job_category_id" required>
-                                <option value="">Select</option>
+                            <select class="form-control select2" name="job_category_id" required>
+                                <option value="" disabled>Select</option>
                                 @foreach ($job_categories as $cat)
                                     <option value="{{ $cat->id }}"
                                         {{ old('job_category_id', $job->job_category_id) == $cat->id ? 'selected' : '' }}>
@@ -47,31 +45,41 @@
                     <div class="col-sm-6">
                         <div class="form-group">
                             <label class="form-label">Employee status <span class="text-danger">*</span></label>
-                            <select class="form-control" name="hour_type" required>
-                                <option value="" selected="selected">Select type</option>
+                            <select class="form-control select2" multiple name="hour_type[]" required>
+                                <option value="" disabled>Select type</option>
                                 <option value="Full time"
-                                    {{ old('hour_type', $job->hour_type) == 'Full time' ? 'selected' : '' }}>Full time
-                                </option>
+                                    {{ in_array('Full time', old('hour_type', $job->hour_type ?? [])) ? 'selected' : '' }}>
+                                    Full time</option>
                                 <option value="Part time"
-                                    {{ old('hour_type', $job->hour_type) == 'Part time' ? 'selected' : '' }}>Part time
-                                </option>
+                                    {{ in_array('Part time', old('hour_type', $job->hour_type ?? [])) ? 'selected' : '' }}>
+                                    Part time</option>
+                                <option value="Freelancing"
+                                    {{ in_array('Freelancing', old('hour_type', $job->hour_type ?? [])) ? 'selected' : '' }}>
+                                    Freelancing</option>
+                                <option value="Contractual"
+                                    {{ in_array('Contractual', old('hour_type', $job->hour_type ?? [])) ? 'selected' : '' }}>
+                                    Contractual</option>
                             </select>
                         </div>
                     </div>
+
+                    <div class="clearfix"></div>
+
                     <div class="col-sm-6">
                         <div class="form-group">
                             <label class="form-label">Job type <span class="text-danger">*</span></label>
-                            <select class="form-control" name="job_type" required>
-                                <option value="" selected="selected">Select type</option>
+                            <select class="form-control select2" multiple name="job_type[]" required>
+                                <option value="" disabled>Select type</option>
                                 <option value="Permanent"
-                                    {{ old('job_type', $job->job_type) == 'Permanent' ? 'selected' : '' }}>Permanent
-                                </option>
-                                <option value="Contractual"
-                                    {{ old('job_type', $job->job_type) == 'Contractual' ? 'selected' : '' }}>Contractual
-                                </option>
+                                    {{ in_array('Permanent', old('job_type', $job->job_type ?? [])) ? 'selected' : '' }}>
+                                    Permanent</option>
+                                <option value="Temporary"
+                                    {{ in_array('Temporary', old('job_type', $job->job_type ?? [])) ? 'selected' : '' }}>
+                                    Temporary</option>
                             </select>
                         </div>
                     </div>
+
 
                     <div class="col-sm-6">
                         <div class="form-group">
@@ -85,11 +93,13 @@
                         </div>
                     </div>
 
+                    <div class="clearfix"></div>
+
                     <div class="col-sm-6">
                         <div class="form-group">
                             <label class="form-label">Company Name <span class="text-danger">*</span></label>
                             <input class="form-control" type="text" name="company_name" required
-                                placeholder="Name of company" value="{{ old('company_name', $job->company_name) }}">
+                                placeholder="Name of the company" value="{{ old('company_name', $job->company_name) }}">
                         </div>
                     </div>
 
@@ -104,7 +114,7 @@
                     <div class="col-sm-6">
                         <div class="form-group">
                             <label class="form-label">Salary type <span class="text-danger">*</span></label>
-                            <select class="form-control" name="salary_type" id="salary_type" required>
+                            <select class="form-control select2" name="salary_type" id="salary_type" required>
 
                                 <option value="" selected="selected" disabled>Select type</option>
                                 <option value="Hourly"
@@ -133,8 +143,8 @@
                         <div class="form-group">
                             <label for="selling_price_group_id">Business location <span
                                     class="text-danger">*</span></label>
-                            <select class="form-control" name="business_location_id">
-                                <option value="">Select</option>
+                            <select class="form-control select2" name="business_location_id">
+                                <option value="" disabled>Select</option>
                                 @foreach ($business_locations as $item)
                                     <option value="{{ $item->id }}"
                                         {{ old('business_location_id', $job->business_location_id) == $item->id ? 'selected' : '' }}>
@@ -148,8 +158,8 @@
                     <div class="col-sm-6">
                         <div class="form-group">
                             <label class="form-label">Status <span class="text-danger">*</span></label>
-                            <select class="form-control" name="status">
-                                <option selected="" value="">Select Status</option>
+                            <select class="form-control select2" name="status">
+                                <option selected="" value="" disabled>Select Status</option>
                                 @foreach (getStatus() as $status)
                                     <option @selected($job->status == $status['value']) value="{{ $status['value'] }}">
                                         {{ $status['label'] }}</option>
