@@ -128,6 +128,11 @@ class JobController extends Controller
 
             $requestedData = $request->all();
 
+            // Handle multiple select fields
+            $requestedData['hour_type'] = $request->input('hour_type', []);
+            $requestedData['job_type'] = $request->input('job_type', []);
+
+
             $job->fill($requestedData)->save();
 
             $output = [

@@ -97,7 +97,7 @@
 
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <label class="form-label">Salary <span class="text-danger">*</span> </label>
+                            <label class="form-label">Salary </label>
                             <input class="form-control" type="number" step="0.01" name="salary" required
                                 placeholder="Ex. 10000" value="{{ old('salary') }}" id="amountField">
                         </div>
