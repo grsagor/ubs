@@ -2,7 +2,7 @@
 @section('title', 'Job')
 @section('content')
     <section class="content-header">
-        <h1>All your Jobss</h1>
+        <h1>All your Jobs</h1>
     </section>
 
     <section class="content">

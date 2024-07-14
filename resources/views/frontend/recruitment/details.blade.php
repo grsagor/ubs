@@ -246,10 +246,12 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div>
-                                                Employee Status: <span class="txtbold">{{ $job->hour_type }}</span>
+                                                Employee Status: <span
+                                                    class="txtbold">{{ implode(', ', $job->hour_type) }}</span>
                                             </div>
                                             <div>
-                                                Job type: <span class="txtbold">{{ $job->job_type }}</span>
+                                                Job type: <span class="txtbold"> {{ implode(', ', $job->job_type) }}
+                                                </span>
                                             </div>
                                             <div>
                                                 Salary: <span class="txtbold">
