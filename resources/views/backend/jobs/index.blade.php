@@ -42,8 +42,13 @@
                                 <td>{{ $item->job_category->name ?? '' }}</td>
                                 <td>{{ $item->title }}</td>
                                 <td>{{ $item->company_name }}</td>
-                                <td>{{ $item->hour_type }}</td>
-                                <td>{{ $item->job_type }}</td>
+
+
+                                <td>{{ is_array($item->hour_type) ? implode(', ', $item->hour_type) : $item->hour_type }}
+                                </td>
+                                <td>{{ is_array($item->job_type) ? implode(', ', $item->job_type) : $item->job_type }}</td>
+
+
                                 <td>
                                     @if ($item->salary)
                                         {{ $item->salary }}/{{ $item->salary_type }}
