@@ -320,6 +320,13 @@
                                 Settings</span></a></li>
                     <li><a href="{{ url('business-location') }}"><i class="fa fas fa-map-marker"></i>
                             <span>Business Locations</span></a></li>
+
+                    @if (auth()->user()->id == 5)
+                        <li><a href="{{ route('business_location_category_index') }}"><i
+                                    class="fa fas fa-map-marker"></i>
+                                <span>Category of business location</span></a></li>
+                    @endif
+
                     <li><a href="{{ url('invoice-schemes') }}"><i class="fa fas fa-file"></i> <span>Invoice
                                 Settings</span></a></li>
                     <li><a href="{{ route('barcodes.index') }}"><i class="fa fas fa-barcode"></i> <span>Barcode

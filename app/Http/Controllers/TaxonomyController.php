@@ -39,8 +39,13 @@ class TaxonomyController extends Controller
         }
 
         $category_type = request()->get('type');
+
         if ($category_type == 'product' && !auth()->user()->can('category.view') && !auth()->user()->can('category.create')) {
             abort(403, 'Unauthorized action.');
+        }
+
+        if ($category_type == 'business_location') {
+            return 'OK';
         }
 
         if (request()->ajax()) {
@@ -102,7 +107,6 @@ class TaxonomyController extends Controller
     public function create()
     {
         $mode = request()->mode;
-        // $category_type = request()->get('type');
         $category_type = 'service';
         if ($category_type == 'product' && !auth()->user()->can('category.create')) {
             abort(403, 'Unauthorized action.');
@@ -155,51 +159,6 @@ class TaxonomyController extends Controller
                 $parent_categories[$temp->id] = $temp->name;
             }
         }
-        // if (! empty($categories)) {
-        //     foreach ($categories as $category) {
-        //         $parent_categories[$category->id] = $category->name;
-        //     }
-        // }
-
-        // $categories = Category::where('parent_id', 0)
-        // ->select(['name', 'short_code', 'id'])
-        // ->get();
-
-        // $sub_categories = Category::where('parent_id', '!=', 0)
-        // ->select(['name', 'short_code', 'id', 'parent_id'])
-        // ->get();
-
-
-        // $sub_categories = $sub_categories->filter(function ($sub_category) {
-        //     $parent = Category::find($sub_category->parent_id);
-        //     if ($parent) {
-        //         $grand_parent = Category::find($parent->parent_id);
-        //         if ($grand_parent) {
-        //             return false;
-        //         } else {
-        //             return true;
-        //         }
-        //     }
-        //     return false;
-        // })->values();
-
-        // $child_categories = Category::where('parent_id', '!=', 0)
-        // ->select(['name', 'short_code', 'id', 'parent_id'])
-        // ->get();
-
-
-        // $child_categories = $child_categories->filter(function ($child_category) {
-        //     $parent = Category::find($child_category->parent_id);
-        //     if ($parent) {
-        //         $grand_parent = Category::find($parent->parent_id);
-        //         if ($grand_parent) {
-        //             return true;
-        //         } else {
-        //             return false;
-        //         }
-        //     }
-        //     return false;
-        // })->values();
 
         return view('taxonomy.create')
             ->with(compact('parent_categories', 'module_category_data', 'category_type', 'mode'));
@@ -213,7 +172,6 @@ class TaxonomyController extends Controller
      */
     public function store(Request $request)
     {
-        // return Auth::user()->id;
         $category_type = request()->input('category_type');
         if ($category_type == 'product' && !auth()->user()->can('category.create')) {
             abort(403, 'Unauthorized action.');
@@ -227,7 +185,6 @@ class TaxonomyController extends Controller
             $category->category_type = $request->category_type;
             $category->description = $request->description;
 
-            // $input = $request->only(['name', 'short_code', 'category_type', 'description']);
             if (!empty($request->input('add_as_sub_cat')) && $request->input('add_as_sub_cat') == 1 && !empty($request->input('parent_id'))) {
                 $category->parent_id = $request->parent_id;
             } else {
@@ -237,7 +194,6 @@ class TaxonomyController extends Controller
             $category->created_by = Auth::user()->id;
             $category->save();
 
-            // $category = Category::create($input);
             $output = [
                 'success' => true,
                 'data' => $category,
@@ -389,6 +345,182 @@ class TaxonomyController extends Controller
             return $output;
         }
     }
+
+    public function business_location_category_index(Request $request)
+    {
+
+        if (auth()->user()->id != 5) {
+            // abort(403, 'Unauthorized action.');
+            $output = [
+                'success' => False,
+                'msg' => 'You are not allowed',
+            ];
+            return redirect()->back()->with('status', $output);
+        }
+        $business_id = request()->session()->get('user.business_id');
+        $data['categories'] = Category::query()
+            ->where('business_id', $business_id)
+            ->where('category_type', 'business_location')
+            ->where('parent_id', 0)
+            ->with('sub_categories')
+            ->latest()
+            ->get();
+
+        return view('business_location.category_business_location.index', $data);
+    }
+
+    public function business_location_category_create()
+    {
+        return view('business_location.category_business_location.create');
+    }
+
+    public function business_location_category_store(Request $request)
+    {
+        try {
+            $category = new Category();
+
+            $category->name = $request->name;
+            $category->short_code = $request->short_code;
+            $category->category_type = $request->category_type;
+            $category->description = $request->description;
+
+            if (!empty($request->input('category_id'))) {
+                $category->parent_id = $request->category_id;
+            } else {
+                $category->parent_id = 0;
+            }
+
+            $category->business_id = Auth::user()->business_id;
+            $category->created_by = Auth::user()->id;
+            $category->save();
+
+            $output = [
+                'success' => true,
+                'msg' => ('Created Successfully!!!'),
+            ];
+
+            return redirect()->route('business_location_category_index')->with('status', $output);
+        } catch (\Exception $e) {
+            \Log::emergency('File:' . $e->getFile() . 'Line:' . $e->getLine() . 'Message:' . $e->getMessage());
+
+            $output = [
+                'success' => false,
+                // 'msg' => __('messages.something_went_wrong'),
+                'msg' => $e->getMessage(),
+            ];
+            return $output;
+        }
+    }
+
+
+    public function business_location_category_edit($id)
+    {
+        $data = Category::find($id);
+        return view('business_location.category_business_location.edit', compact('data'));
+    }
+
+    public function business_location_category_update(Request $request, $id)
+    {
+        try {
+            $category = Category::findOrFail($id);
+            $category->name = $request->input('name');
+            $category->description = $request->input('description');
+            $category->short_code = $request->input('short_code');
+            $category->parent_id = $request->input('category_id', 0); // Default to 0 if not set
+
+            $category->save();
+
+            $output = [
+                'success' => true,
+                'msg' => __('Category updated successfully.'),
+            ];
+
+            $mode = $request->input('mode');
+
+            if ($mode == 'business_location_sub_category_edit') {
+                return redirect()->route('business_location_sub_category_index', $category->parent_id)->with('status', $output);
+            } else {
+                return redirect()->route('business_location_category_index')->with('status', $output);
+            }
+        } catch (\Exception $e) {
+            \Log::emergency('File:' . $e->getFile() . 'Line:' . $e->getLine() . 'Message:' . $e->getMessage());
+            $output = [
+                'success' => false,
+                'msg' => __('messages.something_went_wrong'),
+            ];
+            return redirect()->back()->with('status', $output);
+        }
+    }
+
+
+    public function business_location_category_destroy($id)
+    {
+        try {
+            $business_id = request()->session()->get('user.business_id');
+
+            $category = Category::where('business_id', $business_id)->findOrFail($id);
+
+
+            $category->delete();
+
+            $output = [
+                'success' => true,
+                'msg' => __('category.deleted_success'),
+            ];
+        } catch (\Exception $e) {
+            \Log::emergency('File:' . $e->getFile() . 'Line:' . $e->getLine() . 'Message:' . $e->getMessage());
+
+            $output = [
+                'success' => false,
+                'msg' => __('messages.something_went_wrong'),
+            ];
+        }
+
+        return redirect()->back()->with('status', $output);
+    }
+
+    public function business_location_sub_category_index($id)
+    {
+        $business_id = request()->session()->get('user.business_id');
+
+        $data['category'] = Category::findOrFail($id);
+
+        $data['sub_categorires'] = Category::query()
+            ->where('parent_id', $id)
+            ->where('business_id', $business_id)
+            ->where('category_type', 'business_location')
+            ->latest()
+            ->get();
+
+        return view('business_location.sub_category_business_location.index', $data);
+    }
+
+    public function business_location_sub_category_create()
+    {
+        $data['categorires'] = Category::query()
+            ->where('category_type', 'business_location')
+            ->where('parent_id', 0)
+            ->get();
+
+        return view('business_location.sub_category_business_location.create', $data);
+    }
+
+    public function business_location_sub_category_edit($id)
+    {
+        $data['sub_category'] = Category::findOrFail($id);
+
+        $data['categories'] = Category::query()
+            ->where('category_type', 'business_location')
+            ->where('parent_id', 0)
+            ->get();
+
+        return view('business_location.sub_category_business_location.edit', $data);
+    }
+
+
+
+
+
 
     public function getCategoriesApi()
     {
