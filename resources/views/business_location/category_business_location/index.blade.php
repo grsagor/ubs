@@ -17,12 +17,10 @@
                 Manage your business location categories
             </small>
         </h1>
-
     </section>
 
     <!-- Main content -->
     <section class="content">
-
         <div class="box box-solid">
             <div class="box-header">
                 <div class="box-tools">
@@ -39,7 +37,6 @@
 
             <div class="box-body" style="overflow-x: scroll;">
                 <table id="category_business_Table" class="table table-bordered table-striped table-hover">
-
                     <thead>
                         <tr>
                             <th>No.</th>
@@ -84,7 +81,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="6">No data available</td>
+                                <td colspan="6" class="text-center">No data available</td>
                             </tr>
                         @endforelse
                     </tbody>
