@@ -12,7 +12,7 @@
                 <h3 class="box-title">Edit category details</h3>
                 <div class="box-tools">
                     <a href="{{ route('business_location_category_index') }}" class="btn btn-block btn-primary">
-                        <i class="fa fa-list"></i> List</a>
+                        <i class="fa fa-list"></i> Category List</a>
                 </div>
             </div>
 
