@@ -127,11 +127,15 @@
                                                     {{ $item->company_name }}
                                                 </p>
                                                 <span>{{ $item->job_category->name ?? '' }}</span>
-                                                <p class="card-text mb-0 color-black para-font">Employee
-                                                    Status:
-                                                    {{ $item->hour_type }}</p>
+
+                                                <p class="card-text mb-0 color-black para-font">Employee Status:
+                                                    {{ implode(', ', $item->hour_type) }}
+                                                </p>
                                                 <p class="card-text mb-0 color-black para-font">Job Type:
-                                                    {{ $item->job_type }}</p>
+                                                    {{ implode(', ', $item->job_type) }}
+                                                </p>
+
+
                                                 <p class="card-text color-black para-font">
                                                     @if ($item->salary)
                                                         Salary:
@@ -189,12 +193,14 @@
                                                 <p class="card-text company-name color-black para-font">
                                                     {{ $item->company_name }}
                                                 </p>
-                                                <p class="card-text mb-0 color-black para-font">Employee
-                                                    Status:
-                                                    {{ $item->hour_type }}</p>
-                                                <p class="card-text mb-0 color-black para-font">Job Type:
-                                                    {{ $item->job_type }}
+
+                                                <p class="card-text mb-0 color-black para-font">Employee Status:
+                                                    {{ implode(', ', $item->hour_type) }}
                                                 </p>
+                                                <p class="card-text mb-0 color-black para-font">Job Type:
+                                                    {{ implode(', ', $item->job_type) }}
+                                                </p>
+
                                                 <p class="card-text color-black para-font">
                                                     @if ($item->salary)
                                                         Salary:

@@ -449,6 +449,17 @@ Route::middleware(['checkAdmin', 'SetSessionData'])->group(function () {
     Route::get('taxonomies-ajax-index-page', [TaxonomyController::class, 'getTaxonomyIndexPage']);
     Route::resource('taxonomies', TaxonomyController::class);
 
+    Route::get('/business-location/category',                   [TaxonomyController::class, 'business_location_category_index'])->name('business_location_category_index');
+    Route::get('/business-location/category/create',            [TaxonomyController::class, 'business_location_category_create'])->name('business_location_category_create');
+    Route::post('/business-location/category/store',            [TaxonomyController::class, 'business_location_category_store'])->name('business_location_category_store');
+    Route::get('/business-location/category/edit/{id}',         [TaxonomyController::class, 'business_location_category_edit'])->name('business_location_category_edit');
+    Route::put('/business-location/category/update/{id}',       [TaxonomyController::class, 'business_location_category_update'])->name('business_location_category_update');
+    Route::delete('/business-location/category/destroy/{id}',   [TaxonomyController::class, 'business_location_category_destroy'])->name('business_location_category_destroy');
+
+    Route::get('/business-location/sub-category/index/{id}',    [TaxonomyController::class, 'business_location_sub_category_index'])->name('business_location_sub_category_index');
+    Route::get('/business-location/sub-category/create',        [TaxonomyController::class, 'business_location_sub_category_create'])->name('business_location_sub_category_create');
+    Route::get('/business-location/sub-category/edit/{id}',     [TaxonomyController::class, 'business_location_sub_category_edit'])->name('business_location_sub_category_edit');
+
     Route::resource('variation-templates', VariationTemplateController::class);
 
     Route::get('/products/download-excel', [ProductController::class, 'downloadExcel']);
