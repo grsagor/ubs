@@ -11,9 +11,8 @@
             <div class="box-header">
                 <h3 class="box-title">Edit sub category details</h3>
                 <div class="box-tools">
-                    <a href="{{ route('business_location_sub_category_index', $sub_category->parent_id) }}"
-                        class="btn btn-block btn-primary">
-                        <i class="fa fa-list"></i> Sub Category List</a>
+                    <a href="{{ route('business_location_category_index') }}" class="btn btn-block btn-primary">
+                        <i class="fa fa-list"></i> Category List</a>
                 </div>
             </div>
 

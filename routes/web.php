@@ -456,7 +456,6 @@ Route::middleware(['checkAdmin', 'SetSessionData'])->group(function () {
     Route::put('/business-location/category/update/{id}',       [TaxonomyController::class, 'business_location_category_update'])->name('business_location_category_update');
     Route::delete('/business-location/category/destroy/{id}',   [TaxonomyController::class, 'business_location_category_destroy'])->name('business_location_category_destroy');
 
-    Route::get('/business-location/sub-category/index/{id}',    [TaxonomyController::class, 'business_location_sub_category_index'])->name('business_location_sub_category_index');
     Route::get('/business-location/sub-category/create',        [TaxonomyController::class, 'business_location_sub_category_create'])->name('business_location_sub_category_create');
     Route::get('/business-location/sub-category/edit/{id}',     [TaxonomyController::class, 'business_location_sub_category_edit'])->name('business_location_sub_category_edit');
 

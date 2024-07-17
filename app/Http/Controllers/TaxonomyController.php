@@ -437,11 +437,7 @@ class TaxonomyController extends Controller
 
             $mode = $request->input('mode');
 
-            if ($mode == 'business_location_sub_category_edit') {
-                return redirect()->route('business_location_sub_category_index', $category->parent_id)->with('status', $output);
-            } else {
-                return redirect()->route('business_location_category_index')->with('status', $output);
-            }
+            return redirect()->route('business_location_category_index')->with('status', $output);
         } catch (\Exception $e) {
             \Log::emergency('File:' . $e->getFile() . 'Line:' . $e->getLine() . 'Message:' . $e->getMessage());
             $output = [
@@ -477,22 +473,6 @@ class TaxonomyController extends Controller
         }
 
         return redirect()->back()->with('status', $output);
-    }
-
-    public function business_location_sub_category_index($id)
-    {
-        $business_id = request()->session()->get('user.business_id');
-
-        $data['category'] = Category::findOrFail($id);
-
-        $data['sub_categorires'] = Category::query()
-            ->where('parent_id', $id)
-            ->where('business_id', $business_id)
-            ->where('category_type', 'business_location')
-            ->latest()
-            ->get();
-
-        return view('business_location.sub_category_business_location.index', $data);
     }
 
     public function business_location_sub_category_create()
