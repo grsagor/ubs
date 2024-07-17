@@ -227,32 +227,15 @@ $(document).ready(function () {
     paging: true,
     lengthChange: true,
     searching: true,
-    ordering: true,
+    ordering: false,
     info: true,
     autoWidth: false,
     responsive: false,
-    pageLength: 10, // Set the initial page length to 10
+    pageLength: 25, // Set the initial page length to 10
     columnDefs: [
       {
         orderable: false,
-        targets: 5, // Disable ordering on the Action column
-      },
-    ],
-  });
-
-  $("#sub_category_business_Table").DataTable({
-    paging: true,
-    lengthChange: true,
-    searching: true,
-    ordering: true,
-    info: true,
-    autoWidth: false,
-    responsive: false,
-    pageLength: 10, // Set the initial page length to 10
-    columnDefs: [
-      {
-        orderable: false,
-        targets: 4, // Disable ordering on the Action column
+        targets: 3, // Disable ordering on the Action column
       },
     ],
   });
