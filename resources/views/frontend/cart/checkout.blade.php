@@ -65,8 +65,8 @@
         }
 
         /* .StripeElement>div>iframe {
-                    height: 32px !important;
-                } */
+                        height: 32px !important;
+                    } */
 
         .stripe-element-container {
             padding: 4px;
@@ -112,7 +112,7 @@
             border: none !important;
         }
 
-        #payment_animation_container {
+        /* #payment_animation_container {
             position: fixed;
             top: 0;
             left: 0;
@@ -120,7 +120,7 @@
             bottom: 0;
             background: #EBEBEB;
             z-index: 99999999;
-        }
+        } */
 
         #payment_animation_container img {
             width: 100%;
@@ -128,7 +128,7 @@
             object-fit: contain;
         }
 
-        #payment_success_container {
+        /* #payment_success_container {
             position: fixed;
             top: 0;
             left: 0;
@@ -136,33 +136,25 @@
             bottom: 0;
             background: #EBEBEB;
             z-index: 999999999;
-        }
+        } */
 
-        #payment_success_container>div {
+        #payment_success_container .modal-body {
             height: 100%;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             font-size: 84px;
+            padding: 36px;
         }
 
-        #payment_thanks_container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: #EBEBEB;
-            z-index: 999999999;
-        }
-
-        #payment_thanks_container>div {
+        #payment_thanks_container .modal-body {
             height: 100%;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
+            padding: 36px;
         }
 
         #payment_thanks_container .btn {
@@ -174,16 +166,19 @@
             background: #61a0b9 !important;
             color: white !important;
         }
+
         #payment_thanks_container .btn {
             width: 130px !important;
         }
+
         .last_back_btn {
             padding: 0 25px;
             line-height: 45px;
         }
+
         .btn-primary:hover {
-    border: none !important;
-}
+            border: none !important;
+        }
     </style>
 @endsection
 @section('content')
@@ -2613,12 +2608,12 @@
                                                 <div class="order-area">
                                                     <div class="order-item">
                                                         @foreach ($products as $i => $product)
-                                                        <div class="product-img">
-                                                            <div class="d-flex">
-                                                                <img src="{{ asset($product->thumbnail) }}"
-                                                                    height="80" width="80" class="p-1">
+                                                            <div class="product-img">
+                                                                <div class="d-flex">
+                                                                    <img src="{{ asset($product->thumbnail) }}"
+                                                                        height="80" width="80" class="p-1">
+                                                                </div>
                                                             </div>
-                                                        </div>
                                                             <input type="hidden"
                                                                 name="products[{{ $i + 1 }}][product_type]"
                                                                 value="single">
@@ -2718,7 +2713,7 @@
                                                                 Cash On Delivery
                                                             </label> --}}
                                                             <a href="javascript:;" data-go="2" data-hide="3"
-                                                            class="mybtn1 mr-3 mb-0 last_back_btn">Back</a>
+                                                                class="mybtn1 mr-3 mb-0 last_back_btn">Back</a>
                                                             <button type="button" id="final-btn"
                                                                 class="btn btn-primary">Cash</button>
                                                             <button type="button" class="btn btn-primary"
@@ -2740,7 +2735,7 @@
 
                                                     <div class="modal fade" id="stripeModal" tabindex="-1"
                                                         aria-labelledby="stripeModalLabel" aria-hidden="true">
-                                                        <div class="modal-dialog">
+                                                        <div class="modal-dialog modal-dialog-centered">
                                                             <div class="modal-content">
                                                                 <div class="modal-header">
                                                                     <h5 class="modal-title" id="stripeModalLabel">
@@ -2959,37 +2954,53 @@
             </div>
         </section>
 
-
-        <div id="payment_animation_container" style="display: none;">
-            <img src="{{ asset('images/cards/payment-animation.gif') }}" alt="">
-        </div>
-        <div id="payment_success_container" style="display: none;">
-            <div>
-                <i class="fa-solid fa-check"></i>
-                <h1>Payment Successfull</h1>
+        <div class="modal fade" id="payment_animation_container" tabindex="-1"
+            aria-labelledby="payment_animation_containerLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-body p-0">
+                        <img src="{{ asset('images/cards/payment-animation.gif') }}" alt="">
+                    </div>
+                </div>
             </div>
         </div>
-        <div id="payment_thanks_container" style="display: none;">
-            <div>
-                <h1>Thank you for</h1>
-                <h1 class="mb-5">Your Order!</h1>
-                <div class="d-flex flex-column flex-md-row gap-4">
-                    <a class="btn" href="{{ route('service.list') }}">Buy more</a>
-                    <button class="btn" id="create_invoice_btn" type="button">
-                        <span id="create_invoice_btn_text">Invoice</span>
-                        <div id="create_invoice_btn_loader" style="display: none;">
-                            <div class="d-flex justify-content-center align-items-center">
-                                <div class="spinner-border" role="status">
-                                    <span class="visually-hidden">Loading...</span>
+        <div class="modal fade" id="payment_success_container" tabindex="-1"
+            aria-labelledby="payment_success_containerLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <i class="fa-solid fa-check"></i>
+                        <h1 class="text-center">Payment Successfull</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="payment_thanks_container" tabindex="-1"
+            aria-labelledby="payment_thanks_containerLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <h1 class="text-center">Thank you for</h1>
+                        <h1 class="text-center mb-5">Your Order!</h1>
+                        <div class="d-flex flex-column flex-md-row gap-4">
+                            <a class="btn" href="{{ route('service.list') }}">Buy more</a>
+                            <button class="btn" id="create_invoice_btn" type="button">
+                                <span id="create_invoice_btn_text">Invoice</span>
+                                <div id="create_invoice_btn_loader" style="display: none;">
+                                    <div class="d-flex justify-content-center align-items-center">
+                                        <div class="spinner-border" role="status">
+                                            <span class="visually-hidden">Loading...</span>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
+                            </button>
+                            @if (Auth::user() && Auth::user()->user_type == 'user_customer')
+                                <a href="{{ url('contact/contact-dashboard') }}" class="btn">Dashboard</a>
+                            @else
+                                <a href="{{ url('home') }}" class="btn">Dashboard</a>
+                            @endif
                         </div>
-                    </button>
-                    @if (Auth::user() && Auth::user()->user_type == 'user_customer')
-                        <a href="{{ url('contact/contact-dashboard') }}" class="btn">Dashboard</a>
-                    @else
-                        <a href="{{ url('home') }}" class="btn">Dashboard</a>
-                    @endif
+                    </div>
                 </div>
             </div>
         </div>
@@ -3102,26 +3113,31 @@
     <script>
         $(document).ready(function() {
             $(document).on('click', '#proceed_to_checkout', function() {
-                handleShowHide('payment_animation_container', true);
+                $('#stripeModal').modal('hide');
+                $('#payment_animation_container .modal-body').show();
+                $('#payment_animation_container').modal('show');
                 const amount = "{{ $total_price }}"
                 $.ajax({
                     url: "{{ route('get.stripe.client.secret') }}",
                     type: 'get',
-                    data: { amount: amount },
+                    data: {
+                        amount: amount
+                    },
                     dataType: 'json',
                     success: function(response) {
+                        $('#payment_animation_container .modal-body').hide();
                         stripe.confirmCardPayment(response.client_secret, {
-                        payment_method: {
-                            card: cardNumber,
-                            billing_details: {
-                                name: response.name,
-                                email: response.email
-                            }
-                        },
-                        setup_future_usage: 'off_session'
+                            payment_method: {
+                                card: cardNumber,
+                                billing_details: {
+                                    name: response.name,
+                                    email: response.email
+                                }
+                            },
+                            setup_future_usage: 'off_session'
                         }).then(function(result) {
                             if (result.error) {
-                                handleShowHide('payment_animation_container', false);
+                                $('#payment_animation_container').modal('hide');
                                 Swal.fire({
                                     icon: 'error',
                                     title: result.error.message,
@@ -3156,18 +3172,8 @@
             }
         })
 
-        function handleShowHide(containerId, isShow) {
-            if (isShow) {
-                $(`#${containerId}`).show();
-                $('body').addClass('h-100 overflow-hidden');
-            } else {
-                $(`#${containerId}`).hide();
-                $('body').removeClass('h-100 overflow-hidden');
-            }
-        }
-
         function saveCheckoutForm(stripeToken) {
-            handleShowHide('payment_animation_container', true);
+            $('#payment_animation_container').modal('hide');
             var checkout_form = $('#checkout_form');
             var data = checkout_form.serializeArray();
             data.push({
@@ -3183,28 +3189,22 @@
                     if (result.success == 1) {
                         //Check if enabled or not
                         // if (result.receipt.is_enabled) {
-                        await handleShowHide('payment_success_container', true);
+                        await $('#payment_success_container').modal('show');
                         $('#stripeModal').modal('hide');
                         setTimeout(function() {
-                            handleShowHide('payment_thanks_container', true);
-                            $('.ecommerce-header').css({
-                                'position': 'fixed',
-                                'top': '0',
-                                'z-index': '9999999999999999999',
-                                'width': '100vw',
-                            });
+                            $('#payment_success_container').modal('hide');
+                            $('#payment_thanks_container').modal('show');
                         }, 2000);
                         receipt = result.receipt;
 
                         // pos_print(result.receipt);
                         // }
                     } else {
-                        handleShowHide('payment_animation_container', false);
                         Swal.fire({
                             icon: 'error',
                             title: result.msg,
                             position: 'center',
-                        })
+                        });
                     }
                 },
             });
