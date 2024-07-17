@@ -601,7 +601,7 @@
             console.log('Shift URL: ' + urllll);
             $.ajax({
                 method: $(this).attr('method'),
-                url: urllll,
+                url: $('#action_url').val(),
                 dataType: 'json',
                 data: data,
                 success: function(result) {
