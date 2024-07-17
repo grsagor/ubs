@@ -62,6 +62,15 @@
                 <ul class="treeview-menu">
                     <li><a href="{{ route('shop.share.page') }}"><i class="fa fas fa-list"></i> <span>Shop
                                 Share</span></a></li>
+
+                    <li><a href="{{ url('business-location') }}"><i class="fa fas fa-map-marker"></i>
+                            <span>Business Locations</span></a></li>
+
+                    @if (auth()->user()->id == 5)
+                        <li><a href="{{ route('business_location_category_index') }}"><i
+                                    class="fa fas fa-map-marker"></i>
+                                <span>Category of business location</span></a></li>
+                    @endif
                 </ul>
             </li>
             <li class="treeview" id="tour_step5">
@@ -318,14 +327,6 @@
                     <li><a href="{{ url('business/settings') }}" id="tour_step2"><i class="fa fas fa-cogs"></i>
                             <span>Business
                                 Settings</span></a></li>
-                    <li><a href="{{ url('business-location') }}"><i class="fa fas fa-map-marker"></i>
-                            <span>Business Locations</span></a></li>
-
-                    @if (auth()->user()->id == 5)
-                        <li><a href="{{ route('business_location_category_index') }}"><i
-                                    class="fa fas fa-map-marker"></i>
-                                <span>Category of business location</span></a></li>
-                    @endif
 
                     <li><a href="{{ url('invoice-schemes') }}"><i class="fa fas fa-file"></i> <span>Invoice
                                 Settings</span></a></li>
