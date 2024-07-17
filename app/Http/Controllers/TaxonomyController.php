@@ -363,7 +363,7 @@ class TaxonomyController extends Controller
             ->where('category_type', 'business_location')
             ->where('parent_id', 0)
             ->with('sub_categories')
-            ->latest()
+            ->orderBy('name', 'asc') // Order by name alphabetically
             ->get();
 
         return view('business_location.category_business_location.index', $data);

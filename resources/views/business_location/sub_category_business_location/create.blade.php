@@ -34,16 +34,16 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="name">Category name: <span class="text-danger">*</span></label>
+                        <label for="name">Sub Category name: <span class="text-danger">*</span></label>
                         <input class="form-control" required="" placeholder="Category name" name="name" type="text"
                             id="name">
                     </div>
 
                     <div class="form-group">
-                        <label for="short_code">Category Code:</label>
+                        <label for="short_code">Sub Category Code:</label>
                         <input class="form-control" placeholder="Category Code" name="short_code" type="text"
                             id="short_code">
-                        <p class="help-block">Category code is same as <b>HSN code</b></p>
+                        <p class="help-block">Sub Category code is same as <b>HSN code</b></p>
                     </div>
 
                     <div class="form-group">
