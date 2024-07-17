@@ -4,9 +4,6 @@
 
 
         {!! Form::open([
-            'url' => empty($shift)
-                ? action([\Modules\Essentials\Http\Controllers\ShiftController::class, 'store'])
-                : action([\Modules\Essentials\Http\Controllers\ShiftController::class, 'update'], [$shift->id]),
             'method' => empty($shift) ? 'post' : 'put',
             'id' => empty($shift) ? 'add_shift_form' : 'edit_shift_form',
         ]) !!}
@@ -18,6 +15,7 @@
             <h4 class="modal-title">@lang('essentials::lang.add_shift')</h4>
         </div>
         <div class="modal-body">
+            <input type="hidden" id="action_url" value="{{ empty($shift) ? '/hrm/shift' : '/hrm/shift/' . $shift->id }}">
             <div class="form-group">
                 {!! Form::label('name', __('user.name') . ':*') !!}
                 {!! Form::text('name', !empty($shift->name) ? $shift->name : null, [
