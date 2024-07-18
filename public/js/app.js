@@ -1413,7 +1413,7 @@ $(document).ready(function () {
             success: function (result) {
               if (result.success == true) {
                 $("div.location_add_modal").modal("hide");
-                $("div.location_edit_modal").modal("hide");ggggggggggggggggggggggggggg
+                $("div.location_edit_modal").modal("hide");
                 toastr.success(result.msg);
                 business_locations.ajax.reload();
               } else {
