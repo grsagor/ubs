@@ -497,10 +497,11 @@ class TaxonomyController extends Controller
         return view('business_location.sub_category_business_location.edit', $data);
     }
 
-
-
-
-
+    public function get_sub_category($id)
+    {
+        $subcategories = Category::where('parent_id', $id)->get();
+        return response()->json(['subcategories' => $subcategories]);
+    }
 
     public function getCategoriesApi()
     {

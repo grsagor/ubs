@@ -449,6 +449,8 @@ Route::middleware(['checkAdmin', 'SetSessionData'])->group(function () {
     Route::get('taxonomies-ajax-index-page', [TaxonomyController::class, 'getTaxonomyIndexPage']);
     Route::resource('taxonomies', TaxonomyController::class);
 
+    Route::get('/get_sub_category/{id}', [TaxonomyController::class, 'get_sub_category'])->name('get_sub_category');
+
     Route::get('/business-location/category',                   [TaxonomyController::class, 'business_location_category_index'])->name('business_location_category_index');
     Route::get('/business-location/category/create',            [TaxonomyController::class, 'business_location_category_create'])->name('business_location_category_create');
     Route::post('/business-location/category/store',            [TaxonomyController::class, 'business_location_category_store'])->name('business_location_category_store');
