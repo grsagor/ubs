@@ -607,7 +607,7 @@ Route::middleware(['checkAdmin', 'SetSessionData'])->group(function () {
     Route::get('/reports/items-report', [ReportController::class, 'itemsReport']);
     Route::get('/reports/get-stock-value', [ReportController::class, 'getStockValue']);
 
-    Route::get('business-location/activate-deactivate/{location_id}', [BusinessLocationController::class, 'activateDeactivateLocation']);
+    Route::get('business-location/activate-deactivate/{location_id}', [BusinessLocationController::class, 'activateDeactivateLocation'])->name('location.activate_deactivate');
 
     //Business Location Settings...
     Route::prefix('business-location/{location_id}')->name('location.')->group(function () {

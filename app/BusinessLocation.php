@@ -190,4 +190,24 @@ class BusinessLocation extends Model
     {
         return $this->hasMany(PartnershipShop::class, 'partnership_shop_id');
     }
+
+    public function invoice_schemes()
+    {
+        return $this->belongsTo(InvoiceScheme::class, 'invoice_scheme_id');
+    }
+
+    public function invoice_layouts()
+    {
+        return $this->belongsTo(InvoiceLayout::class, 'invoice_layout_id');
+    }
+
+    public function invoice_layouts_sale()
+    {
+        return $this->belongsTo(InvoiceLayout::class, 'sale_invoice_layout_id');
+    }
+
+    public function selling_price_group()
+    {
+        return $this->belongsTo(SellingPriceGroup::class, 'selling_price_group_id');
+    }
 }

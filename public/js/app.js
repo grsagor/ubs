@@ -240,6 +240,23 @@ $(document).ready(function () {
     ],
   });
 
+  $("#new_business_location_table").DataTable({
+    paging: true,
+    lengthChange: true,
+    searching: true,
+    ordering: false,
+    info: true,
+    autoWidth: false,
+    responsive: false,
+    pageLength: 10, // Set the initial page length to 10
+    columnDefs: [
+      {
+        orderable: false,
+        targets: 12, // Disable ordering on the Action column
+      },
+    ],
+  });
+
   //Tax Rates table
   var tax_rates_table = $("#tax_rates_table").DataTable({
     processing: true,

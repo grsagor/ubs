@@ -49,60 +49,15 @@ class BusinessLocationController extends Controller
             abort(403, 'Unauthorized action.');
         }
 
-        if (request()->ajax()) {
-            $business_id = request()->session()->get('user.business_id');
+        $business_id = request()->session()->get('user.business_id');
 
-            $locations = BusinessLocation::where('business_locations.business_id', $business_id)
-                ->leftjoin(
-                    'invoice_schemes as ic',
-                    'business_locations.invoice_scheme_id',
-                    '=',
-                    'ic.id'
-                )
-                ->leftjoin(
-                    'invoice_layouts as il',
-                    'business_locations.invoice_layout_id',
-                    '=',
-                    'il.id'
-                )
-                ->leftjoin(
-                    'invoice_layouts as sil',
-                    'business_locations.sale_invoice_layout_id',
-                    '=',
-                    'sil.id'
-                )
-                ->leftjoin(
-                    'selling_price_groups as spg',
-                    'business_locations.selling_price_group_id',
-                    '=',
-                    'spg.id'
-                )
-                ->select([
-                    'business_locations.name', 'location_id', 'landmark', 'city', 'zip_code', 'state',
-                    'country', 'business_locations.id', 'spg.name as price_group', 'ic.name as invoice_scheme', 'il.name as invoice_layout', 'sil.name as sale_invoice_layout', 'business_locations.is_active',
-                ]);
+        $data['locations'] = BusinessLocation::query()
+            ->with('invoice_schemes', 'invoice_layouts', 'invoice_layouts_sale', 'selling_price_group')
+            ->where('business_locations.business_id', $business_id)
+            ->latest()
+            ->get();
 
-            $permitted_locations = auth()->user()->permitted_locations();
-            if ($permitted_locations != 'all') {
-                $locations->whereIn('business_locations.id', $permitted_locations);
-            }
-
-            return Datatables::of($locations)
-                ->addColumn(
-                    'action',
-                    '<button type="button" data-href="{{action(\'App\Http\Controllers\BusinessLocationController@edit\', [$id])}}" class="btn btn-xs btn-primary btn-modal" data-container=".location_edit_modal"><i class="glyphicon glyphicon-edit"></i> @lang("messages.edit")</button>
-                    <a href="{{route(\'location.settings\', [$id])}}" class="btn btn-success btn-xs"><i class="fa fa-wrench"></i> @lang("messages.settings")</a>
-
-                    <button type="button" data-href="{{action(\'App\Http\Controllers\BusinessLocationController@activateDeactivateLocation\', [$id])}}" class="btn btn-xs activate-deactivate-location @if($is_active) btn-danger @else btn-success @endif"><i class="fa fa-power-off"></i> @if($is_active) @lang("lang_v1.deactivate_location") @else @lang("lang_v1.activate_location") @endif </button>
-                    '
-                )
-                ->removeColumn('id')
-                ->removeColumn('is_active')
-                ->rawColumns([11])
-                ->make(false);
-        }
-
-        return view('business_location.index');
+        return view('business_location.index', $data);
     }
 
     /**
@@ -115,6 +70,7 @@ class BusinessLocationController extends Controller
         if (!auth()->user()->can('business_settings.access')) {
             abort(403, 'Unauthorized action.');
         }
+
         $business_id = request()->session()->get('user.business_id');
 
         //Check if subscribed or not, then check for location quota
@@ -124,39 +80,30 @@ class BusinessLocationController extends Controller
             return $this->moduleUtil->quotaExpiredResponse('locations', $business_id);
         }
 
-        $invoice_layouts = InvoiceLayout::where('business_id', $business_id)
+        $data['invoice_schemes'] = InvoiceScheme::where('business_id', $business_id)
             ->get()
             ->pluck('name', 'id');
 
-        $invoice_schemes = InvoiceScheme::where('business_id', $business_id)
+        $data['invoice_layouts'] = InvoiceLayout::where('business_id', $business_id)
             ->get()
             ->pluck('name', 'id');
 
-        $price_groups = SellingPriceGroup::forDropdown($business_id);
+        $data['price_groups'] = SellingPriceGroup::forDropdown($business_id);
 
-        $payment_types = $this->commonUtil->payment_types(null, false, $business_id);
+        $data['payment_types'] = $this->commonUtil->payment_types(null, false, $business_id);
 
         //Accounts
-        $accounts = [];
+        $data['accounts'] = [];
         if ($this->commonUtil->isModuleEnabled('account')) {
-            $accounts = Account::forDropdown($business_id, true, false);
+            $data['accounts'] = Account::forDropdown($business_id, true, false);
         }
 
-        $categories = Category::query()
+        $data['categories'] = Category::query()
             ->where('category_type', 'business_location')
             ->where('parent_id', 0)
             ->get();
 
-
-        return view('business_location.create')
-            ->with(compact(
-                'invoice_layouts',
-                'invoice_schemes',
-                'price_groups',
-                'payment_types',
-                'categories',
-                'accounts'
-            ));
+        return view('business_location.create', $data);
     }
 
     /**
@@ -167,8 +114,6 @@ class BusinessLocationController extends Controller
      */
     public function store(Request $request)
     {
-        // return $request->toArray();
-
         if (!auth()->user()->can('business_settings.access')) {
             abort(403, 'Unauthorized action.');
         }
@@ -195,25 +140,16 @@ class BusinessLocationController extends Controller
                 'default_payment_accounts', 'featured_products',
             ]);
 
-            //  $logo_name = $this->businessUtil->uploadFile($request, 'logo', 'business_logos', 'image');
             $logo_name = null;
             if ($request->logo) {
                 $image = $request->file('logo');
                 $image_name = rand(123456, 999999) . '.' . $image->getClientOriginalExtension();
-                $image_path = public_path('upload');
+                $image_path = public_path('uploads/business_location');
                 $image->move($image_path, $image_name);
-                $logo_name =  'upload/' . $image_name;
+                $logo_name =  'uploads/business_location/' . $image_name;
             }
 
             $input['logo'] = $logo_name;
-
-            // $logo_name = $this->uploadFile($request, 'logo', 'business_logos', 'image');
-            // if (! empty($logo_name)) {
-            //     $input['logo'] = $logo_name;
-            // }
-
-
-
 
             $input['business_id'] = $business_id;
 
@@ -226,8 +162,6 @@ class BusinessLocationController extends Controller
                 $input['location_id'] = $this->moduleUtil->generateReferenceNumber('business_location', $ref_count);
             }
 
-            // return $input;
-
             $location = BusinessLocation::create($input);
 
             //Create a new permission related to the created location
@@ -235,7 +169,7 @@ class BusinessLocationController extends Controller
 
             $output = [
                 'success' => true,
-                'msg' => __('business.business_location_added_success'),
+                'msg' => ('Created Successfully!!!'),
             ];
         } catch (\Exception $e) {
             \Log::emergency('File:' . $e->getFile() . 'Line:' . $e->getLine() . 'Message:' . $e->getMessage());
@@ -246,7 +180,7 @@ class BusinessLocationController extends Controller
             ];
         }
 
-        return back()->with('success', $output['success']);
+        return redirect()->route('business-location.index')->with('status', $output);
     }
 
     /**
@@ -328,17 +262,48 @@ class BusinessLocationController extends Controller
         }
 
         try {
-            $input = $request->only(['name', 'landmark', 'city', 'state', 'country', 'zip_code', 'invoice_scheme_id', 'invoice_layout_id', 'mobile', 'alternate_number', 'email', 'website', 'custom_field1', 'custom_field2', 'custom_field3', 'custom_field4', 'location_id', 'selling_price_group_id', 'default_payment_accounts', 'featured_products', 'sale_invoice_layout_id',]);
+            $input = $request->only([
+                'name', 'category', 'subcategory',
+                'location_id', 'landmark', 'city', 'zip_code', 'state', 'country',
+                'mobile', 'alternate_number', 'email', 'website',
+                'facebook', 'instagram', 'linkedin', 'youtube', 'twitter',
+                'logo', 'about_info',
+                'invoice_scheme_id', 'invoice_layout_id',
+                'sale_invoice_layout_id', 'selling_price_group_id',
+                'custom_field1', 'custom_field2', 'custom_field3', 'custom_field4',
+                'default_payment_accounts', 'featured_products',
+            ]);
 
             $business_id = $request->session()->get('user.business_id');
 
-            $input['default_payment_accounts'] = !empty($input['default_payment_accounts']) ? json_encode($input['default_payment_accounts']) : null;
+            // Fetch the existing location
+            $location = BusinessLocation::where('business_id', $business_id)
+                ->where('id', $id)
+                ->first();
 
+            // Handle image upload
+            if ($request->hasFile('logo')) {
+                // Delete the old image if exists
+                if ($location->logo && file_exists(public_path($location->logo))) {
+                    unlink(public_path($location->logo));
+                }
+
+                // Upload the new image
+                $image = $request->file('logo');
+                $image_name = rand(123456, 999999) . '.' . $image->getClientOriginalExtension();
+                $image_path = public_path('uploads/business_location');
+                $image->move($image_path, $image_name);
+                $input['logo'] = 'uploads/business_location' . $image_name;
+            } else {
+                // Keep the old logo if a new one is not uploaded
+                $input['logo'] = $location->logo;
+            }
+
+            $input['default_payment_accounts'] = !empty($input['default_payment_accounts']) ? json_encode($input['default_payment_accounts']) : null;
             $input['featured_products'] = !empty($input['featured_products']) ? json_encode($input['featured_products']) : null;
 
-            BusinessLocation::where('business_id', $business_id)
-                ->where('id', $id)
-                ->update($input);
+            // Update the location
+            $location->update($input);
 
             $output = [
                 'success' => true,
@@ -353,7 +318,7 @@ class BusinessLocationController extends Controller
             ];
         }
 
-        return $output;
+        return redirect()->route('business-location.index')->with('status', $output);
     }
 
     /**
@@ -402,6 +367,7 @@ class BusinessLocationController extends Controller
      * @param  int  $location_id
      * @return json
      */
+
     public function activateDeactivateLocation($location_id)
     {
         if (!auth()->user()->can('business_settings.access')) {
@@ -431,6 +397,7 @@ class BusinessLocationController extends Controller
                 'msg' => __('messages.something_went_wrong'),
             ];
         }
+        return redirect()->route('business-location.index')->with('status', $output);
 
         return $output;
     }
