@@ -11,7 +11,7 @@
             <div class="box-header">
                 <h3 class="box-title">Fill Shop location details </h3>
                 <div class="box-tools">
-                    <a href="{{ route('business_location_category_index') }}" class="btn btn-block btn-primary">
+                    <a href="{{ route('business-location.index') }}" class="btn btn-block btn-primary">
                         <i class="fa fa-list"></i> Shop List</a>
                 </div>
             </div>
