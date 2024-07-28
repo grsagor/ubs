@@ -4,13 +4,21 @@ namespace App\Http\Controllers;
 
 use App\Job;
 use App\AppliedJob;
-use App\BusinessLocation;
 use App\JobCategory;
+use App\BusinessLocation;
 use Illuminate\Http\Request;
+use App\Services\UniqueIDService;
 use Illuminate\Support\Facades\Auth;
 
 class JobController extends Controller
 {
+    protected $unique_id_service;
+
+    public function __construct(UniqueIDService $unique_id_service)
+    {
+        $this->unique_id_service          = $unique_id_service;
+    }
+
     public function index(Request $request)
     {
         $user = Auth::user();
@@ -59,6 +67,8 @@ class JobController extends Controller
         try {
             $requestedData = $request->all();
 
+            // dd($requestedData);
+
             $request->validate([
                 'company_information' => 'required',
                 'description' => 'required',
@@ -69,7 +79,7 @@ class JobController extends Controller
                 'closing_date.after_or_equal' => 'The closing date must be today or a later date.',
             ]);
 
-            $latestReference = Job::orderBy('created_at', 'desc')->value('reference');
+            $latestReference = $job->orderBy('created_at', 'desc')->value('reference');
 
             // Parse the number part of the reference
             $latestNumber = (int)substr($latestReference, -6); // Assuming reference format like 'Unijob000001'
@@ -79,6 +89,9 @@ class JobController extends Controller
             $newReference = 'Unijob' . sprintf('%06d', $newNumber);
 
             $requestedData['reference'] = $newReference;
+
+            // Generate a unique id
+            $requestedData['short_id'] = $this->unique_id_service->generateUniqueId($job, 'short_id');
 
             // Handle multiple select fields
             $requestedData['hour_type'] = $request->input('hour_type', []);

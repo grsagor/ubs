@@ -22,6 +22,7 @@ class Job extends Model
     ];
     protected $fillable = [
         'uuid',
+        'short_id',
         'business_location_id',
         'reference',
         'title',
@@ -33,6 +34,10 @@ class Job extends Model
         'company_information',
         'salary',
         'salary_type',
+        'fixed_salary',
+        'from_salary',
+        'to_salary',
+        'vacancies',
         'location',
         'description',
         'status',
