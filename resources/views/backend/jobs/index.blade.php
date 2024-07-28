@@ -72,7 +72,7 @@
                                     </a>
 
                                     @if ($item->status == 1)
-                                        <a href="{{ route('recruitment.details', $item->uuid) }}" target="_blank"
+                                        <a href="{{ route('recruitment.details', $item->short_id) }}" target="_blank"
                                             class="btn btn-xs btn-info">
                                             <i class="glyphicon glyphicon-eye-open"></i>
                                         </a>

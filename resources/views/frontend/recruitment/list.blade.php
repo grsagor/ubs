@@ -114,7 +114,7 @@
                 @if (count($jobs) > 0)
                     @foreach ($jobs as $item)
                         <div class="col-md-12 mt-2 p-2">
-                            <a href="{{ route('recruitment.details', ['id' => $item->uuid]) }}" target="_blank"
+                            <a href="{{ route('recruitment.details', ['id' => $item->short_id]) }}" target="_blank"
                                 class="card-link">
 
                                 {{-- Laptop view --}}
