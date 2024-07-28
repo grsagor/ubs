@@ -52,7 +52,7 @@ class RecruitmentController extends Controller
             $data['applied_jobs'] = ($appliedJob !== null) ? 1 : 0;
         }
 
-        $data['job'] =  Job::active()->with('business_location')->findOrFail($id);
+        $data['job'] =  Job::active()->with('business_location')->where('short_id', $id)->first();
         return view('frontend.recruitment.details', $data);
     }
 
