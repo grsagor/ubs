@@ -23,14 +23,17 @@ class RecruitmentController extends Controller
     {
         $data['jobs'] = Job::searchAndFilter($request)
             ->active()
+            ->searchAndFilter($request)
             ->with('job_category')
             ->latest()
             ->paginate(10);
 
         $data['jobsCategory'] = JobCategory::query()
             ->active()
-            ->latest()
+            ->orderBy('name')
             ->get();
+
+        // return $data['jobs']  ;
 
         return view('frontend.recruitment.list', $data);
     }
