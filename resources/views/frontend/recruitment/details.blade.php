@@ -25,12 +25,13 @@
                             <div class="col-md-3 text-end">
 
                                 @php
-                                    $businessLocation = $job->businessLocation;
+                                    $businessLocation = $job->business_location;
                                     $imageUrl =
                                         $businessLocation && File::exists($businessLocation->logo)
                                             ? asset($businessLocation->logo)
                                             : 'https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg';
                                 @endphp
+
 
                                 <a href="{{ $businessLocation ? route('shop.service', $businessLocation->id) : '#' }}">
                                     <div>
