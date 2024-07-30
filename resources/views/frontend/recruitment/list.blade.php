@@ -1,6 +1,5 @@
 @extends('frontend.recruitment.partial.app')
 @section('title', 'Jobs-list')
-
 @section('css')
     @include('frontend.recruitment.partial.css')
 @endsection
