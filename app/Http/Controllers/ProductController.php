@@ -2774,10 +2774,14 @@ class ProductController extends Controller
     //     return view('frontend.product.details2', $data);
     // }
 
-    public function productShow($id, $name = null)
+    public function productShow($id, $name)
     {
         $user = Auth::user();
         $product = Product::with('unit', 'brand', 'business_location')->findOrFail($id);
+
+        if ($id != $product->id || $name != $product->name) {
+            abort(404, 'Product not found');
+        }
 
         // URL encode the product name using rawurlencode
         $productNameUrlEncoded = rawurlencode($product->name);
@@ -2786,9 +2790,9 @@ class ProductController extends Controller
         $nameFromUrlDecoded = urldecode($name);
 
         // If the name is missing or incorrect, redirect to the correct URL
-        if ($nameFromUrlDecoded !== $product->name) {
-            return redirect()->route('product.show', ['id' => $id, 'name' => $productNameUrlEncoded]);
-        }
+        // if ($nameFromUrlDecoded !== $product->name) {
+        //     return redirect()->route('product.show', ['id' => $id, 'name' => $productNameUrlEncoded]);
+        // }
 
         $data['info'] = $product;
         $data['user_info'] = Media::where('uploaded_by', $data['info']->user_id)
@@ -2812,11 +2816,6 @@ class ProductController extends Controller
 
         return view('frontend.product.details', $data);
     }
-
-
-
-
-
 
     public function productPolicy($id)
     {
