@@ -2774,10 +2774,14 @@ class ProductController extends Controller
     //     return view('frontend.product.details2', $data);
     // }
 
-    public function productShow($id, $name = null)
+    public function productShow($id, $name)
     {
         $user = Auth::user();
         $product = Product::with('unit', 'brand', 'business_location')->findOrFail($id);
+
+        if ($id != $product->id || $name != $product->name) {
+            abort(404, 'Product not found');
+        }
 
         // URL encode the product name using rawurlencode
         $productNameUrlEncoded = rawurlencode($product->name);
