@@ -60,8 +60,8 @@ class Job extends Model
 
     public function scopeSearchAndFilter($query, $request)
     {
-        if ($request->filled('selectCategory')) {
-            $query->where('job_category_id', $request->input('selectCategory'));
+        if ($request->filled('category_id')) {
+            $query->where('job_category_id', $request->input('category_id'));
         }
 
         if ($request->filled('search')) {

@@ -1,0 +1,16 @@
+@extends('frontend.layouts.master_layout')
+@section('content')
+    @includeIf('frontend.partials.global.common-header')
+
+    <div class="shop-list-page">
+        <div class="mt-2 content-circle">
+            <div class="container">
+                <div class="row">
+                    @include('frontend.recruitment.partial.left_side')
+
+                    @include('frontend.recruitment.partial.right_side')
+                </div>
+            </div>
+        </div>
+    </div>
+@endsection
