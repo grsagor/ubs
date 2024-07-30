@@ -144,7 +144,7 @@ class BusinessLocationController extends Controller
             if ($request->logo) {
                 $image = $request->file('logo');
                 $image_name = rand(123456, 999999) . '.' . $image->getClientOriginalExtension();
-                $image_path = public_path('uploads/business_location');
+                $image_path = public_path('uploads/business_location/');
                 $image->move($image_path, $image_name);
                 $logo_name =  'uploads/business_location/' . $image_name;
             }
@@ -291,9 +291,9 @@ class BusinessLocationController extends Controller
                 // Upload the new image
                 $image = $request->file('logo');
                 $image_name = rand(123456, 999999) . '.' . $image->getClientOriginalExtension();
-                $image_path = public_path('uploads/business_location');
+                $image_path = public_path('uploads/business_location/');
                 $image->move($image_path, $image_name);
-                $input['logo'] = 'uploads/business_location' . $image_name;
+                $input['logo'] = 'uploads/business_location/' . $image_name;
             } else {
                 // Keep the old logo if a new one is not uploaded
                 $input['logo'] = $location->logo;

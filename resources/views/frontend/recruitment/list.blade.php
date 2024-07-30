@@ -16,7 +16,6 @@
             <button type="submit" class="search-submit"><i class="flaticon-search flat-mini text-white"></i></button>
         </form>
 
-
     </div>
 
     @foreach ($jobs as $item)
@@ -24,14 +23,13 @@
             <div class="product type-product rounded">
                 <div class="row">
 
-                    @if ($item->businessLocation && $item->businessLocation->logo)
+                    @if ($item->business_location && $item->business_location->logo)
                         <a href="{{ route('recruitment.details', ['id' => $item->short_id]) }}"
                             class="product-wrapperrrrr col-lg-4 col-md-4 col-sm-12 d-flex mobile-view-center"
                             style="padding-right: 0px; height: 188px;">
 
                             <img class="lazy img-fluid w-100 mobile-view-image"
-                                src="{{ asset($item->businessLocation && $item->businessLocation->logo) }}"
-                                alt="Product Image">
+                                src="{{ asset($item->business_location->logo) }}" alt="Product Image">
 
                             @if ($item->job_category_id)
                                 <div class="category-wrapper">
