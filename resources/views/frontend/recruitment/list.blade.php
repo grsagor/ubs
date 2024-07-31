@@ -129,10 +129,12 @@
                                                 <span>{{ $item->job_category->name ?? '' }}</span>
 
                                                 <p class="card-text mb-0 color-black para-font">Employee Status:
-                                                    {{ implode(', ', $item->hour_type) }}
+                                                    {{-- {{ implode(', ', $item->hour_type) }} --}}
+                                                    {{ $item->hour_type }}
                                                 </p>
                                                 <p class="card-text mb-0 color-black para-font">Job Type:
-                                                    {{ implode(', ', $item->job_type) }}
+                                                    {{-- {{ implode(', ', $item->job_type) }} --}}
+                                                    {{ $item->job_type }}
                                                 </p>
 
 
@@ -195,10 +197,12 @@
                                                 </p>
 
                                                 <p class="card-text mb-0 color-black para-font">Employee Status:
-                                                    {{ implode(', ', $item->hour_type) }}
+                                                    {{-- {{ implode(', ', $item->hour_type) }} --}}
+                                                    {{ $item->hour_type }}
                                                 </p>
                                                 <p class="card-text mb-0 color-black para-font">Job Type:
-                                                    {{ implode(', ', $item->job_type) }}
+                                                    {{-- {{ implode(', ', $item->job_type) }} --}}
+                                                    {{ $item->job_type }}
                                                 </p>
 
                                                 <p class="card-text color-black para-font">
