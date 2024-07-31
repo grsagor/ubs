@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Category;
 use App\Utils\ModuleUtil;
 use Illuminate\Http\Request;
+use App\Services\CategoryService;
 use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -15,15 +16,18 @@ class TaxonomyController extends Controller
      */
     protected $moduleUtil;
 
+    protected $category_service;
+
     /**
      * Constructor
      *
      * @param  ProductUtils  $product
      * @return void
      */
-    public function __construct(ModuleUtil $moduleUtil)
+    public function __construct(ModuleUtil $moduleUtil, CategoryService $category_service)
     {
         $this->moduleUtil = $moduleUtil;
+        $this->category_service = $category_service;
     }
 
     /**
@@ -348,23 +352,11 @@ class TaxonomyController extends Controller
 
     public function business_location_category_index(Request $request)
     {
+        $object = new Category();
 
-        if (auth()->user()->id != 5) {
-            // abort(403, 'Unauthorized action.');
-            $output = [
-                'success' => False,
-                'msg' => 'You are not allowed',
-            ];
-            return redirect()->back()->with('status', $output);
-        }
-        $business_id = request()->session()->get('user.business_id');
-        $data['categories'] = Category::query()
-            ->where('business_id', $business_id)
-            ->where('category_type', 'business_location')
-            ->where('parent_id', 0)
-            ->with('sub_categories')
-            ->orderBy('name', 'asc') // Order by name alphabetically
-            ->get();
+        $category_type = ['business_location'];
+
+        $data =  $this->category_service->index($object, $category_type);
 
         return view('business_location.category_business_location.index', $data);
     }
@@ -376,78 +368,28 @@ class TaxonomyController extends Controller
 
     public function business_location_category_store(Request $request)
     {
-        try {
-            $category = new Category();
+        $object = new Category();
 
-            $category->name = $request->name;
-            $category->short_code = $request->short_code;
-            $category->category_type = $request->category_type;
-            $category->description = $request->description;
+        $output =  $this->category_service->store($request, $object);
 
-            if (!empty($request->input('category_id'))) {
-                $category->parent_id = $request->category_id;
-            } else {
-                $category->parent_id = 0;
-            }
-
-            $category->business_id = Auth::user()->business_id;
-            $category->created_by = Auth::user()->id;
-            $category->save();
-
-            $output = [
-                'success' => true,
-                'msg' => ('Created Successfully!!!'),
-            ];
-
-            return redirect()->route('business_location_category_index')->with('status', $output);
-        } catch (\Exception $e) {
-            \Log::emergency('File:' . $e->getFile() . 'Line:' . $e->getLine() . 'Message:' . $e->getMessage());
-
-            $output = [
-                'success' => false,
-                // 'msg' => __('messages.something_went_wrong'),
-                'msg' => $e->getMessage(),
-            ];
-            return $output;
-        }
+        return redirect()->route('business_location_category_index')->with('status', $output);
     }
-
 
     public function business_location_category_edit($id)
     {
         $data = Category::find($id);
+
         return view('business_location.category_business_location.edit', compact('data'));
     }
 
     public function business_location_category_update(Request $request, $id)
     {
-        try {
-            $category = Category::findOrFail($id);
-            $category->name = $request->input('name');
-            $category->description = $request->input('description');
-            $category->short_code = $request->input('short_code');
-            $category->parent_id = $request->input('category_id', 0); // Default to 0 if not set
+        $object = Category::findOrFail($id);
 
-            $category->save();
+        $output =  $this->category_service->update($request, $object);
 
-            $output = [
-                'success' => true,
-                'msg' => __('Category updated successfully.'),
-            ];
-
-            $mode = $request->input('mode');
-
-            return redirect()->route('business_location_category_index')->with('status', $output);
-        } catch (\Exception $e) {
-            \Log::emergency('File:' . $e->getFile() . 'Line:' . $e->getLine() . 'Message:' . $e->getMessage());
-            $output = [
-                'success' => false,
-                'msg' => __('messages.something_went_wrong'),
-            ];
-            return redirect()->back()->with('status', $output);
-        }
+        return redirect()->route('business_location_category_index')->with('status', $output);
     }
-
 
     public function business_location_category_destroy($id)
     {
@@ -535,5 +477,68 @@ class TaxonomyController extends Controller
             return view('taxonomy.ajax_index')
                 ->with(compact('module_category_data', 'category_type'));
         }
+    }
+
+    public function product_service_category_index(Request $request)
+    {
+        $object = new Category();
+
+        $category_type = ['product', 'service'];
+
+        $data =  $this->category_service->index($object, $category_type);
+
+        return view('frontend.product.category_product_service.index', $data);
+    }
+
+    public function product_service_category_create(Request $request)
+    {
+        return view('frontend.product.category_product_service.create');
+    }
+
+    public function product_service_category_store(Request $request)
+    {
+        $object = new Category();
+
+        $output =  $this->category_service->store($request, $object);
+
+        return redirect()->route('product_service_category_index')->with('status', $output);
+    }
+
+    public function product_service_category_edit($id)
+    {
+        $data = Category::find($id);
+
+        return view('frontend.product.category_product_service.edit', compact('data'));
+    }
+
+    public function product_service_category_update(Request $request, $id)
+    {
+        $object = Category::findOrFail($id);
+
+        $output =  $this->category_service->update($request, $object);
+
+        return redirect()->route('product_service_category_index')->with('status', $output);
+    }
+
+    public function product_service_sub_category_create()
+    {
+        $data['categorires'] = Category::query()
+            ->whereIn('category_type', ['product', 'service'])
+            ->where('parent_id', 0)
+            ->get();
+
+        return view('frontend.product.sub_category_product_service.create', $data);
+    }
+
+    public function product_service_sub_category_edit($id)
+    {
+        $data['sub_category'] = Category::findOrFail($id);
+
+        $data['categories'] = Category::query()
+            ->whereIn('category_type', ['product', 'service'])
+            ->where('parent_id', 0)
+            ->get();
+
+        return view('frontend.product.sub_category_product_service.edit', $data);
     }
 }

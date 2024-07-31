@@ -101,7 +101,7 @@
                             <span>Units</span></a></li>
 
                     @if (auth()->user()->id == 5)
-                        <li><a href="{{ url('taxonomies?type=product') }}"><i class="fa fas fa-tags"></i>
+                        <li><a href="{{ route('product_service_category_index') }}"><i class="fa fas fa-tags"></i>
                                 <span>Categories</span></a></li>
                     @endif
 
