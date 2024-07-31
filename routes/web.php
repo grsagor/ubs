@@ -463,6 +463,15 @@ Route::middleware(['checkAdmin', 'SetSessionData'])->group(function () {
     Route::get('/business-location/sub-category/create',        [TaxonomyController::class, 'business_location_sub_category_create'])->name('business_location_sub_category_create');
     Route::get('/business-location/sub-category/edit/{id}',     [TaxonomyController::class, 'business_location_sub_category_edit'])->name('business_location_sub_category_edit');
 
+    Route::get('/product-service/category/index',               [TaxonomyController::class, 'product_service_category_index'])->name('product_service_category_index');
+    Route::get('/product-service/category/create',              [TaxonomyController::class, 'product_service_category_create'])->name('product_service_category_create');
+    Route::post('/product-service/category/store',              [TaxonomyController::class, 'product_service_category_store'])->name('product_service_category_store');
+    Route::get('/product-service/category/edit/{id}',           [TaxonomyController::class, 'product_service_category_edit'])->name('product_service_category_edit');
+    Route::put('/product-service/category/update/{id}',         [TaxonomyController::class, 'product_service_category_update'])->name('product_service_category_update');
+
+    Route::get('/product-service/sub-category/create',        [TaxonomyController::class, 'product_service_sub_category_create'])->name('product_service_sub_category_create');
+    Route::get('/product-service/sub-category/edit/{id}',     [TaxonomyController::class, 'product_service_sub_category_edit'])->name('product_service_sub_category_edit');
+
     Route::resource('variation-templates', VariationTemplateController::class);
 
     Route::get('/products/download-excel', [ProductController::class, 'downloadExcel']);
