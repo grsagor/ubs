@@ -23,6 +23,8 @@
 
             <li><a href="{{ url('/contact/property-wanted') }}"><i class="fa fas fa-arrow-circle-up"></i>
                     <span>Property Wanted</span></a></li>
+            <li><a href="{{ url('/contact/products') }}"><i class="fa fas fa-arrow-circle-up"></i>
+                    <span>My Products</span></a></li>
 
             @php
                 $uuid = optional(myInformation())->uuid;
