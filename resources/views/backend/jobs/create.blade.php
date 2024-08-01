@@ -13,20 +13,20 @@
     </section>
 
     <section class="content">
-        <div class="form-container box box-primary">
 
-            <div class="box-header">
-                <h3 class="box-title">Fill Job details </h3>
-                <div class="box-tools">
-                    <a href="{{ route('jobs.index') }}" class="btn btn-block btn-primary">
-                        <i class="fa fa-list"></i> List</a>
-                </div>
+        <div class="box-header">
+            <h3 class="box-title">Fill Job details </h3>
+            <div class="box-tools">
+                <a href="{{ route('jobs.index') }}" class="btn btn-block btn-primary">
+                    <i class="fa fa-list"></i> List</a>
             </div>
+        </div>
 
-            <div class="box-body">
-                <form action="{{ route('jobs.store') }}" method="POST" enctype="multipart/form-data">
-                    @csrf
+        <div class="box-body">
+            <form action="{{ route('jobs.store') }}" method="POST" enctype="multipart/form-data">
+                @csrf
 
+                @component('components.widget', ['class' => 'box-primary'])
                     <div class="row">
 
                         <div class="col-sm-12">
@@ -91,7 +91,6 @@
                             </div>
                         </div>
 
-
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label class="form-label">Closing date <span class="text-danger">*</span></label>
@@ -150,16 +149,15 @@
                                     <div class="row">
                                         <div class="col-sm-6">
                                             <div class="form-group">
-                                                <input class="form-control" type="number" step="0.01"
-                                                    name="from_salary" placeholder="From"
-                                                    value="{{ old('from_salary') }}" id="from_amountField">
+                                                <input class="form-control" type="number" step="0.01" name="from_salary"
+                                                    placeholder="From" value="{{ old('from_salary') }}"
+                                                    id="from_amountField">
                                             </div>
                                         </div>
                                         <div class="col-sm-6">
                                             <div class="form-group">
-                                                <input class="form-control" type="number" step="0.01"
-                                                    name="to_salary" placeholder="To" value="{{ old('to_salary') }}"
-                                                    id="to_amountField">
+                                                <input class="form-control" type="number" step="0.01" name="to_salary"
+                                                    placeholder="To" value="{{ old('to_salary') }}" id="to_amountField">
                                             </div>
                                         </div>
                                     </div>
@@ -172,7 +170,6 @@
 
                         {{-- Salary end --}}
 
-
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label class="form-label">Number of vacancies <span class="text-danger">*</span></label>
@@ -182,8 +179,7 @@
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label for="selling_price_group_id">Shop location <span
-                                        class="text-danger">*</span></label>
+                                <label for="selling_price_group_id">Shop location <span class="text-danger">*</span></label>
                                 <select class="form-control select2" name="business_location_id" required>
                                     <option value="">Select</option>
                                     @foreach ($business_locations as $item)
@@ -226,13 +222,6 @@
                                 @enderror
                             </div>
                         </div>
-
-                        <div class="col-sm-12">
-                            <div class="form-group">
-                                <label for="note">Note:</label>
-                                <textarea class="form-control" placeholder="" rows="3" name="note" cols="50">{{ old('note') }}</textarea>
-                            </div>
-                        </div>
                     </div>
 
                     <hr style="margin-top: 30px; margin-bottom: 20px; border-top: 3px solid #3e8541;">
@@ -248,8 +237,8 @@
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label class="form-label">Job location <span class="text-danger">*</span></label>
-                                <input class="form-control" type="text" name="location" required
-                                    placeholder="Location" value="{{ old('location') }}">
+                                <input class="form-control" type="text" name="location" required placeholder="Location"
+                                    value="{{ old('location') }}">
                             </div>
                         </div>
 
@@ -264,17 +253,28 @@
                             </div>
                         </div>
 
-                        <!-- Add Submit Button -->
-                        <div class="col-sm-12">
-                            <div class="form-group">
-                                <button type="submit" class="btn btn-primary">Submit</button>
-                            </div>
-                        </div>
-
                     </div>
-                </form>
-            </div>
+                @endcomponent
+
+                @component('components.widget', ['class' => 'box-primary'])
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label for="note">Note: @show_tooltip(__(''))</label>
+                            <textarea class="form-control" placeholder="" rows="3" name="note" cols="50">{{ old('note') }}</textarea>
+                        </div>
+                    </div>
+                @endcomponent
+
+                <!-- Add Submit Button -->
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </div>
+
+            </form>
         </div>
+
     </section>
 
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>

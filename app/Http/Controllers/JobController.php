@@ -110,6 +110,12 @@ class JobController extends Controller
         }
     }
 
+    public function show($id)
+    {
+        $data['job'] = Job::find($id);
+        return view('backend.jobs.show', $data);
+    }
+
     public function edit($id)
     {
         $data['job'] = Job::find($id);
