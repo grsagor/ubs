@@ -143,7 +143,7 @@
                         <div class="company-info-section row mt-3">
                             <div class="col-sm-12 ">
                                 <div class="company-info-card">
-                                    <h3 class="sectitle">Company Information</h3>
+                                    <h3 class="sectitle">Employeer Information</h3>
                                     <div class="col-md-12">
                                         <p>{{ $job->company_name }}</p>
 
@@ -164,11 +164,10 @@
                                         <button class="report-button"><i class="fas fa-flag"></i> Report</button>
                                     </h3>
                                     <div class="col-md-12 text-justify">
-                                        <p>If the advertiser requests any payment from you for this job or provides
-                                            incorrect or misleading information, please notify us immediately or report the
-                                            job. Unipuller does not endorse or support any payment to individuals or
-                                            organizations for job opportunities. Unipuller will not be held responsible for
-                                            any financial transactions.
+                                        <p>If you come across any incorrect or misleading information in a job listing or
+                                            encounter any issues with the advertiser, please let us know right away or
+                                            report the job. Unipuller is committed to ensuring accurate and transparent job
+                                            opportunities and does not support or endorse any inappropriate practices.
                                         </p>
                                     </div>
 
@@ -176,13 +175,13 @@
                                         <div class="complain-info-item">
                                             <i class="fas fa-info-circle"></i>
                                             <div>
-                                                +44 (0) 7460497454
+                                                02034881151
                                             </div>
                                         </div>
                                         <div class="complain-info-item">
                                             <i class="fas fa-envelope"></i>
                                             <div>
-                                                complain@unipuler.com
+                                                complain@unipuller.com
                                             </div>
                                         </div>
                                     </div>
