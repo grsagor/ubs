@@ -32,7 +32,7 @@ class Job extends Model
         'closing_date',
         'company_name',
         'company_information',
-        'salary',
+        'salary_variation',
         'salary_type',
         'fixed_salary',
         'from_salary',
@@ -40,6 +40,7 @@ class Job extends Model
         'vacancies',
         'location',
         'description',
+        'note',
         'status',
     ];
 

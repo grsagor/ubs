@@ -29,6 +29,7 @@
                             <th>Job type</th>
                             <th>Salary</th>
                             <th>Closing date</th>
+                            <th>Note</th>
                             <th>Created at</th>
                             <th>Status</th>
                             <th>Action</th>
@@ -43,11 +44,9 @@
                                 <td>{{ $item->title }}</td>
                                 <td>{{ $item->company_name }}</td>
 
-
                                 <td>{{ is_array($item->hour_type) ? implode(', ', $item->hour_type) : $item->hour_type }}
                                 </td>
                                 <td>{{ is_array($item->job_type) ? implode(', ', $item->job_type) : $item->job_type }}</td>
-
 
                                 <td>
                                     @if ($item->salary)
@@ -57,6 +56,7 @@
                                     @endif
                                 </td>
                                 <td>{{ $item->closing_date }}</td>
+                                <td>{{ $item->note }}</td>
                                 <td>{{ $item->created_at->format('d F Y h:i A') }}</td>
                                 <td>
                                     @if ($item->status == 1)

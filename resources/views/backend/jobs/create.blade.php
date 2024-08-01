@@ -108,6 +108,22 @@
 
                         <div class="col-sm-6">
                             <div class="form-group">
+                                <label class="form-label">Salary <span class="text-danger">*</span></label>
+                                <select class="form-control select2" name="salary_variation" required>
+                                    <option value="" selected disabled>Select type</option>
+                                    <option value="Hourly" {{ old('salary_variation') == 'Hourly' ? 'selected' : '' }}>
+                                        Hourly
+                                    </option>
+                                    <option value="Monthly" {{ old('salary_variation ') == 'Monthly' ? 'selected' : '' }}>
+                                        Monthly </option>
+                                    <option value="Yearly" {{ old('salary_variation ') == 'Yearly' ? 'selected' : '' }}>
+                                        Yearly </option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <div class="form-group">
                                 <label class="form-label">Salary type <span class="text-danger">*</span></label>
                                 <select class="form-control select2" name="salary_type" id="salary_type" required>
                                     <option value="" selected disabled>Select type</option>
@@ -134,9 +150,9 @@
                                     <div class="row">
                                         <div class="col-sm-6">
                                             <div class="form-group">
-                                                <input class="form-control" type="number" step="0.01" name="from_salary"
-                                                    placeholder="From" value="{{ old('from_salary') }}"
-                                                    id="from_amountField">
+                                                <input class="form-control" type="number" step="0.01"
+                                                    name="from_salary" placeholder="From"
+                                                    value="{{ old('from_salary') }}" id="from_amountField">
                                             </div>
                                         </div>
                                         <div class="col-sm-6">
@@ -156,8 +172,6 @@
 
                         {{-- Salary end --}}
 
-
-                        <div class="clearfix"></div>
 
                         <div class="col-sm-6">
                             <div class="form-group">
@@ -210,6 +224,13 @@
                                 @error('description')
                                     <span class="error text-danger">{{ $message }}</span>
                                 @enderror
+                            </div>
+                        </div>
+
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label for="note">Note:</label>
+                                <textarea class="form-control" placeholder="" rows="3" name="note" cols="50">{{ old('note') }}</textarea>
                             </div>
                         </div>
                     </div>
