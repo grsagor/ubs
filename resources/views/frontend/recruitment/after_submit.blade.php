@@ -1,16 +1,16 @@
 @extends('frontend.layouts.master_layout')
-@section('title', 'Successfull')
+@section('title', 'Successful')
 @section('css')
     <style>
-        .container {
+        .submit_body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
             text-align: center;
-            background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
             padding: 20px;
-            max-width: 550px;
-            width: 100%;
-            margin-top: 20px;
+            height: 90vh;
+            margin: 0;
         }
 
         h2 {
@@ -19,31 +19,18 @@
             margin-bottom: 20px;
         }
 
-        /* .btn {
-                                                display: inline-block;
-                                                padding: 0px 10px;
-                                                margin: 5px;
-                                                text-decoration: none;
-                                                color: #fff;
-                                                border-radius: 5px;
-                                                font-size: 16px;
-                                                transition: background-color 0.3s ease;
-                                            }
-
-                                            .btn-job {
-                                                background-color: #3498db;
-                                                border: 2px solid #3498db;
-                                            }
-
-                                            .btn-info {
-                                                background-color: #2ecc71;
-                                                border: 2px solid #2ecc71;
-                                            } */
-
+        .btn-container {
+            display: flex;
+            gap: 10px;
+            /* Space between buttons */
+            flex-wrap: wrap;
+            /* Wraps buttons if space is limited */
+        }
 
         .btn {
             line-height: 33px !important;
             padding: 0 20px !important;
+            margin: 5px;
         }
 
         .btn-more-job {
@@ -69,11 +56,13 @@
 @section('content')
     @includeIf('frontend.partials.global.common-header')
 
-    <div class="container">
-        <h2>Your application is submitted successfully!</h2>
+    <div class="submit_body">
+        <h2>Your application is {{ $data }} successfully!</h2>
         <p>Thank you for applying! You will receive updates soon from the employer.</p>
-        <a href="{{ route('recruitment.list') }}" class="btn btn-more-job">More Jobs</a>
-        <a href="{{ route('recruitment.edit', ['id' => myInformation()->uuid]) }}" class="btn btn-infomation">Your
-            Information</a>
+        <div class="btn-container">
+            <a href="{{ route('recruitment.list') }}" class="btn btn-more-job">More Jobs</a>
+            <a href="{{ route('recruitment.edit', ['id' => myInformation()->uuid]) }}" class="btn btn-infomation">Your
+                Information</a>
+        </div>
     </div>
 @endsection

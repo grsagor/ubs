@@ -33,8 +33,6 @@ class RecruitmentController extends Controller
             ->orderBy('name')
             ->get();
 
-        // return $data['jobs']  ;
-
         return view('frontend.recruitment.list', $data);
     }
 
@@ -216,7 +214,6 @@ class RecruitmentController extends Controller
 
     public function edit($id)
     {
-        // dd($id);
         $data['item'] = Recruitment::with('countryResidence', 'birthCountry')->find($id);
         return view('frontend.recruitment.edit', $data);
     }
@@ -233,12 +230,22 @@ class RecruitmentController extends Controller
 
             $recruitment = Recruitment::where('created_by', $authUserId)->first();
 
-            $appliedJob['job_id'] = $jobID;
-            $appliedJob['recruitment_id'] = $recruitment->uuid;
+            $appliedJobData = [
+                'job_id' => $jobID,
+                'recruitment_id' => $recruitment->uuid,
+            ];
 
-            AppliedJob::create($appliedJob);
+            $existingApplication = AppliedJob::where('job_id', $appliedJobData['job_id'])
+                ->where('recruitment_id', $appliedJobData['recruitment_id'])
+                ->first();
 
-            return view('frontend.recruitment.after_submit');
+            $data = !$existingApplication ? 'submitted' : 'already submitted';
+
+            if (!$existingApplication) {
+                AppliedJob::create($appliedJobData);
+            }
+
+            return view('frontend.recruitment.after_submit', compact('data'));
         } else {
             $data['country'] = Country::get();
             $data['jobID'] = $jobID;
@@ -249,7 +256,6 @@ class RecruitmentController extends Controller
     public function userCheck($jobID)
     {
         $data['userId'] = Recruitment::where('created_by', auth()->id())
-            // ->where('job_id', $jobID)
             ->get();
         $count          = $data['userId']->count();
 

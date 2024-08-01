@@ -85,6 +85,10 @@
                                     </a>
                                     {{-- @endif --}}
 
+                                    <a href="{{ route('jobs.show', $item->uuid) }}" class="btn btn-xs btn-info">
+                                        <i class="glyphicon glyphicon-eye-open"></i> View
+                                    </a>
+
                                 </td>
                             </tr>
                         @empty

@@ -90,17 +90,37 @@
                                                 Job type: <span class="txtbold"> {{ implode(', ', $job->job_type) }}
                                                 </span>
                                             </div>
-                                            <div>
-                                                Salary: <span class="txtbold">
-                                                    @if ($job->salary)
-                                                        {{ $job->salary }}/{{ $job->salary_type }}
-                                                    @elseif ($job->salary_type == 'Negotiable')
-                                                        {{ $job->from_salary }} - {{ $job->to_salary }}
-                                                    @elseif ($job->salary_type == 'Fixed')
-                                                        {{ $job->fixed_salary }}
-                                                    @endif
-                                                </span>
-                                            </div>
+
+                                            @php
+                                                $salary = null;
+                                                if (
+                                                    $job->salary_type == 'Fixed' &&
+                                                    $job->fixed_salary !== null &&
+                                                    $job->salary_variation !== null
+                                                ) {
+                                                    $salary = '£' . $job->fixed_salary . '/' . $job->salary_variation;
+                                                } elseif (
+                                                    $job->salary_type == 'Negotiable' &&
+                                                    $job->from_salary !== null &&
+                                                    $job->to_salary !== null &&
+                                                    $job->salary_variation !== null
+                                                ) {
+                                                    $salary =
+                                                        '£' .
+                                                        $job->from_salary .
+                                                        '-' .
+                                                        $job->to_salary .
+                                                        '/' .
+                                                        $job->salary_variation;
+                                                }
+                                            @endphp
+
+                                            @if ($salary)
+                                                <div>
+                                                    Salary: <span class="txtbold"> {{ $salary }} </span>
+                                                </div>
+                                            @endif
+
 
                                             @if ($job->vacancies)
                                                 <div>
