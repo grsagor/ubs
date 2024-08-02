@@ -27,6 +27,8 @@
                             {{-- <th>Action required</th> --}}
                             <th>Product</th>
                             <th>Unit Purchase Price</th>
+                            <th>Payment Method</th>
+                            <th>Purchase Date</th>
                         </tr>
                     </thead>
                 </table>
@@ -90,6 +92,14 @@
                     {
                         data: 'unit_price',
                         name: 'unit_price'
+                    },
+                    {
+                        data: 'payment_method',
+                        name: 'payment_method'
+                    },
+                    {
+                        data: 'purchase_date',
+                        name: 'purchase_date'
                     },
                 ]
             });
