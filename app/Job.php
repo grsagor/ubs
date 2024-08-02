@@ -66,7 +66,9 @@ class Job extends Model
         }
 
         if ($request->filled('search')) {
-            $query->where('title', 'like', '%' . $request->input('search') . '%');
+            $query->where('title', 'like', '%' . $request->input('search') . '%')
+                ->orWhere('description', 'LIKE', '%' . $request->search . '%')
+                ->orWhere('company_information', 'LIKE', '%' . $request->search . '%');
         }
 
         return $query;

@@ -26,7 +26,7 @@
                     @if ($item->business_location && $item->business_location->logo)
                         <a href="{{ route('recruitment.details', ['id' => $item->short_id]) }}"
                             class="product-wrapperrrrr col-lg-4 col-md-4 col-sm-12 d-flex mobile-view-center"
-                            style="padding-right: 0px; height: 188px;">
+                            style="padding-right: 0px; height: 197px;">
 
                             <img class="lazy img-fluid w-100 mobile-view-image"
                                 src="{{ asset($item->business_location->logo) }}" alt="Product Image">
@@ -42,7 +42,7 @@
                     @else
                         <a href="{{ route('recruitment.details', ['id' => $item->short_id]) }}"
                             class="product-wrapperrrrr col-lg-4 col-md-4 col-sm-12 d-flex mobile-view-center"
-                            style="padding-right: 0px; height: 188px;">
+                            style="padding-right: 0px; height: 197px;">
 
                             <img src="https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg"
                                 class="lazy img-fluid rounded w-100 mobile-view-image" alt="" style="">

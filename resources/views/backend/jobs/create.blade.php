@@ -260,7 +260,8 @@
                     <div class="col-sm-12">
                         <div class="form-group">
                             <label for="note">Note: @show_tooltip(__(''))</label>
-                            <textarea class="form-control" placeholder="" rows="3" name="note" cols="50">{{ old('note') }}</textarea>
+                            <textarea rows="5" type="text" class="form-control" name="note" id="note" class="input-field"
+                                placeholder="Note">{{ old('note') }}</textarea>
                         </div>
                     </div>
                 @endcomponent
@@ -336,6 +337,13 @@
             if ($("textarea#company-information").length > 0) {
                 tinymce.init({
                     selector: "textarea#company-information",
+                    height: 350,
+                });
+            }
+
+            if ($("textarea#note").length > 0) {
+                tinymce.init({
+                    selector: "textarea#note",
                     height: 350,
                 });
             }
