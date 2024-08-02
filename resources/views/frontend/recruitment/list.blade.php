@@ -24,7 +24,7 @@
                 <div class="row">
 
                     @if ($item->business_location && $item->business_location->logo)
-                        <a href="{{ route('recruitment.details', ['id' => $item->short_id]) }}"
+                        <a href="{{ route('recruitment.details', ['id' => $item->short_id, 'title' => rawurlencode($item->title)]) }}"
                             class="product-wrapperrrrr col-lg-4 col-md-4 col-sm-12 d-flex mobile-view-center"
                             style="padding-right: 0px; height: 197px;">
 
@@ -40,7 +40,7 @@
                             @endif
                         </a>
                     @else
-                        <a href="{{ route('recruitment.details', ['id' => $item->short_id]) }}"
+                        <a href="{{ route('recruitment.details', ['id' => $item->short_id, 'title' => rawurlencode($item->title)]) }}"
                             class="product-wrapperrrrr col-lg-4 col-md-4 col-sm-12 d-flex mobile-view-center"
                             style="padding-right: 0px; height: 197px;">
 
@@ -61,7 +61,8 @@
                         style="padding-right: 15px !important; padding-left: 4px;">
                         <div class="p-1 flex-grow-1">
                             <h5 class="product-title" style="padding: 0; margin: 0;">
-                                <a class="text-dark" href="{{ route('recruitment.details', ['id' => $item->short_id]) }}"
+                                <a class="text-dark"
+                                    href="{{ route('recruitment.details', ['id' => $item->short_id, 'title' => rawurlencode($item->title)]) }}"
                                     style="font-weight: 600;">
                                     {{ Str::limit($item->title, $limit = 45, $end = '...') }}
                                 </a>
@@ -98,7 +99,7 @@
                                 </a>
                             </div>
                             <a class="col division" style="border: 1px solid var(--green); color: inherit;"
-                                href="{{ route('recruitment.details', ['id' => $item->short_id]) }}">Details
+                                href="{{ route('recruitment.details', ['id' => $item->short_id, 'title' => rawurlencode($item->title)]) }}">Details
                             </a>
 
                         </div>
