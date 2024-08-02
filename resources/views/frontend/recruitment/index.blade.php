@@ -50,11 +50,14 @@
                     </thead>
                     <tbody>
                         @forelse ($recruitments as $item)
+                            {{-- {{ dd($item) }} --}}
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
                                 <td>
                                     <a
-                                        href="{{ route('recruitment.details', $item->JobId->uuid) }}">{{ $item->JobId->title }}</a>
+                                        href="{{ route('recruitment.details', ['id' => $item->JobId->short_id, 'title' => rawurlencode($item->JobId->title)]) }}">{{ $item->JobId->title }}
+                                    </a>
+
                                 </td>
                                 <td>{{ $item->recuimentId->name ?? '' }}</td>
                                 <td>{{ $item->recuimentId->phone ?? '' }}</td>

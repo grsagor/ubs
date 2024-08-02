@@ -22,9 +22,7 @@
         .btn-container {
             display: flex;
             gap: 10px;
-            /* Space between buttons */
             flex-wrap: wrap;
-            /* Wraps buttons if space is limited */
         }
 
         .btn {
@@ -50,6 +48,14 @@
             background: #05addc;
             color: #FFF;
             font-weight: 500;
+        }
+
+        @media (max-width: 767px) {
+            .submit_body {
+                height: unset !important;
+                margin-top: 100px;
+                margin-bottom: 100px;
+            }
         }
     </style>
 @endsection

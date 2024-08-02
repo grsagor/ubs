@@ -56,7 +56,11 @@
                                     @endif
                                 </td>
                                 <td>{{ $item->closing_date }}</td>
-                                <td>{{ $item->note }}</td>
+                                <td>
+                                    <a href="{{ route('jobs.show', $item->uuid) }}" class="btn btn-xs btn-info">
+                                        <i class="glyphicon glyphicon-eye-open"></i> View
+                                    </a>
+                                </td>
                                 <td>{{ $item->created_at->format('d F Y h:i A') }}</td>
                                 <td>
                                     @if ($item->status == 1)
@@ -72,8 +76,8 @@
                                     </a>
 
                                     @if ($item->status == 1)
-                                        <a href="{{ route('recruitment.details', $item->short_id) }}" target="_blank"
-                                            class="btn btn-xs btn-info">
+                                        <a href="{{ route('recruitment.details', ['id' => $item->short_id, 'title' => rawurlencode($item->title)]) }}"
+                                            target="_blank" class="btn btn-xs btn-info">
                                             <i class="glyphicon glyphicon-eye-open"></i>
                                         </a>
                                     @endif
@@ -84,10 +88,6 @@
                                         <i class="fas fa-list"></i> Applicants
                                     </a>
                                     {{-- @endif --}}
-
-                                    <a href="{{ route('jobs.show', $item->uuid) }}" class="btn btn-xs btn-info">
-                                        <i class="glyphicon glyphicon-eye-open"></i> View
-                                    </a>
 
                                 </td>
                             </tr>

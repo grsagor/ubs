@@ -17,7 +17,8 @@
                     <thead>
                         <tr>
                             <th colspan="9" class="text-center">
-                                <a href="{{ route('recruitment.details', $job->uuid) }}">{{ $job->title }}
+                                <a
+                                    href="{{ route('recruitment.details', ['id' => $job->short_id, 'title' => rawurlencode($job->title)]) }}">{{ $job->title }}
                                 </a>
                             </th>
                         </tr>

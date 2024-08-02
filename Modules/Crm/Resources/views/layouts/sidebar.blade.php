@@ -44,11 +44,6 @@
                 </li>
             @endif
 
-
-            {{-- <a href="{{ route('recruitment.show', $item->uuid) }}" class="btn btn-xs btn-primary">
-                <i class="fas fa-eye"></i> Show
-            </a> --}}
-
             {{-- <li><a href="{{ url('/contact/service_wanted') }}"><i class="fas fa fa-calendar-check"></i>
                     <span>Service Wanted</span></a></li> --}}
 
