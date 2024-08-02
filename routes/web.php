@@ -338,7 +338,7 @@ Route::middleware(['checkAdmin', 'SetSessionData'])->group(function () {
 
     Route::get('/applicant/index', [RecruitmentController::class, 'index'])->name('recruitment.index');
     Route::get('/my-applications', [RecruitmentController::class, 'myApplications'])->name('recruitment.myApplications');
-    Route::get('/recruitment/show/{id}', [RecruitmentController::class, 'show'])->name('recruitment.show');
+    Route::get('/recruitment-show/{id}', [RecruitmentController::class, 'show'])->name('recruitment.show');
 
     // Job
     Route::resource('jobs', JobController::class);
