@@ -36,8 +36,14 @@ class RecruitmentController extends Controller
         return view('frontend.recruitment.list', $data);
     }
 
-    public function details($id)
+    public function details($id, $title)
     {
+        $data['job'] =  Job::active()->with('business_location')->where('short_id', $id)->first();
+
+        if ($id != $data['job']->short_id || $title != $data['job']->title) {
+            abort(404, 'Product not found');
+        }
+
         $data['recuitment_info'] = 0;
         $data['applied_jobs'] = 0;
         $authUserId = Auth::id();
@@ -53,7 +59,6 @@ class RecruitmentController extends Controller
             $data['applied_jobs'] = ($appliedJob !== null) ? 1 : 0;
         }
 
-        $data['job'] =  Job::active()->with('business_location')->where('short_id', $id)->first();
         return view('frontend.recruitment.details', $data);
     }
 

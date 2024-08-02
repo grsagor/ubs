@@ -2744,36 +2744,6 @@ class ProductController extends Controller
         return view('frontend.product.product_list', $data);
     }
 
-
-    // public function productShow($id)
-    // {
-    //     $user = Auth::user();
-    //     $product = Product::with('unit', 'brand', 'business_location')->findOrFail($id);
-    //     $data['info'] = $product;
-    //     $data['user_info'] = Media::where('uploaded_by', $data['info']->user_id)
-    //         ->where('model_type', 'App\\User')->first();
-    //     $data['first_image'] = 'https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg';
-    //     if ($user) {
-    //         $data['cart'] = Cart::where([['user_id', Auth::user()->id], ['product_id', $product->id]])->first();
-    //         $data['bought'] = ProductBuyingInfo::where([['user_id', Auth::user()->id], ['product_id', $product->id]])->first();
-    //         $data['user'] = $user;
-    //     }
-
-    //     $location_id = DB::table('product_locations')->where('product_id', $id)->value('location_id');
-
-    //     if ($location_id) {
-    //         $data['business_data'] = BusinessLocation::findOrFail($location_id);
-    //     }
-
-    //     $slugs = ['contact-us-phone', 'contact-us-email-complain'];
-
-    //     $data['othersInfo'] = Footer::whereIn('slug', $slugs)
-    //         ->pluck('description', 'slug')
-    //         ->toArray();
-
-    //     return view('frontend.product.details2', $data);
-    // }
-
     public function productShow($id, $name)
     {
         $user = Auth::user();

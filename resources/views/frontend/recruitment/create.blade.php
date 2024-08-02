@@ -91,7 +91,7 @@
         <input type="hidden" name="create_page" value="{{ $create_page ?? null }}">
 
         <!-- Step 1 -->
-        <div class="step card mt-2" id="step1">
+        <div class="step card" style="margin-top:50px; margin-bottom: 50px;" id="step1">
             <div class="card-header">
                 <h5 class="card-title">Apply Form - Step 1</h5>
             </div>
@@ -154,7 +154,7 @@
         </div>
 
         <!-- Step 2 -->
-        <div class="step card mt-2" id="step2">
+        <div class="step card" style="margin-top:50px; margin-bottom: 50px;" id="step2">
             <div class="card-header">
                 <h5 class="card-title">Apply Form - Step 2</h5>
             </div>

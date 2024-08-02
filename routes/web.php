@@ -163,7 +163,7 @@ Route::get('/it-solutions', [FrontendController::class, 'it_solutions'])->name('
 Route::get('/partner-boarding', [FrontendController::class, 'partner_boarding'])->name('partnerBoarding');
 
 Route::get('/recruitment/list', [RecruitmentController::class, 'list'])->name('recruitment.list');
-Route::get('/recruitment/{id}', [RecruitmentController::class, 'details'])->name('recruitment.details');
+Route::get('/recruitment/{id}/{title}', [RecruitmentController::class, 'details'])->name('recruitment.details');
 Route::get('/recruitment/create/{id}', [RecruitmentController::class, 'create'])->name('recruitment.create');
 Route::post('/recruitment', [RecruitmentController::class, 'store'])->name('recruitment.store');
 Route::get('/recruitment-success', [RecruitmentController::class, 'success'])->name('recruitment.success');
@@ -347,6 +347,7 @@ Route::middleware(['checkAdmin', 'SetSessionData'])->group(function () {
     // Route::get('/jobs/create', [JobController::class, 'create'])->name('jobs.create');
     // Route::post('/jobs', [JobController::class, 'store'])->name('jobs.store');
     // Route::get('/jobs/{id}/edit', [JobController::class, 'edit'])->name('jobs.edit');
+    // Route::get('/jobs/{id}', [JobController::class, 'show'])->name('jobs.show');
     // Route::put('/jobs/{id}', [JobController::class, 'update'])->name('jobs.update');
     // Route::delete('jobs/{id}', [JobController::class, 'destroy'])->name('jobs.destroy');
 
