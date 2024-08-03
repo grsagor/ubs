@@ -39,7 +39,7 @@ class CustomerProductController extends Controller
                     return $transaction_sell_line->transaction->payment_lines[0]->method;
                 })
                 ->addColumn('purchase_date', function($transaction_sell_line) {
-                    return Carbon::parse($transaction_sell_line->product->created_at)->format('d F, Y');
+                    return Carbon::parse($transaction_sell_line->created_at)->format('d F, Y');
                 })
                 ->rawColumns([])
                 ->toJson();
