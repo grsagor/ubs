@@ -322,6 +322,7 @@ class CartController extends Controller
     }
     public function checkoutPost(Request $request)
     {
+        // return $request;
         $is_direct_sale = false;
         try {
             $input = $request->except('_token');

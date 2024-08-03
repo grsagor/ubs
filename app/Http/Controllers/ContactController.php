@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Business;
+use App\BusinessCustomer;
 use App\BusinessLocation;
 use App\Contact;
 use App\CustomerGroup;
@@ -995,57 +996,62 @@ class ContactController extends Controller
             $business_id = request()->session()->get('user.business_id');
             $user_id = request()->session()->get('user.id');
 
-            $contacts = Contact::where('contacts.business_id', $business_id)
-                ->leftjoin('customer_groups as cg', 'cg.id', '=', 'contacts.customer_group_id')
-                ->active();
-
-            if (!request()->has('all_contact')) {
-                $contacts->onlyCustomers();
+            $customers = BusinessCustomer::where('business_id', $business_id)->with(['customer'])->get();
+            foreach ($customers as $customer) {
+                $customer->supplier_business_name = $customer->customer->first_name . ' ' . $customer->customer->last_name;
             }
+            return json_encode($customers);
+            // $contacts = Contact::where('contacts.business_id', $business_id)
+            //     ->leftjoin('customer_groups as cg', 'cg.id', '=', 'contacts.customer_group_id')
+            //     ->active();
 
-            if (!empty($term)) {
-                $contacts->where(function ($query) use ($term) {
-                    $query->where('contacts.name', 'like', '%' . $term . '%')
-                        ->orWhere('supplier_business_name', 'like', '%' . $term . '%')
-                        ->orWhere('mobile', 'like', '%' . $term . '%')
-                        ->orWhere('contacts.contact_id', 'like', '%' . $term . '%');
-                });
-            }
+            // if (!request()->has('all_contact')) {
+            //     $contacts->onlyCustomers();
+            // }
 
-            $contacts->select(
-                'contacts.id',
-                DB::raw("IF(contacts.contact_id IS NULL OR contacts.contact_id='', contacts.name, CONCAT(contacts.name, ' (', contacts.contact_id, ')')) AS text"),
-                'mobile',
-                'address_line_1',
-                'address_line_2',
-                'city',
-                'state',
-                'country',
-                'zip_code',
-                'shipping_address',
-                'pay_term_number',
-                'pay_term_type',
-                'balance',
-                'supplier_business_name',
-                'cg.amount as discount_percent',
-                'cg.price_calculation_type',
-                'cg.selling_price_group_id',
-                'shipping_custom_field_details',
-                'is_export',
-                'export_custom_field_1',
-                'export_custom_field_2',
-                'export_custom_field_3',
-                'export_custom_field_4',
-                'export_custom_field_5',
-                'export_custom_field_6'
-            );
+            // if (!empty($term)) {
+            //     $contacts->where(function ($query) use ($term) {
+            //         $query->where('contacts.name', 'like', '%' . $term . '%')
+            //             ->orWhere('supplier_business_name', 'like', '%' . $term . '%')
+            //             ->orWhere('mobile', 'like', '%' . $term . '%')
+            //             ->orWhere('contacts.contact_id', 'like', '%' . $term . '%');
+            //     });
+            // }
 
-            if (request()->session()->get('business.enable_rp') == 1) {
-                $contacts->addSelect('total_rp');
-            }
-            $contacts = $contacts->get();
+            // $contacts->select(
+            //     'contacts.id',
+            //     DB::raw("IF(contacts.contact_id IS NULL OR contacts.contact_id='', contacts.name, CONCAT(contacts.name, ' (', contacts.contact_id, ')')) AS text"),
+            //     'mobile',
+            //     'address_line_1',
+            //     'address_line_2',
+            //     'city',
+            //     'state',
+            //     'country',
+            //     'zip_code',
+            //     'shipping_address',
+            //     'pay_term_number',
+            //     'pay_term_type',
+            //     'balance',
+            //     'supplier_business_name',
+            //     'cg.amount as discount_percent',
+            //     'cg.price_calculation_type',
+            //     'cg.selling_price_group_id',
+            //     'shipping_custom_field_details',
+            //     'is_export',
+            //     'export_custom_field_1',
+            //     'export_custom_field_2',
+            //     'export_custom_field_3',
+            //     'export_custom_field_4',
+            //     'export_custom_field_5',
+            //     'export_custom_field_6'
+            // );
 
-            return json_encode($contacts);
+            // if (request()->session()->get('business.enable_rp') == 1) {
+            //     $contacts->addSelect('total_rp');
+            // }
+            // $contacts = $contacts->get();
+
+            // return json_encode($contacts);
         }
     }
 
