@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CustomerProductController;
 use App\Http\Controllers\RoomToRentController;
 use App\Http\Controllers\RecruitmentController;
 use App\Http\Controllers\ServiceWantedCustomerController;
@@ -24,6 +25,8 @@ Route::group(['middleware' => ['checkCustomer'], 'prefix' => 'contact',], functi
     Route::get('/show-property-edit-modal', [PropertyWantedCustomerController::class, 'showPropertyEditModal']);
     Route::post('/update-property-wanted', [PropertyWantedCustomerController::class, 'updatePropertyWanted']);
     Route::post('/property-wanted/upgrade', [PropertyWantedCustomerController::class, 'propertyWantedUpgradePage']);
+
+    Route::get('/products', [CustomerProductController::class, 'index']);
 
     Route::get('/my-information/{id}/edit', [RecruitmentController::class, 'edit'])->name('recruitment.edit');
     Route::put('/my-information/{id}', [RecruitmentController::class, 'update'])->name('recruitment.update');

@@ -556,4 +556,7 @@ class Product extends Model
     {
         return $this->hasMany(Cart::class, 'product_id');
     }
+    public function transaction_sell_lines() {
+        return $this->hasMany(TransactionSellLine::class, 'product_id');
+    }
 }

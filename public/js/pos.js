@@ -86,6 +86,8 @@ $(document).ready(function () {
       },
     },
     templateResult: function (data) {
+      console.log(data)
+      console.log("data.supplier_business_name", data.supplier_business_name);
       var template = "";
       if (data.supplier_business_name) {
         template += data.supplier_business_name + "<br>";
