@@ -68,7 +68,7 @@
         <div class="btn-container">
             <a href="{{ route('recruitment.list') }}" class="btn btn-more-job">More Jobs</a>
             <a href="{{ route('recruitment.edit', ['id' => myInformation()->uuid]) }}" class="btn btn-infomation">Your
-                Information</a>
+                Applications</a>
         </div>
     </div>
 @endsection

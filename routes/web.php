@@ -342,6 +342,7 @@ Route::middleware(['checkAdmin', 'SetSessionData'])->group(function () {
 
     // Job
     Route::resource('jobs', JobController::class);
+    Route::get('/jobs/status-change/{id}', [JobController::class, 'status_change'])->name('jobs.status_change');
 
     // Route::get('/jobs', [JobController::class, 'index'])->name('jobs.index');
     // Route::get('/jobs/create', [JobController::class, 'create'])->name('jobs.create');
