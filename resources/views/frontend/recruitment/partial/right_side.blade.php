@@ -1,4 +1,4 @@
-<div class="col-12 col-xl-9 col-lg-9 col-md-12 col-sm-12" style="padding: 0px !important;">
+<div class="col-12 col-xl-9 col-lg-9 col-md-12 col-sm-12" style="">
 
     <div class="showing-products border-2 border-bottom border-light" id="ajaxContent">
 
@@ -23,15 +23,19 @@
             {{-- Right side Advertise widget --}}
             <div class="col-md-3">
                 <div class="card">
+                    <img src="https://credcv.com/wp-content/uploads/2021/06/benefits-of-having-an-own-job-portal_033e017b0_3810.jpeg"
+                        class="card-img-top" alt="Card image">
                     <div class="card-body">
                         <h5 class="card-title">Advertise your jobs</h5>
-                        <p class="card-text">List your jobs unlimited and completely free.
-                        </p>
+                        <p class="card-text">List your jobs unlimited and completely free.</p>
                         <a href="#" class="button-31">Add</a>
                     </div>
                 </div>
+
                 <br>
                 <div class="card">
+                    <img src="https://dynamic.placementindia.com/blog_images/20220625113020_image1.jpg"
+                        class="card-img-top" alt="Card image">
                     <div class="card-body">
                         <h5 class="card-title">Can't find your jobs?</h5>
                         <p class="card-text">Contact us to get what you need. We will connect
@@ -41,6 +45,8 @@
                 </div>
                 <br>
                 <div class="card">
+                    <img src="https://www.barraiser.com/wp-content/uploads/2024/06/best-job-website-in-usa.png"
+                        class="card-img-top" alt="Card image">
                     <div class="card-body">
                         <h5 class="card-title">Software to run your business?</h5>
                         <p class="card-text">Use our complete business solution software package
@@ -51,6 +57,8 @@
                 </div>
                 <br>
                 <div class="card">
+                    <img src="https://blogimages.softwaresuggest.com/blog/wp-content/uploads/2023/04/14124110/Top-10-Job-Portals-in-India-That-Makes-Them-Good-min.jpg"
+                        alt="Card image">
                     <div class="card-body">
                         <h5 class="card-title">Find your favourite company.</h5>
                         <ol>
