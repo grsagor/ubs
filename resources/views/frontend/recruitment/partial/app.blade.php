@@ -4,7 +4,7 @@
 
     <div class="shop-list-page">
         <div class="mt-2 content-circle">
-            <div class="container">
+            <div class="container mt-3 mb-6" style="max-width: 1600px;">
                 <div class="row">
                     @include('frontend.recruitment.partial.left_side')
 
