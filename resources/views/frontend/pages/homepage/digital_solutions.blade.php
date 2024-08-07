@@ -1,6 +1,6 @@
 <div class="digital-section">
     <div class="container-fluid  bg-light content-circle ">
-        <div class="container my-5" style="z-index: 11">
+        <div class="container my-5" style="z-index: 10">
             <div class=" p-0 m-0">
                 <div class="row justify-content-center position-relative ">
                     <div class="col-12">
@@ -25,19 +25,20 @@
                                             on behalf of our
                                             partners.</p>
                                         <ul class="list-group">
-                                            <li class="list-group-item"><i class="bi bi-check-circle-fill"></i> We
+                                            <li class="list-group-item"><i class="fa fa-check"></i> We
                                                 Provide the best SEO </li>
-                                            <li class="list-group-item"><i class="bi bi-check-circle-fill"></i> Need a
+                                            <li class="list-group-item"><i class="fa fa-check"></i> Need a
                                                 Web Development Solution ?</li>
-                                            <li class="list-group-item"><i class="bi bi-check-circle-fill"></i> Best
+                                            <li class="list-group-item"><i class="fa fa-check"></i> Best
                                                 Marketing Strategies</li>
-                                            <li class="list-group-item"><i class="bi bi-check-circle-fill"></i> Social
+                                            <li class="list-group-item"><i class="fa fa-check"></i> Social
                                                 media marketing solutions</li>
-                                            <li class="list-group-item"><i class="bi bi-check-circle-fill"></i> Content
+                                            <li class="list-group-item"><i class="fa fa-check"></i> Content
                                                 marketing</li>
-                                            <li class="list-group-item"><i class="bi bi-check-circle-fill"></i> Digital
+                                            <li class="list-group-item"><i class="fa fa-check"></i> Digital
                                                 content</li>
                                         </ul>
+
                                         <a href="{{ route('digitalMarketing') }}" target="__blank"
                                             class="btn  btn-dark mt-3">Get
                                             Digital

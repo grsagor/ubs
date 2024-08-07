@@ -8,9 +8,9 @@
     }
 
     .laptop_view_card {
-        margin-left: 17px;
-        width: 70%;
-        margin-right: 24px;
+        margin-left: 42px;
+        width: 67%;
+        margin-right: 53px;
     }
 
     .product-wrapperrrrr {
@@ -23,7 +23,7 @@
         border-radius: 6%;
         box-shadow: 0 0px 4px rgba(0, 0, 0, 0.2);
         z-index: 1;
-        background-color: #039f2d;
+        background-color: #2f9590;
     }
 
     .category-badge h6 {
@@ -42,7 +42,9 @@
     @media (max-width: 767px) {
         .mobile_view_card {
             margin-top: 30px !important;
-            width: 95% !important;
+            width: unset !important;
+            margin-left: unset;
+            margin-right: unset;
         }
 
         .mobile_view_image {

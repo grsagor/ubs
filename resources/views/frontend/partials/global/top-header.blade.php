@@ -62,7 +62,8 @@
                     <i class="flaticon-phone-call flat-mini me-2 text-general"></i>
                     <a class="navbar-brand p-0" href="{{ url('/') }}"><img class="nav-logo lazy"
                             data-src="{{ asset('assets/images/header_logo.png') }}" width="118"
-                            alt="Image not found !" style="width: 160px !important; height: 62px !important;"></a>
+                            alt="Image not found !"
+                            style="width: 160px !important; height: 62px !important;  margin-left: 32px;"></a>
                 </div>
             </div>
             <div class="col-lg-6 sm-mx-none">
@@ -280,7 +281,7 @@
                     <div class="dropdown sign-in my-account-dropdown position-relative">
                         <a class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
                             type="button" data-bs-toggle="dropdown" aria-expanded="false"
-                            style="width: 45px !important; height: 45px !important;">
+                            style="width: 45px !important; height: 45px !important; margin-right: 45px;">
                             <i class="fa-solid fa-right-from-bracket"></i>
                         </a>
                         <ul class="dropdown-menu">
