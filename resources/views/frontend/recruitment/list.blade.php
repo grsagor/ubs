@@ -42,9 +42,11 @@
                                 <h5 class="product-title" style="padding: 0; margin: 0;">
                                     <span style="font-weight: 600;">{{ Str::limit($item->title, 45, '...') }}</span>
                                 </h5>
-                                <hr style="color: #00ff00; height: 1px; width: 100% !important; margin: 0rem 0">
+
+                                {{-- <hr style="color: #00ff00; height: 1px; width: 100% !important; margin: 0rem 0"> --}}
+
                                 <p class="card-text mb-0 company-name color-black para-font" style="margin-top: 7px;">
-                                    {{ $item->company_name }}
+                                    Employer: {{ $item->company_name }}
                                 </p>
                                 <p class="card-text mb-0 color-black para-font">Employee Status:
                                     {{ implode(', ', $item->hour_type) }}</p>
@@ -52,7 +54,9 @@
                                     {{ implode(', ', $item->job_type) }}</p>
                                 <p class="card-text mb-0 color-black para-font">Vacancies: {{ $item->vacancies }}</p>
                                 <p class="card-text mb-0 color-black para-font">Location: {{ $item->location }}</p>
-                                <p class="card-text mb-0 color-black para-font">Closing Date: {{ $item->closing_date }}</p>
+                                <p class="card-text mb-0 color-black para-font">Closing Date:
+                                    {{ Carbon::parse($item->closing_date)->format('d F Y') }}</p>
+
                             </div>
                         </div>
                     </div>
