@@ -112,8 +112,8 @@ class JobController extends Controller
 
     public function show($id)
     {
-        $data['job'] = Job::find($id);
-        return view('backend.jobs.show', $data);
+        $job = Job::find($id);
+        return response()->json($job);
     }
 
     public function edit($id)
@@ -162,5 +162,35 @@ class JobController extends Controller
         } catch (\Illuminate\Validation\ValidationException $e) {
             return redirect()->back()->withErrors($e->errors())->withInput();
         }
+    }
+
+    public function status_change($id)
+    {
+        // Retrieve the job by its ID
+        $job = Job::find($id);
+
+        // Check if the job exists
+        if ($job) {
+            // Toggle the status: if 0, set to 1; if 1, set to 0
+            $job->status = $job->status == 0 ? 1 : 0;
+
+            // Save the updated job
+            $job->save();
+
+            // Prepare the output message
+            $output = [
+                'success' => true,
+                'msg' => 'Status changed successfully!!!',
+            ];
+        } else {
+            // Prepare the output message if the job does not exist
+            $output = [
+                'success' => false,
+                'msg' => 'Job not found.',
+            ];
+        }
+
+        // Redirect to the jobs index route with the status message
+        return redirect()->route('jobs.index')->with('status', $output);
     }
 }
