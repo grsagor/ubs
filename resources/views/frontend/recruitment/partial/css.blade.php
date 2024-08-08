@@ -24,7 +24,7 @@
         border-radius: 6%;
         box-shadow: 0 0px 4px rgba(0, 0, 0, 0.2);
         z-index: 1;
-        background-color: #2f9590;
+        background-color: #039f2d;
     }
 
     .category-badge h6 {
