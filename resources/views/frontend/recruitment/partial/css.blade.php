@@ -8,9 +8,10 @@
     }
 
     .laptop_view_card {
-        margin-left: 42px;
+        /* margin-left: 42px;
         width: 67%;
-        margin-right: 53px;
+        margin-right: 53px; */
+        padding: 0px 32px 0px 25px;
     }
 
     .product-wrapperrrrr {

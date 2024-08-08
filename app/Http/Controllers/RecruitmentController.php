@@ -38,10 +38,10 @@ class RecruitmentController extends Controller
 
     public function details($id, $title)
     {
-        $data['job'] =  Job::active()->with('business_location')->where('short_id', $id)->first();
+        $data['job'] =  Job::with('business_location')->where('short_id', $id)->first();
 
         if ($id != $data['job']->short_id || $title != $data['job']->title) {
-            abort(404, 'Product not found');
+            abort(404, 'Job not found');
         }
 
         $data['recuitment_info'] = 0;
@@ -52,7 +52,7 @@ class RecruitmentController extends Controller
 
         if ($recruitment !== null) {
             $appliedJob = AppliedJob::where('recruitment_id', $recruitment->uuid)
-                ->where('job_id', $id)
+                ->where('job_id', $data['job']->uuid)
                 ->first();
 
             $data['recuitment_info'] = 1;
@@ -225,7 +225,8 @@ class RecruitmentController extends Controller
 
     public function success()
     {
-        return view('frontend.recruitment.after_submit');
+        $msg =  'submitted';
+        return view('frontend.recruitment.after_submit', compact('msg'));
     }
 
     public function applyJob(Request $request, $jobID)
@@ -244,13 +245,13 @@ class RecruitmentController extends Controller
                 ->where('recruitment_id', $appliedJobData['recruitment_id'])
                 ->first();
 
-            $data = !$existingApplication ? 'submitted' : 'already submitted';
+            $msg = !$existingApplication ? 'submitted' : 'already submitted';
 
             if (!$existingApplication) {
                 AppliedJob::create($appliedJobData);
             }
 
-            return view('frontend.recruitment.after_submit', compact('data'));
+            return view('frontend.recruitment.after_submit', compact('msg'));
         } else {
             $data['country'] = Country::get();
             $data['jobID'] = $jobID;

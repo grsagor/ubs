@@ -77,8 +77,39 @@
 </div>
 
 <div style="margin-top: 10px;">
-    @if ($applied_jobs == 1)
+
+    {{-- @if ($job->status == 0)
+        <button type="button" class="btn alreadyApplied" disabled>Expired</button>
+    @else
+        @if ($applied_jobs == 1)
+            <button type="button" class="btn alreadyApplied" disabled>Already applied</button>
+        @else
+            @if ($recuitment_info == 0)
+                <a href="{{ route('recruitment.create', $job->uuid) }}" class="btn applynow">Apply Now</a>
+            @endif
+
+            @if ($recuitment_info == 1)
+                <button class="btn applynow" data-toggle="modal" data-target="#myModal">Apply Now</button>
+            @endif
+        @endif
+    @endif --}}
+
+    @php
+        $button_state = 0;
+        if ($job->status == 0) {
+            $button_state = 10;
+        }
+
+        if ($applied_jobs == 1) {
+            $button_state = 1;
+        }
+        // dd($button_state);
+    @endphp
+
+    @if ($button_state == 1)
         <button type="button" class="btn alreadyApplied" disabled>Already applied</button>
+    @elseif ($button_state == 10)
+        <button type="button" class="btn alreadyApplied" disabled>Expired</button>
     @else
         @if ($recuitment_info == 0)
             <a href="{{ route('recruitment.create', $job->uuid) }}" class="btn applynow">Apply Now</a>
@@ -88,6 +119,7 @@
             <button class="btn applynow" data-toggle="modal" data-target="#myModal">Apply Now</button>
         @endif
     @endif
+
 </div>
 
 <script>
