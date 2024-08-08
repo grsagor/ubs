@@ -76,12 +76,10 @@
                                     <a href="{{ route('jobs.edit', $item->uuid) }}" class="btn btn-xs btn-primary">
                                         <i class="glyphicon glyphicon-edit"></i> Edit
                                     </a>
-                                    @if ($item->status == 1)
-                                        <a href="{{ route('recruitment.details', ['id' => $item->short_id, 'title' => rawurlencode($item->title)]) }}"
-                                            target="_blank" class="btn btn-xs btn-info">
-                                            <i class="glyphicon glyphicon-eye-open"></i>
-                                        </a>
-                                    @endif
+                                    <a href="{{ route('recruitment.details', ['id' => $item->short_id, 'title' => rawurlencode($item->title)]) }}"
+                                        target="_blank" class="btn btn-xs btn-info">
+                                        <i class="glyphicon glyphicon-eye-open"></i>
+                                    </a>
                                     <a href="{{ route('jobs.applicantList', $item->uuid) }}"
                                         class="btn btn-xs btn-warning">
                                         <i class="fas fa-list"></i> Applicants

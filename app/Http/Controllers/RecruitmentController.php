@@ -23,6 +23,7 @@ class RecruitmentController extends Controller
     {
         $data['jobs'] = Job::searchAndFilter($request)
             ->active()
+            ->where('closing_date', '>=', now())
             ->searchAndFilter($request)
             ->with('job_category')
             ->latest()

@@ -23,7 +23,6 @@
                             </div>
 
                             <div class="col-md-3 text-end">
-
                                 @php
                                     $businessLocation = $job->business_location;
                                     $imageUrl =
@@ -31,7 +30,6 @@
                                             ? asset($businessLocation->logo)
                                             : 'https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg';
                                 @endphp
-
 
                                 <a href="{{ $businessLocation ? route('shop.service', $businessLocation->id) : '#' }}">
                                     <div>
@@ -44,9 +42,8 @@
 
                         <div class="row header mobile-view">
                             <div class="col-md-12 text-center">
-
                                 @php
-                                    $businessLocation = $job->businessLocation;
+                                    $businessLocation = $job->business_location;
                                     $imageUrl =
                                         $businessLocation && File::exists($businessLocation->logo)
                                             ? asset($businessLocation->logo)
@@ -55,9 +52,11 @@
 
                                 <a href="{{ $businessLocation ? route('shop.service', $businessLocation->id) : '#' }}">
                                     <div>
-                                        <img class="" src="{{ $imageUrl }}" style="width: 30% !important;">
+                                        <img class="" src="{{ $imageUrl }}" alt=""
+                                            style="width: 30% !important;">
                                     </div>
                                 </a>
+
                             </div>
                             <div class="col-md-12 mt-3">
                                 <div class="job-title">{{ $job->company_name }}</div>
@@ -186,7 +185,7 @@
                                     <div class="col-md-12 text-justify">
                                         <p>If you come across any incorrect or misleading information in a job listing or
                                             encounter any issues with the advertiser, please let us know right away or
-                                            report the job. Unipuller is committed to ensuring accurate and transparent job
+                                            report the job. Unipuler is committed to ensuring accurate and transparent job
                                             opportunities and does not support or endorse any inappropriate practices.
                                         </p>
                                     </div>
@@ -201,7 +200,7 @@
                                         <div class="complain-info-item">
                                             <i class="fas fa-envelope"></i>
                                             <div>
-                                                complain@unipuller.com
+                                                complain@unipuler.com
                                             </div>
                                         </div>
                                     </div>
