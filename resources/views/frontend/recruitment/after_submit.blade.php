@@ -63,7 +63,7 @@
     @includeIf('frontend.partials.global.common-header')
 
     <div class="submit_body">
-        <h2>Your application is {{ $data }} successfully!</h2>
+        <h2>Your application is {{ $msg }} successfully!</h2>
         <p>Thank you for applying! You will receive updates soon from the employer.</p>
         <div class="btn-container">
             <a href="{{ route('recruitment.list') }}" class="btn btn-more-job">More Jobs</a>
