@@ -12,6 +12,8 @@ class SlugService
 
         $slug = Str::slug($title);
 
+        $slug = Str::limit($slug, 180, '');
+
         // Check if the slug already exists in the database
         $originalSlug = $slug;
         $count = 1;
