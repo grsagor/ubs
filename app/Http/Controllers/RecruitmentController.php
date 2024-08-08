@@ -45,6 +45,13 @@ class RecruitmentController extends Controller
             abort(404, 'Job not found');
         }
 
+        if ($data['job']) {
+            $closing_date = \Carbon\Carbon::parse($data['job']->closing_date);
+            $data['closing_date'] = $closing_date->greaterThanOrEqualTo(now()->startOfDay());
+        } else {
+            $data['closing_date'] = false;
+        }
+
         $data['recuitment_info'] = 0;
         $data['applied_jobs'] = 0;
         $authUserId = Auth::id();
