@@ -96,14 +96,14 @@
 
     @php
         $button_state = 0;
-        if ($job->status == 0) {
+        if ($job->status == 0 || $closing_date == false) {
             $button_state = 10;
         }
 
         if ($applied_jobs == 1) {
             $button_state = 1;
         }
-        // dd($button_state);
+
     @endphp
 
     @if ($button_state == 1)
