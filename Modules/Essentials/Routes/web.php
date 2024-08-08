@@ -29,7 +29,7 @@ Route::middleware('web', 'authh', 'auth', 'SetSessionData', 'language', 'timezon
         Route::get('view-todo-{id}-share-docs', [Modules\Essentials\Http\Controllers\ToDoController::class, 'viewSharedDocs']);
 
         //reminder controller
-        Route::resource('reminder', 'Modules\Essentials\Http\Controllers\ReminderController')->only(['index', 'store', 'edit', 'update', 'destroy', 'show']);
+        Route::resource('reminder', Modules\Essentials\Http\Controllers\ReminderController::class)->only(['index', 'store', 'edit', 'update', 'destroy', 'show']);
 
         //message controller
         Route::get('get-new-messages', [Modules\Essentials\Http\Controllers\EssentialsMessageController::class, 'getNewMessages']);
