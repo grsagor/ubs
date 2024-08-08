@@ -7,16 +7,19 @@ use App\AppliedJob;
 use App\JobCategory;
 use App\BusinessLocation;
 use Illuminate\Http\Request;
+use App\Services\SlugService;
 use App\Services\UniqueIDService;
 use Illuminate\Support\Facades\Auth;
 
 class JobController extends Controller
 {
     protected $unique_id_service;
+    protected $slug_service;
 
-    public function __construct(UniqueIDService $unique_id_service)
+    public function __construct(UniqueIDService $unique_id_service, SlugService $slug_service)
     {
         $this->unique_id_service          = $unique_id_service;
+        $this->slug_service               = $slug_service;
     }
 
     public function index(Request $request)
@@ -67,31 +70,15 @@ class JobController extends Controller
         try {
             $requestedData = $request->all();
 
-            // dd($requestedData);
+            $this->validateJobRequest($request);
 
-            $request->validate([
-                'company_information' => 'required',
-                'description' => 'required',
-                'closing_date' => 'required|date|after_or_equal:today',
-            ], [
-                'company_information.required' => 'The company information field is required.',
-                'description.required' => 'The description field is required.',
-                'closing_date.after_or_equal' => 'The closing date must be today or a later date.',
-            ]);
-
-            $latestReference = $job->orderBy('created_at', 'desc')->value('reference');
-
-            // Parse the number part of the reference
-            $latestNumber = (int)substr($latestReference, -6); // Assuming reference format like 'Unijob000001'
-
-            $newNumber = $latestNumber + 1;
-
-            $newReference = 'Unijob' . sprintf('%06d', $newNumber);
-
-            $requestedData['reference'] = $newReference;
+            // Assign the unique slug to the requested data
+            $requestedData['slug'] = $this->slug_service->slug_create($requestedData['title'], $job);
 
             // Generate a unique id
             $requestedData['short_id'] = $this->unique_id_service->generateUniqueId($job, 'short_id');
+
+            $requestedData['reference'] = $this->generateNewReference($job);
 
             // Handle multiple select fields
             $requestedData['hour_type'] = $request->input('hour_type', []);
@@ -135,13 +122,7 @@ class JobController extends Controller
     public function update(Request $request, $id)
     {
         try {
-            $request->validate([
-                'description' => 'required',
-                'closing_date' => 'required|date|after_or_equal:today',
-            ], [
-                'description.required' => 'The description field is required.',
-                'closing_date.after_or_equal' => 'The closing date must be today or a later date.',
-            ]);
+            $this->validateJobRequest($request);
 
             $job = Job::findOrFail($id);
 
@@ -150,7 +131,6 @@ class JobController extends Controller
             // Handle multiple select fields
             $requestedData['hour_type'] = $request->input('hour_type', []);
             $requestedData['job_type'] = $request->input('job_type', []);
-
 
             $job->fill($requestedData)->save();
 
@@ -192,5 +172,33 @@ class JobController extends Controller
 
         // Redirect to the jobs index route with the status message
         return redirect()->route('jobs.index')->with('status', $output);
+    }
+
+    protected function validateJobRequest(Request $request)
+    {
+        $request->validate([
+            'company_information' => 'required',
+            'description' => 'required',
+            'closing_date' => 'required|date|after_or_equal:today',
+        ], [
+            'company_information.required' => 'The company information field is required.',
+            'description.required' => 'The description field is required.',
+            'closing_date.after_or_equal' => 'The closing date must be today or a later date.',
+        ]);
+    }
+
+    protected function generateNewReference($job)
+    {
+        // Get the latest reference from the jobs table
+        $latestReference = $job->orderBy('created_at', 'desc')->value('reference');
+
+        // Parse the number part of the reference (assuming the format 'Unijob000001')
+        $latestNumber = $latestReference ? (int)substr($latestReference, -6) : 0;
+
+        // Increment the number
+        $newNumber = $latestNumber + 1;
+
+        // Create the new reference with the incremented number
+        return 'Unijob' . sprintf('%06d', $newNumber);
     }
 }
