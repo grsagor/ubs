@@ -18,7 +18,7 @@
 
     @foreach ($jobs as $item)
         <div class="col mb-4">
-            <a href="{{ route('recruitment.details', ['id' => $item->short_id, 'title' => rawurlencode($item->title)]) }}"
+            <a href="{{ route('recruitment.details', ['id' => $item->short_id, 'slug' => $item->slug]) }}"
                 class="text-decoration-none text-dark">
                 <div class="product type-product rounded">
                     <div class="row">

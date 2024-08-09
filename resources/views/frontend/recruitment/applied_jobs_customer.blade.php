@@ -93,7 +93,7 @@
                                 <td>{{ serialNumber($appliedJobs, $loop) }}</td>
                                 <td>
                                     <a
-                                        href="{{ route('recruitment.details', $item->JobId->uuid) }}">{{ $item->JobId->title }}</a>
+                                        href="{{ route('recruitment.details', ['id' => $item->JobId->short_id, 'slug' => $item->JobId->slug]) }}">{{ $item->JobId->title }}</a>
                                 </td>
                                 <td>{{ $item->JobId->company_name ?? '' }}</td>
                                 <td>{{ $item->JobId->location ?? '' }}</td>

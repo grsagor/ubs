@@ -26,7 +26,7 @@
                                 <td>{{ $loop->iteration }}</td>
                                 <td>
                                     <a
-                                        href="{{ route('recruitment.details', ['id' => $item->JobId->short_id, 'title' => rawurlencode($item->JobId->title)]) }}">{{ $item->JobId->title }}</a>
+                                        href="{{ route('recruitment.details', ['id' => $item->JobId->short_id, 'slug' => $item->JobId->slug]) }}">{{ $item->JobId->title }}</a>
                                 </td>
                                 <td>{{ $item->JobId->company_name ?? '' }}</td>
                                 <td>{{ $item->JobId->location ?? '' }}</td>
