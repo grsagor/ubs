@@ -23,7 +23,7 @@ class RecruitmentController extends Controller
     {
         $data['jobs'] = Job::searchAndFilter($request)
             ->active()
-            ->where('closing_date', '>=', now())
+            // ->where('closing_date', '>=', now())
             ->searchAndFilter($request)
             ->with('job_category')
             ->latest()
@@ -37,11 +37,11 @@ class RecruitmentController extends Controller
         return view('frontend.recruitment.list', $data);
     }
 
-    public function details($id, $title)
+    public function details($id, $slug)
     {
         $data['job'] =  Job::with('business_location')->where('short_id', $id)->first();
 
-        if ($id != $data['job']->short_id || $title != $data['job']->title) {
+        if ($id != $data['job']->short_id || $slug != $data['job']->slug) {
             abort(404, 'Job not found');
         }
 

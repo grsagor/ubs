@@ -76,7 +76,7 @@
                                     <a href="{{ route('jobs.edit', $item->uuid) }}" class="btn btn-xs btn-primary">
                                         <i class="glyphicon glyphicon-edit"></i> Edit
                                     </a>
-                                    <a href="{{ route('recruitment.details', ['id' => $item->short_id, 'title' => rawurlencode($item->title)]) }}"
+                                    <a href="{{ route('recruitment.details', ['id' => $item->short_id, 'slug' => $item->slug]) }}"
                                         target="_blank" class="btn btn-xs btn-info">
                                         <i class="glyphicon glyphicon-eye-open"></i>
                                     </a>

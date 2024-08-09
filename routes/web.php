@@ -163,7 +163,7 @@ Route::get('/it-solutions', [FrontendController::class, 'it_solutions'])->name('
 Route::get('/partner-boarding', [FrontendController::class, 'partner_boarding'])->name('partnerBoarding');
 
 Route::get('/recruitment/list', [RecruitmentController::class, 'list'])->name('recruitment.list');
-Route::get('/recruitment/{id}/{title}', [RecruitmentController::class, 'details'])->name('recruitment.details')->where('title', '.*');
+Route::get('/recruitment/{id}/{slug}', [RecruitmentController::class, 'details'])->name('recruitment.details')->where('title', '.*');
 Route::get('/recruitment-create/{id}', [RecruitmentController::class, 'create'])->name('recruitment.create');
 Route::post('/recruitment', [RecruitmentController::class, 'store'])->name('recruitment.store');
 Route::get('/recruitment-success', [RecruitmentController::class, 'success'])->name('recruitment.success');
