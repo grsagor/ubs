@@ -147,10 +147,15 @@
         $(document).ready(function() {
             $('#jobs_Table').on('click', '.btn-view-job', function(e) {
                 e.preventDefault();
-                var url = $(this).attr('href'); // Get the URL from the href attribute
+
+                var url = $(this).attr('href');
+                if (!url.startsWith('/')) {
+                    url = '/' + url; // Add leading slash if missing
+                }
+                console.log('URL:', url);
 
                 $.ajax({
-                    url: url, // Use the href URL directly
+                    url: url,
                     method: 'GET',
                     success: function(response) {
                         $('#jobModalLabel').text(response.title);
@@ -158,7 +163,7 @@
                         $('#jobModal').modal('show');
                     },
                     error: function(xhr, status, error) {
-                        console.log('Error:', error); // Log the error details
+                        console.log('Error:', error);
                         alert('Failed to fetch job details.');
                     }
                 });
