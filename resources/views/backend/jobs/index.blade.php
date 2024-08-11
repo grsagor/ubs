@@ -30,7 +30,8 @@
                             <th>Category</th>
                             <th style="min-width: 300px; overflow: hidden; text-overflow: ellipsis;">Title</th>
                             <th>Company Name</th>
-                            <th>Hour type</th>
+                            <th>Employee Status</th>
+                            <th>Job Location</th>
                             <th>Job type</th>
                             <th>Salary</th>
                             <th>Created at</th>
@@ -50,19 +51,40 @@
                                 <td>{{ $item->company_name }}</td>
                                 <td>{{ is_array($item->hour_type) ? implode(', ', $item->hour_type) : $item->hour_type }}
                                 </td>
+                                <td>{{ $item->location }}</td>
                                 <td>{{ is_array($item->job_type) ? implode(', ', $item->job_type) : $item->job_type }}</td>
                                 <td>
-                                    @if ($item->salary)
-                                        {{ $item->salary }}/{{ $item->salary_type }}
-                                    @else
-                                        {{ $item->salary_type }}
-                                    @endif
+                                    @php
+                                        $salary = null;
+                                        if (
+                                            $item->salary_type == 'Fixed' &&
+                                            $item->fixed_salary !== null &&
+                                            $item->salary_variation !== null
+                                        ) {
+                                            $salary = '£' . $item->fixed_salary . '/' . $item->salary_variation;
+                                        } elseif (
+                                            $item->salary_type == 'Negotiable' &&
+                                            $item->from_salary !== null &&
+                                            $item->to_salary !== null &&
+                                            $item->salary_variation !== null
+                                        ) {
+                                            $salary =
+                                                '£' .
+                                                $item->from_salary .
+                                                '-' .
+                                                $item->to_salary .
+                                                '/' .
+                                                $item->salary_variation;
+                                        }
+                                    @endphp
+
+                                    {{ $salary ?? 'N/A' }}
                                 </td>
                                 <td>{{ $item->created_at->format('d F Y h:i A') }}</td>
                                 <td>{{ Carbon::parse($item->closing_date)->format('d F Y') }}</td>
                                 <td>
-                                    <a href="#" class="btn btn-xs btn-info btn-view-job"
-                                        data-id="{{ $item->uuid }}">
+                                    <a href="{{ route('jobs.show', $item->uuid) }}"
+                                        class="btn btn-xs btn-info btn-view-job">
                                         <i class="glyphicon glyphicon-eye-open"></i> View
                                     </a>
                                 </td>
@@ -96,7 +118,6 @@
             </div>
         </div>
     </section>
-
     <!-- Modal -->
     <div class="modal fade" id="jobModal" tabindex="-1" role="dialog" aria-labelledby="jobModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -117,24 +138,27 @@
         </div>
     </div>
 
+
 @endsection
 
 
 @section('javascript')
     <script>
         $(document).ready(function() {
-            $('.btn-view-job').click(function(e) {
+            $('#jobs_Table').on('click', '.btn-view-job', function(e) {
                 e.preventDefault();
-                var jobId = $(this).data('id');
+                var url = $(this).attr('href'); // Get the URL from the href attribute
+
                 $.ajax({
-                    url: '{{ route('jobs.show', '') }}/' + jobId,
+                    url: url, // Use the href URL directly
                     method: 'GET',
                     success: function(response) {
                         $('#jobModalLabel').text(response.title);
                         $('#modal-job-note').html(response.note);
                         $('#jobModal').modal('show');
                     },
-                    error: function() {
+                    error: function(xhr, status, error) {
+                        console.log('Error:', error); // Log the error details
                         alert('Failed to fetch job details.');
                     }
                 });

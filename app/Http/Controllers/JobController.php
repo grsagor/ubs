@@ -100,7 +100,14 @@ class JobController extends Controller
     public function show($id)
     {
         $job = Job::find($id);
-        return response()->json($job);
+        if ($job) {
+            return response()->json([
+                'title' => $job->title,
+                'note' => $job->note
+            ]);
+        } else {
+            return response()->json(['error' => 'Job not found'], 404);
+        }
     }
 
     public function edit($id)
@@ -189,16 +196,21 @@ class JobController extends Controller
 
     protected function generateNewReference($job)
     {
-        // Get the latest reference from the jobs table
-        $latestReference = $job->orderBy('created_at', 'desc')->value('reference');
+        do {
+            // Generate a random 8-digit number
+            $newNumber = mt_rand(1, 99999999);
 
-        // Parse the number part of the reference (assuming the format 'Unijob000001')
-        $latestNumber = $latestReference ? (int)substr($latestReference, -6) : 0;
+            // Format the number to be 8 digits long (e.g., '00000001')
+            $formattedNumber = sprintf('%08d', $newNumber);
 
-        // Increment the number
-        $newNumber = $latestNumber + 1;
+            // Create the new reference
+            $newReference = 'Uni' . $formattedNumber;
 
-        // Create the new reference with the incremented number
-        return 'Unijob' . sprintf('%06d', $newNumber);
+            // Check if the new reference already exists in the jobs table
+            $exists = $job->where('reference', $newReference)->exists();
+        } while ($exists); // Repeat the process if the reference exists
+
+        // Return the new unique reference
+        return $newReference;
     }
 }
