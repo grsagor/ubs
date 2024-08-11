@@ -15,64 +15,13 @@
                 <div class="card custom-card card-design">
                     <div class="card-body">
 
-                        <div class="row header laptopp-view">
-                            <div class="col-md-9">
-                                <div class="job-title">{{ $job->title }}</div>
-                                <div class="card-text company-name color-black">{{ $job->company_name }}</div>
-
-                            </div>
-
-                            <div class="col-md-3 text-end">
-                                @php
-                                    $businessLocation = $job->business_location;
-                                    $imageUrl =
-                                        $businessLocation && File::exists($businessLocation->logo)
-                                            ? asset($businessLocation->logo)
-                                            : 'https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg';
-                                @endphp
-
-                                <a href="{{ $businessLocation ? route('shop.service', $businessLocation->id) : '#' }}">
-                                    <div>
-                                        <img class="" src="{{ $imageUrl }}" alt=""
-                                            style="width: 35% !important;">
-                                    </div>
-                                </a>
-                            </div>
+                        <div class="col-md-12">
+                            <div class="job-title">{{ $job->title }}</div>
+                            <div class="card-text company-name color-black">{{ $job->job_category->name }}</div>
                         </div>
 
-                        <div class="row header mobile-view">
-                            <div class="col-md-12 text-center">
-                                @php
-                                    $businessLocation = $job->business_location;
-                                    $imageUrl =
-                                        $businessLocation && File::exists($businessLocation->logo)
-                                            ? asset($businessLocation->logo)
-                                            : 'https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg';
-                                @endphp
-
-                                <a href="{{ $businessLocation ? route('shop.service', $businessLocation->id) : '#' }}">
-                                    <div>
-                                        <img class="" src="{{ $imageUrl }}" alt=""
-                                            style="width: 30% !important;">
-                                    </div>
-                                </a>
-
-                            </div>
-                            <div class="col-md-12 mt-3">
-                                <div class="job-title">{{ $job->company_name }}</div>
-                                <p class="card-text company-name color-black">{{ $job->title }}</p>
-                            </div>
-                        </div>
-
-                        <div class="apply-section mt-3">
-                            <div class="deadline-heading">
-                                Application Deadline: <span
-                                    class="deadline-date">{{ \Carbon\Carbon::parse($job->closing_date)->format('d F Y') }}</span>
-                            </div>
-                            <div class="apply-button">
-                                @include('frontend.recruitment.applyBtn')
-                            </div>
-
+                        <div class="mt-5 mb-4">
+                            @include('frontend.recruitment.applyBtn')
                         </div>
 
                         <div class="summary-section row mt-3">
@@ -81,6 +30,11 @@
                                     <h3 class="sectitle">Summary</h3>
                                     <div class="row">
                                         <div class="col-md-6">
+
+                                            <div>
+                                                Reference: <span class="txtbold">{{ $job->reference }}</span>
+                                            </div>
+
                                             <div>
                                                 Employee Status: <span
                                                     class="txtbold">{{ implode(', ', $job->hour_type) }}</span>
@@ -114,20 +68,9 @@
                                                 }
                                             @endphp
 
-                                            @if ($salary)
-                                                <div>
-                                                    Salary: <span class="txtbold"> {{ $salary }} </span>
-                                                </div>
-                                            @endif
-
-
-                                            @if ($job->vacancies)
-                                                <div>
-                                                    Vacancies: <span class="txtbold">
-                                                        {{ $job->vacancies }}
-                                                    </span>
-                                                </div>
-                                            @endif
+                                            <div>
+                                                Salary: <span class="txtbold"> {{ $salary ?? 'N/A' }} </span>
+                                            </div>
 
                                         </div>
 
@@ -136,11 +79,18 @@
                                                 Job Location: <span class="txtbold">{{ $job->location }}</span>
                                             </div>
                                             <div>
-                                                Reference: <span class="txtbold">{{ $job->reference }}</span>
+                                                Vacancies: <span class="txtbold">
+                                                    {{ $job->vacancies ?? 'N/A' }}
+                                                </span>
                                             </div>
+
                                             <div>
                                                 Published: <span
-                                                    class="txtbold">{{ $job->created_at->format('j F Y') }}</span>
+                                                    class="txtbold">{{ $job->created_at->format('j M Y') }}</span>
+                                            </div>
+                                            <div>
+                                                Deadline: <span
+                                                    class="text-danger fw-bold">{{ \Carbon\Carbon::parse($job->closing_date)->format('d M Y') }}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -170,6 +120,41 @@
                                         <div class="text-justify">
                                             {!! $job->company_information ?? '' !!}
                                         </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="requirements-section row mt-3">
+                            <div class="col-sm-12 ">
+                                <div class="requirements-card">
+
+                                    <div class="row">
+                                        <div
+                                            class="card-text company-name color-black text_mobile_center col-md-6 col-sm-12">
+                                            <h3 class="sectitle">Job Advertiser</h3>
+
+                                            {{ $job->business_location->name }}
+                                        </div>
+
+                                        <div class="col-md-6 col-sm-12 image_mobile_view">
+                                            @php
+                                                $businessLocation = $job->business_location;
+                                                $imageUrl =
+                                                    $businessLocation && File::exists($businessLocation->logo)
+                                                        ? asset($businessLocation->logo)
+                                                        : 'https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg';
+                                            @endphp
+
+                                            <a
+                                                href="{{ $businessLocation ? route('shop.service', $businessLocation->id) : '#' }}">
+                                                <div>
+                                                    <img class="logo_mobile" src="{{ $imageUrl }}"
+                                                        alt="Business location logo">
+                                                </div>
+                                            </a>
+                                        </div>
+
                                     </div>
                                 </div>
                             </div>

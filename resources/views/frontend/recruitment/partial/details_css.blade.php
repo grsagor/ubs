@@ -36,11 +36,7 @@
         font-weight: 600;
     }
 
-    .apply-section {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
+
 
     .deadline-heading {
         flex: 1;
@@ -149,6 +145,14 @@
         margin-bottom: 15px;
     }
 
+    .image_mobile_view {
+        text-align: right;
+    }
+
+    .card img {
+        width: 25% !important;
+    }
+
     @media (max-width: 767px) {
         .reptitle {
             font-size: 15px !important;
@@ -161,5 +165,19 @@
         .laptopp-view {
             display: none;
         }
+
+        .image_mobile_view {
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        .text_mobile_center {
+            text-align: center;
+        }
+
+        .card img {
+            width: 60% !important;
+        }
+
     }
 </style>

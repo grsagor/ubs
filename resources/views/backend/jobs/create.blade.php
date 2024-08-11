@@ -223,9 +223,9 @@
                             </div>
                         </div>
                     </div>
+                @endcomponent
 
-                    <hr style="margin-top: 30px; margin-bottom: 20px; border-top: 3px solid #3e8541;">
-
+                @component('components.widget', ['class' => 'box-primary'])
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="form-group">
