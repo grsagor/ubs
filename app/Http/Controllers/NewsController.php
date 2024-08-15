@@ -27,7 +27,11 @@ class NewsController extends Controller
 
     public function index(Request $request)
     {
-        $data['news'] = News::query()->search($request)->with('newsCategory')->latest()->paginate(10);
+        $data['news'] = News::query()
+            ->search($request)
+            ->with('newsCategory')
+            ->latest()
+            ->get();
 
         return view('news.index', $data);
     }
