@@ -10,7 +10,7 @@ class News extends Model
 {
     use HasFactory, CreatedUpdatedBy;
 
-    protected $table = 'shop-news';
+    protected $table = 'shop_news';
     protected $primaryKey = 'id';
 
     protected $fillable = [

@@ -391,13 +391,14 @@
                 </li>
             @endif
 
-            {{-- <li><a href="{{ route('shop-news.index') }}"><i class="fa fa-newspaper"></i>
+            <li><a href="{{ route('shop-news.index') }}"><i class="fa fa-newspaper"></i>
                     <span>News</span></a>
             </li>
             <li><a href="{{ route('shop-news-category.index') }}"><i class="fa fa-list-alt"></i>
                     <span>Category For News</span></a>
             </li>
-            <li><a href="{{ route('shop-marketing.index') }}"><i class="fa fa-bullhorn"></i>
+
+            {{-- <li><a href="{{ route('shop-marketing.index') }}"><i class="fa fa-bullhorn"></i>
                     <span>Marketing</span></a>
             </li>
             <li><a href="{{ route('shop-marketing-category.index') }}"><i class="fa fa-list-alt"></i>

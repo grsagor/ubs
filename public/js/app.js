@@ -257,6 +257,40 @@ $(document).ready(function () {
     ],
   });
 
+  $("#shop_news_table").DataTable({
+    paging: true,
+    lengthChange: true,
+    searching: true,
+    ordering: true,
+    info: true,
+    autoWidth: false,
+    responsive: false,
+    pageLength: 10, // Set the initial page length to 10
+    columnDefs: [
+      {
+        orderable: false,
+        targets: 3, // Disable ordering on the Action column
+      },
+    ],
+  });
+
+  $("#shop_news_category_table").DataTable({
+    paging: true,
+    lengthChange: true,
+    searching: true,
+    ordering: true,
+    info: true,
+    autoWidth: false,
+    responsive: false,
+    pageLength: 10, // Set the initial page length to 10
+    columnDefs: [
+      {
+        orderable: false,
+        targets: 2, // Disable ordering on the Action column
+      },
+    ],
+  });
+
   //Tax Rates table
   var tax_rates_table = $("#tax_rates_table").DataTable({
     processing: true,

@@ -26,7 +26,10 @@ class NewsCategoryController extends Controller
 
     public function index(Request $request)
     {
-        $data['news'] = NewsCategory::query()->search($request)->latest()->paginate(10);
+        $data['news'] = NewsCategory::query()
+            ->search($request)
+            ->latest()
+            ->get();
 
         return view('news_category.index', $data);
     }
@@ -122,9 +125,9 @@ class NewsCategoryController extends Controller
      */
     public function destroy($id)
     {
-        $data = NewsCategory::find($id);
+        // $data = NewsCategory::find($id);
 
-        return $this->curdService->delete($data, 'shop-news-category.index', 'News Category Deleted');
+        // return $this->curdService->delete($data, 'shop-news-category.index', 'News Category Deleted');
     }
 
     public function statusChange($id)
