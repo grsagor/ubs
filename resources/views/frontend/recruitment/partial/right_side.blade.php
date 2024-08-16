@@ -3,7 +3,7 @@
     <div class="showing-products border-2 border-bottom border-light" id="ajaxContent">
 
         <div class="row mb-4 g-3 product-style-1 shop-list product-list  e-title-hover-primary e-hover-image-zoom"
-            style="padding: 0px !important;">
+            style="padding: 10px !important;">
 
             {{-- Job part --}}
             <div class="col-md-9 laptop_view_card mobile_view_card">
