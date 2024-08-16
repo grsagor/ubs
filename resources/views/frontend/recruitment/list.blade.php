@@ -17,12 +17,12 @@
     </div>
 
     @foreach ($jobs as $item)
-        <div class="col mb-4">
+        <div class="col mb-4 custom-card">
             <a href="{{ route('recruitment.details', ['id' => $item->short_id, 'slug' => $item->slug]) }}"
                 class="text-decoration-none text-dark">
                 <div class="product type-product rounded">
                     <div class="row">
-                        <div class="product-wrapperrrrr col-lg-4 col-md-4 col-sm-12 d-flex mobile-view-center"
+                        <div class="col-lg-4 col-md-4 col-sm-12 d-flex mobile-view-center"
                             style="padding-right: 0px; height: 193px;">
                             <img class="lazy img-fluid w-100 mobile-view-image"
                                 src="{{ $item->business_location && $item->business_location->logo ? asset($item->business_location->logo) : 'https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg' }}"
@@ -42,9 +42,6 @@
                                 <h5 class="product-title" style="padding: 0; margin: 0;">
                                     <span style="font-weight: 600;">{{ Str::limit($item->title, 45, '...') }}</span>
                                 </h5>
-
-                                {{-- <hr style="color: #00ff00; height: 1px; width: 100% !important; margin: 0rem 0"> --}}
-
                                 <p class="card-text mb-0 company-name color-black para-font" style="margin-top: 7px;">
                                     Employer: {{ $item->company_name }}
                                 </p>
@@ -56,7 +53,6 @@
                                 <p class="card-text mb-0 color-black para-font">Location: {{ $item->location }}</p>
                                 <p class="card-text mb-0 color-black para-font">Closing Date:
                                     {{ Carbon::parse($item->closing_date)->format('d F Y') }}</p>
-
                             </div>
                         </div>
                     </div>
