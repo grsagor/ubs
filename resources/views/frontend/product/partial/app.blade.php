@@ -2,9 +2,9 @@
 @section('content')
     @includeIf('frontend.partials.global.common-header')
 
-    <div class="shop-list-page">
+    <div class="list-page">
         <div class="mt-2 content-circle">
-            <div class="container">
+            <div class="container mt-3 mb-6" style="max-width: 1450px;">
                 <div class="row">
                     @include('frontend.service.service_list.partial.left_side')
 
