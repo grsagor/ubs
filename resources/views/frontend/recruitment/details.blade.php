@@ -126,39 +126,35 @@
                         </div>
 
                         <div class="requirements-section row mt-3">
-                            <div class="col-sm-12 ">
-                                <div class="requirements-card">
-
-                                    <div class="row">
-                                        <div
-                                            class="card-text company-name color-black text_mobile_center col-md-6 col-sm-12">
-                                            <h3 class="sectitle">Job Advertiser</h3>
-
-                                            {{ $job->business_location->name }}
-                                        </div>
-
-                                        <div class="col-md-6 col-sm-12 image_mobile_view">
-                                            @php
-                                                $businessLocation = $job->business_location;
-                                                $imageUrl =
-                                                    $businessLocation && File::exists($businessLocation->logo)
-                                                        ? asset($businessLocation->logo)
-                                                        : 'https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg';
-                                            @endphp
-
-                                            <a
-                                                href="{{ $businessLocation ? route('shop.service', $businessLocation->id) : '#' }}">
+                            <div class="col-sm-12">
+                                @php
+                                    $businessLocation = $job->business_location;
+                                    $imageUrl =
+                                        $businessLocation && File::exists($businessLocation->logo)
+                                            ? asset($businessLocation->logo)
+                                            : 'https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg';
+                                @endphp
+                                <a href="{{ $businessLocation ? route('shop.service', $businessLocation->id) : '#' }}"
+                                    class="text-decoration-none">
+                                    <div class="requirements-card">
+                                        <div class="row">
+                                            <div
+                                                class="card-text company-name color-black text_mobile_center col-md-6 col-sm-12">
+                                                <h3 class="sectitle">Job Advertiser</h3>
+                                                {{ $job->business_location->name }}
+                                            </div>
+                                            <div class="col-md-6 col-sm-12 image_mobile_view">
                                                 <div>
                                                     <img class="logo_mobile" src="{{ $imageUrl }}"
                                                         alt="Business location logo">
                                                 </div>
-                                            </a>
+                                            </div>
                                         </div>
-
                                     </div>
-                                </div>
+                                </a>
                             </div>
                         </div>
+
 
                         <div class="report-section row mt-3">
                             <div class="col-sm-12">
