@@ -90,5 +90,10 @@
         .mobile_view_card_descripition {
             padding-left: 15px !important;
         }
+
+
+        .laptop_view_card {
+            padding: unset;
+        }
     }
 </style>
