@@ -10,7 +10,7 @@ class DataSetService
     public function getNestedDataSets()
     {
         // Get all data sets and order them alphabetically by name
-        $dataSets = Category::where('business_id', 5)->orderBy('name')->get();
+        $dataSets = Category::where('business_id', 5)->where('category_type', 'service')->orderBy('name')->get();
 
         // Group data sets by their parent IDs
         $groupedDataSets = $dataSets->groupBy('parent_id');
