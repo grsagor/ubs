@@ -36,8 +36,6 @@
                             <th>Salary</th>
                             <th>Created at</th>
                             <th>Closing date</th>
-                            <th>Note</th>
-                            <th>Status</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -82,31 +80,57 @@
                                 </td>
                                 <td>{{ $item->created_at->format('d F Y h:i A') }}</td>
                                 <td>{{ Carbon::parse($item->closing_date)->format('d F Y') }}</td>
+
                                 <td>
-                                    <a href="{{ route('jobs.show', $item->uuid) }}"
-                                        class="btn btn-xs btn-info btn-view-job">
-                                        <i class="glyphicon glyphicon-eye-open"></i> View
-                                    </a>
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-info dropdown-toggle btn-xs"
+                                            data-toggle="dropdown" aria-expanded="false">
+                                            {{ __('messages.actions') }}
+                                            <span class="caret"></span>
+                                            <span class="sr-only">Toggle Dropdown</span>
+                                        </button>
+                                        <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                                            <li>
+                                                <a href="{{ route('jobs.edit', $item->uuid) }}">
+                                                    <i class="glyphicon glyphicon-edit"></i> Edit
+                                                </a>
+                                            </li>
+
+                                            <li>
+                                                <a href="{{ route('recruitment.details', ['id' => $item->short_id, 'slug' => $item->slug]) }}"
+                                                    target="_blank">
+                                                    <i class="fa fa-info-circle"></i>
+                                                    Details
+                                                </a>
+                                            </li>
+
+                                            <li>
+                                                <a href="{{ route('jobs.show', $item->uuid) }}" class=" btn-view-job">
+                                                    <i class="glyphicon glyphicon-eye-open"></i> Note
+                                                </a>
+                                            </li>
+
+                                            <li>
+                                                <a href="{{ route('jobs.status_change', $item->uuid) }}">
+                                                    <i
+                                                        class="fa fa-power-off {{ $item->status == 0 ? 'text-danger' : 'text-success' }}"></i>
+                                                    <span
+                                                        class="{{ $item->status == 0 ? 'text-danger' : 'text-success' }}">
+                                                        {{ $item->status == 0 ? 'Inactive' : 'Active' }}
+                                                    </span>
+                                                </a>
+                                            </li>
+
+                                            <li>
+                                                <a href="{{ route('jobs.applicantList', $item->uuid) }}">
+                                                    <i class="fas fa-list"></i> Applicants
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+
                                 </td>
-                                <td>
-                                    <a href="{{ route('jobs.status_change', $item->uuid) }}"
-                                        class="btn btn-xs {{ $item->status == 0 ? 'btn-danger' : 'btn-success' }}">
-                                        <i class="fa fa-power-off"></i> {{ $item->status == 0 ? 'Inactive' : 'Active' }}
-                                    </a>
-                                </td>
-                                <td>
-                                    <a href="{{ route('jobs.edit', $item->uuid) }}" class="btn btn-xs btn-primary">
-                                        <i class="glyphicon glyphicon-edit"></i> Edit
-                                    </a>
-                                    <a href="{{ route('recruitment.details', ['id' => $item->short_id, 'slug' => $item->slug]) }}"
-                                        target="_blank" class="btn btn-xs btn-info">
-                                        <i class="glyphicon glyphicon-eye-open"></i>
-                                    </a>
-                                    <a href="{{ route('jobs.applicantList', $item->uuid) }}"
-                                        class="btn btn-xs btn-warning">
-                                        <i class="fas fa-list"></i> Applicants
-                                    </a>
-                                </td>
+
                             </tr>
                         @empty
                             <tr>
@@ -149,9 +173,12 @@
                 e.preventDefault();
 
                 var url = $(this).attr('href');
-                if (!url.startsWith('/')) {
-                    url = '/' + url; // Add leading slash if missing
+
+                // Check if the URL is already an absolute URL
+                if (!url.startsWith('http') && !url.startsWith('/')) {
+                    url = '/' + url; // Add leading slash only for relative URLs
                 }
+
                 console.log('URL:', url);
 
                 $.ajax({
@@ -164,7 +191,6 @@
                     },
                     error: function(xhr, status, error) {
                         console.log('Error:', error);
-                        alert('Failed to fetch job details.');
                     }
                 });
             });
