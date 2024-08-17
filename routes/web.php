@@ -77,7 +77,6 @@ use App\Http\Controllers\Frontend\FrontendController;
 use App\Http\Controllers\Frontend\HomePageController;
 use App\Http\Controllers\Frontend\PropertyController;
 use App\Http\Controllers\Frontend\RoomListController;
-use App\Http\Controllers\MarketingCategoryController;
 
 // use App\Http\Controllers\DashboardConfiguratorController;    
 
@@ -313,16 +312,6 @@ Route::middleware(['checkAdmin', 'SetSessionData'])->group(function () {
     Route::put('shop-news-category/{id}', [NewsCategoryController::class, 'update'])->name('shop-news-category.update');
     Route::delete('shop-news-category/{id}', [NewsCategoryController::class, 'destroy'])->name('shop-news-category.destroy');
     Route::get('shop-news-cactegory/status-change/{id}', [NewsCategoryController::class, 'statusChange'])->name('shop-news-category.statusChange');
-
-    // Shop marketing category
-    Route::get('shop-marketing-category', [MarketingCategoryController::class, 'index'])->name('shop-marketing-category.index');
-    Route::get('shop-marketing-category/create', [MarketingCategoryController::class, 'create'])->name('shop-marketing-category.create');
-    Route::post('shop-marketing-category', [MarketingCategoryController::class, 'store'])->name('shop-marketing-category.store');
-    Route::get('shop-marketing-category/{id}', [MarketingCategoryController::class, 'show'])->name('shop-news-category.show');
-    Route::get('shop-marketing-category/{id}/edit', [MarketingCategoryController::class, 'edit'])->name('shop-marketing-category.edit');
-    Route::put('shop-nemarketingws-category/{id}', [MarketingCategoryController::class, 'update'])->name('shop-marketing-category.update');
-    Route::delete('shop-marketing-category/{id}', [MarketingCategoryController::class, 'destroy'])->name('shop-marketing-category.destroy');
-    Route::get('shop-marketing-cactegory/status-change/{id}', [MarketingCategoryController::class, 'statusChange'])->name('shop-marketing-category.statusChange');
 
     // News
     Route::get('shop-news', [NewsController::class, 'index'])->name('shop-news.index');
