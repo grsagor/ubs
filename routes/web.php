@@ -35,7 +35,6 @@ use App\Http\Controllers\GroupTaxController;
 use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\TaxonomyController;
 use App\Http\Controllers\WarrantyController;
-use App\Http\Controllers\MarketingController;
 use App\Http\Controllers\ShopShareController;
 use App\Http\Controllers\ManageUserController;
 use App\Http\Controllers\RoomToRentController;
@@ -54,7 +53,6 @@ use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Frontend\ShopController;
 use App\Http\Controllers\InvoiceLayoutController;
 use App\Http\Controllers\InvoiceSchemeController;
-use App\Http\Controllers\NewsMarketingController;
 // use App\Http\Controllers\Auth;
 use App\Http\Controllers\PurchaseOrderController;
 use App\Http\Controllers\StockTransferController;
@@ -322,8 +320,6 @@ Route::middleware(['checkAdmin', 'SetSessionData'])->group(function () {
     Route::put('shop-news/{id}', [NewsController::class, 'update'])->name('shop-news.update');
     Route::delete('shop-news/{id}', [NewsController::class, 'destroy'])->name('shop-news.destroy');
     Route::get('shop-news/status-change/{id}', [NewsController::class, 'statusChange'])->name('shop-news.statusChange');
-
-    Route::resource('shop-marketing', MarketingController::class);
 
     Route::get('/applicant/index', [RecruitmentController::class, 'index'])->name('recruitment.index');
     Route::get('/my-applications', [RecruitmentController::class, 'myApplications'])->name('recruitment.myApplications');
