@@ -32,33 +32,60 @@
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $item->newsCategory->name ?? '' }}</td>
                                 <td>{!! Str::limit($item->title, 80, ' ...') !!}</td>
+
+
                                 <td>
-                                    <a href="{{ route('shop-news.edit', $item->id) }}" class="btn btn-xs btn-primary">
-                                        <i class="glyphicon glyphicon-edit"></i> Edit
-                                    </a>
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-info dropdown-toggle btn-xs"
+                                            data-toggle="dropdown" aria-expanded="false">
+                                            {{ __('messages.actions') }}
+                                            <span class="caret"></span>
+                                            <span class="sr-only">Toggle Dropdown</span>
+                                        </button>
+                                        <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                                            <li>
+                                                <a href="{{ route('shop-news.edit', $item->id) }}">
+                                                    <i class="glyphicon glyphicon-edit"></i> Edit
+                                                </a>
+                                            </li>
 
-                                    <a href="{{ route('shop-news.statusChange', $item->id) }}"
-                                        class="btn btn-xs {{ $item->status == 1 ? 'btn-success' : 'btn-danger' }}">
-                                        <i class="fas fa-check-circle"></i>
-                                    </a>
+                                            {{-- <li>
+                                                <a href="#" class="btn-view-job">
+                                                    <i class="glyphicon glyphicon-eye-open"></i> View
+                                                </a>
+                                            </li> --}}
 
-                                    <form action="{{ route('shop-news.destroy', $item->id) }}" method="post"
-                                        style="display: none;" id="delete-form-{{ $item->id }}">
-                                        @csrf
-                                        @method('Delete')
-                                    </form>
+                                            <li>
+                                                <a href="{{ route('shop-news.statusChange', $item->id) }}">
+                                                    <i
+                                                        class="fa fa-power-off {{ $item->status == 0 ? 'text-danger' : 'text-success' }}"></i>
+                                                    <span class="{{ $item->status == 0 ? 'text-danger' : 'text-success' }}">
+                                                        {{ $item->status == 0 ? 'Inactive' : 'Active' }}
+                                                    </span>
+                                                </a>
+                                            </li>
 
-                                    <a class="btn btn-xs btn-danger" href="#"
-                                        onclick="if(confirm('Are You Sure To Delete?')) {
-                                                   event.preventDefault();
-                                                   document.getElementById('delete-form-{{ $item->id }}').submit();
-                                               } else {
-                                                   event.preventDefault();
-                                               }">
-                                        <i class="fas fa-trash-alt"></i>
-                                    </a>
+                                            <li>
+                                                <form action="{{ route('shop-news.destroy', $item->id) }}" method="post"
+                                                    style="display: none;" id="delete-form-{{ $item->id }}">
+                                                    @csrf
+                                                    @method('Delete')
+                                                </form>
 
+                                                <a href="#"
+                                                    onclick="if(confirm('Are You Sure To Delete?')) {
+                                                               event.preventDefault();
+                                                               document.getElementById('delete-form-{{ $item->id }}').submit();
+                                                           } else {
+                                                               event.preventDefault();
+                                                           }">
+                                                    <i class="glyphicon glyphicon-trash"></i> Delete
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </td>
+
                             </tr>
                         @empty
                             <tr>
