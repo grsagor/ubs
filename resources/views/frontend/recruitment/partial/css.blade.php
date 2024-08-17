@@ -1,4 +1,8 @@
 <style>
+    .categories {
+        background-color: #ffffff;
+    }
+
     .custom-card {
         position: relative;
         background-color: #ffffff;

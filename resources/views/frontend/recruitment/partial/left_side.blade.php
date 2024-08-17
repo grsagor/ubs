@@ -1,8 +1,7 @@
 <div class="col-12 col-xl-3 col-lg-3">
     <div id="sidebar" class="widget-title-bordered-full">
-
         <div id="woocommerce_product_categories-4"
-            class="widget woocommerce widget_product_categories widget-toggle closed">
+            class="widget woocommerce widget_product_categories widget-toggle closed categories">
             <h2 class="widget-title">Categories</h2>
             <ul class="product-categories">
                 @foreach ($jobsCategory as $category)
