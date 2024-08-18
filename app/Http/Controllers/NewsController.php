@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\News;
 use Carbon\Carbon;
 use App\NewsCategory;
+use App\BusinessLocation;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Services\CURDservice;
@@ -44,6 +45,12 @@ class NewsController extends Controller
     public function create()
     {
         $data['newCategory'] = NewsCategory::query()->active()->get();
+
+        $business_id = request()->session()->get('user.business_id');
+
+        //Get all business locations
+        $data['business_locations'] = BusinessLocation::where('business_id', $business_id)
+            ->get();
 
         return view('news.create', $data);
     }
@@ -235,7 +242,6 @@ class NewsController extends Controller
                 }
             }
         }
-
 
         $output = [
             'success' => true,

@@ -2,9 +2,7 @@
 @section('title', 'News')
 @section('content')
     <section class="content-header">
-        <h1>News
-            {{-- <small>Fill up what you want</small> --}}
-        </h1>
+        <h1>News </h1>
     </section>
 
     <section class="content">
@@ -23,13 +21,30 @@
                 <form action="{{ route('shop-news.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
 
-                    <div class="col-sm-12">
+                    <input type="hidden" name="type" value="News">
+
+                    <div class="col-sm-6">
                         <div class="form-group">
                             <label class="form-label">Category <span class="text-danger">*</span></label>
-                            <select class="form-control" name="shop_news_category_id" required>
+                            <select class="form-control select2" name="shop_news_category_id" required>
                                 <option value="" selected="selected">Select Category</option>
                                 @foreach ($newCategory as $item)
                                     <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="selling_price_group_id">Shop location <span class="text-danger">*</span></label>
+                            <select class="form-control select2" name="business_location_id" required>
+                                <option value="">Select</option>
+                                @foreach ($business_locations as $item)
+                                    <option value="{{ $item->id }}"
+                                        {{ old('business_location_id') == $item->id ? 'selected' : '' }}>
+                                        {{ $item->name }}
+                                    </option>
                                 @endforeach
                             </select>
                         </div>
@@ -62,7 +77,6 @@
                         </div>
                     </div>
 
-
                     <div class="col-sm-12">
                         <div class="form-group">
                             <label>Gallery:</label>
@@ -71,7 +85,6 @@
                             <div id="image-preview-container" class="mt-2"></div>
                         </div>
                     </div>
-
 
                     <div class="col-sm-6">
                         <div class="form-group">
@@ -100,56 +113,8 @@
             </div>
         </div>
     </section>
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    <script src="https://cdn.tiny.cloud/1/YOUR_API_KEY/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
-    <script>
-        function previewThumbnail(input) {
-            var preview = $('#thumbnail-preview')[0];
-            var file = input.files[0];
+@endsection
 
-            if (file) {
-                var reader = new FileReader();
-                reader.onload = function(e) {
-                    preview.src = e.target.result;
-                    preview.style.display = 'block';
-                };
-                reader.readAsDataURL(file);
-            } else {
-                preview.src = '#';
-                preview.style.display = 'none';
-            }
-        }
-
-
-        function previewImages(input) {
-            var previewContainer = $('#image-preview-container');
-
-            previewContainer.empty(); // Clear previous previews
-
-            var files = input.files;
-
-            for (var i = 0; i < files.length; i++) {
-                var file = files[i];
-
-                var reader = new FileReader();
-
-                reader.onload = function(e) {
-                    var img = $('<img>').attr('src', e.target.result).addClass('img-thumbnail').css('max-width',
-                        '100%');
-                    previewContainer.append(img);
-                };
-
-                reader.readAsDataURL(file);
-            }
-        }
-
-        $(document).ready(function() {
-            if ($("textarea#footer_details").length > 0) {
-                tinymce.init({
-                    selector: "textarea#footer_details",
-                    height: 550,
-                });
-            }
-        });
-    </script>
+@section('javascript')
+    @include('news.partial.js')
 @endsection
