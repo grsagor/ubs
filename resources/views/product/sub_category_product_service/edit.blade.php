@@ -1,15 +1,15 @@
 @extends('layouts.app')
-@section('title', 'Edit Product/Service Category')
+@section('title', 'Edit ' . $sub_category->category_type . ' sub category')
 @section('content')
     <section class="content-header">
-        <h1>Edit Product/Service Sub Category</h1>
+        <h1>Edit {{ $sub_category->category_type }} sub category</h1>
     </section>
 
     <section class="content">
         <div class="form-container box box-primary">
 
             <div class="box-header">
-                <h3 class="box-title">Edit sub category details</h3>
+                <h3 class="box-title">Edit {{ $sub_category->category_type }} sub category details</h3>
                 <div class="box-tools">
                     <a href="{{ route('product_service_category_index') }}" class="btn btn-block btn-primary">
                         <i class="fa fa-list"></i> Category List</a>
@@ -24,22 +24,22 @@
 
                     <div class="form-group">
                         <label for="category_type">Type <span class="text-danger">*</span></label>
-                        <select class="form-control select2" name="category_type" required>
+                        <select class="form-control select2" name="category_type" required id="type">
                             <option value="" selected disabled>Select type</option>
-                            <option value="Product"
-                                {{ old('category_type', $sub_category->category_type) == 'Product' ? 'selected' : '' }}>
+                            <option value="product"
+                                {{ old('category_type', $sub_category->category_type) == 'product' ? 'selected' : '' }}>
                                 Product
                             </option>
-                            <option value="Service"
-                                {{ old('category_type', $sub_category->category_type) == 'Service' ? 'selected' : '' }}>
+                            <option value="service"
+                                {{ old('category_type', $sub_category->category_type) == 'service' ? 'selected' : '' }}>
                                 Service
                             </option>
                         </select>
                     </div>
 
                     <div class="form-group">
-                        <label for="category_id">Category <span class="text-danger">*</span></label>
-                        <select class="form-control select2" name="category_id" required>
+                        <label for="category_id">Parent Category <span class="text-danger">*</span></label>
+                        <select class="form-control select2" name="category_id" required id="category_id">
                             <option value="" selected disabled>Select type</option>
                             @foreach ($categories as $cat)
                                 <option value="{{ $cat->id }}"
@@ -78,4 +78,27 @@
             </div>
         </div>
     </section>
+@endsection
+
+
+@section('javascript')
+    <script>
+        $(document).on('change', '#type', function() {
+            var type = $(this).val();
+            console.log('Type id ' + type);
+
+            $.ajax({
+                url: "{{ route('product.type.change') }}",
+                type: "GET",
+                data: {
+                    type: type
+                },
+                dataType: "html",
+                success: function(html) {
+                    console.log(html);
+                    $('#category_id').html(html);
+                }
+            })
+        })
+    </script>
 @endsection

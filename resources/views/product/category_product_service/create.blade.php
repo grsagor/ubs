@@ -1,8 +1,8 @@
 @extends('layouts.app')
-@section('title', 'Sub Categories of Product/Service')
+@section('title', 'Categories of Product/Service')
 @section('content')
     <section class="content-header">
-        <h1>Sub Categories of Product/Service </h1>
+        <h1>Categories of Product/Service </h1>
     </section>
 
     <section class="content">
@@ -24,36 +24,24 @@
                         <label for="category">Type:<span class="text-danger">*</span></label>
                         <select class="form-control select2" name="category_type" required>
                             <option value="" selected disabled>Select type</option>
-                            <option value="Product" {{ old('category_type') == 'Product' ? 'selected' : '' }}>Product
+                            <option value="product" {{ old('category_type') == 'Product' ? 'selected' : '' }}>Product
                             </option>
-                            <option value="Service" {{ old('category_type') == 'Service' ? 'selected' : '' }}>
+                            <option value="service" {{ old('category_type') == 'Service' ? 'selected' : '' }}>
                                 Service</option>
                         </select>
                     </div>
 
                     <div class="form-group">
-                        <label for="selling_price_group_id">Category <span class="text-danger">*</span></label>
-                        <select class="form-control select2" name="category_id" required>
-                            <option value="" selected disabled>Select type</option>
-                            @foreach ($categorires as $cat)
-                                <option value="{{ $cat->id }}" {{ old('category_id') == $cat->id ? 'selected' : '' }}>
-                                    {{ $cat->name }}
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="name">Sub Category name: <span class="text-danger">*</span></label>
+                        <label for="name">Category name: <span class="text-danger">*</span></label>
                         <input class="form-control" required="" placeholder="Category name" name="name" type="text"
                             id="name">
                     </div>
 
                     <div class="form-group">
-                        <label for="short_code">Sub Category Code:</label>
+                        <label for="short_code">Category Code:</label>
                         <input class="form-control" placeholder="Category Code" name="short_code" type="text"
                             id="short_code">
-                        <p class="help-block">Sub Category code is same as <b>HSN code</b></p>
+                        <p class="help-block">Category code is same as <b>HSN code</b></p>
                     </div>
 
                     <div class="form-group">

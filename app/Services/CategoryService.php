@@ -22,8 +22,9 @@ class CategoryService
             ->where('business_id', $business_id)
             ->whereIn('category_type', $category_type)
             ->where('parent_id', 0)
-            ->with('sub_categories')
+            ->with(['sub_categories', 'sub_categories.child_categories']) // Eager load sub_categories and their child_categories
             ->orderBy('name', 'asc') // Order by name alphabetically
+            // ->latest()
             ->get();
 
         return $data;
@@ -72,7 +73,12 @@ class CategoryService
             $object->short_code = $request->short_code;
             $object->category_type = $request->category_type;
             $object->description = $request->description;
-            $object->parent_id = $request->input('category_id', 0); // Default to 0 if not set
+
+            if (!empty($request->input('category_id'))) {
+                $object->parent_id = $request->category_id;
+            } else {
+                $object->parent_id = 0;
+            }
 
             $object->save();
 

@@ -456,8 +456,11 @@ Route::middleware(['checkAdmin', 'SetSessionData'])->group(function () {
     Route::get('/product-service/category/edit/{id}',           [TaxonomyController::class, 'product_service_category_edit'])->name('product_service_category_edit');
     Route::put('/product-service/category/update/{id}',         [TaxonomyController::class, 'product_service_category_update'])->name('product_service_category_update');
 
-    Route::get('/product-service/sub-category/create',        [TaxonomyController::class, 'product_service_sub_category_create'])->name('product_service_sub_category_create');
-    Route::get('/product-service/sub-category/edit/{id}',     [TaxonomyController::class, 'product_service_sub_category_edit'])->name('product_service_sub_category_edit');
+    Route::get('/product-service/sub-category/create',          [TaxonomyController::class, 'product_service_sub_category_create'])->name('product_service_sub_category_create');
+    Route::get('/product-service/sub-category/edit/{id}',       [TaxonomyController::class, 'product_service_sub_category_edit'])->name('product_service_sub_category_edit');
+
+    Route::get('/product-service/child-category/create',        [TaxonomyController::class, 'product_service_child_category_create'])->name('product_service_child_category_create');
+    Route::get('/product-service/child-category/edit/{id}',     [TaxonomyController::class, 'product_service_child_category_edit'])->name('product_service_child_category_edit');
 
     Route::resource('variation-templates', VariationTemplateController::class);
 
