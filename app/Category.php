@@ -97,6 +97,12 @@ class Category extends Model
         return $this->hasMany(\App\Category::class, 'parent_id');
     }
 
+    public function child_categories()
+    {
+        return $this->hasMany(\App\Category::class, 'parent_id');
+    }
+
+
     /**
      * Scope a query to only include main categories.
      *

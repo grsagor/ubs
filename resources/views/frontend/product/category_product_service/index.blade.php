@@ -25,6 +25,11 @@
             <div class="box-header">
                 <div class="box-tools">
                     <a type="button" class="btn btn-block btn-primary"
+                        href="{{ route('product_service_child_category_create') }}" style="margin-left: 8px;">
+                        <i class="fa fa-plus"></i> Child-Category</a>
+                </div>
+                <div class="box-tools">
+                    <a type="button" class="btn btn-block btn-primary"
                         href="{{ route('product_service_sub_category_create') }}" style="margin-left: 4px;">
                         <i class="fa fa-plus"></i> Sub-Category</a>
                 </div>
@@ -39,7 +44,8 @@
                 <table id="category_business_Table" class="table table-bordered table-striped table-hover">
                     <thead>
                         <tr>
-                            <th>Category name</th>
+                            <th>Category Name</th>
+                            <th>Type</th>
                             <th>Short Code</th>
                             <th>Description</th>
                             <th>Action</th>
@@ -47,8 +53,10 @@
                     </thead>
                     <tbody>
                         @forelse ($categories as $item)
+                            <!-- Main Category -->
                             <tr>
                                 <td>{{ $item->name }}</td>
+                                <td>{{ $item->category_type }}</td>
                                 <td>{{ $item->short_code }}</td>
                                 <td>{{ $item->description }}</td>
                                 <td>
@@ -59,16 +67,37 @@
                                 </td>
                             </tr>
 
+                            <!-- Sub Categories -->
                             @foreach ($item->sub_categories as $sub)
                                 <tr>
-                                    <td>--{{ $sub->name }}</td>
+                                    <td>&nbsp;&nbsp;-- {{ $sub->name }}</td> <!-- Indent to show it's a sub-category -->
+                                    <td>{{ $item->category_type }}</td>
                                     <td>{{ $sub->short_code }}</td>
                                     <td>{{ $sub->description }}</td>
-                                    <td> <a href="{{ route('product_service_sub_category_edit', $sub->id) }}"
+                                    <td>
+                                        <a href="{{ route('product_service_sub_category_edit', $sub->id) }}"
                                             class="btn btn-xs btn-primary">
                                             <i class="glyphicon glyphicon-edit"></i> Edit
-                                        </a></td>
+                                        </a>
+                                    </td>
                                 </tr>
+
+                                <!-- Child Categories -->
+                                @foreach ($sub->child_categories as $child)
+                                    <tr>
+                                        <td>&nbsp;&nbsp;&nbsp;&nbsp;---- {{ $child->name }}</td>
+                                        <!-- Further indent for child categories -->
+                                        <td>{{ $item->category_type }}</td>
+                                        <td>{{ $child->short_code }}</td>
+                                        <td>{{ $child->description }}</td>
+                                        <td>
+                                            <a href="{{ route('product_service_child_category_edit', $child->id) }}"
+                                                class="btn btn-xs btn-primary">
+                                                <i class="glyphicon glyphicon-edit"></i> Edit
+                                            </a>
+                                        </td>
+                                    </tr>
+                                @endforeach
                             @endforeach
                         @empty
                             <tr>
@@ -77,6 +106,7 @@
                         @endforelse
                     </tbody>
                 </table>
+
 
             </div>
         </div>

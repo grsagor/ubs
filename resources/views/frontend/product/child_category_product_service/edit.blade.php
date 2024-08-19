@@ -1,8 +1,8 @@
 @extends('layouts.app')
-@section('title', 'Edit ' . $sub_category->category_type . ' sub category')
+@section('title', 'Edit Product/Service Category')
 @section('content')
     <section class="content-header">
-        <h1>Edit {{ $sub_category->category_type }} sub category</h1>
+        <h1>Edit Product/Service Sub Category</h1>
     </section>
 
     <section class="content">
@@ -26,12 +26,12 @@
                         <label for="category_type">Type <span class="text-danger">*</span></label>
                         <select class="form-control select2" name="category_type" required>
                             <option value="" selected disabled>Select type</option>
-                            <option value="product"
-                                {{ old('category_type', $sub_category->category_type) == 'product' ? 'selected' : '' }}>
+                            <option value="Product"
+                                {{ old('category_type', $sub_category->category_type) == 'Product' ? 'selected' : '' }}>
                                 Product
                             </option>
-                            <option value="service"
-                                {{ old('category_type', $sub_category->category_type) == 'service' ? 'selected' : '' }}>
+                            <option value="Service"
+                                {{ old('category_type', $sub_category->category_type) == 'Service' ? 'selected' : '' }}>
                                 Service
                             </option>
                         </select>

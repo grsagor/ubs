@@ -22,8 +22,9 @@ class CategoryService
             ->where('business_id', $business_id)
             ->whereIn('category_type', $category_type)
             ->where('parent_id', 0)
-            ->with('sub_categories')
+            ->with(['sub_categories', 'sub_categories.child_categories']) // Eager load sub_categories and their child_categories
             ->orderBy('name', 'asc') // Order by name alphabetically
+            // ->latest()
             ->get();
 
         return $data;

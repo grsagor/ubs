@@ -1,15 +1,15 @@
 @extends('layouts.app')
-@section('title', 'Edit Product/Service Category')
+@section('title', 'Edit ' . $data->category_type . ' category')
 @section('content')
     <section class="content-header">
-        <h1>Edit Product/Service Category</h1>
+        <h1>Edit {{ $data->category_type }} category</h1>
     </section>
 
     <section class="content">
         <div class="form-container box box-primary">
 
             <div class="box-header">
-                <h3 class="box-title">Edit category details</h3>
+                <h3 class="box-title">Edit {{ $data->category_type }} category details</h3>
                 <div class="box-tools">
                     <a href="{{ route('product_service_category_index') }}" class="btn btn-block btn-primary">
                         <i class="fa fa-list"></i> Category List</a>
@@ -26,28 +26,28 @@
                         <label for="category_type">Type <span class="text-danger">*</span></label>
                         <select class="form-control select2" name="category_type" required>
                             <option value="" selected disabled>Select type</option>
-                            <option value="Product"
-                                {{ old('category_type', $data->category_type) == 'Product' ? 'selected' : '' }}>
+                            <option value="product"
+                                {{ old('category_type', $data->category_type) == 'product' ? 'selected' : '' }}>
                                 Product
                             </option>
-                            <option value="Service"
-                                {{ old('category_type', $data->category_type) == 'Service' ? 'selected' : '' }}>
+                            <option value="service"
+                                {{ old('category_type', $data->category_type) == 'service' ? 'selected' : '' }}>
                                 Service
                             </option>
                         </select>
                     </div>
 
                     <div class="form-group">
-                        <label for="name">Sub Category name: <span class="text-danger">*</span></label>
+                        <label for="name">Category name: <span class="text-danger">*</span></label>
                         <input class="form-control" required placeholder="Category name" name="name" type="text"
                             id="name" value="{{ old('name', $data->name) }}">
                     </div>
 
                     <div class="form-group">
-                        <label for="short_code">Sub Category Code:</label>
+                        <label for="short_code">Code:</label>
                         <input class="form-control" placeholder="Category Code" name="short_code" type="text"
                             id="short_code" value="{{ old('short_code', $data->short_code) }}">
-                        <p class="help-block">Category code is same as <b>HSN code</b></p>
+                        <p class="help-block">Code is same as <b>HSN code</b></p>
                     </div>
 
                     <div class="form-group">

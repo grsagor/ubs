@@ -479,7 +479,7 @@ class TaxonomyController extends Controller
         }
     }
 
-    public function product_service_category_index(Request $request)
+    public function product_service_category_index()
     {
         $object = new Category();
 
@@ -490,7 +490,7 @@ class TaxonomyController extends Controller
         return view('frontend.product.category_product_service.index', $data);
     }
 
-    public function product_service_category_create(Request $request)
+    public function product_service_category_create()
     {
         return view('frontend.product.category_product_service.create');
     }
@@ -540,5 +540,15 @@ class TaxonomyController extends Controller
             ->get();
 
         return view('frontend.product.sub_category_product_service.edit', $data);
+    }
+
+    public function product_service_child_category_create()
+    {
+        $data['categorires'] = Category::query()
+            ->whereIn('category_type', ['product', 'service'])
+            ->where('parent_id', 0)
+            ->get();
+
+        return view('frontend.product.child_category_product_service.create', $data);
     }
 }

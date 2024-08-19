@@ -1,8 +1,8 @@
 @extends('layouts.app')
-@section('title', 'Sub Category of Product/Service')
+@section('title', 'Child Categories of Product/Service')
 @section('content')
     <section class="content-header">
-        <h1>Sub Categories of Product/Service </h1>
+        <h1>Child Categories of Product/Service </h1>
     </section>
 
     <section class="content">
@@ -33,22 +33,29 @@
 
                     <div class="form-group">
                         <label for="selling_price_group_id">Parent Category <span class="text-danger">*</span></label>
-                        <select class="form-control select2" name="category_id" required id="category_id">
+                        <select class="form-control select2" required id="category_id">
                             <option value="" selected disabled>Select type</option>
                         </select>
                     </div>
 
                     <div class="form-group">
-                        <label for="name">Sub Category name: <span class="text-danger">*</span></label>
+                        <label for="selling_price_group_id">Sub Category <span class="text-danger">*</span></label>
+                        <select class="form-control select2" name="category_id" required id="sub_category_id">
+                            <option value="" selected disabled>Select type</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="name">Child Category name: <span class="text-danger">*</span></label>
                         <input class="form-control" required="" placeholder="Category name" name="name" type="text"
                             id="name">
                     </div>
 
                     <div class="form-group">
-                        <label for="short_code">Sub Category Code:</label>
+                        <label for="short_code">Child Category Code:</label>
                         <input class="form-control" placeholder="Category Code" name="short_code" type="text"
                             id="short_code">
-                        <p class="help-block">Sub Category code is same as <b>HSN code</b></p>
+                        <p class="help-block">Child category code is same as <b>HSN code</b></p>
                     </div>
 
                     <div class="form-group">
@@ -89,5 +96,19 @@
                 }
             })
         })
+        $(document).on('change', '#category_id', function() {
+            var category_id = $(this).val();
+            $.ajax({
+                url: "{{ route('product.category_id.change') }}",
+                type: "GET",
+                data: {
+                    category_id: category_id
+                },
+                dataType: "html",
+                success: function(html) {
+                    $('#sub_category_id').html(html);
+                }
+            })
+        });
     </script>
 @endsection
