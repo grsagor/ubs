@@ -6,6 +6,13 @@ use Illuminate\Support\Facades\Auth;
 
 class CategoryService
 {
+    protected $slug_service;
+
+    public function __construct(SlugService $slug_service)
+    {
+        $this->slug_service               = $slug_service;
+    }
+
     public function index($object, $category_type)
     {
         if (auth()->user()->id != 5) {
@@ -37,6 +44,7 @@ class CategoryService
             $object->short_code = $request->short_code;
             $object->category_type = $request->category_type;
             $object->description = $request->description;
+            $object->slug = $this->slug_service->slug_create($request->name, $object);
 
             if (!empty($request->input('category_id'))) {
                 $object->parent_id = $request->category_id;

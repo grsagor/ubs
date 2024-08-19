@@ -454,14 +454,20 @@ class ProductController extends Controller
         $type = $request->type;
         $categories = [];
 
+        $business_id = request()->session()->get('user.business_id');
+
         // for product
         if ($type == 'product') {
-            $categories = Category::where([['parent_id', 0], ['category_type', 'product']])->get();
+            $categories = Category::where([['parent_id', 0], ['category_type', 'product']])
+                ->where('business_id', $business_id)
+                ->get();
         }
 
         // for service
         if ($type == 'service') {
-            $categories = Category::where([['parent_id', 0], ['category_type', 'service'], ['created_by', 5]])->get();
+            $categories = Category::where([['parent_id', 0], ['category_type', 'service']])
+                ->where('business_id', $business_id)
+                ->get();
         }
         return view('product.categories_options', compact('categories'));
     }
@@ -851,25 +857,61 @@ class ProductController extends Controller
         try {
             $business_id = $request->session()->get('user.business_id');
             $product_details = $request->only([
-                'name', 'brand_id', 'sub_category_id',
+                'name',
+                'brand_id',
+                'sub_category_id',
                 'child_category_id',
-                'unit_id', 'category_id', 'tax', 'barcode_type', 'sku',
-                'alert_quantity', 'tax_type', 'weight', 'product_custom_field1',
-                'product_custom_field2', 'product_custom_field3', 'product_custom_field4',
-                'product_description', 'sub_unit_ids', 'preparation_time_in_minutes',
+                'unit_id',
+                'category_id',
+                'tax',
+                'barcode_type',
+                'sku',
+                'alert_quantity',
+                'tax_type',
+                'weight',
+                'product_custom_field1',
+                'product_custom_field2',
+                'product_custom_field3',
+                'product_custom_field4',
+                'product_description',
+                'sub_unit_ids',
+                'preparation_time_in_minutes',
 
-                'study_time', 'name_of_institution', 'duration_year', 'duration_month', 'home_students_fees', 'int_students_fees', 'tuition_fee_installment', 'fee_installment_description', 'course_module', 'course_module_description', 'selected_years', 'selected_months',
-                'name', 'youtube_link',
+                'study_time',
+                'name_of_institution',
+                'duration_year',
+                'duration_month',
+                'home_students_fees',
+                'int_students_fees',
+                'tuition_fee_installment',
+                'fee_installment_description',
+                'course_module',
+                'course_module_description',
+                'selected_years',
+                'selected_months',
+                'name',
+                'youtube_link',
 
-                'work_placement', 'work_placement_description',
-                'service_features', 'general_facilities',
-                'experiences', 'specializations',
-                'policy', 'refund_policy', 'unipuller_data_policy',
+                'work_placement',
+                'work_placement_description',
+                'service_features',
+                'general_facilities',
+                'experiences',
+                'specializations',
+                'policy',
+                'refund_policy',
+                'unipuller_data_policy',
 
-                'disable_reselling', 'price_changeable', 'reselling_price',
-                'reselling_commission_amount', 'reselling_commission_amount_percentage', 'extra_commission',
+                'disable_reselling',
+                'price_changeable',
+                'reselling_price',
+                'reselling_commission_amount',
+                'reselling_commission_amount_percentage',
+                'extra_commission',
                 'define_this_item',
-                'image', 'thumbnail', 'product_brochure'
+                'image',
+                'thumbnail',
+                'product_brochure'
             ]);
 
             DB::beginTransaction();
