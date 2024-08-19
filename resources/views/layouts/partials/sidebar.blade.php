@@ -391,7 +391,11 @@
                 </li>
             @endif
 
-            <li class="treeview">
+
+
+
+            <li
+                class="treeview {{ request()->routeIs('shop-news.index') || request()->routeIs('shop-news-category.index') ? 'active' : '' }}">
                 <a href="#">
                     <i class="fa fa-newspaper"></i> <span>News & Marketing</span>
                     <span class="pull-right-container">
@@ -399,19 +403,26 @@
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="{{ route('shop-news.index') }}"><i class="fa fa-newspaper"></i>
-                            <span>News</span></a>
+                    <li class="{{ request()->routeIs('shop-news.index') ? 'active' : '' }}">
+                        <a href="{{ route('shop-news.index') }}">
+                            <i class="fa fa-newspaper"></i> <span>News</span>
+                        </a>
                     </li>
-                    {{-- <li><a href="{{ route('shop-news.index') }}"><i class="fa fa-newspaper"></i>
-                            <span>Marketing</span></a>
+                    {{-- <li class="{{ request()->routeIs('shop-marketing.index') ? 'active' : '' }}">
+                        <a href="{{ route('shop-marketing.index') }}">
+                            <i class="fa fa-newspaper"></i> <span>Marketing</span>
+                        </a>
                     </li> --}}
                     @if (auth()->user()->id == 5)
-                        <li><a href="{{ route('shop-news-category.index') }}"><i class="fa fa-list-alt"></i>
-                                <span>Category</span></a>
+                        <li class="{{ request()->routeIs('shop-news-category.index') ? 'active' : '' }}">
+                            <a href="{{ route('shop-news-category.index') }}">
+                                <i class="fa fa-list-alt"></i> <span>Category</span>
+                            </a>
                         </li>
                     @endif
                 </ul>
             </li>
+
 
 
         </ul>

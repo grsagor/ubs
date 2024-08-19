@@ -21,35 +21,41 @@
         </div>
     </div>
     <div class="clearfix"></div>
+
     <div class="col-md-6">
         <div class="form-group">
-            {{-- {!! Form::label('Category name', __('business.category_name') . ':*' ) !!} --}}
             <label for="category">Category Name</label>
             <div class="input-group">
                 <span class="input-group-addon">
                     <i class="fa fa-bars"></i>
                 </span>
-                {{-- {!! Form::text('name', null, ['class' => 'form-control','placeholder' => __('business.category_name'), 'required']); !!} --}}
-                <input type="text" name="category" class="form-control" id="category" placeholder="Category name">
-
+                <select class="form-control select2_register" name="category" id="category_id">
+                    <option value="" selected disabled>Select Category</option>
+                    @foreach ($categories as $id => $name)
+                        <option value="{{ $id }}"
+                            {{ old('category', isset($selected_category) ? $selected_category : null) == $id ? 'selected' : '' }}>
+                            {{ $name }}
+                        </option>
+                    @endforeach
+                </select>
             </div>
         </div>
     </div>
+
     <div class="col-md-6">
         <div class="form-group">
-            {{-- {!! Form::label('Category name', __('business.category_name') . ':*' ) !!} --}}
             <label for="subcategory">Subcategory Name</label>
             <div class="input-group">
                 <span class="input-group-addon">
                     <i class="fa fa-list"></i>
                 </span>
-                {{-- {!! Form::text('name', null, ['class' => 'form-control','placeholder' => __('business.category_name'), 'required']); !!} --}}
-                <input type="text" name="subcategory" class="form-control" id="subcategory"
-                    placeholder="Subcategory name">
-
+                <select class="form-control select2_register" name="subcategory" id="sub_category_id">
+                    <option value="" selected disabled>Select Category</option>
+                </select>
             </div>
         </div>
     </div>
+
     <div class="clearfix"></div>
     <div class="col-md-6">
         <div class="form-group">
