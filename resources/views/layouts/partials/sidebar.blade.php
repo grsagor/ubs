@@ -405,9 +405,11 @@
                     {{-- <li><a href="{{ route('shop-news.index') }}"><i class="fa fa-newspaper"></i>
                             <span>Marketing</span></a>
                     </li> --}}
-                    <li><a href="{{ route('shop-news-category.index') }}"><i class="fa fa-list-alt"></i>
-                            <span>Category</span></a>
-                    </li>
+                    @if (auth()->user()->id == 5)
+                        <li><a href="{{ route('shop-news-category.index') }}"><i class="fa fa-list-alt"></i>
+                                <span>Category</span></a>
+                        </li>
+                    @endif
                 </ul>
             </li>
 
