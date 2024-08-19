@@ -544,12 +544,7 @@ class TaxonomyController extends Controller
 
     public function product_service_child_category_create()
     {
-        $data['categorires'] = Category::query()
-            ->whereIn('category_type', ['product', 'service'])
-            ->where('parent_id', 0)
-            ->get();
-
-        return view('product.child_category_product_service.create', $data);
+        return view('product.child_category_product_service.create');
     }
 
     public function product_service_child_category_edit($id)
