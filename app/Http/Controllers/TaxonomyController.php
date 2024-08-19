@@ -487,12 +487,12 @@ class TaxonomyController extends Controller
 
         $data =  $this->category_service->index($object, $category_type);
 
-        return view('frontend.product.category_product_service.index', $data);
+        return view('product.category_product_service.index', $data);
     }
 
     public function product_service_category_create()
     {
-        return view('frontend.product.category_product_service.create');
+        return view('product.category_product_service.create');
     }
 
     public function product_service_category_store(Request $request)
@@ -508,7 +508,7 @@ class TaxonomyController extends Controller
     {
         $data = Category::find($id);
 
-        return view('frontend.product.category_product_service.edit', compact('data'));
+        return view('product.category_product_service.edit', compact('data'));
     }
 
     public function product_service_category_update(Request $request, $id)
@@ -527,7 +527,7 @@ class TaxonomyController extends Controller
             ->where('parent_id', 0)
             ->get();
 
-        return view('frontend.product.sub_category_product_service.create', $data);
+        return view('product.sub_category_product_service.create', $data);
     }
 
     public function product_service_sub_category_edit($id)
@@ -539,7 +539,7 @@ class TaxonomyController extends Controller
             ->where('parent_id', 0)
             ->get();
 
-        return view('frontend.product.sub_category_product_service.edit', $data);
+        return view('product.sub_category_product_service.edit', $data);
     }
 
     public function product_service_child_category_create()
@@ -549,6 +549,31 @@ class TaxonomyController extends Controller
             ->where('parent_id', 0)
             ->get();
 
-        return view('frontend.product.child_category_product_service.create', $data);
+        return view('product.child_category_product_service.create', $data);
+    }
+
+    public function product_service_child_category_edit($id)
+    {
+
+        // Get parent categories for both product and service
+
+
+        $data['child_category'] = Category::findOrFail($id);
+        // Fetch sub-categories for the selected parent category
+        $data['select_sub_categories'] = Category::where('id', $data['child_category']->parent_id)->first();
+        $data['sub_categories'] = Category::where('parent_id', $data['select_sub_categories']->parent_id)->get();
+
+        // return  $data;
+
+        $data['select_category'] = Category::where('id', $data['select_sub_categories']->parent_id)->first();
+
+        $data['categories'] = Category::query()
+            ->where('category_type',  $data['child_category']->category_type)
+            ->where('parent_id', 0)
+            ->get();
+
+
+
+        return view('product.child_category_product_service.edit', $data);
     }
 }

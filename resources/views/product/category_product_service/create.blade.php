@@ -24,9 +24,9 @@
                         <label for="category">Type:<span class="text-danger">*</span></label>
                         <select class="form-control select2" name="category_type" required>
                             <option value="" selected disabled>Select type</option>
-                            <option value="Product" {{ old('category_type') == 'Product' ? 'selected' : '' }}>Product
+                            <option value="product" {{ old('category_type') == 'Product' ? 'selected' : '' }}>Product
                             </option>
-                            <option value="Service" {{ old('category_type') == 'Service' ? 'selected' : '' }}>
+                            <option value="service" {{ old('category_type') == 'Service' ? 'selected' : '' }}>
                                 Service</option>
                         </select>
                     </div>
