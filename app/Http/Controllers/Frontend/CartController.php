@@ -20,7 +20,6 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Session;
 use Stripe\Charge;
 use Stripe\Stripe;
 use App\Utils\BusinessUtil;
@@ -30,6 +29,7 @@ use App\Utils\ModuleUtil;
 use App\Utils\NotificationUtil;
 use App\Utils\ProductUtil;
 use App\Utils\TransactionUtil;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 
 class CartController extends Controller
@@ -95,7 +95,7 @@ class CartController extends Controller
     {
         $current_carts = Session::get('current_carts');
         if(!$current_carts) {
-            return redirect(route('homePage'))->with('error', "No product/service selected.");
+            return redirect(route('service.list'))->with('error', "No product/service selected.");
         }
         $products = Product::whereIn('id', $current_carts)->get();
         foreach ($products as $product) {
@@ -177,7 +177,7 @@ class CartController extends Controller
             }
             $current_carts = Session::get('current_carts');
             if(!$current_carts) {
-                return redirect(route('homePage'))->with('error', "No product/service selected.");
+                return redirect(route('service.list'))->with('error', "No product/service selected.");
             }
             $products = Product::whereIn('id', $current_carts)->get();
             foreach ($products as $product) {
@@ -223,79 +223,6 @@ class CartController extends Controller
             return back()->with('error', $e->getMessage());
         }
     }
-
-    // public function checkoutPost(Request $request)
-    // {
-    //     try {
-    //         DB::beginTransaction();
-    //         Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
-    //         $charge = Charge::create([
-    //             'amount' => $request->amount * 100,
-    //             'currency' => 'usd',
-    //             'source' => $request->stripeToken,
-    //             'description' => 'Payment for your purchase',
-    //         ]);
-
-    //         $transaction_history = new TransactionHistory();
-    //         $transaction_history->user_id = Auth::user()->id;
-    //         $transaction_history->transaction_id = $charge->id;
-    //         $transaction_history->amount = $request->amount;
-    //         $transaction_history->save();
-
-    //         $product_ids = explode(',', $request->product_ids);
-
-    //         foreach ($product_ids as $product_id) {
-    //             $product = Product::with('variations')->find($product_id);
-    //             $price = 0;
-    //             foreach ($product->variations as $variation) {
-    //                 $price += $variation->default_sell_price;
-    //             }
-
-    //             $info = new ProductBuyingInfo();
-    //             $info->user_id = Auth::user()->id;
-    //             $info->product_id = $product_id;
-    //             $info->transaction_id = $transaction_history->id;
-    //             $info->amount = $price;
-    //             $info->personal_name = $request->personal_name;
-    //             $info->personal_email = $request->personal_email;
-    //             $info->pass_check = $request->pass_check;
-    //             $info->personal_pass = $request->personal_pass;
-    //             $info->personal_confirm = $request->personal_confirm;
-    //             $info->shipping = $request->shipping;
-    //             $info->pickup_location = $request->pickup_location;
-    //             $info->customer_name = $request->customer_name;
-    //             $info->customer_email = $request->customer_email;
-    //             $info->customer_phone = $request->customer_phone;
-    //             $info->customer_address = $request->customer_address;
-    //             $info->customer_city = $request->customer_city;
-    //             $info->customer_zip = $request->customer_zip;
-    //             $info->select_country = $request->select_country;
-    //             $info->customer_state = $request->customer_state;
-    //             $info->shipping_name = $request->shipping_name;
-    //             $info->shipping_phone = $request->shipping_phone;
-    //             $info->shipping_address = $request->shipping_address;
-    //             $info->shipping_zip = $request->shipping_zip;
-    //             $info->shipping_city = $request->shipping_city;
-    //             $info->shipping_state = $request->shipping_state;
-    //             $info->shipping_country = $request->shipping_country;
-    //             $info->order_notes = $request->order_notes;
-    //             $info->payment_method = $request->payment_method;
-    //             $info->save();  
-
-    //             $cart = Cart::where([['user_id', Auth::user()->id], ['product_id', $product_id]])->first();
-    //             if($cart) {
-    //                 $cart->delete();
-    //             }
-    //         }
-
-    //         DB::commit();
-
-    //         return redirect(route('homePage'))->with('success', 'Successful.');
-    //     } catch (\Exception $e) {
-    //         DB::rollBack();
-    //         return back()->with('error', $e->getMessage());
-    //     }
-    // }
     public function getClientSecret(Request $request) {
         try {
             \Stripe\Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
@@ -2010,5 +1937,9 @@ class CartController extends Controller
         }
 
         return $formatted;
+    }
+
+    public function paymentSuccessful() {
+        return view('frontend.cart.payment_successful');
     }
 }

@@ -5,8 +5,7 @@ use App\Http\Controllers\RoomToRentController;
 use App\Http\Controllers\RecruitmentController;
 use App\Http\Controllers\ServiceWantedCustomerController;
 use App\Http\Controllers\PropertyWantedCustomerController;
-
-
+use Illuminate\Support\Facades\Route;
 
 // Customer route
 
