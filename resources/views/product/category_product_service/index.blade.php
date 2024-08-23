@@ -56,7 +56,7 @@
                             <!-- Main Category -->
                             <tr>
                                 <td>{{ $item->name }}</td>
-                                <td>{{ $item->category_type }}</td>
+                                <td>{{ ucfirst($item->category_type) }}</td>
                                 <td>{{ $item->short_code }}</td>
                                 <td>{{ $item->description }}</td>
                                 <td>
@@ -71,7 +71,7 @@
                             @foreach ($item->sub_categories as $sub)
                                 <tr>
                                     <td>&nbsp;&nbsp;-- {{ $sub->name }}</td> <!-- Indent to show it's a sub-category -->
-                                    <td>{{ $item->category_type }}</td>
+                                    <td></td>
                                     <td>{{ $sub->short_code }}</td>
                                     <td>{{ $sub->description }}</td>
                                     <td>
@@ -87,7 +87,7 @@
                                     <tr>
                                         <td>&nbsp;&nbsp;&nbsp;&nbsp;---- {{ $child->name }}</td>
                                         <!-- Further indent for child categories -->
-                                        <td>{{ $item->category_type }}</td>
+                                        <td></td>
                                         <td>{{ $child->short_code }}</td>
                                         <td>{{ $child->description }}</td>
                                         <td>
