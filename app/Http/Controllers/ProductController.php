@@ -460,6 +460,7 @@ class ProductController extends Controller
         if ($type == 'product') {
             $categories = Category::where([['parent_id', 0], ['category_type', 'product']])
                 ->where('business_id', $business_id)
+                ->orderBy('name', 'asc')
                 ->get();
         }
 
@@ -467,6 +468,7 @@ class ProductController extends Controller
         if ($type == 'service') {
             $categories = Category::where([['parent_id', 0], ['category_type', 'service']])
                 ->where('business_id', $business_id)
+                ->orderBy('name', 'asc')
                 ->get();
         }
         return view('product.categories_options', compact('categories'));

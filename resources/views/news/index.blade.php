@@ -23,6 +23,7 @@
                             <th>No.</th>
                             <th>Category</th>
                             <th>Title</th>
+                            <th>Created At</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -32,8 +33,7 @@
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $item->newsCategory->name ?? '' }}</td>
                                 <td>{!! Str::limit($item->title, 80, ' ...') !!}</td>
-
-
+                                <td>{{ $item->created_at->format('d F Y h:i A') }}</td>
                                 <td>
                                     <div class="btn-group">
                                         <button type="button" class="btn btn-info dropdown-toggle btn-xs"

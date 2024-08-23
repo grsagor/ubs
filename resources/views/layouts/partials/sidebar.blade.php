@@ -69,7 +69,7 @@
                     @if (auth()->user()->id == 5)
                         <li><a href="{{ route('business_location_category_index') }}"><i
                                     class="fa fas fa-map-marker"></i>
-                                <span>Category of business location</span></a></li>
+                                <span>Category</span></a></li>
                     @endif
                 </ul>
             </li>
