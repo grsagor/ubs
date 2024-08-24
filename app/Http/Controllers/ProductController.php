@@ -460,7 +460,9 @@ class ProductController extends Controller
         if ($type == 'product') {
             $categories = Category::where([['parent_id', 0], ['category_type', 'product']])
                 ->where('business_id', $business_id)
-                ->orderBy('name', 'asc')
+                ->active()
+                ->orderByNameAsc()
+                ->onlyParent()
                 ->get();
         }
 
@@ -468,7 +470,9 @@ class ProductController extends Controller
         if ($type == 'service') {
             $categories = Category::where([['parent_id', 0], ['category_type', 'service']])
                 ->where('business_id', $business_id)
-                ->orderBy('name', 'asc')
+                ->active()
+                ->orderByNameAsc()
+                ->onlyParent()
                 ->get();
         }
         return view('product.categories_options', compact('categories'));
@@ -476,13 +480,21 @@ class ProductController extends Controller
 
     public function productCategoryChange(Request $request)
     {
-        $categories = Category::where([['parent_id', $request->category_id]])->get();
+        $categories = Category::where([['parent_id', $request->category_id]])
+            ->active()
+            ->orderByNameAsc()
+            ->onlyParent()
+            ->get();
         return view('product.categories_options', compact('categories'));
     }
 
     public function productSubcategoryChange(Request $request)
     {
-        $categories = Category::where([['parent_id', $request->sub_category_id]])->get();
+        $categories = Category::where([['parent_id', $request->sub_category_id]])
+            ->active()
+            ->orderByNameAsc()
+            ->onlyParent()
+            ->get();
         return view('product.categories_options', compact('categories'));
     }
 

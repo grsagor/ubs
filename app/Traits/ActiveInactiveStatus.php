@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Services;
+namespace App\Traits;
 
-class CURDservice
+trait ActiveInactiveStatus
 {
-    public function statusChange($item, $routeName, $modelName)
+    public function changeStatus($item, $routeName, $modelName)
     {
         if (!$item) {
             return $this->NotFound($modelName);
@@ -29,18 +29,7 @@ class CURDservice
     {
         return redirect()->route($routeName)->with('status', [
             'success' => true,
-            'msg' => $modelName . ' Successfully!',
+            'msg' => $modelName . ' Status Changed Successfully!',
         ]);
-    }
-
-    public function delete($item, $routeName, $modelName)
-    {
-        if (!$item) {
-            return $this->NotFound($modelName);
-        }
-
-        $item->delete();
-
-        return $this->SuccessFull($modelName, $routeName);
     }
 }

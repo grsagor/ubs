@@ -63,11 +63,22 @@
                         <textarea class="form-control" placeholder="Description" rows="3" name="description" cols="50"
                             id="description"></textarea>
                     </div>
-
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-primary">Submit</button>
-                        </div>
+                    <div class="form-group">
+                        <label class="form-label">Status <span class="text-danger">*</span></label>
+                        <select class="form-control" name="status">
+                            <option selected="" value="">Select Status</option>
+                            @foreach (getStatus() as $status)
+                                <option value="{{ $status['value'] }}" {{ $status['value'] == '1' ? 'selected' : '' }}>
+                                    {{ $status['label'] }}
+                                </option>
+                            @endforeach
+                        </select>
+                        @error('status')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary">Submit</button>
                     </div>
                 </form>
             </div>

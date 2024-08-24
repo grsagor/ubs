@@ -92,6 +92,21 @@ class Category extends Model
         return $dropdown;
     }
 
+    public function scopeOnlyParent($query)
+    {
+        return $query->where('parent_id', 0);
+    }
+
+    public function scopeActive($query)
+    {
+        $query->where('status', 1);
+    }
+
+    public function scopeOrderByNameAsc($query)
+    {
+        return $query->orderBy('name', 'asc');
+    }
+
     public function sub_categories()
     {
         return $this->hasMany(\App\Category::class, 'parent_id');
@@ -100,17 +115,5 @@ class Category extends Model
     public function child_categories()
     {
         return $this->hasMany(\App\Category::class, 'parent_id');
-    }
-
-
-    /**
-     * Scope a query to only include main categories.
-     *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function scopeOnlyParent($query)
-    {
-        return $query->where('parent_id', 0);
     }
 }

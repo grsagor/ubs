@@ -11,7 +11,7 @@
 
             <div class="box-header">
                 <div class="box-tools">
-                    <a href="{{ route('shop-news-category.create') }}" class="btn btn-primary">
+                    <a href="{{ route('shop_news_category_create') }}" class="btn btn-primary">
                         <i class="fa fa-plus"></i> Add
                     </a>
                 </div>
@@ -24,6 +24,7 @@
                         <tr>
                             <th>No.</th>
                             <th>Category</th>
+                            <th>Type</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -32,13 +33,14 @@
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $item->name }}</td>
+                                <td>{{ ucfirst($item->category_type) }}</td>
                                 <td>
-                                    <a href="{{ route('shop-news-category.edit', $item->id) }}"
+                                    <a href="{{ route('shop_news_category_edit', $item->id) }}"
                                         class="btn btn-xs btn-primary">
                                         <i class="glyphicon glyphicon-edit"></i> Edit
                                     </a>
 
-                                    <a href="{{ route('shop-news-category.statusChange', $item->id) }}"
+                                    <a href="{{ route('shop_news_category.statusChange', $item->id) }}"
                                         class="btn btn-xs {{ $item->status == 1 ? 'btn-success' : 'btn-danger' }}">
                                         <i class="fas fa-check-circle"></i>
                                     </a>

@@ -31,7 +31,7 @@
                         @forelse ($news as $item)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
-                                <td>{{ $item->newsCategory->name ?? '' }}</td>
+                                <td>{{ $item->category->name ?? '' }}</td>
                                 <td>{!! Str::limit($item->title, 80, ' ...') !!}</td>
                                 <td>{{ $item->created_at->format('d F Y h:i A') }}</td>
                                 <td>

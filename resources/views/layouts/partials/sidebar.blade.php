@@ -395,7 +395,7 @@
 
 
             <li
-                class="treeview {{ request()->routeIs('shop-news.index') || request()->routeIs('shop-news-category.index') ? 'active' : '' }}">
+                class="treeview {{ request()->routeIs('shop-news.index') || request()->routeIs('shop_news_category_index') ? 'active' : '' }}">
                 <a href="#">
                     <i class="fa fa-newspaper"></i> <span>News & Marketing</span>
                     <span class="pull-right-container">
@@ -414,8 +414,8 @@
                         </a>
                     </li> --}}
                     @if (auth()->user()->id == 5)
-                        <li class="{{ request()->routeIs('shop-news-category.index') ? 'active' : '' }}">
-                            <a href="{{ route('shop-news-category.index') }}">
+                        <li class="{{ request()->routeIs('shop_news_category_index') ? 'active' : '' }}">
+                            <a href="{{ route('shop_news_category_index') }}">
                                 <i class="fa fa-list-alt"></i> <span>Category</span>
                             </a>
                         </li>

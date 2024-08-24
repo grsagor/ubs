@@ -57,10 +57,22 @@
                             id="description">{{ old('description', $sub_category->description) }}</textarea>
                     </div>
 
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-primary">Update</button>
-                        </div>
+                    <div class="form-group">
+                        <label class="form-label">Status <span class="text-danger">*</span></label>
+                        <select class="form-control" name="status">
+                            <option selected="" value="">Select Status</option>
+                            @foreach (getStatus() as $status)
+                                <option @selected($data->status == $status['value']) value="{{ $status['value'] }}">
+                                    {{ $status['label'] }}</option>
+                            @endforeach
+                        </select>
+                        @error('status')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary">Update</button>
                     </div>
                 </form>
             </div>

@@ -1,83 +1,75 @@
 @extends('layouts.app')
-@section('title', 'News-Category')
+@section('title', 'News Category')
 @section('content')
     <section class="content-header">
-        <h1>News Category
-            {{-- <small>Fill up what you want</small> --}}
-        </h1>
+        <h1>News Category </h1>
     </section>
 
     <section class="content">
         <div class="form-container box box-primary">
 
             <div class="box-header">
-
-                <h3 class="box-title">All your news category</h3>
+                <h3 class="box-title">Fill category details </h3>
                 <div class="box-tools">
-                    <a href="{{ route('shop-news-category.index') }}" class="btn btn-block btn-primary">
-                        <i class="fa fa-list"></i> List</a>
+                    <a href="{{ route('shop_news_category_index') }}" class="btn btn-block btn-primary">
+                        <i class="fa fa-list"></i> Category List</a>
                 </div>
             </div>
 
             <div class="box-body">
-                <form action="{{ route('shop-news-category.store') }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('shop_news_category_store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
 
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label class="form-label">Name <span class="text-danger">*</span></label>
-                            <input class="form-control" required="" placeholder="Category name" name="name"
-                                type="text" id="name">
-                        </div>
+                    <div class="form-group">
+                        <label for="category">Type:<span class="text-danger">*</span></label>
+                        <select class="form-control select2" name="category_type" required id="type">
+                            <option value="" selected disabled>Select type</option>
+                            <option value="news" {{ old('category_type') == 'news' ? 'selected' : '' }}>News
+                            </option>
+                            <option value="marketing" {{ old('category_type') == 'marketing' ? 'selected' : '' }}>
+                                Marketing</option>
+                        </select>
                     </div>
 
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label for="custom_field1">Description</label>
-                            <p class="sub-heading">(No contact details permitted within description)</p>
-                            <textarea rows="5" type="text" class="form-control" name="description" class="input-field"
-                                placeholder="Description"></textarea>
-                        </div>
+                    <div class="form-group">
+                        <label for="name">Category name: <span class="text-danger">*</span></label>
+                        <input class="form-control" required="" placeholder="Category name" name="name" type="text"
+                            id="name">
                     </div>
 
-                    <div class="col-sm-6">
-                        <div class="form-group">
-                            <label class="form-label">Status <span class="text-danger">*</span></label>
-                            <select class="form-control" name="status">
-                                <option selected="" value="">Select Status</option>
-                                @foreach (getStatus() as $status)
-                                    <option value="{{ $status['value'] }}" {{ $status['value'] == '1' ? 'selected' : '' }}>
-                                        {{ $status['label'] }}
-                                    </option>
-                                @endforeach
-                            </select>
-                            @error('status')
-                                <span class="text-danger">{{ $message }}</span>
-                            @enderror
-                        </div>
+                    <div class="form-group">
+                        <label for="short_code">Category Code:</label>
+                        <input class="form-control" placeholder="Category Code" name="short_code" type="text"
+                            id="short_code">
+                        <p class="help-block">Category code is same as <b>HSN code</b></p>
                     </div>
 
-                    <!-- Add Submit Button -->
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-primary">Submit</button>
-                        </div>
+                    <div class="form-group">
+                        <label for="description">Description:</label>
+                        <textarea class="form-control" placeholder="Description" rows="3" name="description" cols="50"
+                            id="description"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Status <span class="text-danger">*</span></label>
+                        <select class="form-control" name="status">
+                            <option selected="" value="">Select Status</option>
+                            @foreach (getStatus() as $status)
+                                <option value="{{ $status['value'] }}" {{ $status['value'] == '1' ? 'selected' : '' }}>
+                                    {{ $status['label'] }}
+                                </option>
+                            @endforeach
+                        </select>
+                        @error('status')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary">Submit</button>
                     </div>
                 </form>
             </div>
         </div>
     </section>
-
-    {{-- <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    <script src="https://cdn.tiny.cloud/1/YOUR_API_KEY/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
-    <script>
-        $(document).ready(function() {
-            if ($("textarea#footer_details").length > 0) {
-                tinymce.init({
-                    selector: "textarea#footer_details",
-                    height: 100,
-                });
-            }
-        });
-    </script> --}}
 @endsection

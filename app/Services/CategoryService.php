@@ -52,6 +52,10 @@ class CategoryService
                 $object->parent_id = 0;
             }
 
+            if (isset($request->status)) {
+                $object->status = $request->status;
+            }
+
             $object->business_id = Auth::user()->business_id;
             $object->created_by = Auth::user()->id;
             $object->save();
@@ -86,6 +90,10 @@ class CategoryService
                 $object->parent_id = $request->category_id;
             } else {
                 $object->parent_id = 0;
+            }
+
+            if (isset($request->status)) {
+                $object->status = $request->status;
             }
 
             $object->save();
