@@ -62,7 +62,7 @@
                         <select class="form-control" name="status">
                             <option selected="" value="">Select Status</option>
                             @foreach (getStatus() as $status)
-                                <option @selected($data->status == $status['value']) value="{{ $status['value'] }}">
+                                <option @selected($sub_category->status == $status['value']) value="{{ $status['value'] }}">
                                     {{ $status['label'] }}</option>
                             @endforeach
                         </select>

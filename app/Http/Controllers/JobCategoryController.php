@@ -5,8 +5,7 @@ namespace App\Http\Controllers;
 use App\JobCategory;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use App\Services\CURDservice;
-use Illuminate\Support\Facades\Auth;
+use App\Traits\ActiveInactiveStatus;
 
 class JobCategoryController extends Controller
 {
@@ -15,13 +14,8 @@ class JobCategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    use ActiveInactiveStatus;
 
-    protected $curdService;
-
-    public function __construct(CURDservice $curdService)
-    {
-        $this->curdService          = $curdService;
-    }
 
     public function index(Request $request)
     {
@@ -83,7 +77,12 @@ class JobCategoryController extends Controller
 
             $requestedData                  = $jobsCategory->fill($requestedData)->save();
 
-            return $this->curdService->SuccessFull('Job Category', 'job-category.index');
+            $output = [
+                'success' => true,
+                'msg' => ('Created Successfully!!!'),
+            ];
+
+            return redirect()->route('job-category.index')->with('status', $output);
         } catch (\Throwable $e) {
             dd($e->getmessage());
             return redirect()->back();
@@ -128,42 +127,26 @@ class JobCategoryController extends Controller
             // Find the NewsCategory by ID
             $newsCategory = JobCategory::find($id);
 
-            // Check if the NewsCategory is found
-            if (!$newsCategory) {
-                return $this->curdService->NotFound('News Category');
-            }
 
             // Update the NewsCategory with the requested data
             $newsCategory->update($request->all());
 
-            return $this->curdService->SuccessFull('News Category', 'job-category.index');
+            $output = [
+                'success' => true,
+                'msg' => __('Category updated successfully.'),
+            ];
+
+            return redirect()->route('job-category.index')->with('status', $output);
         } catch (\Throwable $e) {
             dd($e->getmessage());
             return redirect()->back();
         }
     }
 
-
-    // public function destroy($id)
-    // {
-    //     $data = JobCategory::find($id);
-
-    //     return $this->curdService->delete($data, 'job-category.index', 'News Category Deleted');
-    // }
-
     public function statusChange($id)
     {
-        if (auth()->user()->id != 5) {
-            // abort(403, 'Unauthorized action.');
-            $output = [
-                'success' => False,
-                'msg' => 'You are not allowed',
-            ];
-            return redirect()->back()->with('status', $output);
-        }
-
         $data = JobCategory::find($id);
 
-        return $this->curdService->statusChange($data, 'job-category.index', 'Status Change');
+        return $this->changeStatus($data, 'job-category.index', 'Status Change');
     }
 }
