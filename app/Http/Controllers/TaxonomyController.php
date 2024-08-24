@@ -441,16 +441,46 @@ class TaxonomyController extends Controller
 
     public function business_location_category_statusChange($id)
     {
-        $data = Category::find($id);
+        $data['category'] = Category::find($id);
 
-        return $this->changeStatus($data, 'business_location_category_index', 'Status Change');
+        if ($data['category']) {
+            // Toggle the status of the main category
+            $data['category']->status = $data['category']->status == 1 ? 0 : 1;
+            $data['category']->save();
+
+            // Find and toggle the status of all subcategories
+            $data['sub_categories'] = Category::where('parent_id', $id)->get();
+
+            foreach ($data['sub_categories'] as $subCategory) {
+                $subCategory->status = $data['category']->status; // Sync subcategory status with parent category
+                $subCategory->save();
+            }
+        }
+
+        $output = [
+            'success' => true,
+            'msg' => ('Status Change Successfully!!!'),
+        ];
+
+        return redirect()->route('business_location_category_index')->with('status', $output);
     }
 
     public function business_location_sub_category_statusChange($id)
     {
-        $data = Category::find($id);
+        $data['sub_category'] = Category::find($id);
 
-        return $this->changeStatus($data, 'business_location_category_index', 'Status Change');
+        $data['category'] = Category::find($data['sub_category']->parent_id);
+
+        if ($data['category']->status == 0) {
+            $output = [
+                'success' => false,
+                'msg' => ('Parent Category inactive'),
+            ];
+
+            return redirect()->back()->with('status', $output);
+        }
+
+        return $this->changeStatus($data['sub_category'], 'business_location_category_index', 'Status Change');
     }
 
     public function business_location_sub_category_create()
@@ -478,7 +508,6 @@ class TaxonomyController extends Controller
 
         return view('business_location.sub_category_business_location.edit', $data);
     }
-
 
     public function product_service_category_index()
     {
@@ -529,9 +558,38 @@ class TaxonomyController extends Controller
 
     public function product_service_category_statusChange($id)
     {
-        $data = Category::find($id);
+        $data['category'] = Category::find($id);
 
-        return $this->changeStatus($data, 'product_service_category_index', 'Status Change');
+        if ($data['category']) {
+            // Toggle the status of the main category
+            $data['category']->status = $data['category']->status == 1 ? 0 : 1;
+            $data['category']->save();
+
+            // Recursively update the status for all subcategories and their children
+            $this->updateSubcategoriesStatus($data['category']->id, $data['category']->status);
+        }
+
+        $output = [
+            'success' => true,
+            'msg' => ('Status Change Successfully!!!'),
+        ];
+
+        return redirect()->back()->with('status', $output);
+    }
+
+    private function updateSubcategoriesStatus($parentId, $status)
+    {
+        // Fetch all direct subcategories of the given parent category
+        $subCategories = Category::where('parent_id', $parentId)->get();
+
+        foreach ($subCategories as $subCategory) {
+            // Update the status of each subcategory
+            $subCategory->status = $status;
+            $subCategory->save();
+
+            // Recursively update the status of the child categories
+            $this->updateSubcategoriesStatus($subCategory->id, $status);
+        }
     }
 
     public function product_service_sub_category_create()
