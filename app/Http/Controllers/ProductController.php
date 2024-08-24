@@ -483,8 +483,8 @@ class ProductController extends Controller
         $categories = Category::where([['parent_id', $request->category_id]])
             ->active()
             ->orderByNameAsc()
-            ->onlyParent()
             ->get();
+
         return view('product.categories_options', compact('categories'));
     }
 
@@ -493,8 +493,8 @@ class ProductController extends Controller
         $categories = Category::where([['parent_id', $request->sub_category_id]])
             ->active()
             ->orderByNameAsc()
-            ->onlyParent()
             ->get();
+
         return view('product.categories_options', compact('categories'));
     }
 
