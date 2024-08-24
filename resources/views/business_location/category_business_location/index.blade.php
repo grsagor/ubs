@@ -72,8 +72,8 @@
                                             class="btn btn-xs btn-primary">
                                             <i class="glyphicon glyphicon-edit"></i> Edit
                                         </a>
-                                        <a href="{{ route('business_location_sub_category.statusChange', $item->id) }}"
-                                            class="btn btn-xs {{ $item->status == 1 ? 'btn-success' : 'btn-danger' }}">
+                                        <a href="{{ route('business_location_sub_category.statusChange', $sub->id) }}"
+                                            class="btn btn-xs {{ $sub->status == 1 ? 'btn-success' : 'btn-danger' }}">
                                             <i class="fas fa-check-circle"></i>
                                         </a>
                                     </td>
