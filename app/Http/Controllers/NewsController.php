@@ -3,12 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\News;
+use App\Category;
 use Carbon\Carbon;
-use App\NewsCategory;
 use App\BusinessLocation;
+use App\Traits\ActiveInactiveStatus;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use App\Services\CURDservice;
 use Illuminate\Support\Facades\Auth;
 
 class NewsController extends Controller
@@ -19,18 +19,13 @@ class NewsController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    protected $curdService;
-
-    public function __construct(CURDservice $curdService)
-    {
-        $this->curdService          = $curdService;
-    }
+    use ActiveInactiveStatus;
 
     public function index(Request $request)
     {
         $data['news'] = News::query()
             ->search($request)
-            ->with('newsCategory')
+            ->with('category')
             ->latest()
             ->get();
 
@@ -44,9 +39,15 @@ class NewsController extends Controller
      */
     public function create()
     {
-        $data['newCategory'] = NewsCategory::query()->active()->get();
-
         $business_id = request()->session()->get('user.business_id');
+
+        $data['categories'] = Category::query()
+            ->active()
+            ->where('business_id', $business_id)
+            ->whereIn('category_type', ['news', 'marketing'])
+            ->onlyParent()
+            ->orderByNameAsc()
+            ->get();
 
         //Get all business locations
         $data['business_locations'] = BusinessLocation::where('business_id', $business_id)
@@ -95,7 +96,11 @@ class NewsController extends Controller
 
             $requestedData                  = $news->fill($requestedData)->save();
 
-            return $this->curdService->SuccessFull('Marketing Category', 'shop-news.index');
+            $output = [
+                'success' => true,
+                'msg' => __('News inserted successfully.'),
+            ];
+            return redirect()->route('shop-news.index')->with('status', $output);
         } catch (\Throwable $e) {
             dd($e->getmessage());
             return redirect()->back();
@@ -121,8 +126,18 @@ class NewsController extends Controller
      */
     public function edit($id)
     {
+        $business_id = request()->session()->get('user.business_id');
+
         $data['news']           = News::find($id);
-        $data['newCategory']    = NewsCategory::query()->active()->get();
+
+        $data['categories'] = Category::query()
+            ->active()
+            ->where('business_id', $business_id)
+            ->whereIn('category_type', ['news', 'marketing'])
+            ->onlyParent()
+            ->orderByNameAsc()
+            ->get();
+
         return view('news.edit', $data);
     }
 
@@ -138,11 +153,6 @@ class NewsController extends Controller
         try {
             // Find the News by ID
             $news = News::find($id);
-
-            // Check if the News is found
-            if (!$news) {
-                return $this->curdService->NotFound('News');
-            }
 
             // Initialize an empty array to store requested data
             $requestedData = $request->all();
@@ -193,8 +203,11 @@ class NewsController extends Controller
 
             // Update the News with the requested data
             $news->update($requestedData);
-
-            return $this->curdService->SuccessFull('News', 'shop-news.index');
+            $output = [
+                'success' => true,
+                'msg' => __('News updated successfully.'),
+            ];
+            return redirect()->route('shop-news.index')->with('status', $output);
         } catch (\Throwable $e) {
             dd($e->getMessage());
             return redirect()->back();
@@ -255,6 +268,6 @@ class NewsController extends Controller
     {
         $data = News::find($id);
 
-        return $this->curdService->statusChange($data, 'shop-news.index', 'Status Change');
+        return $this->changeStatus($data, 'shop-news.index', 'Status Change');
     }
 }

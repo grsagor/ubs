@@ -28,7 +28,7 @@
                             <label class="form-label">Category <span class="text-danger">*</span></label>
                             <select class="form-control select2" name="shop_news_category_id" required>
                                 <option value="" selected="selected">Select Category</option>
-                                @foreach ($newCategory as $item)
+                                @foreach ($categories as $item)
                                     <option value="{{ $item->id }}">{{ $item->name }}</option>
                                 @endforeach
                             </select>

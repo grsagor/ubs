@@ -35,7 +35,6 @@
                 </div>
             </div>
 
-
             <div class="box-body" style="overflow-x: scroll;">
                 <table id="category_business_Table" class="table table-bordered table-striped table-hover">
                     <thead>
@@ -57,6 +56,10 @@
                                         class="btn btn-xs btn-primary">
                                         <i class="glyphicon glyphicon-edit"></i> Edit
                                     </a>
+                                    <a href="{{ route('business_location_category.statusChange', $item->id) }}"
+                                        class="btn btn-xs {{ $item->status == 1 ? 'btn-success' : 'btn-danger' }}">
+                                        <i class="fas fa-check-circle"></i>
+                                    </a>
                                 </td>
                             </tr>
 
@@ -68,7 +71,12 @@
                                     <td> <a href="{{ route('business_location_sub_category_edit', $sub->id) }}"
                                             class="btn btn-xs btn-primary">
                                             <i class="glyphicon glyphicon-edit"></i> Edit
-                                        </a></td>
+                                        </a>
+                                        <a href="{{ route('business_location_sub_category.statusChange', $item->id) }}"
+                                            class="btn btn-xs {{ $item->status == 1 ? 'btn-success' : 'btn-danger' }}">
+                                            <i class="fas fa-check-circle"></i>
+                                        </a>
+                                    </td>
                                 </tr>
                             @endforeach
                         @empty

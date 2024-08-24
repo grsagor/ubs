@@ -45,7 +45,6 @@ use App\Http\Controllers\ImportSalesController;
 use App\Http\Controllers\JobCategoryController;
 use App\Http\Controllers\RecruitmentController;
 use App\Http\Controllers\CashRegisterController;
-use App\Http\Controllers\NewsCategoryController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\OpeningStockController;
 use App\Http\Controllers\CustomerGroupController;
@@ -304,16 +303,6 @@ Route::middleware(['checkAdmin', 'SetSessionData'])->group(function () {
     Route::get('/footer/{id}/edit', [FooterController::class, 'edit'])->name('footer.edit');
     Route::put('/footer/{id}', [FooterController::class, 'update'])->name('footer.update');
 
-    // Shop news category
-    Route::get('shop-news-category', [NewsCategoryController::class, 'index'])->name('shop-news-category.index');
-    Route::get('shop-news-category/create', [NewsCategoryController::class, 'create'])->name('shop-news-category.create');
-    Route::post('shop-news-category', [NewsCategoryController::class, 'store'])->name('shop-news-category.store');
-    Route::get('shop-news-category/{id}', [NewsCategoryController::class, 'show'])->name('shop-news-category.show');
-    Route::get('shop-news-category/{id}/edit', [NewsCategoryController::class, 'edit'])->name('shop-news-category.edit');
-    Route::put('shop-news-category/{id}', [NewsCategoryController::class, 'update'])->name('shop-news-category.update');
-    Route::delete('shop-news-category/{id}', [NewsCategoryController::class, 'destroy'])->name('shop-news-category.destroy');
-    Route::get('shop-news-cactegory/status-change/{id}', [NewsCategoryController::class, 'statusChange'])->name('shop-news-category.statusChange');
-
     // News
     Route::get('shop-news', [NewsController::class, 'index'])->name('shop-news.index');
     Route::get('shop-news/create', [NewsController::class, 'create'])->name('shop-news.create');
@@ -369,12 +358,6 @@ Route::middleware(['checkAdmin', 'SetSessionData'])->group(function () {
     Route::resource('/room-to-rent', RoomToRentController::class);
 
     Route::resource('service-education', ServiceEducationController::class);
-
-
-
-
-
-
 
     Route::get('pos/payment/{id}', [SellPosController::class, 'edit'])->name('edit-pos-payment');
     Route::get('service-staff-availability', [SellPosController::class, 'showServiceStaffAvailibility']);
@@ -448,22 +431,32 @@ Route::middleware(['checkAdmin', 'SetSessionData'])->group(function () {
     Route::post('/business-location/category/store',            [TaxonomyController::class, 'business_location_category_store'])->name('business_location_category_store');
     Route::get('/business-location/category/edit/{id}',         [TaxonomyController::class, 'business_location_category_edit'])->name('business_location_category_edit');
     Route::put('/business-location/category/update/{id}',       [TaxonomyController::class, 'business_location_category_update'])->name('business_location_category_update');
-    Route::delete('/business-location/category/destroy/{id}',   [TaxonomyController::class, 'business_location_category_destroy'])->name('business_location_category_destroy');
+    Route::get('/business-location/category/status-change/{id}', [TaxonomyController::class, 'business_location_category_statusChange'])->name('business_location_category.statusChange');
 
     Route::get('/business-location/sub-category/create',        [TaxonomyController::class, 'business_location_sub_category_create'])->name('business_location_sub_category_create');
     Route::get('/business-location/sub-category/edit/{id}',     [TaxonomyController::class, 'business_location_sub_category_edit'])->name('business_location_sub_category_edit');
+    Route::get('/business-location/sub-category/status-change/{id}', [TaxonomyController::class, 'business_location_sub_category_statusChange'])->name('business_location_sub_category.statusChange');
 
     Route::get('/product-service/category/index',               [TaxonomyController::class, 'product_service_category_index'])->name('product_service_category_index');
     Route::get('/product-service/category/create',              [TaxonomyController::class, 'product_service_category_create'])->name('product_service_category_create');
     Route::post('/product-service/category/store',              [TaxonomyController::class, 'product_service_category_store'])->name('product_service_category_store');
     Route::get('/product-service/category/edit/{id}',           [TaxonomyController::class, 'product_service_category_edit'])->name('product_service_category_edit');
     Route::put('/product-service/category/update/{id}',         [TaxonomyController::class, 'product_service_category_update'])->name('product_service_category_update');
+    Route::get('/product-service/category/status-change/{id}',  [TaxonomyController::class, 'product_service_category_statusChange'])->name('product_service_category.statusChange');
 
     Route::get('/product-service/sub-category/create',          [TaxonomyController::class, 'product_service_sub_category_create'])->name('product_service_sub_category_create');
     Route::get('/product-service/sub-category/edit/{id}',       [TaxonomyController::class, 'product_service_sub_category_edit'])->name('product_service_sub_category_edit');
 
     Route::get('/product-service/child-category/create',        [TaxonomyController::class, 'product_service_child_category_create'])->name('product_service_child_category_create');
     Route::get('/product-service/child-category/edit/{id}',     [TaxonomyController::class, 'product_service_child_category_edit'])->name('product_service_child_category_edit');
+
+    Route::get('/shop-news/category/index',                     [TaxonomyController::class, 'shop_news_category_index'])->name('shop_news_category_index');
+    Route::get('/shop-news/category/create',                    [TaxonomyController::class, 'shop_news_category_create'])->name('shop_news_category_create');
+    Route::post('/shop-news/category/store',                    [TaxonomyController::class, 'shop_news_category_store'])->name('shop_news_category_store');
+    Route::get('/shop-news/category/edit/{id}',                 [TaxonomyController::class, 'shop_news_category_edit'])->name('shop_news_category_edit');
+    Route::put('/shop-news/category/update/{id}',               [TaxonomyController::class, 'shop_news_category_update'])->name('shop_news_category_update');
+    Route::get('shop-news/category/status-change/{id}',         [TaxonomyController::class, 'shop_news_category_statusChange'])->name('shop_news_category.statusChange');
+
 
     Route::resource('variation-templates', VariationTemplateController::class);
 

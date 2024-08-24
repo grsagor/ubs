@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Category;
 use App\Traits\CreatedUpdatedBy;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -36,8 +37,8 @@ class News extends Model
         return $query->where('title', 'LIKE', '%' . $request->search . '%');
     }
 
-    public function newsCategory()
+    public function category()
     {
-        return $this->belongsTo(NewsCategory::class, 'shop_news_category_id');
+        return $this->belongsTo(Category::class, 'shop_news_category_id');
     }
 }
