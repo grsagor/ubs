@@ -338,7 +338,6 @@ Route::middleware(['checkAdmin', 'SetSessionData'])->group(function () {
     Route::get('job-category/{id}', [JobCategoryController::class, 'show'])->name('job-category.show');
     Route::get('job-category/{id}/edit', [JobCategoryController::class, 'edit'])->name('job-category.edit');
     Route::put('job-category/{id}', [JobCategoryController::class, 'update'])->name('job-category.update');
-    // Route::delete('job-category/{id}',                      [JobCategoryController::class, 'destroy'])->name('job-category.destroy');
     Route::get('job-cactegory/status-change/{id}', [JobCategoryController::class, 'statusChange'])->name('job-category.statusChange');
 
     // Services
