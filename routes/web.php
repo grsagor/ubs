@@ -445,9 +445,11 @@ Route::middleware(['checkAdmin', 'SetSessionData'])->group(function () {
 
     Route::get('/product-service/sub-category/create',          [TaxonomyController::class, 'product_service_sub_category_create'])->name('product_service_sub_category_create');
     Route::get('/product-service/sub-category/edit/{id}',       [TaxonomyController::class, 'product_service_sub_category_edit'])->name('product_service_sub_category_edit');
+    Route::get('/product-service/sub-category/status-change/{id}',  [TaxonomyController::class, 'product_service_sub_category_statusChange'])->name('product_service_sub_category.statusChange');
 
     Route::get('/product-service/child-category/create',        [TaxonomyController::class, 'product_service_child_category_create'])->name('product_service_child_category_create');
     Route::get('/product-service/child-category/edit/{id}',     [TaxonomyController::class, 'product_service_child_category_edit'])->name('product_service_child_category_edit');
+    Route::get('/product-service/child-category/status-change/{id}',  [TaxonomyController::class, 'product_service_child_category_statusChange'])->name('product_service_child_category.statusChange');
 
     Route::get('/shop-news/category/index',                     [TaxonomyController::class, 'shop_news_category_index'])->name('shop_news_category_index');
     Route::get('/shop-news/category/create',                    [TaxonomyController::class, 'shop_news_category_create'])->name('shop_news_category_create');
