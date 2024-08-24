@@ -85,7 +85,7 @@
                                             <i class="glyphicon glyphicon-edit"></i> Edit
                                         </a>
 
-                                        <a href="{{ route('product_service_category.statusChange', $sub->id) }}"
+                                        <a href="{{ route('product_service_sub_category.statusChange', $sub->id) }}"
                                             class="btn btn-xs {{ $sub->status == 1 ? 'btn-success' : 'btn-danger' }}">
                                             <i class="fas fa-check-circle"></i>
                                         </a>
@@ -105,7 +105,7 @@
                                                 class="btn btn-xs btn-primary">
                                                 <i class="glyphicon glyphicon-edit"></i> Edit
                                             </a>
-                                            <a href="{{ route('product_service_category.statusChange', $child->id) }}"
+                                            <a href="{{ route('product_service_child_category.statusChange', $child->id) }}"
                                                 class="btn btn-xs {{ $child->status == 1 ? 'btn-success' : 'btn-danger' }}">
                                                 <i class="fas fa-check-circle"></i>
                                             </a>

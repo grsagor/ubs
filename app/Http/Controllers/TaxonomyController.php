@@ -556,41 +556,6 @@ class TaxonomyController extends Controller
         return redirect()->route('product_service_category_index')->with('status', $output);
     }
 
-    public function product_service_category_statusChange($id)
-    {
-        $data['category'] = Category::find($id);
-
-        if ($data['category']) {
-            // Toggle the status of the main category
-            $data['category']->status = $data['category']->status == 1 ? 0 : 1;
-            $data['category']->save();
-
-            // Recursively update the status for all subcategories and their children
-            $this->updateSubcategoriesStatus($data['category']->id, $data['category']->status);
-        }
-
-        $output = [
-            'success' => true,
-            'msg' => ('Status Change Successfully!!!'),
-        ];
-
-        return redirect()->back()->with('status', $output);
-    }
-
-    private function updateSubcategoriesStatus($parentId, $status)
-    {
-        // Fetch all direct subcategories of the given parent category
-        $subCategories = Category::where('parent_id', $parentId)->get();
-
-        foreach ($subCategories as $subCategory) {
-            // Update the status of each subcategory
-            $subCategory->status = $status;
-            $subCategory->save();
-
-            // Recursively update the status of the child categories
-            $this->updateSubcategoriesStatus($subCategory->id, $status);
-        }
-    }
 
     public function product_service_sub_category_create()
     {
@@ -617,6 +582,137 @@ class TaxonomyController extends Controller
 
         return view('product.sub_category_product_service.edit', $data);
     }
+
+    public function product_service_category_statusChange($id)
+    {
+        $category = Category::find($id);
+
+        if ($category) {
+            // Toggle the status of the main category
+            $newStatus = $category->status == 1 ? 0 : 1;
+            $category->status = $newStatus;
+            $category->save();
+
+            // Recursively update the status for all subcategories and their children
+            $this->updateSubcategoriesStatus($category->id, $newStatus);
+
+            $output = [
+                'success' => true,
+                'msg' => 'Status Change Successfully!!!',
+            ];
+
+            return redirect()->back()->with('status', $output);
+        }
+
+        $output = [
+            'success' => false,
+            'msg' => 'Category not found',
+        ];
+
+        return redirect()->back()->with('status', $output);
+    }
+
+    private function updateSubcategoriesStatus($parentId, $status)
+    {
+        // Fetch all direct subcategories of the given parent category
+        $subCategories = Category::where('parent_id', $parentId)->get();
+
+        foreach ($subCategories as $subCategory) {
+            // Update the status of each subcategory
+            $subCategory->status = $status;
+            $subCategory->save();
+
+            // Recursively update the status of the child categories
+            $this->updateSubcategoriesStatus($subCategory->id, $status);
+        }
+    }
+
+
+
+    public function product_service_sub_category_statusChange($id)
+    {
+        $subCategory = Category::find($id);
+
+        if (!$subCategory) {
+            $output = [
+                'success' => false,
+                'msg' => 'Subcategory not found',
+            ];
+
+            return redirect()->back()->with('status', $output);
+        }
+
+        $parentCategory = Category::find($subCategory->parent_id);
+
+        if ($parentCategory && $parentCategory->status == 0) {
+            $output = [
+                'success' => false,
+                'msg' => 'Parent Category inactive',
+            ];
+
+            return redirect()->back()->with('status', $output);
+        }
+
+        // Toggle the status of the subcategory
+        $subCategory->status = $subCategory->status == 1 ? 0 : 1;
+        $subCategory->save();
+
+        // Update child categories' status to match the subcategory
+        $this->updateSubcategoriesStatus($subCategory->id, $subCategory->status);
+
+        $output = [
+            'success' => true,
+            'msg' => 'Status Change Successfully!',
+        ];
+
+        return redirect()->route('product_service_category_index')->with('status', $output);
+    }
+
+
+    public function product_service_child_category_statusChange($id)
+    {
+        $subCategory = Category::find($id);
+
+        if (!$subCategory) {
+            $output = [
+                'success' => false,
+                'msg' => 'Subcategory not found',
+            ];
+
+            return redirect()->back()->with('status', $output);
+        }
+
+        // Find and update the status of all child categories
+        $childCategories = Category::where('parent_id', $subCategory->id)->get();
+
+        foreach ($childCategories as $childCategory) {
+            $childCategory->status = $subCategory->status; // Sync child category status with subcategory
+            $childCategory->save();
+        }
+
+        $parentCategory = Category::find($subCategory->parent_id);
+
+        if ($parentCategory && $parentCategory->status == 0) {
+            $output = [
+                'success' => false,
+                'msg' => 'Parent Category inactive',
+            ];
+
+            return redirect()->back()->with('status', $output);
+        }
+
+        // Toggle the status of the subcategory
+        $subCategory->status = $subCategory->status == 1 ? 0 : 1;
+        $subCategory->save();
+
+        $output = [
+            'success' => true,
+            'msg' => 'Status Change Successfully!',
+        ];
+
+        return redirect()->route('product_service_category_index')->with('status', $output);
+    }
+
 
     public function product_service_child_category_create()
     {
