@@ -22,7 +22,7 @@
                     @csrf
                     @method('PUT')
 
-                    <div class="form-group">
+                    {{-- <div class="form-group">
                         <label for="category_type">Type <span class="text-danger">*</span></label>
                         <select class="form-control select2" name="category_type" required id="type">
                             <option value="" selected disabled>Select type</option>
@@ -35,16 +35,15 @@
                                 Service
                             </option>
                         </select>
-                    </div>
+                    </div> --}}
 
                     <div class="form-group">
                         <label for="category_id">Parent Category <span class="text-danger">*</span></label>
                         <select class="form-control select2" name="category_id" required id="category_id">
                             <option value="" selected disabled>Select type</option>
-                            @foreach ($categories as $cat)
-                                <option value="{{ $cat->id }}"
-                                    {{ old('category_id', $sub_category->parent_id) == $cat->id ? 'selected' : '' }}>
-                                    {{ $cat->name }}
+                            @foreach ($categories as $item)
+                                <option value="{{ $item->id }}" {{ old('category_id') == $item->id ? 'selected' : '' }}>
+                                    {{ $item->name }}
                                 </option>
                             @endforeach
                         </select>
@@ -74,7 +73,7 @@
                         <select class="form-control" name="status">
                             <option selected="" value="">Select Status</option>
                             @foreach (getStatus() as $status)
-                                <option @selected($data->status == $status['value']) value="{{ $status['value'] }}">
+                                <option @selected($sub_category->status == $status['value']) value="{{ $status['value'] }}">
                                     {{ $status['label'] }}</option>
                             @endforeach
                         </select>
@@ -94,7 +93,7 @@
 
 
 @section('javascript')
-    <script>
+    {{-- <script>
         $(document).on('change', '#type', function() {
             var type = $(this).val();
             console.log('Type id ' + type);
@@ -112,5 +111,5 @@
                 }
             })
         })
-    </script>
+    </script> --}}
 @endsection

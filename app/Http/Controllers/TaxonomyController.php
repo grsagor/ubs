@@ -536,7 +536,7 @@ class TaxonomyController extends Controller
 
     public function product_service_sub_category_create()
     {
-        $data['categorires'] = Category::query()
+        $data['categories'] = Category::query()
             ->whereIn('category_type', ['product', 'service'])
             ->active()
             ->orderByNameAsc()
@@ -562,7 +562,14 @@ class TaxonomyController extends Controller
 
     public function product_service_child_category_create()
     {
-        return view('product.child_category_product_service.create');
+        $data['categories'] = Category::query()
+            ->whereIn('category_type', ['product', 'service'])
+            ->active()
+            ->orderByNameAsc()
+            ->onlyParent()
+            ->get();
+
+        return view('product.child_category_product_service.create', $data);
     }
 
     public function product_service_child_category_edit($id)
