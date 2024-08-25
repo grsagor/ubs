@@ -799,8 +799,6 @@ class TaxonomyController extends Controller
         return $this->changeStatus($data, 'shop_news_category_index', 'Status Change');
     }
 
-
-
     protected function NotSuperAdmin()
     {
         if (auth()->user()->id != 5) {

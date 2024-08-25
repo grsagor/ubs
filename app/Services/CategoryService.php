@@ -84,7 +84,6 @@ class CategoryService
         try {
             $object->name = $request->name;
             $object->short_code = $request->short_code;
-            $object->category_type = $request->category_type;
             $object->description = $request->description;
 
             if (!empty($request->input('category_id'))) {
