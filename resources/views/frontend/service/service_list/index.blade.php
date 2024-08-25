@@ -62,10 +62,6 @@
             color: #666666;
         }
 
-        .list-page {
-            background-color: #f0f2f5;
-        }
-
         .custom-border-color {
             border-color: #38b2ac;
         }
