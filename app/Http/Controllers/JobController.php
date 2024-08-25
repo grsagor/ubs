@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Job;
+use App\Category;
 use App\AppliedJob;
-use App\JobCategory;
 use App\BusinessLocation;
 use Illuminate\Http\Request;
 use App\Services\SlugService;
@@ -58,8 +58,11 @@ class JobController extends Controller
         $data['business_locations'] = BusinessLocation::where('business_id', $business_id)
             ->get();
 
-        $data['job_categories'] = JobCategory::query()
+        $data['job_categories'] = Category::query()
             ->active()
+            ->where('category_type', 'jobs')
+            ->onlyParent()
+            ->orderByNameAsc()
             ->get();
 
         return view('backend.jobs.create', $data);
@@ -119,7 +122,7 @@ class JobController extends Controller
         $data['business_locations'] = BusinessLocation::where('business_id', $business_id)
             ->get();
 
-        $data['job_categories'] = JobCategory::query()
+        $data['job_categories'] = Category::query()
             ->active()
             ->get();
 
