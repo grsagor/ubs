@@ -120,56 +120,8 @@
             </div>
         </div>
     </section>
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    <script src="https://cdn.tiny.cloud/1/YOUR_API_KEY/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
-    <script>
-        function previewThumbnail(input) {
-            var preview = document.getElementById('thumbnail-preview');
-            var file = input.files[0];
-            var reader = new FileReader();
+@endsection
 
-            reader.onloadend = function() {
-                preview.src = reader.result;
-                preview.style.display = 'block';
-            };
-
-            if (file) {
-                reader.readAsDataURL(file);
-            } else {
-                preview.src = '#';
-                preview.style.display = 'none';
-            }
-        }
-
-
-        function previewImages(input) {
-            var container = document.getElementById('image-preview-container');
-            container.innerHTML = ''; // Clear previous previews
-
-            var files = input.files;
-
-            for (var i = 0; i < files.length; i++) {
-                var reader = new FileReader();
-                reader.onload = function(e) {
-                    var image = document.createElement('img');
-                    image.src = e.target.result;
-                    image.alt = 'Image Preview';
-                    image.style.maxWidth = '20%';
-                    image.style.marginTop = '8px';
-                    image.style.marginRight = '10px';
-                    container.appendChild(image);
-                };
-                reader.readAsDataURL(files[i]);
-            }
-        }
-
-        $(document).ready(function() {
-            if ($("textarea#footer_details").length > 0) {
-                tinymce.init({
-                    selector: "textarea#footer_details",
-                    height: 550,
-                });
-            }
-        });
-    </script>
+@section('javascript')
+    @include('news.partial.js')
 @endsection
