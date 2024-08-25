@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Category;
 use App\Traits\HasUuid;
 use App\Traits\CreatedUpdatedBy;
 use Illuminate\Database\Eloquent\Model;
@@ -93,6 +94,6 @@ class Job extends Model
 
     public function job_category()
     {
-        return $this->belongsTo(JobCategory::class, 'job_category_id');
+        return $this->belongsTo(Category::class, 'job_category_id');
     }
 }
