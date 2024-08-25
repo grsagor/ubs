@@ -44,34 +44,18 @@ class CategoryService
             $object->name = $request->name;
             $object->short_code = $request->short_code;
             $object->description = $request->description;
+            $object->category_type = $request->category_type;
             $object->slug = $this->slug_service->slug_create($request->name, $object);
 
-            // if (!empty($request->input('category_id'))) {
-            //     $object->parent_id = $request->category_id;
-            // } else {
-            //     $object->parent_id = 0;
-            // }
+            if (!empty($request->input('category_id'))) {
+                $object->parent_id = $request->category_id;
+            } else {
+                $object->parent_id = 0;
+            }
 
-            // if (empty($request->category_type)) {
-            //     $object->category_type =   $object->where('id', $object->parent_id)->value('category_type');
-            // } else {
-            //     $object->category_type = $request->category_type;
-            // }
-
-            // if (isset($request->status)) {
-            //     $object->status = $request->status;
-            // }
-
-            // Set the parent_id to the provided category_id or default to 0
-            $object->parent_id = $request->input('category_id', 0);
-
-            // Set category_type based on input or retrieve from the parent if not provided
-            $object->category_type = $request->input('category_type') ??
-                $object->where('id', $object->parent_id)->value('category_type');
-
-            // Set status if provided, otherwise it will remain unchanged
-            $object->status = $request->status ?? 0;
-
+            if (isset($request->status)) {
+                $object->status = $request->status;
+            }
 
             $object->business_id = Auth::user()->business_id;
             $object->created_by = Auth::user()->id;

@@ -627,8 +627,6 @@ class TaxonomyController extends Controller
         }
     }
 
-
-
     public function product_service_sub_category_statusChange($id)
     {
         $subCategory = Category::find($id);
