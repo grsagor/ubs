@@ -40,7 +40,7 @@
                             <div class="form-group">
                                 <label for="selling_price_group_id">Category <span class="text-danger">*</span></label>
                                 <select class="form-control select2" name="job_category_id" required>
-                                    <option value="" disabled>Select</option>
+                                    <option value="" disabled selected>Select</option>
                                     @foreach ($job_categories as $cat)
                                         <option value="{{ $cat->id }}"
                                             {{ old('job_category_id', $job->job_category_id) == $cat->id ? 'selected' : '' }}>
