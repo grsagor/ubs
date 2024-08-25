@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\JobCategory;
-use Illuminate\Support\Str;
+use App\Category;
 use Illuminate\Http\Request;
+use App\Services\CategoryService;
 use App\Traits\ActiveInactiveStatus;
 
 class JobCategoryController extends Controller
@@ -16,11 +16,16 @@ class JobCategoryController extends Controller
      */
     use ActiveInactiveStatus;
 
+    protected $category_service;
+
+    public function __construct(CategoryService $category_service)
+    {
+        $this->category_service = $category_service;
+    }
 
     public function index(Request $request)
     {
         if (auth()->user()->id != 5) {
-            // abort(403, 'Unauthorized action.');
             $output = [
                 'success' => False,
                 'msg' => 'You are not allowed',
@@ -28,10 +33,14 @@ class JobCategoryController extends Controller
             return redirect()->back()->with('status', $output);
         }
 
-        $data['jobs'] = JobCategory::query()
-            ->search($request)
-            ->latest()
-            ->paginate(10);
+        $business_id = request()->session()->get('user.business_id');
+
+        $data['categories'] = Category::query()
+            ->where('business_id', $business_id)
+            ->whereIn('category_type', ['jobs'])
+            ->orderByNameAsc()
+            ->onlyParent()
+            ->get();
 
         return view('backend.job_categories.index', $data);
     }
@@ -59,40 +68,13 @@ class JobCategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, JobCategory $jobsCategory)
+    public function store(Request $request)
     {
-        if (auth()->user()->id != 5) {
-            // abort(403, 'Unauthorized action.');
-            $output = [
-                'success' => False,
-                'msg' => 'You are not allowed',
-            ];
-            return redirect()->back()->with('status', $output);
-        }
+        $object = new Category();
 
-        try {
-            $requestedData = $request->all();
+        $output =  $this->category_service->store($request, $object);
 
-            $requestedData['slug']          = Str::slug($request->name);
-
-            $requestedData                  = $jobsCategory->fill($requestedData)->save();
-
-            $output = [
-                'success' => true,
-                'msg' => ('Created Successfully!!!'),
-            ];
-
-            return redirect()->route('job-category.index')->with('status', $output);
-        } catch (\Throwable $e) {
-            dd($e->getmessage());
-            return redirect()->back();
-        }
-    }
-
-
-    public function show(JobCategory $jobsCategory)
-    {
-        //
+        return redirect()->route('job-category.index')->with('status', $output);
     }
 
 
@@ -107,45 +89,23 @@ class JobCategoryController extends Controller
             return redirect()->back()->with('status', $output);
         }
 
-        $data = JobCategory::find($id);
+        $data = Category::find($id);
         return view('backend.job_categories.edit', compact('data'));
     }
 
 
     public function update(Request $request, $id)
     {
-        if (auth()->user()->id != 5) {
-            // abort(403, 'Unauthorized action.');
-            $output = [
-                'success' => False,
-                'msg' => 'You are not allowed',
-            ];
-            return redirect()->back()->with('status', $output);
-        }
+        $object = Category::findOrFail($id);
 
-        try {
-            // Find the NewsCategory by ID
-            $newsCategory = JobCategory::find($id);
+        $output =  $this->category_service->update($request, $object);
 
-
-            // Update the NewsCategory with the requested data
-            $newsCategory->update($request->all());
-
-            $output = [
-                'success' => true,
-                'msg' => __('Category updated successfully.'),
-            ];
-
-            return redirect()->route('job-category.index')->with('status', $output);
-        } catch (\Throwable $e) {
-            dd($e->getmessage());
-            return redirect()->back();
-        }
+        return redirect()->route('job-category.index')->with('status', $output);
     }
 
     public function statusChange($id)
     {
-        $data = JobCategory::find($id);
+        $data = Category::find($id);
 
         return $this->changeStatus($data, 'job-category.index', 'Status Change');
     }
