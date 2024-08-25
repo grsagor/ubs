@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\BusinessCustomer;
-use App\BusinessLocation;
 use App\Job;
 use App\Country;
+use App\Category;
 use App\AppliedJob;
-use App\JobCategory;
 use App\Recruitment;
+use App\BusinessCustomer;
+use App\BusinessLocation;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Traits\ImageFileUpload;
@@ -29,9 +29,11 @@ class RecruitmentController extends Controller
             ->latest()
             ->paginate(10);
 
-        $data['jobsCategory'] = JobCategory::query()
+        $data['jobsCategory'] = Category::query()
             ->active()
-            ->orderBy('name')
+            ->where('category_type', 'jobs')
+            ->onlyParent()
+            ->orderByNameAsc()
             ->get();
 
         return view('frontend.recruitment.list', $data);
