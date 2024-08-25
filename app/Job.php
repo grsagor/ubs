@@ -46,8 +46,6 @@ class Job extends Model
         'status',
     ];
 
-
-
     public function scopeActive($query)
     {
         $query->where('status', 1);
@@ -59,7 +57,6 @@ class Job extends Model
             ->orWhere('company_name', 'LIKE', '%' . $request->search . '%')
             ->orWhere('location', 'LIKE', '%' . $request->search . '%');
     }
-
 
     public function scopeSearchAndFilter($query, $request)
     {
@@ -75,7 +72,6 @@ class Job extends Model
 
         return $query;
     }
-
 
     public function createdBy()
     {

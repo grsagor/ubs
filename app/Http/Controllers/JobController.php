@@ -124,6 +124,9 @@ class JobController extends Controller
 
         $data['job_categories'] = Category::query()
             ->active()
+            ->where('category_type', 'jobs')
+            ->onlyParent()
+            ->orderByNameAsc()
             ->get();
 
         return view('backend.jobs.edit', $data);
