@@ -24,7 +24,7 @@
                     @method('PUT')
 
                     <!-- Category Type -->
-                    {{-- <div class="form-group">
+                    <div class="form-group">
                         <label for="category_type">Type <span class="text-danger">*</span></label>
                         <select class="form-control select2" name="category_type" required id="type">
                             <option value="" selected disabled>Select Type</option>
@@ -35,7 +35,7 @@
                                 {{ old('category_type', $child_category->category_type) == 'service' ? 'selected' : '' }}>
                                 Service</option>
                         </select>
-                    </div> --}}
+                    </div>
 
                     <!-- Parent Category -->
                     <div class="form-group">
@@ -113,22 +113,22 @@
 @section('javascript')
     <script>
         // When type changes, reload parent categories
-        // $(document).on('change', '#type', function() {
-        //     var type = $(this).val();
-        //     $.ajax({
-        //         url: "{{ route('product.type.change') }}",
-        //         type: "GET",
-        //         data: {
-        //             type: type
-        //         },
-        //         dataType: "html",
-        //         success: function(html) {
-        //             $('#category_id').html(html);
-        //             $('#sub_category_id').html(
-        //                 '<option selected="selected" value="">Please Select</option>');
-        //         }
-        //     });
-        // });
+        $(document).on('change', '#type', function() {
+            var type = $(this).val();
+            $.ajax({
+                url: "{{ route('product.type.change') }}",
+                type: "GET",
+                data: {
+                    type: type
+                },
+                dataType: "html",
+                success: function(html) {
+                    $('#category_id').html(html);
+                    $('#sub_category_id').html(
+                        '<option selected="selected" value="">Please Select</option>');
+                }
+            });
+        });
 
         // When parent category changes, reload sub-categories
         $(document).on('change', '#category_id', function() {

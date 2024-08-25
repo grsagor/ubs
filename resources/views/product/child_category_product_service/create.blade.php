@@ -20,7 +20,7 @@
                 <form action="{{ route('product_service_category_store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
 
-                    {{-- <div class="form-group">
+                    <div class="form-group">
                         <label for="category">Type:<span class="text-danger">*</span></label>
                         <select class="form-control select2" name="category_type" required id="type">
                             <option value="" selected disabled>Select type</option>
@@ -29,7 +29,7 @@
                             <option value="service" {{ old('category_type') == 'service' ? 'selected' : '' }}>
                                 Service</option>
                         </select>
-                    </div> --}}
+                    </div>
 
                     <div class="form-group">
                         <label for="selling_price_group_id">Parent Category <span class="text-danger">*</span></label>
@@ -93,25 +93,25 @@
 
 @section('javascript')
     <script>
-        // $(document).on('change', '#type', function() {
-        //     var type = $(this).val();
-        //     console.log('Type id ' + type);
+        $(document).on('change', '#type', function() {
+            var type = $(this).val();
+            console.log('Type id ' + type);
 
-        //     $.ajax({
-        //         url: "{{ route('product.type.change') }}",
-        //         type: "GET",
-        //         data: {
-        //             type: type
-        //         },
-        //         dataType: "html",
-        //         success: function(html) {
-        //             console.log(html);
-        //             $('#category_id').html(html);
-        //             $('#sub_category_id').html(
-        //                 '<option selected="selected" value="">Please Select</option>');
-        //         }
-        //     })
-        // })
+            $.ajax({
+                url: "{{ route('product.type.change') }}",
+                type: "GET",
+                data: {
+                    type: type
+                },
+                dataType: "html",
+                success: function(html) {
+                    console.log(html);
+                    $('#category_id').html(html);
+                    $('#sub_category_id').html(
+                        '<option selected="selected" value="">Please Select</option>');
+                }
+            })
+        })
         $(document).on('change', '#category_id', function() {
             var category_id = $(this).val();
             console.log('category id ' + category_id);

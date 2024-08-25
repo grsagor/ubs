@@ -20,7 +20,7 @@
                 <form action="{{ route('product_service_category_store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
 
-                    {{-- <div class="form-group">
+                    <div class="form-group">
                         <label for="category">Type:<span class="text-danger">*</span></label>
                         <select class="form-control select2" name="category_type" required id="type">
                             <option value="" selected disabled>Select type</option>
@@ -29,7 +29,7 @@
                             <option value="service" {{ old('category_type') == 'service' ? 'selected' : '' }}>
                                 Service</option>
                         </select>
-                    </div> --}}
+                    </div>
 
                     <div class="form-group">
                         <label for="selling_price_group_id">Parent Category <span class="text-danger">*</span></label>
@@ -88,7 +88,7 @@
 @endsection
 
 @section('javascript')
-    {{-- <script>
+    <script>
         $(document).on('change', '#type', function() {
             var type = $(this).val();
             console.log('Type id ' + type);
@@ -106,5 +106,5 @@
                 }
             })
         })
-    </script> --}}
+    </script>
 @endsection

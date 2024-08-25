@@ -22,7 +22,7 @@
                     @csrf
                     @method('PUT')
 
-                    {{-- <div class="form-group">
+                    <div class="form-group">
                         <label for="category_type">Type <span class="text-danger">*</span></label>
                         <select class="form-control select2" name="category_type" required id="type">
                             <option value="" selected disabled>Select type</option>
@@ -35,14 +35,15 @@
                                 Service
                             </option>
                         </select>
-                    </div> --}}
+                    </div>
 
                     <div class="form-group">
                         <label for="category_id">Parent Category <span class="text-danger">*</span></label>
                         <select class="form-control select2" name="category_id" required id="category_id">
                             <option value="" selected disabled>Select type</option>
                             @foreach ($categories as $item)
-                                <option value="{{ $item->id }}" {{ old('category_id') == $item->id ? 'selected' : '' }}>
+                                <option value="{{ $item->id }}"
+                                    {{ old('category_id', $sub_category->parent_id) == $item->id ? 'selected' : '' }}>
                                     {{ $item->name }}
                                 </option>
                             @endforeach
@@ -93,7 +94,7 @@
 
 
 @section('javascript')
-    {{-- <script>
+    <script>
         $(document).on('change', '#type', function() {
             var type = $(this).val();
             console.log('Type id ' + type);
@@ -111,5 +112,5 @@
                 }
             })
         })
-    </script> --}}
+    </script>
 @endsection
