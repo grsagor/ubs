@@ -198,7 +198,7 @@
                             </p>
 
                         </div>
-                        <div class="d-flex mr-10 text-center" style="padding: 10px;">
+                        <div class="d-flex mr-10 text-center" style="padding: 0px 10px 10px 10px;">
                             <div class="col division fw-bold text-dark">
                                 @php
                                     $amount = 0;
@@ -206,7 +206,7 @@
                                         $amount += $variation_data->default_sell_price;
                                     }
                                 @endphp
-                                &pound; {{ number_format($amount, 2) }}
+                                &pound;{{ number_format($amount, 2) }}
                             </div>
                         </div>
                     </div>
