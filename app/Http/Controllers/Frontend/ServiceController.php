@@ -3,18 +3,13 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Product;
-use App\Category;
-use App\ChildCategory;
-use App\ServiceCategory;
 use App\BusinessLocation;
-use App\ResellingProduct;
 use App\ServiceEducation;
 use Illuminate\Http\Request;
 use App\ServiceSubCategories;
 use App\ServiceChildCategories;
 use App\Services\DataSetService;
 use App\Http\Controllers\Controller;
-use Illuminate\Pagination\LengthAwarePaginator;
 
 class ServiceController extends Controller
 {
@@ -34,12 +29,6 @@ class ServiceController extends Controller
             ->paginate(10);
 
         $data['nestedDataSets'] = $this->dataSetService->getNestedDataSets();
-
-        $page = $data['products']->currentPage(); // Changed to use current page from products pagination
-        $perPage = $data['products']->perPage(); // Changed to use per page from products pagination
-        $total_products = $data['products']->total(); // Assuming this represents the total number of products
-
-        $currentPageItems = $data['products']->slice(($page - 1) * $perPage, $perPage)->all(); // Corrected to use products pagination
 
         return view('frontend.service.service_list.index', $data);
     }
