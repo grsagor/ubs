@@ -72,7 +72,7 @@
 
 
         .laptop_view_card {
-            padding: 0px 32px 0px 25px;
+            padding: 0px 32px 0px 32px;
         }
 
         .product-wrapperrrrr {
@@ -103,7 +103,7 @@
 
         @media (max-width: 767px) {
             .mobile_view_card {
-                margin-top: 30px !important;
+                padding: 20px 13px 0px 13px;
             }
 
             .mobile_view_image {
@@ -122,9 +122,6 @@
                 margin-left: 10px !important;
             }
 
-            .laptop_view_card {
-                padding: unset;
-            }
         }
     </style>
 @endsection
@@ -196,24 +193,12 @@
                             <p class="text-dark"
                                 style="margin: 0; margin-top: 7px; text-align: justify; padding: 0; line-height: 1.5;">
 
-                                {!! Str::limit($item->define_this_item, $limit = 285, $end = '...') !!}
+                                {!! Str::limit($item->define_this_item, $limit = 315, $end = '...') !!}
                             </p>
 
                         </div>
-                        <div class="d-flex mr-10 text-center"
-                            style="background-color: white; padding: 1px; margin-left: 12px; margin-right: 5px;">
-                            <div class="col division" style="border: 1px  solid var(--green);">
-                                <button type="button" class="btn-sm">Add to Cart</button>
-                            </div>
-                            <div class="col division" style="border: 1px solid var(--green);">
-                                <a href="#" style="color: inherit">
-                                    <i class="fa-regular fa-heart mt-2"></i>
-                                </a>
-                            </div>
-                            <a class="col division" style="border: 1px solid var(--green); color: inherit;"
-                                href="{{ route('product.show', $item->slug) }}">Details
-                            </a>
-                            <div class="col division" style="border: 1px solid var(--green);">
+                        <div class="d-flex mr-10 text-center" style="padding: 10px;">
+                            <div class="col division fw-bold text-dark">
                                 @php
                                     $amount = 0;
                                     foreach ($item->variations as $variation_data) {
