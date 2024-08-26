@@ -2,7 +2,7 @@
 
     <div class="showing-products border-2 border-bottom border-light" id="ajaxContent">
 
-        <div class=" product-style-1 shop-list product-list  e-title-hover-primary e-hover-image-zoom">
+        <div class="product-style-1 shop-list product-list  e-title-hover-primary e-hover-image-zoom">
 
             {{-- Service part --}}
             @if (count($products) > 0)

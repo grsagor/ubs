@@ -32,7 +32,8 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background-color: rgba(209, 224, 209, 0.5);
+            /* background-color: rgba(209, 224, 209, 0.5); */
+            background-color: #e2f7f6;
             /* Solid green overlay with 50% opacity */
             transition: all 0.5s ease-in-out;
             /* Smooth transition for a more engaging effect */
@@ -85,7 +86,7 @@
             border-radius: 6%;
             box-shadow: 0 0px 4px rgba(0, 0, 0, 0.2);
             z-index: 4;
-            background-color: #039f2d;
+            background-color: #38b2ac;
         }
 
         .category-badge h6 {
@@ -103,7 +104,7 @@
 
         @media (max-width: 767px) {
             .mobile_view_card {
-                padding: 20px 13px 0px 13px;
+                padding: 20px 14px 0px 14px;
             }
 
             .mobile_view_image {
