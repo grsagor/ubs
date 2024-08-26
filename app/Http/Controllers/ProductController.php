@@ -14,7 +14,6 @@ use App\Business;
 use App\Category;
 use App\Warranty;
 use App\Variation;
-use App\SubCategory;
 use App\PurchaseLine;
 use App\ChildCategory;
 use App\BusinessLocation;
@@ -28,11 +27,12 @@ use App\VariationTemplate;
 use Illuminate\Support\Str;
 use App\VariationGroupPrice;
 use Illuminate\Http\Request;
+use App\Services\SlugService;
 use App\Exports\ProductsExport;
+use App\Services\UniqueIDService;
 use App\VariationLocationDetails;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Pagination\LengthAwarePaginator;
 
@@ -47,19 +47,19 @@ class ProductController extends Controller
 
     private $barcode_types;
 
-    /**
-     * Constructor
-     *
-     * @param  ProductUtils  $product
-     * @return void
-     */
-    public function __construct(ProductUtil $productUtil, ModuleUtil $moduleUtil)
+    protected $unique_id_service;
+    protected $slug_service;
+
+    public function __construct(ProductUtil $productUtil, ModuleUtil $moduleUtil, UniqueIDService $unique_id_service, SlugService $slug_service)
     {
         $this->productUtil = $productUtil;
         $this->moduleUtil = $moduleUtil;
 
         //barcode types
         $this->barcode_types = $this->productUtil->barcode_types();
+
+        $this->unique_id_service          = $unique_id_service;
+        $this->slug_service               = $slug_service;
     }
 
     /**
@@ -656,6 +656,14 @@ class ProductController extends Controller
             if (!empty($request->input('selected_months'))) {
                 $product->selected_months = $request->selected_months ? $request->selected_months : null;
             }
+
+            // Assign the unique slug to the requested data
+            $product->slug = $this->slug_service->slug_create($request->name, $product);
+
+            // Generate a unique id
+            $product->short_id = $this->unique_id_service->generateUniqueId($product, 'short_id');
+
+            // dd($product_details['slug'], $product_details['short_id'], $request->toArray());
 
             $product->save();
 
@@ -2800,25 +2808,14 @@ class ProductController extends Controller
         return view('frontend.product.product_list', $data);
     }
 
-    public function productShow($id, $name)
+    public function productShow($slug)
     {
         $user = Auth::user();
-        $product = Product::with('unit', 'brand', 'business_location')->findOrFail($id);
+        $product = Product::with('unit', 'brand', 'business_location')->Where('slug', $slug)->first();
 
-        if ($id != $product->id || $name != $product->name) {
+        if ($slug != $product->slug) {
             abort(404, 'Product not found');
         }
-
-        // URL encode the product name using rawurlencode
-        $productNameUrlEncoded = rawurlencode($product->name);
-
-        // URL decode the name parameter from the URL
-        $nameFromUrlDecoded = urldecode($name);
-
-        // If the name is missing or incorrect, redirect to the correct URL
-        // if ($nameFromUrlDecoded !== $product->name) {
-        //     return redirect()->route('product.show', ['id' => $id, 'name' => $productNameUrlEncoded]);
-        // }
 
         $data['info'] = $product;
         $data['user_info'] = Media::where('uploaded_by', $data['info']->user_id)
@@ -2831,7 +2828,7 @@ class ProductController extends Controller
             $data['user'] = $user;
         }
 
-        $location_id = DB::table('product_locations')->where('product_id', $id)->value('location_id');
+        $location_id = DB::table('product_locations')->where('product_id', $product->id)->value('location_id');
 
         if ($location_id) {
             $data['business_data'] = BusinessLocation::findOrFail($location_id);

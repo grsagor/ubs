@@ -62,10 +62,6 @@
             color: #666666;
         }
 
-        .list-page {
-            background-color: #f0f2f5;
-        }
-
         .custom-border-color {
             border-color: #38b2ac;
         }
@@ -154,7 +150,7 @@
                 <div class="row">
 
                     @if ($item->thumbnail)
-                        <a href="{{ route('product.show', ['id' => $item->id, 'name' => rawurlencode($item->name)]) }}"
+                        <a href="{{ route('product.show', $item->slug) }}"
                             class="product-wrapperrrrr col-lg-4 col-md-4 col-sm-12 d-flex mobile-view-center"
                             style="padding-right: 0px; height: 188px;">
 
@@ -170,7 +166,7 @@
                             @endif
                         </a>
                     @else
-                        <a href="{{ route('product.show', ['id' => $item->id, 'name' => rawurlencode($item->name)]) }}"
+                        <a href="{{ route('product.show', $item->slug) }}"
                             class="product-wrapperrrrr col-lg-4 col-md-4 col-sm-12 d-flex mobile-view-center"
                             style="padding-right: 0px; height: 188px;">
 
@@ -191,8 +187,7 @@
                         style="padding-right: 15px !important; padding-left: 4px;">
                         <div class="p-1 flex-grow-1">
                             <h5 class="product-title" style="padding: 0; margin: 0;">
-                                <a class="text-dark"
-                                    href="{{ route('product.show', ['id' => $item->id, 'name' => rawurlencode($item->name)]) }}"
+                                <a class="text-dark" href="{{ route('product.show', $item->slug) }}"
                                     style="font-weight: 600;">
                                     {{ Str::limit($item->name, $limit = 45, $end = '...') }}
                                 </a>
@@ -216,7 +211,7 @@
                                 </a>
                             </div>
                             <a class="col division" style="border: 1px solid var(--green); color: inherit;"
-                                href="{{ route('product.show', ['id' => $item->id, 'name' => rawurlencode($item->name)]) }}">Details
+                                href="{{ route('product.show', $item->slug) }}">Details
                             </a>
                             <div class="col division" style="border: 1px solid var(--green);">
                                 @php

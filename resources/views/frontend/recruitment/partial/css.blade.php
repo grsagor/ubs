@@ -59,9 +59,6 @@
         color: #666666;
     }
 
-    .list-page {
-        background-color: #f0f2f5;
-    }
 
     .laptop_view_card {
         padding: 0px 32px 0px 25px;
