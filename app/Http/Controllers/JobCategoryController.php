@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Category;
 use Illuminate\Http\Request;
 use App\Services\CategoryService;
-use App\Traits\ActiveInactiveStatus;
 
 class JobCategoryController extends Controller
 {
@@ -14,7 +13,6 @@ class JobCategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    use ActiveInactiveStatus;
 
     protected $category_service;
 
@@ -107,6 +105,15 @@ class JobCategoryController extends Controller
     {
         $data = Category::find($id);
 
-        return $this->changeStatus($data, 'job-category.index', 'Status Change');
+        // Toggle the status of the News item
+        $data->status = $data->status == 1 ? 0 : 1;
+        $data->save();
+
+        $output = [
+            'success' => true,
+            'msg' => 'Status changed successfully!',
+        ];
+
+        return redirect()->back()->with('status', $output);
     }
 }

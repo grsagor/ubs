@@ -1,10 +1,8 @@
 @extends('layouts.app')
-@section('title', 'Marketing-Category')
+@section('title', 'News')
 @section('content')
     <section class="content-header">
-        <h1>News
-            {{-- <small>Fill up what you want</small> --}}
-        </h1>
+        <h1>News </h1>
     </section>
 
     <section class="content">
@@ -20,17 +18,31 @@
             </div>
 
             <div class="box-body">
-                <form action="{{ route('shop-news.update', $news->id) }}" method="POST" enctype="multipart/form-data">
-                    @csrf @method('put')
+                <form action="{{ route('shop-news.store') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
 
-                    <div class="col-sm-12">
+                    <input type="hidden" name="type" value="News">
+
+                    <div class="col-sm-6">
                         <div class="form-group">
                             <label class="form-label">Category <span class="text-danger">*</span></label>
-                            <select class="form-control" name="shop_news_category_id" required>
+                            <select class="form-control select2" name="shop_news_category_id" required>
                                 <option value="" selected="selected">Select Category</option>
                                 @foreach ($categories as $item)
+                                    <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="selling_price_group_id">Shop location <span class="text-danger">*</span></label>
+                            <select class="form-control select2" name="business_location_id" required>
+                                <option value="">Select</option>
+                                @foreach ($business_locations as $item)
                                     <option value="{{ $item->id }}"
-                                        {{ $item->id == $news->shop_news_category_id ? 'selected' : '' }}>
+                                        {{ old('business_location_id') == $item->id ? 'selected' : '' }}>
                                         {{ $item->name }}
                                     </option>
                                 @endforeach
@@ -41,8 +53,7 @@
                     <div class="col-sm-12">
                         <div class="form-group">
                             <label class="form-label">Title <span class="text-danger">*</span></label>
-                            <input class="form-control" required="" placeholder="Title" name="title" type="text"
-                                value="{{ $news->title }}">
+                            <input class="form-control" required="" placeholder="Title" name="title" type="text">
                         </div>
                     </div>
 
@@ -51,7 +62,7 @@
                             <label for="custom_field1">Description</label>
                             <p class="sub-heading">(No contact details permitted within description)</p>
                             <textarea rows="5" type="text" class="form-control" name="description" id="footer_details" class="input-field"
-                                placeholder="Description">{!! $news->description ?? '' !!}</textarea>
+                                placeholder="Description"></textarea>
                             <span class="error text-danger" id="footer_details-error--property_wanted_create"></span>
                         </div>
                     </div>
@@ -61,13 +72,8 @@
                             <label>Thumbnail:</label>
                             <input class="form-control" name="thumbnail" type="file" id="thumbnail"
                                 onchange="previewThumbnail(this)">
-                            @if (isset($news->thumbnail) && !empty($news->thumbnail))
-                                <img id="thumbnail-preview" src="{{ asset($news->thumbnail) }}" alt="Thumbnail Preview"
-                                    style="max-width: 20%; margin-top: 20px;">
-                            @else
-                                <img id="thumbnail-preview" src="#" alt="Thumbnail Preview"
-                                    style="display: none; max-width: 20%; margin-top: 20px;">
-                            @endif
+                            <img id="thumbnail-preview" src="#" alt="Thumbnail Preview"
+                                style="display: none; max-width: 20%; margin-top: 20px;">
                         </div>
                     </div>
 
@@ -76,23 +82,9 @@
                             <label>Gallery:</label>
                             <input class="form-control" name="images[]" type="file" id="images" multiple
                                 onchange="previewImages(this)">
-                            <div id="image-preview-container" class="mt-2">
-                                @if (isset($news->images) && !empty($news->images))
-                                    @php
-                                        $decodedImages = json_decode($news->images, true);
-                                    @endphp
-
-                                    @if ($decodedImages && is_array($decodedImages) && count($decodedImages) > 0)
-                                        @foreach ($decodedImages as $image)
-                                            <img src="{{ asset($image) }}" alt="Image Preview"
-                                                style="max-width: 20%; margin-right: 10px;">
-                                        @endforeach
-                                    @endif
-                                @endif
-                            </div>
+                            <div id="image-preview-container" class="mt-2"></div>
                         </div>
                     </div>
-
 
                     <div class="col-sm-6">
                         <div class="form-group">
@@ -100,8 +92,9 @@
                             <select class="form-control" name="status">
                                 <option selected="" value="">Select Status</option>
                                 @foreach (getStatus() as $status)
-                                    <option @selected($news->status == $status['value']) value="{{ $status['value'] }}">
-                                        {{ $status['label'] }}</option>
+                                    <option value="{{ $status['value'] }}" {{ $status['value'] == '1' ? 'selected' : '' }}>
+                                        {{ $status['label'] }}
+                                    </option>
                                 @endforeach
                             </select>
                             @error('status')
@@ -123,5 +116,5 @@
 @endsection
 
 @section('javascript')
-    @include('news.partial.js')
+    @include('news_marketing.news.partial.js')
 @endsection
