@@ -73,7 +73,7 @@
 
 
         .laptop_view_card {
-            padding: 0px 32px 0px 32px;
+            padding: 0px 25px 0px 25px;
         }
 
         .product-wrapperrrrr {
@@ -194,11 +194,11 @@
                             <p class="text-dark"
                                 style="margin: 0; margin-top: 7px; text-align: justify; padding: 0; line-height: 1.5;">
 
-                                {!! Str::limit($item->define_this_item, $limit = 315, $end = '...') !!}
+                                {!! Str::limit($item->define_this_item, $limit = 285, $end = '...') !!}
                             </p>
 
                         </div>
-                        <div class="d-flex mr-10 text-center" style="padding: 0px 10px 10px 10px;">
+                        <div class="d-flex mr-10 text-center" style="padding: 0px 10px 7px 10px;">
                             <div class="col division fw-bold text-dark">
                                 @php
                                     $amount = 0;

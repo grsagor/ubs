@@ -11,7 +11,7 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="page-center">
-                            <h4 class="text-center text-danger">{{ 'No Product Found.' }}</h4>
+                            <h4 class="text-center text-danger">{{ 'No Serive Found.' }}</h4>
                         </div>
                     </div>
                 </div>
