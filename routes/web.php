@@ -25,7 +25,6 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SellPosController;
 use App\Http\Controllers\TaxRateController;
 use App\Http\Controllers\BusinessController;
-use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DiscountController;
 use App\Http\Controllers\GroupTaxController;
 use App\Http\Controllers\PurchaseController;
@@ -84,6 +83,7 @@ use App\Http\Controllers\Frontend\OtherServicesController;
 use App\Http\Controllers\Backend\ServiceEducationController;
 use App\Http\Controllers\Backend\ServiceAdvertiseRoomController;
 use App\Http\Controllers\Backend\NewsMarketingCategoryController;
+use App\Http\Controllers\Backend\BusinessLocationCategoryController;
 use App\Http\Controllers\FrontendController as PropertyFrontController;
 use App\Http\Controllers\Frontend\CategoryController as FrontendCategoryController;
 
@@ -412,6 +412,17 @@ Route::middleware(['checkAdmin', 'SetSessionData'])->group(function () {
     Route::get('/business-location/sub-category/edit/{id}',     [TaxonomyController::class, 'business_location_sub_category_edit'])->name('business_location_sub_category_edit');
     Route::get('/business-location/sub-category/status-change/{id}', [TaxonomyController::class, 'business_location_sub_category_statusChange'])->name('business_location_sub_category.statusChange');
 
+    Route::get('/business-location/category',                           [BusinessLocationCategoryController::class, 'business_location_category_index'])->name('business_location_category_index');
+    Route::get('/business-location/category/create',                    [BusinessLocationCategoryController::class, 'business_location_category_create'])->name('business_location_category_create');
+    Route::post('/business-location/category/store',                    [BusinessLocationCategoryController::class, 'business_location_category_store'])->name('business_location_category_store');
+    Route::get('/business-location/category/edit/{id}',                 [BusinessLocationCategoryController::class, 'business_location_category_edit'])->name('business_location_category_edit');
+    Route::put('/business-location/category/update/{id}',               [BusinessLocationCategoryController::class, 'business_location_category_update'])->name('business_location_category_update');
+    Route::get('/business-location/category/status-change/{id}',        [BusinessLocationCategoryController::class, 'business_location_category_statusChange'])->name('business_location_category.statusChange');
+
+    Route::get('/business-location/sub-category/create',                [BusinessLocationCategoryController::class, 'business_location_sub_category_create'])->name('business_location_sub_category_create');
+    Route::get('/business-location/sub-category/edit/{id}',             [BusinessLocationCategoryController::class, 'business_location_sub_category_edit'])->name('business_location_sub_category_edit');
+    Route::get('/business-location/sub-category/status-change/{id}',    [BusinessLocationCategoryController::class, 'business_location_sub_category_statusChange'])->name('business_location_sub_category.statusChange');
+
     Route::get('/product-service/category/index',               [TaxonomyController::class, 'product_service_category_index'])->name('product_service_category_index');
     Route::get('/product-service/category/create',              [TaxonomyController::class, 'product_service_category_create'])->name('product_service_category_create');
     Route::post('/product-service/category/store',              [TaxonomyController::class, 'product_service_category_store'])->name('product_service_category_store');
@@ -426,7 +437,6 @@ Route::middleware(['checkAdmin', 'SetSessionData'])->group(function () {
     Route::get('/product-service/child-category/create',        [TaxonomyController::class, 'product_service_child_category_create'])->name('product_service_child_category_create');
     Route::get('/product-service/child-category/edit/{id}',     [TaxonomyController::class, 'product_service_child_category_edit'])->name('product_service_child_category_edit');
     Route::get('/product-service/child-category/status-change/{id}',  [TaxonomyController::class, 'product_service_child_category_statusChange'])->name('product_service_child_category.statusChange');
-
 
     Route::resource('variation-templates', VariationTemplateController::class);
 

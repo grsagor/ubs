@@ -23,6 +23,8 @@ class JobCategoryController extends Controller
 
     public function index(Request $request)
     {
+        $this->NotSuperAdmin();
+
         if (auth()->user()->id != 5) {
             $output = [
                 'success' => False,
@@ -50,6 +52,8 @@ class JobCategoryController extends Controller
      */
     public function create()
     {
+        $this->NotSuperAdmin();
+
         if (auth()->user()->id != 5) {
             // abort(403, 'Unauthorized action.');
             $output = [
@@ -68,6 +72,8 @@ class JobCategoryController extends Controller
      */
     public function store(Request $request)
     {
+        $this->NotSuperAdmin();
+
         $object = new Category();
 
         $output =  $this->category_service->store($request, $object);
@@ -78,6 +84,8 @@ class JobCategoryController extends Controller
 
     public function edit($id)
     {
+        $this->NotSuperAdmin();
+
         if (auth()->user()->id != 5) {
             // abort(403, 'Unauthorized action.');
             $output = [
@@ -94,6 +102,7 @@ class JobCategoryController extends Controller
 
     public function update(Request $request, $id)
     {
+        $this->NotSuperAdmin();
         $object = Category::findOrFail($id);
 
         $output =  $this->category_service->update($request, $object);
@@ -103,6 +112,8 @@ class JobCategoryController extends Controller
 
     public function statusChange($id)
     {
+        $this->NotSuperAdmin();
+
         $data = Category::find($id);
 
         // Toggle the status of the News item
@@ -115,5 +126,17 @@ class JobCategoryController extends Controller
         ];
 
         return redirect()->back()->with('status', $output);
+    }
+
+    protected function NotSuperAdmin()
+    {
+        if (auth()->user()->id != 5) {
+            // abort(403, 'Unauthorized action.');
+            $output = [
+                'success' => False,
+                'msg' => 'You are not allowed',
+            ];
+            return redirect()->back()->with('status', $output);
+        }
     }
 }
