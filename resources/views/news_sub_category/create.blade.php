@@ -1,33 +1,33 @@
 @extends('layouts.app')
-@section('title', 'Sub Category of Product/Service')
+@section('title', 'Sub Categories of News/Marketing')
 @section('content')
     <section class="content-header">
-        <h1>Sub Categories of Product/Service </h1>
+        <h1>Sub Categories of News/Marketing </h1>
     </section>
 
     <section class="content">
         <div class="form-container box box-primary">
 
             <div class="box-header">
-                <h3 class="box-title">Fill category details </h3>
+                <h3 class="box-title">Fill category details</h3>
                 <div class="box-tools">
-                    <a href="{{ route('product_service_category_index') }}" class="btn btn-block btn-primary">
+                    <a href="{{ route('shop_news_category_index') }}" class="btn btn-block btn-primary">
                         <i class="fa fa-list"></i> Category List</a>
                 </div>
             </div>
 
             <div class="box-body">
-                <form action="{{ route('product_service_category_store') }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('shop_news_category_store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
 
                     <div class="form-group">
                         <label for="category">Type:<span class="text-danger">*</span></label>
                         <select class="form-control select2" name="category_type" required id="type">
                             <option value="" selected disabled>Select type</option>
-                            <option value="product" {{ old('category_type') == 'product' ? 'selected' : '' }}>Product
+                            <option value="news" {{ old('category_type') == 'news' ? 'selected' : '' }}>News
                             </option>
-                            <option value="service" {{ old('category_type') == 'service' ? 'selected' : '' }}>
-                                Service</option>
+                            <option value="marketing" {{ old('category_type') == 'marketing' ? 'selected' : '' }}>
+                                Marketing</option>
                         </select>
                     </div>
 
@@ -80,7 +80,6 @@
         </div>
     </section>
 @endsection
-
 @section('javascript')
     <script>
         $(document).on('change', '#type', function() {

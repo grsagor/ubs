@@ -457,6 +457,10 @@ Route::middleware(['checkAdmin', 'SetSessionData'])->group(function () {
     Route::put('/shop-news/category/update/{id}',               [TaxonomyController::class, 'shop_news_category_update'])->name('shop_news_category_update');
     Route::get('shop-news/category/status-change/{id}',         [TaxonomyController::class, 'shop_news_category_statusChange'])->name('shop_news_category.statusChange');
 
+    Route::get('/shop-news/sub-category/create',                [TaxonomyController::class, 'shop_news_sub_category_create'])->name('shop_news_sub_category_create');
+    Route::get('/shop-news/sub-category/edit/{id}',             [TaxonomyController::class, 'shop_news_sub_category_edit'])->name('shop_news_sub_category_edit');
+    Route::get('shop-news/sub-category/status-change/{id}',     [TaxonomyController::class, 'shop_news_sub_category_statusChange'])->name('shop_news_sub_category.statusChange');
+
 
     Route::resource('variation-templates', VariationTemplateController::class);
 

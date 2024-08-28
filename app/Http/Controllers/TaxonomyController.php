@@ -753,7 +753,7 @@ class TaxonomyController extends Controller
 
         $business_id = request()->session()->get('user.business_id');
 
-        $data['news'] = Category::query()
+        $data['categories'] = Category::query()
             ->where('business_id', $business_id)
             ->whereIn('category_type', ['news', 'marketing'])
             ->onlyParent()
@@ -794,9 +794,76 @@ class TaxonomyController extends Controller
 
     public function shop_news_category_statusChange($id)
     {
-        $data = Category::find($id);
+        // $data = Category::find($id);
 
-        return $this->changeStatus($data, 'shop_news_category_index', 'Status Change');
+        // return $this->changeStatus($data, 'shop_news_category_index', 'Status Change');
+
+        $data['category'] = Category::find($id);
+
+        if ($data['category']) {
+            // Toggle the status of the main category
+            $data['category']->status = $data['category']->status == 1 ? 0 : 1;
+            $data['category']->save();
+
+            // Find and toggle the status of all subcategories
+            $data['sub_categories'] = Category::where('parent_id', $id)->get();
+
+            foreach ($data['sub_categories'] as $subCategory) {
+                $subCategory->status = $data['category']->status; // Sync subcategory status with parent category
+                $subCategory->save();
+            }
+        }
+
+        $output = [
+            'success' => true,
+            'msg' => ('Status Change Successfully!!!'),
+        ];
+
+        return redirect()->back()->with('status', $output);
+    }
+
+    public function shop_news_sub_category_create()
+    {
+        $data['categorires'] = Category::query()
+            ->whereIn('category_type', ['news', 'marketing'])
+            ->active()
+            ->orderByNameAsc()
+            ->onlyParent()
+            ->get();
+
+        return view('news_sub_category.create', $data);
+    }
+
+    public function shop_news_sub_category_edit($id)
+    {
+        $data['sub_category'] = Category::findOrFail($id);
+
+        $data['categories'] = Category::query()
+            ->whereIn('category_type', ['news', 'marketing'])
+            ->active()
+            ->orderByNameAsc()
+            ->onlyParent()
+            ->get();
+
+        return view('news_sub_category.edit', $data);
+    }
+
+    public function shop_news_sub_category_statusChange($id)
+    {
+        $data['sub_category'] = Category::find($id);
+
+        $data['category'] = Category::find($data['sub_category']->parent_id);
+
+        if ($data['category']->status == 0) {
+            $output = [
+                'success' => false,
+                'msg' => ('Parent Category inactive'),
+            ];
+
+            return redirect()->back()->with('status', $output);
+        }
+
+        return $this->changeStatus($data['sub_category'], 'shop_news_category_index', 'Status Change');
     }
 
     protected function NotSuperAdmin()
