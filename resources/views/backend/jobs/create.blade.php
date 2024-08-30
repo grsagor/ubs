@@ -229,9 +229,9 @@
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label class="form-label">Company Name <span class="text-danger">*</span></label>
+                                <label class="form-label">Employer Name <span class="text-danger">*</span></label>
                                 <input class="form-control" type="text" name="company_name" required
-                                    placeholder="Name of the company" value="{{ old('company_name') }}">
+                                    placeholder="Name of the employer" value="{{ old('company_name') }}">
                             </div>
                         </div>
                         <div class="col-sm-6">
@@ -244,9 +244,9 @@
 
                         <div class="col-sm-12">
                             <div class="form-group">
-                                <label for="custom_field1">Company Information <span class="text-danger">*</span></label>
+                                <label for="custom_field1">Employee Information <span class="text-danger">*</span></label>
                                 <textarea rows="5" type="text" class="form-control" name="company_information" id="company-information"
-                                    class="input-field" placeholder="Company information">{{ old('company_information') }}</textarea>
+                                    class="input-field" placeholder="Employee information">{{ old('company_information') }}</textarea>
                                 @error('company_information')
                                     <span class="error text-danger">{{ $message }}</span>
                                 @enderror
