@@ -51,7 +51,7 @@
 
                                     <a href="{{ route('job-category.statusChange', $item->id) }}"
                                         class="btn btn-xs {{ $item->status == 1 ? 'btn-success' : 'btn-danger' }}">
-                                        <i class="fas fa-check-circle"></i>
+                                        {{ $item->status == 1 ? 'Active' : 'Inactive' }}
                                     </a>
                                 </td>
                             </tr>

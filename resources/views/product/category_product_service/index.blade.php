@@ -67,7 +67,7 @@
 
                                     <a href="{{ route('product_service_category.statusChange', $item->id) }}"
                                         class="btn btn-xs {{ $item->status == 1 ? 'btn-success' : 'btn-danger' }}">
-                                        <i class="fas fa-check-circle"></i>
+                                        {{ $item->status == 1 ? 'Active' : 'Inactive' }}
                                     </a>
                                 </td>
                             </tr>
@@ -87,7 +87,7 @@
 
                                         <a href="{{ route('product_service_sub_category.statusChange', $sub->id) }}"
                                             class="btn btn-xs {{ $sub->status == 1 ? 'btn-success' : 'btn-danger' }}">
-                                            <i class="fas fa-check-circle"></i>
+                                            {{ $sub->status == 1 ? 'Active' : 'Inactive' }}
                                         </a>
                                     </td>
                                 </tr>
@@ -107,7 +107,7 @@
                                             </a>
                                             <a href="{{ route('product_service_child_category.statusChange', $child->id) }}"
                                                 class="btn btn-xs {{ $child->status == 1 ? 'btn-success' : 'btn-danger' }}">
-                                                <i class="fas fa-check-circle"></i>
+                                                {{ $child->status == 1 ? 'Active' : 'Inactive' }}
                                             </a>
                                         </td>
                                     </tr>

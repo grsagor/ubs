@@ -39,7 +39,6 @@
                                         class="btn btn-xs {{ $item->status == 1 ? 'btn-success' : 'btn-danger' }}">
                                         {{ $item->status == 1 ? 'Active' : 'Inactive' }}
                                     </a>
-
                                 </td>
                             </tr>
                         @empty
