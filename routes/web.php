@@ -79,6 +79,7 @@ use App\Http\Controllers\NotificationTemplateController;
 use App\Http\Controllers\SalesCommissionAgentController;
 use App\Http\Controllers\Backend\NewsMarketingController;
 use App\Http\Controllers\DashboardConfiguratorController;
+use App\Http\Controllers\Backend\LanguageSpeechController;
 use App\Http\Controllers\CombinedPurchaseReturnController;
 use App\Http\Controllers\Frontend\OtherServicesController;
 use App\Http\Controllers\Backend\ServiceEducationController;
@@ -317,10 +318,12 @@ Route::middleware(['checkAdmin', 'SetSessionData'])->group(function () {
     Route::put('job-category/{id}', [JobCategoryController::class, 'update'])->name('job-category.update');
     Route::get('job-cactegory/status-change/{id}', [JobCategoryController::class, 'statusChange'])->name('job-category.statusChange');
 
-
+    // Region
     Route::resource('region', RegionController::class);
     Route::get('region/status-change/{id}', [RegionController::class, 'statusChange'])->name('region.statusChange');
 
+    Route::resource('language', LanguageSpeechController::class);
+    Route::get('language/status-change/{id}', [LanguageSpeechController::class, 'statusChange'])->name('language.statusChange');
 
     // Services
     Route::resource('service-advertise', ServiceAdvertiseRoomController::class);
