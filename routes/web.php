@@ -52,6 +52,7 @@ use App\Http\Controllers\StockTransferController;
 use App\Http\Controllers\StripePaymentController;
 use App\Http\Controllers\AccountReportsController;
 use App\Http\Controllers\Backend\FooterController;
+use App\Http\Controllers\Backend\RegionController;
 use App\Http\Controllers\ImportProductsController;
 use App\Http\Controllers\LedgerDiscountController;
 use App\Http\Controllers\PurchaseReturnController;
@@ -315,6 +316,11 @@ Route::middleware(['checkAdmin', 'SetSessionData'])->group(function () {
     Route::get('job-category/{id}/edit', [JobCategoryController::class, 'edit'])->name('job-category.edit');
     Route::put('job-category/{id}', [JobCategoryController::class, 'update'])->name('job-category.update');
     Route::get('job-cactegory/status-change/{id}', [JobCategoryController::class, 'statusChange'])->name('job-category.statusChange');
+
+
+    Route::resource('region', RegionController::class);
+    Route::get('region/status-change/{id}', [RegionController::class, 'statusChange'])->name('region.statusChange');
+
 
     // Services
     Route::resource('service-advertise', ServiceAdvertiseRoomController::class);
