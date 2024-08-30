@@ -475,6 +475,26 @@ class ProductController extends Controller
                 ->onlyParent()
                 ->get();
         }
+
+        // for news
+        if ($type == 'news') {
+            $categories = Category::where([['parent_id', 0], ['category_type', 'news']])
+                ->where('business_id', $business_id)
+                ->active()
+                ->orderByNameAsc()
+                ->onlyParent()
+                ->get();
+        }
+        // for marketing
+        if ($type == 'marketing') {
+            $categories = Category::where([['parent_id', 0], ['category_type', 'marketing']])
+                ->where('business_id', $business_id)
+                ->active()
+                ->orderByNameAsc()
+                ->onlyParent()
+                ->get();
+        }
+
         return view('product.categories_options', compact('categories'));
     }
 

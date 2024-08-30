@@ -35,11 +35,6 @@
                         <label for="selling_price_group_id">Parent Category <span class="text-danger">*</span></label>
                         <select class="form-control select2" required id="category_id">
                             <option value="" selected disabled>Select type</option>
-                            @foreach ($categories as $item)
-                                <option value="{{ $item->id }}" {{ old('category_id') == $item->id ? 'selected' : '' }}>
-                                    {{ $item->name }}
-                                </option>
-                            @endforeach
                         </select>
                     </div>
 

@@ -1,26 +1,19 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Backend;
 
 use App\News;
 use App\Category;
 use Carbon\Carbon;
 use App\BusinessLocation;
-use App\Traits\ActiveInactiveStatus;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Controller;
 
-class NewsController extends Controller
+class NewsMarketingController extends Controller
+
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-
-    use ActiveInactiveStatus;
-
     public function index(Request $request)
     {
         $data['news'] = News::query()
@@ -29,14 +22,9 @@ class NewsController extends Controller
             ->latest()
             ->get();
 
-        return view('news.index', $data);
+        return view('news_marketing.news.index', $data);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         $business_id = request()->session()->get('user.business_id');
@@ -49,19 +37,12 @@ class NewsController extends Controller
             ->orderByNameAsc()
             ->get();
 
-        //Get all business locations
         $data['business_locations'] = BusinessLocation::where('business_id', $business_id)
             ->get();
 
-        return view('news.create', $data);
+        return view('news_marketing.news.create', $data);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request, News $news)
     {
         try {
@@ -107,23 +88,11 @@ class NewsController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\News  $news
-     * @return \Illuminate\Http\Response
-     */
     public function show(News $news)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\News  $news
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
         $business_id = request()->session()->get('user.business_id');
@@ -138,16 +107,9 @@ class NewsController extends Controller
             ->orderByNameAsc()
             ->get();
 
-        return view('news.edit', $data);
+        return view('news_marketing.news.edit', $data);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\News  $news
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
         try {
@@ -214,12 +176,6 @@ class NewsController extends Controller
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\News  $news
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         $news = News::find($id);
@@ -268,6 +224,15 @@ class NewsController extends Controller
     {
         $data = News::find($id);
 
-        return $this->changeStatus($data, 'shop-news.index', 'Status Change');
+        // Toggle the status of the News item
+        $data->status = $data->status == 1 ? 0 : 1;
+        $data->save();
+
+        $output = [
+            'success' => true,
+            'msg' => 'Status changed successfully!',
+        ];
+
+        return redirect()->back()->with('status', $output);
     }
 }

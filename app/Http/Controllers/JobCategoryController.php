@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Category;
 use Illuminate\Http\Request;
 use App\Services\CategoryService;
-use App\Traits\ActiveInactiveStatus;
 
 class JobCategoryController extends Controller
 {
@@ -14,7 +13,6 @@ class JobCategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    use ActiveInactiveStatus;
 
     protected $category_service;
 
@@ -25,6 +23,8 @@ class JobCategoryController extends Controller
 
     public function index(Request $request)
     {
+        $this->NotSuperAdmin();
+
         if (auth()->user()->id != 5) {
             $output = [
                 'success' => False,
@@ -52,6 +52,8 @@ class JobCategoryController extends Controller
      */
     public function create()
     {
+        $this->NotSuperAdmin();
+
         if (auth()->user()->id != 5) {
             // abort(403, 'Unauthorized action.');
             $output = [
@@ -70,6 +72,8 @@ class JobCategoryController extends Controller
      */
     public function store(Request $request)
     {
+        $this->NotSuperAdmin();
+
         $object = new Category();
 
         $output =  $this->category_service->store($request, $object);
@@ -80,6 +84,8 @@ class JobCategoryController extends Controller
 
     public function edit($id)
     {
+        $this->NotSuperAdmin();
+
         if (auth()->user()->id != 5) {
             // abort(403, 'Unauthorized action.');
             $output = [
@@ -96,6 +102,7 @@ class JobCategoryController extends Controller
 
     public function update(Request $request, $id)
     {
+        $this->NotSuperAdmin();
         $object = Category::findOrFail($id);
 
         $output =  $this->category_service->update($request, $object);
@@ -105,8 +112,31 @@ class JobCategoryController extends Controller
 
     public function statusChange($id)
     {
+        $this->NotSuperAdmin();
+
         $data = Category::find($id);
 
-        return $this->changeStatus($data, 'job-category.index', 'Status Change');
+        // Toggle the status of the News item
+        $data->status = $data->status == 1 ? 0 : 1;
+        $data->save();
+
+        $output = [
+            'success' => true,
+            'msg' => 'Status changed successfully!',
+        ];
+
+        return redirect()->back()->with('status', $output);
+    }
+
+    protected function NotSuperAdmin()
+    {
+        if (auth()->user()->id != 5) {
+            // abort(403, 'Unauthorized action.');
+            $output = [
+                'success' => False,
+                'msg' => 'You are not allowed',
+            ];
+            return redirect()->back()->with('status', $output);
+        }
     }
 }
