@@ -41,7 +41,6 @@
                         <tr>
                             <th>Category name</th>
                             <th>Short Code</th>
-                            <th>Description</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -50,7 +49,6 @@
                             <tr>
                                 <td>{{ $item->name }}</td>
                                 <td>{{ $item->short_code }}</td>
-                                <td>{{ $item->description }}</td>
                                 <td>
                                     <a href="{{ route('business_location_category_edit', $item->id) }}"
                                         class="btn btn-xs btn-primary">
@@ -58,7 +56,7 @@
                                     </a>
                                     <a href="{{ route('business_location_category.statusChange', $item->id) }}"
                                         class="btn btn-xs {{ $item->status == 1 ? 'btn-success' : 'btn-danger' }}">
-                                        <i class="fas fa-check-circle"></i>
+                                        {{ $item->status == 1 ? 'Active' : 'Inactive' }}
                                     </a>
                                 </td>
                             </tr>
@@ -67,14 +65,13 @@
                                 <tr>
                                     <td>--{{ $sub->name }}</td>
                                     <td>{{ $sub->short_code }}</td>
-                                    <td>{{ $sub->description }}</td>
                                     <td> <a href="{{ route('business_location_sub_category_edit', $sub->id) }}"
                                             class="btn btn-xs btn-primary">
                                             <i class="glyphicon glyphicon-edit"></i> Edit
                                         </a>
                                         <a href="{{ route('business_location_sub_category.statusChange', $sub->id) }}"
                                             class="btn btn-xs {{ $sub->status == 1 ? 'btn-success' : 'btn-danger' }}">
-                                            <i class="fas fa-check-circle"></i>
+                                            {{ $sub->status == 1 ? 'Active' : 'Inactive' }}
                                         </a>
                                     </td>
                                 </tr>

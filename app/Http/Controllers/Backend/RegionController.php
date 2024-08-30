@@ -20,6 +20,8 @@ class RegionController extends Controller
 
     public function index()
     {
+        $this->NotSuperAdmin();
+
         $data['regions'] = Region::query()
             ->latest()
             ->get();
@@ -29,11 +31,15 @@ class RegionController extends Controller
 
     public function create()
     {
+        $this->NotSuperAdmin();
+
         return view('backend.region.create');
     }
 
     public function store(Request $request, Region $region)
     {
+        $this->NotSuperAdmin();
+
         try {
             $requestedData = $request->all();
 
@@ -58,6 +64,8 @@ class RegionController extends Controller
 
     public function edit($id)
     {
+        $this->NotSuperAdmin();
+
         $data = Region::find($id);
 
         return view('backend.region.edit', compact('data'));
@@ -65,6 +73,8 @@ class RegionController extends Controller
 
     public function update(Request $request, Region $region)
     {
+        $this->NotSuperAdmin();
+
         try {
             $this->validateJobRequest($request);
 
@@ -85,6 +95,8 @@ class RegionController extends Controller
 
     public function statusChange($id)
     {
+        $this->NotSuperAdmin();
+
         // Retrieve the region by its ID
         $data = Region::find($id);
 
@@ -114,5 +126,17 @@ class RegionController extends Controller
             'name.required' => 'The region field is required',
             'name.unique' => 'The region field must be unique',
         ]);
+    }
+
+    protected function NotSuperAdmin()
+    {
+        if (auth()->user()->id != 5) {
+            // abort(403, 'Unauthorized action.');
+            $output = [
+                'success' => False,
+                'msg' => 'You are not allowed',
+            ];
+            return redirect()->back()->with('status', $output);
+        }
     }
 }

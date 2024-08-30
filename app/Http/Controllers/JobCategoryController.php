@@ -25,14 +25,6 @@ class JobCategoryController extends Controller
     {
         $this->NotSuperAdmin();
 
-        if (auth()->user()->id != 5) {
-            $output = [
-                'success' => False,
-                'msg' => 'You are not allowed',
-            ];
-            return redirect()->back()->with('status', $output);
-        }
-
         $business_id = request()->session()->get('user.business_id');
 
         $data['categories'] = Category::query()
@@ -54,14 +46,6 @@ class JobCategoryController extends Controller
     {
         $this->NotSuperAdmin();
 
-        if (auth()->user()->id != 5) {
-            // abort(403, 'Unauthorized action.');
-            $output = [
-                'success' => False,
-                'msg' => 'You are not allowed',
-            ];
-            return redirect()->back()->with('status', $output);
-        }
         return view('backend.job_categories.create');
     }
     /**
@@ -86,16 +70,8 @@ class JobCategoryController extends Controller
     {
         $this->NotSuperAdmin();
 
-        if (auth()->user()->id != 5) {
-            // abort(403, 'Unauthorized action.');
-            $output = [
-                'success' => False,
-                'msg' => 'You are not allowed',
-            ];
-            return redirect()->back()->with('status', $output);
-        }
-
         $data = Category::find($id);
+
         return view('backend.job_categories.edit', compact('data'));
     }
 

@@ -381,6 +381,8 @@
                     @if (auth()->user()->id == 5)
                         <li><a href="{{ route('job-category.index') }}"><i class="fa fas fa-cogs"></i>
                                 <span>Category</span></a></li>
+                        <li><a href="{{ route('region.index') }}"><i class="fa fas fa-cogs"></i>
+                                <span>Region</span></a></li>
                     @endif
                 </ul>
             </li>
