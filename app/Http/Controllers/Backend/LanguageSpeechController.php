@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Backend;
 
-use App\Region;
+use App\LanguageSpeech;
 use Illuminate\Http\Request;
 use App\Services\SlugService;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
-class RegionController extends Controller
+class LanguageSpeechController extends Controller
 {
     protected $slug_service;
 
@@ -21,21 +21,21 @@ class RegionController extends Controller
     {
         $this->NotSuperAdmin();
 
-        $data['regions'] = Region::query()
+        $data['languages'] = LanguageSpeech::query()
             ->latest()
             ->get();
 
-        return view('backend.region.index', $data);
+        return view('backend.languageSpeech.index', $data);
     }
 
     public function create()
     {
         $this->NotSuperAdmin();
 
-        return view('backend.region.create');
+        return view('backend.languageSpeech.create');
     }
 
-    public function store(Request $request, Region $region)
+    public function store(Request $request, LanguageSpeech $languageSpeech)
     {
         $this->NotSuperAdmin();
 
@@ -46,16 +46,16 @@ class RegionController extends Controller
 
             $requestedData['business_id']   = Auth::user()->business_id;
 
-            $requestedData['slug'] = $this->slug_service->slug_create($request->name, $region);
+            $requestedData['slug'] = $this->slug_service->slug_create($request->name, $languageSpeech);
 
-            $requestedData                  = $region->fill($requestedData)->save();
+            $requestedData                  = $languageSpeech->fill($requestedData)->save();
 
             $output = [
                 'success' => true,
-                'msg' => __('Region inserted successfully.'),
+                'msg' => __('Language inserted successfully.'),
             ];
 
-            return redirect()->route('region.index')->with('status', $output);
+            return redirect()->route('language.index')->with('status', $output);
         } catch (\Illuminate\Validation\ValidationException $e) {
             return redirect()->back()->withErrors($e->errors())->withInput();
         }
@@ -65,27 +65,29 @@ class RegionController extends Controller
     {
         $this->NotSuperAdmin();
 
-        $data = Region::find($id);
+        $data = LanguageSpeech::find($id);
 
-        return view('backend.region.edit', compact('data'));
+        return view('backend.languageSpeech.edit', compact('data'));
     }
 
-    public function update(Request $request, Region $region)
+    public function update(Request $request, $id)
     {
         $this->NotSuperAdmin();
 
         try {
-            $this->validateJobRequest($request, $region->id);
+            $languageSpeech = LanguageSpeech::find($id);
+
+            $this->validateJobRequest($request, $languageSpeech->id);
 
             $requestedData = $request->all();
 
-            $region->fill($requestedData)->save();
+            $languageSpeech->fill($requestedData)->save();
 
             $output = [
                 'success' => true,
                 'msg' => 'Updated Successfully!!!',
             ];
-            return redirect()->route('region.index')->with('status', $output);
+            return redirect()->route('language.index')->with('status', $output);
         } catch (\Illuminate\Validation\ValidationException $e) {
             return redirect()->back()->withErrors($e->errors())->withInput();
         }
@@ -95,13 +97,13 @@ class RegionController extends Controller
     {
         $this->NotSuperAdmin();
 
-        // Retrieve the region by its ID
-        $data = Region::find($id);
+        // Retrieve the languageSpeech by its ID
+        $data = LanguageSpeech::find($id);
 
         // Toggle the status: if 0, set to 1; if 1, set to 0
         $data->status = $data->status == 0 ? 1 : 0;
 
-        // Save the updated region
+        // Save the updated languageSpeech
         $data->save();
 
         // Prepare the output message
@@ -110,26 +112,27 @@ class RegionController extends Controller
             'msg' => 'Status changed successfully!!!',
         ];
 
-        // Redirect to the region index route with the status message
+        // Redirect to the languageSpeech index route with the status message
         return redirect()->back()->with('status', $output);
     }
 
-    protected function validateJobRequest(Request $request, $regionId = null)
+    protected function validateJobRequest(Request $request, $languageId = null)
     {
-        // Determine the validation rules based on the presence of $regionId (whether it's store or update)
+        // Set validation rules for storing or updating
         $rules = [
             'name' => [
                 'required',
-                $regionId ? 'unique:region,name,' . $regionId : 'unique:region,name',
-            ]
+                $languageId ? 'unique:languageSpeech,name,' . $languageId . ',id' : 'unique:languageSpeech,name',
+            ],
         ];
 
-        // Validate the request
+        // Perform validation with custom messages
         $request->validate($rules, [
-            'name.required' => 'The region field is required',
-            'name.unique' => 'The region field must be unique',
+            'name.required' => 'The language field is required',
+            'name.unique' => 'The language field must be unique',
         ]);
     }
+
 
     protected function NotSuperAdmin()
     {

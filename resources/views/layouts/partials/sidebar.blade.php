@@ -381,8 +381,6 @@
                     @if (auth()->user()->id == 5)
                         <li><a href="{{ route('job-category.index') }}"><i class="fa fas fa-cogs"></i>
                                 <span>Category</span></a></li>
-                        <li><a href="{{ route('region.index') }}"><i class="fa fas fa-cogs"></i>
-                                <span>Region</span></a></li>
                     @endif
                 </ul>
             </li>
@@ -421,11 +419,13 @@
                                 <i class="fa fa-list-alt"></i> <span>Category</span>
                             </a>
                         </li>
+                        <li><a href="{{ route('region.index') }}"><i class="fa fas fa-cogs"></i>
+                                <span>Region</span></a></li>
+                        <li><a href="{{ route('language.index') }}"><i class="fa fas fa-cogs"></i>
+                                <span>Language</span></a></li>
                     @endif
                 </ul>
             </li>
-
-
 
         </ul>
         <!-- /.sidebar-menu -->
