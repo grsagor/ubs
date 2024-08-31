@@ -21,8 +21,10 @@
                     <thead>
                         <tr>
                             <th>No.</th>
-                            <th>Category</th>
                             <th>Title</th>
+                            <th>Category</th>
+                            <th>Region</th>
+                            <th>Language</th>
                             <th>Created At</th>
                             <th>Action</th>
                         </tr>
@@ -31,8 +33,10 @@
                         @forelse ($news as $item)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
-                                <td>{{ $item->category->name ?? '' }}</td>
                                 <td>{!! Str::limit($item->title, 80, ' ...') !!}</td>
+                                <td>{{ $item->category->name ?? '' }}</td>
+                                <td>{{ $item->region->name ?? null }}</td>
+                                <td>{{ $item->language->name ?? null }}</td>
                                 <td>{{ $item->created_at->format('d F Y h:i A') }}</td>
                                 <td>
                                     <div class="btn-group">
@@ -59,7 +63,8 @@
                                                 <a href="{{ route('shop-news.statusChange', $item->id) }}">
                                                     <i
                                                         class="fa fa-power-off {{ $item->status == 0 ? 'text-danger' : 'text-success' }}"></i>
-                                                    <span class="{{ $item->status == 0 ? 'text-danger' : 'text-success' }}">
+                                                    <span
+                                                        class="{{ $item->status == 0 ? 'text-danger' : 'text-success' }}">
                                                         {{ $item->status == 0 ? 'Inactive' : 'Active' }}
                                                     </span>
                                                 </a>

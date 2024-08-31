@@ -3,22 +3,34 @@
 namespace App\Http\Controllers\Backend;
 
 use App\News;
+use App\Region;
 use App\Category;
 use Carbon\Carbon;
 use App\BusinessLocation;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use App\Services\SlugService;
 use App\Http\Controllers\Controller;
+use App\Http\Middleware\Language;
+use App\LanguageSpeech;
+use App\Special;
+use Illuminate\Support\Facades\Auth;
 
 class NewsMarketingController extends Controller
 
 {
+    protected $slug_service;
+
+    public function __construct(SlugService $slug_service)
+    {
+        $this->slug_service               = $slug_service;
+    }
+
     public function index(Request $request)
     {
         $data['news'] = News::query()
             ->search($request)
-            ->with('category')
+            ->with('category', 'region', 'language')
             ->latest()
             ->get();
 
@@ -37,6 +49,26 @@ class NewsMarketingController extends Controller
             ->orderByNameAsc()
             ->get();
 
+        $data['regions'] = Region::query()
+            ->active()
+            ->where('business_id', $business_id)
+            ->orderByNameAsc()
+            ->get();
+
+        $data['languages'] = LanguageSpeech::query()
+            ->active()
+            ->where('business_id', $business_id)
+            ->orderByNameAsc()
+            ->get();
+
+        $data['specials'] = Special::query()
+            ->active()
+            ->where('business_id', $business_id)
+            ->orderByNameAsc()
+            ->get();
+
+        // return $data['specials'];
+
         $data['business_locations'] = BusinessLocation::where('business_id', $business_id)
             ->get();
 
@@ -49,7 +81,8 @@ class NewsMarketingController extends Controller
             $requestedData = $request->all();
 
             $requestedData['business_id']   = Auth::user()->business_id;
-            $requestedData['slug'] = Str::slug($request->title) . '-' . Carbon::now()->timestamp;
+
+            $news->slug = $this->slug_service->slug_create($request->title, $news);
 
             if ($request->hasFile('thumbnail')) {
                 $image_path = public_path('uploads/news/thumbnail');
