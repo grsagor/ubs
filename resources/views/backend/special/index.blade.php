@@ -1,8 +1,8 @@
 @extends('layouts.app')
-@section('title', 'Region')
+@section('title', 'Special')
 @section('content')
     <section class="content-header">
-        <h1>Region</h1>
+        <h1>Special</h1>
     </section>
 
     <section class="content">
@@ -10,7 +10,8 @@
         <div class="form-container box box-primary">
 
             <div class="box-header">
-                <div class="box-tools"> <a type="button" class="btn btn-block btn-primary" href="{{ route('region.create') }}">
+                <div class="box-tools"> <a type="button" class="btn btn-block btn-primary"
+                        href="{{ route('special.create') }}">
                         <i class="fa fa-plus"></i> Add</a>
                 </div>
             </div>
@@ -21,21 +22,23 @@
                         <tr>
                             <th>No</th>
                             <th>Name</th>
+                            <th>Type</th>
                             <th>Short Code</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse ($regions as $item)
+                        @forelse ($specials as $item)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $item->name }}</td>
+                                <td>{{ ucFirst($item->type) }}</td>
                                 <td>{{ $item->code }}</td>
                                 <td>
-                                    <a href="{{ route('region.edit', $item->id) }}" class="btn btn-xs btn-primary">
+                                    <a href="{{ route('special.edit', $item->id) }}" class="btn btn-xs btn-primary">
                                         <i class="glyphicon glyphicon-edit"></i> Edit
                                     </a>
-                                    <a href="{{ route('region.statusChange', $item->id) }}"
+                                    <a href="{{ route('special.statusChange', $item->id) }}"
                                         class="btn btn-xs {{ $item->status == 1 ? 'btn-success' : 'btn-danger' }}">
                                         {{ $item->status == 1 ? 'Active' : 'Inactive' }}
                                     </a>

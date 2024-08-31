@@ -31,7 +31,7 @@
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $item->name }}</td>
-                                <td>{{ $item->short_code }}</td>
+                                <td>{{ $item->code }}</td>
                                 <td>
                                     <a href="{{ route('language.edit', $item->id) }}" class="btn btn-xs btn-primary">
                                         <i class="glyphicon glyphicon-edit"></i> Edit
