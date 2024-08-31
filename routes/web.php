@@ -57,6 +57,7 @@ use App\Http\Controllers\ImportProductsController;
 use App\Http\Controllers\LedgerDiscountController;
 use App\Http\Controllers\PurchaseReturnController;
 use App\Http\Controllers\TypesOfServiceController;
+use App\Http\Controllers\Backend\SpecialController;
 use App\Http\Controllers\DocumentAndNoteController;
 use App\Http\Controllers\ExpenseCategoryController;
 use App\Http\Controllers\StockAdjustmentController;
@@ -322,8 +323,13 @@ Route::middleware(['checkAdmin', 'SetSessionData'])->group(function () {
     Route::resource('region', RegionController::class);
     Route::get('region/status-change/{id}', [RegionController::class, 'statusChange'])->name('region.statusChange');
 
+    // Language
     Route::resource('language', LanguageSpeechController::class);
     Route::get('language/status-change/{id}', [LanguageSpeechController::class, 'statusChange'])->name('language.statusChange');
+
+    // Speical
+    Route::resource('special', SpecialController::class);
+    Route::get('special/status-change/{id}', [SpecialController::class, 'statusChange'])->name('special.statusChange');
 
     // Services
     Route::resource('service-advertise', ServiceAdvertiseRoomController::class);

@@ -423,6 +423,8 @@
                                 <span>Region</span></a></li>
                         <li><a href="{{ route('language.index') }}"><i class="fa fas fa-cogs"></i>
                                 <span>Language</span></a></li>
+                        <li><a href="{{ route('special.index') }}"><i class="fa fas fa-cogs"></i>
+                                <span>Special</span></a></li>
                     @endif
                 </ul>
             </li>
