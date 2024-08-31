@@ -232,8 +232,8 @@ Route::middleware(['setData'])->group(function () {
     //Product
     Route::get('/product/list', [ProductController::class, 'productList'])->name('product.list');
     Route::get('/service/list/{slug}', [ProductController::class, 'productShow'])->name('product.show');
-    Route::get('/product-policy/{id}', [ProductController::class, 'productPolicy'])->name('product.policy');
-    Route::get('/product-refund-policy/{id}', [ProductController::class, 'productRefundPolicy'])->name('product.refund.policy');
+    Route::get('/product-policy/{slug}', [ProductController::class, 'productPolicy'])->name('product.policy');
+    Route::get('/product-refund-policy/{slug}', [ProductController::class, 'productRefundPolicy'])->name('product.refund.policy');
 
     // CATEGORY SECTION
 

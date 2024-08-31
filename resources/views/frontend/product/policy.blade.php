@@ -6,13 +6,10 @@
 @section('content')
     @includeIf('frontend.partials.global.common-header')
 
-
     <div class="container" id="policy-container">
         <h4 class="footer-details-title mt-4">
             <u>Policy</u>
-            <a href="{{ route('product.show', ['id' => $item->id, 'name' => rawurlencode($item->name)]) }}"
-                class="sectitle">{{ $info->name }}</a>
-
+            <a href="{{ route('product.show', $info->slug) }}" class="sectitle">{{ $info->name }}</a>
         </h4>
 
         <div class="header mv">
