@@ -2776,8 +2776,6 @@ class ProductController extends Controller
     }
 
 
-
-
     public function productList(Request $request)
     {
         $data['per_page'] = 10;
@@ -2860,15 +2858,15 @@ class ProductController extends Controller
         return view('frontend.product.details', $data);
     }
 
-    public function productPolicy($id)
+    public function productPolicy($slug)
     {
-        $data['info'] = Product::findOrFail($id);
+        $data['info'] = Product::where('slug', $slug)->first();
         return view('frontend.product.policy', $data);
     }
 
-    public function productRefundPolicy($id)
+    public function productRefundPolicy($slug)
     {
-        $data['info'] = Product::findOrFail($id);
+        $data['info'] = Product::where('slug', $slug)->first();
         return view('frontend.product.refund_policy', $data);
     }
 }
