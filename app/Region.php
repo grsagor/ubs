@@ -26,4 +26,9 @@ class Region extends Model
     {
         $query->where('status', 1);
     }
+
+    public function scopeOrderByNameAsc($query)
+    {
+        return $query->orderBy('name', 'asc');
+    }
 }

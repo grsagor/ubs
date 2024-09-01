@@ -391,9 +391,6 @@
                 </li>
             @endif
 
-
-
-
             <li
                 class="treeview {{ request()->routeIs('shop-news.index') || request()->routeIs('shop_news_category_index') ? 'active' : '' }}">
                 <a href="#">

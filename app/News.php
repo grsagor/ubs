@@ -15,13 +15,19 @@ class News extends Model
     protected $primaryKey = 'id';
 
     protected $fillable = [
-        'type',
         'business_id',
         'business_location_id',
-        'shop_news_category_id',
+        'category_id',
+        'subcategory_id',
+        'region_id',
+        'language_id',
+        'special_id',
         'title',
         'slug',
         'description',
+        'source_name',
+        'source_url',
+        'video_url',
         'thumbnail',
         'images',
         'status',
@@ -39,6 +45,14 @@ class News extends Model
 
     public function category()
     {
-        return $this->belongsTo(Category::class, 'shop_news_category_id');
+        return $this->belongsTo(Category::class, 'category_id');
+    }
+    public function region()
+    {
+        return $this->belongsTo(Category::class, 'region_id');
+    }
+    public function language()
+    {
+        return $this->belongsTo(Category::class, 'language_id');
     }
 }

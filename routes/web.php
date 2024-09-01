@@ -109,18 +109,6 @@ Route::get('/route-optimize-clear', function () {
     return '<h2>Events, views, cache, route, config, compiled clear</h2>';
 });
 
-Route::get('send-mail', function () {
-
-    $details = [
-        'title' => 'Mail from ItSolutionStuff.com',
-        'body' => 'This is for testing email using smtp'
-    ];
-
-    \Mail::to('test@gmail.com')->send(new \App\Mail\MyTestMail($details));
-
-    dd("Email is Sent.");
-});
-
 // Stripe payment gateway
 Route::controller(StripePaymentController::class)->group(function () {
     Route::get('stripe', 'stripe');
@@ -217,7 +205,6 @@ Route::get('/upcolor', 'Front\CartController@upcolor');
 // CART SECTION ENDS
 
 Route::middleware(['setData'])->group(function () {
-
     // Frontend Routes Start //
 
     Route::get('/', [HomePageController::class, 'index'])->name('homePage');
@@ -227,7 +214,6 @@ Route::middleware(['setData'])->group(function () {
     Route::get('/shop/{id}', [ShopController::class, 'ShopService'])->name('shop.service');
 
     Route::get('/shop/business/service/{id}', [ShopController::class, 'BusinessShopService'])->name('business.shop.service');
-
 
     //Product
     Route::get('/product/list', [ProductController::class, 'productList'])->name('product.list');
@@ -248,7 +234,6 @@ Route::middleware(['setData'])->group(function () {
     Route::post('/business/register', [BusinessController::class, 'postRegister'])->name('business.postRegister');
 
     Route::get('/business/register/sub-category/{id}', [BusinessController::class, 'getSubCategory'])->name('business.getSubCategory');
-
 
     Route::get('/customer/register/{business_id?}', [CustomerGroupController::class, 'getRegister'])->name('customer.getRegister');
     Route::post('/customer/register', [CustomerGroupController::class, 'postRegister'])->name('customer.postRegister');
@@ -286,6 +271,8 @@ Route::middleware(['checkAdmin', 'SetSessionData'])->group(function () {
     Route::put('shop-news-marketing/{id}',                    [NewsMarketingController::class, 'update'])->name('shop-news.update');
     Route::delete('shop-news-marketing/{id}',                 [NewsMarketingController::class, 'destroy'])->name('shop-news.destroy');
     Route::get('shop-news-marketing/status-change/{id}',      [NewsMarketingController::class, 'statusChange'])->name('shop-news.statusChange');
+
+    Route::get('shop-news-marketing/get-sub-categories/{id}',      [NewsMarketingController::class, 'get_sub_category'])->name('shop-news.get_sub_category');
 
     // News_marketing catetory
     Route::get('/shop-news-marketing/category/index',                     [NewsMarketingCategoryController::class, 'shop_news_category_index'])->name('shop_news_category_index');
