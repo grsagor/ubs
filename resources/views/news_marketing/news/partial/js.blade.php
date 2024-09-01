@@ -1,45 +1,6 @@
 <script>
     $(document).ready(function() {
-        function previewThumbnail(input) {
-            var preview = $('#thumbnail-preview')[0];
-            var file = input.files[0];
 
-            if (file) {
-                var reader = new FileReader();
-                reader.onload = function(e) {
-                    preview.src = e.target.result;
-                    preview.style.display = 'block';
-                };
-                reader.readAsDataURL(file);
-            } else {
-                preview.src = '#';
-                preview.style.display = 'none';
-            }
-        }
-
-
-        function previewImages(input) {
-            var previewContainer = $('#image-preview-container');
-
-            previewContainer.empty(); // Clear previous previews
-
-            var files = input.files;
-
-            for (var i = 0; i < files.length; i++) {
-                var file = files[i];
-
-                var reader = new FileReader();
-
-                reader.onload = function(e) {
-                    var img = $('<img>').attr('src', e.target.result).addClass('img-thumbnail').css(
-                        'max-width',
-                        '100%');
-                    previewContainer.append(img);
-                };
-
-                reader.readAsDataURL(file);
-            }
-        }
         if ($("textarea#footer_details").length > 0) {
             tinymce.init({
                 selector: "textarea#footer_details",
@@ -54,7 +15,7 @@
 
         if (categoryId) {
             $.ajax({
-                url: '/get_sub_category/' + categoryId,
+                url: '/shop-news-marketing/get-sub-categories/' + categoryId,
                 method: 'GET',
                 success: function(response) {
                     var subcategorySelect = $('#subcategory_id');
@@ -88,21 +49,4 @@
             $('#subcategory_id').prop('required', false);
         }
     }
-
-    var img_fileinput_setting = {
-        showUpload: false,
-        showPreview: true,
-        browseLabel: LANG.file_browse_label,
-        removeLabel: LANG.remove,
-        previewSettings: {
-            image: {
-                width: "auto",
-                height: "auto",
-                "max-width": "100%",
-                "max-height": "100%",
-            },
-        },
-    };
-    $("#thumbnail_image").fileinput(img_fileinput_setting);
-    $("#galary_image").fileinput(img_fileinput_setting);
 </script>

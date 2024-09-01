@@ -287,6 +287,8 @@ Route::middleware(['checkAdmin', 'SetSessionData'])->group(function () {
     Route::delete('shop-news-marketing/{id}',                 [NewsMarketingController::class, 'destroy'])->name('shop-news.destroy');
     Route::get('shop-news-marketing/status-change/{id}',      [NewsMarketingController::class, 'statusChange'])->name('shop-news.statusChange');
 
+    Route::get('shop-news-marketing/get-sub-categories/{id}',      [NewsMarketingController::class, 'get_sub_category'])->name('shop-news.get_sub_category');
+
     // News_marketing catetory
     Route::get('/shop-news-marketing/category/index',                     [NewsMarketingCategoryController::class, 'shop_news_category_index'])->name('shop_news_category_index');
     Route::get('/shop-news-marketing/category/create',                    [NewsMarketingCategoryController::class, 'shop_news_category_create'])->name('shop_news_category_create');

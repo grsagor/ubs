@@ -1,10 +1,5 @@
 @extends('layouts.app')
 @section('title', 'News')
-
-
-@section('javascript')
-    @include('news_marketing.news.partial.js')
-@endsection
 @section('content')
     <section class="content-header">
         <h1>News </h1>
@@ -116,7 +111,8 @@
                     <div class="col-sm-12">
                         <div class="form-group">
                             <label class="form-label">Title <span class="text-danger">*</span></label>
-                            <input class="form-control" required="" placeholder="Title" name="title" type="text">
+                            <input class="form-control" required="" placeholder="Title" name="title" type="text"
+                                value="{{ old('title') }}">
                         </div>
                     </div>
 
@@ -134,7 +130,7 @@
                         <div class="form-group">
                             <label class="form-label">Source Name <span class="text-danger">*</span></label>
                             <input class="form-control" required placeholder="Name of the source" name="source_name"
-                                type="text">
+                                type="text" value="{{ old('source_name') }}">
                         </div>
                     </div>
 
@@ -160,31 +156,39 @@
                         <div class="form-group">
                             <label class="form-label">Source URL <span class="text-danger">*</span></label>
                             <input class="form-control" required placeholder="Source URL" name="source_url"
-                                type="url">
+                                type="url" value="{{ old('source_url') }}">
                         </div>
                     </div>
 
                     <div class="col-sm-12">
                         <div class="form-group">
                             <label class="form-label">Video URL <span class="text-danger">*</span></label>
-                            <input class="form-control" placeholder="Video URL" name="video_url" type="url">
+                            <input class="form-control" placeholder="Video URL" name="video_url" type="url"
+                                value="{{ old('video_url') }}">
                         </div>
                     </div>
 
                     <div class="col-sm-6">
                         <div class="form-group">
                             <label>Thumbnail:</label>
-                            <input class="form-control upload-element" name="thumbnail" type="file"
-                                id="thumbnail_image">
+                            <input class="form-control" id="thumbnailInput" name="thumbnail" type="file"
+                                accept="image/*" onchange="previewThumbnail(event)">
+                            <div style="position: relative; display: inline-block;">
+                                <img id="thumbnailPreview" src="#" alt="Thumbnail Preview"
+                                    style="display:none; margin-top:10px; max-height:200px;">
+                                {{-- <button type="button" onclick="removeThumbnail()"
+                                    style="display:none; position: absolute; top: 0; right: 0; background: red; color: white; border: none;">X</button> --}}
+                            </div>
                         </div>
                     </div>
 
                     <div class="col-sm-6">
                         <div class="form-group">
                             <label>Gallery:</label>
-                            <input class="form-control upload-element" name="images[]" type="file" id="galary_image"
-                                multiple>
+                            <input class="form-control" id="galleryInput" name="images[]" type="file" multiple
+                                accept="image/*" onchange="previewGallery(event)">
                         </div>
+                        <div id="galleryPreview" style="display:flex; flex-wrap:wrap; gap:10px; margin-top:10px;"></div>
                     </div>
 
                     <!-- Add Submit Button -->
@@ -197,4 +201,83 @@
             </div>
         </div>
     </section>
+@endsection
+
+@section('javascript')
+    @include('news_marketing.news.partial.js')
+
+    <script>
+        let galleryFiles = []; // Array to keep track of valid files for submission
+
+        // Preview and remove for single thumbnail
+        function previewThumbnail(event) {
+            const [file] = event.target.files;
+            if (file) {
+                const preview = document.getElementById('thumbnailPreview');
+                const removeButton = preview.nextElementSibling;
+                preview.src = URL.createObjectURL(file);
+                preview.style.display = 'block';
+                removeButton.style.display = 'block';
+            }
+        }
+
+        function removeThumbnail() {
+            const preview = document.getElementById('thumbnailPreview');
+            const removeButton = preview.nextElementSibling;
+            preview.src = '#';
+            preview.style.display = 'none';
+            removeButton.style.display = 'none';
+            document.getElementById('thumbnailInput').value = ''; // Clear the thumbnail input
+        }
+
+        // Preview and remove for multiple gallery images
+        function previewGallery(event) {
+            const galleryPreview = document.getElementById('galleryPreview');
+            galleryPreview.innerHTML = ''; // Clear previous previews
+            galleryFiles = Array.from(event.target.files); // Store selected files in the array
+
+            galleryFiles.forEach((file, index) => {
+                const imgContainer = document.createElement('div');
+                imgContainer.style.position = 'relative';
+
+                const img = document.createElement('img');
+                img.src = URL.createObjectURL(file);
+                img.style.maxHeight = '100px';
+
+                const removeBtn = document.createElement('button');
+                removeBtn.textContent = 'X';
+                removeBtn.style.position = 'absolute';
+                removeBtn.style.top = '0';
+                removeBtn.style.right = '0';
+                removeBtn.style.background = 'red';
+                removeBtn.style.color = 'white';
+                removeBtn.style.border = 'none';
+
+                removeBtn.onclick = function() {
+                    imgContainer.remove(); // Remove the image container from the preview
+                    galleryFiles[index] = null; // Mark the file as removed
+                };
+
+                imgContainer.appendChild(img);
+                imgContainer.appendChild(removeBtn);
+                galleryPreview.appendChild(imgContainer);
+            });
+        }
+
+        // Ensure only non-deleted files are submitted
+        document.querySelector('form').onsubmit = function(e) {
+            const input = document.getElementById('galleryInput');
+            const dataTransfer = new DataTransfer(); // Create a new DataTransfer object
+
+            galleryFiles.forEach(file => {
+                if (file !== null) {
+                    dataTransfer.items.add(file); // Add only non-deleted files
+                }
+            });
+
+            input.files = dataTransfer.files; // Update input with filtered files
+
+            return true; // Continue with the form submission
+        };
+    </script>
 @endsection

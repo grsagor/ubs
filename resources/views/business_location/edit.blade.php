@@ -58,7 +58,7 @@
                                 <select class="form-control select2" name="subcategory" id="subcategory_id">
                                     <option value="">Select</option>
                                     <option value="{{ $location->subcategory }}"
-                                        {{ (old('category_id') ?? ($location->category ?? '')) == $cat->id ? 'selected' : '' }}>
+                                        {{ (old('subcategory') ?? ($location->category ?? '')) == $cat->id ? 'selected' : '' }}>
                                         {{ $cat->name }}
                                     </option>
                                     <!-- Subcategories will be populggggggated here -->
