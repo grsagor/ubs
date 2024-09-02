@@ -25,6 +25,7 @@ class News extends Model
         'title',
         'slug',
         'description',
+        'define_this_item',
         'source_name',
         'source_url',
         'video_url',

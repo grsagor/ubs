@@ -126,6 +126,21 @@
                         </div>
                     </div>
 
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label for="define_this_item" style="display: block">Define this item in less than 250
+                                characters
+                                @show_tooltip(__('Clear details facilitate quick customer understanding and draw attention
+                                effectively.')) <span class="text-danger">*</span>
+                            </label>
+                            <textarea name="define_this_item" required id="define_this_item" rows="4" maxlength="250"
+                                style="width: 100%; box-sizing: border-box;"></textarea>
+                            <div id="error_message_define_this_item" style="color: red; display: none;">
+                                Characters limit exceeded! Maximum 250 characters allowed.
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="col-sm-6">
                         <div class="form-group">
                             <label class="form-label">News Source Name <span class="text-danger">*</span></label>

@@ -9,6 +9,19 @@
         }
     });
 
+    const textarea = document.getElementById('define_this_item');
+    const errorMessage = document.getElementById('error_message_define_this_item');
+
+    textarea.addEventListener('keyup', function() {
+        if (textarea.value.length >= 250) {
+            errorMessage.style.display = 'block'; // Show error when characters exceed 250
+            console.log('Error shown'); // Debugging: shows when the error message is triggered
+        } else {
+            errorMessage.style.display = 'none'; // Hide error when within the limit
+            console.log('Error hidden'); // Debugging: shows when the input is within the limit
+            console.log(textarea.value.length); // Debugging: logs the length of the input
+        }
+    });
 
     function categoryChanged() {
         var categoryId = document.getElementById('category_id').value;
