@@ -196,7 +196,7 @@
                         <div class="form-group">
                             <label>Thumbnail:</label>
                             <input class="form-control" name="thumbnail" type="file" id="thumbnail"
-                                onchange="previewThumbnail(event)">
+                                onchange="previewThumbnail(event)" required>
                             <div style="position: relative; display: inline-block;  margin-top:10px;">
                                 <img src="{{ asset($news->thumbnail) }}" alt="Current Thumbnail" id="currentThumbnail"
                                     style="max-height: 200px;">

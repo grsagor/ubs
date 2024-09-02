@@ -78,7 +78,7 @@ use App\Http\Controllers\TransactionPaymentController;
 use App\Http\Controllers\PurchaseRequisitionController;
 use App\Http\Controllers\NotificationTemplateController;
 use App\Http\Controllers\SalesCommissionAgentController;
-use App\Http\Controllers\Backend\NewsMarketingController;
+use App\Http\Controllers\Backend\NewsController;
 use App\Http\Controllers\DashboardConfiguratorController;
 use App\Http\Controllers\Backend\LanguageSpeechController;
 use App\Http\Controllers\CombinedPurchaseReturnController;
@@ -263,16 +263,16 @@ Route::middleware(['checkAdmin', 'SetSessionData'])->group(function () {
     Route::put('/footer/{id}', [FooterController::class, 'update'])->name('footer.update');
 
     // News-Marketing
-    Route::get('shop-news-marketing',                         [NewsMarketingController::class, 'index'])->name('shop-news.index');
-    Route::get('shop-news-marketing/create',                  [NewsMarketingController::class, 'create'])->name('shop-news.create');
-    Route::post('shop-news-marketing',                        [NewsMarketingController::class, 'store'])->name('shop-news.store');
-    Route::get('shop-news-marketing/{id}',                    [NewsMarketingController::class, 'show'])->name('shop-news.show');
-    Route::get('shop-news-marketing/{id}/edit',               [NewsMarketingController::class, 'edit'])->name('shop-news.edit');
-    Route::put('shop-news-marketing/{id}',                    [NewsMarketingController::class, 'update'])->name('shop-news.update');
-    Route::delete('shop-news-marketing/{id}',                 [NewsMarketingController::class, 'destroy'])->name('shop-news.destroy');
-    Route::get('shop-news-marketing/status-change/{id}',      [NewsMarketingController::class, 'statusChange'])->name('shop-news.statusChange');
+    Route::get('shop-news-marketing',                         [NewsController::class, 'index'])->name('shop-news.index');
+    Route::get('shop-news-marketing/create',                  [NewsController::class, 'create'])->name('shop-news.create');
+    Route::post('shop-news-marketing',                        [NewsController::class, 'store'])->name('shop-news.store');
+    Route::get('shop-news-marketing/{id}',                    [NewsController::class, 'show'])->name('shop-news.show');
+    Route::get('shop-news-marketing/{id}/edit',               [NewsController::class, 'edit'])->name('shop-news.edit');
+    Route::put('shop-news-marketing/{id}',                    [NewsController::class, 'update'])->name('shop-news.update');
+    Route::delete('shop-news-marketing/{id}',                 [NewsController::class, 'destroy'])->name('shop-news.destroy');
+    Route::get('shop-news-marketing/status-change/{id}',      [NewsController::class, 'statusChange'])->name('shop-news.statusChange');
 
-    Route::get('shop-news-marketing/get-sub-categories/{id}',      [NewsMarketingController::class, 'get_sub_category'])->name('shop-news.get_sub_category');
+    Route::get('shop-news-marketing/get-sub-categories/{id}',      [NewsController::class, 'get_sub_category'])->name('shop-news.get_sub_category');
 
     // News_marketing catetory
     Route::get('/shop-news-marketing/category/index',                     [NewsMarketingCategoryController::class, 'shop_news_category_index'])->name('shop_news_category_index');

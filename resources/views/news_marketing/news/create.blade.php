@@ -187,7 +187,7 @@
                         <div class="form-group">
                             <label>Thumbnail:</label>
                             <input class="form-control" id="thumbnailInput" name="thumbnail" type="file"
-                                accept="image/*" onchange="previewThumbnail(event)">
+                                accept="image/*" onchange="previewThumbnail(event)" required>
                             <div style="position: relative; display: inline-block;">
                                 <img id="thumbnailPreview" src="#" alt="Thumbnail Preview"
                                     style="display:none; margin-top:10px; max-height:200px;">

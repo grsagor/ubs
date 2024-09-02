@@ -16,7 +16,7 @@ use App\LanguageSpeech;
 use App\Special;
 use Illuminate\Support\Facades\Auth;
 
-class NewsMarketingController extends Controller
+class NewsController extends Controller
 
 {
     protected $slug_service;
