@@ -157,17 +157,16 @@
 
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <label class="form-label">Status <span class="text-danger">*</span></label>
-                            <select class="form-control" name="status">
-                                <option selected="" value="">Select Status</option>
-                                @foreach (getStatus() as $status)
-                                    <option @selected($news->status == $status['value']) value="{{ $status['value'] }}">
-                                        {{ $status['label'] }}</option>
-                                @endforeach
+                            <label for="privacy">Privacy <span class="text-danger">*</span></label>
+                            <select class="form-control select2" name="status" required>
+                                <option value="" disabled>Select privacy</option>
+                                <option value="2" {{ old('status', $news->status) == 2 ? 'selected' : '' }}>
+                                    Public
+                                </option>
+                                <option value="1" {{ old('status', $news->status) == 1 ? 'selected' : '' }}>
+                                    Only me
+                                </option>
                             </select>
-                            @error('status')
-                                <span class="text-danger">{{ $message }}</span>
-                            @enderror
                         </div>
                     </div>
 
@@ -196,7 +195,7 @@
                         <div class="form-group">
                             <label>Thumbnail:</label>
                             <input class="form-control" name="thumbnail" type="file" id="thumbnail"
-                                onchange="previewThumbnail(event)" required>
+                                onchange="previewThumbnail(event)">
                             <div style="position: relative; display: inline-block;  margin-top:10px;">
                                 <img src="{{ asset($news->thumbnail) }}" alt="Current Thumbnail" id="currentThumbnail"
                                     style="max-height: 200px;">
@@ -213,7 +212,7 @@
                                 onchange="previewNewImages(event)">
 
                             <div id="storedGallery" style="display:flex; flex-wrap:wrap; gap:10px; margin-top: 10px;">
-                                @foreach ($news->images as $image)
+                                @foreach ($news->images ?? [] as $image)
                                     <div class="image-container" style="position: relative; display: inline-block;"
                                         data-image="{{ $image }}">
                                         <img src="{{ asset($image) }}" alt="Gallery Image" style="max-height: 100px;">

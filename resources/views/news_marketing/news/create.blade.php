@@ -151,21 +151,15 @@
 
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <label class="form-label">Status <span class="text-danger">*</span></label>
-                            <select class="form-control" name="status">
-                                <option selected="" value="">Select Status</option>
-                                @foreach (getStatus() as $status)
-                                    <option value="{{ $status['value'] }}"
-                                        {{ $status['value'] == '1' ? 'selected' : '' }}>
-                                        {{ $status['label'] }}
-                                    </option>
-                                @endforeach
+                            <label for="privacy">Privacy:<span class="text-danger">*</span></label>
+                            <select class="form-control select2" name="status" required id="type">
+                                <option value="">Select privacy</option>
+                                <option value="2" {{ old('status') == 2 ? 'selected' : '' }}>Public</option>
+                                <option value="1" {{ old('status') == 1 ? 'selected' : '' }}>Only me</option>
                             </select>
-                            @error('status')
-                                <span class="text-danger">{{ $message }}</span>
-                            @enderror
                         </div>
                     </div>
+
 
                     <div class="col-sm-12">
                         <div class="form-group">
