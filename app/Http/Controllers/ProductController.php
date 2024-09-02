@@ -454,46 +454,55 @@ class ProductController extends Controller
         $type = $request->type;
         $categories = [];
 
-        $business_id = request()->session()->get('user.business_id');
+        $categoryTypes = ['product', 'service', 'news', 'marketing'];
+
+        if (in_array($type, $categoryTypes)) {
+            $categories = Category::where([['parent_id', 0], ['category_type', $type]])
+                ->active()
+                ->orderByNameAsc()
+                ->onlyParent()
+                ->get();
+        }
+
 
         // for product
-        if ($type == 'product') {
-            $categories = Category::where([['parent_id', 0], ['category_type', 'product']])
-                ->where('business_id', $business_id)
-                ->active()
-                ->orderByNameAsc()
-                ->onlyParent()
-                ->get();
-        }
+        // if ($type == 'product') {
+        //     $categories = Category::where([['parent_id', 0], ['category_type', 'product']])
+        //         ->where('business_id', $business_id)
+        //         ->active()
+        //         ->orderByNameAsc()
+        //         ->onlyParent()
+        //         ->get();
+        // }
 
-        // for service
-        if ($type == 'service') {
-            $categories = Category::where([['parent_id', 0], ['category_type', 'service']])
-                ->where('business_id', $business_id)
-                ->active()
-                ->orderByNameAsc()
-                ->onlyParent()
-                ->get();
-        }
+        // // for service
+        // if ($type == 'service') {
+        //     $categories = Category::where([['parent_id', 0], ['category_type', 'service']])
+        //         ->where('business_id', $business_id)
+        //         ->active()
+        //         ->orderByNameAsc()
+        //         ->onlyParent()
+        //         ->get();
+        // }
 
-        // for news
-        if ($type == 'news') {
-            $categories = Category::where([['parent_id', 0], ['category_type', 'news']])
-                ->where('business_id', $business_id)
-                ->active()
-                ->orderByNameAsc()
-                ->onlyParent()
-                ->get();
-        }
-        // for marketing
-        if ($type == 'marketing') {
-            $categories = Category::where([['parent_id', 0], ['category_type', 'marketing']])
-                ->where('business_id', $business_id)
-                ->active()
-                ->orderByNameAsc()
-                ->onlyParent()
-                ->get();
-        }
+        // // for news
+        // if ($type == 'news') {
+        //     $categories = Category::where([['parent_id', 0], ['category_type', 'news']])
+        //         ->where('business_id', $business_id)
+        //         ->active()
+        //         ->orderByNameAsc()
+        //         ->onlyParent()
+        //         ->get();
+        // }
+        // // for marketing
+        // if ($type == 'marketing') {
+        //     $categories = Category::where([['parent_id', 0], ['category_type', 'marketing']])
+        //         ->where('business_id', $business_id)
+        //         ->active()
+        //         ->orderByNameAsc()
+        //         ->onlyParent()
+        //         ->get();
+        // }
 
         return view('product.categories_options', compact('categories'));
     }

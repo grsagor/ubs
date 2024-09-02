@@ -39,11 +39,8 @@ class NewsMarketingController extends Controller
 
     public function create()
     {
-        $business_id = request()->session()->get('user.business_id');
-
         $data['categories'] = Category::query()
             ->active()
-            ->where('business_id', $business_id)
             ->whereIn('category_type', ['news'])
             ->onlyParent()
             ->orderByNameAsc()
@@ -51,23 +48,23 @@ class NewsMarketingController extends Controller
 
         $data['regions'] = Region::query()
             ->active()
-            ->where('business_id', $business_id)
             ->orderByNameAsc()
             ->get();
 
         $data['languages'] = LanguageSpeech::query()
             ->active()
-            ->where('business_id', $business_id)
             ->orderByNameAsc()
             ->get();
 
         $data['specials'] = Special::query()
             ->active()
-            ->where('business_id', $business_id)
             ->orderByNameAsc()
             ->get();
 
+        $business_id = request()->session()->get('user.business_id');
+
         $data['business_locations'] = BusinessLocation::where('business_id', $business_id)
+            ->orderByNameAsc()
             ->get();
 
         return view('news_marketing.news.create', $data);
@@ -126,13 +123,10 @@ class NewsMarketingController extends Controller
 
     public function edit($id)
     {
-        $business_id = request()->session()->get('user.business_id');
-
         $data['news']           = News::find($id);
 
         $data['categories'] = Category::query()
             ->active()
-            ->where('business_id', $business_id)
             ->whereIn('category_type', ['news'])
             ->onlyParent()
             ->orderByNameAsc()
@@ -140,31 +134,29 @@ class NewsMarketingController extends Controller
 
         $data['sub_categories'] = Category::query()
             ->active()
-            ->where('business_id', $business_id)
-            ->where('parent_id', $data['news']->category_id)
             ->where('category_type', 'news')
             ->orderByNameAsc()
             ->get();
 
         $data['regions'] = Region::query()
             ->active()
-            ->where('business_id', $business_id)
             ->orderByNameAsc()
             ->get();
 
         $data['languages'] = LanguageSpeech::query()
             ->active()
-            ->where('business_id', $business_id)
             ->orderByNameAsc()
             ->get();
 
         $data['specials'] = Special::query()
             ->active()
-            ->where('business_id', $business_id)
             ->orderByNameAsc()
             ->get();
 
+        $business_id = request()->session()->get('user.business_id');
+
         $data['business_locations'] = BusinessLocation::where('business_id', $business_id)
+            ->orderByNameAsc()
             ->get();
 
         return view('news_marketing.news.edit', $data);
@@ -178,8 +170,6 @@ class NewsMarketingController extends Controller
 
             // Initialize an empty array to store requested data
             $requestedData = $request->all();
-
-
 
             // Handle Thumbnail Upload
             if ($request->hasFile('thumbnail')) {
@@ -236,41 +226,8 @@ class NewsMarketingController extends Controller
                 $allImages = $existingImages;
             }
 
-
-            // Debugging: Log all images
-
             // Update the news item with the merged images
             $requestedData['images'] = json_encode($allImages);
-
-
-            // // Handle Images Upload
-            // if ($request->hasFile('images')) {
-            //     $imagePath = public_path('uploads/news/images');
-            //     $images = [];
-
-            //     foreach ($request->file('images') as $image) {
-            //         $imageName = rand(123456, 999999) . '.' . $image->getClientOriginalExtension();
-            //         $image->move($imagePath, $imageName);
-            //         $images[] = 'uploads/news/images/' . $imageName;
-            //     }
-
-            //     // Decode existing images, if any
-            //     $existingImages = json_decode($news->images, true) ?? [];
-
-            //     // Merge existing and new images
-            //     $allImages = array_merge($existingImages, $images);
-
-            //     // Update requested data with the merged images
-            //     $requestedData['images'] = json_encode($images);
-
-            //     // Delete existing images if they exist
-            //     foreach ($existingImages as $existingImage) {
-            //         $existingImagePath = public_path($existingImage);
-            //         if (file_exists($existingImagePath)) {
-            //             unlink($existingImagePath);
-            //         }
-            //     }
-            // }
 
             // Update the News with the requested data
             $news->update($requestedData);

@@ -69,7 +69,6 @@
                         </div>
                     </div>
 
-
                     <div class="col-sm-6">
                         <div class="form-group">
                             <label for="category">Language Name:<span class="text-danger">*</span></label>
@@ -135,7 +134,7 @@
 
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <label class="form-label">Source Name <span class="text-danger">*</span></label>
+                            <label class="form-label">News Source Name <span class="text-danger">*</span></label>
                             <input class="form-control" required placeholder="Name of the source" name="source_name"
                                 type="text" value="{{ old('source_name', $news->source_name) }}">
                         </div>
@@ -159,16 +158,16 @@
 
                     <div class="col-sm-12">
                         <div class="form-group">
-                            <label class="form-label">Source URL <span class="text-danger">*</span></label>
-                            <input class="form-control" required placeholder="Source URL" name="source_url"
+                            <label class="form-label">News Source URL <span class="text-danger">*</span></label>
+                            <input class="form-control" required placeholder="News Source URL" name="source_url"
                                 type="url" value="{{ old('source_url', $news->source_url) }}">
                         </div>
                     </div>
 
                     <div class="col-sm-12">
                         <div class="form-group">
-                            <label class="form-label">Video URL <span class="text-danger">*</span></label>
-                            <input class="form-control" placeholder="Video URL" name="video_url" type="url"
+                            <label class="form-label">News Video URL <span class="text-danger">*</span></label>
+                            <input class="form-control" placeholder="News Video URL" name="video_url" type="url"
                                 value="{{ old('video_url', $news->video_url) }}">
                         </div>
                     </div>
