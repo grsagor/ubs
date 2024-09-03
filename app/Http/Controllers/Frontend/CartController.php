@@ -549,6 +549,7 @@ class CartController extends Controller
             $receipt = $this->receiptContent($business_id, $input['location_id'], $transaction->id, null, false, true, $invoice_layout_id, false, $request->payment_method);
 
             $output = ['success' => 1, 'msg' => $msg, 'receipt' => $receipt];
+            Session::put('receipt', $receipt);
 
             if (!empty($whatsapp_link)) {
                 $output['whatsapp_link'] = $whatsapp_link;
@@ -1940,6 +1941,8 @@ class CartController extends Controller
     }
 
     public function paymentSuccessful() {
-        return view('frontend.cart.payment_successful');
+        $receipt = Session::get('receipt');
+        // return $receipt['html_content'];
+        return view('frontend.cart.payment_successful', compact('receipt'));
     }
 }

@@ -35,7 +35,6 @@
         }
 
         @media print {
-
             #page_wrapper> :not(.print_section),
             footer,
             #toast-container {
@@ -70,8 +69,9 @@
 
         .stripe-element-container {
             padding: 4px;
-            box-shadow: 0px 0px 3px 1px black;
             margin-bottom: 8px;
+            border: 1px solid gray;
+            border-radius: 8px;
         }
 
         button.btn.btn-primary.stripe-proceed-btn {
@@ -178,6 +178,9 @@
 
         .btn-primary:hover {
             border: none !important;
+        }
+        .swal2-title {
+            font-size: 16px !important;
         }
     </style>
 @endsection
@@ -2739,7 +2742,7 @@
                                                             <div class="modal-content">
                                                                 <div class="modal-header">
                                                                     <h5 class="modal-title" id="stripeModalLabel">
-                                                                        Payment</h5>
+                                                                        Payment Form</h5>
                                                                     <button type="button" class="btn-close"
                                                                         data-bs-dismiss="modal"
                                                                         aria-label="Close"></button>
@@ -2789,7 +2792,7 @@
                                                                 <div class="modal-footer">
                                                                     <button type="button" id="proceed_to_checkout"
                                                                         class="btn btn-primary stripe-proceed-btn">Proceed
-                                                                        to checkout</button>
+                                                                        to payment</button>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -3125,7 +3128,9 @@
                     },
                     dataType: 'json',
                     success: function(response) {
-                        $('#payment_animation_container .modal-body').hide();
+                        setTimeout(() => {
+                            $('#payment_animation_container').modal('hide');
+                        }, 1500);
                         stripe.confirmCardPayment(response.client_secret, {
                             payment_method: {
                                 card: cardNumber,
@@ -3137,7 +3142,6 @@
                             setup_future_usage: 'off_session'
                         }).then(function(result) {
                             if (result.error) {
-                                $('#payment_animation_container').modal('hide');
                                 Swal.fire({
                                     icon: 'error',
                                     title: result.error.message,
@@ -3155,25 +3159,29 @@
                 })
             })
             $(document).on('click', '#final-btn', function() {
-                $('#payment_method').val('cash_on_delivery');
-                saveCheckoutForm();
+                Swal.fire({
+                    title: 'Are you sure?',
+                    // text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Confirm',
+                    cancelButtonText: 'Cancel',
+                    position: 'center',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $('#payment_animation_container').modal('show');
+                        $('#payment_method').val('cash_on_delivery');
+                        saveCheckoutForm();
+                    } else if (result.dismiss === Swal.DismissReason.cancel) {
+                        // here handle the cancel
+                    }
+                });
             })
         })
 
-        $(document).on('click', '#create_invoice_btn', async function() {
-            $('#create_invoice_btn_text').hide();
-            $('#create_invoice_btn_loader').show();
-            const response = await pos_print(receipt);
-            if (response) {
-                setTimeout(function() {
-                    $('#create_invoice_btn_text').show();
-                    $('#create_invoice_btn_loader').hide();
-                }, 3000);
-            }
-        })
-
         function saveCheckoutForm(stripeToken) {
-            $('#payment_animation_container').modal('hide');
             var checkout_form = $('#checkout_form');
             var data = checkout_form.serializeArray();
             data.push({
@@ -3189,11 +3197,11 @@
                     if (result.success == 1) {
                         //Check if enabled or not
                         // if (result.receipt.is_enabled) {
+                        $('#payment_animation_container').modal('hide');
                         await $('#payment_success_container').modal('show');
                         $('#stripeModal').modal('hide');
                         setTimeout(function() {
-                            $('#payment_success_container').modal('hide');
-                            $('#payment_thanks_container').modal('show');
+                        location.href = "{{ route('front.payment.successfull') }}"
                         }, 2000);
                         receipt = result.receipt;
 
@@ -3208,121 +3216,6 @@
                     }
                 },
             });
-        }
-
-        function __currency_convert_recursively(element, use_page_currency = false) {
-            element.find(".display_currency").each(function() {
-                var value = $(this).text();
-
-                var show_symbol = $(this).data("currency_symbol");
-                if (show_symbol == undefined || show_symbol != true) {
-                    show_symbol = false;
-                }
-
-                //If data-use_page_currency is present in the element use_page_currency
-                //value will be over written
-                if (typeof $(this).data("use_page_currency") !== "undefined") {
-                    use_page_currency = $(this).data("use_page_currency");
-                }
-
-                var highlight = $(this).data("highlight");
-                if (highlight == true) {
-                    __highlight(value, $(this));
-                }
-
-                var is_quantity = $(this).data("is_quantity");
-                if (is_quantity == undefined || is_quantity != true) {
-                    is_quantity = false;
-                }
-
-                if (is_quantity) {
-                    show_symbol = false;
-                }
-
-                $(this).text(
-                    __currency_trans_from_en(
-                        value,
-                        show_symbol,
-                        use_page_currency,
-                        null,
-                        is_quantity
-                    )
-                );
-            });
-        }
-
-        function __currency_trans_from_en(
-            input,
-            show_symbol = true,
-            use_page_currency = false,
-            precision,
-            is_quantity = false
-        ) {
-            if (use_page_currency && __p_currency_symbol) {
-                var s = __p_currency_symbol;
-                var thousand = __p_currency_thousand_separator;
-                var decimal = __p_currency_decimal_separator;
-            } else {
-                var s = '$';
-                var thousand = '';
-                var decimal = '';
-            }
-
-            symbol = "";
-            var format = "%s%v";
-            if (show_symbol) {
-                symbol = s;
-                format = "%s %v";
-                if (__currency_symbol_placement == "after") {
-                    format = "%v %s";
-                }
-            }
-
-            if (is_quantity) {
-                precision = __quantity_precision;
-            }
-
-            return accounting.formatMoney(
-                input,
-                symbol,
-                precision,
-                thousand,
-                decimal,
-                format
-            );
-        }
-
-        function pos_print(receipt) {
-            //If printer type then connect with websocket
-            if (receipt.print_type == 'printer') {
-                var content = receipt;
-                content.type = 'print-receipt';
-
-                //Check if ready or not, then print.
-                if (socket.readyState != 1) {
-                    initializeSocket();
-                    setTimeout(function() {
-                        socket.send(JSON.stringify(content));
-                    }, 700);
-                } else {
-                    socket.send(JSON.stringify(content));
-                }
-            } else if (receipt.html_content != '') {
-                var title = document.title;
-                if (typeof receipt.print_title != 'undefined') {
-                    document.title = receipt.print_title;
-                }
-
-                //If printer type browser then print content
-                $('#receipt_section').html(receipt.html_content);
-                __currency_convert_recursively($('#receipt_section'));
-                setTimeout(function() {
-                    window.print();
-                    document.title = title;
-                }, 1000);
-            }
-
-            return 1;
         }
     </script>
 @endsection

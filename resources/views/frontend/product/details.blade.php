@@ -56,9 +56,13 @@
 
         .applynow {
             border-radius: 4px;
-            background: #008020;
+            background: #131921;
             color: #FFF;
             font-weight: 500;
+        }
+        .applynow:hover {
+            color: #fff;
+            background: #3a4656;
         }
 
         .alreadyApplied {
@@ -346,7 +350,7 @@
                             <div class="apply-button">
                                 <div class="d-flex gap-1" style="margin-top: 10px;">
                                     <button type="button" id="order_now" data-id="{{ $info->id }}"
-                                        class="btn applynow">Order Now</button>
+                                        class="btn applynow">Book Now</button>
                                     @if ($info->category && $info->category->category_type == 'product')
                                         @if ($cart)
                                             <button type="button" data-is_add="0" data-product_id="{{ $info->id }}"
