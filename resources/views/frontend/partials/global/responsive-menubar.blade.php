@@ -72,8 +72,12 @@
                                 <a class="nav-link" href="{{ route('shop.list') }}">Shop</a>
                             </li>
 
-                            <li class="nav-item {{ request()->routeIs('itSolutions') ? 'active' : '' }}">
+                            {{-- <li class="nav-item {{ request()->routeIs('itSolutions') ? 'active' : '' }}">
                                 <a class="nav-link" href="{{ route('itSolutions') }}">IT Solutions</a>
+                            </li> --}}
+
+                            <li class="nav-item {{ request()->routeIs('news') ? 'active' : '' }}">
+                                <a class="nav-link" href="{{ route('news') }}">News</a>
                             </li>
 
                             <li class="nav-item {{ request()->routeIs('businessSolutions') ? 'active' : '' }}">
@@ -211,9 +215,12 @@
                                                     <li class="nav-item">
                                                         <a class="nav-link" href="{{ url('/shop/list') }}">Shop</a>
                                                     </li>
-                                                    <li class="nav-item">
+                                                    {{-- <li class="nav-item">
                                                         <a class="nav-link" href="{{ url('/it-solutions') }}">It
                                                             Solutions</a>
+                                                    </li> --}}
+                                                    <li class="nav-item">
+                                                        <a class="nav-link" href="{{ route('news') }}">News</a>
                                                     </li>
                                                     <li class="nav-item">
                                                         <a class="nav-link"
@@ -239,10 +246,7 @@
                                                         <a class="nav-link"
                                                             href="{{ url('/recruitment/list') }}">Jobs</a>
                                                     </li>
-                                                    {{-- <li class="nav-item">
-                                                        <a class="nav-link"
-                                                            href="{{ url('/education-list') }}">Education</a>
-                                                    </li> --}}
+
                                                 </ul>
 
                                             </div>
