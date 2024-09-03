@@ -1,27 +1,20 @@
-<div class="col-lg-6 col-md-6 col-sm-12 laptop_view_card mobile_view_card">
-
-    <div class="showing-products border-2 border-bottom border-light" id="ajaxContent">
-
-        <div class="product-style-1 shop-list product-list  e-title-hover-primary e-hover-image-zoom">
-
-            {{-- Service part --}}
-            @if (count($products) > 0)
-                @yield('property_list_content')
-            @else
-                <div class="card">
-                    <div class="card-body">
-                        <div class="page-center">
-                            <h4 class="text-center text-danger">{{ 'No Service Found.' }}</h4>
-                        </div>
-                    </div>
+<div class="col-lg-6 col-md-6 col-sm-12 laptop_news_card">
+    {{-- News part --}}
+    @if (count($news) > 0)
+        @yield('property_list_content')
+    @else
+        <div class="card">
+            <div class="card-body">
+                <div class="page-center">
+                    <h4 class="text-center text-danger">{{ 'No news found.' }}</h4>
                 </div>
-            @endif
+            </div>
         </div>
-    </div>
+    @endif
 </div>
 
 {{-- Right side Advertise widget --}}
-<div class="col-lg-3 col-md-3 col-sm-12">
+<div class="col-lg-3 col-md-3 col-sm-12" style="padding-left: 0px !important">
     <div class="card">
         <img src="https://credcv.com/wp-content/uploads/2021/06/benefits-of-having-an-own-job-portal_033e017b0_3810.jpeg"
             class="card-img-top" alt="Card image">

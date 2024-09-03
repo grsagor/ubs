@@ -39,6 +39,7 @@ use App\Http\Controllers\AccountTypeController;
 use App\Http\Controllers\ImportSalesController;
 use App\Http\Controllers\JobCategoryController;
 use App\Http\Controllers\RecruitmentController;
+use App\Http\Controllers\Backend\NewsController;
 use App\Http\Controllers\CashRegisterController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\OpeningStockController;
@@ -78,8 +79,8 @@ use App\Http\Controllers\TransactionPaymentController;
 use App\Http\Controllers\PurchaseRequisitionController;
 use App\Http\Controllers\NotificationTemplateController;
 use App\Http\Controllers\SalesCommissionAgentController;
-use App\Http\Controllers\Backend\NewsController;
 use App\Http\Controllers\DashboardConfiguratorController;
+use App\Http\Controllers\Frontend\NewsFrontendController;
 use App\Http\Controllers\Backend\LanguageSpeechController;
 use App\Http\Controllers\CombinedPurchaseReturnController;
 use App\Http\Controllers\Frontend\OtherServicesController;
@@ -157,6 +158,12 @@ Route::get('/service-create', [ServiceController::class, 'serviceCreate'])->name
 Route::get('/get-subcategories/{category_id}', [ServiceController::class, 'getSubcategories'])->name('service.subCategory');
 Route::get('/get-child-subcategories/{category_id}', [ServiceController::class, 'getChildSubcategories'])->name('service.childSubCategory');
 Route::get('/get-service-items/{category_id}', [ServiceController::class, 'getServiceItems']);
+
+
+Route::get('/news', [NewsFrontendController::class, 'index'])->name('news');
+
+
+
 
 // FOOTER LINKS DETAIL SECTION
 Route::get('/about-us', [FrontendController::class, 'about_us'])->name('footer.details.about_us');
