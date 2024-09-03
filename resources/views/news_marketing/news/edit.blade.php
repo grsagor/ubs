@@ -69,7 +69,6 @@
                         </div>
                     </div>
 
-
                     <div class="col-sm-6">
                         <div class="form-group">
                             <label for="category">Language Name:<span class="text-danger">*</span></label>
@@ -133,9 +132,24 @@
                         </div>
                     </div>
 
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label for="define_this_item" style="display: block">Define this item in less than 250
+                                characters
+                                @show_tooltip(__('Clear details facilitate quick customer understanding and draw attention
+                                effectively.')) <span class="text-danger">*</span>
+                            </label>
+                            <textarea name="define_this_item" required id="define_this_item" rows="4" maxlength="250"
+                                style="width: 100%; box-sizing: border-box;">{{ $news->define_this_item }}</textarea>
+                            <div id="error_message_define_this_item" style="color: red; display: none;">
+                                Characters limit exceeded! Maximum 250 characters allowed.
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <label class="form-label">Source Name <span class="text-danger">*</span></label>
+                            <label class="form-label">News Source Name <span class="text-danger">*</span></label>
                             <input class="form-control" required placeholder="Name of the source" name="source_name"
                                 type="text" value="{{ old('source_name', $news->source_name) }}">
                         </div>
@@ -143,32 +157,31 @@
 
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <label class="form-label">Status <span class="text-danger">*</span></label>
-                            <select class="form-control" name="status">
-                                <option selected="" value="">Select Status</option>
-                                @foreach (getStatus() as $status)
-                                    <option @selected($news->status == $status['value']) value="{{ $status['value'] }}">
-                                        {{ $status['label'] }}</option>
-                                @endforeach
+                            <label for="privacy">Privacy <span class="text-danger">*</span></label>
+                            <select class="form-control select2" name="status" required>
+                                <option value="" disabled>Select privacy</option>
+                                <option value="2" {{ old('status', $news->status) == 2 ? 'selected' : '' }}>
+                                    Public
+                                </option>
+                                <option value="1" {{ old('status', $news->status) == 1 ? 'selected' : '' }}>
+                                    Only me
+                                </option>
                             </select>
-                            @error('status')
-                                <span class="text-danger">{{ $message }}</span>
-                            @enderror
                         </div>
                     </div>
 
                     <div class="col-sm-12">
                         <div class="form-group">
-                            <label class="form-label">Source URL <span class="text-danger">*</span></label>
-                            <input class="form-control" required placeholder="Source URL" name="source_url"
+                            <label class="form-label">News Source URL <span class="text-danger">*</span></label>
+                            <input class="form-control" required placeholder="News Source URL" name="source_url"
                                 type="url" value="{{ old('source_url', $news->source_url) }}">
                         </div>
                     </div>
 
                     <div class="col-sm-12">
                         <div class="form-group">
-                            <label class="form-label">Video URL <span class="text-danger">*</span></label>
-                            <input class="form-control" placeholder="Video URL" name="video_url" type="url"
+                            <label class="form-label">News Video URL <span class="text-danger">*</span></label>
+                            <input class="form-control" placeholder="News Video URL" name="video_url" type="url"
                                 value="{{ old('video_url', $news->video_url) }}">
                         </div>
                     </div>
@@ -199,7 +212,7 @@
                                 onchange="previewNewImages(event)">
 
                             <div id="storedGallery" style="display:flex; flex-wrap:wrap; gap:10px; margin-top: 10px;">
-                                @foreach ($news->images as $image)
+                                @foreach ($news->images ?? [] as $image)
                                     <div class="image-container" style="position: relative; display: inline-block;"
                                         data-image="{{ $image }}">
                                         <img src="{{ asset($image) }}" alt="Gallery Image" style="max-height: 100px;">
