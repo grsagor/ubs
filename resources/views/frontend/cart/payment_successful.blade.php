@@ -84,7 +84,6 @@
     <script>
         $(document).ready(function() {
             $(document).on('click', '#create_invoice_btn', async function() {
-                alert('ok')
                 $('#create_invoice_btn_text').hide();
                 $('#create_invoice_btn_loader').show();
                 const receipt = @json($receipt);

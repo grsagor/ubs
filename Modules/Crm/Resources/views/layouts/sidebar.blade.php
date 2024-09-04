@@ -12,7 +12,7 @@
                     <span>Home</span></a></li>
             {{-- <li><a href="{{ url('contact/contact-purchases') }}"><i class="fa fas fa-list"></i> <span>List
                         Purchases</span></a></li> --}}
-            <li><a href="{{ url('contact/contact-sells') }}"><i class="fa fas fa-list"></i> <span>My Orders</span></a></li>
+            {{-- <li><a href="{{ url('contact/contact-sells') }}"><i class="fa fas fa-list"></i> <span>My Orders</span></a></li> --}}
             <li><a href="{{ url('contact/contact-ledger') }}"><i class="fas fa-scroll"></i>
                     <span> &nbsp; Ledger</span></a></li>
             <li><a href="{{ url('/contact/bookings') }}"><i class="fas fa fa-calendar-check"></i>
@@ -23,7 +23,7 @@
             <li><a href="{{ url('/contact/property-wanted') }}"><i class="fa fas fa-arrow-circle-up"></i>
                     <span>Property Wanted</span></a></li>
             <li><a href="{{ url('/contact/products') }}"><i class="fa fas fa-arrow-circle-up"></i>
-                    <span>My Products</span></a></li>
+                    <span>My Orders</span></a></li>
 
             @php
                 $uuid = optional(myInformation())->uuid;

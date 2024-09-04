@@ -105,14 +105,14 @@
         </div>
 
         @if (!empty($receipt_details->due_date_label))
-            <div class="textbox-info">
+            <div class="textbox-info" style="display: flex; gap: 6px;">
                 <p class="f-left"><strong>{{ $receipt_details->due_date_label }}</strong></p>
                 <p class="f-right">{{ $receipt_details->due_date ?? '' }}</p>
             </div>
         @endif
 
         <!-- customer info -->
-        <div class="textbox-info">
+        <div class="textbox-info" style="display: flex; gap: 6px;">
             <p style="vertical-align: top;"><strong>
                     {{ $receipt_details->customer_label ?? '' }}
                 </strong></p>
@@ -126,55 +126,55 @@
             </p>
         </div>
 
-        @if (!empty($receipt_details->sales_person_label))
-            <div class="textbox-info">
+        {{-- @if (!empty($receipt_details->sales_person_label))
+            <div class="textbox-info" style="display: flex; gap: 6px;">
                 <p class="f-left"><strong>{{ $receipt_details->sales_person_label }}</strong></p>
 
                 <p class="f-right">{{ $receipt_details->sales_person }}</p>
             </div>
-        @endif
-        @if (!empty($receipt_details->commission_agent_label))
-            <div class="textbox-info">
+        @endif --}}
+        {{-- @if (!empty($receipt_details->commission_agent_label))
+            <div class="textbox-info" style="display: flex; gap: 6px;">
                 <p class="f-left"><strong>{{ $receipt_details->commission_agent_label }}</strong></p>
 
                 <p class="f-right">{{ $receipt_details->commission_agent }}</p>
             </div>
-        @endif
-        @if (!empty($receipt_details->brand_label) || !empty($receipt_details->repair_brand))
-            <div class="textbox-info">
+        @endif --}}
+        {{-- @if (!empty($receipt_details->brand_label) || !empty($receipt_details->repair_brand))
+            <div class="textbox-info" style="display: flex; gap: 6px;">
                 <p class="f-left"><strong>{{ $receipt_details->brand_label }}</strong></p>
 
                 <p class="f-right">{{ $receipt_details->repair_brand }}</p>
             </div>
-        @endif
+        @endif --}}
 
 
 
-        @if (!empty($receipt_details->device_label) || !empty($receipt_details->repair_device))
+        {{-- @if (!empty($receipt_details->device_label) || !empty($receipt_details->repair_device))
             <div class="textbox-info">
                 <p class="f-left"><strong>{{ $receipt_details->device_label }}</strong></p>
 
                 <p class="f-right">{{ $receipt_details->repair_device }}</p>
             </div>
-        @endif
+        @endif --}}
 
-        @if (!empty($receipt_details->model_no_label) || !empty($receipt_details->repair_model_no))
+        {{-- @if (!empty($receipt_details->model_no_label) || !empty($receipt_details->repair_model_no))
             <div class="textbox-info">
                 <p class="f-left"><strong>{{ $receipt_details->model_no_label }}</strong></p>
 
                 <p class="f-right">{{ $receipt_details->repair_model_no }}</p>
             </div>
-        @endif
+        @endif --}}
 
-        @if (!empty($receipt_details->serial_no_label) || !empty($receipt_details->repair_serial_no))
+        {{-- @if (!empty($receipt_details->serial_no_label) || !empty($receipt_details->repair_serial_no))
             <div class="textbox-info">
                 <p class="f-left"><strong>{{ $receipt_details->serial_no_label }}</strong></p>
 
                 <p class="f-right">{{ $receipt_details->repair_serial_no }}</p>
             </div>
-        @endif
+        @endif --}}
 
-        @if (!empty($receipt_details->repair_status_label) || !empty($receipt_details->repair_status))
+        {{-- @if (!empty($receipt_details->repair_status_label) || !empty($receipt_details->repair_status))
             <div class="textbox-info">
                 <p class="f-left"><strong>
                         {!! $receipt_details->repair_status_label !!}
@@ -183,9 +183,9 @@
                     {{ $receipt_details->repair_status }}
                 </p>
             </div>
-        @endif
+        @endif --}}
 
-        @if (!empty($receipt_details->repair_warranty_label) || !empty($receipt_details->repair_warranty))
+        {{-- @if (!empty($receipt_details->repair_warranty_label) || !empty($receipt_details->repair_warranty))
             <div class="textbox-info">
                 <p class="f-left"><strong>
                         {!! $receipt_details->repair_warranty_label !!}
@@ -194,7 +194,7 @@
                     {{ $receipt_details->repair_warranty }}
                 </p>
             </div>
-        @endif
+        @endif --}}
 
         <!-- Waiter info -->
         @if (!empty($receipt_details->service_staff_label) || !empty($receipt_details->service_staff))
