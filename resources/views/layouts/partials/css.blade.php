@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="{{ asset('css/vendor.css?v='.$asset_v) }}">
+<link rel="stylesheet" href="{{ asset('css/vendor.css?v='.time()) }}">
 
 @if( in_array(session()->get('user.language', config('app.locale')), config('constants.langs_rtl')) )
 	<link rel="stylesheet" href="{{ asset('css/rtl.css?v='.$asset_v) }}">
