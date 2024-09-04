@@ -5,8 +5,7 @@ use App\Http\Controllers\RoomToRentController;
 use App\Http\Controllers\RecruitmentController;
 use App\Http\Controllers\ServiceWantedCustomerController;
 use App\Http\Controllers\PropertyWantedCustomerController;
-
-
+use Illuminate\Support\Facades\Route;
 
 // Customer route
 
@@ -45,6 +44,7 @@ Route::group(['middleware' => ['checkCustomer'], 'prefix' => 'contact',], functi
 });
 
 Route::group(['middleware' => ['checkCustomer'], 'prefix' => 'contact', 'namespace' => 'Modules\Crm\Http\Controllers'], function () {
+// Route::group(['prefix' => 'contact', 'namespace' => 'Modules\Crm\Http\Controllers'], function () {
     Route::resource('contact-dashboard', 'DashboardController');
     Route::get('contact-profile', 'ManageProfileController@getProfile');
     Route::post('contact-password-update', 'ManageProfileController@updatePassword');

@@ -193,6 +193,7 @@ Route::get('/payment-terms', [FrontendController::class, 'payment_terms'])->name
 Route::get('/contact-us', [FrontendController::class, 'contact_us'])->name('footer.details.contact_us');
 
 // CART SECTION
+Route::get('/payment-successfull', [CartController::class, 'paymentSuccessful'])->name('front.payment.successfull');
 Route::get('/carts', [CartController::class, 'cart'])->name('front.cart');
 Route::get('/get-client-secret', [CartController::class, 'getClientSecret'])->name('get.stripe.client.secret');
 Route::post('/post-cart', [CartController::class, 'postCart'])->name('post.cart');
