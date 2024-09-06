@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Marketing-Category')
+@section('title', 'News')
 @section('content')
     <section class="content-header">
         <h1>News </h1>
@@ -139,7 +139,7 @@
                                 @show_tooltip(__('Clear details facilitate quick customer understanding and draw attention
                                 effectively.')) <span class="text-danger">*</span>
                             </label>
-                            <textarea name="define_this_item" required id="define_this_item" rows="4" maxlength="250"
+                            <textarea name="define_this_item" required id="define_this_item" rows="3" maxlength="250"
                                 style="width: 100%; box-sizing: border-box;">{{ $news->define_this_item }}</textarea>
                             <div id="error_message_define_this_item" style="color: red; display: none;">
                                 Characters limit exceeded! Maximum 250 characters allowed.

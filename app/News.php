@@ -48,12 +48,19 @@ class News extends Model
     {
         return $this->belongsTo(Category::class, 'category_id');
     }
+
     public function region()
     {
         return $this->belongsTo(Category::class, 'region_id');
     }
+
     public function language()
     {
         return $this->belongsTo(Category::class, 'language_id');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'created_by');
     }
 }
