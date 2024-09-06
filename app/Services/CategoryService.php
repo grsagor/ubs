@@ -92,6 +92,10 @@ class CategoryService
                 $object->parent_id = 0;
             }
 
+            if (!empty($request->input('category_type'))) {
+                $object->category_type = $request->category_type;
+            }
+
             if (isset($request->status)) {
                 $object->status = $request->status;
             }

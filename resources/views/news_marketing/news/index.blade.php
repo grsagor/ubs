@@ -1,8 +1,8 @@
 @extends('layouts.app')
-@section('title', 'Shop-News')
+@section('title', 'News')
 @section('content')
     <section class="content-header">
-        <h1>Shop News </h1>
+        <h1>News </h1>
     </section>
 
     <section class="content">
@@ -25,6 +25,11 @@
                             <th>Category</th>
                             <th>Region</th>
                             <th>Language</th>
+                            <th>Unique @show_tooltip(__('Yes= No one has used your news source on this website before.
+                                <br>
+                                No= This news source has already been used by someone else on this website. '))
+                            </th>
+                            <th>Created By</th>
                             <th>Created At</th>
                             <th>Action</th>
                         </tr>
@@ -37,7 +42,16 @@
                                 <td>{{ $item->category->name ?? '' }}</td>
                                 <td>{{ $item->region->name ?? null }}</td>
                                 <td>{{ $item->language->name ?? null }}</td>
-                                <td>{{ $item->created_at->format('d F Y h:i A') }}</td>
+                                <td>
+                                    @if (isset($earliestSources[$item->source_url]) && $item->created_at->eq($earliestSources[$item->source_url]))
+                                        Yes
+                                    @else
+                                        No
+                                    @endif
+                                </td>
+                                <td>{{ $item->user->surname }} {{ $item->user->first_name }} {{ $item->user->last_name }}
+                                </td>
+                                <td>{{ $item->created_at->format('d M Y h:i A') }}</td>
                                 <td>
                                     <div class="btn-group">
                                         <button type="button" class="btn btn-info dropdown-toggle btn-xs"
@@ -52,13 +66,6 @@
                                                     <i class="glyphicon glyphicon-edit"></i> Edit
                                                 </a>
                                             </li>
-
-                                            {{-- <li>
-                                                <a href="#" class="btn-view-job">
-                                                    <i class="glyphicon glyphicon-eye-open"></i> View
-                                                </a>
-                                            </li> --}}
-
                                             <li>
                                                 <a href="{{ route('shop-news.statusChange', $item->id) }}">
                                                     <i
@@ -69,34 +76,32 @@
                                                     </span>
                                                 </a>
                                             </li>
-
                                             <li>
                                                 <form action="{{ route('shop-news.destroy', $item->id) }}" method="post"
                                                     style="display: none;" id="delete-form-{{ $item->id }}">
                                                     @csrf
                                                     @method('Delete')
                                                 </form>
-
                                                 <a href="#"
                                                     onclick="if(confirm('Are You Sure To Delete?')) {
-                                                               event.preventDefault();
-                                                               document.getElementById('delete-form-{{ $item->id }}').submit();
-                                                           } else {
-                                                               event.preventDefault();
-                                                           }">
+                                                       event.preventDefault();
+                                                       document.getElementById('delete-form-{{ $item->id }}').submit();
+                                                   } else {
+                                                       event.preventDefault();
+                                                   }">
                                                     <i class="glyphicon glyphicon-trash"></i> Delete
                                                 </a>
                                             </li>
                                         </ul>
                                     </div>
                                 </td>
-
                             </tr>
                         @empty
                             <tr>
                                 <td colspan="7" class="text-center">No data available</td>
                             </tr>
                         @endforelse
+
                     </tbody>
                 </table>
             </div>

@@ -25,11 +25,24 @@ class NewsController extends Controller
 
     public function index(Request $request)
     {
-        $data['news'] = News::query()
+        // Get all news items with their related data
+        $news = News::query()
             ->search($request)
             ->with('category', 'region', 'language')
             ->latest()
             ->get();
+
+        // Determine the earliest creation date for each source_url
+        $earliestSources = News::query()
+            ->select('source_url', \DB::raw('MIN(created_at) as earliest_created_at'))
+            ->groupBy('source_url')
+            ->pluck('earliest_created_at', 'source_url');
+
+        // Pass both the news items and the earliest sources to the view
+        $data = [
+            'news' => $news,
+            'earliestSources' => $earliestSources,
+        ];
 
         return view('news_marketing.news.index', $data);
     }

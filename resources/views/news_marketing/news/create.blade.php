@@ -133,7 +133,7 @@
                                 @show_tooltip(__('Clear details facilitate quick customer understanding and draw attention
                                 effectively.')) <span class="text-danger">*</span>
                             </label>
-                            <textarea name="define_this_item" required id="define_this_item" rows="4" maxlength="250"
+                            <textarea name="define_this_item" required id="define_this_item" rows="3" maxlength="250"
                                 style="width: 100%; box-sizing: border-box;"></textarea>
                             <div id="error_message_define_this_item" style="color: red; display: none;">
                                 Characters limit exceeded! Maximum 250 characters allowed.
@@ -171,7 +171,7 @@
 
                     <div class="col-sm-12">
                         <div class="form-group">
-                            <label class="form-label">News Video URL <span class="text-danger">*</span></label>
+                            <label class="form-label">News Video URL </label>
                             <input class="form-control" placeholder="News Video URL" name="video_url" type="url"
                                 value="{{ old('video_url') }}">
                         </div>
