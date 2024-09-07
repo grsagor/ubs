@@ -3,17 +3,20 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\News;
+use App\Media;
 use App\Region;
 use App\Special;
 use App\Category;
 use App\LanguageSpeech;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class NewsFrontendController extends Controller
 {
     public function index()
     {
         $data['news'] = News::query()
+            ->with(['user', 'userProfilePicture'])
             ->active()
             ->latest()
             ->get();
@@ -27,8 +30,6 @@ class NewsFrontendController extends Controller
         $groupedDataSetsCategories = $categories->groupBy('parent_id');
 
         $data['categories'] = $this->buildHierarchy($groupedDataSetsCategories, 0);
-
-        // return $data['categories'];
 
         $data['regions'] = Region::query()
             ->active()
@@ -49,6 +50,10 @@ class NewsFrontendController extends Controller
         return view('frontend.news.index', $data);
     }
 
+    public function show($slug)
+    {
+        return $slug;
+    }
 
     protected function buildHierarchy($groupedDataSets, $parentId)
     {

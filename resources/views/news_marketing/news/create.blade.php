@@ -160,7 +160,6 @@
                         </div>
                     </div>
 
-
                     <div class="col-sm-12">
                         <div class="form-group">
                             <label class="form-label">News Source URL <span class="text-danger">*</span></label>
@@ -179,7 +178,7 @@
 
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <label>Thumbnail:</label>
+                            <label>Thumbnail <span class="text-danger">*</span></label>
                             <input class="form-control" id="thumbnailInput" name="thumbnail" type="file"
                                 accept="image/*" onchange="previewThumbnail(event)" required>
                             <div style="position: relative; display: inline-block;">
@@ -193,7 +192,7 @@
 
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <label>Gallery:</label>
+                            <label>Gallery </label>
                             <input class="form-control" id="galleryInput" name="images[]" type="file" multiple
                                 accept="image/*" onchange="previewGallery(event)">
                         </div>
