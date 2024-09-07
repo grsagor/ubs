@@ -111,4 +111,63 @@
         overflow: hidden;
         /* Ensure no scrollbars are visible */
     }
+
+
+
+    /* Left Sidebar */
+    .left-side {
+        overflow-y: auto;
+        /* Enable vertical scrolling */
+        height: 100vh;
+        /* Full viewport height */
+        padding: 1rem;
+        /* Adjust padding if needed */
+    }
+
+    /* Main Content Area */
+    .laptop_news_card {
+        overflow-y: auto;
+        /* Enable vertical scrolling */
+        flex: 1;
+        /* Takes up remaining space */
+        height: 100vh;
+        /* Full viewport height */
+        padding: 1rem;
+        /* Adjust padding if needed */
+    }
+
+    /* Right Sidebar */
+    .right-side {
+        overflow-y: auto;
+        /* Enable vertical scrolling */
+        height: 100vh;
+        /* Full viewport height */
+        padding: 1rem;
+        /* Adjust padding if needed */
+    }
+
+    /* Optional: Adjustments for card spacing and layout */
+    .card {
+        margin-bottom: 1rem;
+        /* Space between cards */
+    }
+
+    ::-webkit-scrollbar {
+        width: 3px;
+    }
+
+    /* Track */
+    ::-webkit-scrollbar-track {
+        background: #f1f1f1;
+    }
+
+    /* Handle */
+    ::-webkit-scrollbar-thumb {
+        background: #888;
+    }
+
+    /* Handle on hover */
+    ::-webkit-scrollbar-thumb:hover {
+        background: #555;
+    }
 </style>
