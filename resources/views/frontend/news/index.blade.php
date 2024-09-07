@@ -7,7 +7,7 @@
     <div class="product-search-one search-bar mb-3">
 
         <form id="searchForm" class="search-form form-inline search-pill-shape bg-white"
-            action="{{ route('service.list', array_merge(request()->except('page'), ['search' => strtolower(request()->input('search'))])) }}"
+            action="{{ route('news', array_merge(request()->except('page'), ['search' => strtolower(request()->input('search'))])) }}"
             method="GET">
             <input type="text" id="shop_name" class="col form-control search-field" name="search" placeholder="Search News"
                 value="{{ request()->input('search') }}">
