@@ -61,6 +61,15 @@ class News extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class, 'created_by');
+        return $this->belongsTo(User::class, 'created_by')
+            ->select('id', 'surname', 'first_name', 'last_name');
+    }
+
+
+    public function userProfilePicture()
+    {
+        return $this->hasOne(Media::class, 'uploaded_by', 'created_by')
+            ->where('model_type', 'App\\User')
+            ->select('id', 'business_id', 'file_name', 'uploaded_by', 'model_type');;
     }
 }
