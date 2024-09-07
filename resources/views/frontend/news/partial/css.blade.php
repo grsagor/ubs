@@ -120,7 +120,6 @@
         /* Enable vertical scrolling */
         height: 100vh;
         /* Full viewport height */
-        padding: 1rem;
         /* Adjust padding if needed */
     }
 
