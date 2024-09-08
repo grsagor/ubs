@@ -79,6 +79,12 @@ class News extends Model
     {
         return $this->hasOne(Media::class, 'uploaded_by', 'created_by')
             ->where('model_type', 'App\\User')
-            ->select('id', 'business_id', 'file_name', 'uploaded_by', 'model_type');;
+            ->select('id', 'business_id', 'file_name', 'uploaded_by', 'model_type');
+    }
+
+    public function businessLocation()
+    {
+        return $this->belongsTo(BusinessLocation::class, 'business_location_id')
+            ->select('id', 'name', 'logo');
     }
 }

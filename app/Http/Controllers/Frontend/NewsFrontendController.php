@@ -17,7 +17,7 @@ class NewsFrontendController extends Controller
     public function index()
     {
         $data['news'] = News::query()
-            ->with(['user', 'userProfilePicture'])
+            ->with(['user', 'userProfilePicture', 'businessLocation'])
             ->active()
             ->latest()
             ->get();
