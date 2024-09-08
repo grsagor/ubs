@@ -36,7 +36,7 @@ class News extends Model
 
     public function scopeActive($query)
     {
-        $query->where('status', 1);
+        $query->where('status', 2);
     }
 
     public function scopeSearch($query, $request)
