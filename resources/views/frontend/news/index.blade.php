@@ -31,7 +31,7 @@
                         <p class="timestamp">{{ $item->updated_at->diffForHumans() }}</p>
                     </div>
                 </div>
-                <a href="{{ route('service.list') }}" class="card-link">
+                <a href="{{ route('news') }}" class="card-link">
                     <div class="card-body">
                         <p class="post-content">{{ $item->define_this_item }}</p>
                         @php
