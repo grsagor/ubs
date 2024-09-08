@@ -2840,8 +2840,8 @@ class ProductController extends Controller
         $user = Auth::user();
         $product = Product::with('unit', 'brand', 'business_location')->Where('slug', $slug)->first();
 
-        if ($slug != $product->slug) {
-            abort(404, 'Product not found');
+        if (!$product) {
+            return view('error.404');
         }
 
         $data['info'] = $product;

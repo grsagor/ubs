@@ -44,7 +44,7 @@ class RecruitmentController extends Controller
         $data['job'] =  Job::with('business_location')->where('short_id', $id)->first();
 
         if (!$data['job'] || $id != $data['job']->short_id || $slug != $data['job']->slug) {
-            abort(404, 'Job not found');
+            return view('error.404');
         }
 
         if ($data['job']) {

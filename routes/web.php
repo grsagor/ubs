@@ -161,6 +161,7 @@ Route::get('/get-service-items/{category_id}', [ServiceController::class, 'getSe
 
 
 Route::get('/news', [NewsFrontendController::class, 'index'])->name('news');
+Route::get('/news/{slug}', [NewsFrontendController::class, 'show'])->name('news.show');
 
 // FOOTER LINKS DETAIL SECTION
 Route::get('/about-us', [FrontendController::class, 'about_us'])->name('footer.details.about_us');

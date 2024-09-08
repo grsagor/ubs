@@ -15,6 +15,8 @@ class News extends Model
     protected $primaryKey = 'id';
 
     protected $fillable = [
+        'title',
+        'slug',
         'business_id',
         'business_location_id',
         'category_id',
@@ -22,8 +24,6 @@ class News extends Model
         'region_id',
         'language_id',
         'special_id',
-        'title',
-        'slug',
         'description',
         'define_this_item',
         'source_name',
@@ -36,7 +36,7 @@ class News extends Model
 
     public function scopeActive($query)
     {
-        $query->where('status', 1);
+        $query->where('status', 2);
     }
 
     public function scopeSearch($query, $request)
@@ -49,14 +49,24 @@ class News extends Model
         return $this->belongsTo(Category::class, 'category_id');
     }
 
+    public function subCategory()
+    {
+        return $this->belongsTo(Category::class, 'subcategory_id');
+    }
+
     public function region()
     {
-        return $this->belongsTo(Category::class, 'region_id');
+        return $this->belongsTo(Region::class, 'region_id');
     }
 
     public function language()
     {
-        return $this->belongsTo(Category::class, 'language_id');
+        return $this->belongsTo(LanguageSpeech::class, 'language_id');
+    }
+
+    public function special()
+    {
+        return $this->belongsTo(Special::class, 'special_id');
     }
 
     public function user()
@@ -64,7 +74,6 @@ class News extends Model
         return $this->belongsTo(User::class, 'created_by')
             ->select('id', 'surname', 'first_name', 'last_name');
     }
-
 
     public function userProfilePicture()
     {

@@ -265,7 +265,6 @@ class NewsController extends Controller
 
         $imagePaths = json_decode($news->images, true);
 
-
         // Delete the news item
         $news->delete();
 
@@ -301,7 +300,7 @@ class NewsController extends Controller
         $data = News::find($id);
 
         // Toggle the status of the News item
-        $data->status = $data->status == 1 ? 0 : 1;
+        $data->status = $data->status == 1 ? 2 : 1;
         $data->save();
 
         $output = [
