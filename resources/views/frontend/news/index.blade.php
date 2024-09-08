@@ -23,11 +23,10 @@
         @foreach ($news as $item)
             <div class="newsfeed-card">
                 <div class="card-header">
-                    <img src="{{ $item->userProfilePicture ? asset('uploads/media/' . $item->userProfilePicture->file_name) : 'https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg' }}"
+                    <img src="{{ $item->businessLocation->logo ? asset($item->businessLocation->logo) : 'https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg' }}"
                         alt="Profile Picture" class="profile-pic">
                     <div class="user-info">
-                        <h4 class="username">{{ $item->user->surname }} {{ $item->user->first_name }}
-                            {{ $item->user->last_name }}</h4>
+                        <h4 class="username">{{ $item->businessLocation->name }}</h4>
                         <p class="timestamp">{{ $item->updated_at->diffForHumans() }}</p>
                     </div>
                 </div>
