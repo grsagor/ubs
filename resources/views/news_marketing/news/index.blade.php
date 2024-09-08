@@ -61,6 +61,14 @@
                                             <span class="sr-only">Toggle Dropdown</span>
                                         </button>
                                         <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                                            @if ($item->status == 2)
+                                                <li>
+                                                    <a href="{{ route('news.show', $item->slug) }}">
+                                                        <i class="glyphicon glyphicon-eye-open"></i> View
+                                                    </a>
+                                                </li>
+                                            @endif
+
                                             <li>
                                                 <a href="{{ route('shop-news.edit', $item->id) }}">
                                                     <i class="glyphicon glyphicon-edit"></i> Edit
@@ -69,10 +77,10 @@
                                             <li>
                                                 <a href="{{ route('shop-news.statusChange', $item->id) }}">
                                                     <i
-                                                        class="fa fa-power-off {{ $item->status == 0 ? 'text-danger' : 'text-success' }}"></i>
+                                                        class="fa fa-power-off {{ $item->status == 1 ? 'text-danger' : 'text-success' }}"></i>
                                                     <span
-                                                        class="{{ $item->status == 0 ? 'text-danger' : 'text-success' }}">
-                                                        {{ $item->status == 0 ? 'Inactive' : 'Active' }}
+                                                        class="{{ $item->status == 1 ? 'text-danger' : 'text-success' }}">
+                                                        {{ $item->status == 1 ? 'Only me' : 'Public' }}
                                                     </span>
                                                 </a>
                                             </li>

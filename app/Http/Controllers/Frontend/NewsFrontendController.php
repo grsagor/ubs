@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Frontend;
 
 use App\News;
 use App\Media;
+use App\Footer;
 use App\Region;
 use App\Special;
 use App\Category;
@@ -52,7 +53,20 @@ class NewsFrontendController extends Controller
 
     public function show($slug)
     {
-        return $slug;
+        $data['news'] = News::query()
+            ->with(['category', 'subCategory', 'region', 'language', 'special'])
+            ->active()
+            ->where('slug', $slug)
+            ->first();
+
+        if (!$data['news']) {
+            return view('error.404');
+        }
+
+        $footerSlugs = ['contact-us-phone', 'contact-us-email-complain'];
+        $data['othersInfo'] = Footer::whereIn('slug', $footerSlugs)->pluck('description', 'slug')->toArray();
+
+        return view('frontend.news.show', $data);
     }
 
     protected function buildHierarchy($groupedDataSets, $parentId)
