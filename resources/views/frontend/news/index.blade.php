@@ -22,14 +22,15 @@
     <div class="newsfeed-container" id="newsfeed-container">
         @foreach ($news as $item)
             <div class="newsfeed-card">
-                <div class="card-header">
+                <a href="{{ route('shop.service', $item->business_location_id) }}" class="card-header">
                     <img src="{{ $item->businessLocation->logo ? asset($item->businessLocation->logo) : 'https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg' }}"
                         alt="Profile Picture" class="profile-pic">
                     <div class="user-info">
                         <h4 class="username">{{ $item->businessLocation->name }}</h4>
-                        <p class="timestamp">{{ $item->updated_at->diffForHumans() }}</p>
+                        <p class="timestamp">{{ $item->created_at->diffForHumans() }}</p>
                     </div>
-                </div>
+                </a>
+
                 <a href="{{ route('news.show', $item->slug) }}" class="card-link">
                     <div class="card-body">
                         <p class="post-content">{{ $item->define_this_item }}</p>

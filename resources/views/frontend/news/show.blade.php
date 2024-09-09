@@ -54,7 +54,7 @@
                         </div>
 
 
-                        @if ($news->region || $news->language || $news->special)
+                        {{-- @if ($news->region || $news->language || $news->special)
                             <div class="summary-section row mt-3">
                                 <div class="col-sm-12 ">
                                     <div class="summary-card">
@@ -83,7 +83,7 @@
                                     </div>
                                 </div>
                             </div>
-                        @endif
+                        @endif --}}
 
                         @if ($news->thumbnail || $news->images)
                             <div class="requirements-section row mt-3">
@@ -136,20 +136,6 @@
                             </div>
                         @endif
 
-                        <div class="requirements-section row mt-3">
-                            <div class="col-sm-12 ">
-                                <div class="requirements-card">
-                                    @if ($news->description)
-                                        <h3 class="sectitle">Details</h3>
-                                        <div class="col-md-12 text-justify details_page">
-                                            {!! $news->description ?? '' !!}
-                                        </div>
-                                    @endif
-
-                                </div>
-                            </div>
-                        </div>
-
                         @if ($news->video_url)
                             @php
                                 $videoUrl = $news->video_url;
@@ -169,22 +155,50 @@
                         <div class="requirements-section row mt-3">
                             <div class="col-sm-12 ">
                                 <div class="requirements-card">
-                                    <h3 class="sectitle">News source</h3>
-                                    @if ($news->source_name)
-                                        <div class="row header">
-                                            <div class="col-md-9">
-
-                                                <div class="card-text company-name color-black">
-                                                    <a href="{{ $news->source_url }}" class="color-black">
-                                                        {{ $news->source_name }}
-                                                    </a>
-                                                </div>
-                                            </div>
+                                    @if ($news->description)
+                                        <h3 class="sectitle">Details</h3>
+                                        <div class="col-md-12 text-justify details_page">
+                                            {!! $news->description ?? '' !!}
                                         </div>
                                     @endif
+
                                 </div>
                             </div>
                         </div>
+
+                        <div class="requirements-section row mt-3 d-flex align-items-stretch">
+                            <div class="col-sm-6 d-flex justify-content-end">
+                                <a href="{{ route('shop.service', $news->businessLocation->id) }}"
+                                    class="text-decoration-none w-100">
+                                    <div class="requirements-card d-flex flex-column align-items-center text-center h-100">
+                                        <div class="card-text company-name color-black">
+                                            <h3 class="sectitle">News Advertiser</h3>
+                                            {{ $news->businessLocation->name }}
+                                        </div>
+                                        <img class="mt-3" src="{{ asset($news->businessLocation->logo) }}"
+                                            alt="Business location logo" style="max-width: 100px; max-height: 100px;"
+                                            onerror="this.onerror=null;this.src='https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg';">
+                                    </div>
+                                </a>
+                            </div>
+
+                            <div class="col-sm-6 d-flex">
+                                <a href="{{ $news->source_url }}" class="text-decoration-none w-100">
+                                    <div class="requirements-card d-flex flex-column align-items-center text-center h-100">
+                                        <div class="card-text company-name color-black">
+                                            <h3 class="sectitle">News source</h3>
+                                            {{ $news->source_name }}
+                                        </div>
+                                        <img class="mt-3"
+                                            src='https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg'
+                                            alt="Business location logo" style="max-width: 100px; max-height: 100px;">
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+
+
+
 
                         <div class="report-section row mt-3">
                             <div class="col-sm-12">
