@@ -73,19 +73,19 @@
             </ul>
         </div>
 
-
         <div class="widget woocommerce widget_product_categories widget-toggle categories">
             <h2 class="widget-title">Language</h2>
             <ul class="product-categories">
                 @foreach ($languages as $lang)
                     <li class="cat-item cat-parent">
-                        <a href="{{ route('news', array_merge(request()->query(), ['lang' => $lang['slug']])) }}">
+                        <a href="#" class="language-link" data-language-id="{{ $lang->id }}">
                             {{ $lang->name }}
                         </a>
                     </li>
                 @endforeach
             </ul>
         </div>
+
 
         <div class="widget woocommerce widget_product_categories widget-toggle categories">
             <h2 class="widget-title">Special </h2>

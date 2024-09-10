@@ -16,18 +16,23 @@ class NewsFrontendController extends Controller
     public function index(Request $request)
     {
         try {
+            // Retrieve query parameters
             $search = $request->query('search');
             $searchDate = $request->query('date');
             $regionId = $request->query('region');
+            $languageId = $request->query('language'); // Add language filter if needed
 
+            // Build the query for news
             $query = News::query()
                 ->with(['user', 'userProfilePicture', 'businessLocation'])
                 ->active();
 
+            // Filter by date if provided
             if ($searchDate) {
                 $query->whereDate('created_at', $searchDate);
             }
 
+            // Filter by search term if provided
             if ($search) {
                 $query->where(function ($subQuery) use ($search) {
                     $subQuery->where('title', 'like', '%' . $search . '%')
@@ -35,13 +40,21 @@ class NewsFrontendController extends Controller
                 });
             }
 
+            // Filter by region if provided
             if ($regionId) {
-                // Assuming you have a relationship set up for regions
                 $query->whereHas('region', function ($subQuery) use ($regionId) {
                     $subQuery->where('id', $regionId);
                 });
             }
 
+            // Filter by language if provided
+            if ($languageId) {
+                $query->whereHas('language', function ($subQuery) use ($languageId) {
+                    $subQuery->where('id', $languageId);
+                });
+            }
+
+            // Execute the query and get the results
             $data['news'] = $query->latest()->get();
 
             // Fetch other necessary data for the view
@@ -58,16 +71,19 @@ class NewsFrontendController extends Controller
             $data['languages'] = LanguageSpeech::query()->active()->orderByNameAsc()->get();
             $data['specials'] = Special::query()->where('type', 'news')->active()->orderByNameAsc()->get();
 
+            // Return view or AJAX response
             if ($request->ajax()) {
                 return view('frontend.news.partial.newsfeed', $data)->render();
             }
 
             return view('frontend.news.index', $data);
         } catch (\Exception $e) {
+            // Log the error and return a JSON error response
             \Log::error('Error in index method: ' . $e->getMessage());
             return response()->json(['error' => 'An error occurred'], 500);
         }
     }
+
 
 
     public function show($slug)
