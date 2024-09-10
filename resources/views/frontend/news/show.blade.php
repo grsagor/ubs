@@ -189,8 +189,8 @@
                                             <h3 class="sectitle">News source</h3>
                                             {{ $news->source_name }}
                                         </div>
-                                        <img class="mt-3"
-                                            src='https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg'
+                                        <img class="mt-3" {{-- src='https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg' --}}
+                                            src='https://i0.wp.com/1.bp.blogspot.com/-OEDEZCgyo10/Wcz9mUDr3KI/AAAAAAAAhYE/LaqmMRgmItstf_hcRZHwPhXxI5tQi-VbQCLcBGAs/s1600/Go.jpg?ssl=1'
                                             alt="Business location logo" style="max-width: 100px; max-height: 100px;">
                                     </div>
                                 </a>

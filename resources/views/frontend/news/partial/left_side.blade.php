@@ -2,6 +2,10 @@
     <div id="sidebar" class="widget-title-bordered-full">
 
         <div class="widget woocommerce widget_product_categories widget-toggle categories">
+            <input type="date" name="date" id="dateSearch" style="width: 100%; box-sizing: border-box;">
+        </div>
+
+        <div class="widget woocommerce widget_product_categories widget-toggle categories">
             <h2 class="widget-title">Category </h2>
             <ul class="product-categories">
                 @foreach ($categories as $category)

@@ -126,6 +126,8 @@
     /* Main Content Area */
     .laptop_news_card {
         overflow-y: auto;
+        scrollbar-width: none;
+
         /* Enable vertical scrolling */
         flex: 1;
         /* Takes up remaining space */
@@ -143,6 +145,9 @@
         /* Full viewport height */
         padding: 1rem;
         /* Adjust padding if needed */
+        scrollbar-width: none;
+        /* For Firefox */
+
     }
 
     /* Optional: Adjustments for card spacing and layout */
@@ -152,7 +157,7 @@
     }
 
     ::-webkit-scrollbar {
-        width: 3px;
+        width: 6px;
     }
 
     /* Track */
@@ -163,6 +168,7 @@
     /* Handle */
     ::-webkit-scrollbar-thumb {
         background: #888;
+        border-radius: 10px;
     }
 
     /* Handle on hover */

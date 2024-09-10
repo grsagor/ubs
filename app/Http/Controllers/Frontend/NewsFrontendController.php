@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Auth;
 
 class NewsFrontendController extends Controller
 {
+    public function searchFunction() {}
     public function index()
     {
         $data['news'] = News::query()
