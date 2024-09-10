@@ -33,7 +33,6 @@
 
                 <a href="{{ route('news.show', $item->slug) }}" class="card-link">
                     <div class="card-body">
-                        <p class="post-content">{{ $item->define_this_item }}</p>
                         @php
                             $thumbnail =
                                 $item->thumbnail && file_exists(public_path($item->thumbnail))
@@ -41,6 +40,9 @@
                                     : 'https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg';
                         @endphp
                         <img src="{{ $thumbnail }}" alt="Post Image" class="post-image">
+                        <p class="post-content" style="font-size: 18px; font-weight:bold; margin-top:10px;">
+                            {{ $item->title }}</p>
+                        <p class="post-content">{{ $item->define_this_item }}</p>
                     </div>
                 </a>
             </div>

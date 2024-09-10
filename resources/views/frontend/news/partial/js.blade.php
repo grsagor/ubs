@@ -1,9 +1,20 @@
 <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const dateInput = document.getElementById('dateSearch');
+
+        dateInput.addEventListener('change', function() {
+            const selectedDate = dateInput.value;
+            console.log('Selected Date:', selectedDate);
+        });
+    });
+</script>
+
+<script>
     function handleMinWidth992px() {
         if (window.innerWidth <= 992) {
-            $('.widget-toggle').removeClass('closed')
-        } else {
             $('.widget-toggle').addClass('closed')
+        } else {
+            $('.widget-toggle').removeClass('closed')
         }
     }
 
