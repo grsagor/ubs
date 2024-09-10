@@ -86,14 +86,12 @@
             </ul>
         </div>
 
-
         <div class="widget woocommerce widget_product_categories widget-toggle categories">
-            <h2 class="widget-title">Special </h2>
+            <h2 class="widget-title">Special</h2>
             <ul class="product-categories">
                 @foreach ($specials as $special)
                     <li class="cat-item cat-parent">
-                        <a
-                            href="{{ route('news', array_merge(request()->query(), ['special' => $special['slug']])) }}">
+                        <a href="#" class="special-link" data-special-id="{{ $special->id }}">
                             {{ $special->name }}
                         </a>
                     </li>

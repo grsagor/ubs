@@ -21,6 +21,7 @@ class NewsFrontendController extends Controller
             $searchDate = $request->query('date');
             $regionId = $request->query('region');
             $languageId = $request->query('language'); // Add language filter if needed
+            $specialId = $request->query('special'); // Include special filter
 
             // Build the query for news
             $query = News::query()
@@ -51,6 +52,12 @@ class NewsFrontendController extends Controller
             if ($languageId) {
                 $query->whereHas('language', function ($subQuery) use ($languageId) {
                     $subQuery->where('id', $languageId);
+                });
+            }
+
+            if ($specialId) {
+                $query->whereHas('special', function ($subQuery) use ($specialId) {
+                    $subQuery->where('id', $specialId);
                 });
             }
 

@@ -5,6 +5,7 @@
         var dateInput = document.getElementById('dateSearch');
         var regionLinks = document.querySelectorAll('.region-link');
         var languageLinks = document.querySelectorAll('.language-link');
+        var specialLinks = document.querySelectorAll('.special-link');
 
         // Function to perform the AJAX request
         function performSearch() {
@@ -12,6 +13,7 @@
             var selectedDate = dateInput.value;
             var selectedRegion = document.querySelector('.region-link.active')?.dataset.regionId || '';
             var selectedLanguage = document.querySelector('.language-link.active')?.dataset.languageId || '';
+            var selectedSpecial = document.querySelector('.special-link.active')?.dataset.specialId || '';
 
             $.ajax({
                 url: '/news',
@@ -20,7 +22,8 @@
                     search: searchText,
                     date: selectedDate,
                     region: selectedRegion, // Send the selected region as a query parameter
-                    language: selectedLanguage // Send the selected language as a query parameter
+                    language: selectedLanguage, // Send the selected language as a query parameter
+                    special: selectedSpecial // Send the selected special as a query parameter
                 },
                 success: function(response) {
                     $('#newsfeed-container').empty();
@@ -97,7 +100,25 @@
                 performSearch();
             });
         });
+
+        // Event listener for special links
+        specialLinks.forEach(function(link) {
+            link.addEventListener('click', function(event) {
+                event.preventDefault(); // Prevent the default link behavior
+
+                // Remove 'active' class from previously selected link
+                document.querySelectorAll('.special-link').forEach(function(link) {
+                    link.classList.remove('active');
+                });
+
+                // Add 'active' class to the clicked link
+                this.classList.add('active');
+
+                performSearch();
+            });
+        });
     });
+
 
 
 
