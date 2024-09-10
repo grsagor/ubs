@@ -4,19 +4,9 @@
     @include('frontend.news.partial.css')
 @endsection
 @section('property_list_content')
-    <div class="product-search-one search-bar mb-3">
-
-        <form id="searchFormMain" class="search-form form-inline search-pill-shape bg-white"
-            action="{{ route('news', array_merge(request()->except('page'), ['search' => strtolower(request()->input('search'))])) }}"
-            method="GET">
-            <input type="text" id="shop_name" class="col form-control search-field" name="search" placeholder="Search News"
-                value="{{ request()->input('search') }}">
-            <input type="hidden" name="category_id" value="{{ request()->input('category_id') }}">
-            <input type="hidden" name="sub_category_id" value="{{ request()->input('sub_category_id') }}">
-            <input type="hidden" name="child_category_id" value="{{ request()->input('child_category_id') }}">
-            <button type="submit" class="search-submit"><i class="flaticon-search flat-mini text-white"></i></button>
-        </form>
-
+    <div class="product-search-one search-bar mb-3" id="searchFormMain">
+        <input type="text" id="search_Main" class="col form-control search-field" name="search" placeholder="Search News"
+            value="{{ request()->input('search') }}" style="border: 1px solid #000 ; border-radius: 2rem ">
     </div>
 
     <div class="newsfeed-container" id="newsfeed-container">

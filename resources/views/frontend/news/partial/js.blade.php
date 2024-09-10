@@ -1,17 +1,20 @@
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        const dateInput = document.getElementById('dateSearch');
+        // Get references to the inputs
+        var searchInput = document.getElementById('search_Main');
+        var dateInput = document.getElementById('dateSearch');
 
-        // Event listener for the change event when a date is selected
-        dateInput.addEventListener('change', function() {
-            const selectedDate = dateInput.value;
-            console.log('Selected Date:', selectedDate);
+        // Function to perform the AJAX request
+        function performSearch() {
+            var searchText = searchInput.value.trim();
+            var selectedDate = dateInput.value;
 
             $.ajax({
                 url: '/news',
                 type: 'GET',
                 data: {
-                    date: selectedDate // Send the selected date as a query parameter
+                    search: searchText,
+                    date: selectedDate // Send both search text and selected date as query parameters
                 },
                 success: function(response) {
                     $('#newsfeed-container').empty();
@@ -23,23 +26,18 @@
                     if (response.trim().length === 0) {
                         // No news found
                         $('#newsfeed-container').html(`
-            <div class="card">
-                <div class="card-body">
-                    <div class="page-center">
-                        <h4 class="text-center text-danger">No news found.</h4>
-                    </div>
-                </div>
-            </div>
-        `);
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="page-center">
+                                        <h4 class="text-center text-danger">No news found.</h4>
+                                    </div>
+                                </div>
+                            </div>
+                        `);
 
-                        // Hide the search form
-                        $('#searchFormMain').addClass('d-none');
                     } else {
                         // Display the news feed
                         $('#newsfeed-container').html(response);
-
-                        // Ensure the search form is visible if there are news items
-                        $('#searchFormMain').removeClass('d-none');
                     }
 
                     $('#newsfeed-container').show();
@@ -49,6 +47,16 @@
                     console.error('AJAX Error:', status, error);
                 }
             });
+        }
+
+        // Event listener for search input
+        searchInput.addEventListener('keyup', function() {
+            performSearch();
+        });
+
+        // Event listener for date input
+        dateInput.addEventListener('change', function() {
+            performSearch();
         });
     });
 

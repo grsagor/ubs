@@ -13,45 +13,34 @@ use App\Http\Controllers\Controller;
 
 class NewsFrontendController extends Controller
 {
-    public function searchFunction(Request $request)
-    {
-        // Retrieve the date from the query parameter
-        $searchDate = $request->query('date');
-
-        dd($searchDate);
-
-        // Validate the date format if necessary
-        // $validatedData = $request->validate([
-        //     'date' => 'required|date',
-        // ]);
-
-        // Query the News model
-        $data['news'] = News::query()
-            ->with(['user', 'userProfilePicture', 'businessLocation'])
-            ->active()
-            ->whereDate('created_at', $searchDate) // Assuming you want to filter by 'created_at'
-            ->latest()
-            ->get();
-
-        // Return the data as JSON for AJAX
-        return response()->json($data);
-    }
-
     public function index(Request $request)
     {
         try {
+            // Retrieve search and date parameters from the request
+            $search = $request->query('search');
             $searchDate = $request->query('date');
 
             $query = News::query()
                 ->with(['user', 'userProfilePicture', 'businessLocation'])
                 ->active();
 
+            // Apply the date filter if provided
             if ($searchDate) {
                 $query->whereDate('created_at', $searchDate);
             }
 
+            // Apply the search filter if provided
+            if ($search) {
+                $query->where(function ($subQuery) use ($search) {
+                    $subQuery->where('title', 'like', '%' . $search . '%')
+                        ->orWhere('define_this_item', 'like', '%' . $search . '%');
+                });
+            }
+
+            // Retrieve the filtered news items
             $data['news'] = $query->latest()->get();
 
+            // Fetch other necessary data for the view
             $categories = Category::query()
                 ->where('category_type', 'news')
                 ->active()
@@ -79,8 +68,6 @@ class NewsFrontendController extends Controller
             return response()->json(['error' => 'An error occurred'], 500);
         }
     }
-
-
 
     public function show($slug)
     {
