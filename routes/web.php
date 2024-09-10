@@ -163,6 +163,9 @@ Route::get('/get-service-items/{category_id}', [ServiceController::class, 'getSe
 Route::get('/news', [NewsFrontendController::class, 'index'])->name('news');
 Route::get('/news/{slug}', [NewsFrontendController::class, 'show'])->name('news.show');
 
+// Route::get('/news', [NewsFrontendController::class, 'searchFunction'])->name('news.searchFunction');
+
+
 // FOOTER LINKS DETAIL SECTION
 Route::get('/about-us', [FrontendController::class, 'about_us'])->name('footer.details.about_us');
 Route::get('/slavery-and-human-trafficking-statement', [FrontendController::class, 'slavery_and_human_trafficking_statement'])->name('footer.details.slavery_and_human_trafficking_statement');

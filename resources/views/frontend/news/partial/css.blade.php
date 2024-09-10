@@ -133,7 +133,7 @@
         /* Takes up remaining space */
         height: 100vh;
         /* Full viewport height */
-        padding: 1rem;
+        /* padding: 1rem; */
         /* Adjust padding if needed */
     }
 
@@ -143,7 +143,7 @@
         /* Enable vertical scrolling */
         height: 100vh;
         /* Full viewport height */
-        padding: 1rem;
+        /* padding: 1rem; */
         /* Adjust padding if needed */
         scrollbar-width: none;
         /* For Firefox */
