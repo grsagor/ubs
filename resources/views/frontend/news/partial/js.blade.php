@@ -1,20 +1,23 @@
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Get references to the inputs
+        // Get references to the inputs and links
         var searchInput = document.getElementById('search_Main');
         var dateInput = document.getElementById('dateSearch');
+        var regionLinks = document.querySelectorAll('.region-link');
 
         // Function to perform the AJAX request
         function performSearch() {
             var searchText = searchInput.value.trim();
             var selectedDate = dateInput.value;
+            var selectedRegion = document.querySelector('.region-link.active')?.dataset.regionId || '';
 
             $.ajax({
                 url: '/news',
                 type: 'GET',
                 data: {
                     search: searchText,
-                    date: selectedDate // Send both search text and selected date as query parameters
+                    date: selectedDate,
+                    region: selectedRegion // Send the selected region as a query parameter
                 },
                 success: function(response) {
                     $('#newsfeed-container').empty();
@@ -26,15 +29,14 @@
                     if (response.trim().length === 0) {
                         // No news found
                         $('#newsfeed-container').html(`
-                            <div class="card">
-                                <div class="card-body">
-                                    <div class="page-center">
-                                        <h4 class="text-center text-danger">No news found.</h4>
-                                    </div>
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="page-center">
+                                    <h4 class="text-center text-danger">No news found.</h4>
                                 </div>
                             </div>
-                        `);
-
+                        </div>
+                    `);
                     } else {
                         // Display the news feed
                         $('#newsfeed-container').html(response);
@@ -58,7 +60,25 @@
         dateInput.addEventListener('change', function() {
             performSearch();
         });
+
+        // Event listener for region links
+        regionLinks.forEach(function(link) {
+            link.addEventListener('click', function(event) {
+                event.preventDefault(); // Prevent the default link behavior
+
+                // Remove 'active' class from previously selected link
+                document.querySelectorAll('.region-link').forEach(function(link) {
+                    link.classList.remove('active');
+                });
+
+                // Add 'active' class to the clicked link
+                this.classList.add('active');
+
+                performSearch();
+            });
+        });
     });
+
 
 
     document.getElementById('dateSearch').addEventListener('click', function() {

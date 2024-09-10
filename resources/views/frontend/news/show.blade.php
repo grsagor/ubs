@@ -54,7 +54,7 @@
                         </div>
 
 
-                        {{-- @if ($news->region || $news->language || $news->special)
+                        @if ($news->region || $news->language || $news->special)
                             <div class="summary-section row mt-3">
                                 <div class="col-sm-12 ">
                                     <div class="summary-card">
@@ -83,7 +83,7 @@
                                     </div>
                                 </div>
                             </div>
-                        @endif --}}
+                        @endif
 
                         @if ($news->thumbnail || $news->images)
                             <div class="requirements-section row mt-3">

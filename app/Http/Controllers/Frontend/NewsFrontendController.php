@@ -16,20 +16,18 @@ class NewsFrontendController extends Controller
     public function index(Request $request)
     {
         try {
-            // Retrieve search and date parameters from the request
             $search = $request->query('search');
             $searchDate = $request->query('date');
+            $regionId = $request->query('region');
 
             $query = News::query()
                 ->with(['user', 'userProfilePicture', 'businessLocation'])
                 ->active();
 
-            // Apply the date filter if provided
             if ($searchDate) {
                 $query->whereDate('created_at', $searchDate);
             }
 
-            // Apply the search filter if provided
             if ($search) {
                 $query->where(function ($subQuery) use ($search) {
                     $subQuery->where('title', 'like', '%' . $search . '%')
@@ -37,7 +35,13 @@ class NewsFrontendController extends Controller
                 });
             }
 
-            // Retrieve the filtered news items
+            if ($regionId) {
+                // Assuming you have a relationship set up for regions
+                $query->whereHas('region', function ($subQuery) use ($regionId) {
+                    $subQuery->where('id', $regionId);
+                });
+            }
+
             $data['news'] = $query->latest()->get();
 
             // Fetch other necessary data for the view
@@ -55,19 +59,16 @@ class NewsFrontendController extends Controller
             $data['specials'] = Special::query()->where('type', 'news')->active()->orderByNameAsc()->get();
 
             if ($request->ajax()) {
-                // Return the view fragment for the news feed
                 return view('frontend.news.partial.newsfeed', $data)->render();
             }
 
             return view('frontend.news.index', $data);
         } catch (\Exception $e) {
-            // Log the error message
             \Log::error('Error in index method: ' . $e->getMessage());
-
-            // Return a generic error message
             return response()->json(['error' => 'An error occurred'], 500);
         }
     }
+
 
     public function show($slug)
     {

@@ -65,13 +65,14 @@
             <ul class="product-categories">
                 @foreach ($regions as $region)
                     <li class="cat-item cat-parent">
-                        <a href="{{ route('news', array_merge(request()->query(), ['region' => $region['slug']])) }}">
+                        <a href="#" class="region-link" data-region-id="{{ $region->id }}">
                             {{ $region->name }}
                         </a>
                     </li>
                 @endforeach
             </ul>
         </div>
+
 
         <div class="widget woocommerce widget_product_categories widget-toggle categories">
             <h2 class="widget-title">Language</h2>

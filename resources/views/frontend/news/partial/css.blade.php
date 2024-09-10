@@ -175,4 +175,11 @@
     ::-webkit-scrollbar-thumb:hover {
         background: #555;
     }
+
+    .region-link.active {
+        color: #dc3545;
+        /* Change text color to red */
+        font-weight: bold;
+        /* Optionally, make the font bold */
+    }
 </style>
