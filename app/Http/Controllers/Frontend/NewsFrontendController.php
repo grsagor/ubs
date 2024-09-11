@@ -22,6 +22,10 @@ class NewsFrontendController extends Controller
             $regionId = $request->query('region');
             $languageId = $request->query('language'); // Add language filter if needed
             $specialId = $request->query('special'); // Include special filter
+            $subCategoryId = $request->query('subCategory'); // Include special filter
+
+            // Log the selected subcategory ID
+            \Log::info('Selected subCategoryId:', ['subCategoryId' => $subCategoryId]);
 
             // Build the query for news
             $query = News::query()
@@ -55,10 +59,16 @@ class NewsFrontendController extends Controller
                 });
             }
 
+            // Filter by special if provided
             if ($specialId) {
                 $query->whereHas('special', function ($subQuery) use ($specialId) {
                     $subQuery->where('id', $specialId);
                 });
+            }
+
+            // Filter by subcategory if provided
+            if ($subCategoryId) {
+                $query->where('subcategory_id', $subCategoryId);
             }
 
             // Execute the query and get the results
@@ -73,7 +83,6 @@ class NewsFrontendController extends Controller
 
             $groupedDataSetsCategories = $categories->groupBy('parent_id');
             $data['categories'] = $this->buildHierarchy($groupedDataSetsCategories, 0);
-
             $data['regions'] = Region::query()->active()->orderByNameAsc()->get();
             $data['languages'] = LanguageSpeech::query()->active()->orderByNameAsc()->get();
             $data['specials'] = Special::query()->where('type', 'news')->active()->orderByNameAsc()->get();

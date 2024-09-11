@@ -189,4 +189,18 @@
         font-weight: bold;
         /* Optionally, make the font bold */
     }
+
+    .special-link.active {
+        color: red;
+        /* Change text color to red */
+        font-weight: bold;
+        /* Optionally, make the font bold */
+    }
+
+    .subCategory-link.active {
+        color: red;
+        /* Change text color to red */
+        font-weight: bold;
+        /* Optionally, make the font bold */
+    }
 </style>
