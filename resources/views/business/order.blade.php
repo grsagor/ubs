@@ -5,7 +5,7 @@
 @section('content')
 
     <section class="content">
-        
+
         @component('components.widget', ['class' => 'box-primary', 'title' => __('All your adverts')])
             {{-- @slot('tool')
                 <div class="box-tools">
@@ -17,14 +17,13 @@
                 <table class="table table-bordered table-striped" id="sales_order_table">
                     <thead>
                         <tr>
-                            {{-- <th>Action</th> --}}
-                            {{-- <th>Status</th> --}}
-                            {{-- <th>Action required</th> --}}
+                            <th>@lang('messages.action')</th>
                             <th>Sl N</th>
                             <th>Invoice No</th>
                             <th>Product Name</th>
                             <th>Unit Purchase Price</th>
                             <th>Payment Method</th>
+                            <th>Payment Status</th>
                             <th>Purchase Date</th>
                         </tr>
                     </thead>
@@ -76,12 +75,12 @@
                 buttons: [],
                 ajax: '/business/order',
                 columns: [
-                    // {
-                    //     data: 'actions',
-                    //     name: 'actions',
-                    //     orderable: false,
-                    //     searchable: false
-                    // },
+                    {
+                        data: 'action',
+                        name: 'action',
+                        orderable: false,
+                        "searchable": false
+                    },
                     {
                         data: 'id',
                         name: 'id'
@@ -101,6 +100,10 @@
                     {
                         data: 'payment_method',
                         name: 'payment_method'
+                    },
+                    {
+                        data: 'payment_status',
+                        name: 'payment_status'
                     },
                     {
                         data: 'purchase_date',
