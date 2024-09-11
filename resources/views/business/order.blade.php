@@ -1,16 +1,11 @@
-@extends('crm::layouts.app')
-@section('title', 'Property Wanted')
+@extends('layouts.app')
+
+@section('title', __('crm::lang.crm'))
 
 @section('content')
-    <!-- Content Header (Page header) -->
-    <section class="content-header">
-        <h1>My product
-            <small>All your product that you bought</small>
-        </h1>
-    </section>
 
-    <!-- Main content -->
     <section class="content">
+        
         @component('components.widget', ['class' => 'box-primary', 'title' => __('All your adverts')])
             {{-- @slot('tool')
                 <div class="box-tools">
@@ -19,13 +14,15 @@
                 </div>
             @endslot --}}
             <div class="table-responsive">
-                <table class="table table-bordered table-striped" id="room_to_rent_share_table">
+                <table class="table table-bordered table-striped" id="sales_order_table">
                     <thead>
                         <tr>
                             {{-- <th>Action</th> --}}
                             {{-- <th>Status</th> --}}
                             {{-- <th>Action required</th> --}}
-                            <th>Product</th>
+                            <th>Sl N</th>
+                            <th>Invoice No</th>
+                            <th>Product Name</th>
                             <th>Unit Purchase Price</th>
                             <th>Payment Method</th>
                             <th>Purchase Date</th>
@@ -40,99 +37,101 @@
         </div>
 
     </section>
-    <!-- /.content -->
-
 @endsection
+@section('css')
+    <style type="text/css">
+        .fw-100 {
+            font-weight: 100;
+        }
+    </style>
+@stop
 @section('javascript')
+    <script src="{{ asset('modules/crm/js/crm.js?v=' . $asset_v) }}"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $(document).on('click', '#wish_birthday', function() {
+                var url = $(this).data('href');
+                var contact_ids = [];
+                $("input.contat_id").each(function() {
+                    if ($(this).is(":checked")) {
+                        contact_ids.push($(this).val());
+                    }
+                });
+
+                if (_.isEmpty(contact_ids)) {
+                    alert("{{ __('crm::lang.plz_select_user') }}");
+                } else {
+                    location.href = url + '?contact_ids=' + contact_ids;
+                }
+            });
+        });
+    </script>
+    {{-- datatables --}}
     <script>
         $(document).ready(function() {
-            business_locations = $('#room_to_rent_share_table').DataTable({
+            var salesOrderTable = $('#sales_order_table').DataTable({
                 processing: true,
                 serverSide: true,
                 bPaginate: false,
                 buttons: [],
-                ajax: '/contact/products',
+                ajax: '/business/order',
                 columns: [
                     // {
-                    //     data: 'action',
-                    //     name: 'action',
+                    //     data: 'actions',
+                    //     name: 'actions',
                     //     orderable: false,
                     //     searchable: false
                     // },
-                    // {
-                    //     data: 'status',
-                    //     name: 'status',
-                    //     render: function(data, type, row) {
-                    //         if (type === 'display' && data !== null) {
-                    //             var statusClass = data === 0 ? 'bg-red' : data === 1 ? 'bg-green' :
-                    //                 '';
-                    //             return '<span class="cursor-pointer label ' + statusClass +
-                    //                 ' property-wanted-delete-btn" data-id="' +
-                    //                 row.id + '">' + (data === 1 ? 'Published' : 'Private') +
-                    //                 '</span>';
-                    //         }
-                    //         return '';
-                    //     }
-                    // },
-                    // {
-                    //     data: 'information_complete',
-                    //     name: 'information_complete',
-                    //     render: function(data, type, row) {
-                    //         if (data == 1) {
-                    //             return '<span class="label bg-green">Not required</span>';
-                    //         } else {
-                    //             return '<span class="label bg-yellow">Required</span>';
-                    //         }
-                    //     }
-                    // },
+                    {
+                        data: 'id',
+                        name: 'id'
+                    },
+                    {
+                        data: 'invoice_no',
+                        name: 'invoice_no'
+                    },
                     {
                         data: 'name',
                         name: 'name'
                     },
                     {
                         data: 'unit_price',
-                        name: 'unit_price',
-                        class: 'text-center'
+                        name: 'unit_price'
                     },
                     {
                         data: 'payment_method',
-                        name: 'payment_method',
-                        class: 'text-center'
+                        name: 'payment_method'
                     },
                     {
                         data: 'purchase_date',
-                        name: 'purchase_date',
-                        class: 'text-center'
+                        name: 'purchase_date'
                     },
+
                 ]
             });
-        });
 
-
-        $(document).ready(function() {
-            // Deleteing Property Started
-            $(document).on('click', '.property-wanted-delete-btn', function() {
-                var id = $(this).data('id');
+            // Handling Delete Action
+            $(document).on('click', '.delete-btn', function() {
+                var id = $(this).data('id'); // Getting the ID from the data attribute
                 $.ajax({
-                    url: "/contact/show-property-delete-modal",
+                    url: "/contact/show-property-delete-modal", // Modify with your delete URL
                     type: "get",
                     data: {
                         id: id
                     },
                     dataType: "html",
                     success: function(html) {
-                        // toastr.success(JSON.stringify('Modal Open'));
                         $('.property_wanted_delete_modal').empty();
                         $('.property_wanted_delete_modal').html(html);
                         $('.property_wanted_delete_modal').modal('show');
                     }
-                })
-            })
+                });
+            });
 
             $(document).on('click', '.property_delete_confirm_btn', function() {
-                var id = $(this).data('id');
+                var id = $(this).data('id'); // Getting the ID from the data attribute
                 $.ajax({
-                    url: "/contact/confirm-property-delete",
+                    url: "/contact/confirm-property-delete", // Modify with your delete confirm URL
                     type: "get",
                     data: {
                         id: id
@@ -140,15 +139,15 @@
                     dataType: "json",
                     success: function(response) {
                         toastr.options = {
-                            "sound": false, // Disable sound globally
+                            "sound": false // Disable sound globally
                             // Other options...
                         };
                         toastr.success(response.message);
-                        $('#room_to_rent_share_table').DataTable().ajax.reload();
+                        salesOrderTable.ajax.reload(); // Reload DataTables after deletion
                         $('.property_wanted_delete_modal').modal('hide');
                     }
-                })
-            })
-        })
+                });
+            });
+        });
     </script>
 @endsection

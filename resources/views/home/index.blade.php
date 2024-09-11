@@ -205,8 +205,7 @@
                 @endif
             @endif
             <!-- end is_admin check -->
-            @if (auth()->user()->can('sell.view') ||
-                    auth()->user()->can('direct_sell.view'))
+            @if (auth()->user()->can('sell.view') || auth()->user()->can('direct_sell.view'))
                 @if (!empty($all_locations))
                     <!-- sales chart start -->
                     <div class="row">
@@ -240,8 +239,7 @@
             @endif
             <!-- products less than alert quntity -->
             <div class="row">
-                @if (auth()->user()->can('sell.view') ||
-                        auth()->user()->can('direct_sell.view'))
+                @if (auth()->user()->can('sell.view') || auth()->user()->can('direct_sell.view'))
                     <div class="col-sm-6">
                         @component('components.widget', ['class' => 'box-warning'])
                             @slot('icon')
@@ -316,8 +314,7 @@
             </div>
             @can('stock_report.view')
                 <div class="row">
-                    <div class="@if (session('business.enable_product_expiry') != 1 &&
-                            auth()->user()->can('stock_report.view')) col-sm-12 @else col-sm-6 @endif">
+                    <div class="@if (session('business.enable_product_expiry') != 1 && auth()->user()->can('stock_report.view')) col-sm-12 @else col-sm-6 @endif">
                         @component('components.widget', ['class' => 'box-warning'])
                             @slot('icon')
                                 <i class="fa fa-exclamation-triangle text-yellow" aria-hidden="true"></i>
@@ -377,8 +374,7 @@
                     @endif
                 </div>
             @endcan
-            @if (auth()->user()->can('so.view_all') ||
-                    auth()->user()->can('so.view_own'))
+            @if (auth()->user()->can('so.view_all') || auth()->user()->can('so.view_own'))
                 <div class="row" @if (!auth()->user()->can('dashboard.data')) style="margin-top: 190px !important;" @endif>
                     <div class="col-sm-12">
                         @component('components.widget', ['class' => 'box-warning'])
@@ -426,8 +422,7 @@
 
             @if (
                 !empty($common_settings['enable_purchase_requisition']) &&
-                    (auth()->user()->can('purchase_requisition.view_all') ||
-                        auth()->user()->can('purchase_requisition.view_own')))
+                    (auth()->user()->can('purchase_requisition.view_all') || auth()->user()->can('purchase_requisition.view_own')))
                 <div class="row" @if (!auth()->user()->can('dashboard.data')) style="margin-top: 190px !important;" @endif>
                     <div class="col-sm-12">
                         @component('components.widget', ['class' => 'box-warning'])
@@ -473,8 +468,7 @@
 
             @if (
                 !empty($common_settings['enable_purchase_order']) &&
-                    (auth()->user()->can('purchase_order.view_all') ||
-                        auth()->user()->can('purchase_order.view_own')))
+                    (auth()->user()->can('purchase_order.view_all') || auth()->user()->can('purchase_order.view_own')))
                 <div class="row" @if (!auth()->user()->can('dashboard.data')) style="margin-top: 190px !important;" @endif>
                     <div class="col-sm-12">
                         @component('components.widget', ['class' => 'box-warning'])

@@ -2,6 +2,7 @@
 include 'customer.php';
 
 use App\Http\Controllers\Backend\WithdrawController;
+use App\Http\Controllers\BusinessOrderController;
 use App\Http\Controllers\Install;
 use App\Http\Controllers\Restaurant;
 use App\Http\Controllers\WithdrawRequestController;
@@ -125,6 +126,7 @@ Route::get('/route-optimize-clear', function () {
     return '<h2>Events, views, cache, route, config, compiled clear</h2>';
 });
 
+
 Route::get('send-mail', function () {
 
     $details = [
@@ -246,6 +248,7 @@ Route::get('/upcolor', 'Front\CartController@upcolor');
 // Route::get('/carts/coupon', 'Front\CouponController@coupon');
 // CART SECTION ENDS
 
+
 Route::middleware(['setData'])->group(function () {
 
     // Frontend Routes Start //
@@ -257,6 +260,7 @@ Route::middleware(['setData'])->group(function () {
     Route::get('/shop/{id}', [ShopController::class, 'ShopService'])->name('shop.service');
 
     Route::get('/shop/business/service/{id}', [ShopController::class, 'BusinessShopService'])->name('business.shop.service');
+    
 
 
     //Product
@@ -410,6 +414,7 @@ Route::middleware(['checkAdmin', 'SetSessionData'])->group(function () {
     /* Route created by GR SAGOR to here */
 
     Route::get('/home', [HomeController::class, 'index'])->name('home');
+    Route::get('/business/order', [BusinessOrderController::class,'index'])->name('index');
     Route::get('/home/get-totals', [HomeController::class, 'getTotals']);
     Route::get('/home/product-stock-alert', [HomeController::class, 'getProductStockAlert']);
     Route::get('/home/purchase-payment-dues', [HomeController::class, 'getPurchasePaymentDues']);

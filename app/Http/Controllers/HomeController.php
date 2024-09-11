@@ -20,6 +20,7 @@ use Datatables;
 use DB;
 use Illuminate\Http\Request;
 use Illuminate\Notifications\DatabaseNotification;
+use App\TransactionSellLine;
 
 class HomeController extends Controller
 {
@@ -206,6 +207,7 @@ class HomeController extends Controller
         }
 
         $common_settings = !empty(session('business.common_settings')) ? session('business.common_settings') : [];
+
 
         return view('home.index', compact('business_id', 'sells_chart_1', 'sells_chart_2', 'widgets', 'all_locations', 'common_settings', 'is_admin'));
     }
