@@ -4,14 +4,14 @@
 @section('content')
     <!-- Content Header (Page header) -->
     <section class="content-header">
-        <h1>My product
+        <h1>My Orders
             <small>All your product that you bought</small>
         </h1>
     </section>
 
     <!-- Main content -->
     <section class="content">
-        @component('components.widget', ['class' => 'box-primary', 'title' => __('All your adverts')])
+        @component('components.widget', ['class' => 'box-primary', 'title' => __('All Your Orders')])
             {{-- @slot('tool')
                 <div class="box-tools">
                     <a href="{{ url('contact/property-wanted-create') }}" class="btn btn-block btn-primary">
@@ -25,6 +25,9 @@
                             {{-- <th>Action</th> --}}
                             {{-- <th>Status</th> --}}
                             {{-- <th>Action required</th> --}}
+                            <th>@lang('messages.action')</th>
+                            <th>Sl N</th>
+                            <th>Invoice No</th>
                             <th>Product</th>
                             <th>Unit Purchase Price</th>
                             <th>Payment Method</th>
@@ -85,6 +88,20 @@
                     //         }
                     //     }
                     // },
+                    {
+                        data: 'action',
+                        name: 'action',
+                        orderable: false,
+                        "searchable": false
+                    },
+                    {
+                        data: 'id',
+                        name: 'id'
+                    },
+                    {
+                        data: 'invoice_no',
+                        name: 'invoice_no'
+                    },
                     {
                         data: 'name',
                         name: 'name'

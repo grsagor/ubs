@@ -6,7 +6,7 @@
 
     <section class="content">
 
-        @component('components.widget', ['class' => 'box-primary', 'title' => __('All your customer ordered products')])
+        @component('components.widget', ['class' => 'box-primary', 'title' => __('All your orders')])
             {{-- @slot('tool')
                 <div class="box-tools">
                     <a href="{{ url('contact/property-wanted-create') }}" class="btn btn-block btn-primary">
@@ -74,8 +74,7 @@
                 bPaginate: false,
                 buttons: [],
                 ajax: '/business/order',
-                columns: [
-                    {
+                columns: [{
                         data: 'action',
                         name: 'action',
                         orderable: false,
