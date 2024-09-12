@@ -6,16 +6,17 @@
         </div>
 
         <div class="widget woocommerce widget_product_categories widget-toggle categories">
-            <h2 class="widget-title">Category </h2>
+            <h2 class="widget-title">Category</h2>
             <ul class="product-categories">
                 @foreach ($categories as $category)
                     <li class="cat-item cat-parent">
                         <a href="#"
                             @if (!empty($category['children']) && request()->category == $category['id']) class="toggle-category expanded"
                         @elseif (!empty($category['children']))
-                            class="toggle-category" @endif>
-                            <span
-                                class="toggle-icon {{ Route::currentRouteName() === 'news' && request()->category == $category['id'] ? 'text-danger' : '' }}">
+                            class="toggle-category" @endif
+                            data-category-id="{{ $category['id'] }}"
+                            data-children="{{ !empty($category['children']) ? json_encode($category['children']) : '' }}">
+                            <span class="toggle-icon">
                                 &nbsp;{{ $category['name'] }}
                                 @if (!empty($category['children']))
                                     <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
@@ -28,13 +29,14 @@
                             </span>
                         </a>
 
+
                         <!-- Subcategories -->
                         @if (!empty($category['children']))
                             <ul class="children">
                                 @foreach ($category['children'] as $subCategory)
                                     <li class="cat-item cat-parent">
                                         <a href="#" class="subCategory-link"
-                                            data-subCategory-id="{{ $subCategory['id'] }}">
+                                            data-subcategory-id="{{ $subCategory['id'] }}">
                                             {{ $subCategory['name'] }}
                                         </a>
                                     </li>
@@ -45,6 +47,7 @@
                 @endforeach
             </ul>
         </div>
+
 
         <div class="widget woocommerce widget_product_categories widget-toggle categories">
             <h2 class="widget-title">Region</h2>

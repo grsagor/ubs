@@ -22,6 +22,7 @@ class NewsFrontendController extends Controller
             $regionId = $request->query('region');
             $languageId = $request->query('language'); // Add language filter if needed
             $specialId = $request->query('special'); // Include special filter
+            $categoryId = $request->query('category'); // Include special filter
             $subCategoryId = $request->query('subCategory'); // Include special filter
 
             // Log the selected subcategory ID
@@ -69,6 +70,11 @@ class NewsFrontendController extends Controller
             // Filter by subcategory if provided
             if ($subCategoryId) {
                 $query->where('subcategory_id', $subCategoryId);
+            }
+
+            // Filter by category if provided
+            if ($categoryId) {
+                $query->where('category_id', $categoryId);
             }
 
             // Execute the query and get the results
