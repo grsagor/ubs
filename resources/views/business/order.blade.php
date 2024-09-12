@@ -6,7 +6,7 @@
 
     <section class="content">
 
-        @component('components.widget', ['class' => 'box-primary', 'title' => __('All your adverts')])
+        @component('components.widget', ['class' => 'box-primary', 'title' => __('All your customer ordered products')])
             {{-- @slot('tool')
                 <div class="box-tools">
                     <a href="{{ url('contact/property-wanted-create') }}" class="btn btn-block btn-primary">
