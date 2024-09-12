@@ -133,7 +133,7 @@
         /* Takes up remaining space */
         height: 100vh;
         /* Full viewport height */
-        padding: 1rem;
+        /* padding: 1rem; */
         /* Adjust padding if needed */
     }
 
@@ -143,7 +143,7 @@
         /* Enable vertical scrolling */
         height: 100vh;
         /* Full viewport height */
-        padding: 1rem;
+        /* padding: 1rem; */
         /* Adjust padding if needed */
         scrollbar-width: none;
         /* For Firefox */
@@ -174,5 +174,33 @@
     /* Handle on hover */
     ::-webkit-scrollbar-thumb:hover {
         background: #555;
+    }
+
+    .region-link.active {
+        color: #dc3545;
+        /* Change text color to red */
+        font-weight: bold;
+        /* Optionally, make the font bold */
+    }
+
+    .language-link.active {
+        color: red;
+        /* Change text color to red */
+        font-weight: bold;
+        /* Optionally, make the font bold */
+    }
+
+    .special-link.active {
+        color: red;
+        /* Change text color to red */
+        font-weight: bold;
+        /* Optionally, make the font bold */
+    }
+
+    .subCategory-link.active {
+        color: red;
+        /* Change text color to red */
+        font-weight: bold;
+        /* Optionally, make the font bold */
     }
 </style>

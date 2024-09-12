@@ -3,54 +3,110 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\News;
-use App\Media;
 use App\Footer;
 use App\Region;
 use App\Special;
 use App\Category;
 use App\LanguageSpeech;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
 
 class NewsFrontendController extends Controller
 {
-    public function searchFunction() {}
-    public function index()
+    public function index(Request $request)
     {
-        $data['news'] = News::query()
-            ->with(['user', 'userProfilePicture', 'businessLocation'])
-            ->active()
-            ->latest()
-            ->get();
+        try {
+            // Retrieve query parameters
+            $search = $request->query('search');
+            $searchDate = $request->query('date');
+            $regionId = $request->query('region');
+            $languageId = $request->query('language'); // Add language filter if needed
+            $specialId = $request->query('special'); // Include special filter
+            $categoryId = $request->query('category'); // Include special filter
+            $subCategoryId = $request->query('subCategory'); // Include special filter
 
-        $categories = Category::query()
-            ->where('category_type', 'news')
-            ->active()
-            ->orderByNameAsc()
-            ->get();
+            // Log the selected subcategory ID
+            \Log::info('Selected subCategoryId:', ['subCategoryId' => $subCategoryId]);
 
-        $groupedDataSetsCategories = $categories->groupBy('parent_id');
+            // Build the query for news
+            $query = News::query()
+                ->with(['user', 'userProfilePicture', 'businessLocation'])
+                ->active();
 
-        $data['categories'] = $this->buildHierarchy($groupedDataSetsCategories, 0);
+            // Filter by date if provided
+            if ($searchDate) {
+                $query->whereDate('created_at', $searchDate);
+            }
 
-        $data['regions'] = Region::query()
-            ->active()
-            ->orderByNameAsc()
-            ->get();
+            // Filter by search term if provided
+            if ($search) {
+                $query->where(function ($subQuery) use ($search) {
+                    $subQuery->where('title', 'like', '%' . $search . '%')
+                        ->orWhere('define_this_item', 'like', '%' . $search . '%');
+                });
+            }
 
-        $data['languages'] = LanguageSpeech::query()
-            ->active()
-            ->orderByNameAsc()
-            ->get();
+            // Filter by region if provided
+            if ($regionId) {
+                $query->whereHas('region', function ($subQuery) use ($regionId) {
+                    $subQuery->where('id', $regionId);
+                });
+            }
 
-        $data['specials'] = Special::query()
-            ->where('type', 'news')
-            ->active()
-            ->orderByNameAsc()
-            ->get();
+            // Filter by language if provided
+            if ($languageId) {
+                $query->whereHas('language', function ($subQuery) use ($languageId) {
+                    $subQuery->where('id', $languageId);
+                });
+            }
 
-        return view('frontend.news.index', $data);
+            // Filter by special if provided
+            if ($specialId) {
+                $query->whereHas('special', function ($subQuery) use ($specialId) {
+                    $subQuery->where('id', $specialId);
+                });
+            }
+
+            // Filter by subcategory if provided
+            if ($subCategoryId) {
+                $query->where('subcategory_id', $subCategoryId);
+            }
+
+            // Filter by category if provided
+            if ($categoryId) {
+                $query->where('category_id', $categoryId);
+            }
+
+            // Execute the query and get the results
+            $data['news'] = $query->latest()->get();
+
+            // Fetch other necessary data for the view
+            $categories = Category::query()
+                ->where('category_type', 'news')
+                ->active()
+                ->orderByNameAsc()
+                ->get();
+
+            $groupedDataSetsCategories = $categories->groupBy('parent_id');
+            $data['categories'] = $this->buildHierarchy($groupedDataSetsCategories, 0);
+            $data['regions'] = Region::query()->active()->orderByNameAsc()->get();
+            $data['languages'] = LanguageSpeech::query()->active()->orderByNameAsc()->get();
+            $data['specials'] = Special::query()->where('type', 'news')->active()->orderByNameAsc()->get();
+
+            // Return view or AJAX response
+            if ($request->ajax()) {
+                return view('frontend.news.partial.newsfeed', $data)->render();
+            }
+
+            return view('frontend.news.index', $data);
+        } catch (\Exception $e) {
+            // Log the error and return a JSON error response
+            \Log::error('Error in index method: ' . $e->getMessage());
+            return response()->json(['error' => 'An error occurred'], 500);
+        }
     }
+
+
 
     public function show($slug)
     {
