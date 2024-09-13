@@ -14,7 +14,7 @@
 </div>
 
 {{-- Right side Advertise widget --}}
-<div class="col-lg-3 col-md-3 col-sm-12 right-side" style="padding-left: 0px !important">
+<div class="col-lg-3 col-md-3 col-sm-12 right-side marketing_mobile_view" style="padding-left: 0px !important">
     <div class="card">
         <img src="https://credcv.com/wp-content/uploads/2021/06/benefits-of-having-an-own-job-portal_033e017b0_3810.jpeg"
             class="card-img-top" alt="Card image">

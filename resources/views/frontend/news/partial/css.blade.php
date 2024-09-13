@@ -117,36 +117,22 @@
     /* Left Sidebar */
     .left-side {
         overflow-y: auto;
-        /* Enable vertical scrolling */
         height: 100vh;
-        /* Full viewport height */
-        /* Adjust padding if needed */
     }
 
     /* Main Content Area */
     .laptop_news_card {
         overflow-y: auto;
         scrollbar-width: none;
-
-        /* Enable vertical scrolling */
         flex: 1;
-        /* Takes up remaining space */
         height: 100vh;
-        /* Full viewport height */
-        /* padding: 1rem; */
-        /* Adjust padding if needed */
     }
 
     /* Right Sidebar */
     .right-side {
         overflow-y: auto;
-        /* Enable vertical scrolling */
         height: 100vh;
-        /* Full viewport height */
-        /* padding: 1rem; */
-        /* Adjust padding if needed */
         scrollbar-width: none;
-        /* For Firefox */
 
     }
 
@@ -202,5 +188,32 @@
         /* Change text color to red */
         font-weight: bold;
         /* Optionally, make the font bold */
+    }
+
+    @media only screen and (max-width: 768px) {
+        .marketing_mobile_view {
+            display: none;
+        }
+
+        .left-side {
+            overflow-y: unset;
+            height: unset;
+        }
+
+        .laptop_news_card {
+            overflow-y: unset;
+            scrollbar-width: unset;
+            flex: unset;
+            height: unset;
+        }
+
+        .search-bar,
+        .newsfeed-container {
+            padding: unset;
+        }
+
+        .search-field {
+            margin-top: 15px;
+        }
     }
 </style>
