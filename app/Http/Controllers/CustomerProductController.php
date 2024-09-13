@@ -163,12 +163,31 @@ class CustomerProductController extends Controller
                 ->addColumn('payment_method', function ($transaction_sell_line) {
                     return $transaction_sell_line->transaction->payment_lines[0]->method;
                 })
+                ->addColumn('payment_status', function ($transaction_sell_line) {
+                    return $transaction_sell_line->transaction->payment_status;
+                })
                 ->addColumn('purchase_date', function ($transaction_sell_line) {
                     return Carbon::parse($transaction_sell_line->created_at)->format('d F, Y');
                 })
                 ->rawColumns([])
                 ->toJson();
         }
-        return view('crm::customer-product.list');
+        $business_locations = [
+            'dhaka'      => 'Dhaka',
+            'chittagong' => 'Chittagong',
+            'sylhet'     => 'Sylhet',
+            'barisal'    => 'Barisal',
+            'khulna'     => 'Khulna',
+            'rajshahi'   => 'Rajshahi',
+            'rangpur'    => 'Rangpur',
+            'mymensingh' => 'Mymensingh',
+        ];
+        $customers          = [
+            'customer' => 'Customer',
+            'supplier' => 'Supplier',
+            'both'     => 'Both',
+        ];
+        return view('crm::customer-product.list')
+            ->with(compact('business_locations', 'customers'));
     }
 }

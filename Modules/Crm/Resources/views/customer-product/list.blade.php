@@ -1,5 +1,5 @@
 @extends('crm::layouts.app')
-@section('title', 'Property Wanted')
+@section('title', 'My Orders')
 
 @section('content')
     <!-- Content Header (Page header) -->
@@ -11,6 +11,24 @@
 
     <!-- Main content -->
     <section class="content">
+
+        @component('components.filters', ['title' => __('report.filters')])
+            @include('sell.partials.sell_list_filters')
+            @if (!empty($sources))
+                <div class="col-md-3">
+                    <div class="form-group">
+                        {!! Form::label('sell_list_filter_source', __('lang_v1.sources') . ':') !!}
+
+                        {!! Form::select('sell_list_filter_source', $sources, null, [
+                            'class' => 'form-control select2',
+                            'style' => 'width:100%',
+                            'placeholder' => __('lang_v1.all'),
+                        ]) !!}
+                    </div>
+                </div>
+            @endif
+        @endcomponent
+
         @component('components.widget', ['class' => 'box-primary', 'title' => __('All Your Orders')])
             {{-- @slot('tool')
                 <div class="box-tools">
@@ -31,6 +49,7 @@
                             <th>Product</th>
                             <th>Unit Purchase Price</th>
                             <th>Payment Method</th>
+                            <th>Payment Status</th>
                             <th>Purchase Date</th>
                         </tr>
                     </thead>
@@ -115,6 +134,10 @@
                         data: 'payment_method',
                         name: 'payment_method',
                         class: 'text-center'
+                    },
+                    {
+                        data: 'payment_status',
+                        name: 'payment_status',
                     },
                     {
                         data: 'purchase_date',
