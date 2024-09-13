@@ -215,5 +215,31 @@
         .search-field {
             margin-top: 15px;
         }
+
+        .widget_product_categories {
+            border: unset;
+            padding: 0px 10px;
+        }
+
+        #sidebar .widget {
+            margin-bottom: 20px;
+        }
+
+        #sidebar {
+            overflow-y: scroll;
+            max-height: calc(65vh - 100px);
+        }
+
+
+        .p_m_relative {
+            position: relative;
+        }
+
+        .p_m_absolute {
+            position: absolute;
+            z-index: 10;
+            background: white;
+            width: 95%;
+        }
     }
 </style>
