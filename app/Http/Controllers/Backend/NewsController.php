@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use App\Services\SlugService;
 use App\Http\Controllers\Controller;
 use App\LanguageSpeech;
+use App\OldNews;
 use App\Special;
 use Illuminate\Support\Facades\Auth;
 
@@ -178,6 +179,29 @@ class NewsController extends Controller
             // Find the News by ID
             $news = News::find($id);
 
+            if ($news) {
+                OldNews::create([
+                    'news_id' => $news->id,
+                    'slug' => $news->slug,
+                    'title' => $news->title,
+                    'business_id' => $news->business_id,
+                    'business_location_id' => $news->business_location_id,
+                    'category_id' => $news->category_id,
+                    'subcategory_id' => $news->subcategory_id,
+                    'region_id' => $news->region_id,
+                    'language_id' => $news->language_id,
+                    'special_id' => $news->special_id,
+                    'description' => $news->description,
+                    'define_this_item' => $news->define_this_item,
+                    'source_name' => $news->source_name,
+                    'source_url' => $news->source_url,
+                    'video_url' => $news->video_url,
+                    'thumbnail' => $news->thumbnail,
+                    'images' => $news->images,
+                    'status' => $news->status,
+                ]);
+            }
+
             // Initialize an empty array to store requested data
             $requestedData = $request->all();
 
@@ -187,13 +211,14 @@ class NewsController extends Controller
                 $thumbnail = $request->file('thumbnail');
                 $thumbnailName = rand(123456, 999999) . '.' . $thumbnail->getClientOriginalExtension();
                 $thumbnail->move($thumbnailPath, $thumbnailName);
+
                 $requestedData['thumbnail'] = 'uploads/news/thumbnail/' . $thumbnailName;
 
                 // Delete the existing thumbnail if it exists
-                $existingThumbnailPath = public_path($news->thumbnail);
-                if (file_exists($existingThumbnailPath)) {
-                    unlink($existingThumbnailPath);
-                }
+                // $existingThumbnailPath = public_path($news->thumbnail);
+                // if (file_exists($existingThumbnailPath)) {
+                //     unlink($existingThumbnailPath);
+                // }
             }
             // Get existing images from the database
             $existingImages = json_decode($news->images, true) ?? [];
@@ -202,21 +227,20 @@ class NewsController extends Controller
             if ($request->has('removed_images')) {
                 $removedImages = $request->input('removed_images');
 
-                // Debugging: Log removed images
-
-                foreach ($removedImages as $removedImage) {
-                    // Remove the image file from the local filesystem
-                    $removedImagePath = public_path($removedImage);
-                    if (file_exists($removedImagePath)) {
-                        unlink($removedImagePath);
-                    }
-                }
+                // foreach ($removedImages as $removedImage) {
+                //     // Remove the image file from the local filesystem
+                //     $removedImagePath = public_path($removedImage);
+                //     if (file_exists($removedImagePath)) {
+                //         unlink($removedImagePath);
+                //     }
+                // }
 
                 // Remove deleted images from the existing images array
                 $existingImages = array_filter($existingImages, function ($image) use ($removedImages) {
                     return !in_array($image, $removedImages);
                 });
             }
+
 
             // Handle new image uploads
             if ($request->hasFile('images')) {
