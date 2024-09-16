@@ -26,9 +26,11 @@ class NewsController extends Controller
 
     public function index(Request $request)
     {
+        $business_id = request()->session()->get('user.business_id');
         // Get all news items with their related data
         $news = News::query()
             ->search($request)
+            ->where('business_id',  $business_id)
             ->with('category', 'region', 'language')
             ->latest()
             ->get();
@@ -134,7 +136,13 @@ class NewsController extends Controller
 
     public function edit($id)
     {
-        $data['news']           = News::find($id);
+        $business_id = request()->session()->get('user.business_id');
+
+        $data['news']       = News::where('business_id', $business_id)->find($id);
+
+        if (! $data['news']) {
+            abort(403, 'Unauthorized action.');
+        }
 
         $data['categories'] = Category::query()
             ->active()

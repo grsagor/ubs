@@ -106,8 +106,6 @@ class NewsFrontendController extends Controller
         }
     }
 
-
-
     public function show($slug)
     {
         $data['news'] = News::query()

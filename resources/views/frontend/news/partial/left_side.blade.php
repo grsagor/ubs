@@ -2,8 +2,16 @@
     <div id="sidebar" class="widget-title-bordered-full">
 
         <div class="widget woocommerce widget_product_categories widget-toggle categories">
-            <input type="date" name="date" id="dateSearch" style="width: 100%; box-sizing: border-box;">
+            <div
+                style="display: flex; align-items: center; border: 1px solid #ccc; border-radius: 5px; overflow: hidden;">
+                <input type="date" name="date" id="dateSearch"
+                    style="width: 100%; box-sizing: border-box; text-align: center; border: none; padding: 10px;">
+                <button type="button" id="clearDate"
+                    style="border: none; background-color: #f0f0f0; padding: 10px 15px; cursor: pointer;">Clear</button>
+            </div>
         </div>
+
+
 
         <div class="widget woocommerce widget_product_categories widget-toggle categories">
             <h2 class="widget-title">Category</h2>
