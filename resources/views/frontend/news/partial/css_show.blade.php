@@ -1,4 +1,18 @@
 <style>
+    h1,
+    h2,
+    h3,
+    h4 {
+        font-size: 18px !important;
+        font-weight: bold;
+        display: inline;
+    }
+
+    .description ul li {
+        list-style: disc inside;
+    }
+
+
     .color-black {
         color: black !important;
     }
@@ -38,7 +52,7 @@
 
     .sectitle {
         color: #B32D7D;
-        font-size: 16px !important;
+        font-size: 17px !important;
         font-weight: 600;
         margin-bottom: 10px;
     }
@@ -84,7 +98,7 @@
         font-size: 16px;
     }
 
-    .description ul li {
+    .details_page ul li {
         list-style: disc inside;
 
     }

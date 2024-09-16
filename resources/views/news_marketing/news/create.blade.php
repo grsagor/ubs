@@ -1,4 +1,13 @@
 @extends('layouts.app')
+
+@section('css')
+    <style>
+        /* .card-live__byline {
+                display: none;
+            } */
+    </style>
+@endsection
+
 @section('title', 'News')
 @section('content')
     <section class="content-header">
