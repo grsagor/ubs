@@ -56,6 +56,17 @@
 
     /* Body styling */
 
+    /* Hide the native calendar icon */
+    input[type="date"]::-webkit-calendar-picker-indicator {
+        display: none;
+    }
+
+    input[type="date"] {
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+    }
+
 
     /* Ensure the link takes up the full width */
     .card-link {

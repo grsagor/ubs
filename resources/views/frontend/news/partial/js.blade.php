@@ -36,8 +36,8 @@
                 data.category = selectedCategoryId;
             }
 
-            console.log('category: ' + data.category); // For debugging
-            console.log('subcategory: ' + data.subCategory); // For debugging
+            // console.log('category: ' + data.category); // For debugging
+            // console.log('subcategory: ' + data.subCategory); // For debugging
 
             $.ajax({
                 url: '/news',
@@ -131,13 +131,13 @@
                 var children = this.dataset.children ? JSON.parse(this.dataset.children) : null;
 
                 if (children && children.length > 0) {
-                    console.log('Subcategories exist: ', children);
+                    // console.log('Subcategories exist: ', children);
                     // Handle subcategory logic (if needed)
                 } else {
-                    console.log('No subcategories, searching by category ID: ',
-                        selectedCategoryId);
+                    // console.log('No subcategories, searching by category ID: ',
+                    //     selectedCategoryId);
                     selectedSubCategoryId =
-                    ''; // Reset subcategory if only category is selected
+                        ''; // Reset subcategory if only category is selected
                     performSearch();
                 }
             });
@@ -152,11 +152,13 @@
                 performSearch(); // Search by subcategory
             });
         });
+
+        // Clear button functionality
+        document.getElementById('clearDate').addEventListener('click', function() {
+            document.getElementById('dateSearch').value = '';
+            performSearch();
+        });
     });
-
-
-
-
 
     document.getElementById('dateSearch').addEventListener('click', function() {
         var today = new Date().toISOString().split('T')[0]; // Get current date in YYYY-MM-DD format
