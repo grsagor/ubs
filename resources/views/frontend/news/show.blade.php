@@ -15,7 +15,6 @@
                     <div class="card-body">
 
                         <div class="row header">
-
                             <div class="col-md-12">
                                 <div class="job-title">{{ $news->title }}</div>
                             </div>
@@ -53,37 +52,6 @@
                             </div>
                         </div>
 
-
-                        {{-- @if ($news->region || $news->language || $news->special)
-                            <div class="summary-section row mt-3">
-                                <div class="col-sm-12 ">
-                                    <div class="summary-card">
-                                        <h3 class="sectitle">Information</h3>
-                                        <div class="row">
-
-                                            @if ($news->region->name)
-                                                <div class="col-md-4">
-                                                    Region: <span class="fw-bold">{{ $news->region->name ?? '' }}</span>
-                                                </div>
-                                            @endif
-
-                                            @if ($news->language->name)
-                                                <div class="col-md-4">
-                                                    Language: <span class="fw-bold">{{ $news->language->name ?? '' }}</span>
-                                                </div>
-                                            @endif
-
-                                            @if (!is_null($news->special) && $news->special->name)
-                                                <div class="col-md-4">
-                                                    Special: <span class="fw-bold">{{ $news->special->name }}</span>
-                                                </div>
-                                            @endif
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        @endif --}}
 
                         @if ($news->thumbnail || $news->images)
                             <div class="requirements-section row mt-3">
@@ -156,7 +124,7 @@
                             <div class="col-sm-12 ">
                                 <div class="requirements-card">
                                     @if ($news->description)
-                                        <h3 class="sectitle">Details</h3>
+                                        <p class="sectitle">Details</p>
                                         <div class="col-md-12 text-justify details_page">
                                             {!! $news->description ?? '' !!}
                                         </div>
@@ -172,7 +140,7 @@
                                     class="text-decoration-none w-100">
                                     <div class="requirements-card d-flex flex-column align-items-center text-center h-100">
                                         <div class="card-text company-name color-black">
-                                            <h3 class="sectitle">News Advertiser</h3>
+                                            <p class="sectitle">News Advertiser</p>
                                             {{ $news->businessLocation->name }}
                                         </div>
                                         <img class="mt-3" src="{{ asset($news->businessLocation->logo) }}"
@@ -186,10 +154,10 @@
                                 <a href="{{ $news->source_url }}" class="text-decoration-none w-100">
                                     <div class="requirements-card d-flex flex-column align-items-center text-center h-100">
                                         <div class="card-text company-name color-black">
-                                            <h3 class="sectitle">News source</h3>
+                                            <p class="sectitle">News source</p>
                                             {{ $news->source_name }}
                                         </div>
-                                        <img class="mt-3" {{-- src='https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg' --}}
+                                        <img class="mt-3"
                                             src='https://i0.wp.com/1.bp.blogspot.com/-OEDEZCgyo10/Wcz9mUDr3KI/AAAAAAAAhYE/LaqmMRgmItstf_hcRZHwPhXxI5tQi-VbQCLcBGAs/s1600/Go.jpg?ssl=1'
                                             alt="Business location logo" style="max-width: 100px; max-height: 100px;">
                                     </div>
@@ -197,16 +165,13 @@
                             </div>
                         </div>
 
-
-
-
                         <div class="report-section row mt-3">
                             <div class="col-sm-12">
                                 <div class="report-card">
-                                    <h3 class="reptitle">
+                                    <p class="reptitle">
                                         Report this news
                                         <button class="report-button"><i class="fas fa-flag"></i> Report</button>
-                                    </h3>
+                                    </p>
                                     <div class="col-md-12 text-justify">
                                         <p>Your satisfaction is our priority. If you notice any news discrepancies or
                                             policy violations, please inform

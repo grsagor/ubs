@@ -68,6 +68,7 @@
     }
 
 
+
     /* Ensure the link takes up the full width */
     .card-link {
         display: block;
@@ -100,6 +101,8 @@
 
     /* Post image styling */
     .post-image {
+        height: 350px;
+        /* Set a fixed height */
         width: 100%;
         border-radius: 8px;
         object-fit: cover;
