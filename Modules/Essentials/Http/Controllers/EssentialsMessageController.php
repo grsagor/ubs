@@ -45,8 +45,9 @@ class EssentialsMessageController extends Controller
         }
 
         $query = EssentialsMessage::where('business_id', $business_id)
-                        ->with(['sender'])
-                        ->orderBy('created_at', 'ASC');
+            ->whereHas('sender')  // Ensures only messages with a valid sender are included
+            ->with(['sender'])
+            ->orderBy('created_at', 'ASC');
 
         $permitted_locations = auth()->user()->permitted_locations();
         if ($permitted_locations != 'all') {
@@ -60,7 +61,7 @@ class EssentialsMessageController extends Controller
         $business_locations = BusinessLocation::forDropdown($business_id);
 
         return view('essentials::messages.index')
-                ->with(compact('messages', 'business_locations'));
+            ->with(compact('messages', 'business_locations'));
     }
 
     /**
@@ -97,9 +98,9 @@ class EssentialsMessageController extends Controller
                 if (! empty($input['message'])) {
                     //Get last message sent to the same users
                     $last_message = EssentialsMessage::where('location_id', $input['location_id'])
-                                                    ->orWhereNull('location_id')
-                                                    ->orderBy('created_at', 'desc')
-                                                    ->first();
+                        ->orWhereNull('location_id')
+                        ->orderBy('created_at', 'desc')
+                        ->first();
 
                     $message = EssentialsMessage::create($input);
 
@@ -110,11 +111,11 @@ class EssentialsMessageController extends Controller
                     $output['html'] = view('essentials::messages.message_div', compact('message'))->render();
                 }
             } catch (\Exception $e) {
-                \Log::emergency('File:'.$e->getFile().'Line:'.$e->getLine().'Message:'.$e->getMessage());
+                \Log::emergency('File:' . $e->getFile() . 'Line:' . $e->getLine() . 'Message:' . $e->getMessage());
 
                 $output = [
                     'success' => false,
-                    'msg' => 'File:'.$e->getFile().'Line:'.$e->getLine().'Message:'.$e->getMessage(),
+                    'msg' => 'File:' . $e->getFile() . 'Line:' . $e->getLine() . 'Message:' . $e->getMessage(),
                 ];
             }
 
@@ -143,17 +144,19 @@ class EssentialsMessageController extends Controller
                 $user_id = request()->user()->id;
 
                 EssentialsMessage::where('business_id', $business_id)
-                            ->where('user_id', $user_id)
-                            ->where('id', $id)
-                            ->delete();
+                    ->where('user_id', $user_id)
+                    ->where('id', $id)
+                    ->delete();
 
-                $output = ['success' => true,
+                $output = [
+                    'success' => true,
                     'msg' => __('lang_v1.deleted_success'),
                 ];
             } catch (\Exception $e) {
-                \Log::emergency('File:'.$e->getFile().'Line:'.$e->getLine().'Message:'.$e->getMessage());
+                \Log::emergency('File:' . $e->getFile() . 'Line:' . $e->getLine() . 'Message:' . $e->getMessage());
 
-                $output = ['success' => false,
+                $output = [
+                    'success' => false,
                     'msg' => __('messages.something_went_wrong'),
                 ];
             }
@@ -171,13 +174,13 @@ class EssentialsMessageController extends Controller
     {
         $business_id = request()->session()->get('user.business_id');
         $query = User::where('id', '!=', $message->user_id)
-                    ->where('business_id', $business_id);
+            ->where('business_id', $business_id);
 
         $users = null;
         if (empty($message->location_id)) {
             $users = $query->get();
         } else {
-            $users = $query->permission('location.'.$message->location_id)->get();
+            $users = $query->permission('location.' . $message->location_id)->get();
         }
 
         if (count($users)) {
@@ -205,9 +208,9 @@ class EssentialsMessageController extends Controller
         }
 
         $query = EssentialsMessage::where('business_id', $business_id)
-                        ->where('user_id', '!=', auth()->user()->id)
-                        ->with(['sender'])
-                        ->orderBy('created_at', 'ASC');
+            ->where('user_id', '!=', auth()->user()->id)
+            ->with(['sender'])
+            ->orderBy('created_at', 'ASC');
 
         if (! empty($last_chat_time)) {
             $query->where('created_at', '>', $last_chat_time);
