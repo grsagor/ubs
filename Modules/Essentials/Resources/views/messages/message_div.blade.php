@@ -3,12 +3,12 @@
     style="margin-left: 15px; margin-right: 15px;" data-delivered-at="{{ $message->created_at }}">
     <div class="user-block">
         <span class="username" style="margin-left: 0;">
-            <span class="text-primary">{{ $message->sender->user_full_name }}</span>
+            <span class="text-primary sender_name">{{ $message->sender->user_full_name }}</span>
 
             @if ($message->user_id == auth()->user()->id)
                 <a href="{{ action([\Modules\Essentials\Http\Controllers\EssentialsMessageController::class, 'destroy'], [$message->id]) }}"
                     class="btn-box-tool chat-delete delete-icon-left" title="@lang('messages.delete')">
-                    <i class="fa fa-times text-danger"></i>
+                    <i class="fa fa-times text-danger" style="font-size: 20px;"></i>
                 </a>
             @endif
         </span>
