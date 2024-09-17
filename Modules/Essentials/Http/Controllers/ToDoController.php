@@ -61,9 +61,16 @@ class ToDoController extends Controller
     public function index(Request $request)
     {
         $business_id = request()->session()->get('user.business_id');
-        if (! (auth()->user()->can('superadmin') || $this->moduleUtil->hasThePermissionInSubscription($business_id, 'essentials_module'))) {
-            abort(403, 'Unauthorized action.');
+
+        if (! $this->moduleUtil->hasThePermissionInSubscription($business_id, 'essentials_module')) {
+            return view('error.subscription_expired');
         }
+
+        // if (! (auth()->user()->can('superadmin') || $this->moduleUtil->hasThePermissionInSubscription($business_id, 'essentials_module'))) {
+        //     abort(403, 'Unauthorized action.');
+        // }
+
+
         $is_admin = $this->moduleUtil->is_admin(auth()->user(), $business_id);
         $auth_id = auth()->user()->id;
 
@@ -72,8 +79,8 @@ class ToDoController extends Controller
 
         if (request()->ajax()) {
             $todos = ToDo::where('business_id', $business_id)
-                        ->with(['users', 'assigned_by'])
-                        ->select('*');
+                ->with(['users', 'assigned_by'])
+                ->select('*');
 
             if (! empty($request->priority)) {
                 $todos->where('priority', $request->priority);
@@ -106,7 +113,7 @@ class ToDoController extends Controller
                 $start = $request->start_date;
                 $end = $request->end_date;
                 $todos->whereDate('date', '>=', $start)
-                            ->whereDate('date', '<=', $end);
+                    ->whereDate('date', '<=', $end);
             }
 
             return Datatables::of($todos)
@@ -114,21 +121,21 @@ class ToDoController extends Controller
                     'action',
                     function ($row) {
                         $html = '<div class="btn-group">
-                            <button type="button" class="btn btn-info dropdown-toggle btn-xs" data-toggle="dropdown" aria-expanded="false">'.__('messages.actions').'<span class="caret"></span><span class="sr-only">Toggle Dropdown</span>
+                            <button type="button" class="btn btn-info dropdown-toggle btn-xs" data-toggle="dropdown" aria-expanded="false">' . __('messages.actions') . '<span class="caret"></span><span class="sr-only">Toggle Dropdown</span>
                             </button>
                             <ul class="dropdown-menu dropdown-menu-right" role="menu">';
 
                         if (auth()->user()->can('essentials.edit_todos')) {
-                            $html .= '<li><a href="#" data-href="'.action([\Modules\Essentials\Http\Controllers\ToDoController::class, 'edit'], [$row->id]).'" class="btn-modal" data-container="#task_modal"><i class="glyphicon glyphicon-edit"></i> '.__('messages.edit').'</a></li>';
+                            $html .= '<li><a href="#" data-href="' . action([\Modules\Essentials\Http\Controllers\ToDoController::class, 'edit'], [$row->id]) . '" class="btn-modal" data-container="#task_modal"><i class="glyphicon glyphicon-edit"></i> ' . __('messages.edit') . '</a></li>';
                         }
 
                         if (auth()->user()->can('essentials.delete_todos')) {
-                            $html .= '<li><a href="#" data-href="'.action([\Modules\Essentials\Http\Controllers\ToDoController::class, 'destroy'], [$row->id]).'" class="delete_task" ><i class="fa fa-trash"></i> '.__('messages.delete').'</a></li>';
+                            $html .= '<li><a href="#" data-href="' . action([\Modules\Essentials\Http\Controllers\ToDoController::class, 'destroy'], [$row->id]) . '" class="delete_task" ><i class="fa fa-trash"></i> ' . __('messages.delete') . '</a></li>';
                         }
 
-                        $html .= '<li><a href="'.action([\Modules\Essentials\Http\Controllers\ToDoController::class, 'show'], [$row->id]).'" ><i class="fa fa-eye"></i> '.__('messages.view').'</a></li>';
+                        $html .= '<li><a href="' . action([\Modules\Essentials\Http\Controllers\ToDoController::class, 'show'], [$row->id]) . '" ><i class="fa fa-eye"></i> ' . __('messages.view') . '</a></li>';
 
-                        $html .= '<li><a href="#" class="change_status" data-status="'.$row->status.'" data-task_id="'.$row->id.'"><i class="fas fa-check-circle"></i> '.__('essentials::lang.change_status').'</a></li>';
+                        $html .= '<li><a href="#" class="change_status" data-status="' . $row->status . '" data-task_id="' . $row->id . '"><i class="fas fa-check-circle"></i> ' . __('essentials::lang.change_status') . '</a></li>';
 
                         $html .= '</ul></div>';
 
@@ -136,13 +143,13 @@ class ToDoController extends Controller
                     }
                 )
                 ->editColumn('task', function ($row) use ($priorities) {
-                    $html = '<a href="'.action([\Modules\Essentials\Http\Controllers\ToDoController::class, 'show'], [$row->id]).'" >'.$row->task.'</a> <br>
-                        <a data-href="'.action([\Modules\Essentials\Http\Controllers\ToDoController::class, 'viewSharedDocs'], [$row->id]).'" class="btn btn-primary btn-xs view-shared-docs">'.__('essentials::lang.docs').'</a>';
+                    $html = '<a href="' . action([\Modules\Essentials\Http\Controllers\ToDoController::class, 'show'], [$row->id]) . '" >' . $row->task . '</a> <br>
+                        <a data-href="' . action([\Modules\Essentials\Http\Controllers\ToDoController::class, 'viewSharedDocs'], [$row->id]) . '" class="btn btn-primary btn-xs view-shared-docs">' . __('essentials::lang.docs') . '</a>';
 
                     if (! empty($row->priority)) {
                         $bg_color = ! empty($this->priority_colors[$row->priority]) ? $this->priority_colors[$row->priority] : 'bg-gray';
 
-                        $html .= ' &nbsp; <span class="label '.$bg_color.'"> '.$priorities[$row->priority].'</span>';
+                        $html .= ' &nbsp; <span class="label ' . $bg_color . '"> ' . $priorities[$row->priority] . '</span>';
                     }
 
                     return $html;
@@ -166,7 +173,7 @@ class ToDoController extends Controller
                     if (! empty($task_statuses[$row->status])) {
                         $bg_color = ! empty($this->status_colors[$row->status]) ? $this->status_colors[$row->status] : 'bg-gray';
 
-                        $html = '<a href="#" class="change_status" data-status="'.$row->status.'" data-task_id="'.$row->id.'"><span class="label '.$bg_color.'"> '.$task_statuses[$row->status].'</span></a>';
+                        $html = '<a href="#" class="change_status" data-status="' . $row->status . '" data-task_id="' . $row->id . '"><span class="label ' . $bg_color . '"> ' . $task_statuses[$row->status] . '</span></a>';
                     }
 
                     return $html;
@@ -226,14 +233,14 @@ class ToDoController extends Controller
         $is_admin = $this->moduleUtil->is_admin(auth()->user(), $business_id);
 
         $query = ToDo::where('business_id', $business_id)
-                    ->with([
-                        'assigned_by',
-                        'comments',
-                        'comments.added_by',
-                        'media',
-                        'users',
-                        'media.uploaded_by_user',
-                    ]);
+            ->with([
+                'assigned_by',
+                'comments',
+                'comments.added_by',
+                'media',
+                'users',
+                'media.uploaded_by_user',
+            ]);
 
         //If not admin show only assigned task
         if (! $is_admin) {
@@ -255,9 +262,9 @@ class ToDoController extends Controller
         $priorities = ToDo::getTaskPriorities();
 
         $activities = Activity::forSubject($todo)
-           ->with(['causer', 'subject'])
-           ->latest()
-           ->get();
+            ->with(['causer', 'subject'])
+            ->latest()
+            ->get();
 
         return view('essentials::todo.view')->with(compact(
             'todo',
@@ -371,7 +378,7 @@ class ToDoController extends Controller
                     'todo_id' => $to_dos->id,
                 ];
             } catch (\Exception $e) {
-                \Log::emergency('File:'.$e->getFile().'Line:'.$e->getLine().'Message:'.$e->getMessage());
+                \Log::emergency('File:' . $e->getFile() . 'Line:' . $e->getLine() . 'Message:' . $e->getMessage());
 
                 $output = [
                     'success' => false,
@@ -448,7 +455,7 @@ class ToDoController extends Controller
                     'msg' => __('lang_v1.success'),
                 ];
             } catch (\Exception $e) {
-                \Log::emergency('File:'.$e->getFile().'Line:'.$e->getLine().'Message:'.$e->getMessage());
+                \Log::emergency('File:' . $e->getFile() . 'Line:' . $e->getLine() . 'Message:' . $e->getMessage());
 
                 $output = [
                     'success' => false,
@@ -489,7 +496,7 @@ class ToDoController extends Controller
                     'msg' => __('lang_v1.success'),
                 ];
             } catch (\Exception $e) {
-                \Log::emergency('File:'.$e->getFile().'Line:'.$e->getLine().'Message:'.$e->getMessage());
+                \Log::emergency('File:' . $e->getFile() . 'Line:' . $e->getLine() . 'Message:' . $e->getMessage());
 
                 $output = [
                     'success' => false,
@@ -518,7 +525,7 @@ class ToDoController extends Controller
             try {
                 $input = $request->only(['task_id', 'comment']);
                 $query = ToDo::where('business_id', $business_id)
-                            ->with('users');
+                    ->with('users');
                 $auth_id = auth()->user()->id;
 
                 //Non admin can add comment to only assigned tasks
@@ -539,8 +546,8 @@ class ToDoController extends Controller
                 $comment = EssentialsTodoComment::create($input);
 
                 $comment_html = view('essentials::todo.comment')
-                                ->with(compact('comment'))
-                                ->render();
+                    ->with(compact('comment'))
+                    ->render();
                 $output = [
                     'success' => true,
                     'comment_html' => $comment_html,
@@ -554,7 +561,7 @@ class ToDoController extends Controller
 
                 \Notification::send($users, new NewTaskCommentNotification($comment));
             } catch (\Exception $e) {
-                \Log::emergency('File:'.$e->getFile().'Line:'.$e->getLine().'Message:'.$e->getMessage());
+                \Log::emergency('File:' . $e->getFile() . 'Line:' . $e->getLine() . 'Message:' . $e->getMessage());
 
                 $output = [
                     'success' => false,
@@ -618,7 +625,7 @@ class ToDoController extends Controller
                 'msg' => __('lang_v1.success'),
             ];
         } catch (\Exception $e) {
-            \Log::emergency('File:'.$e->getFile().'Line:'.$e->getLine().'Message:'.$e->getMessage());
+            \Log::emergency('File:' . $e->getFile() . 'Line:' . $e->getLine() . 'Message:' . $e->getMessage());
 
             $output = [
                 'success' => false,
@@ -644,14 +651,14 @@ class ToDoController extends Controller
 
         try {
             $comment = EssentialsTodoComment::where('comment_by', auth()->user()->id)
-                                    ->where('id', $id)
-                                    ->delete();
+                ->where('id', $id)
+                ->delete();
             $output = [
                 'success' => true,
                 'msg' => __('lang_v1.success'),
             ];
         } catch (\Exception $e) {
-            \Log::emergency('File:'.$e->getFile().'Line:'.$e->getLine().'Message:'.$e->getMessage());
+            \Log::emergency('File:' . $e->getFile() . 'Line:' . $e->getLine() . 'Message:' . $e->getMessage());
 
             $output = [
                 'success' => false,
@@ -691,7 +698,7 @@ class ToDoController extends Controller
                 'msg' => __('lang_v1.success'),
             ];
         } catch (\Exception $e) {
-            \Log::emergency('File:'.$e->getFile().'Line:'.$e->getLine().'Message:'.$e->getMessage());
+            \Log::emergency('File:' . $e->getFile() . 'Line:' . $e->getLine() . 'Message:' . $e->getMessage());
 
             $output = [
                 'success' => false,
