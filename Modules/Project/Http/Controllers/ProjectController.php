@@ -51,6 +51,11 @@ class ProjectController extends Controller
     public function index()
     {
         $business_id = request()->session()->get('user.business_id');
+
+        if (! $this->moduleUtil->hasThePermissionInSubscription($business_id, 'essentials_module')) {
+            return view('error.subscription_expired');
+        }
+
         $is_admin = $this->commonUtil->is_admin(auth()->user(), $business_id);
         $user_id = auth()->user()->id;
         $statuses = Project::statusDropdown();

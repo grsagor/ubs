@@ -21,13 +21,13 @@
             </li>
             <li class="treeview">
                 <a href="#">
-                    <i class="fa fas fa-users"></i> <span>User Management</span>
+                    <i class="fa fas fa-users"></i> <span>Staff Management</span>
                     <span class="pull-right-container">
                         <i class="fa fa-angle-left pull-right"></i>
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="{{ route('users.index') }}"><i class="fa fas fa-user"></i> <span>Users</span></a></li>
+                    <li><a href="{{ route('users.index') }}"><i class="fa fas fa-user"></i> <span>Staffs</span></a></li>
                     <li><a href="{{ route('roles.index') }}"><i class="fa fas fa-briefcase"></i> <span>Roles</span></a>
                     </li>
                     <li><a href="{{ route('sales-commission-agents.index') }}"><i class="fa fas fa-handshake"></i>
@@ -314,42 +314,8 @@
                     <span>Kitchen</span></a></li>
             <li><a href="{{ url('modules/orders') }}"><i class="fa fas fa-list-alt"></i>
                     <span>Orders</span></a></li>
-            <li><a href="{{ url('notification-templates') }}"><i class="fa fas fa-envelope"></i>
-                    <span>Notification Templates</span></a></li>
-            <li class="treeview" id="tour_step3">
-                <a href="#">
-                    <i class="fa fas fa-cog"></i> <span>Settings</span>
-                    <span class="pull-right-container">
-                        <i class="fa fa-angle-left pull-right"></i>
-                    </span>
-                </a>
-                <ul class="treeview-menu">
-                    <li><a href="{{ url('business/settings') }}" id="tour_step2"><i class="fa fas fa-cogs"></i>
-                            <span>Business
-                                Settings</span></a></li>
 
-                    <li><a href="{{ url('invoice-schemes') }}"><i class="fa fas fa-file"></i> <span>Invoice
-                                Settings</span></a></li>
-                    <li><a href="{{ route('barcodes.index') }}"><i class="fa fas fa-barcode"></i> <span>Barcode
-                                Settings</span></a></li>
-                    <li><a href="{{ route('printers.index') }}"><i class="fa fas fa-share-alt"></i> <span>Receipt
-                                Printers</span></a></li>
 
-                    @if (auth()->user()->id == 5)
-                        <li><a href="{{ route('tax-rates.index') }}"><i class="fa fas fa-bolt"></i> <span>Tax
-                                    Rates</span></a></li>
-                    @endif
-
-                    <li><a href="{{ url('modules/tables') }}"><i class="fa fas fa-table"></i>
-                            <span>Tables</span></a></li>
-                    <li><a href="{{ url('modules/modifiers') }}"><i class="fa fas fa-pizza-slice"></i>
-                            <span>Modifiers</span></a></li>
-                    <li><a href="{{ route('types-of-service.index') }}"><i class="fa fas fa-user-circle"></i>
-                            <span>Types of service</span></a></li>
-                    <li><a href="{{ route('subscription.index') }}"><i class="fa fas fa-sync"></i> <span>Package
-                                Subscription</span></a></li>
-                </ul>
-            </li>
             <li><a href="{{ url('crm/dashboard') }}"><i class="fas fa fa-broadcast-tower"></i>
                     <span>CRM</span></a></li>
             <li><a href="{{ url('project/project?project_view=list_view') }}" style=""><i
@@ -359,8 +325,8 @@
                     <span>HRM</span></a></li>
             <li><a href="{{ url('essentials/todo') }}" style=""><i class="fa fas fa-check-circle"></i>
                     <span>Essentials</span></a></li>
-            <li><a href="{{ url('woocommerce') }}"><i class="fab fa-wordpress"></i>
-                    <span style="margin-left: 10px;">Woocommerce</span></a></li>
+            {{-- <li><a href="{{ url('woocommerce') }}"><i class="fab fa-wordpress"></i>
+                    <span style="margin-left: 10px;">Woocommerce</span></a></li> --}}
 
             <li class="treeview">
                 <a href="#">
@@ -423,6 +389,44 @@
                         <li><a href="{{ route('special.index') }}"><i class="fa fas fa-cogs"></i>
                                 <span>Special</span></a></li>
                     @endif
+                </ul>
+            </li>
+
+            <li><a href="{{ url('notification-templates') }}"><i class="fa fas fa-envelope"></i>
+                    <span>Notification Templates</span></a></li>
+
+            <li class="treeview" id="tour_step3">
+                <a href="#">
+                    <i class="fa fas fa-cog"></i> <span>Settings</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="{{ url('business/settings') }}" id="tour_step2"><i class="fa fas fa-cogs"></i>
+                            <span>Business
+                                Settings</span></a></li>
+
+                    <li><a href="{{ url('invoice-schemes') }}"><i class="fa fas fa-file"></i> <span>Invoice
+                                Settings</span></a></li>
+                    <li><a href="{{ route('barcodes.index') }}"><i class="fa fas fa-barcode"></i> <span>Barcode
+                                Settings</span></a></li>
+                    <li><a href="{{ route('printers.index') }}"><i class="fa fas fa-share-alt"></i> <span>Receipt
+                                Printers</span></a></li>
+
+                    @if (auth()->user()->id == 5)
+                        <li><a href="{{ route('tax-rates.index') }}"><i class="fa fas fa-bolt"></i> <span>Tax
+                                    Rates</span></a></li>
+                    @endif
+
+                    <li><a href="{{ url('modules/tables') }}"><i class="fa fas fa-table"></i>
+                            <span>Tables</span></a></li>
+                    <li><a href="{{ url('modules/modifiers') }}"><i class="fa fas fa-pizza-slice"></i>
+                            <span>Modifiers</span></a></li>
+                    <li><a href="{{ route('types-of-service.index') }}"><i class="fa fas fa-user-circle"></i>
+                            <span>Types of service</span></a></li>
+                    <li><a href="{{ route('subscription.index') }}"><i class="fa fas fa-sync"></i> <span>Package
+                                Subscription</span></a></li>
                 </ul>
             </li>
 
