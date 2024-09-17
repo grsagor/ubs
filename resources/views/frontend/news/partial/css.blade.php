@@ -137,7 +137,7 @@
     /* Main Content Area */
     .laptop_news_card {
         overflow-y: auto;
-        scrollbar-width: none;
+        /* scrollbar-width: none; */
         flex: 1;
         height: 100vh;
     }
@@ -146,8 +146,7 @@
     .right-side {
         overflow-y: auto;
         height: 100vh;
-        scrollbar-width: none;
-
+        /* scrollbar-width: none; */
     }
 
     /* Optional: Adjustments for card spacing and layout */
@@ -157,7 +156,7 @@
     }
 
     ::-webkit-scrollbar {
-        width: 6px;
+        width: 10px;
     }
 
     /* Track */
@@ -168,7 +167,7 @@
     /* Handle */
     ::-webkit-scrollbar-thumb {
         background: #888;
-        border-radius: 10px;
+        border-radius: 4px;
     }
 
     /* Handle on hover */
