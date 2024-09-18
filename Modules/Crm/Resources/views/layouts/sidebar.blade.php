@@ -14,7 +14,7 @@
                         Purchases</span></a></li> --}}
             {{-- <li><a href="{{ url('contact/contact-sells') }}"><i class="fa fas fa-list"></i> <span>My Orders</span></a></li> --}}
             <li><a href="{{ url('contact/contact-ledger') }}"><i class="fas fa-scroll"></i>
-                    <span> &nbsp; Ledger</span></a></li>
+                  <span> &nbsp; Ledger</span></a></li>
             <li><a href="{{ url('/contact/bookings') }}"><i class="fas fa fa-calendar-check"></i>
                     <span>Bookings</span></a></li>
             {{-- <li><a href="{{ url('/contact/order-request') }}"><i class="fa fas fa-arrow-circle-up"></i>

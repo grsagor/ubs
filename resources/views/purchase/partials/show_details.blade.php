@@ -407,19 +407,19 @@
       </p>
     </div>
   </div>
-  @if(!empty($activities))
+  {{-- @if(!empty($activities))
   <div class="row">
     <div class="col-md-12">
           <strong>{{ __('lang_v1.activities') }}:</strong><br>
           @includeIf('activity_log.activities', ['activity_type' => 'purchase'])
       </div>
   </div>
-  @endif
+  @endif --}}
 
   {{-- Barcode --}}
-  <div class="row print_section">
+  {{-- <div class="row print_section">
     <div class="col-xs-12">
       <img class="center-block" src="data:image/png;base64,{{DNS1D::getBarcodePNG($purchase->ref_no, 'C128', 2,30,array(39, 48, 54), true)}}">
     </div>
-  </div>
+  </div> --}}
 </div>

@@ -40,17 +40,16 @@
                 <table class="table table-bordered table-striped" id="room_to_rent_share_table">
                     <thead>
                         <tr>
-                            {{-- <th>Action</th> --}}
-                            {{-- <th>Status</th> --}}
-                            {{-- <th>Action required</th> --}}
                             <th>@lang('messages.action')</th>
-                            <th>Sl N</th>
-                            <th>Invoice No</th>
-                            <th>Product</th>
-                            <th>Unit Purchase Price</th>
-                            <th>Payment Method</th>
-                            <th>Payment Status</th>
-                            <th>Purchase Date</th>
+                            <th>@lang('messages.date') time</th>
+                            <th>@lang('purchase.ref_no')</th>
+                            <th>@lang('purchase.purchase_status')</th>
+                            <th>@lang('purchase.payment_status')</th>
+                            <th>@lang('purchase.grand_total')</th>
+                            <th>@lang('purchase.payment_due') &nbsp;&nbsp;<i class="fa fa-info-circle text-info no-print"
+                                    data-toggle="tooltip" data-placement="bottom" data-html="true"
+                                    data-original-title="{{ __('messages.purchase_due_tooltip') }}" aria-hidden="true"></i></th>
+                            <th>@lang('lang_v1.added_by')</th>
                         </tr>
                     </thead>
                 </table>
@@ -58,6 +57,12 @@
         @endcomponent
 
         <div class="modal fade property_wanted_delete_modal" tabindex="-1" role="dialog"
+            aria-labelledby="gridSystemModalLabel">
+        </div>
+        <div class="modal fade " id="product_show_modal" tabindex="-1" role="dialog"
+            aria-labelledby="gridSystemModalLabel">
+        </div>
+        <div class="modal fade " id="product_print_modal" tabindex="-1" role="dialog"
             aria-labelledby="gridSystemModalLabel">
         </div>
 
@@ -75,79 +80,81 @@
                 buttons: [],
                 ajax: '/contact/products',
                 columns: [
-                    // {
-                    //     data: 'action',
-                    //     name: 'action',
-                    //     orderable: false,
-                    //     searchable: false
-                    // },
-                    // {
-                    //     data: 'status',
-                    //     name: 'status',
-                    //     render: function(data, type, row) {
-                    //         if (type === 'display' && data !== null) {
-                    //             var statusClass = data === 0 ? 'bg-red' : data === 1 ? 'bg-green' :
-                    //                 '';
-                    //             return '<span class="cursor-pointer label ' + statusClass +
-                    //                 ' property-wanted-delete-btn" data-id="' +
-                    //                 row.id + '">' + (data === 1 ? 'Published' : 'Private') +
-                    //                 '</span>';
-                    //         }
-                    //         return '';
-                    //     }
-                    // },
-                    // {
-                    //     data: 'information_complete',
-                    //     name: 'information_complete',
-                    //     render: function(data, type, row) {
-                    //         if (data == 1) {
-                    //             return '<span class="label bg-green">Not required</span>';
-                    //         } else {
-                    //             return '<span class="label bg-yellow">Required</span>';
-                    //         }
-                    //     }
-                    // },
+
                     {
                         data: 'action',
                         name: 'action',
                         orderable: false,
                         "searchable": false
                     },
+
                     {
-                        data: 'id',
-                        name: 'id'
+                        data: 'transaction_date',
+                        name: 'transaction_date'
                     },
                     {
-                        data: 'invoice_no',
-                        name: 'invoice_no'
+                        data: 'ref_no',
+                        name: 'ref_no'
                     },
                     {
-                        data: 'name',
-                        name: 'name'
-                    },
-                    {
-                        data: 'unit_price',
-                        name: 'unit_price',
-                        class: 'text-center'
-                    },
-                    {
-                        data: 'payment_method',
-                        name: 'payment_method',
+                        data: 'status',
+                        name: 'status',
                         class: 'text-center'
                     },
                     {
                         data: 'payment_status',
                         name: 'payment_status',
+                        class: 'text-center'
                     },
                     {
-                        data: 'purchase_date',
-                        name: 'purchase_date',
+                        data: 'final_total',
+                        name: 'final_total',
+                    },
+                    {
+                        data: 'payment_due',
+                        name: 'payment_due',
                         class: 'text-center'
                     },
                 ]
             });
         });
 
+        $(document).ready(function() {
+            $(document).on('click', '.product_show', function() {
+                var id = $(this).data('id');
+                $.ajax({
+                    url: "{{ route('customer.order.show.details') }}",
+                    type: 'get',
+                    data: {
+                        id: id
+                    },
+                    dataType: 'html',
+                    success: function(d) {
+                        $('#product_show_modal').empty();
+                        $('#product_show_modal').html(d);
+                        $('#product_show_modal').modal('show')
+                    }
+                })
+            })
+        })
+        $(document).ready(function() {
+            $(document).on('click', '.product_print', function() {
+                var id = $(this).data('id');
+                $.ajax({
+                    url: "{{ route('customer.order.print.details') }}",
+                    type: 'get',
+                    data: {
+                        id: id
+                    },
+                    dataType: 'html',
+                    success: function(d) {
+                        $('#product_print_modal').empty();
+                        $('#product_print_modal').html(d);
+                        $('#product_print_modal').modal('show')
+                    }
+                })
+            })
+        })
 
         $(document).ready(function() {
             // Deleteing Property Started
