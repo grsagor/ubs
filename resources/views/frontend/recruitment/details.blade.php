@@ -27,7 +27,7 @@
                         <div class="summary-section row mt-3">
                             <div class="col-sm-12 ">
                                 <div class="summery-card">
-                                    <h3 class="sectitle">Summary</h3>
+                                    <p class="sectitle">Summary</p>
                                     <div class="row">
                                         <div class="col-md-6">
 
@@ -101,7 +101,7 @@
                         <div class="requirements-section row mt-3">
                             <div class="col-sm-12 ">
                                 <div class="requirements-card">
-                                    <h3 class="sectitle">Details</h3>
+                                    <p class="sectitle">Details</p>
                                     <div class="col-md-12 text-justify description">
                                         {!! $job->description ?? '' !!}
                                     </div>
@@ -112,11 +112,11 @@
                         <div class="company-info-section row mt-3">
                             <div class="col-sm-12 ">
                                 <div class="company-info-card">
-                                    <h3 class="sectitle">Employeer Information</h3>
+                                    <p class="sectitle">Employeer Information</p>
                                     <div class="col-md-12">
                                         <p>{{ $job->company_name }}</p>
 
-                                        <h5 class="subheading mb-0">Business:</h5>
+                                        <p class="subheading mb-0">Business:</p>
                                         <div class="text-justify">
                                             {!! $job->company_information ?? '' !!}
                                         </div>
@@ -140,7 +140,7 @@
                                         <div class="row">
                                             <div
                                                 class="card-text company-name color-black text_mobile_center col-md-6 col-sm-12">
-                                                <h3 class="sectitle">Job Advertiser</h3>
+                                                <p class="sectitle">Job Advertiser</p>
                                                 {{ $job->business_location->name }}
                                             </div>
                                             <div class="col-md-6 col-sm-12 image_mobile_view">
@@ -159,10 +159,10 @@
                         <div class="report-section row mt-3">
                             <div class="col-sm-12">
                                 <div class="report-card">
-                                    <h3 class="reptitle">
+                                    <p class="reptitle">
                                         Report this Job / Company
                                         <button class="report-button"><i class="fas fa-flag"></i> Report</button>
-                                    </h3>
+                                    </p>
                                     <div class="col-md-12 text-justify">
                                         <p>If you come across any incorrect or misleading information in a job listing or
                                             encounter any issues with the advertiser, please let us know right away or
