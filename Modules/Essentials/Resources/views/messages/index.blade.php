@@ -32,7 +32,7 @@
             <div class="box-header">
                 <i class="fa fa-comments-o"></i>
 
-                <h3 class="box-title">@lang('essentials::lang.messages')</h3>
+                <h3 class="box-title">Notice Board</h3>
             </div>
             <div class="box-body" id="chat-box" style="height: 70vh; overflow-y: scroll;">
                 @can('essentials.view_message')
@@ -59,6 +59,12 @@
                                 'style' => 'width: 100%;',
                             ]) !!}
                         </div>
+
+                        <div class="col-md-3">
+                            <input type="file" name="image_file[]" multiple class="form-control">
+                        </div>
+
+
 
                         <!-- Second Column (col-12): Textarea for message -->
                         <div class="col-12">
