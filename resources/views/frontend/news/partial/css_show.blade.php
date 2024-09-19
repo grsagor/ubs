@@ -111,6 +111,11 @@
         margin-bottom: 13px;
     }
 
+    .laptop_slider {
+        width: 590px !important;
+        height: 300px !important;
+    }
+
     @media (max-width: 767px) {
         .reptitle {
             font-size: 15px !important;
@@ -118,6 +123,11 @@
 
         .mobile_m_15 {
             margin-top: 15px !important;
+        }
+
+        .mobile_slider {
+            width: unset !important;
+            height: unset !important;
         }
     }
 </style>

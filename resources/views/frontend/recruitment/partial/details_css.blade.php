@@ -1,4 +1,13 @@
 <style>
+    h1,
+    h2,
+    h3,
+    h4 {
+        font-size: 18px !important;
+        font-weight: bold;
+        display: inline;
+    }
+
     .color-black {
         color: black !important;
     }
@@ -84,8 +93,8 @@
 
     .sectitle {
         color: #B32D7D;
-        font-size: 16px !important;
-        font-weight: 600;
+        font-size: 20px !important;
+        font-weight: bold;
         margin-bottom: 10px;
     }
 
@@ -95,14 +104,14 @@
 
     .subheading {
         color: #333;
-        font-size: 14px;
+        font-size: 18px;
         font-weight: 600;
     }
 
     .reptitle {
         color: #B83835;
-        font-size: 18px;
-        font-weight: 600;
+        font-size: 20px;
+        font-weight: bold;
         display: flex;
         justify-content: space-between;
         align-items: center;

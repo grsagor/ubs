@@ -60,6 +60,7 @@
             color: #FFF;
             font-weight: 500;
         }
+
         .applynow:hover {
             color: #fff;
             background: #3a4656;
@@ -193,16 +194,16 @@
 
         #imageSlider .carousel-item img {
             /* max-width: 350px;
-                                                                                                                                                                                                            max-height: 300px; */
+                                                                                                                                                                                                                    max-height: 300px; */
             width: auto;
             height: auto;
             margin: auto;
         }
 
         /* .carousel-control-next,
-                                                                                                                                                                                .carousel-control-prev {
-                                                                                                                                                                                    filter: invert(100%);
-                                                                                                                                                                                } */
+                                                                                                                                                                                        .carousel-control-prev {
+                                                                                                                                                                                            filter: invert(100%);
+                                                                                                                                                                                        } */
 
         .carousel-control-prev-icon {
             background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='%23000' width='8' height='8' viewBox='0 0 8 8'%3e%3cpath d='M5.25 0l-4 4 4 4 1.5-1.5L4.25 4l2.5-2.5L5.25 0z'/%3e%3c/svg%3e");
@@ -532,7 +533,7 @@
                                             @if ($info->product_brochure)
                                                 <div class="accordion mt-4" id="accordionExample">
                                                     <div class="accordion-item">
-                                                        <h2 class="accordion-header" id="headingOne"
+                                                        <p class="accordion-header" id="headingOne"
                                                             style="background: rgb(194, 194, 194) !important;">
                                                             <button class="accordion-button collapsed" type="button"
                                                                 data-bs-toggle="collapse" data-bs-target="#collapseOne"
@@ -540,7 +541,7 @@
                                                                 {{-- <span style="display: block; width: 50%;">Brochure</span> --}}
                                                                 <span style="display: block;">Brochure</span>
                                                             </button>
-                                                        </h2>
+                                                        </p>
                                                         <div id="collapseOne" class="accordion-collapse collapse"
                                                             aria-labelledby="headingOne"
                                                             data-bs-parent="#accordionExample">
