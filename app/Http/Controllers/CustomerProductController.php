@@ -89,6 +89,7 @@ class CustomerProductController extends Controller
                 'transactions.document',
                 'transactions.transaction_date',
                 'transactions.ref_no',
+                'transactions.invoice_no',
                 'contacts.name',
                 'contacts.supplier_business_name',
                 'transactions.status',
@@ -183,6 +184,9 @@ class CustomerProductController extends Controller
                 ->editColumn('ref_no', function ($row) {
                     return !empty($row->return_exists) ? $row->ref_no . ' <small class="label bg-red label-round no-print" title="' . __('lang_v1.some_qty_returned') . '"><i class="fas fa-undo"></i></small>' : $row->ref_no;
                 })
+                ->editColumn('invoice_no', function ($row) {
+                    return $row->invoice_no;
+                })
                 ->editColumn(
                     'final_total',
                     '<span class="display_currency final_total" data-currency_symbol="true" data-orig-value="{{$final_total}}">{{$final_total}}</span>'
@@ -192,11 +196,9 @@ class CustomerProductController extends Controller
                 })
                 ->editColumn(
                     'status',
-                    '<a href="#">
-                        <span class="label @transaction_status($status) status-label" data-status-name="{{(\'lang_v1.\' . $status)}}" data-orig-value="{{$status}}">
-                            {{(\'lang_v1.\' . $status)}}
-                        </span>
-                    </a>'
+                    function ($row) {
+                        return $row->status;
+                    }
                 )
                 ->editColumn(
                     'payment_status',
@@ -234,7 +236,7 @@ class CustomerProductController extends Controller
                 //         return action('CustomerProductController@single', [$row->id]);
                 //     }
                 // ])
-                ->rawColumns(['action', 'ref_no', 'transaction_date', 'status', 'payment_status', 'final_total', 'payment_due'])
+                ->rawColumns(['action', 'ref_no', 'invoice_no', 'transaction_date', 'status', 'payment_status', 'final_total', 'payment_due'])
                 ->make(true);
         }
         $business_locations = [
@@ -247,7 +249,8 @@ class CustomerProductController extends Controller
             'rangpur'    => 'Rangpur',
             'mymensingh' => 'Mymensingh',
         ];
-        $customers          = [
+
+        $customers = [
             'customer' => 'Customer',
             'supplier' => 'Supplier',
             'both'     => 'Both',

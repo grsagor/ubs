@@ -3,30 +3,50 @@
 
 @section('content')
     <!-- Content Header (Page header) -->
-    <section class="content-header">
-        <h1>My Orders
-            <small>All your product that you bought</small>
-        </h1>
+    <section class="content-header no-print">
+        <h1>@lang('purchase.purchases')</h1>
     </section>
 
     <!-- Main content -->
     <section class="content">
 
         @component('components.filters', ['title' => __('report.filters')])
-            @include('sell.partials.sell_list_filters')
-            @if (!empty($sources))
-                <div class="col-md-3">
-                    <div class="form-group">
-                        {!! Form::label('sell_list_filter_source', __('lang_v1.sources') . ':') !!}
-
-                        {!! Form::select('sell_list_filter_source', $sources, null, [
-                            'class' => 'form-control select2',
-                            'style' => 'width:100%',
-                            'placeholder' => __('lang_v1.all'),
-                        ]) !!}
-                    </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    {!! Form::label('status_filter', __('purchase.purchase_status') . ':') !!}
+                    {!! Form::select('status_filter', $orderStatuses, null, [
+                        'class' => 'form-control select2',
+                        'style' => 'width:100%',
+                        'placeholder' => __('lang_v1.all'),
+                    ]) !!}
                 </div>
-            @endif
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    {!! Form::label('payment_status_filter', __('purchase.payment_status') . ':') !!}
+                    {!! Form::select(
+                        'payment_status_filter',
+                        [
+                            'paid' => __('lang_v1.paid'),
+                            'due' => __('lang_v1.due'),
+                            'partial' => __('lang_v1.partial'),
+                            'overdue' => __('lang_v1.overdue'),
+                        ],
+                        null,
+                        ['class' => 'form-control select2', 'style' => 'width:100%', 'placeholder' => __('lang_v1.all')],
+                    ) !!}
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    {!! Form::label('date_range_filter', __('report.date_range') . ':') !!}
+                    {!! Form::text('date_range_filter', null, [
+                        'placeholder' => __('lang_v1.select_a_date_range'),
+                        'class' => 'form-control',
+                        'readonly',
+                    ]) !!}
+                </div>
+            </div>
         @endcomponent
 
         @component('components.widget', ['class' => 'box-primary', 'title' => __('All Your Orders')])
@@ -41,7 +61,7 @@
                     <thead>
                         <tr>
                             <th>@lang('messages.action')</th>
-                            <th>@lang('messages.date') time</th>
+                            <th>@lang('messages.date')</th>
                             <th>@lang('purchase.ref_no')</th>
                             <th>@lang('purchase.purchase_status')</th>
                             <th>@lang('purchase.payment_status')</th>
@@ -96,6 +116,7 @@
                         data: 'ref_no',
                         name: 'ref_no'
                     },
+
                     {
                         data: 'status',
                         name: 'status',
@@ -115,6 +136,10 @@
                         name: 'payment_due',
                         class: 'text-center'
                     },
+                    {
+                        data: 'added_by',
+                        name: 'u.first_name'
+                    }
                 ]
             });
         });
