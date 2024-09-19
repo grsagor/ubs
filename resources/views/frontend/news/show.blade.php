@@ -62,20 +62,22 @@
                                                 @if ($news->thumbnail)
                                                     <div class="col-md-6 text-center">
                                                         <img src="{{ asset($news->thumbnail) }}" alt=""
-                                                            style="width: 590px !important; height: 300px;">
+                                                            class="laptop_slider mobile_slider">
                                                     </div>
                                                 @endif
 
                                                 @if ($news->images)
                                                     <div class="col-md-6 text-center">
-                                                        <div id="imageSlider" class="carousel slide col-md-6 mobile_m_15"
-                                                            data-bs-ride="carousel" style="width: 590px; height: 300px;">
+                                                        <div id="imageSlider"
+                                                            class="carousel slide col-md-6 mobile_m_15 laptop_slider mobile_slider"
+                                                            data-bs-ride="carousel">
                                                             <div class="carousel-inner">
                                                                 @foreach (json_decode($news->images ?? '[]') as $index => $item)
                                                                     <div
                                                                         class="carousel-item {{ $index === 0 ? 'active' : '' }}">
-                                                                        <img src="{{ asset($item) }}" class="d-block w-100"
-                                                                            alt=""style="width: 590px !important; height: 300px;">
+                                                                        <img src="{{ asset($item) }}"
+                                                                            class="d-block w-100 laptop_slider mobile_slider"
+                                                                            alt="">
                                                                     </div>
                                                                 @endforeach
                                                             </div>
