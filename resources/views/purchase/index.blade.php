@@ -172,7 +172,7 @@
                 serverSide: true,
                 bPaginate: false,
                 buttons: [],
-                ajax: '/purchases/list',
+                ajax: '/purchases/datatable/list',
                 columns: [
 
                     {
