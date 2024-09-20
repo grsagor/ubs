@@ -29,12 +29,19 @@
     }
 
     .post {
+        display: block;
+        /* Ensures it behaves as a block element */
         margin-left: 15px;
         margin-right: 15px;
-        width: 70%;
+        width: auto;
+        max-width: 70%;
+        /* Sets the maximum width */
         border-bottom: unset;
         padding: 10px;
         border-radius: 10px;
+        box-sizing: border-box;
+        /* Ensures padding is part of width calculation */
+        clear: both;
     }
 
     .msg-right {
@@ -46,22 +53,16 @@
     }
 
     .user-message {
-        background: #7266ba;
-        color: #ffffff;
-    }
-
-    .other-message {
-        background: #ebebeb;
+        background: #d9fdd3;
         color: #000;
     }
 
-    .user-message .sender_name,
-    .user-message .description {
-        color: #fff;
+    .other-message {
+        background: #ffffff;
+        color: #000;
     }
 
-    .other-message .sender_name,
-    .other-message .description {
-        color: #333333;
+    .description {
+        color: #000 !important;
     }
 </style>

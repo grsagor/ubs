@@ -34,7 +34,7 @@
 
                 <h3 class="box-title">Notice Board</h3>
             </div>
-            <div class="box-body" id="chat-box" style="height: 70vh; overflow-y: scroll;">
+            <div class="box-body" id="chat-box" style="height: 70vh; overflow-y: scroll; background: #efeae2;">
                 @can('essentials.view_message')
                     @foreach ($messages as $message)
                         @include('essentials::messages.message_div')
