@@ -60,11 +60,9 @@
                             ]) !!}
                         </div>
 
-                        <div class="col-md-3">
+                        {{-- <div class="col-md-3">
                             <input type="file" name="image_file[]" multiple class="form-control">
-                        </div>
-
-
+                        </div> --}}
 
                         <!-- Second Column (col-12): Textarea for message -->
                         <div class="col-12">

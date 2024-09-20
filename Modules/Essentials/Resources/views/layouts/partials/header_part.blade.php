@@ -36,9 +36,4 @@
         data-href="{{ route('messages.index') }}" onclick="window.location.href=this.getAttribute('data-href');">
         <i class="fab fa-facebook-messenger"></i>
     </button>
-
-
-
-
-
 @endif
