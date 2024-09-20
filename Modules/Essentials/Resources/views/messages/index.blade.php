@@ -34,7 +34,7 @@
 
                 <h3 class="box-title">Notice Board</h3>
             </div>
-            <div class="box-body" id="chat-box" style="height: 70vh; overflow-y: scroll;">
+            <div class="box-body" id="chat-box" style="height: 70vh; overflow-y: scroll; background: #efeae2;">
                 @can('essentials.view_message')
                     @foreach ($messages as $message)
                         @include('essentials::messages.message_div')
@@ -60,11 +60,9 @@
                             ]) !!}
                         </div>
 
-                        <div class="col-md-3">
+                        {{-- <div class="col-md-3">
                             <input type="file" name="image_file[]" multiple class="form-control">
-                        </div>
-
-
+                        </div> --}}
 
                         <!-- Second Column (col-12): Textarea for message -->
                         <div class="col-12">
