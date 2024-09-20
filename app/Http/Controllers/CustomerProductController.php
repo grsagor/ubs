@@ -83,7 +83,7 @@ class CustomerProductController extends Controller
             )
             ->leftJoin('users as u', 'transactions.created_by', '=', 'u.id')
             ->where('transactions.created_by', $id)
-            ->where('transactions.type', 'sell')
+            ->where('transactions.type', 'purchase')
             ->select(
                 'transactions.id',
                 'transactions.document',

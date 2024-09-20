@@ -49,7 +49,7 @@
             </div>
         @endcomponent
 
-        @component('components.widget', ['class' => 'box-primary', 'title' => __('All Your Orders')])
+        @component('components.widget', ['class' => 'box-primary', 'title' => __('All Your Purchases')])
             {{-- @slot('tool')
                 <div class="box-tools">
                     <a href="{{ url('contact/property-wanted-create') }}" class="btn btn-block btn-primary">

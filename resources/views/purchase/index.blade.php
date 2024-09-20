@@ -9,9 +9,9 @@
             <small></small>
         </h1>
         <!-- <ol class="breadcrumb">
-                    <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
-                    <li class="active">Here</li>
-                </ol> -->
+                                <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
+                                <li class="active">Here</li>
+                            </ol> -->
     </section>
 
     <!-- Main content -->
@@ -19,8 +19,8 @@
         @component('components.filters', ['title' => __('report.filters')])
             <div class="col-md-3">
                 <div class="form-group">
-                    {!! Form::label('purchase_list_filter_location_id', __('purchase.business_location') . ':') !!}
-                    {!! Form::select('purchase_list_filter_location_id', $business_locations, null, [
+                    {!! Form::label('status_filter', __('purchase.purchase_status') . ':') !!}
+                    {!! Form::select('status_filter', $orderStatuses, null, [
                         'class' => 'form-control select2',
                         'style' => 'width:100%',
                         'placeholder' => __('lang_v1.all'),
@@ -29,29 +29,9 @@
             </div>
             <div class="col-md-3">
                 <div class="form-group">
-                    {!! Form::label('purchase_list_filter_supplier_id', __('purchase.supplier') . ':') !!}
-                    {!! Form::select('purchase_list_filter_supplier_id', $suppliers, null, [
-                        'class' => 'form-control select2',
-                        'style' => 'width:100%',
-                        'placeholder' => __('lang_v1.all'),
-                    ]) !!}
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="form-group">
-                    {!! Form::label('purchase_list_filter_status', __('purchase.purchase_status') . ':') !!}
-                    {!! Form::select('purchase_list_filter_status', $orderStatuses, null, [
-                        'class' => 'form-control select2',
-                        'style' => 'width:100%',
-                        'placeholder' => __('lang_v1.all'),
-                    ]) !!}
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="form-group">
-                    {!! Form::label('purchase_list_filter_payment_status', __('purchase.payment_status') . ':') !!}
+                    {!! Form::label('payment_status_filter', __('purchase.payment_status') . ':') !!}
                     {!! Form::select(
-                        'purchase_list_filter_payment_status',
+                        'payment_status_filter',
                         [
                             'paid' => __('lang_v1.paid'),
                             'due' => __('lang_v1.due'),
@@ -65,8 +45,8 @@
             </div>
             <div class="col-md-3">
                 <div class="form-group">
-                    {!! Form::label('purchase_list_filter_date_range', __('report.date_range') . ':') !!}
-                    {!! Form::text('purchase_list_filter_date_range', null, [
+                    {!! Form::label('date_range_filter', __('report.date_range') . ':') !!}
+                    {!! Form::text('date_range_filter', null, [
                         'placeholder' => __('lang_v1.select_a_date_range'),
                         'class' => 'form-control',
                         'readonly',
@@ -76,7 +56,7 @@
         @endcomponent
 
         @component('components.widget', ['class' => 'box-primary', 'title' => __('purchase.all_purchases')])
-            @can('purchase.create')
+            {{-- @can('purchase.create')
                 @slot('tool')
                     <div class="box-tools">
                         <a class="btn btn-block btn-primary"
@@ -84,38 +64,47 @@
                             <i class="fa fa-plus"></i> @lang('messages.add')</a>
                     </div>
                 @endslot
-            @endcan
+            @endcan --}}
             <div class="table-responsive">
                 <table class="table table-bordered table-striped" id="room_to_rent_share_table">
                     <thead>
                         <tr>
-                            {{-- <th>Action</th> --}}
-                            {{-- <th>Status</th> --}}
-                            {{-- <th>Action required</th> --}}
                             <th>@lang('messages.action')</th>
-                            <th>Sl N</th>
-                            <th>Invoice No</th>
-                            <th>Product</th>
-                            <th>Unit Purchase Price</th>
-                            <th>Payment Method</th>
-                            <th>Payment Status</th>
-                            <th>Purchase Date</th>
+                            <th>@lang('messages.date')</th>
+                            <th>@lang('purchase.ref_no')</th>
+                            <th>@lang('purchase.purchase_status')</th>
+                            <th>@lang('purchase.payment_status')</th>
+                            <th>@lang('purchase.grand_total')</th>
+                            <th>@lang('purchase.payment_due') &nbsp;&nbsp;<i class="fa fa-info-circle text-info no-print"
+                                    data-toggle="tooltip" data-placement="bottom" data-html="true"
+                                    data-original-title="{{ __('messages.purchase_due_tooltip') }}" aria-hidden="true"></i></th>
+                            <th>@lang('lang_v1.added_by')</th>
                         </tr>
                     </thead>
                 </table>
             </div>
         @endcomponent
 
-        <div class="modal fade product_modal" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel">
+        {{-- <div class="modal fade product_modal" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel">
         </div>
 
         <div class="modal fade payment_modal" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel">
         </div>
 
         <div class="modal fade edit_payment_modal" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel">
+        </div> --}}
+        <div class="modal fade property_wanted_delete_modal" tabindex="-1" role="dialog"
+            aria-labelledby="gridSystemModalLabel">
+        </div>
+        <div class="modal fade " id="product_show_modal" tabindex="-1" role="dialog"
+            aria-labelledby="gridSystemModalLabel">
+        </div>
+        <div class="modal fade " id="product_print_modal" tabindex="-1" role="dialog"
+            aria-labelledby="gridSystemModalLabel">
         </div>
 
-        @include('purchase.partials.update_purchase_status_modal')
+
+        {{-- @include('purchase.partials.update_purchase_status_modal') --}}
 
     </section>
 
@@ -126,7 +115,7 @@
 @section('javascript')
     <script src="{{ asset('js/purchase.js?v=' . $asset_v) }}"></script>
     <script src="{{ asset('js/payment.js?v=' . $asset_v) }}"></script>
-    <script>
+    {{-- <script>
         //Date range as a button
         $('#purchase_list_filter_date_range').daterangepicker(
             dateRangeSettings,
@@ -175,7 +164,7 @@
                 },
             });
         });
-    </script>
+    </script> --}}
     <script>
         $(document).ready(function() {
             business_locations = $('#room_to_rent_share_table').DataTable({
@@ -183,81 +172,88 @@
                 serverSide: true,
                 bPaginate: false,
                 buttons: [],
-                ajax: '/purchases',
+                ajax: '/purchases/list',
                 columns: [
-                    // {
-                    //     data: 'action',
-                    //     name: 'action',
-                    //     orderable: false,
-                    //     searchable: false
-                    // },
-                    // {
-                    //     data: 'status',
-                    //     name: 'status',
-                    //     render: function(data, type, row) {
-                    //         if (type === 'display' && data !== null) {
-                    //             var statusClass = data === 0 ? 'bg-red' : data === 1 ? 'bg-green' :
-                    //                 '';
-                    //             return '<span class="cursor-pointer label ' + statusClass +
-                    //                 ' property-wanted-delete-btn" data-id="' +
-                    //                 row.id + '">' + (data === 1 ? 'Published' : 'Private') +
-                    //                 '</span>';
-                    //         }
-                    //         return '';
-                    //     }
-                    // },
-                    // {
-                    //     data: 'information_complete',
-                    //     name: 'information_complete',
-                    //     render: function(data, type, row) {
-                    //         if (data == 1) {
-                    //             return '<span class="label bg-green">Not required</span>';
-                    //         } else {
-                    //             return '<span class="label bg-yellow">Required</span>';
-                    //         }
-                    //     }
-                    // },
+
                     {
                         data: 'action',
                         name: 'action',
                         orderable: false,
                         "searchable": false
                     },
+
                     {
-                        data: 'id',
-                        name: 'id'
+                        data: 'transaction_date',
+                        name: 'transaction_date'
                     },
                     {
-                        data: 'invoice_no',
-                        name: 'invoice_no'
+                        data: 'ref_no',
+                        name: 'ref_no'
                     },
+
                     {
-                        data: 'name',
-                        name: 'name'
-                    },
-                    {
-                        data: 'unit_price',
-                        name: 'unit_price',
-                        class: 'text-center'
-                    },
-                    {
-                        data: 'payment_method',
-                        name: 'payment_method',
+                        data: 'status',
+                        name: 'status',
                         class: 'text-center'
                     },
                     {
                         data: 'payment_status',
                         name: 'payment_status',
-                    },
-                    {
-                        data: 'purchase_date',
-                        name: 'purchase_date',
                         class: 'text-center'
                     },
+                    {
+                        data: 'final_total',
+                        name: 'final_total',
+                    },
+                    {
+                        data: 'payment_due',
+                        name: 'payment_due',
+                        class: 'text-center'
+                    },
+                    {
+                        data: 'added_by',
+                        name: 'u.first_name'
+                    }
                 ]
             });
         });
 
+        $(document).ready(function() {
+            $(document).on('click', '.product_show', function() {
+                var id = $(this).data('id');
+                $.ajax({
+                    url: "{{ route('customer.order.show.details') }}",
+                    type: 'get',
+                    data: {
+                        id: id
+                    },
+                    dataType: 'html',
+                    success: function(d) {
+                        $('#product_show_modal').empty();
+                        $('#product_show_modal').html(d);
+                        $('#product_show_modal').modal('show')
+                    }
+                })
+            })
+        })
+        $(document).ready(function() {
+            $(document).on('click', '.product_print', function() {
+                var id = $(this).data('id');
+                $.ajax({
+                    url: "{{ route('customer.order.print.details') }}",
+                    type: 'get',
+                    data: {
+                        id: id
+                    },
+                    dataType: 'html',
+                    success: function(d) {
+                        $('#product_print_modal').empty();
+                        $('#product_print_modal').html(d);
+                        $('#product_print_modal').modal('show')
+                    }
+                })
+            })
+        })
 
         $(document).ready(function() {
             // Deleteing Property Started

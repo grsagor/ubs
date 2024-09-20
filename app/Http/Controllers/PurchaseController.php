@@ -72,10 +72,59 @@ class PurchaseController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function getListPurchases($id)
+    {
+        $purchases = Transaction::leftJoin('contacts', 'transactions.contact_id', '=', 'contacts.id')
+            ->join(
+                'business_locations AS BS',
+                'transactions.location_id',
+                '=',
+                'BS.id'
+            )
+            ->leftJoin(
+                'transaction_payments AS TP',
+                'transactions.id',
+                '=',
+                'TP.transaction_id'
+            )
+            ->leftJoin(
+                'transactions AS PR',
+                'transactions.id',
+                '=',
+                'PR.return_parent_id'
+            )
+            ->leftJoin('users as u', 'transactions.created_by', '=', 'u.id')
+            ->where('transactions.created_by', $id)
+            ->where('transactions.type', 'purchase')
+            ->select(
+                'transactions.id',
+                'transactions.document',
+                'transactions.transaction_date',
+                'transactions.ref_no',
+                'transactions.invoice_no',
+                'contacts.name',
+                'contacts.supplier_business_name',
+                'transactions.status',
+                'transactions.payment_status',
+                'transactions.final_total',
+                'BS.name as location_name',
+                'transactions.pay_term_number',
+                'transactions.pay_term_type',
+                'PR.id as return_transaction_id',
+                DB::raw('SUM(TP.amount) as amount_paid'),
+                DB::raw('(SELECT SUM(TP2.amount) FROM transaction_payments AS TP2 WHERE
+                        TP2.transaction_id=PR.id ) as return_paid'),
+                DB::raw('COUNT(PR.id) as return_exists'),
+                DB::raw('COALESCE(PR.final_total, 0) as amount_return'),
+                DB::raw("CONCAT(COALESCE(u.surname, ''),' ',COALESCE(u.first_name, ''),' ',COALESCE(u.last_name,'')) as added_by")
+            )
+            ->groupBy('transactions.id');
 
+        return $purchases;
+    }
     public function getPurchaseList(Request $request)
     {
-        $business_id = request()->session()->get('user.business_id');
+        // $business_id = request()->session()->get('user.business_id');
 
         // $contact_type = Contact::where('business_id', $business_id)
         //     ->find(auth()->user()->crm_contact_id)
@@ -84,9 +133,10 @@ class PurchaseController extends Controller
         // if (!(auth()->user()->can('superadmin') || $this->moduleUtil->hasThePermissionInSubscription($business_id, 'crm_module') && in_array($contact_type, ['supplier', 'both']))) {
         //     abort(403, 'Unauthorized action.');
         // }
+        $user = Auth::user();
 
         if ($request->ajax()) {
-            $purchases = $this->transactionUtil->getListPurchases($business_id);
+            $purchases = $this->getListPurchases($user->id);
 
             //filter by payment status
             if (!empty($request->input('payment_status')) && $request->input('payment_status') != 'overdue') {
@@ -112,7 +162,7 @@ class PurchaseController extends Controller
             }
 
             //get purchase of logged in supplier/customer
-            $purchases->where('contacts.id', auth()->user()->crm_contact_id);
+            // $purchases->where('contacts.id', auth()->user()->crm_contact_id);
 
             return Datatables::of($purchases)
                 ->addColumn('action', function ($row) {
@@ -136,22 +186,25 @@ class PurchaseController extends Controller
                             </div>';
                     return $html;
                 })
-                ->removeColumn('id')
+                // ->removeColumn('id')
                 ->editColumn('ref_no', function ($row) {
                     return !empty($row->return_exists) ? $row->ref_no . ' <small class="label bg-red label-round no-print" title="' . __('lang_v1.some_qty_returned') . '"><i class="fas fa-undo"></i></small>' : $row->ref_no;
+                })
+                ->editColumn('invoice_no', function ($row) {
+                    return $row->invoice_no;
                 })
                 ->editColumn(
                     'final_total',
                     '<span class="display_currency final_total" data-currency_symbol="true" data-orig-value="{{$final_total}}">{{$final_total}}</span>'
                 )
-                ->editColumn('transaction_date', '{{@format_datetime($transaction_date)}}')
+                ->editColumn('transaction_date', function ($data) {
+                    return \Carbon::parse($data->transaction_date)->format('Y-m-d');
+                })
                 ->editColumn(
                     'status',
-                    '<a href="#">
-                        <span class="label @transaction_status($status) status-label" data-status-name="{{(\'lang_v1.\' . $status)}}" data-orig-value="{{$status}}">
-                            {{(\'lang_v1.\' . $status)}}
-                        </span>
-                    </a>'
+                    function ($row) {
+                        return $row->status;
+                    }
                 )
                 ->editColumn(
                     'payment_status',
@@ -184,19 +237,35 @@ class PurchaseController extends Controller
                     }
                     return $due_html;
                 })
-                ->setRowAttr([
-                    'data-href' => function ($row) {
-                        return action('PurchaseController@show', [$row->id]);
-                    }
-                ])
-                ->rawColumns(['action', 'ref_no', 'status', 'payment_status', 'final_total', 'payment_due'])
+                // ->setRowAttr([
+                //     'data-href' => function ($row) {
+                //         return action('PurchaseController@show', [$row->id]);
+                //     }
+                // ])
+                ->rawColumns(['action', 'ref_no', 'invoice_no', 'transaction_date', 'status', 'payment_status', 'final_total', 'payment_due'])
                 ->make(true);
         }
 
+        $business_locations = [
+            'dhaka'      => 'Dhaka',
+            'chittagong' => 'Chittagong',
+            'sylhet'     => 'Sylhet',
+            'barisal'    => 'Barisal',
+            'khulna'     => 'Khulna',
+            'rajshahi'   => 'Rajshahi',
+            'rangpur'    => 'Rangpur',
+            'mymensingh' => 'Mymensingh',
+        ];
+
+        $customers     = [
+            'customer' => 'Customer',
+            'supplier' => 'Supplier',
+            'both'     => 'Both',
+        ];
         $orderStatuses = $this->productUtil->orderStatuses();
-        return view('crm::purchase.index')
-            ->with(compact('orderStatuses'));
-    }               
+        return view('purchase.index')
+            ->with(compact('business_locations', 'customers', 'orderStatuses'));
+    }
     public function index()
     {
         $businessUtil   = new BusinessUtil();
@@ -1590,4 +1659,75 @@ class PurchaseController extends Controller
 
         return $output;
     }
+    public function single(Request $request)
+    {
+        // if (!auth()->user()->can('purchase.view')) {
+        //     abort(403, 'Unauthorized action.');
+        // }
+        $id = $request->id;
+
+        $user     = Auth::user();
+        $taxes    = TaxRate::where('created_by', $user->id)
+            ->pluck('name', 'id');
+        $purchase = Transaction::where('created_by', $user->id)
+            ->where('id', $id)
+            ->with(
+                'contact',
+                'purchase_lines',
+                'purchase_lines.product',
+                'purchase_lines.product.unit',
+                'purchase_lines.product.second_unit',
+                'purchase_lines.variations',
+                'purchase_lines.variations.product_variation',
+                'purchase_lines.sub_unit',
+                'location',
+                'payment_lines',
+                'tax'
+            )
+            ->firstOrFail();
+
+        // foreach ($purchase->purchase_lines as $key => $value) {
+        //     if (!empty($value->sub_unit_id)) {
+        //         $formated_purchase_line         = $this->productUtil->changePurchaseLineUnit($value, $business_id);
+        //         $purchase->purchase_lines[$key] = $formated_purchase_line;
+        //     }
+        // }
+
+        $payment_methods = $this->productUtil->payment_types($purchase->location_id, true);
+
+        $purchase_taxes = [];
+        if (!empty($purchase->tax)) {
+            if ($purchase->tax->is_tax_group) {
+                $purchase_taxes = $this->transactionUtil->sumGroupTaxDetails($this->transactionUtil->groupTaxDetails($purchase->tax, $purchase->tax_amount));
+            } else {
+                $purchase_taxes[$purchase->tax->name] = $purchase->tax_amount;
+            }
+        }
+
+        //Purchase orders
+        $purchase_order_nos   = '';
+        $purchase_order_dates = '';
+        if (!empty($purchase->purchase_order_ids)) {
+            $purchase_orders = Transaction::find($purchase->purchase_order_ids);
+
+            $purchase_order_nos = implode(', ', $purchase_orders->pluck('ref_no')->toArray());
+            $order_dates        = [];
+            foreach ($purchase_orders as $purchase_order) {
+                $order_dates[] = $this->transactionUtil->format_date($purchase_order->transaction_date, true);
+            }
+            $purchase_order_dates = implode(', ', $order_dates);
+        }
+
+        $activities = Activity::forSubject($purchase)
+            ->with(['causer', 'subject'])
+            ->latest()
+            ->get();
+
+        $statuses = $this->productUtil->orderStatuses();
+
+        return view('crm::customer-product.order.show
+        ', compact('id'))
+            ->with(compact('taxes', 'purchase', 'payment_methods', 'purchase_taxes', 'activities', 'statuses', 'purchase_order_nos', 'purchase_order_dates'));
+    }
+
 }

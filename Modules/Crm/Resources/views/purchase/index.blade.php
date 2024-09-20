@@ -3,76 +3,212 @@
 @section('title', __('purchase.purchases'))
 
 @section('content')
-<!-- Content Header (Page header) -->
-<section class="content-header no-print">
-   <h1>@lang('purchase.purchases')</h1>
-</section>
-<!-- Main content -->
-<section class="content no-print">
-	@component('components.filters', ['title' => __('report.filters')])
-        <div class="col-md-3">
-            <div class="form-group">
-                {!! Form::label('status_filter',  __('purchase.purchase_status') . ':') !!}
-                {!! Form::select('status_filter', $orderStatuses, null, ['class' => 'form-control select2', 'style' => 'width:100%', 'placeholder' => __('lang_v1.all')]); !!}
+    <!-- Content Header (Page header) -->
+    <section class="content-header no-print">
+        <h1>@lang('purchase.purchases')</h1>
+    </section>
+    <!-- Main content -->
+    <section class="content no-print">
+        @component('components.filters', ['title' => __('report.filters')])
+            <div class="col-md-3">
+                <div class="form-group">
+                    {!! Form::label('status_filter', __('purchase.purchase_status') . ':') !!}
+                    {!! Form::select('status_filter', $orderStatuses, null, [
+                        'class' => 'form-control select2',
+                        'style' => 'width:100%',
+                        'placeholder' => __('lang_v1.all'),
+                    ]) !!}
+                </div>
             </div>
-        </div>
-        <div class="col-md-3">
-            <div class="form-group">
-                {!! Form::label('payment_status_filter',  __('purchase.payment_status') . ':') !!}
-                {!! Form::select('payment_status_filter', ['paid' => __('lang_v1.paid'), 'due' => __('lang_v1.due'), 'partial' => __('lang_v1.partial'), 'overdue' => __('lang_v1.overdue')], null, ['class' => 'form-control select2', 'style' => 'width:100%', 'placeholder' => __('lang_v1.all')]); !!}
+            <div class="col-md-3">
+                <div class="form-group">
+                    {!! Form::label('payment_status_filter', __('purchase.payment_status') . ':') !!}
+                    {!! Form::select(
+                        'payment_status_filter',
+                        [
+                            'paid' => __('lang_v1.paid'),
+                            'due' => __('lang_v1.due'),
+                            'partial' => __('lang_v1.partial'),
+                            'overdue' => __('lang_v1.overdue'),
+                        ],
+                        null,
+                        ['class' => 'form-control select2', 'style' => 'width:100%', 'placeholder' => __('lang_v1.all')],
+                    ) !!}
+                </div>
             </div>
-        </div>
-        <div class="col-md-3">
-            <div class="form-group">
-                {!! Form::label('date_range_filter', __('report.date_range') . ':') !!}
-                {!! Form::text('date_range_filter', null, ['placeholder' => __('lang_v1.select_a_date_range'), 'class' => 'form-control', 'readonly']); !!}
+            <div class="col-md-3">
+                <div class="form-group">
+                    {!! Form::label('date_range_filter', __('report.date_range') . ':') !!}
+                    {!! Form::text('date_range_filter', null, [
+                        'placeholder' => __('lang_v1.select_a_date_range'),
+                        'class' => 'form-control',
+                        'readonly',
+                    ]) !!}
+                </div>
             </div>
-        </div>
-    @endcomponent
+        @endcomponent
 
-    @component('components.widget', ['class' => 'box-primary', 'title' => __('purchase.all_purchases')])
-        <div class="table-responsive">
-        	<table class="table table-bordered table-striped ajax_view" id="contact_purchase_table">
-        		<thead>
-        			<tr>
-        				<th>@lang('messages.action')</th>
-        				<th>@lang('messages.date')</th>
-		                <th>@lang('purchase.ref_no')</th>
-		                <th>@lang('purchase.purchase_status')</th>
-		                <th>@lang('purchase.payment_status')</th>
-		                <th>@lang('purchase.grand_total')</th>
-		                <th>@lang('purchase.payment_due') &nbsp;&nbsp;<i class="fa fa-info-circle text-info no-print" data-toggle="tooltip" data-placement="bottom" data-html="true" data-original-title="{{ __('messages.purchase_due_tooltip')}}" aria-hidden="true"></i></th>
-		                <th>@lang('lang_v1.added_by')</th>
-        			</tr>
-        		</thead>
-        		<tfoot>
-		            <tr class="bg-gray font-17 text-center footer-total">
-						<td colspan="3">
-							<strong>@lang('sale.total'):</strong>
-						</td>
-						<td id="footer_status_count"></td>
-						<td id="footer_payment_status_count"></td>
-						<td>
-							<span class="display_currency" id="footer_purchase_total" data-currency_symbol ="true">
-							</span>
-						</td>
-						<td class="text-left">
-							<small>@lang('report.purchase_due') -
-								<span class="display_currency" id="footer_total_due" data-currency_symbol ="true"></span>
-								<br>
-								@lang('lang_v1.purchase_return') - 
-									<span class="display_currency" id="footer_total_purchase_return_due" data-currency_symbol ="true"></span>
-							</small>
-						</td>	
-						<td></td>
-		            </tr>
-		        </tfoot>
-        	</table>
+        @component('components.widget', ['class' => 'box-primary', 'title' => __('purchase.all_purchases')])
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped" id="room_to_rent_share_table">
+                    <thead>
+                        <tr>
+                            <th>@lang('messages.action')</th>
+                            <th>@lang('messages.date')</th>
+                            <th>@lang('purchase.ref_no')</th>
+                            <th>@lang('purchase.purchase_status')</th>
+                            <th>@lang('purchase.payment_status')</th>
+                            <th>@lang('purchase.grand_total')</th>
+                            <th>@lang('purchase.payment_due') &nbsp;&nbsp;<i class="fa fa-info-circle text-info no-print"
+                                    data-toggle="tooltip" data-placement="bottom" data-html="true"
+                                    data-original-title="{{ __('messages.purchase_due_tooltip') }}" aria-hidden="true"></i></th>
+                            <th>@lang('lang_v1.added_by')</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        @endcomponent
+        <div class="modal fade property_wanted_delete_modal" tabindex="-1" role="dialog"
+            aria-labelledby="gridSystemModalLabel">
         </div>
-    @endcomponent
-</section>
+        <div class="modal fade " id="product_show_modal" tabindex="-1" role="dialog"
+            aria-labelledby="gridSystemModalLabel">
+        </div>
+        <div class="modal fade " id="product_print_modal" tabindex="-1" role="dialog"
+            aria-labelledby="gridSystemModalLabel">
+        </div>
+    </section>
 @endsection
 @section('javascript')
-<script src="{{ asset('js/purchase.js?v=' . $asset_v) }}"></script>
-<script src="{{ asset('modules/crm/js/crm.js?v=' . $asset_v) }}"></script>
+    <script src="{{ asset('js/purchase.js?v=' . $asset_v) }}"></script>
+    <script src="{{ asset('modules/crm/js/crm.js?v=' . $asset_v) }}"></script>
+    <script>
+        $(document).ready(function() {
+            business_locations = $('#room_to_rent_share_table').DataTable({
+                processing: true,
+                serverSide: true,
+                bPaginate: false,
+                buttons: [],
+                ajax: '/purchases/list',
+                columns: [
+
+                    {
+                        data: 'action',
+                        name: 'action',
+                        orderable: false,
+                        "searchable": false
+                    },
+
+                    {
+                        data: 'transaction_date',
+                        name: 'transaction_date'
+                    },
+                    {
+                        data: 'ref_no',
+                        name: 'ref_no'
+                    },
+
+                    {
+                        data: 'status',
+                        name: 'status',
+                        class: 'text-center'
+                    },
+                    {
+                        data: 'payment_status',
+                        name: 'payment_status',
+                        class: 'text-center'
+                    },
+                    {
+                        data: 'final_total',
+                        name: 'final_total',
+                    },
+                    {
+                        data: 'payment_due',
+                        name: 'payment_due',
+                        class: 'text-center'
+                    },
+                    
+                ]
+            });
+        });
+
+        $(document).ready(function() {
+            $(document).on('click', '.product_show', function() {
+                var id = $(this).data('id');
+                $.ajax({
+                    url: "{{ route('customer.order.show.details') }}",
+                    type: 'get',
+                    data: {
+                        id: id
+                    },
+                    dataType: 'html',
+                    success: function(d) {
+                        $('#product_show_modal').empty();
+                        $('#product_show_modal').html(d);
+                        $('#product_show_modal').modal('show')
+                    }
+                })
+            })
+        })
+        $(document).ready(function() {
+            $(document).on('click', '.product_print', function() {
+                var id = $(this).data('id');
+                $.ajax({
+                    url: "{{ route('customer.order.print.details') }}",
+                    type: 'get',
+                    data: {
+                        id: id
+                    },
+                    dataType: 'html',
+                    success: function(d) {
+                        $('#product_print_modal').empty();
+                        $('#product_print_modal').html(d);
+                        $('#product_print_modal').modal('show')
+                    }
+                })
+            })
+        })
+
+        $(document).ready(function() {
+            // Deleteing Property Started
+            $(document).on('click', '.property-wanted-delete-btn', function() {
+                var id = $(this).data('id');
+                $.ajax({
+                    url: "/contact/show-property-delete-modal",
+                    type: "get",
+                    data: {
+                        id: id
+                    },
+                    dataType: "html",
+                    success: function(html) {
+                        // toastr.success(JSON.stringify('Modal Open'));
+                        $('.property_wanted_delete_modal').empty();
+                        $('.property_wanted_delete_modal').html(html);
+                        $('.property_wanted_delete_modal').modal('show');
+                    }
+                })
+            })
+
+            $(document).on('click', '.property_delete_confirm_btn', function() {
+                var id = $(this).data('id');
+                $.ajax({
+                    url: "/contact/confirm-property-delete",
+                    type: "get",
+                    data: {
+                        id: id
+                    },
+                    dataType: "json",
+                    success: function(response) {
+                        toastr.options = {
+                            "sound": false, // Disable sound globally
+                            // Other options...
+                        };
+                        toastr.success(response.message);
+                        $('#room_to_rent_share_table').DataTable().ajax.reload();
+                        $('.property_wanted_delete_modal').modal('hide');
+                    }
+                })
+            })
+        })
+    </script>
 @endsection

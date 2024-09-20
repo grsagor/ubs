@@ -4881,6 +4881,7 @@ class TransactionUtil extends Util
                         'transactions.transaction_date',
                         'transactions.ref_no',
                         'contacts.name',
+                        'transactions.invoice_no',
                         'contacts.supplier_business_name',
                         'transactions.status',
                         'transactions.payment_status',

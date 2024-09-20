@@ -121,7 +121,7 @@
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li class="{{ Request::is('purchases*') ? 'active' : '' }}"><a href="{{ route('purchases.index') }}"><i class="fa fas fa-list"></i> <span>List
+                    <li class="{{ Request::is('purchases.list*') ? 'active' : '' }}"><a href="{{ route('purchases.list') }}"><i class="fa fas fa-list"></i> <span>List
                                 Purchases</span></a></li>
                     <li><a href="{{ route('purchases.create') }}"><i class="fa fas fa-plus-circle"></i> <span>Add
                                 Purchase</span></a></li>
