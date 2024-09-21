@@ -808,7 +808,8 @@ Route::middleware(['checkAdmin', 'SetSessionData'])->group(function () {
     Route::get('user-location/{latlng}', [HomeController::class, 'getUserLocation']);
 });
 
-Route::get('/purchases/datatable/list', [PurchaseController::class, 'purchaseDatatableList']);
+Route::get('/purchases/datatable/list', [PurchaseController::class, 'getPurchaseList']);
+Route::get('/single-order-details-show', [PurchaseController::class, 'single'])->name('single.order.show.details');
 
 Route::get('/withdraw', [WithdrawRequestController::class, 'index']);
 Route::get('/withdraw-list', [WithdrawRequestController::class, 'getWithdrawList'])->name('account.withdraw.list');

@@ -239,26 +239,11 @@ class CustomerProductController extends Controller
                 ->rawColumns(['action', 'ref_no', 'invoice_no', 'transaction_date', 'status', 'payment_status', 'final_total', 'payment_due'])
                 ->make(true);
         }
-        $business_locations = [
-            'dhaka'      => 'Dhaka',
-            'chittagong' => 'Chittagong',
-            'sylhet'     => 'Sylhet',
-            'barisal'    => 'Barisal',
-            'khulna'     => 'Khulna',
-            'rajshahi'   => 'Rajshahi',
-            'rangpur'    => 'Rangpur',
-            'mymensingh' => 'Mymensingh',
-        ];
-
-        $customers = [
-            'customer' => 'Customer',
-            'supplier' => 'Supplier',
-            'both'     => 'Both',
-        ];
+        
 
         $orderStatuses = $this->productUtil->orderStatuses();
         return view('crm::customer-product.order.list')
-            ->with(compact('orderStatuses', 'business_locations', 'customers'));
+            ->with(compact('orderStatuses'));
     }
     public function index()
     {

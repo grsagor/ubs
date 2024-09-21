@@ -2718,7 +2718,7 @@
                                                             <a href="javascript:;" data-go="2" data-hide="3"
                                                                 class="mybtn1 mr-3 mb-0 last_back_btn">Back</a>
                                                             <button type="button" id="final-btn"
-                                                                class="btn btn-primary">Cash</button>
+                                                                class="btn btn-primary">Pay Later</button>
                                                             <button type="button" class="btn btn-primary"
                                                                 id="open_stripe_modal--btn" data-bs-toggle="modal"
                                                                 data-bs-target="#stripeModal">Card</button>

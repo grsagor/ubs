@@ -222,7 +222,7 @@
             $(document).on('click', '.product_show', function() {
                 var id = $(this).data('id');
                 $.ajax({
-                    url: "{{ route('customer.order.show.details') }}",
+                    url: "{{ route('single.order.show.details') }}",
                     type: 'get',
                     data: {
                         id: id

@@ -66,17 +66,17 @@ class BusinessLocation extends Model
 
         if ($receipt_printer_type_attribute) {
             $attributes = collect($result)->mapWithKeys(function ($item) use ($price_groups) {
-                $default_payment_accounts = json_decode($item->default_payment_accounts, true);
+                $default_payment_accounts            = json_decode($item->default_payment_accounts, true);
                 $default_payment_accounts['advance'] = [
                     'is_enabled' => 1,
-                    'account' => null,
+                    'account'    => null,
                 ];
 
                 return [
                     $item->id => [
-                        'data-receipt_printer_type' => $item->receipt_printer_type,
-                        'data-default_price_group' => !empty($item->selling_price_group_id) && array_key_exists($item->selling_price_group_id, $price_groups) ? $item->selling_price_group_id : null,
-                        'data-default_payment_accounts' => json_encode($default_payment_accounts),
+                        'data-receipt_printer_type'      => $item->receipt_printer_type,
+                        'data-default_price_group'       => !empty($item->selling_price_group_id) && array_key_exists($item->selling_price_group_id, $price_groups) ? $item->selling_price_group_id : null,
+                        'data-default_payment_accounts'  => json_encode($default_payment_accounts),
                         'data-default_invoice_scheme_id' => $item->invoice_scheme_id,
                         'data-default_invoice_layout_id' => $item->invoice_layout_id,
                     ],
@@ -85,6 +85,72 @@ class BusinessLocation extends Model
 
             return ['locations' => $locations, 'attributes' => $attributes];
         } else {
+            return $locations;
+        }
+    }
+
+    public static function forDropdownAll($show_all = false, $receipt_printer_type_attribute = false, $check_permission = true)
+    {
+        // Query to get all active business locations without filtering by business_id
+        $query = BusinessLocation::Active();
+
+        // If permission check is enabled
+        if ($check_permission) {
+            $permitted_locations = auth()->user()->permitted_locations();
+            if ($permitted_locations != 'all') {
+                $query->whereIn('id', $permitted_locations);
+            }
+        }
+
+        // Select the required fields (no need for business_id anymore)
+        $query->select(
+            DB::raw("IF(location_id IS NULL OR location_id='', name, CONCAT(name, ' (', location_id, ')')) AS name"),
+            'id',
+            'receipt_printer_type',
+            'selling_price_group_id',
+            'default_payment_accounts',
+            'invoice_scheme_id',
+            'invoice_layout_id'
+        );
+
+        // Execute the query and get the result
+        $result = $query->get();
+
+        // Extract the location names with their IDs
+        $locations = $result->pluck('name', 'id');
+
+        // If show_all is enabled, prepend 'All Locations' to the locations list
+        if ($show_all) {
+            $locations->prepend(__('report.all_locations'), '');
+        }
+
+        // Check if receipt_printer_type_attribute is needed
+        if ($receipt_printer_type_attribute) {
+            $price_groups = SellingPriceGroup::all()->pluck('name', 'id');  // Get all price groups
+
+            // Generate attributes for each location
+            $attributes = collect($result)->mapWithKeys(function ($item) use ($price_groups) {
+                $default_payment_accounts            = json_decode($item->default_payment_accounts, true);
+                $default_payment_accounts['advance'] = [
+                    'is_enabled' => 1,
+                    'account'    => null,
+                ];
+
+                return [
+                    $item->id => [
+                        'data-receipt_printer_type'      => $item->receipt_printer_type,
+                        'data-default_price_group'       => !empty($item->selling_price_group_id) && array_key_exists($item->selling_price_group_id, $price_groups) ? $item->selling_price_group_id : null,
+                        'data-default_payment_accounts'  => json_encode($default_payment_accounts),
+                        'data-default_invoice_scheme_id' => $item->invoice_scheme_id,
+                        'data-default_invoice_layout_id' => $item->invoice_layout_id,
+                    ],
+                ];
+            })->all();
+
+            // Return the locations and attributes
+            return ['locations' => $locations, 'attributes' => $attributes];
+        } else {
+            // Return only the locations
             return $locations;
         }
     }
@@ -140,7 +206,7 @@ class BusinessLocation extends Model
 
     public function getLocationAddressAttribute()
     {
-        $location = $this;
+        $location       = $this;
         $address_line_1 = [];
         if (!empty($location->landmark)) {
             $address_line_1[] = $location->landmark;
@@ -154,7 +220,7 @@ class BusinessLocation extends Model
         if (!empty($location->zip_code)) {
             $address_line_1[] = $location->zip_code;
         }
-        $address = implode(', ', $address_line_1);
+        $address        = implode(', ', $address_line_1);
         $address_line_2 = [];
         if (!empty($location->country)) {
             $address_line_2[] = $location->country;
