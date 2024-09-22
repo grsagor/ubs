@@ -48,10 +48,10 @@
                         'url' => action([\Modules\Essentials\Http\Controllers\EssentialsMessageController::class, 'store']),
                         'method' => 'post',
                         'id' => 'add_essentials_msg_form',
+                        'enctype' => 'multipart/form-data',
                     ]) !!}
                     <div class="row">
-
-                        <!-- First Column (col-3): Location Select -->
+                        <!-- First Column (Location Select) -->
                         <div class="col-md-3" style="padding: 0; border: none; margin-bottom:10px;">
                             {!! Form::select('location_id', $business_locations, null, [
                                 'class' => 'form-control',
@@ -60,30 +60,32 @@
                             ]) !!}
                         </div>
 
-                        {{-- <div class="col-md-3">
-                            <input type="file" name="image_file[]" multiple class="form-control">
-                        </div> --}}
+                        <!-- Second Column: File Input -->
+                        <div class="col-md-3">
+                            <input type="file" name="image_file[]" class="form-control" multiple
+                                accept="image/*,.doc,.pdf,.ppt,.pptx,.xls,.xlsx,.csv,">
+                            <span>image,doc,pdf,ppt,pptx,xls,xlsx,csv,</span>
+                        </div>
 
-                        <!-- Second Column (col-12): Textarea for message -->
+                        <!-- Third Column: Textarea for message -->
                         <div class="col-12">
                             {!! Form::textarea('message', null, [
                                 'class' => 'form-control',
-                                'required',
                                 'id' => 'chat-msg',
                                 'placeholder' => __('essentials::lang.type_message'),
                                 'rows' => 4,
                             ]) !!}
                         </div>
 
-                        <!-- Third Column (col-3): Submit Button -->
-                        <div class="col-3" style=" margin-top:10px;">
+                        <!-- Fourth Column: Submit Button -->
+                        <div class="col-3" style="margin-top:10px;">
                             <button type="submit" class="btn btn-success ladda-button" data-style="expand-right">
                                 <span class="ladda-label">Send</span>
                             </button>
                         </div>
                     </div>
-
                     {!! Form::close() !!}
+
                 </div>
             @endcan
         </div>
@@ -96,29 +98,67 @@
         $(document).ready(function() {
             scroll_down_chat_div();
             $('#chat-msg').focus();
+
             $('form#add_essentials_msg_form').submit(function(e) {
                 e.preventDefault();
-                var msg = $('#chat-msg').val().trim();
-                if (msg) {
-                    var data = $(this).serialize();
-                    var ladda = Ladda.create(document.querySelector('.ladda-button'));
-                    ladda.start();
-                    $.ajax({
-                        url: "{{ action([\Modules\Essentials\Http\Controllers\EssentialsMessageController::class, 'store']) }}",
-                        data: data,
-                        method: 'post',
-                        dataType: "json",
-                        success: function(result) {
-                            ladda.stop();
-                            if (result.html) {
-                                $('div#chat-box').append(result.html);
-                                scroll_down_chat_div();
-                                $('#chat-msg').val('').focus();
-                            }
-                        }
-                    });
+
+                var message = $('#chat-msg').val().trim();
+                var fileInput = $('input[name="image_file[]"]')[0].files; // Get the FileList object
+
+                // Clear previous error messages
+                $('.error-message').remove();
+                $('textarea, input').removeClass('is-invalid');
+
+                // Check if either the message or file input is filled
+                if (!message && fileInput.length === 0) {
+                    // If neither is filled, show an error message for both fields
+                    if (!message) {
+                        $('#chat-msg').addClass('is-invalid').after(
+                            '<span class="error-message" style="color:red;">Message is required.</span>'
+                        );
+                    }
+
+                    if (fileInput.length === 0) {
+                        $('input[name="image_file[]"]').addClass('is-invalid').after(
+                            '<span class="error-message" style="color:red;">File is required if no message is provided.</span>'
+                        );
+                    }
+
+                    return; // Stop form submission
                 }
+
+                // Proceed with form submission if validation passes
+                var formData = new FormData(this);
+                var ladda = Ladda.create(document.querySelector('.ladda-button'));
+                ladda.start();
+
+                $.ajax({
+                    url: "{{ action([\Modules\Essentials\Http\Controllers\EssentialsMessageController::class, 'store']) }}",
+                    data: formData,
+                    method: 'post',
+                    processData: false, // Prevent jQuery from automatically processing the data
+                    contentType: false, // Let the browser set the content type, including boundaries for files
+                    dataType: 'json',
+                    success: function(result) {
+                        ladda.stop();
+                        if (result.success) {
+                            $('div#chat-box').append(result.html);
+                            scroll_down_chat_div();
+                            $('#chat-msg').val('').focus();
+                            $('input[name="image_file[]"]').val(''); // Clear file input
+                        } else {
+                            toastr.error(result.msg);
+                        }
+                    },
+                    error: function(xhr) {
+                        ladda.stop();
+                        toastr.error('Error: ' + xhr.responseText);
+                    }
+                });
             });
+
+
+
 
             $(document).on('click', 'a.chat-delete', function(e) {
                 e.preventDefault();
