@@ -70,56 +70,74 @@ class EssentialsMessageController extends Controller
      * @param  Request  $request
      * @return Response
      */
+
     public function store(Request $request)
     {
         $business_id = $request->session()->get('user.business_id');
-        if (! (auth()->user()->can('superadmin') || $this->moduleUtil->hasThePermissionInSubscription($business_id, 'essentials_module'))) {
+
+        if (!(auth()->user()->can('superadmin') || $this->moduleUtil->hasThePermissionInSubscription($business_id, 'essentials_module'))) {
             abort(403, 'Unauthorized action.');
         }
 
-        if (! auth()->user()->can('essentials.create_message')) {
+        if (!auth()->user()->can('essentials.create_message')) {
             abort(403, 'Unauthorized action.');
         }
 
-        if (request()->ajax()) {
+        if ($request->ajax()) {
             try {
                 $user_id = $request->session()->get('user.id');
 
-                $input = $request->only(['message', 'location_id']);
+                $input = $request->only(['message', 'location_id', 'image_file']);
                 $input['business_id'] = $business_id;
                 $input['user_id'] = $user_id;
-                $input['message'] = nl2br($input['message']);
 
-                $output = [
-                    'success' => true,
-                    'msg' => __('lang_v1.success'),
-                ];
+                // dd($input);  
 
-                if (! empty($input['message'])) {
-                    //Get last message sent to the same users
-                    $last_message = EssentialsMessage::where('location_id', $input['location_id'])
-                        ->orWhereNull('location_id')
-                        ->orderBy('created_at', 'desc')
-                        ->first();
+                // Check if a file or message is submitted
+                // if ($request->hasFile('image_file') || !empty($input['message'])) {
+                if (!empty($input['image_file']) || !empty($input['message'])) {
+                    if (!empty($input['message'])) {
+                        $input['message'] = nl2br($input['message']);
+                    }
+                    // dd($input);
+
+                    if (!empty($input['image_file'])) {
+                        $image_path = public_path('uploads/messages');
+
+                        $images = [];
+
+                        foreach ($request->file('image_file') as $image) {
+                            $image_name = rand(123456, 999999) . '.' . $image->getClientOriginalExtension();
+                            $image->move($image_path, $image_name);
+                            $images[] = 'uploads/messages/' . $image_name;
+                        }
+
+                        $input['image_file'] = json_encode($images);
+                    }
 
                     $message = EssentialsMessage::create($input);
 
-                    //Check if min 10min passed from last message to the same user
-                    $database_notification = empty($last_message) || $last_message->created_at->diffInMinutes(\Carbon::now()) > 10;
-                    $this->__notify($message, $database_notification);
-
-                    $output['html'] = view('essentials::messages.message_div', compact('message'))->render();
+                    $output = [
+                        'success' => true,
+                        'msg' => __('lang_v1.success'),
+                        'html' => view('essentials::messages.message_div', compact('message'))->render()
+                    ];
+                } else {
+                    $output = [
+                        'success' => false,
+                        'msg' => __('Please enter a message or select a file to upload.')
+                    ];
                 }
             } catch (\Exception $e) {
-                \Log::emergency('File:' . $e->getFile() . 'Line:' . $e->getLine() . 'Message:' . $e->getMessage());
+                \Log::emergency('File:' . $e->getFile() . ' Line:' . $e->getLine() . ' Message:' . $e->getMessage());
 
                 $output = [
                     'success' => false,
-                    'msg' => 'File:' . $e->getFile() . 'Line:' . $e->getLine() . 'Message:' . $e->getMessage(),
+                    'msg' => 'File:' . $e->getFile() . ' Line:' . $e->getLine() . ' Message:' . $e->getMessage(),
                 ];
             }
 
-            return $output;
+            return response()->json($output);
         }
     }
 
