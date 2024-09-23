@@ -34,7 +34,7 @@
 
                 <h3 class="box-title">Notice Board</h3>
             </div>
-            <div class="box-body" id="chat-box" style="height: 70vh; overflow-y: scroll; background: #efeae2;">
+            <div class="box-body" id="chat-box" style="height: 70vh; overflow-y: scroll; background: #243540;">
                 @can('essentials.view_message')
                     @foreach ($messages as $message)
                         @include('essentials::messages.message_div')
@@ -62,9 +62,8 @@
 
                         <!-- Second Column: File Input -->
                         <div class="col-md-3">
-                            <input type="file" name="image_file[]" class="form-control" multiple
-                                accept="image/*,.doc,.pdf,.ppt,.pptx,.xls,.xlsx,.csv,">
-                            <span>image,doc,pdf,ppt,pptx,xls,xlsx,csv,</span>
+                            <input type="file" name="image_file[]" id="file-upload" class="form-control" multiple
+                                accept="image/*,.doc,.docx,.txt,.rtf,.odt,.pdf,.ppt,.pptx,.xls,.xlsx,.csv,.heic,.html,.css,.js,.py,.json">
                         </div>
 
                         <!-- Third Column: Textarea for message -->
