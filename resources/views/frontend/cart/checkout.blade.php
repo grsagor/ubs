@@ -35,6 +35,7 @@
         }
 
         @media print {
+
             #page_wrapper> :not(.print_section),
             footer,
             #toast-container {
@@ -64,8 +65,8 @@
         }
 
         /* .StripeElement>div>iframe {
-                        height: 32px !important;
-                    } */
+                            height: 32px !important;
+                        } */
 
         .stripe-element-container {
             padding: 4px;
@@ -113,14 +114,14 @@
         }
 
         /* #payment_animation_container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: #EBEBEB;
-            z-index: 99999999;
-        } */
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: #EBEBEB;
+                z-index: 99999999;
+            } */
 
         #payment_animation_container img {
             width: 100%;
@@ -129,14 +130,14 @@
         }
 
         /* #payment_success_container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: #EBEBEB;
-            z-index: 999999999;
-        } */
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: #EBEBEB;
+                z-index: 999999999;
+            } */
 
         #payment_success_container .modal-body {
             height: 100%;
@@ -179,6 +180,7 @@
         .btn-primary:hover {
             border: none !important;
         }
+
         .swal2-title {
             font-size: 16px !important;
         }
@@ -3195,13 +3197,16 @@
                 dataType: 'json',
                 success: async function(result) {
                     if (result.success == 1) {
+
                         //Check if enabled or not
                         // if (result.receipt.is_enabled) {
                         $('#payment_animation_container').modal('hide');
                         await $('#payment_success_container').modal('show');
                         $('#stripeModal').modal('hide');
+                        const transactionId = result.transaction_id;                      
+
                         setTimeout(function() {
-                        location.href = "{{ route('front.payment.successfull') }}"
+                            location.href = "{{ route('front.payment.successfull') }}" + "?transaction_id=" + transactionId
                         }, 2000);
                         receipt = result.receipt;
 

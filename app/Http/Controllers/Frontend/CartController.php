@@ -550,7 +550,7 @@ class CartController extends Controller
             // }
             $receipt = $this->receiptContent($business_id, $input['location_id'], $transaction->id, null, false, true, $invoice_layout_id, false, $request->payment_method);
 
-            $output = ['success' => 1, 'msg' => $msg, 'receipt' => $receipt];
+            $output = ['success' => 1, 'msg' => $msg, 'receipt' => $receipt, 'transaction_id' => $transaction->id];
             Session::put('receipt', $receipt);
 
             if (!empty($whatsapp_link)) {
@@ -1949,10 +1949,13 @@ class CartController extends Controller
         return $formatted;
     }
 
-    public function paymentSuccessful()
+    public function paymentSuccessful(Request $request)
     {
-        $receipt = Session::get('receipt');
+        $transaction_id = $request->transaction_id;
+        $receipt        = Session::get('receipt');
+        $invoice_token     = Transaction::where('id', $transaction_id)->pluck('invoice_token')->first();
+
         // return $receipt['html_content'];
-        return view('frontend.cart.payment_successful', compact('receipt'));
+        return view('frontend.cart.payment_successful', compact('receipt', 'invoice_token'));
     }
 }
