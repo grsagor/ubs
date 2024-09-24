@@ -6,7 +6,7 @@
             <span class="sender_name">{{ $message->sender->user_full_name }}</span>
 
             @if ($message->user_id == auth()->user()->id)
-                <a href="{{ action([\Modules\Essentials\Http\Controllers\EssentialsMessageController::class, 'destroy'], [$message->id]) }}"
+                <a href="{{ action([\App\Http\Controllers\Backend\MessageController::class, 'destroy'], [$message->id]) }}"
                     class="btn-box-tool chat-delete delete-icon-left" title="@lang('messages.delete')">
                     <i class="fa fa-times text-danger" style="font-size: 20px;"></i>
                 </a>
