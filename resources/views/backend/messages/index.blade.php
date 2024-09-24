@@ -180,7 +180,11 @@
                     }
                 });
             });
-            var chat_refresh_interval = "{{ config('essentials::config.chat_refresh_interval', 20) }}";
+
+            //Interval to check for new chats in seconds, default 20sec
+            // 'chat_refresh_interval' => 20, 
+
+            var chat_refresh_interval = 20;
             chat_refresh_interval = parseInt(chat_refresh_interval) * 1000;
             setInterval(function() {
                 getNewMessages()

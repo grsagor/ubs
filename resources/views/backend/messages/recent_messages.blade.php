@@ -1,3 +1,3 @@
-@foreach($messages as $message)
-	@include('essentials::messages.message_div')
+@foreach ($messages as $message)
+    @include('backend.messages.message_div')
 @endforeach
