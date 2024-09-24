@@ -109,6 +109,12 @@
                 </button>
             @endcan
 
+            <button type="button" class="btn btn-success btn-flat pull-left m-8 btn-sm mt-10"
+                data-href="{{ route('messages.index') }}"
+                onclick="window.location.href=this.getAttribute('data-href');">
+                <i class="fab fa-facebook-messenger"></i>
+            </button>
+
             <div class="m-8 pull-left mt-15 hidden-xs" style="color: #fff;"><strong>{{ @format_date('now') }}</strong>
             </div>
 
