@@ -30,10 +30,9 @@
         <div class="box box-solid">
             <div class="box-header">
                 <i class="fa fa-comments-o"></i>
-
                 <h3 class="box-title">Notice Board</h3>
             </div>
-            <div class="box-body" id="chat-box" style="height: 70vh; overflow-y: scroll; background: #243540;">
+            <div class="box-body" id="chat-box" style="height: 85vh; overflow-y: scroll; background: #243540;">
                 @foreach ($messages as $message)
                     @include('backend.messages.message_div')
                 @endforeach
@@ -47,20 +46,6 @@
                     'enctype' => 'multipart/form-data',
                 ]) !!}
                 <div class="row">
-                    <!-- First Column (Location Select) -->
-                    <div class="col-md-3" style="padding: 0; border: none; margin-bottom:10px;">
-                        {!! Form::select('location_id', $business_locations, null, [
-                            'class' => 'form-control',
-                            'placeholder' => __('lang_v1.select_location'),
-                            'style' => 'width: 100%;',
-                        ]) !!}
-                    </div>
-
-                    <!-- Second Column: File Input -->
-                    <div class="col-md-3">
-                        <input type="file" name="image_file[]" id="file-upload" class="form-control" multiple
-                            accept="image/*,.doc,.docx,.txt,.rtf,.odt,.pdf,.ppt,.pptx,.xls,.xlsx,.csv,.heic,.html,.css,.js,.py,.json">
-                    </div>
 
                     <!-- Third Column: Textarea for message -->
                     <div class="col-12">
@@ -73,11 +58,28 @@
                     </div>
 
                     <!-- Fourth Column: Submit Button -->
-                    <div class="col-3" style="margin-top:10px;">
+                    <div style="display: flex; align-items: center; margin-top: 10px;">
+                        <!-- Submit Button -->
                         <button type="submit" class="btn btn-success ladda-button" data-style="expand-right">
                             <span class="ladda-label">Send</span>
                         </button>
+
+                        <!-- File Input -->
+                        <div style="margin-left: 20px;">
+                            <input type="file" name="image_file[]" id="file-upload" class="form-control" multiple
+                                accept="image/*,.doc,.docx,.txt,.rtf,.odt,.pdf,.ppt,.pptx,.xls,.xlsx,.csv,.heic,.html,.css,.js,.py,.json">
+                        </div>
+
+                        <!-- First Column (Location Select) -->
+                        <div style="margin-left: 20px; border: none;">
+                            {!! Form::select('location_id', $business_locations, null, [
+                                'class' => 'form-control',
+                                'placeholder' => __('lang_v1.select_location'),
+                                'style' => 'width: 100%;',
+                            ]) !!}
+                        </div>
                     </div>
+
                 </div>
                 {!! Form::close() !!}
 
@@ -137,6 +139,7 @@
                         ladda.stop();
                         if (result.success) {
                             $('div#chat-box').append(result.html);
+                            toastr.success("Message sent");
                             scroll_down_chat_div();
                             $('#chat-msg').val('').focus();
                             $('input[name="image_file[]"]').val(''); // Clear file input
@@ -150,9 +153,6 @@
                     }
                 });
             });
-
-
-
 
             $(document).on('click', 'a.chat-delete', function(e) {
                 e.preventDefault();

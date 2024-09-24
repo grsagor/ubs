@@ -18,7 +18,10 @@
     </div>
     <!-- /.user-block -->
 
-    <p style="text-align: left;">{!! strip_tags($message->message, '<br>') !!}</p>
+    <p style="text-align: left;">
+        {!! preg_replace('!https?://\S+!', '<a href="$0" target="_blank">$0</a>', strip_tags($message->message, '<br>')) !!}
+    </p>
+
 
     @if (!empty($message->image_file))
         @php
