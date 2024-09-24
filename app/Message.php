@@ -1,10 +1,10 @@
 <?php
 
-namespace Modules\Essentials\Entities;
+namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class EssentialsMessage extends Model
+class Message extends Model
 {
     /**
      * The attributes that aren't mass assignable.
@@ -12,6 +12,8 @@ class EssentialsMessage extends Model
      * @var array
      */
     protected $guarded = ['id'];
+
+    protected $table = 'messages';
 
     /**
      * Get sender.

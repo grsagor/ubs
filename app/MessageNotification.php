@@ -1,12 +1,12 @@
 <?php
 
-namespace Modules\Essentials\Notifications;
+namespace App;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Messages\BroadcastMessage;
 use Illuminate\Notifications\Notification;
+use Illuminate\Notifications\Messages\BroadcastMessage;
 
-class NewMessageNotification extends Notification
+class MessageNotification extends Notification
 {
     use Queueable;
 
@@ -44,9 +44,7 @@ class NewMessageNotification extends Notification
      * @param  mixed  $notifiable
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
-    public function toMail($notifiable)
-    {
-    }
+    public function toMail($notifiable) {}
 
     /**
      * Get the array representation of the notification.
@@ -73,7 +71,7 @@ class NewMessageNotification extends Notification
         return new BroadcastMessage([
             'title' => __('essentials::lang.new_message'),
             'body' => strip_tags(__('essentials::lang.new_message_notification', ['sender' => $this->message->sender->user_full_name])),
-            'link' => action([\Modules\Essentials\Http\Controllers\EssentialsMessageController::class, 'index']),
+            'link' => action([\App\Http\Controllers\Backend\MessageController::class, 'index']),
         ]);
     }
 }

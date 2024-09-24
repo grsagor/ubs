@@ -58,6 +58,7 @@ use App\Http\Controllers\ImportProductsController;
 use App\Http\Controllers\LedgerDiscountController;
 use App\Http\Controllers\PurchaseReturnController;
 use App\Http\Controllers\TypesOfServiceController;
+use App\Http\Controllers\Backend\MessageController;
 use App\Http\Controllers\Backend\SpecialController;
 use App\Http\Controllers\DocumentAndNoteController;
 use App\Http\Controllers\ExpenseCategoryController;
@@ -267,6 +268,13 @@ Route::middleware(['checkAdmin', 'SetSessionData'])->group(function () {
     Route::post('/footer', [FooterController::class, 'store'])->name('footer.store');
     Route::get('/footer/{id}/edit', [FooterController::class, 'edit'])->name('footer.edit');
     Route::put('/footer/{id}', [FooterController::class, 'update'])->name('footer.update');
+
+
+    //Message controller
+    // Message controller routes
+    Route::get('get-new-messages', [MessageController::class, 'getNewMessages']);
+    Route::resource('messages', MessageController::class)->only(['index', 'store', 'destroy']);
+
 
     // News
     Route::get('shop-news',                         [NewsController::class, 'index'])->name('shop-news.index');

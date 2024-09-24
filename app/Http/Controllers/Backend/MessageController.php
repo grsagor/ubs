@@ -1,17 +1,17 @@
 <?php
 
-namespace Modules\Essentials\Http\Controllers;
+namespace App\Http\Controllers\Backend;
 
 use App\BusinessLocation;
 use App\User;
+use App\Message;
 use App\Utils\ModuleUtil;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
-use Modules\Essentials\Entities\EssentialsMessage;
-use Modules\Essentials\Notifications\NewMessageNotification;
+use App\NewMessageNotification;
 
-class EssentialsMessageController extends Controller
+class MessageController extends Controller
 {
     /**
      * All Utils instance.
@@ -36,15 +36,8 @@ class EssentialsMessageController extends Controller
     public function index()
     {
         $business_id = request()->session()->get('user.business_id');
-        if (! (auth()->user()->can('superadmin') || $this->moduleUtil->hasThePermissionInSubscription($business_id, 'essentials_module'))) {
-            abort(403, 'Unauthorized action.');
-        }
 
-        if (! auth()->user()->can('essentials.view_message') && ! auth()->user()->can('essentials.create_message')) {
-            abort(403, 'Unauthorized action.');
-        }
-
-        $query = EssentialsMessage::where('business_id', $business_id)
+        $query = Message::where('business_id', $business_id)
             ->whereHas('sender')  // Ensures only messages with a valid sender are included
             ->with(['sender'])
             ->orderBy('created_at', 'ASC');
@@ -60,7 +53,7 @@ class EssentialsMessageController extends Controller
 
         $business_locations = BusinessLocation::forDropdown($business_id);
 
-        return view('essentials::messages.index')
+        return view('backend.messages.index')
             ->with(compact('messages', 'business_locations'));
     }
 
@@ -75,14 +68,6 @@ class EssentialsMessageController extends Controller
     {
         $business_id = $request->session()->get('user.business_id');
 
-        if (!(auth()->user()->can('superadmin') || $this->moduleUtil->hasThePermissionInSubscription($business_id, 'essentials_module'))) {
-            abort(403, 'Unauthorized action.');
-        }
-
-        if (!auth()->user()->can('essentials.create_message')) {
-            abort(403, 'Unauthorized action.');
-        }
-
         if ($request->ajax()) {
             try {
                 $user_id = $request->session()->get('user.id');
@@ -90,8 +75,6 @@ class EssentialsMessageController extends Controller
                 $input = $request->only(['message', 'location_id', 'image_file']);
                 $input['business_id'] = $business_id;
                 $input['user_id'] = $user_id;
-
-                // dd($input);  
 
                 // Check if a file or message is submitted
                 // if ($request->hasFile('image_file') || !empty($input['message'])) {
@@ -115,12 +98,12 @@ class EssentialsMessageController extends Controller
                         $input['image_file'] = json_encode($images);
                     }
 
-                    $message = EssentialsMessage::create($input);
+                    $message = Message::create($input);
 
                     $output = [
                         'success' => true,
                         'msg' => __('lang_v1.success'),
-                        'html' => view('essentials::messages.message_div', compact('message'))->render()
+                        'html' => view('backend.messages.message_div', compact('message'))->render()
                     ];
                 } else {
                     $output = [
@@ -149,19 +132,12 @@ class EssentialsMessageController extends Controller
     public function destroy($id)
     {
         $business_id = request()->user()->business_id;
-        if (! (auth()->user()->can('superadmin') || $this->moduleUtil->hasThePermissionInSubscription($business_id, 'essentials_module'))) {
-            abort(403, 'Unauthorized action.');
-        }
-
-        if (! auth()->user()->can('essentials.create_message')) {
-            abort(403, 'Unauthorized action.');
-        }
 
         if (request()->ajax()) {
             try {
                 $user_id = request()->user()->id;
 
-                EssentialsMessage::where('business_id', $business_id)
+                Message::where('business_id', $business_id)
                     ->where('user_id', $user_id)
                     ->where('id', $id)
                     ->delete();
@@ -217,15 +193,8 @@ class EssentialsMessageController extends Controller
         $last_chat_time = request()->input('last_chat_time');
 
         $business_id = request()->session()->get('user.business_id');
-        if (! (auth()->user()->can('superadmin') || $this->moduleUtil->hasThePermissionInSubscription($business_id, 'essentials_module'))) {
-            abort(403, 'Unauthorized action.');
-        }
 
-        if (! auth()->user()->can('essentials.view_message') && ! auth()->user()->can('essentials.create_message')) {
-            abort(403, 'Unauthorized action.');
-        }
-
-        $query = EssentialsMessage::where('business_id', $business_id)
+        $query = Message::where('business_id', $business_id)
             ->where('user_id', '!=', auth()->user()->id)
             ->with(['sender'])
             ->orderBy('created_at', 'ASC');
@@ -243,6 +212,6 @@ class EssentialsMessageController extends Controller
         }
         $messages = $query->get();
 
-        return view('essentials::messages.recent_messages')->with(compact('messages'));
+        return view('backend.messages.recent_messages')->with(compact('messages'));
     }
 }

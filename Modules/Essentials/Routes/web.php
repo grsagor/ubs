@@ -31,10 +31,6 @@ Route::middleware('web', 'authh', 'auth', 'SetSessionData', 'language', 'timezon
         //reminder controller
         Route::resource('reminder', Modules\Essentials\Http\Controllers\ReminderController::class)->only(['index', 'store', 'edit', 'update', 'destroy', 'show']);
 
-        //message controller
-        Route::get('get-new-messages', [Modules\Essentials\Http\Controllers\EssentialsMessageController::class, 'getNewMessages']);
-        Route::resource('messages', 'Modules\Essentials\Http\Controllers\EssentialsMessageController')->only(['index', 'store', 'destroy']);
-
         //Allowance and deduction controller
         Route::resource('allowance-deduction', 'Modules\Essentials\Http\Controllers\EssentialsAllowanceAndDeductionController');
 

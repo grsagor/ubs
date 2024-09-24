@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', __('essentials::lang.messages'))
+@section('title', 'Messages')
 
 @section('css')
     <style>
@@ -25,68 +25,65 @@
     </style>
 @endsection
 @section('content')
-    @include('essentials::layouts.nav_essentials')
     <section class="content">
         <!-- Chat box -->
         <div class="box box-solid">
             <div class="box-header">
                 <i class="fa fa-comments-o"></i>
-
                 <h3 class="box-title">Notice Board</h3>
             </div>
-            <div class="box-body" id="chat-box" style="height: 70vh; overflow-y: scroll; background: #243540;">
-                @can('essentials.view_message')
-                    @foreach ($messages as $message)
-                        @include('essentials::messages.message_div')
-                    @endforeach
-                @endcan
+            <div class="box-body" id="chat-box" style="height: 85vh; overflow-y: scroll; background: #243540;">
+                @foreach ($messages as $message)
+                    @include('backend.messages.message_div')
+                @endforeach
             </div>
             <!-- /.chat -->
-            @can('essentials.create_message')
-                <div class="box-footer">
-                    {!! Form::open([
-                        'url' => action([\Modules\Essentials\Http\Controllers\EssentialsMessageController::class, 'store']),
-                        'method' => 'post',
-                        'id' => 'add_essentials_msg_form',
-                        'enctype' => 'multipart/form-data',
-                    ]) !!}
-                    <div class="row">
+            <div class="box-footer">
+                {!! Form::open([
+                    'url' => action([App\Http\Controllers\Backend\MessageController::class, 'store']),
+                    'method' => 'post',
+                    'id' => 'add_msg_form',
+                    'enctype' => 'multipart/form-data',
+                ]) !!}
+                <div class="row">
+
+                    <!-- Third Column: Textarea for message -->
+                    <div class="col-12">
+                        {!! Form::textarea('message', null, [
+                            'class' => 'form-control',
+                            'id' => 'chat-msg',
+                            'placeholder' => __('Type message...'),
+                            'rows' => 4,
+                        ]) !!}
+                    </div>
+
+                    <!-- Fourth Column: Submit Button -->
+                    <div style="display: flex; align-items: center; margin-top: 10px;">
+                        <!-- Submit Button -->
+                        <button type="submit" class="btn btn-success ladda-button" data-style="expand-right">
+                            <span class="ladda-label">Send</span>
+                        </button>
+
+                        <!-- File Input -->
+                        <div style="margin-left: 20px;">
+                            <input type="file" name="image_file[]" id="file-upload" class="form-control" multiple
+                                accept="image/*,.doc,.docx,.txt,.rtf,.odt,.pdf,.ppt,.pptx,.xls,.xlsx,.csv,.heic,.html,.css,.js,.py,.json">
+                        </div>
+
                         <!-- First Column (Location Select) -->
-                        <div class="col-md-3" style="padding: 0; border: none; margin-bottom:10px;">
+                        <div style="margin-left: 20px; border: none;">
                             {!! Form::select('location_id', $business_locations, null, [
                                 'class' => 'form-control',
                                 'placeholder' => __('lang_v1.select_location'),
                                 'style' => 'width: 100%;',
                             ]) !!}
                         </div>
-
-                        <!-- Second Column: File Input -->
-                        <div class="col-md-3">
-                            <input type="file" name="image_file[]" id="file-upload" class="form-control" multiple
-                                accept="image/*,.doc,.docx,.txt,.rtf,.odt,.pdf,.ppt,.pptx,.xls,.xlsx,.csv,.heic,.html,.css,.js,.py,.json">
-                        </div>
-
-                        <!-- Third Column: Textarea for message -->
-                        <div class="col-12">
-                            {!! Form::textarea('message', null, [
-                                'class' => 'form-control',
-                                'id' => 'chat-msg',
-                                'placeholder' => __('essentials::lang.type_message'),
-                                'rows' => 4,
-                            ]) !!}
-                        </div>
-
-                        <!-- Fourth Column: Submit Button -->
-                        <div class="col-3" style="margin-top:10px;">
-                            <button type="submit" class="btn btn-success ladda-button" data-style="expand-right">
-                                <span class="ladda-label">Send</span>
-                            </button>
-                        </div>
                     </div>
-                    {!! Form::close() !!}
 
                 </div>
-            @endcan
+                {!! Form::close() !!}
+
+            </div>
         </div>
         <!-- /.box (chat box) -->
     </section>
@@ -98,7 +95,7 @@
             scroll_down_chat_div();
             $('#chat-msg').focus();
 
-            $('form#add_essentials_msg_form').submit(function(e) {
+            $('form#add_msg_form').submit(function(e) {
                 e.preventDefault();
 
                 var message = $('#chat-msg').val().trim();
@@ -132,7 +129,7 @@
                 ladda.start();
 
                 $.ajax({
-                    url: "{{ action([\Modules\Essentials\Http\Controllers\EssentialsMessageController::class, 'store']) }}",
+                    url: "{{ action([App\Http\Controllers\Backend\MessageController::class, 'store']) }}",
                     data: formData,
                     method: 'post',
                     processData: false, // Prevent jQuery from automatically processing the data
@@ -142,6 +139,7 @@
                         ladda.stop();
                         if (result.success) {
                             $('div#chat-box').append(result.html);
+                            toastr.success("Message sent");
                             scroll_down_chat_div();
                             $('#chat-msg').val('').focus();
                             $('input[name="image_file[]"]').val(''); // Clear file input
@@ -155,9 +153,6 @@
                     }
                 });
             });
-
-
-
 
             $(document).on('click', 'a.chat-delete', function(e) {
                 e.preventDefault();
@@ -185,7 +180,11 @@
                     }
                 });
             });
-            var chat_refresh_interval = "{{ config('essentials::config.chat_refresh_interval', 20) }}";
+
+            //Interval to check for new chats in seconds, default 20sec
+            // 'chat_refresh_interval' => 20, 
+
+            var chat_refresh_interval = 20;
             chat_refresh_interval = parseInt(chat_refresh_interval) * 1000;
             setInterval(function() {
                 getNewMessages()
@@ -201,7 +200,7 @@
         function getNewMessages() {
             var last_chat_time = $('div.msg-box').length ? $('div.msg-box:last').data('delivered-at') : '';
             $.ajax({
-                url: "{{ action([\Modules\Essentials\Http\Controllers\EssentialsMessageController::class, 'getNewMessages']) }}?last_chat_time=" +
+                url: "{{ action([\App\Http\Controllers\Backend\MessageController::class, 'getNewMessages']) }}?last_chat_time=" +
                     last_chat_time,
                 dataType: 'html',
                 global: false,

@@ -31,9 +31,4 @@
         <i class="fas fa-hourglass-half fa-spin"></i>
     </button>
 
-
-    <button type="button" class="btn bg-blue btn-flat pull-left m-8 btn-sm mt-10"
-        data-href="{{ route('messages.index') }}" onclick="window.location.href=this.getAttribute('data-href');">
-        <i class="fab fa-facebook-messenger"></i>
-    </button>
 @endif
