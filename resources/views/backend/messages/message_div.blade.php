@@ -18,7 +18,7 @@
     </div>
     <!-- /.user-block -->
 
-    <p style="text-align: left;">
+    <p class="message_area" style="text-align: left;">
         {!! preg_replace('!https?://\S+!', '<a href="$0" target="_blank">$0</a>', strip_tags($message->message, '<br>')) !!}
     </p>
 
@@ -106,5 +106,16 @@
 
     .file-attachment {
         margin-top: 10px;
+    }
+
+    .message_area {
+        word-wrap: break-word;
+        /* Allows long words to be broken onto the next line */
+        overflow-wrap: break-word;
+        /* Ensures that long words are broken correctly in all browsers */
+        white-space: pre-wrap;
+        /* Preserves whitespace and wraps text */
+        margin: 0;
+        /* Removes default margin for better alignment */
     }
 </style>

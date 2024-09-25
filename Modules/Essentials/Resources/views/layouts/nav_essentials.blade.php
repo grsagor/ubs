@@ -12,7 +12,7 @@
                 </button>
                 <a class="navbar-brand"
                     href="{{ action([\Modules\Essentials\Http\Controllers\ToDoController::class, 'index']) }}"><i
-                        class="fas fa-check-circle"></i> {{ __('essentials::lang.essentials') }}</a>
+                        class="fa fa-building"></i> Office </a>
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->

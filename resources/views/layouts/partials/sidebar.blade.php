@@ -323,8 +323,13 @@
                     <span>Project</span></a></li>
             <li><a href="{{ url('hrm/dashboard') }}" style=""><i class="fa fas fa-users"></i>
                     <span>HRM</span></a></li>
-            <li><a href="{{ url('essentials/todo') }}" style=""><i class="fa fas fa-check-circle"></i>
-                    <span>Essentials</span></a></li>
+            <li>
+                <a href="{{ url('essentials/todo') }}" style="">
+                    <i class="fa fa-building"></i>
+                    <span>Office</span>
+                </a>
+            </li>
+
             {{-- <li><a href="{{ url('woocommerce') }}"><i class="fab fa-wordpress"></i>
                     <span style="margin-left: 10px;">Woocommerce</span></a></li> --}}
 
