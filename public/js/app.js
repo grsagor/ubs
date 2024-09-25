@@ -1554,8 +1554,8 @@ $(document).ready(function () {
     ) {
       $("#expense_date_range").val(
         start.format(moment_date_format) +
-          " ~ " +
-          end.format(moment_date_format)
+        " ~ " +
+        end.format(moment_date_format)
       );
       expense_table.ajax.reload();
     });
