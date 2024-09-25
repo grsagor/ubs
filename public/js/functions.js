@@ -430,7 +430,6 @@ function __print_receipt(section_id = null) {
     img_counter = 0;
 
     [].forEach.call(imgs, function (img) {
-      console.log("img: ", img);
       img.addEventListener("load", incrementImageCounter, false);
       img.addEventListener("error", incrementImageCounter, false);
     });

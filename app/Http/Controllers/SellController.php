@@ -512,7 +512,7 @@ class SellController extends Controller
                 ->addColumn('total_remaining', function ($row) {
 
                     $total_remaining      = $row->final_total - $row->total_paid;
-                    $total_remaining_html = '<span class="payment_due" data-orig-value="' . $total_remaining . '">' . $this->transactionUtil->num_f($total_remaining, true) . '</span>';
+                    $total_remaining_html = '<span class="payment_due text-center" data-orig-value="' . $total_remaining . '">£ 0</span>';
                     $due = number_format($row->final_total, 2);
 
                     return $row->payment_status == 'due' ? "£ $due" : $total_remaining_html;
