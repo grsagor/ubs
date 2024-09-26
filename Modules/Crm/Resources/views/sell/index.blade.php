@@ -12,7 +12,6 @@
     <!-- Main content -->
     <section class="content no-print">
         @component('components.filters', ['title' => __('report.filters')])
-            @include('sell.partials.sell_list_filters')
             @if (!empty($sources))
                 <div class="col-md-3">
                     <div class="form-group">

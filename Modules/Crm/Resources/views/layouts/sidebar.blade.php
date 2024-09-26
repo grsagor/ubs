@@ -25,7 +25,7 @@
                     <span>Property Wanted</span></a></li>
             <li class="{{ Request::is('contact/sells') ? 'active' : '' }}"><a href="{{ url('/contact/sells') }}"><i
                         class="fa fas fa-arrow-circle-up"></i>
-                    <span>List of Sells</span></a></li>
+                    <span>My Orders</span></a></li>
             <li class="{{ Request::is('contact/products*') ? 'active' : '' }}"><a
                     href="{{ url('/contact/products') }}"><i class="fa fas fa-arrow-circle-up"></i>
                     <span> List of Purchase</span></a></li>
