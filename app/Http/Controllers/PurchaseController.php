@@ -179,7 +179,7 @@ class PurchaseController extends Controller
                                 </li>
 
                                 <li>
-                                    <a  class="product_print" data-id="' . $row->id . '"><i class="fas fa-print" aria-hidden="true"></i>' . __("messages.print") . '</a>
+                                    <a  class="product_print"  data-href="' . route('purchase.printInvoice', [$row->id]) . '"><i class="fas fa-print" aria-hidden="true"></i>' . __("messages.print") . '</a>
                                 </li>';
 
                     $html .= '</ul>

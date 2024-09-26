@@ -6,6 +6,7 @@ use App\Http\Controllers\RecruitmentController;
 use App\Http\Controllers\ServiceWantedCustomerController;
 use App\Http\Controllers\PropertyWantedCustomerController;
 use Illuminate\Support\Facades\Route;
+use Modules\Crm\Http\Controllers\SellController;
 
 // Customer route
 
@@ -24,6 +25,8 @@ Route::group(['middleware' => ['checkCustomer'], 'prefix' => 'contact',], functi
     Route::get('/show-property-edit-modal', [PropertyWantedCustomerController::class, 'showPropertyEditModal']);
     Route::post('/update-property-wanted', [PropertyWantedCustomerController::class, 'updatePropertyWanted']);
     Route::post('/property-wanted/upgrade', [PropertyWantedCustomerController::class, 'propertyWantedUpgradePage']);
+
+    Route::get('/sells', [SellController::class, 'index']);
 
     Route::get('/products', [CustomerProductController::class, 'getPurchaseList']);
     Route::get('/single-order-details-show', [CustomerProductController::class, 'single'])->name('customer.order.show.details');

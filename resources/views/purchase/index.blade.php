@@ -9,9 +9,9 @@
             <small></small>
         </h1>
         <!-- <ol class="breadcrumb">
-                                <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
-                                <li class="active">Here</li>
-                            </ol> -->
+                                    <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
+                                    <li class="active">Here</li>
+                                </ol> -->
     </section>
 
     <!-- Main content -->
@@ -238,15 +238,17 @@
         })
         $(document).ready(function() {
             $(document).on('click', '.product_print', function() {
-                var id = $(this).data('id');
+                var href = $(this).data('href');
+                console.log(href, "data")
                 $.ajax({
-                    url: "{{ route('customer.order.print.details') }}",
+                    url: href,
                     type: 'get',
-                    data: {
-                        id: id
-                    },
+                    // data: {
+                    //     id: id
+                    // },
                     dataType: 'html',
                     success: function(d) {
+                        console.log(d, "d")
                         $('#product_print_modal').empty();
                         $('#product_print_modal').html(d);
                         $('#product_print_modal').modal('show')
