@@ -1,69 +1,113 @@
 <!-- Post -->
 <div class="post msg-box {{ $message->user_id == auth()->user()->id ? 'msg-right' : 'msg-left' }} {{ $message->user_id == auth()->user()->id ? 'user-message' : 'other-message' }}"
     data-delivered-at="{{ $message->created_at }}">
-    <div class="user-block">
-        <span class="username">
-            <span class="sender_name">{{ $message->sender->user_full_name }}</span>
+    @if (!$message->deleted_at)
+        <div class="visible_message">
+            <div class="user-block">
+                <span class="username">
+                    <span class="sender_name">{{ $message->sender->user_full_name }}</span>
 
-            @if ($message->user_id == auth()->user()->id)
-                <a href="{{ action([\App\Http\Controllers\Backend\MessageController::class, 'destroy'], [$message->id]) }}"
-                    class="btn-box-tool chat-delete delete-icon-left" title="@lang('messages.delete')">
-                    <i class="fa fa-times text-danger" style="font-size: 20px;"></i>
-                </a>
-            @endif
-        </span>
-        <span class="description">
-            <small><i class="fas fa-clock"></i> {{ $message->created_at->diffForHumans() }}</small>
-        </span>
-    </div>
-    <!-- /.user-block -->
-
-    <p class="message_area" style="text-align: left;">
-        {!! preg_replace('!https?://\S+!', '<a href="$0" target="_blank">$0</a>', strip_tags($message->message, '<br>')) !!}
-    </p>
-
-
-    @if (!empty($message->image_file))
-        @php
-            $files = json_decode($message->image_file);
-        @endphp
-
-        <div class="file-attachment">
-            @if (is_array($files) && count($files) > 0)
-                @foreach ($files as $file)
-                    @php
-                        $extension = pathinfo($file, PATHINFO_EXTENSION);
-                    @endphp
-
-                    @if (in_array($extension, ['jpg', 'jpeg', 'png', 'gif']))
-                        <!-- Add more image extensions if needed -->
-                        <!-- Show clickable image preview -->
-                        <div class="image-preview" style="margin-bottom: 10px;">
-                            <a href="{{ asset($file) }}" target="_blank">
-                                <img src="{{ asset($file) }}" alt="Image Preview"
-                                    style="max-width: 200px; max-height: 200px; border: 1px solid #ccc; cursor: pointer;">
-                            </a>
-                        </div>
-                    @else
-                        <!-- Show download link for other files -->
-                        <a href="{{ asset($file) }}" target="_blank" class="btn btn-info btn-sm"
-                            style="margin-bottom: 5px;">
-                            <i class="fa fa-file"></i> {{ ucfirst($extension) }} File
+                    @if ($message->user_id == auth()->user()->id)
+                        <a href="{{ action([\App\Http\Controllers\Backend\MessageController::class, 'destroy'], [$message->id]) }}"
+                            class="btn-box-tool chat-delete delete-icon-left" title="@lang('messages.delete')">
+                            <i class="fa fa-trash text-danger" style="font-size: 14px;"></i>
                         </a>
-                        <br> <!-- Line break for spacing -->
                     @endif
-                @endforeach
-            @else
-                <p>No files available for download.</p>
+                </span>
+            </div>
+
+            <p class="message_area" style="text-align: left;">
+                {!! preg_replace('!https?://\S+!', '<a href="$0" target="_blank">$0</a>', strip_tags($message->message)) !!}
+            </p>
+
+            @if (!empty($message->image_file))
+                @php
+                    $files = json_decode($message->image_file);
+                @endphp
+
+                <div class="file-attachment">
+                    @if (is_array($files) && count($files) > 0)
+                        @foreach ($files as $file)
+                            @php
+                                $extension = pathinfo($file, PATHINFO_EXTENSION);
+                            @endphp
+
+                            @if (in_array($extension, ['jpg', 'jpeg', 'png', 'gif']))
+                                <!-- Add more image extensions if needed -->
+                                <!-- Show clickable image preview -->
+                                <div class="image-preview" style="margin-bottom: 10px; text-align: center;">
+                                    <!-- Center align the preview -->
+                                    <a href="{{ asset($file) }}" target="_blank"
+                                        style="display: inline-block; max-width: 100%;">
+                                        <!-- Make the anchor responsive -->
+                                        <img src="{{ asset($file) }}" alt="Image Preview"
+                                            style="max-width: 100%; max-height: 200px; border: 1px solid #ccc; cursor: pointer; object-fit: contain;">
+                                        <!-- Adjust max-width to 100% -->
+                                    </a>
+                                </div>
+                            @else
+                                <!-- Show download link for other files -->
+                                <a href="{{ asset($file) }}" target="_blank" class="btn btn-info btn-sm"
+                                    style="margin-bottom: 5px;">
+                                    <i class="fa fa-file"></i> {{ ucfirst($extension) }} File
+                                </a>
+                                <br> <!-- Line break for spacing -->
+                            @endif
+                        @endforeach
+                    @else
+                        <p>No files available for download.</p>
+                    @endif
+                </div>
             @endif
+
+            <p class="description" style="text-align: right">
+                <small>
+                    @if ($message->created_at->diffInHours() < 24)
+                        {{ $message->created_at->format('h:i A') }}
+                    @else
+                        {{ $message->created_at->format('d M, Y h:i A') }}
+                    @endif
+                </small>
+            </p>
+        </div>
+    @else
+        <div class="delete_message_area">
+            <p class="delete_message">You deleted this message </p>
+            <p class="description" style="text-align: right">
+                <small>
+                    @if ($message->deleted_at->diffInHours() < 24)
+                        {{ $message->deleted_at->format('h:i A') }}
+                    @else
+                        {{ $message->deleted_at->format('d M, Y h:i A') }}
+                    @endif
+                </small>
+            </p>
         </div>
     @endif
-
-
 </div>
-<!-- /.post -->
 
 <style>
+    .post .user-block {
+        margin-bottom: 0px;
+    }
+
+    .delete_message {
+        font-style: italic;
+        color: #7a7a7a;
+        font-size: 14px;
+        margin: 0px;
+    }
+
+    .description {
+        font-style: italic;
+        color: #7a7a7a;
+        margin: 0px;
+    }
+
+    .post:last-of-type {
+        padding-bottom: 10px;
+    }
+
     .username,
     .description {
         margin-left: unset !important;
@@ -71,10 +115,8 @@
 
     .post {
         display: block;
-        margin-left: 15px;
-        margin-right: 15px;
         width: auto;
-        max-width: 70%;
+        max-width: 85%;
         border-bottom: unset;
         padding: 10px;
         border-radius: 10px;
@@ -100,10 +142,6 @@
         color: #000;
     }
 
-    .description {
-        color: #000 !important;
-    }
-
     .file-attachment {
         margin-top: 10px;
     }
@@ -111,11 +149,40 @@
     .message_area {
         word-wrap: break-word;
         /* Allows long words to be broken onto the next line */
-        overflow-wrap: break-word;
+        /* overflow-wrap: break-word; */
         /* Ensures that long words are broken correctly in all browsers */
-        white-space: pre-wrap;
+        /* white-space: pre-wrap; */
         /* Preserves whitespace and wraps text */
         margin: 0;
         /* Removes default margin for better alignment */
+    }
+
+
+    .msg-right {
+        margin-left: auto;
+        margin-right: 0;
+        text-align: right;
+    }
+
+    /* Position delete icon on the left side when message is aligned to the right */
+    .msg-right .delete-icon-left {
+        float: left;
+        margin-right: 5px;
+        margin-top: -2px;
+    }
+
+    @media (max-width: 767px) {
+        .sender_name {
+            font-size: 14px;
+        }
+
+        .post {
+            max-width: 95% !important;
+        }
+
+        .box .box-body {
+            padding: 18px 10px;
+        }
+
     }
 </style>

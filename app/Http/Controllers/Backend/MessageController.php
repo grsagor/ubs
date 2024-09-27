@@ -38,8 +38,9 @@ class MessageController extends Controller
         $business_id = request()->session()->get('user.business_id');
 
         $query = Message::where('business_id', $business_id)
-            ->whereHas('sender')  // Ensures only messages with a valid sender are included
+            ->whereHas('sender')
             ->with(['sender'])
+            ->withTrashed()
             ->orderBy('created_at', 'ASC');
 
         $permitted_locations = auth()->user()->permitted_locations();
