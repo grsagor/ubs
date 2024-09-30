@@ -5,6 +5,14 @@
         .content {
             padding: 0px !important;
         }
+
+        .main-footer {
+            display: none;
+        }
+
+        .scroll {
+            display: none;
+        }
     </style>
 @endsection
 @section('content')
@@ -12,20 +20,23 @@
         <!-- Chat box -->
         <div class="box box-solid">
 
-            <div class="box-message-header"
-                style="display: flex; justify-content: space-between; align-items: center; padding: 10px;">
+            <div class="" style="display: flex; justify-content: space-between; align-items: center; padding: 10px;">
 
-                <!-- Title Section -->
                 <div style="display: flex; align-items: center;">
-                    <i class="fa fa-comments-o" style="margin-right: 10px;"></i>
-                    <h3 class="box-title" style="margin: 0;">Notice Board</h3>
+                    <div>
+                        <a href="#">All</a>
+                    </div>
+
+                    <div style="margin-left: 10px;">
+                        <a href="#">Notice Board</a>
+                    </div>
                 </div>
 
-                <!-- Search Box -->
                 <div>
                     <input type="text" placeholder="Search..." class="form-control" style="width: 300px;">
                 </div>
             </div>
+
 
             <div class="box-body" id="chat-box" style="height: 105vh; overflow-y: scroll; background: #243540;">
                 @foreach ($messages as $message)
@@ -73,7 +84,6 @@
                             </div>
                         </div>
 
-
                         <!-- Right side: Submit Button -->
                         <div>
                             <button type="submit" class="btn btn-success ladda-button" data-style="expand-right">
@@ -81,7 +91,6 @@
                             </button>
                         </div>
                     </div>
-
 
                 </div>
                 {!! Form::close() !!}
@@ -95,9 +104,6 @@
 @section('javascript')
     <script type="text/javascript">
         $(document).ready(function() {
-
-
-
 
             scroll_down_chat_div();
             $('#chat-msg').focus();

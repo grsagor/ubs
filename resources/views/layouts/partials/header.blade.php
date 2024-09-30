@@ -52,6 +52,23 @@
                                 <i class="fas fa-clipboard-check" aria-hidden="true"></i> @lang('essentials::lang.add_to_do')
                             </a></li>
                     @endif
+
+                    @if (in_array('pos_sale', $enabled_modules))
+                        @can('sell.create')
+                            <li>
+                                <a href="{{ action([\App\Http\Controllers\SellPosController::class, 'create']) }}">
+                                    <i class="fa fa-th" aria-hidden="true"></i>POS
+                                </a>
+                            </li>
+                        @endcan
+                    @endif
+
+                    @can('profit_loss_report.view')
+                        <li><a id="view_todays_profit" href="#">
+                                <i class="fas fa-money-bill-alt" aria-hidden="true"></i>Today's Profit
+                            </a></li>
+                    @endcan
+
                     <!-- Help Button -->
                     @if (auth()->user()->hasRole('Admin#' . auth()->user()->business_id))
                         <li><a id="start_tour" href="#">
@@ -60,12 +77,6 @@
                     @endif
                 </ul>
             </div>
-            <button id="btnCalculator" title="@lang('lang_v1.calculator')" type="button"
-                class="btn btn-success btn-flat pull-left m-8 btn-sm mt-10 popover-default hidden-xs"
-                data-toggle="popover" data-trigger="click" data-content='@include('layouts.partials.calculator')' data-html="true"
-                data-placement="bottom">
-                <strong><i class="fa fa-calculator fa-lg" aria-hidden="true"></i></strong>
-            </button>
 
             @if ($request->segment(1) == 'pos')
                 @can('view_cash_register')
@@ -88,35 +99,16 @@
                 @endcan
             @endif
 
-            @if (in_array('pos_sale', $enabled_modules))
-                @can('sell.create')
-                    <a href="{{ action([\App\Http\Controllers\SellPosController::class, 'create']) }}"
-                        title="@lang('sale.pos_sale')" data-toggle="tooltip" data-placement="bottom"
-                        class="btn btn-flat pull-left m-8 btn-sm mt-10 btn-success">
-                        <strong><i class="fa fa-th-large"></i> &nbsp; @lang('sale.pos_sale')</strong>
-                    </a>
-                @endcan
-            @endif
 
             @if (Module::has('Repair'))
                 @includeIf('repair::layouts.partials.header')
             @endif
 
-            @can('profit_loss_report.view')
-                <button type="button" id="view_todays_profit" title="{{ __('home.todays_profit') }}" data-toggle="tooltip"
-                    data-placement="bottom" class="btn btn-success btn-flat pull-left m-8 btn-sm mt-10">
-                    <strong><i class="fas fa-money-bill-alt fa-lg"></i></strong>
-                </button>
-            @endcan
-
-            <button type="button" class="btn btn-success btn-flat pull-left m-8 btn-sm mt-10"
+            <button type="button" class="btn btn-success btn-flat pull-left btn-sm"
                 data-href="{{ route('messages.index') }}"
                 onclick="window.location.href=this.getAttribute('data-href');">
                 <i class="fab fa-facebook-messenger"></i>
             </button>
-
-            <div class="m-8 pull-left mt-15 hidden-xs" style="color: #fff;"><strong>{{ @format_date('now') }}</strong>
-            </div>
 
             <ul class="nav navbar-nav">
                 @include('layouts.partials.header-notifications')
@@ -128,11 +120,8 @@
                         @php
                             $profile_photo = auth()->user()->media;
                         @endphp
-                        @if (!empty($profile_photo))
-                            <img src="{{ $profile_photo->display_url }}" class="user-image" alt="User Image">
-                        @endif
-                        <!-- hidden-xs hides the username on small devices so only the image appears. -->
-                        <span>{{ Auth::User()->first_name }} {{ Auth::User()->last_name }}</span>
+                        <img src="{{ file_exists($profile_photo->display_url) ? asset($profile_photo->display_url) : 'https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg' }}"
+                            class="user-image" alt="User Image">
                     </a>
                     <ul class="dropdown-menu">
                         <!-- The user image in the menu -->
