@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers\Backend;
 
-use App\BusinessLocation;
 use App\User;
 use App\Message;
+use App\BusinessLocation;
 use App\Utils\ModuleUtil;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
-use App\NewMessageNotification;
+use App\Notifications\NewMessageNotification;
 
 class MessageController extends Controller
 {
@@ -100,6 +100,9 @@ class MessageController extends Controller
                     }
 
                     $message = Message::create($input);
+
+                    $database_notification = empty($last_message) || $last_message->created_at->diffInMinutes(\Carbon::now()) > 10;
+                    $this->__notify($message, $database_notification);
 
                     $output = [
                         'success' => true,

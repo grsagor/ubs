@@ -43,7 +43,7 @@ class DataController extends Controller
             ];
         } elseif (
             $notification->type ==
-            'Modules\Essentials\Notifications\NewMessageNotification'
+            'App\Notifications\NewMessageNotification'
         ) {
             $data = $notification->data;
             $msg = __('essentials::lang.new_message_notification', ['sender' => $data['from']]);
