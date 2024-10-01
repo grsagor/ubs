@@ -120,8 +120,9 @@
                         @php
                             $profile_photo = auth()->user()->media;
                         @endphp
-                        <img src="{{ file_exists($profile_photo->file_name) ? asset($profile_photo->file_name) : 'https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg' }}"
+                        <img src="{{ $profile_photo ? asset($profile_photo->display_url) : 'https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg' }}"
                             class="user-image" alt="User Image">
+
                     </a>
                     <ul class="dropdown-menu">
                         <!-- The user image in the menu -->
