@@ -67,6 +67,7 @@ class MessageController extends Controller
 
     public function store(Request $request)
     {
+        // dd($request->toArray());
         $business_id = $request->session()->get('user.business_id');
 
         if ($request->ajax()) {
@@ -78,24 +79,37 @@ class MessageController extends Controller
                 $input['user_id'] = $user_id;
 
                 // Check if a file or message is submitted
-                // if ($request->hasFile('image_file') || !empty($input['message'])) {
                 if (!empty($input['image_file']) || !empty($input['message'])) {
                     if (!empty($input['message'])) {
                         $input['message'] = nl2br($input['message']);
                     }
-                    // dd($input);
 
                     if (!empty($input['image_file'])) {
                         $image_path = public_path('uploads/messages');
-
                         $images = [];
 
                         foreach ($request->file('image_file') as $image) {
-                            $image_name = rand(123456, 999999) . '.' . $image->getClientOriginalExtension();
+                            // Get the original file name without extension
+                            $original_name = pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME);
+
+                            // Get the file extension
+                            $extension = $image->getClientOriginalExtension();
+
+                            // Create a unique name by appending a random number to the original name
+                            $random_number = rand(123456, 999999);
+                            $image_name = $original_name . '_' . $random_number . '.' . $extension;
+
+                            // Move the image to the desired path
                             $image->move($image_path, $image_name);
-                            $images[] = 'uploads/messages/' . $image_name;
+
+                            // Store both the actual file name and the path with the unique name
+                            $images[] = [
+                                'file_path' => 'uploads/messages/' . $image_name,
+                                'original_name' => $original_name . '.' . $extension
+                            ];
                         }
 
+                        // Save the image information as JSON
                         $input['image_file'] = json_encode($images);
                     }
 

@@ -13,6 +13,16 @@
         .scroll {
             display: none;
         }
+
+        .chat-input-container {
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            /* Add a subtle shadow */
+        }
+
+        .chat-input-container:focus-within {
+            border-color: #007bff;
+            /* Highlight the border when input is focused */
+        }
     </style>
 @endsection
 @section('content')
@@ -20,90 +30,163 @@
         <!-- Chat box -->
         <div class="box box-solid">
 
-            <div class="" style="display: flex; justify-content: space-between; align-items: center; padding: 10px;">
+            {!! Form::open([
+                'url' => action([App\Http\Controllers\Backend\MessageController::class, 'store']),
+                'method' => 'post',
+                'id' => 'add_msg_form',
+                'enctype' => 'multipart/form-data',
+            ]) !!}
 
-                <div style="display: flex; align-items: center;">
-                    <div>
-                        <a href="#">All</a>
+            <div class="notice-board-container"
+                style="display: flex; justify-content: space-between; align-items: center; padding: 10px; background-color: #f9f9f9; border: 1px solid #ddd; border-radius: 8px;">
+
+                <div class="links-container" style="display: flex; align-items: center;">
+                    <div class="all-link" style="margin-left: 15px; font-size: 14px;">
+                        <a href="#" style="color: #007bff; text-decoration: none;">All</a>
                     </div>
 
-                    <div style="margin-left: 10px;">
-                        <a href="#">Notice Board</a>
+                    <div class="notice-board-link" style="margin-left: 10px; font-size: 16px; font-weight: 600;">
+                        <a href="{{ route('messages.index') }}" style="color: #333; text-decoration: none;">Notice</a>
+                    </div>
+
+                    <div style="margin-left: 10px;"> <!-- Reduced margin for the select box -->
+                        {!! Form::select('location_id', $business_locations, null, [
+                            'class' => 'form-control',
+                            'placeholder' => __('lang_v1.select_location'),
+                            'style' => 'width: 100%; min-width: 150px;', // Added min-width for better layout
+                        ]) !!}
                     </div>
                 </div>
 
-                <div>
-                    <input type="text" placeholder="Search..." class="form-control" style="width: 300px;">
+                <div class="search-container" style="position: relative; display: inline-block;">
+                    <input type="text" placeholder="Search..." class="form-control"
+                        style="width: 300px; padding: 8px 12px; border-radius: 20px; border: 1px solid #ccc; transition: border-color 0.3s; outline: none;"
+                        onfocus="this.style.borderColor='#007bff';" onblur="this.style.borderColor='#ccc';"
+                        id="search-input" onkeyup="filterMessages()">
+
+                    <button id="clear-search" type="button"
+                        style="display: none; position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: transparent; border: none; cursor: pointer; color: #007bff;"
+                        onclick="clearSearch()">
+                        <i class="fas fa-times" style="font-size: 16px;"></i>
+                    </button>
                 </div>
+
             </div>
 
-
-            <div class="box-body" id="chat-box" style="height: 105vh; overflow-y: scroll; background: #243540;">
+            <div class="box-body" id="chat-box" style="height: 70vh; overflow-y: scroll; background: #243540;">
                 @foreach ($messages as $message)
                     @include('backend.messages.message_div')
                 @endforeach
             </div>
             <!-- /.chat -->
             <div class="box-footer">
-                {!! Form::open([
-                    'url' => action([App\Http\Controllers\Backend\MessageController::class, 'store']),
-                    'method' => 'post',
-                    'id' => 'add_msg_form',
-                    'enctype' => 'multipart/form-data',
-                ]) !!}
+
                 <div class="row">
-
-                    <!-- Third Column: Textarea for message -->
                     <div class="col-12">
-                        {!! Form::textarea('message', null, [
-                            'class' => 'form-control',
-                            'id' => 'chat-msg',
-                            'placeholder' => __('Type message...'),
-                            'rows' => 4,
-                        ]) !!}
-                    </div>
+                        <div class="chat-input-container"
+                            style="display: flex; align-items: center; border: 1px solid #ccc; border-radius: 25px; padding: 10px; background-color: #fff;">
 
-                    <!-- Fourth Column: Submit Button and Other Inputs -->
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px;">
+                            <!-- Textarea for message -->
+                            {!! Form::textarea('message', null, [
+                                'class' => 'form-control',
+                                'id' => 'chat-msg',
+                                'placeholder' => __('Type message...'),
+                                'rows' => 1,
+                                'style' => 'resize: none; border: none; outline: none; padding: 10px; border-radius: 20px; flex-grow: 1;',
+                            ]) !!}
 
-                        <div style="display: flex; align-items: center;">
-                            <!-- File Input -->
-                            <div style="margin: 0;"> <!-- Remove margin if needed -->
+                            <!-- Custom File Input with Icon -->
+                            <div style="position: relative; margin-left: 10px;">
                                 <input type="file" name="image_file[]" id="file-upload" class="form-control" multiple
                                     accept="image/*,.doc,.docx,.txt,.rtf,.odt,.pdf,.ppt,.pptx,.xls,.xlsx,.csv,.heic,.html,.css,.js,.py,.json"
-                                    style="margin: 0; padding: 5px; width: 200px;"> <!-- Set a specific width -->
+                                    style="opacity: 0; position: absolute; z-index: -1; width: 0; height: 0;">
+                                <label for="file-upload"
+                                    style="cursor: pointer; display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; background-color: #007bff; border-radius: 50%;">
+                                    <i class="fas fa-paperclip" style="color: #fff; font-size: 18px;"></i>
+                                </label>
                             </div>
 
-                            <!-- Location Select -->
-                            <div style="margin-left: 10px;"> <!-- Reduce margin for the select box -->
-                                {!! Form::select('location_id', $business_locations, null, [
-                                    'class' => 'form-control',
-                                    'placeholder' => __('lang_v1.select_location'),
-                                    'style' => 'width: 100%;',
-                                ]) !!}
-                            </div>
-                        </div>
-
-                        <!-- Right side: Submit Button -->
-                        <div>
-                            <button type="submit" class="btn btn-success ladda-button" data-style="expand-right">
-                                <span class="ladda-label">Send</span>
+                            <!-- Send Button -->
+                            <button type="submit" class="btn btn-primary ladda-button"
+                                style="width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-left: 10px;">
+                                <i class="fa fa-paper-plane" style="color: #fff; font-size: 18px;"></i>
                             </button>
                         </div>
                     </div>
-
                 </div>
-                {!! Form::close() !!}
+
 
             </div>
+
+            {!! Form::close() !!}
+
         </div>
-        <!-- /.box (chat box) -->
+
     </section>
 @endsection
 
 @section('javascript')
+
+
+    <script type="text/javascript">
+        document.getElementById('search-input').addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault(); // Prevent form submission
+            }
+        });
+
+        function clearSearch() {
+            const searchInput = document.getElementById('search-input');
+            searchInput.value = ''; // Clear the input value
+            toggleClearButton(); // Update the clear button visibility
+            showAllMessages(); // Show all messages
+        }
+
+        function showAllMessages() {
+            const messagesDiv = document.querySelectorAll(
+                '#chat-box .msg-box'); // Assuming each message has a class of msg-box
+            messagesDiv.forEach(msgDiv => {
+                msgDiv.style.display = ''; // Show all messages
+            });
+        }
+
+        function filterMessages() {
+            const searchInput = document.getElementById('search-input');
+            const filter = searchInput.value.toLowerCase();
+            const messagesDiv = document.querySelectorAll('#chat-box .msg-box');
+
+            // Show/hide the clear button based on input value
+            toggleClearButton();
+
+            // Iterate over each message and check if it contains the search term
+            messagesDiv.forEach(msgDiv => {
+                const messageText = msgDiv.textContent.toLowerCase();
+                if (messageText.includes(filter)) {
+                    msgDiv.style.display = ''; // Show message
+                } else {
+                    msgDiv.style.display = 'none'; // Hide message
+                }
+            });
+        }
+
+        function toggleClearButton() {
+            const searchInput = document.getElementById('search-input');
+            const clearButton = document.getElementById('clear-search');
+
+            // Show the clear button if there is text in the input, otherwise hide it
+            if (searchInput.value.trim() !== '') {
+                clearButton.style.display = 'block'; // Show clear button
+            } else {
+                clearButton.style.display = 'none'; // Hide clear button
+            }
+        }
+    </script>
+
     <script type="text/javascript">
         $(document).ready(function() {
+
+            document.body.classList.add('sidebar-collapse');
+
 
             scroll_down_chat_div();
             $('#chat-msg').focus();
