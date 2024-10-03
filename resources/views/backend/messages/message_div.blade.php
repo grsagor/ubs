@@ -22,36 +22,45 @@
 
             @if (!empty($message->image_file))
                 @php
-                    $files = json_decode($message->image_file);
+                    // Decode JSON and check if it's valid
+                    $files = json_decode($message->image_file, true); // Decode as an associative array
+
+                    // Check if $files is an array and not a string
+                    if (!is_array($files)) {
+                        $files = [];
+                    }
                 @endphp
 
                 <div class="file-attachment">
-                    @if (is_array($files) && count($files) > 0)
+                    @if (count($files) > 0)
                         @foreach ($files as $file)
                             @php
-                                $extension = pathinfo($file, PATHINFO_EXTENSION);
+                                // Ensure $file is an array and contains the keys we need
+                                if (is_array($file) && isset($file['file_path'], $file['original_name'])) {
+                                    $file_path = $file['file_path'];
+                                    $original_name = $file['original_name'];
+                                    $extension = pathinfo($file_path, PATHINFO_EXTENSION);
+                                } else {
+                                    continue; // Skip if the data structure is incorrect
+                                }
                             @endphp
 
                             @if (in_array($extension, ['jpg', 'jpeg', 'png', 'gif']))
-                                <!-- Add more image extensions if needed -->
                                 <!-- Show clickable image preview -->
                                 <div class="image-preview" style="margin-bottom: 10px; text-align: center;">
-                                    <!-- Center align the preview -->
-                                    <a href="{{ asset($file) }}" target="_blank"
+                                    <a href="{{ asset($file_path) }}" target="_blank"
                                         style="display: inline-block; max-width: 100%;">
-                                        <!-- Make the anchor responsive -->
-                                        <img src="{{ asset($file) }}" alt="Image Preview"
+                                        <img src="{{ asset($file_path) }}" alt="Image Preview"
                                             style="max-width: 100%; max-height: 200px; border: 1px solid #ccc; cursor: pointer; object-fit: contain;">
-                                        <!-- Adjust max-width to 100% -->
                                     </a>
                                 </div>
                             @else
                                 <!-- Show download link for other files -->
-                                <a href="{{ asset($file) }}" target="_blank" class="btn btn-info btn-sm"
+                                <a href="{{ asset($file_path) }}" target="_blank" class="btn btn-info btn-sm"
                                     style="margin-bottom: 5px;">
-                                    <i class="fa fa-file"></i> {{ ucfirst($extension) }} File
+                                    <i class="fa fa-file"></i> {{ $original_name }}
                                 </a>
-                                <br> <!-- Line break for spacing -->
+                                <br>
                             @endif
                         @endforeach
                     @else
