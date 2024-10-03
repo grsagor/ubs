@@ -2611,7 +2611,6 @@
                                         <div class="content-box">
                                             <div class="content">
                                                 <div class="order-area">
-                                                    <div class="order-item">
                                                         @foreach ($products as $i => $product)
                                                             <div class="product-img">
                                                                 <div class="d-flex">
@@ -2651,7 +2650,7 @@
                                                                 value="0">
                                                             <input type="hidden"
                                                                 name="products[{{ $i + 1 }}][quantity]"
-                                                                value="0">
+                                                                value="{{$product->quantity}}">
                                                             <input type="hidden"
                                                                 name="products[{{ $i + 1 }}][product_unit_id]"
                                                                 value="2">

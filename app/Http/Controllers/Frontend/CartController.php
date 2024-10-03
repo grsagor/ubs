@@ -169,61 +169,76 @@ class CartController extends Controller
         return back()->with('success', 'The product removed from cart.');
     }
     public function checkout()
-    {
-        try {
-            $user = Auth::user();
-            if (!$user) {
-                session(['intended_url' => 'checkout']);
-                return redirect(url('login'));
-            }
-            $current_carts = Session::get('current_carts');
-            if (!$current_carts) {
-                return redirect(route('service.list'))->with('error', "No product/service selected.");
-            }
-            $products = Product::whereIn('id', $current_carts)->get();
-            foreach ($products as $product) {
-                $product->contact_id = Contact::where('business_id', $product->business_id)->first()->id;
-                $price               = 0;
-                $price_excluding_tax = 0;
-                $vat                 = 0;
-                $mrp                 = 0;
-                foreach ($product->variations as $variation) {
-                    $mrp += $variation->default_purchase_price + (($variation->default_purchase_price * $variation->profit_percent) / 100);
-                    $percentage = (($variation->dpp_inc_tax - $variation->default_purchase_price) * 100) / $variation->default_purchase_price;
-                    $vat        = ($mrp * $percentage) / 100;
-                    $price += $mrp + $vat;
-                }
-                $product->price               = $price;
-                $product->price_excluding_tax = $mrp;
-                $product->vat                 = $vat;
-            }
-            $total_price               = 0;
-            $total_price_excluding_tax = 0;
-            $total_vat                 = 0;
-            foreach ($products as $product) {
-                $product->location_id      = BusinessLocation::where('business_id', $product->business_id)->first()->id;
-                $total_price += $product->price;
-                $total_price_excluding_tax += $product->price_excluding_tax;
-                $total_vat += $product->vat;
-            }
-            if (!count($products)) {
-                return back()->with('error', 'No products in cart.');
-            }
-            $product_ids = collect($products)->pluck('id')->toArray();
-            // return $products[0];
-            $data = [
-                'user'                      => $user,
-                'products'                  => $products,
-                'total_price'               => $total_price,
-                'total_price_excluding_tax' => $total_price_excluding_tax,
-                'total_vat'                 => $total_vat,
-                'product_ids'               => implode(',', $product_ids)
-            ];
-            return view('frontend.cart.checkout', $data);
-        } catch (\Exception $e) {
-            return back()->with('error', $e->getMessage());
+{
+    try {
+        $user = Auth::user();
+        if (!$user) {
+            session(['intended_url' => 'checkout']);
+            return redirect(url('login'));
         }
+
+        $current_carts = Session::get('current_carts');
+        $cart_quantities = Session::get('cart_quantities'); 
+        
+        if (!$current_carts) {
+            return redirect(route('service.list'))->with('error', "No product/service selected.");
+        }
+
+        $products = Product::whereIn('id', $current_carts)->get();
+        foreach ($products as $product) {
+            $product->contact_id = Contact::where('business_id', $product->business_id)->first()->id;
+            $price               = 0;
+            $price_excluding_tax = 0;
+            $vat                 = 0;
+            $mrp                 = 0;
+            
+            // Get the quantity for this product
+            $quantity = isset($cart_quantities[$product->id]) ? $cart_quantities[$product->id] : 1;
+            $product->quantity = $quantity;
+
+            foreach ($product->variations as $variation) {
+                $mrp += $variation->default_purchase_price + (($variation->default_purchase_price * $variation->profit_percent) / 100);
+                $percentage = (($variation->dpp_inc_tax - $variation->default_purchase_price) * 100) / $variation->default_purchase_price;
+                $vat        = ($mrp * $percentage) / 100;
+                $price += ($mrp + $vat) * $quantity; 
+            }
+
+            $product->price               = $price;
+            $product->price_excluding_tax = $mrp * $quantity; 
+            $product->vat                 = $vat * $quantity;
+        }
+
+        $total_price               = 0;
+        $total_price_excluding_tax = 0;
+        $total_vat                 = 0;
+        foreach ($products as $product) {
+            $product->location_id = BusinessLocation::where('business_id', $product->business_id)->first()->id;
+            $total_price += $product->price;
+            $total_price_excluding_tax += $product->price_excluding_tax;
+            $total_vat += $product->vat;
+        }
+
+        if (!count($products)) {
+            return back()->with('error', 'No products in cart.');
+        }
+
+        $product_ids = collect($products)->pluck('id')->toArray();
+
+        $data = [
+            'user'                      => $user,
+            'products'                  => $products,
+            'total_price'               => $total_price,
+            'total_price_excluding_tax' => $total_price_excluding_tax,
+            'total_vat'                 => $total_vat,
+            'product_ids'               => implode(',', $product_ids)
+        ];
+        // return $data;
+        return view('frontend.cart.checkout', $data);
+    } catch (\Exception $e) {
+        return back()->with('error', $e->getMessage());
     }
+}
+
     public function getClientSecret(Request $request)
     {
         try {
@@ -274,12 +289,13 @@ class CartController extends Controller
                 unset($input['payment']['change_return']);
             }
 
-            $business_id   = $input['business_id'];
-            $user_id       = Auth::user()->id;
-            $discount      = [
+            $business_id = $input['business_id'];
+            $user_id     = Auth::user()->id;
+            $discount    = [
                 'discount_type'   => $input['discount_type'],
                 'discount_amount' => $input['discount_amount'],
             ];
+            // return $input['products'];
             $invoice_total = $this->productUtil->calculateInvoiceTotal($input['products'], $input['tax_rate_id'], $discount);
 
             DB::beginTransaction();
@@ -1953,7 +1969,7 @@ class CartController extends Controller
     {
         $transaction_id = $request->transaction_id;
         $receipt        = Session::get('receipt');
-        $invoice_token     = Transaction::where('id', $transaction_id)->pluck('invoice_token')->first();
+        $invoice_token  = Transaction::where('id', $transaction_id)->pluck('invoice_token')->first();
 
         // return $receipt['html_content'];
         return view('frontend.cart.payment_successful', compact('receipt', 'invoice_token'));
