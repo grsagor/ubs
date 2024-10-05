@@ -298,6 +298,8 @@ class CartController extends Controller
             // return $input['products'];
             $invoice_total = $this->productUtil->calculateInvoiceTotal($input['products'], $input['tax_rate_id'], $discount);
 
+            return $invoice_total;
+
             DB::beginTransaction();
 
             $input['transaction_date'] = \Carbon::now();
