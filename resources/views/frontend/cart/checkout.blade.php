@@ -2624,7 +2624,7 @@
                                                                 value="single">
                                                             <input type="hidden"
                                                                 name="products[{{ $i + 1 }}][unit_price]"
-                                                                value="0.00">
+                                                                value="{{ $product->price_excluding_tax }}">
                                                             <input type="hidden"
                                                                 name="products[{{ $i + 1 }}][line_discount_type]"
                                                                 value="fixed">
@@ -2633,7 +2633,7 @@
                                                                 value="0.00">
                                                             <input type="hidden"
                                                                 name="products[{{ $i + 1 }}][item_tax]"
-                                                                value="0.00">
+                                                                value="{{ $product->vat }}">
                                                             <input type="hidden"
                                                                 name="products[{{ $i + 1 }}][tax_id]"
                                                                 value="">
@@ -2651,7 +2651,7 @@
                                                                 value="0">
                                                             <input type="hidden"
                                                                 name="products[{{ $i + 1 }}][quantity]"
-                                                                value="0">
+                                                                value="1">
                                                             <input type="hidden"
                                                                 name="products[{{ $i + 1 }}][product_unit_id]"
                                                                 value="2">
@@ -2663,7 +2663,7 @@
                                                                 value="1">
                                                             <input type="hidden"
                                                                 name="products[{{ $i + 1 }}][unit_price_inc_tax]"
-                                                                value="0.00">
+                                                                value="{{ $product->price }}">
 
                                                             <div class="product-content">
                                                                 <p class="name"><a href=""
@@ -3132,7 +3132,7 @@
                     success: function(response) {
                         setTimeout(() => {
                             $('#payment_animation_container').modal('hide');
-                        }, 1500);
+                        }, 3000);
                         stripe.confirmCardPayment(response.client_secret, {
                             payment_method: {
                                 card: cardNumber,

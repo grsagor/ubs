@@ -571,6 +571,11 @@ class SellController extends Controller
 
                     return $user->username;
                 })
+                ->addColumn('contact_no', function ($row) {
+                    $user = User::where('id', $row->created_by)->select('contact_no')->first();
+
+                    return $user->contact_no;
+                })
                 ->addColumn('payment_methods', function ($row) use ($payment_types) {
                     $methods        = array_unique($row->payment_lines->pluck('method')->toArray());
                     $count          = count($methods);

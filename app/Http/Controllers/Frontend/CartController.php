@@ -210,7 +210,6 @@ class CartController extends Controller
                 return back()->with('error', 'No products in cart.');
             }
             $product_ids = collect($products)->pluck('id')->toArray();
-            // return $products[0];
             $data = [
                 'user'                      => $user,
                 'products'                  => $products,
