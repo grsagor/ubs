@@ -4965,6 +4965,7 @@ class TransactionUtil extends Util
                     'transactions.rp_earned',
                     'transactions.types_of_service_id',
                     'transactions.shipping_status',
+                    'transactions.shipping_address',
                     'transactions.pay_term_number',
                     'transactions.pay_term_type',
                     'transactions.additional_notes',

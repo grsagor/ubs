@@ -52,6 +52,7 @@
                         <th>@lang('lang_v1.sell_due')</th>
                         <th>@lang('lang_v1.sell_return_due')</th>
                         <th>@lang('lang_v1.shipping_status')</th>
+                        <th>Shipping Address</th>
                         <th>@lang('lang_v1.total_items')</th>
                         <th>@lang('lang_v1.types_of_service')</th>
                         <th>{{ $custom_labels['types_of_service']['custom_field_1'] ?? __('lang_v1.service_custom_field_1' )}}</th>
@@ -171,6 +172,7 @@ $(document).ready( function(){
             { data: 'total_remaining', name: 'total_remaining'},
             { data: 'return_due', orderable: false, "searchable": false},
             { data: 'shipping_status', name: 'shipping_status'},
+            { data: 'shipping_address', name: 'shipping_address'},
             { data: 'total_items', name: 'total_items', "searchable": false},
             { data: 'types_of_service_name', name: 'tos.name', @if(empty($is_types_service_enabled)) visible: false @endif},
             { data: 'service_custom_field_1', name: 'service_custom_field_1', @if(empty($is_types_service_enabled)) visible: false @endif},

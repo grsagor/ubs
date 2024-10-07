@@ -65,8 +65,8 @@
         }
 
         /* .StripeElement>div>iframe {
-                            height: 32px !important;
-                        } */
+                                height: 32px !important;
+                            } */
 
         .stripe-element-container {
             padding: 4px;
@@ -114,14 +114,14 @@
         }
 
         /* #payment_animation_container {
-                position: fixed;
-                top: 0;
-                left: 0;
-                right: 0;
-                bottom: 0;
-                background: #EBEBEB;
-                z-index: 99999999;
-            } */
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background: #EBEBEB;
+                    z-index: 99999999;
+                } */
 
         #payment_animation_container img {
             width: 100%;
@@ -130,14 +130,14 @@
         }
 
         /* #payment_success_container {
-                position: fixed;
-                top: 0;
-                left: 0;
-                right: 0;
-                bottom: 0;
-                background: #EBEBEB;
-                z-index: 999999999;
-            } */
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background: #EBEBEB;
+                    z-index: 999999999;
+                } */
 
         #payment_success_container .modal-body {
             height: 100%;
@@ -326,7 +326,7 @@
                                                         </div>
                                                         <div class="col-lg-6">
                                                             <input class="form-control" type="text"
-                                                                name="customer_address" placeholder="Address" required=""
+                                                                name="shipping_address" placeholder="Address" required=""
                                                                 value="">
                                                         </div>
                                                         <div class="col-lg-6">
@@ -1459,7 +1459,7 @@
                                                     <div class="row">
                                                         <div class="col-lg-6">
                                                             <input class="form-control ship_input" type="text"
-                                                                name="shipping_address" id="shipping_address"
+                                                                name="shipping_address_bk" id="shipping_address_bk"
                                                                 placeholder="Address">
                                                         </div>
                                                         <div class="col-lg-6">
@@ -3116,6 +3116,11 @@
     </script>
 
     <script>
+        function hidePaymentAnimationContainer() {
+            setTimeout(() => {
+                $('#payment_animation_container').modal('hide');
+            }, 3000);
+        }
         $(document).ready(function() {
             $(document).on('click', '#proceed_to_checkout', function() {
                 $('#stripeModal').modal('hide');
@@ -3130,9 +3135,7 @@
                     },
                     dataType: 'json',
                     success: function(response) {
-                        setTimeout(() => {
-                            $('#payment_animation_container').modal('hide');
-                        }, 3000);
+                        hidePaymentAnimationContainer();
                         stripe.confirmCardPayment(response.client_secret, {
                             payment_method: {
                                 card: cardNumber,
@@ -3203,10 +3206,11 @@
                         $('#payment_animation_container').modal('hide');
                         await $('#payment_success_container').modal('show');
                         $('#stripeModal').modal('hide');
-                        const transactionId = result.transaction_id;                      
+                        const transactionId = result.transaction_id;
 
                         setTimeout(function() {
-                            location.href = "{{ route('front.payment.successfull') }}" + "?transaction_id=" + transactionId
+                            location.href = "{{ route('front.payment.successfull') }}" +
+                                "?transaction_id=" + transactionId
                         }, 2000);
                         receipt = result.receipt;
 
