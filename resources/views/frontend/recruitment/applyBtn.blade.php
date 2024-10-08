@@ -37,19 +37,28 @@
 
     @php
         $button_state = 0;
-        if ($job->status == 0 || $closing_date == false) {
-            $button_state = 10;
+
+        if ($job->status == 0) {
+            $button_state = 10; //Paused
+        }
+
+        if ($closing_date == false) {
+            $button_state = 20; //Expired
         }
 
         if ($applied_jobs == 1) {
-            $button_state = 1;
+            $button_state = 1; //Already applied
         }
+
+        // dd($button_state);
 
     @endphp
 
     @if ($button_state == 1)
         <button type="button" class="btn alreadyApplied" disabled>Already applied</button>
     @elseif ($button_state == 10)
+        <button type="button" class="btn alreadyApplied" disabled>Paused</button>
+    @elseif ($button_state == 20)
         <button type="button" class="btn alreadyApplied" disabled>Expired</button>
     @else
         @if ($recuitment_info == 0)

@@ -54,6 +54,7 @@ class RecruitmentController extends Controller
             $data['closing_date'] = false;
         }
 
+        // dd($data);
         $data['recuitment_info'] = 0;
         $data['applied_jobs'] = 0;
         $authUserId = Auth::id();
