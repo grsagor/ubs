@@ -59,10 +59,12 @@ class RecruitmentController extends Controller
         $data['applied_jobs'] = 0;
         $authUserId = Auth::id();
 
-        $recruitment = Recruitment::where('created_by', $authUserId)->first();
+        $recruitment = Recruitment::where('created_by', $authUserId)->get();
 
         if ($recruitment !== null) {
-            $appliedJob = AppliedJob::where('recruitment_id', $recruitment->uuid)
+            $recruitmentIds = $recruitment->pluck('uuid')->toArray();
+
+            $appliedJob = AppliedJob::whereIn('recruitment_id', $recruitmentIds)
                 ->where('job_id', $data['job']->uuid)
                 ->first();
 
