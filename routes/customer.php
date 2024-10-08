@@ -25,7 +25,9 @@ Route::group(['middleware' => ['checkCustomer'], 'prefix' => 'contact',], functi
     Route::post('/update-property-wanted', [PropertyWantedCustomerController::class, 'updatePropertyWanted']);
     Route::post('/property-wanted/upgrade', [PropertyWantedCustomerController::class, 'propertyWantedUpgradePage']);
 
-    Route::get('/products', [CustomerProductController::class, 'index']);
+    Route::get('/products', [CustomerProductController::class, 'getPurchaseList']);
+    Route::get('/single-order-details-show', [CustomerProductController::class, 'single'])->name('customer.order.show.details');
+    Route::get('/single-order-details-print', [CustomerProductController::class, 'printInvoice'])->name('customer.order.print.details');
 
     Route::get('/my-information/{id}/edit', [RecruitmentController::class, 'edit'])->name('recruitment.edit');
     Route::put('/my-information/{id}', [RecruitmentController::class, 'update'])->name('recruitment.update');
@@ -44,7 +46,7 @@ Route::group(['middleware' => ['checkCustomer'], 'prefix' => 'contact',], functi
 });
 
 Route::group(['middleware' => ['checkCustomer'], 'prefix' => 'contact', 'namespace' => 'Modules\Crm\Http\Controllers'], function () {
-// Route::group(['prefix' => 'contact', 'namespace' => 'Modules\Crm\Http\Controllers'], function () {
+    // Route::group(['prefix' => 'contact', 'namespace' => 'Modules\Crm\Http\Controllers'], function () {
     Route::resource('contact-dashboard', 'DashboardController');
     Route::get('contact-profile', 'ManageProfileController@getProfile');
     Route::post('contact-password-update', 'ManageProfileController@updatePassword');

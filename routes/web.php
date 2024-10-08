@@ -1,6 +1,8 @@
 <?php
 include 'customer.php';
 
+use App\Http\Controllers\Backend\WithdrawController;
+use App\Http\Controllers\BusinessOrderController;
 use App\Http\Controllers\Install;
 use App\Http\Controllers\Restaurant;
 use Illuminate\Support\Facades\Route;
@@ -111,6 +113,19 @@ Route::get('/route-optimize-clear', function () {
     return '<h2>Events, views, cache, route, config, compiled clear</h2>';
 });
 
+
+Route::get('send-mail', function () {
+
+    $details = [
+        'title' => 'Mail from ItSolutionStuff.com',
+        'body' => 'This is for testing email using smtp'
+    ];
+
+    \Mail::to('test@gmail.com')->send(new \App\Mail\MyTestMail($details));
+
+    dd("Email is Sent.");
+});
+
 // Stripe payment gateway
 Route::controller(StripePaymentController::class)->group(function () {
     Route::get('stripe', 'stripe');
@@ -211,6 +226,7 @@ Route::get('/upcolor', 'Front\CartController@upcolor');
 // Route::get('/carts/coupon', 'Front\CouponController@coupon');
 // CART SECTION ENDS
 
+
 Route::middleware(['setData'])->group(function () {
     // Frontend Routes Start //
 
@@ -221,6 +237,7 @@ Route::middleware(['setData'])->group(function () {
     Route::get('/shop/{id}', [ShopController::class, 'ShopService'])->name('shop.service');
 
     Route::get('/shop/business/service/{id}', [ShopController::class, 'BusinessShopService'])->name('business.shop.service');
+    
 
     //Product
     Route::get('/product/list', [ProductController::class, 'productList'])->name('product.list');
@@ -373,6 +390,7 @@ Route::middleware(['checkAdmin', 'SetSessionData'])->group(function () {
     /* Route created by GR SAGOR to here */
 
     Route::get('/home', [HomeController::class, 'index'])->name('home');
+    Route::get('/business/order', [BusinessOrderController::class,'index'])->name('index');
     Route::get('/home/get-totals', [HomeController::class, 'getTotals']);
     Route::get('/home/product-stock-alert', [HomeController::class, 'getProductStockAlert']);
     Route::get('/home/purchase-payment-dues', [HomeController::class, 'getPurchasePaymentDues']);
@@ -511,6 +529,7 @@ Route::middleware(['checkAdmin', 'SetSessionData'])->group(function () {
     Route::get('/purchases/get_suppliers', [PurchaseController::class, 'getSuppliers']);
     Route::post('/purchases/get_purchase_entry_row', [PurchaseController::class, 'getPurchaseEntryRow']);
     Route::post('/purchases/check_ref_number', [PurchaseController::class, 'checkRefNumber']);
+    Route::get('/purchase/list', [PurchaseController::class, 'getPurchaseList'])->name('purchases.list');
     Route::resource('purchases', PurchaseController::class)->except(['show']);
 
     Route::get('/toggle-subscription/{id}', [SellPosController::class, 'toggleRecurringInvoices']);
@@ -791,6 +810,9 @@ Route::middleware(['checkAdmin', 'SetSessionData'])->group(function () {
     Route::get('reports/activity-log', [ReportController::class, 'activityLog']);
     Route::get('user-location/{latlng}', [HomeController::class, 'getUserLocation']);
 });
+
+Route::get('/purchases/datatable/list', [PurchaseController::class, 'getPurchaseList']);
+Route::get('/single-order-details-show', [PurchaseController::class, 'single'])->name('single.order.show.details');
 
 Route::get('/withdraw', [WithdrawRequestController::class, 'index']);
 Route::get('/withdraw-list', [WithdrawRequestController::class, 'getWithdrawList'])->name('account.withdraw.list');

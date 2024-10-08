@@ -430,7 +430,9 @@ function __print_receipt(section_id = null) {
     img_counter = 0;
 
     [].forEach.call(imgs, function (img) {
+      console.log("img: ", img);
       img.addEventListener("load", incrementImageCounter, false);
+      img.addEventListener("error", incrementImageCounter, false);
     });
   } else {
     setTimeout(function () {
@@ -444,6 +446,7 @@ function __print_receipt(section_id = null) {
 }
 
 function incrementImageCounter() {
+  console.log('function called')
   img_counter++;
   if (img_counter === img_len) {
     window.print();

@@ -1,14 +1,15 @@
 @extends('crm::layouts.app')
-
-@section('title', __('purchase.purchases'))
+@section('title', 'My Orders')
 
 @section('content')
     <!-- Content Header (Page header) -->
     <section class="content-header no-print">
         <h1>@lang('purchase.purchases')</h1>
     </section>
+
     <!-- Main content -->
-    <section class="content no-print">
+    <section class="content">
+
         @component('components.filters', ['title' => __('report.filters')])
             <div class="col-md-3">
                 <div class="form-group">
@@ -48,7 +49,13 @@
             </div>
         @endcomponent
 
-        @component('components.widget', ['class' => 'box-primary', 'title' => __('purchase.all_purchases')])
+        @component('components.widget', ['class' => 'box-primary', 'title' => __('All Your Purchases')])
+            {{-- @slot('tool')
+                <div class="box-tools">
+                    <a href="{{ url('contact/property-wanted-create') }}" class="btn btn-block btn-primary">
+                        <i class="fa fa-plus"></i> @lang('messages.add')</a>
+                </div>
+            @endslot --}}
             <div class="table-responsive">
                 <table class="table table-bordered table-striped" id="room_to_rent_share_table">
                     <thead>
@@ -68,6 +75,7 @@
                 </table>
             </div>
         @endcomponent
+
         <div class="modal fade property_wanted_delete_modal" tabindex="-1" role="dialog"
             aria-labelledby="gridSystemModalLabel">
         </div>
@@ -77,11 +85,12 @@
         <div class="modal fade " id="product_print_modal" tabindex="-1" role="dialog"
             aria-labelledby="gridSystemModalLabel">
         </div>
+
     </section>
+    <!-- /.content -->
+
 @endsection
 @section('javascript')
-    <script src="{{ asset('js/purchase.js?v=' . $asset_v) }}"></script>
-    <script src="{{ asset('modules/crm/js/crm.js?v=' . $asset_v) }}"></script>
     <script>
         $(document).ready(function() {
             business_locations = $('#room_to_rent_share_table').DataTable({
@@ -89,7 +98,7 @@
                 serverSide: true,
                 bPaginate: false,
                 buttons: [],
-                ajax: '/purchases/list',
+                ajax: '/contact/products',
                 columns: [
 
                     {
@@ -127,7 +136,10 @@
                         name: 'payment_due',
                         class: 'text-center'
                     },
-                    
+                    {
+                        data: 'added_by',
+                        name: 'u.first_name'
+                    }
                 ]
             });
         });

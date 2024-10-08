@@ -121,7 +121,7 @@
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="{{ route('purchases.index') }}"><i class="fa fas fa-list"></i> <span>List
+                    <li class="{{ Request::is('purchases.list*') ? 'active' : '' }}"><a href="{{ route('purchases.list') }}"><i class="fa fas fa-list"></i> <span>List
                                 Purchases</span></a></li>
                     <li><a href="{{ route('purchases.create') }}"><i class="fa fas fa-plus-circle"></i> <span>Add
                                 Purchase</span></a></li>
@@ -129,6 +129,8 @@
                                 Purchase Return</span></a></li>
                 </ul>
             </li>
+            <li class="{{ Request::is('business/order*') ? 'active' : '' }}"><a href="{{ url('/business/order') }}"><i class="fa fas fa-arrow-circle-up"></i>
+                    <span>My Orders</span></a></li>
             <li class="treeview" id="tour_step7">
                 <a href="#">
                     <i class="fa fas fa-arrow-circle-up"></i> <span>Sell</span>

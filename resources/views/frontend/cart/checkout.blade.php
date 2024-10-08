@@ -35,6 +35,7 @@
         }
 
         @media print {
+
             #page_wrapper> :not(.print_section),
             footer,
             #toast-container {
@@ -64,8 +65,8 @@
         }
 
         /* .StripeElement>div>iframe {
-                        height: 32px !important;
-                    } */
+                                height: 32px !important;
+                            } */
 
         .stripe-element-container {
             padding: 4px;
@@ -113,14 +114,14 @@
         }
 
         /* #payment_animation_container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: #EBEBEB;
-            z-index: 99999999;
-        } */
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background: #EBEBEB;
+                    z-index: 99999999;
+                } */
 
         #payment_animation_container img {
             width: 100%;
@@ -129,14 +130,14 @@
         }
 
         /* #payment_success_container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: #EBEBEB;
-            z-index: 999999999;
-        } */
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background: #EBEBEB;
+                    z-index: 999999999;
+                } */
 
         #payment_success_container .modal-body {
             height: 100%;
@@ -179,6 +180,7 @@
         .btn-primary:hover {
             border: none !important;
         }
+
         .swal2-title {
             font-size: 16px !important;
         }
@@ -324,7 +326,7 @@
                                                         </div>
                                                         <div class="col-lg-6">
                                                             <input class="form-control" type="text"
-                                                                name="customer_address" placeholder="Address" required=""
+                                                                name="shipping_address" placeholder="Address" required=""
                                                                 value="">
                                                         </div>
                                                         <div class="col-lg-6">
@@ -1457,7 +1459,7 @@
                                                     <div class="row">
                                                         <div class="col-lg-6">
                                                             <input class="form-control ship_input" type="text"
-                                                                name="shipping_address" id="shipping_address"
+                                                                name="shipping_address_bk" id="shipping_address_bk"
                                                                 placeholder="Address">
                                                         </div>
                                                         <div class="col-lg-6">
@@ -2622,7 +2624,7 @@
                                                                 value="single">
                                                             <input type="hidden"
                                                                 name="products[{{ $i + 1 }}][unit_price]"
-                                                                value="0.00">
+                                                                value="{{ $product->price_excluding_tax }}">
                                                             <input type="hidden"
                                                                 name="products[{{ $i + 1 }}][line_discount_type]"
                                                                 value="fixed">
@@ -2631,7 +2633,7 @@
                                                                 value="0.00">
                                                             <input type="hidden"
                                                                 name="products[{{ $i + 1 }}][item_tax]"
-                                                                value="0.00">
+                                                                value="{{ $product->vat }}">
                                                             <input type="hidden"
                                                                 name="products[{{ $i + 1 }}][tax_id]"
                                                                 value="">
@@ -2649,7 +2651,7 @@
                                                                 value="0">
                                                             <input type="hidden"
                                                                 name="products[{{ $i + 1 }}][quantity]"
-                                                                value="0">
+                                                                value="1">
                                                             <input type="hidden"
                                                                 name="products[{{ $i + 1 }}][product_unit_id]"
                                                                 value="2">
@@ -2661,7 +2663,7 @@
                                                                 value="1">
                                                             <input type="hidden"
                                                                 name="products[{{ $i + 1 }}][unit_price_inc_tax]"
-                                                                value="0.00">
+                                                                value="{{ $product->price }}">
 
                                                             <div class="product-content">
                                                                 <p class="name"><a href=""
@@ -2718,7 +2720,7 @@
                                                             <a href="javascript:;" data-go="2" data-hide="3"
                                                                 class="mybtn1 mr-3 mb-0 last_back_btn">Back</a>
                                                             <button type="button" id="final-btn"
-                                                                class="btn btn-primary">Cash</button>
+                                                                class="btn btn-primary">Pay Later</button>
                                                             <button type="button" class="btn btn-primary"
                                                                 id="open_stripe_modal--btn" data-bs-toggle="modal"
                                                                 data-bs-target="#stripeModal">Card</button>
@@ -3114,6 +3116,11 @@
     </script>
 
     <script>
+        function hidePaymentAnimationContainer() {
+            setTimeout(() => {
+                $('#payment_animation_container').modal('hide');
+            }, 3000);
+        }
         $(document).ready(function() {
             $(document).on('click', '#proceed_to_checkout', function() {
                 $('#stripeModal').modal('hide');
@@ -3128,9 +3135,7 @@
                     },
                     dataType: 'json',
                     success: function(response) {
-                        setTimeout(() => {
-                            $('#payment_animation_container').modal('hide');
-                        }, 1500);
+                        hidePaymentAnimationContainer();
                         stripe.confirmCardPayment(response.client_secret, {
                             payment_method: {
                                 card: cardNumber,
@@ -3195,13 +3200,17 @@
                 dataType: 'json',
                 success: async function(result) {
                     if (result.success == 1) {
+
                         //Check if enabled or not
                         // if (result.receipt.is_enabled) {
                         $('#payment_animation_container').modal('hide');
                         await $('#payment_success_container').modal('show');
                         $('#stripeModal').modal('hide');
+                        const transactionId = result.transaction_id;
+
                         setTimeout(function() {
-                        location.href = "{{ route('front.payment.successfull') }}"
+                            location.href = "{{ route('front.payment.successfull') }}" +
+                                "?transaction_id=" + transactionId
                         }, 2000);
                         receipt = result.receipt;
 

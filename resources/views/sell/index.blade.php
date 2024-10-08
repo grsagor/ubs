@@ -52,6 +52,7 @@
                         <th>@lang('lang_v1.sell_due')</th>
                         <th>@lang('lang_v1.sell_return_due')</th>
                         <th>@lang('lang_v1.shipping_status')</th>
+                        <th>Shipping Address</th>
                         <th>@lang('lang_v1.total_items')</th>
                         <th>@lang('lang_v1.types_of_service')</th>
                         <th>{{ $custom_labels['types_of_service']['custom_field_1'] ?? __('lang_v1.service_custom_field_1' )}}</th>
@@ -161,8 +162,8 @@ $(document).ready( function(){
             { data: 'action', name: 'action', orderable: false, "searchable": false},
             { data: 'transaction_date', name: 'transaction_date'  },
             { data: 'invoice_no', name: 'invoice_no'},
-            { data: 'conatct_name', name: 'conatct_name'},
-            { data: 'mobile', name: 'contacts.mobile'},
+            { data: 'customer_name', name: 'customer_name'},
+            { data: 'contact_no', name: 'contact_no'},
             { data: 'business_location', name: 'bl.name'},
             { data: 'payment_status', name: 'payment_status'},
             { data: 'payment_methods', orderable: false, "searchable": false},
@@ -171,6 +172,7 @@ $(document).ready( function(){
             { data: 'total_remaining', name: 'total_remaining'},
             { data: 'return_due', orderable: false, "searchable": false},
             { data: 'shipping_status', name: 'shipping_status'},
+            { data: 'shipping_address', name: 'shipping_address'},
             { data: 'total_items', name: 'total_items', "searchable": false},
             { data: 'types_of_service_name', name: 'tos.name', @if(empty($is_types_service_enabled)) visible: false @endif},
             { data: 'service_custom_field_1', name: 'service_custom_field_1', @if(empty($is_types_service_enabled)) visible: false @endif},
