@@ -43,6 +43,7 @@ class Job extends Model
         'location',
         'description',
         'note',
+        'sponsorship',
         'status',
     ];
 

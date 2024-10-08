@@ -72,6 +72,15 @@
                                                 Salary: <span class="txtbold"> {{ $salary ?? 'N/A' }} </span>
                                             </div>
 
+                                            @if ($job->sponsorship == 1)
+                                                <div>
+                                                    Sponsorship: <span class=""
+                                                        style="font-size: 14px; font-weight:bold; background-color: rgb(64, 206, 36);  color: white;  padding: 4px 8px;  text-align: center;  border-radius: 5px;">
+                                                        Available </span>
+                                                </div>
+                                            @endif
+
+
                                         </div>
 
                                         <div class="col-md-6">

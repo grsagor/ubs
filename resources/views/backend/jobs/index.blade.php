@@ -34,6 +34,7 @@
                             <th>Job Location</th>
                             <th>Job type</th>
                             <th>Salary</th>
+                            <th>Sponsoring</th>
                             <th>Created at</th>
                             <th>Closing date</th>
                             <th>Action</th>
@@ -78,6 +79,7 @@
 
                                     {{ $salary ?? 'N/A' }}
                                 </td>
+                                <td>{{ $item->sponsorship == 1 ? 'Yes' : 'No' }}</td>
                                 <td>{{ $item->created_at->format('d F Y h:i A') }}</td>
                                 <td>{{ Carbon::parse($item->closing_date)->format('d F Y') }}</td>
 

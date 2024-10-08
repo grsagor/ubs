@@ -141,6 +141,10 @@ class JobController extends Controller
 
             $requestedData = $request->all();
 
+            // dd($requestedData);
+
+            $requestedData['sponsorship'] = $request->has('sponsorship') ? 1 : NULL;
+
             // Handle multiple select fields
             $requestedData['hour_type'] = $request->input('hour_type', []);
             $requestedData['job_type'] = $request->input('job_type', []);
