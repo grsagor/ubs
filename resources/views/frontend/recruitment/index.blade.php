@@ -44,6 +44,7 @@
                             <th>Current Address</th>
                             <th>Country of Residence</th>
                             <th>Origin</th>
+                            <th>Sponsorship</th>
                             <th>Created By</th>
                             <th>Action</th>
                         </tr>
@@ -65,6 +66,7 @@
                                 <td>{{ $item->recuimentId->current_address ?? '' }}</td>
                                 <td>{{ $item->recuimentId->countryResidence->country_name ?? '' }}</td>
                                 <td>{{ $item->recuimentId->birthCountry->country_name ?? '' }}</td>
+                                <td>{{ $item->recuimentId->sponsorship == 1 ? 'Need' : 'No Need' }}</td>
                                 <td>
                                     {{ $item->createdBy->surname ?? '' }}
                                     {{ $item->createdBy->first_name ?? '' }}

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Job;
+use App\User;
 use App\Country;
 use App\Category;
 use App\AppliedJob;
@@ -61,7 +62,7 @@ class RecruitmentController extends Controller
 
         $recruitment = Recruitment::where('created_by', $authUserId)->get();
 
-        if ($recruitment !== null) {
+        if ($recruitment->isNotEmpty()) { // Check if the collection is not empty
             $recruitmentIds = $recruitment->pluck('uuid')->toArray();
 
             $appliedJob = AppliedJob::whereIn('recruitment_id', $recruitmentIds)
@@ -71,6 +72,7 @@ class RecruitmentController extends Controller
             $data['recuitment_info'] = 1;
             $data['applied_jobs'] = ($appliedJob !== null) ? 1 : 0;
         }
+        // return $data['recuitment_info'];
 
         return view('frontend.recruitment.details', $data);
     }
@@ -238,6 +240,12 @@ class RecruitmentController extends Controller
 
     public function success()
     {
+        $user = Auth::user();
+        if ($user->type == 'customer') {
+            return redirect()->route('recruitment.edit', ['id' => myInformation()->uuid]);
+        } elseif ($user->type == 'admin') {
+            return redirect()->route('admin.dashboard');
+        }
         $msg =  'submitted';
         return view('frontend.recruitment.after_submit', compact('msg'));
     }

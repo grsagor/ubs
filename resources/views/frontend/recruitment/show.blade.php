@@ -138,7 +138,8 @@
                     Email: {{ $item->email ?? '' }}<br>
                     Current Address: {{ $item->current_address ?? '' }}<br>
                     Country of Residence: {{ $item->countryResidence->country_name ?? '' }} <br>
-                    Birth Country: {{ $item->birthCountry->country_name ?? '' }}
+                    Origin: {{ $item->birthCountry->country_name ?? '' }} <br>
+                    Sponsorship: {{ $item->sponsorship == 1 ? 'Need' : 'No Need' }}
                 </p>
 
                 <h3>Cover letter</h3>

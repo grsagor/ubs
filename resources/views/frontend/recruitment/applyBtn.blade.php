@@ -23,12 +23,6 @@
                     <button type="submit" class="btn applynow" onclick="setConfirmationValue('Yes')">Yes</button>
                 </form>
             </div>
-
-            <!-- Modal Footer -->
-            {{-- <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div> --}}
-
         </div>
     </div>
 </div>
@@ -50,7 +44,7 @@
             $button_state = 1; //Already applied
         }
 
-        // dd($button_state);
+        // dd($recuitment_info);
 
     @endphp
 
@@ -63,9 +57,7 @@
     @else
         @if ($recuitment_info == 0)
             <a href="{{ route('recruitment.create', $job->uuid) }}" class="btn applynow">Apply Now</a>
-        @endif
-
-        @if ($recuitment_info == 1)
+        @else
             <button class="btn applynow" data-toggle="modal" data-target="#myModal">Apply Now</button>
         @endif
     @endif

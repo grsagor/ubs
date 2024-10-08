@@ -18,6 +18,7 @@
                             <th>Location</th>
                             <th>Salary</th>
                             <th>Applied Date</th>
+                            <th>Sponsorship</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -38,6 +39,7 @@
                                     @endif
                                 </td>
                                 <td>{{ $item->created_at->format('d F Y') ?? '' }}</td>
+                                <td>{{ $item->recuimentId->sponsorship == 1 ? 'Need' : 'No Need' }}</td>
                             </tr>
                         @empty
                             <tr>
