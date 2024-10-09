@@ -217,6 +217,15 @@
                             </div>
                         </div>
 
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <input type="checkbox" class="input-icheck" name="sponsorship" value="1"
+                                    {{ $job->sponsorship == 1 ? 'checked' : '' }}>
+                                <label for="sponsorship">Sponsorship available?</label>
+                            </div>
+                        </div>
+
+
                         <div class="col-sm-12">
                             <div class="form-group">
                                 <label for="custom_field1">Description <span class="text-danger">*</span></label>

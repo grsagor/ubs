@@ -2,6 +2,72 @@
 @section('title', 'Recruitment')
 @section('css')
     <style>
+        /* The container */
+        .frontend_container {
+            display: block;
+            position: relative;
+            padding-left: 35px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        /* Hide the browser's default checkbox */
+        .frontend_container input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            height: 0;
+            width: 0;
+        }
+
+        /* Create a custom checkbox */
+        .checkmark {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 25px;
+            width: 25px;
+            border: 1px solid black;
+        }
+
+
+        /* When the checkbox is checked, add a blue background */
+        .frontend_container input:checked~.checkmark {
+            background-color: #2196F3;
+        }
+
+        /* Create the checkmark/indicator (hidden when not checked) */
+        .checkmark:after {
+            content: "";
+            position: absolute;
+            display: none;
+        }
+
+        /* Show the checkmark when checked */
+        .frontend_container input:checked~.checkmark:after {
+            display: block;
+        }
+
+        /* Style the checkmark/indicator */
+        .frontend_container .checkmark:after {
+            left: 9px;
+            top: 5px;
+            width: 5px;
+            height: 10px;
+            border: solid white;
+            border-width: 0 3px 3px 0;
+            -webkit-transform: rotate(45deg);
+            -ms-transform: rotate(45deg);
+            transform: rotate(45deg);
+        }
+
+
+
+
         input.select-style,
         select.form-control,
         .form-control {
@@ -98,33 +164,30 @@
             <div class="card-body">
                 <div class="form-group">
                     <label for="name">Name <span class="text-danger">*</span></label>
-                    <input type="text" name="name" class="form-control" placeholder="Ex. John Doe">
+                    <input type="text" name="name" class="form-control" placeholder="">
                     <span id="name-error" class="text-danger"></span>
                 </div>
 
                 <div class="form-group">
                     <label for="phone">Phone <span class="text-danger">*</span></label>
-                    <input type="text" name="phone" class="form-control" placeholder="Ex. 4111111111111">
+                    <input type="text" name="phone" class="form-control" placeholder="">
                     <span id="phone-error" class="text-danger"></span>
                 </div>
 
                 <div class="form-group">
                     <label for="email">Email <span class="text-danger">*</span></label>
-                    <input type="email" name="email" class="form-control" placeholder="Ex. aaaa@gmail.com">
+                    <input type="email" name="email" class="form-control" placeholder="">
                     <span id="email-error" class="text-danger"></span>
                 </div>
 
                 <div class="form-group">
                     <label for="current_address">Current address <span class="text-danger">*</span></label>
-                    <input type="text" name="current_address" class="form-control"
-                        placeholder="Ex. 123 Main Street, London, SW1A 1AA, UK">
+                    <input type="text" name="current_address" class="form-control" placeholder="">
                     <span id="current_address-error" class="text-danger"></span>
                 </div>
 
                 <div class="form-group">
                     <label for="country_of_residence">Country of residence <span class="text-danger">*</span></label>
-                    {{-- <input type="text" name="country_residence" class="form-control" placeholder="Country of Residence"> --}}
-
                     <select class="form-control" name="country_residence">
                         <option selected="" value="">Select....</option>
                         @foreach ($country as $item)
@@ -136,7 +199,6 @@
 
                 <div class="form-group">
                     <label for="birth_country">Birth country <span class="text-danger">*</span></label>
-                    {{-- <input type="text" name="birth_country" class="form-control" placeholder="Birth country"> --}}
                     <select class="form-control" name="birth_country">
                         <option selected="" value="">Select....</option>
                         @foreach ($country as $item)
@@ -145,6 +207,13 @@
                     </select>
                     <span id="birth_country-error" class="text-danger"></span>
                 </div>
+
+
+                <label class="frontend_container">Sponsorship required?
+                    <input type="checkbox" name="sponsorship" value=1>
+                    <span class="checkmark"></span>
+                </label>
+
 
                 <div class="text-center" style="margin-top: 10px;">
                     <button type="button" class="btn btn-dark next-step"
@@ -160,13 +229,11 @@
             </div>
             <div class="card-body" id="experienceSection">
 
-
                 <h4 class="text-center"><u>Education</u></h4>
                 <div class="education-group mt-2" style="border: 1px solid #ccc; padding: 10px;">
                     <div class="form-group">
                         <label>Name of education</label>
-                        <input type="text" name="education_name_of_title[]" class="form-control"
-                            placeholder="Title of education">
+                        <input type="text" name="education_name_of_title[]" class="form-control" placeholder="">
                     </div>
 
                     <div class="row">
@@ -201,35 +268,31 @@
                 </button>
 
 
-
                 <h4 class="text-center"><u>Experience</u></h4>
                 <div class="experience-group mt-2" style="border: 1px solid #ccc; padding: 10px;">
                     <div class="form-group">
                         <label for="name_of_company">Title of experience</label>
-                        <input type="text" name="experience_name_of_company[]" class="form-control"
-                            placeholder="Title of experience" />
+                        <input type="text" name="experience_name_of_company[]" class="form-control" placeholder="" />
                     </div>
 
                     <div class="row">
                         <div class="col-6">
                             <div class="form-group">
                                 <label for="start_date">Start date</label>
-                                <input type="date" name="experience_start_date[]" class="form-control"
-                                    placeholder="Start date" />
+                                <input type="date" name="experience_start_date[]" class="form-control" />
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="form-group">
                                 <label for="end_date">End date</label>
-                                <input type="date" name="experience_end_date[]" class="form-control"
-                                    placeholder="End date" />
+                                <input type="date" name="experience_end_date[]" class="form-control" />
                             </div>
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label for="end_date">Upload File</label>
-                        <input type="file" name="experience_file[]" class="form-control" placeholder="End date" />
+                        <input type="file" name="experience_file[]" class="form-control" />
                     </div>
 
                     <button type="button" class="btn btn-danger delete-button" onclick="removeExperience(this)"
@@ -247,13 +310,12 @@
                 <div class="additional-group mt-2" style="border: 1px solid #ccc; padding: 10px;">
                     <div class="form-group">
                         <label>Title of file</label>
-                        <input type="text" name="additional_name_of_title[]" class="form-control"
-                            placeholder="Title of file">
+                        <input type="text" name="additional_name_of_title[]" class="form-control" placeholder="">
                     </div>
 
                     <div class="form-group">
                         <label for="end_date">Upload File</label>
-                        <input type="file" name="additional_file[]" class="form-control" placeholder="End date" />
+                        <input type="file" name="additional_file[]" class="form-control" />
                     </div>
 
                     <button type="button" class="btn btn-danger delete-button" onclick="removeAdditonal(this)"
@@ -282,7 +344,7 @@
                         <div class="form-group">
                             <label for="expected_salary">Amount </label>
                             <input type="number" step=".01" name="expected_salary" class="form-control"
-                                placeholder="Ex. 1000" required>
+                                placeholder="" required>
                         </div>
                     </div>
                 </div>
@@ -302,9 +364,13 @@
                     <input type="file" name="care_certificates" class="form-control">
                 </div> --}}
 
+
+
+
+
                 <div class="form-group">
                     <label for="cover_letter">Cover letter <span class="text-danger">*</span></label>
-                    <textarea name="cover_letter" rows="8" cols="79" placeholder="Write here" required></textarea>
+                    <textarea name="cover_letter" rows="8" cols="79" placeholder="" required></textarea>
                 </div>
 
                 <div class="text-center">
@@ -323,7 +389,7 @@
             var certificatesSection = $('#certificatesSection');
             var certificateSectionHtml =
                 '<div class="certificate-section">' +
-                '<input type="text" name="additional_certificate_titles[]" class="form-control" placeholder="Certificate Title">' +
+                '<input type="text" name="additional_certificate_titles[]" class="form-control">' +
                 '<input type="file" name="additional_certificate_files[]" class="form-control">' +
                 '<button type="button" class="btn btn-danger delete-button" onclick="removeCertificateSection(this)">Delete</button>' +
                 '</div>';
