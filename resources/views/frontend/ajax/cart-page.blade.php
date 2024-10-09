@@ -29,7 +29,7 @@
                      </style>
                      <table class="s_table table table-responsive-sm">
                          <tr class="text-center">
-                             <th class="product-thumbnail">&nbsp;</th>
+                             <th class="product-thumbnail">Image</th>
                              <th class="product-name">Product</th>
                              <th class="product-price">Price</th>
                              <th class="product-quantity">Quantity</th>
@@ -41,9 +41,10 @@
                              <tr class="woocommerce-cart-form__cart-item cart_item text-center">
                                  <td class="product-thumbnail">
                                      <img width="120" height="80"
-                                         src="{{ $product->thumbnail ? asset($product->thumbnail) : asset('assets/images/noimage.png') }}"
+                                         src="{{ $product->thumbnail && file_exists(public_path($product->thumbnail)) ? asset($product->thumbnail) : asset('img/default.png') }}"
                                          alt="Product image">
                                  </td>
+
                                  <td class="product-name text-start">
                                      <a href="">{{ $product->name }}</a>
                                      @if (!empty($product['color']))
@@ -148,7 +149,7 @@
 
                              <tr class="order-total">
                                  <th>Total</th>
-                                 <td><strong><span class="woocommerce-Price-amount amount main-total">£
+                                 <td><strong><span >£
                                              {{ $total_price }}</span></strong>
                                  </td>
                              </tr>

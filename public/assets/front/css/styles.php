@@ -105,7 +105,7 @@ table.cart a.remove {
 table.cart .actions button {
     background-color: <?php echo $color; ?>!important;
 }
-.cart_totals .order-total .woocommerce-Price-amount {
+.cart_totals .woocommerce-Price-amount {
     color: <?php echo $color; ?>!important;
 }
 .shipping-calculator-form .button, .wc-proceed-to-checkout .checkout-button {
