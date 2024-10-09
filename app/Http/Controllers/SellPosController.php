@@ -781,7 +781,7 @@ class SellPosController extends Controller
             $output['data'] = $receipt_details;
         } else {
             $layout = !empty($receipt_details->design) ? 'sale_pos.receipts.' . $receipt_details->design : 'sale_pos.receipts.classic';
-
+            
             $output['html_content'] = view($layout, compact('receipt_details'))->render();
         }
 

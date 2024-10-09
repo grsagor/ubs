@@ -567,14 +567,29 @@ class SellController extends Controller
                     });
                 })
                 ->addColumn('customer_name', function ($row) {
-                    $user = User::where('id', $row->created_by)->select('username')->first();
+                    $user = User::where('id', $row->created_by)
+                        ->select('username', 'surname', 'first_name', 'last_name')
+                        ->first();
 
-                    return $user->username;
+                    if ($user) {
+                        if (!empty($user->username)) {
+                            return $user->username;
+                        } else {
+                            return trim($user->surname . ' ' . $user->first_name . ' ' . $user->last_name);
+                        }
+                    }
+
+                    return "";
                 })
+
                 ->addColumn('contact_no', function ($row) {
                     $user = User::where('id', $row->created_by)->select('contact_no')->first();
 
-                    return $user->contact_no;
+                    if (!empty($user->contact_no)) {
+                        return $user->contact_no;
+                    }
+
+                    return "";
                 })
                 ->addColumn('payment_methods', function ($row) use ($payment_types) {
                     $methods        = array_unique($row->payment_lines->pluck('method')->toArray());

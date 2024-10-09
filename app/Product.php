@@ -35,14 +35,17 @@ class Product extends Model
      */
     public function getImageUrlAttribute()
     {
-        if (!empty($this->image)) {
-            $image_url = asset('/uploads/img/' . rawurlencode($this->image));
+        $imagePath = public_path('uploads/img/' . $this->image);
+
+        if (!empty($this->image) && file_exists($imagePath)) {
+            $image_url = asset('uploads/img/' . rawurlencode($this->image));
         } else {
-            $image_url = asset('/img/default.png');
+            $image_url = asset('img/default.png');
         }
 
         return $image_url;
     }
+
 
     /**
      * Get the products image path.
@@ -271,7 +274,7 @@ class Product extends Model
 
     public function setCurrency()
     {
-        $gs = cache()->remember('generalsettings', now()->addDay(), function () {
+        $gs    = cache()->remember('generalsettings', now()->addDay(), function () {
             return DB::table('generalsettings')->first();
         });
         $price = $this->price;
@@ -295,7 +298,7 @@ class Product extends Model
 
     public function showPrice()
     {
-        $gs = cache()->remember('generalsettings', now()->addDay(), function () {
+        $gs    = cache()->remember('generalsettings', now()->addDay(), function () {
             return DB::table('generalsettings')->first();
         });
         $price = $this->price;
@@ -352,7 +355,7 @@ class Product extends Model
 
     public function showPreviousPrice()
     {
-        $gs = cache()->remember('generalsettings', now()->addDay(), function () {
+        $gs    = cache()->remember('generalsettings', now()->addDay(), function () {
             return DB::table('generalsettings')->first();
         });
         $price = $this->previous_price;
@@ -439,7 +442,7 @@ class Product extends Model
             return DB::table('generalsettings')->first();
         });
 
-        $curr = Currency::where('is_default', '=', 1)->first();
+        $curr  = Currency::where('is_default', '=', 1)->first();
         $price = $price * $curr->value;
         $price = \PriceHelper::showPrice($price);
         if ($gs->currency_format == 0) {
@@ -451,7 +454,7 @@ class Product extends Model
 
     public function offPercentage()
     {
-        $gs = cache()->remember('generalsettings', now()->addDay(), function () {
+        $gs    = cache()->remember('generalsettings', now()->addDay(), function () {
             return DB::table('generalsettings')->first();
         });
         $price = $this->price;
@@ -505,8 +508,8 @@ class Product extends Model
             });
         }
 
-        $price = $price * $curr->value;
-        $preprice = $preprice * $curr->value;
+        $price      = $price * $curr->value;
+        $preprice   = $preprice * $curr->value;
         $Percentage = (($preprice - $price) * 100) / $preprice;
         return $Percentage;
     }
@@ -514,7 +517,7 @@ class Product extends Model
 
     public function vendorSizePrice()
     {
-        $gs = cache()->remember('generalsettings', now()->addDay(), function () {
+        $gs    = cache()->remember('generalsettings', now()->addDay(), function () {
             return DB::table('generalsettings')->first();
         });
         $price = $this->price;
@@ -556,7 +559,8 @@ class Product extends Model
     {
         return $this->hasMany(Cart::class, 'product_id');
     }
-    public function transaction_sell_lines() {
+    public function transaction_sell_lines()
+    {
         return $this->hasMany(TransactionSellLine::class, 'product_id');
     }
 }
