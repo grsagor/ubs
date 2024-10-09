@@ -40,11 +40,16 @@
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="{{ route('recruitment.edit', ['id' => $uuid]) }}"><i class="fa fas fa-briefcase"></i>
-                            <span>My Information</span></a>
-                    </li>
-                    <li><a href="{{ route('recruitment.appliedJobsCustomer', ['id' => $uuid]) }}"><i
-                                class="fa fas fa-user"></i> <span>My Applications</span></a></li>
+                    @if (isset($uuid))
+                        <li>
+                            <a href="{{ route('recruitment.edit', ['id' => $uuid]) }}">
+                                <i class="fa fas fa-briefcase"></i>
+                                <span>My Information</span>
+                            </a>
+                        </li>
+                    @endif
+                    <li><a href="{{ route('recruitment.appliedJobsCustomer') }}"><i class="fa fas fa-user"></i> <span>My
+                                Applications</span></a></li>
                 </ul>
             </li>
 

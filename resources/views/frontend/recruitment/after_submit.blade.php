@@ -67,7 +67,7 @@
         <p>Thank you for applying! You will receive updates soon from the employer.</p>
         <div class="btn-container">
             <a href="{{ route('recruitment.list') }}" class="btn btn-more-job">More Jobs</a>
-            <a href="{{ route('recruitment.edit', ['id' => myInformation()->uuid]) }}" class="btn btn-infomation">Your
+            <a href="{{ route($route) }}" class="btn btn-infomation">Your
                 Applications</a>
         </div>
     </div>
