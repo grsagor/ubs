@@ -165,23 +165,26 @@
                     }
                 @endphp
 
-
-                {{-- {{ dd($experiences) }} --}}
                 @if (!empty($experiences))
                     @foreach ($experiences as $index => $experience)
-                        <h4 id="company-name">Name of experience: {{ $experience['experience_name_of_company'] }}</h4>
-                        <p style="margin-top: 20px;">{{ $experience['experience_start_date'] }} To
-                            <span>{{ $experience['experience_end_date'] }}</span>
-                        </p>
+                        @if (!empty($experience['experience_name_of_company']))
+                            <h4 id="company-name">Name of experience: {{ $experience['experience_name_of_company'] }}</h4>
+                        @endif
 
-                        {{-- <h3>Additional Files</h3> --}}
+                        @if (!empty($experience['experience_start_date']) || !empty($experience['experience_end_date']))
+                            <p style="margin-top: 20px;">
+                                {{ !empty($experience['experience_start_date']) ? $experience['experience_start_date'] : 'N/A' }}
+                                To
+                                <span>{{ !empty($experience['experience_end_date']) ? $experience['experience_end_date'] : 'N/A' }}</span>
+                            </p>
+                        @endif
+
                         @if (!empty($experience['experience_file']) && file_exists(public_path($experience['experience_file'])))
-                            <button class="view-btn" data-target="additional-files-viewer-{{ $index }}"
+                            <button class="view-btn" data-target="experience-viewer-{{ $index }}"
                                 style="margin-top: 15px;">View</button>
                             <a href="{{ asset($experience['experience_file']) }}"
                                 download="{{ $item->name }}_Experience_Files.pdf" style="margin-left: 10px;">Download</a>
-                            <div class="pdf-viewer" id="additional-files-viewer-{{ $index }}"
-                                style="display: none;">
+                            <div class="pdf-viewer" id="experience-viewer-{{ $index }}" style="display: none;">
                                 <embed src="{{ asset($experience['experience_file']) }}" type="application/pdf"
                                     width="100%" height="600px" />
                             </div>
@@ -191,31 +194,53 @@
                     <p>No professional experiences available.</p>
                 @endif
 
+                <br>
+
+                <h3>Education</h3>
+
+                @php
+                    $educations = json_decode($item->educations, true);
+
+                    if (json_last_error() !== JSON_ERROR_NONE || !is_array($educations)) {
+                        // Handle JSON decoding error or unexpected data type
+                        // For example, log the error or set $experiences to an empty array
+                        $educations = [];
+                    }
+                @endphp
+
                 @if (!empty($educations))
                     @foreach ($educations as $index => $edu)
-                        <h4 id="company-name">Name of education: {{ $edu['education_name_of_title'] }}</h4>
-                        <p style="margin-top: 20px;">{{ $edu['education_start_date'] }} To
-                            <span>{{ $edu['education_end_date'] }}</span>
-                        </p>
+                        @if (!empty($edu['education_name_of_title']))
+                            <h4 id="company-name">Name of education: {{ $edu['education_name_of_title'] }}</h4>
+                        @endif
+
+                        @if (!empty($edu['education_start_date']) || !empty($edu['education_end_date']))
+                            <p style="margin-top: 20px;">
+                                {{ !empty($edu['education_start_date']) ? $edu['education_start_date'] : 'N/A' }}
+                                To
+                                <span>{{ !empty($edu['education_end_date']) ? $edu['education_end_date'] : 'N/A' }}</span>
+                            </p>
+                        @endif
 
                         @if (!empty($edu['education_file']) && file_exists(public_path($edu['education_file'])))
-                            <button class="view-btn" data-target="additional-files-viewer-{{ $index }}"
-                                style="margin-top: 15px;">View</button>
+                            <button class="view-btn" data-target="education-viewer-{{ $index }}">View</button>
                             <a href="{{ asset($edu['education_file']) }}"
-                                download="{{ $item->name }}_Education_Files.pdf" style="margin-left: 10px;">Download</a>
-                            <div class="pdf-viewer" id="additional-files-viewer-{{ $index }}"
-                                style="display: none;">
+                                download="{{ $item->name }}_Education_Files.pdf">Download</a>
+                            <div class="pdf-viewer" id="education-viewer-{{ $index }}" style="display: none;">
                                 <embed src="{{ asset($edu['education_file']) }}" type="application/pdf" width="100%"
                                     height="600px" />
                             </div>
                         @endif
                     @endforeach
                 @else
-                    <p>No professional experiences available.</p>
+                    <p>No education available.</p>
                 @endif
+
+                <br>
 
                 @if (!empty($item->cv) && file_exists(public_path($item->cv)))
                     <h3>Curriculum Vitae</h3>
+                    <br>
                     <button class="view-btn" data-target="cv-viewer" style="margin-top: 15px;">View</button>
                     <a href="{{ asset($item->cv) }}" download="{{ $item->name }}_Curriculum_Vitae.pdf"
                         style="margin-left: 10px;">Download
@@ -266,8 +291,10 @@
 
                 @if (!empty($additionalCertificates))
                     @foreach ($additionalCertificates as $index => $adCertificates)
-                        <h4 id="company-name">Name of certificate: {{ $adCertificates['additional_name_of_title'] }}
-                        </h4>
+                        @if (!empty($adCertificates['additional_name_of_title']))
+                            <h4 id="company-name">Name of certificate: {{ $adCertificates['additional_name_of_title'] }}
+                            </h4>
+                        @endif
 
                         @if (!empty($adCertificates['additional_file']) && file_exists(public_path($adCertificates['additional_file'])))
                             <button class="view-btn" style="margin-top: 15px;"
@@ -282,6 +309,7 @@
                         @endif
                         <br>
                     @endforeach
+
                 @endif
 
 

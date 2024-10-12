@@ -42,7 +42,7 @@
                 <ul class="treeview-menu">
                     @if (isset($uuid))
                         <li>
-                            <a href="{{ route('recruitment.edit', ['id' => $uuid]) }}">
+                            <a href="{{ route('customer.recruitment.showCustomer', ['id' => $uuid]) }}">
                                 <i class="fa fas fa-briefcase"></i>
                                 <span>My Information</span>
                             </a>
@@ -52,27 +52,6 @@
                                 Applications</span></a></li>
                 </ul>
             </li>
-
-
-            {{-- <li>
-                <a href="{{ route('recruitment.edit', ['id' => $uuid]) }}">
-                    <i class="fa fa-calendar"></i>
-                    <span>My Information</span>
-                </a>
-            </li>
-
-            <li>
-                <a href="{{ route('recruitment.appliedJobsCustomer', ['id' => $uuid]) }}">
-                    <i class="fa fa-calendar"></i>
-                    <span>My Applications</span>
-                </a>
-            </li> --}}
-
-            {{-- <li><a href="{{ url('/contact/service_wanted') }}"><i class="fas fa fa-calendar-check"></i>
-                    <span>Service Wanted</span></a></li> --}}
-
-            {{-- <li><a href="{{ url('/contact/education') }}"><i class="fa fas fa-arrow-circle-up"></i>
-                    <span>Education</span></a></li> --}}
 
         </ul>
         <!-- /.sidebar-menu -->

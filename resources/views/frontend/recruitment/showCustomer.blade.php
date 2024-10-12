@@ -119,9 +119,7 @@
         <div class="form-container box box-primary">
             <div id="header">
                 <p id="name">{{ $item->name ?? '' }}</p>
-                {{-- <a href="mailto:{{ $item->email }}">
-                    <p id="email">Send</p>
-                </a> --}}
+                <p id="email">{{ $item->email }}</p>
             </div>
 
             <div class="right">
@@ -134,7 +132,8 @@
                     Email: {{ $item->email ?? '' }}<br>
                     Current Address: {{ $item->current_address ?? '' }}<br>
                     Country of Residence: {{ $item->countryResidence->country_name ?? '' }} <br>
-                    Birth Country: {{ $item->birthCountry->country_name ?? '' }}
+                    Birth Country: {{ $item->birthCountry->country_name ?? '' }} <br>
+                    Sponsorship: {{ $item->sponsorship == 1 ? 'Need' : 'No Need' }}
                 </p>
 
                 <h3>Cover letter</h3>
@@ -167,12 +166,10 @@
                         </p>
 
                         @if (!empty($experience['experience_file']) && file_exists(public_path($experience['experience_file'])))
-                            <button class="view-btn"
-                                data-target="additional-files-viewer-{{ $index }}">View</button>
+                            <button class="view-btn" data-target="experience-viewer-{{ $index }}">View</button>
                             <a href="{{ asset($experience['experience_file']) }}"
                                 download="{{ $item->name }}_Experience_Files.pdf">Download</a>
-                            <div class="pdf-viewer" id="additional-files-viewer-{{ $index }}"
-                                style="display: none;">
+                            <div class="pdf-viewer" id="experience-viewer-{{ $index }}" style="display: none;">
                                 <embed src="{{ asset($experience['experience_file']) }}" type="application/pdf"
                                     width="100%" height="600px" />
                             </div>
@@ -182,6 +179,21 @@
                     <p>No professional experiences available.</p>
                 @endif
 
+                <br>
+
+                <h3>Education</h3>
+
+                @php
+                    $educations = json_decode($item->educations, true);
+
+                    if (json_last_error() !== JSON_ERROR_NONE || !is_array($educations)) {
+                        // Handle JSON decoding error or unexpected data type
+                        // For example, log the error or set $experiences to an empty array
+                        $educations = [];
+                    }
+                @endphp
+
+
                 @if (!empty($educations))
                     @foreach ($educations as $index => $edu)
                         <h4 id="company-name">Name of education: {{ $edu['education_name_of_title'] }}</h4>
@@ -190,23 +202,24 @@
                         </p>
 
                         @if (!empty($edu['education_file']) && file_exists(public_path($edu['education_file'])))
-                            <button class="view-btn"
-                                data-target="additional-files-viewer-{{ $index }}">View</button>
+                            <button class="view-btn" data-target="education-viewer-{{ $index }}">View</button>
                             <a href="{{ asset($edu['education_file']) }}"
                                 download="{{ $item->name }}_Education_Files.pdf">Download</a>
-                            <div class="pdf-viewer" id="additional-files-viewer-{{ $index }}"
-                                style="display: none;">
+                            <div class="pdf-viewer" id="education-viewer-{{ $index }}" style="display: none;">
                                 <embed src="{{ asset($edu['education_file']) }}" type="application/pdf" width="100%"
                                     height="600px" />
                             </div>
                         @endif
                     @endforeach
                 @else
-                    <p>No professional experiences available.</p>
+                    <p>No education available.</p>
                 @endif
+
+                <br>
 
                 @if (!empty($item->cv) && file_exists(public_path($item->cv)))
                     <h3>Curriculum Vitae</h3>
+                    <br>
                     <button class="view-btn" data-target="cv-viewer">View</button>
                     <a href="{{ asset($item->cv) }}" download="{{ $item->name }}_Curriculum_Vitae.pdf">Download
                     </a>

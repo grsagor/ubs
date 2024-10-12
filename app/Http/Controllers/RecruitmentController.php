@@ -255,10 +255,11 @@ class RecruitmentController extends Controller
         return view('frontend.recruitment.show', $data);
     }
 
-    public function edit($id)
+    // this is customer show
+    public function showCustomer($id)
     {
         $data['item'] = Recruitment::with('countryResidence', 'birthCountry')->find($id);
-        return view('frontend.recruitment.edit', $data);
+        return view('frontend.recruitment.showCustomer', $data);
     }
 
     public function success()
