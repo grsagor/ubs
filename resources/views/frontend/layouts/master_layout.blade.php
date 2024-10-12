@@ -73,10 +73,6 @@
     <link rel="stylesheet" href="{{ asset('assets/front/css/main.css') }}">
 
 
-
-
-
-
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     {{-- @if ($default_font->font_family)
         <link rel="stylesheet" id="colorr"

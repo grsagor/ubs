@@ -4,83 +4,6 @@
 
     @include('frontend.pages.shop.css')
 
-    {{-- <style>
-        .call_btn_size {
-            font-size: 14px;
-            /* line-height: 20px; */
-        }
-
-        .mr-2 {
-            margin-right: 5px;
-        }
-
-        .banner-div img {
-            height: 100% !important;
-            object-fit: cover;
-        }
-
-        .call_btn_size a {
-            font-size: 14px;
-            width: 100%;
-            background-color: #ddd;
-            padding: 2px 20px;
-        }
-
-        .custom-padding {
-            line-height: 37px !important;
-        }
-
-        .contact-btn {
-            display: flex;
-            gap: 20px;
-        }
-
-        .vendor_sidebar {
-            width: 100%;
-            text-align: left;
-            margin-top: 4px !important;
-            padding: 15px 35px !important;
-            background-color: #ddd;
-            margin-bottom: 5px;
-        }
-
-        .vendor_sidebar.active {
-            background-color: #424a4d !important;
-        }
-
-        .store_line_height {
-            line-height: 20px;
-        }
-
-        .custom-img {
-            height: 150px !important;
-            width: 180px !important;
-        }
-
-        .custom-img2 {
-            height: 150px !important;
-        }
-
-        .user-custom {
-            gap: 25px;
-        }
-
-        .user-custom1 {
-            background-color: none !important;
-        }
-
-        .social-links li a {
-            width: 36px;
-            height: 36px;
-            line-height: 36px;
-            text-align: center;
-            border-radius: 50%;
-            background: #a439ee;
-            display: block;
-            color: #fff;
-        }
-    </style> --}}
-
     <div class="container shadow p-0 mt-4 mb-4 bg-white rounded custom_mobile">
         <div class="row m-0 p-0 custom">
             <div class="col-lg-4 d-flex pl-0 user-custom1">
@@ -151,37 +74,6 @@
             </div>
         </div>
 
-
-
-        {{-- <div class="row">
-            <div class="col-md-4 d-flex align-items-center user-custom1">
-                <img class="lazy custom-img w-100 img-fluid rounded" alt=""
-                    src="https://unipuller.com/assets/common_img/vendor_profile.jpeg" style="">
-                <div>
-
-                    <h5 class="mt-1 mb-0">{{ $vendor->name }}</h5>
-                    <p class="call_btn_size">
-                        5 year experience
-                        <br>
-
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <span class="ml-2">
-                            (0) Reviews
-                        </span>
-                    </p>
-                </div>
-            </div>
-            <div class="col-md-8 banner-div px-0">
-                <img class="lazy custom-img2 w-100 img-fluid rounded" alt=""
-                    src="{{ $vendor->logo ? asset($vendor->logo) : asset('assets/common_img/vendor_profile.jpeg') }}"
-                    style="">
-            </div>
-
-        </div> --}}
     </div>
 
     <div class="container mb-5">
@@ -212,7 +104,7 @@
                                         <a href="{{ route('shop.service', $item->id) }}">
                                             <img class="lazy" alt=""
                                                 src="{{ $item->logo ? asset($item->logo) : asset('assets/common_img/vendor_profile.jpeg') }}"
-                                                style="">
+                                                style="height: unset;">
                                         </a>
                                     </div>
                                     <div class="col-md-9">
