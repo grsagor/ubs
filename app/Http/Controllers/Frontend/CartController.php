@@ -210,7 +210,7 @@ class CartController extends Controller
                 return back()->with('error', 'No products in cart.');
             }
             $product_ids = collect($products)->pluck('id')->toArray();
-            $data = [
+            $data        = [
                 'user'                      => $user,
                 'products'                  => $products,
                 'total_price'               => $total_price,
@@ -279,9 +279,20 @@ class CartController extends Controller
                 'discount_type'   => $input['discount_type'],
                 'discount_amount' => $input['discount_amount'],
             ];
+
             $invoice_total = $this->productUtil->calculateInvoiceTotal($input['products'], $input['tax_rate_id'], $discount);
 
+            $input['created_by'] = $request->session()->get('user.id');
+
+
             DB::beginTransaction();
+
+            //if contact exist check
+            $contact = Contact::find($input['contact_id']);
+            if (empty($contact->id)) {
+
+                return $this->contactUtil->createNewContact($input);
+            }
 
             $input['transaction_date'] = \Carbon::now();
             if ($is_direct_sale) {
@@ -509,6 +520,10 @@ class CartController extends Controller
                 $transaction_payment->method = 'cash';
             }
             $transaction_payment->save();
+
+
+
+
             Session::put('current_carts', null);
             DB::commit();
 
@@ -1952,7 +1967,7 @@ class CartController extends Controller
     {
         $transaction_id = $request->transaction_id;
         $receipt        = Session::get('receipt');
-        $invoice_token     = Transaction::where('id', $transaction_id)->pluck('invoice_token')->first();
+        $invoice_token  = Transaction::where('id', $transaction_id)->pluck('invoice_token')->first();
 
         // return $receipt['html_content'];
         return view('frontend.cart.payment_successful', compact('receipt', 'invoice_token'));

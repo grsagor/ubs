@@ -4140,6 +4140,7 @@ class TransactionUtil extends Util
     {
         $business_location = BusinessLocation::where('business_id', $business_id)
             ->first();
+            
         $final_amount      = $uf_data ? $this->num_uf($amount) : $amount;
         $ob_data           = [
             'business_id'      => $business_id,
@@ -4153,12 +4154,14 @@ class TransactionUtil extends Util
             'final_total'      => $final_amount,
             'created_by'       => $created_by,
         ];
+
         //Update reference count
         $ob_ref_count = $this->setAndGetReferenceCount('opening_balance', $business_id);
         //Generate reference number
         $ob_data['ref_no'] = $this->generateReferenceNumber('opening_balance', $ob_ref_count, $business_id);
         //Create opening balance transaction
         Transaction::create($ob_data);
+        
     }
 
     /**

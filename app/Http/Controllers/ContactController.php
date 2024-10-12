@@ -587,6 +587,7 @@ class ContactController extends Controller
         }
 
         try {
+
             $business_id = $request->session()->get('user.business_id');
 
             if (!$this->moduleUtil->isSubscribed($business_id)) {
@@ -670,7 +671,9 @@ class ContactController extends Controller
             $input['opening_balance'] = $this->commonUtil->num_uf($request->input('opening_balance'));
 
             DB::beginTransaction();
+
             $output = $this->contactUtil->createNewContact($input);
+            
             if ($request->contact_persons && is_array($request->contact_persons)) {
                 foreach ($request->contact_persons as $cp) {
                     $cp['crm_contact_id '] = $output['data']['id'];
@@ -687,6 +690,7 @@ class ContactController extends Controller
 
             DB::commit();
         } catch (\Exception $e) {
+
             DB::rollBack();
             \Log::emergency('File:' . $e->getFile() . 'Line:' . $e->getLine() . 'Message:' . $e->getMessage());
 
@@ -694,6 +698,7 @@ class ContactController extends Controller
                 'success' => false,
                 'msg' => __('messages.something_went_wrong'),
             ];
+
         }
 
         return $output;
