@@ -1,14 +1,6 @@
 @php
     $index = isset($index) ? (int) $index : '';
 @endphp
-<div class="row">
-    <div class="col-md-12">
-        <hr>
-        <button type="button" class="btn btn-primary more_btn"
-            data-target="#add_contact_person_div_{{ $index }}">@lang('crm::lang.add_contact_person', ['number' => $index + 1]) <i
-                class="fa fa-chevron-down"></i></button>
-    </div>
-</div>
 <br>
 <div class="row @if ($index !== 0) hide @endif" id="add_contact_person_div_{{ $index }}">
     <div class="col-md-2">
@@ -110,6 +102,7 @@
                 <label>
                     {!! Form::checkbox($index === '' ? 'allow_login' : "contact_persons[$index][allow_login]", 1, false, [
                         'class' => 'input-icheck allow_login',
+                        'checked' => 'checked',
                         'data-loginDiv' => "loginDiv$index",
                     ]) !!} {{ __('lang_v1.allow_login') }}
                 </label>
@@ -117,7 +110,7 @@
         </div>
     </div>
 </div>
-<div class="row hide" id="loginDiv{{ $index }}">
+<div class="row" id="loginDiv{{ $index }}">
     <div class="col-md-6">
         <div class="form-group">
             {!! Form::label("username$index", __('business.username') . ':*') !!}
@@ -158,6 +151,7 @@
             <label>
                 {!! Form::checkbox($index === '' ? 'is_active' : "contact_persons[$index][is_active]", 'active', true, [
                     'class' => 'input-icheck status',
+                    'checked' => 'checked',
                 ]) !!} {{ __('lang_v1.status_for_user') }}
             </label>
             @show_tooltip(__('lang_v1.tooltip_enable_user_active'))

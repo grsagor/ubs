@@ -653,7 +653,7 @@
                         @php
                             $template_data = $value['template_data'] ?: [];
                         @endphp
-                        @include($value['template_path'], $template_data)
+                        @include('crm::contact_login.partial.customer_contact_form_part', $template_data)
                     @endif
                 @endforeach
             @endif
