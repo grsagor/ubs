@@ -90,8 +90,10 @@
 
                 <h3>Cover letter</h3>
                 <p class="font-size">
-                    {{ $item->cover_letter ?? '' }}
+                    {!! nl2br(e($item->cover_letter ?? '')) !!}
                 </p>
+
+                <br>
 
                 <h4>Expected Salary
                     £{{ $item->expected_salary }}/{{ $item->salary_type == 1 ? 'hourly' : ($item->salary_type == 2 ? 'monthly' : 'unknown') }}
