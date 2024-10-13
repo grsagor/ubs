@@ -69,10 +69,10 @@
             <div class="right">
                 <div style="display: flex; justify-content: space-between; align-items: center;">
                     <h4 style="margin-top: 0;">Personal Information:</h4>
-                    <button id="copyButton" class="btn btn-success">
+                    {{-- <button id="copyButton" class="btn btn-success">
                         <i class="fa fa-copy" aria-hidden="true"></i>
                         Copy Link
-                    </button>
+                    </button> --}}
                 </div>
 
                 <p class="font-size">
