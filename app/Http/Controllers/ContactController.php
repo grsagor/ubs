@@ -17,9 +17,9 @@ use App\Utils\ModuleUtil;
 use App\Utils\NotificationUtil;
 use App\Utils\TransactionUtil;
 use App\Utils\Util;
-use DB;
 use Excel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Modules\Crm\Utils\CrmUtil;
 use Spatie\Activitylog\Models\Activity;
 use Yajra\DataTables\Facades\DataTables;
@@ -570,8 +570,13 @@ class ContactController extends Controller
         //Added check because $users is of no use if enable_contact_assign if false
         $users = config('constants.enable_contact_assign') ? User::forDropdown($business_id, false, false, false, true) : [];
 
-        return view('contact.create')
-            ->with(compact('types', 'customer_groups', 'selected_type', 'module_form_parts', 'users'));
+        if ($selected_type == 'customer') {
+            return view('contact.create_customer')
+                ->with(compact('types', 'customer_groups', 'selected_type', 'module_form_parts', 'users'));
+        } else {
+            return view('contact.create')
+                ->with(compact('types', 'customer_groups', 'selected_type', 'module_form_parts', 'users'));
+        }
     }
 
     /**
@@ -673,7 +678,7 @@ class ContactController extends Controller
             DB::beginTransaction();
 
             $output = $this->contactUtil->createNewContact($input);
-            
+
             if ($request->contact_persons && is_array($request->contact_persons)) {
                 foreach ($request->contact_persons as $cp) {
                     $cp['crm_contact_id'] = $output['data']['id'];
@@ -683,10 +688,16 @@ class ContactController extends Controller
                 }
             }
 
-
             $this->moduleUtil->getModuleData('after_contact_saved', ['contact' => $output['data'], 'input' => $request->input()]);
 
             $this->contactUtil->activityLog($output['data'], 'added');
+
+            $user = User::where('crm_contact_id', $output['data']['id'])->first();
+            if ($user) {
+                $contact = Contact::find($output['data']['id']);
+                $contact->user_id = $user->id;
+                $contact->save();
+            }
 
             DB::commit();
         } catch (\Exception $e) {
@@ -698,7 +709,6 @@ class ContactController extends Controller
                 'success' => false,
                 'msg' => __('messages.something_went_wrong'),
             ];
-
         }
 
         return $output;
