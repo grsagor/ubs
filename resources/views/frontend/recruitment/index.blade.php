@@ -36,7 +36,6 @@
                         <tr>
                             <th>No.</th>
                             <th class="job-title-column">Job Title</th>
-
                             <th>Name</th>
                             <th>Phone</th>
                             <th>Email</th>
