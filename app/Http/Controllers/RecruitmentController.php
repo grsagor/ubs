@@ -102,7 +102,6 @@ class RecruitmentController extends Controller
             ->latest() // Ordering by the latest
             ->get(); // Paginating the results
 
-        // return $data;
         return view('frontend.recruitment.my_applications', $data);
     }
 

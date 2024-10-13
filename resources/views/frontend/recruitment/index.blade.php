@@ -94,7 +94,9 @@
             </div>
         </div>
     </section>
+@endsection
 
+@section('script')
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             var copyLinkButtons = document.querySelectorAll('.copy-link');

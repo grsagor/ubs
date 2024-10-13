@@ -27,13 +27,6 @@
             color: #ffffff;
         }
 
-        #contact {
-            margin-left: 45%;
-            padding-bottom: 10px;
-            font-size: 16px;
-            font-family: Verdana, sans-serif;
-            color: #ffffff;
-        }
 
         a:hover {
             font-weight: bold;
@@ -47,65 +40,18 @@
             background-color: #E3EDD8;
         }
 
-        #footer {
-            height: 40px;
-            clear: both;
-            position: relative;
-            background-color: #C1E3E1;
-        }
 
         h3 {
             text-decoration: underline;
-        }
-
-        #job-responsibilities {
-            padding: 1px;
-        }
-
-        .job-title {
-            font-weight: bold;
-        }
-
-        table {
-            border: 1px dashed black;
-        }
-
-        td {
-            padding: 2px;
-            border: 1px solid #E88741;
-        }
-
-        #course-name {
-            font-weight: bold;
-        }
-
-        #company-name {
-            height: 2px;
-            /* text-decoration: underline; */
-        }
-
-        #job-title {
-            margin-top: 20px;
-            height: 5px;
-        }
-
-        .job-duration {
-            float: right;
-        }
-
-        #heading {
-            font-weight: bold;
+            margin-top: 10px;
+            display: inline-block;
+            margin-right: 10px;
         }
 
         .font-size {
             font-size: 15px;
         }
 
-        h3 {
-            display: inline-block;
-            margin-right: 10px;
-            /* Adjust the margin as needed */
-        }
 
         .view-btn {
             display: inline-block;
@@ -119,12 +65,18 @@
         <div class="form-container box box-primary">
             <div id="header">
                 <p id="name">{{ $item->name ?? '' }}</p>
-                <p id="email">{{ $item->email }}</p>
+                <a href="mailto:{{ $item->email }}">
+                    <p id="email">Send</p>
+                </a>
             </div>
 
             <div class="right">
                 <div style="display: flex; justify-content: space-between; align-items: center;">
                     <h3 style="margin-top: 0;">Personal Information:</h3>
+                    {{-- <button id="copyButton" class="btn btn-success">
+                        <i class="fa fa-copy" aria-hidden="true"></i>
+                        Copy Link
+                    </button> --}}
                 </div>
 
                 <p class="font-size">
@@ -132,7 +84,7 @@
                     Email: {{ $item->email ?? '' }}<br>
                     Current Address: {{ $item->current_address ?? '' }}<br>
                     Country of Residence: {{ $item->countryResidence->country_name ?? '' }} <br>
-                    Birth Country: {{ $item->birthCountry->country_name ?? '' }} <br>
+                    Origin: {{ $item->birthCountry->country_name ?? '' }} <br>
                     Sponsorship: {{ $item->sponsorship == 1 ? 'Need' : 'No Need' }}
                 </p>
 
@@ -160,26 +112,45 @@
 
                 @if (!empty($experiences))
                     @foreach ($experiences as $index => $experience)
-                        <h4 id="company-name">Name of experience: {{ $experience['experience_name_of_company'] }}</h4>
-                        <p style="margin-top: 20px;">{{ $experience['experience_start_date'] }} To
-                            <span>{{ $experience['experience_end_date'] }}</span>
-                        </p>
+                        @if (
+                            !empty($experience['experience_name_of_company']) ||
+                                (!empty($experience['experience_file']) && file_exists(public_path($experience['experience_file']))))
+                            <div style="display: flex; align-items: center; gap: 10px;">
+                                @if (!empty($experience['experience_name_of_company']))
+                                    <h4 id="company-name">Name of experience:
+                                        {{ $experience['experience_name_of_company'] }}</h4>
+                                @endif
 
-                        @if (!empty($experience['experience_file']) && file_exists(public_path($experience['experience_file'])))
-                            <button class="view-btn" data-target="experience-viewer-{{ $index }}">View</button>
-                            <a href="{{ asset($experience['experience_file']) }}"
-                                download="{{ $item->name }}_Experience_Files.pdf">Download</a>
-                            <div class="pdf-viewer" id="experience-viewer-{{ $index }}" style="display: none;">
-                                <embed src="{{ asset($experience['experience_file']) }}" type="application/pdf"
-                                    width="100%" height="600px" />
+                                @if (!empty($experience['experience_file']) && file_exists(public_path($experience['experience_file'])))
+                                    <!-- Style the button to look like a link -->
+                                    <a href="javascript:void(0)" class="view-btn"
+                                        data-target="experience-viewer-{{ $index }}"
+                                        style="color: #007bff;">View</a>
+                                    <a href="{{ asset($experience['experience_file']) }}"
+                                        download="{{ $item->name }}_Experience_Files.pdf"
+                                        style="color: #007bff;">Download</a>
+                                @endif
                             </div>
+
+                            @if (!empty($experience['experience_file']) && file_exists(public_path($experience['experience_file'])))
+                                <div class="pdf-viewer" id="experience-viewer-{{ $index }}" style="display: none;">
+                                    <embed src="{{ asset($experience['experience_file']) }}" type="application/pdf"
+                                        width="100%" height="600px" />
+                                </div>
+                            @endif
+                        @endif
+
+                        @if (!empty($experience['experience_start_date']) || !empty($experience['experience_end_date']))
+                            <p style="margin-top: 5px;">
+                                {{ !empty($experience['experience_start_date']) ? $experience['experience_start_date'] : 'N/A' }}
+                                To
+                                <span>{{ !empty($experience['experience_end_date']) ? $experience['experience_end_date'] : 'N/A' }}</span>
+                            </p>
                         @endif
                     @endforeach
                 @else
                     <p>No professional experiences available.</p>
                 @endif
-
-                <br>
 
                 <h3>Education</h3>
 
@@ -193,36 +164,49 @@
                     }
                 @endphp
 
-
                 @if (!empty($educations))
                     @foreach ($educations as $index => $edu)
-                        <h4 id="company-name">Name of education: {{ $edu['education_name_of_title'] }}</h4>
-                        <p style="margin-top: 20px;">{{ $edu['education_start_date'] }} To
-                            <span>{{ $edu['education_end_date'] }}</span>
-                        </p>
+                        @if (!empty($edu['education_name_of_title']))
+                            <div style="display: flex; align-items: center; gap: 10px;">
+                                <h4 id="company-name">Name of education:
+                                    {{ $edu['education_name_of_title'] }}</h4>
 
-                        @if (!empty($edu['education_file']) && file_exists(public_path($edu['education_file'])))
-                            <button class="view-btn" data-target="education-viewer-{{ $index }}">View</button>
-                            <a href="{{ asset($edu['education_file']) }}"
-                                download="{{ $item->name }}_Education_Files.pdf">Download</a>
-                            <div class="pdf-viewer" id="education-viewer-{{ $index }}" style="display: none;">
-                                <embed src="{{ asset($edu['education_file']) }}" type="application/pdf" width="100%"
-                                    height="600px" />
+                                @if (!empty($edu['education_file']) && file_exists(public_path($edu['education_file'])))
+                                    <!-- Style the view button as a link -->
+                                    <a href="javascript:void(0)" class="view-btn"
+                                        data-target="education-viewer-{{ $index }}" style="color: #007bff;">View</a>
+                                    <a href="{{ asset($edu['education_file']) }}"
+                                        download="{{ $item->name }}_Education_Files.pdf"
+                                        style="color: #007bff;">Download</a>
+                                @endif
                             </div>
+
+                            @if (!empty($edu['education_file']) && file_exists(public_path($edu['education_file'])))
+                                <div class="pdf-viewer" id="education-viewer-{{ $index }}" style="display: none;">
+                                    <embed src="{{ asset($edu['education_file']) }}" type="application/pdf" width="100%"
+                                        height="600px" />
+                                </div>
+                            @endif
+                        @endif
+
+                        @if (!empty($edu['education_start_date']) || !empty($edu['education_end_date']))
+                            <p style="margin-top: 5px;">
+                                {{ !empty($edu['education_start_date']) ? $edu['education_start_date'] : 'N/A' }}
+                                To
+                                <span>{{ !empty($edu['education_end_date']) ? $edu['education_end_date'] : 'N/A' }}</span>
+                            </p>
                         @endif
                     @endforeach
                 @else
                     <p>No education available.</p>
                 @endif
 
-                <br>
-
                 @if (!empty($item->cv) && file_exists(public_path($item->cv)))
                     <h3>Curriculum Vitae</h3>
                     <br>
-                    <button class="view-btn" data-target="cv-viewer">View</button>
-                    <a href="{{ asset($item->cv) }}" download="{{ $item->name }}_Curriculum_Vitae.pdf">Download
-                    </a>
+                    <a href="javascript:void(0)" class="view-btn" data-target="cv-viewer" style="color: #007bff;">View</a>
+                    <a href="{{ asset($item->cv) }}" download="{{ $item->name }}_Curriculum_Vitae.pdf"
+                        style="color: #007bff; margin-left: 10px;">Download</a>
                     <div class="pdf-viewer" id="cv-viewer" style="display: none;">
                         <embed src="{{ asset($item->cv) }}" type="application/pdf" width="100%" height="600px" />
                     </div>
@@ -266,24 +250,31 @@
 
                 @if (!empty($additionalCertificates))
                     @foreach ($additionalCertificates as $index => $adCertificates)
-                        <h4 id="company-name">Name of certificate: {{ $adCertificates['additional_name_of_title'] }}
-                        </h4>
+                        @if (!empty($adCertificates['additional_name_of_title']))
+                            <div style="display: flex; align-items: center; gap: 10px;">
+                                <h4 id="company-name">Name of certificate:
+                                    {{ $adCertificates['additional_name_of_title'] }}</h4>
 
-                        @if (!empty($adCertificates['additional_file']) && file_exists(public_path($adCertificates['additional_file'])))
-                            <button class="view-btn" style="margin-top: 10px;"
-                                data-target="additional-files-viewer-{{ $index }}">View</button>
-                            <a href="{{ asset($adCertificates['additional_file']) }}"
-                                download="{{ $item->name }}_Additional_Files.pdf">Download</a>
-                            <div class="pdf-viewer" id="additional-files-viewer-{{ $index }}"
-                                style="display: none;">
-                                <embed src="{{ asset($adCertificates['additional_file']) }}" type="application/pdf"
-                                    width="100%" height="600px" />
+                                @if (!empty($adCertificates['additional_file']) && file_exists(public_path($adCertificates['additional_file'])))
+                                    <a href="javascript:void(0)" class="view-btn"
+                                        data-target="additional-files-viewer-{{ $index }}"
+                                        style="color: #007bff;">View</a>
+                                    <a href="{{ asset($adCertificates['additional_file']) }}"
+                                        download="{{ $item->name }}_Additional_Files.pdf"
+                                        style="color: #007bff;">Download</a>
+                                @endif
                             </div>
+
+                            @if (!empty($adCertificates['additional_file']) && file_exists(public_path($adCertificates['additional_file'])))
+                                <div class="pdf-viewer" id="additional-files-viewer-{{ $index }}"
+                                    style="display: none;">
+                                    <embed src="{{ asset($adCertificates['additional_file']) }}" type="application/pdf"
+                                        width="100%" height="600px" />
+                                </div>
+                            @endif
                         @endif
-                        <br>
                     @endforeach
                 @endif
-
 
             </div>
     </section>
