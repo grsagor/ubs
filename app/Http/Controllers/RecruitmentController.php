@@ -72,7 +72,6 @@ class RecruitmentController extends Controller
             $data['recuitment_info'] = 1;
             $data['applied_jobs'] = ($appliedJob !== null) ? 1 : 0;
         }
-        // return $data['recuitment_info'];
 
         return view('frontend.recruitment.details', $data);
     }

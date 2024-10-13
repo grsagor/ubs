@@ -30,8 +30,6 @@
             @endphp
 
 
-
-
             <li class="treeview">
                 <a href="#">
                     <i class="fa fas fa-users"></i> <span>Jobs</span>
@@ -40,14 +38,14 @@
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                    @if (isset($uuid))
+                    {{-- @if (isset($uuid))
                         <li>
                             <a href="{{ route('customer.recruitment.showCustomer', ['id' => $uuid]) }}">
                                 <i class="fa fas fa-briefcase"></i>
                                 <span>My Information</span>
                             </a>
                         </li>
-                    @endif
+                    @endif --}}
                     <li><a href="{{ route('recruitment.appliedJobsCustomer') }}"><i class="fa fas fa-user"></i> <span>My
                                 Applications</span></a></li>
                 </ul>
