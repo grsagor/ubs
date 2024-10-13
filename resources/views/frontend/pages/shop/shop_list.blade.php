@@ -323,12 +323,12 @@
                                             }
 
                                             /* .shipping-feed-back {
-                                                                                                                margin-bottom: -25px;
-                                                                                                            } */
+                                                                                                                    margin-bottom: -25px;
+                                                                                                                } */
 
                                             /* .shipping-feed-back2 {
-                                                                                                                margin-bottom: -15px;
-                                                                                                            } */
+                                                                                                                    margin-bottom: -15px;
+                                                                                                                } */
 
                                             .product-info .product-title a {
                                                 font-size: 18px !important;
@@ -389,33 +389,33 @@
 
 
             document.addEventListener("DOMContentLoaded", function() {
-                function adjustCompanyName() {
-                    var companyNames = document.getElementsByClassName('company-name');
-                    var maxLengths = [60, 30, 25, 40, 20]; // Maximum lengths for different screen widths
+                // function adjustCompanyName() {
+                //     var companyNames = document.getElementsByClassName('company-name');
+                //     var maxLengths = [60, 30, 25, 40, 20]; // Maximum lengths for different screen widths
 
-                    for (var i = 0; i < companyNames.length; i++) {
-                        var paragraph = companyNames[i];
-                        var maxWidth = window.innerWidth;
-                        var maxLength;
+                //     for (var i = 0; i < companyNames.length; i++) {
+                //         var paragraph = companyNames[i];
+                //         var maxWidth = window.innerWidth;
+                //         var maxLength;
 
-                        // Determine the maximum length based on the screen width
-                        if (maxWidth < 768) {
-                            maxLength = maxLengths[0];
-                        } else if (maxWidth >= 768 && maxWidth < 992) {
-                            maxLength = maxLengths[2];
-                        } else if (maxWidth >= 992 && maxWidth < 1024) {
-                            maxLength = maxLengths[1];
-                        } else if (maxWidth >= 1024 && maxWidth < 1240) {
-                            maxLength = maxLengths[4];
-                        } else {
-                            maxLength = maxLengths[0];
-                        }
+                //         // Determine the maximum length based on the screen width
+                //         if (maxWidth < 768) {
+                //             maxLength = maxLengths[0];
+                //         } else if (maxWidth >= 768 && maxWidth < 992) {
+                //             maxLength = maxLengths[2];
+                //         } else if (maxWidth >= 992 && maxWidth < 1024) {
+                //             maxLength = maxLengths[1];
+                //         } else if (maxWidth >= 1024 && maxWidth < 1240) {
+                //             maxLength = maxLengths[4];
+                //         } else {
+                //             maxLength = maxLengths[0];
+                //         }
 
-                        var text = paragraph.innerText; // Use innerText to retrieve the visible text
-                        var truncatedText = text.length > maxLength ? text.substring(0, maxLength) + "..." : text;
-                        paragraph.innerText = truncatedText; // Update the content of the paragraph
-                    }
-                }
+                //         var text = paragraph.innerText; // Use innerText to retrieve the visible text
+                //         var truncatedText = text.length > maxLength ? text.substring(0, maxLength) + "..." : text;
+                //         paragraph.innerText = truncatedText; // Update the content of the paragraph
+                //     }
+                // }
 
                 function adjustCompanyDetail() {
                     var details = document.getElementsByClassName('about_line');
