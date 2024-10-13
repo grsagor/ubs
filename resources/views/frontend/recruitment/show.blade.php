@@ -114,7 +114,9 @@
                         @foreach ($experiences as $index => $experience)
                             @if (
                                 !empty($experience['experience_name_of_company']) ||
-                                    (!empty($experience['experience_file']) && file_exists(public_path($experience['experience_file']))))
+                                    (isset($experience['experience_file']) &&
+                                        !empty($experience['experience_file']) &&
+                                        file_exists(public_path($experience['experience_file']))))
                                 <li>
                                     <div style="display: flex; align-items: center; gap: 10px;">
                                         @if (!empty($experience['experience_name_of_company']))
@@ -123,14 +125,26 @@
                                             </p>
                                         @endif
 
-                                        @if (!empty($experience['experience_file']) && file_exists(public_path($experience['experience_file'])))
-                                            <!-- Style the button to look like a link -->
-                                            <a href="javascript:void(0)" class="view-btn"
-                                                data-target="experience-viewer-{{ $index }}"
-                                                style="color: #007bff;">View</a>
+                                        @php
+                                            // Check if the file key exists before accessing it
+                                            $fileExtension = isset($experience['experience_file'])
+                                                ? pathinfo($experience['experience_file'], PATHINFO_EXTENSION)
+                                                : '';
+                                            $downloadFileName = isset($experience['experience_file'])
+                                                ? $item->name . '_Experience_File.' . strtolower($fileExtension)
+                                                : '';
+                                        @endphp
+
+                                        @if (isset($experience['experience_file']) &&
+                                                !empty($experience['experience_file']) &&
+                                                file_exists(public_path($experience['experience_file'])))
+                                            @if (strtolower($fileExtension) !== 'docx')
+                                                <a href="javascript:void(0)" class="view-btn"
+                                                    data-target="experience-viewer-{{ $index }}"
+                                                    style="color: #007bff;">View</a>
+                                            @endif
                                             <a href="{{ asset($experience['experience_file']) }}"
-                                                download="{{ $item->name }}_Experience_Files.pdf"
-                                                style="color: #007bff;">Download</a>
+                                                download="{{ $downloadFileName }}" style="color: #007bff;">Download</a>
                                         @endif
                                     </div>
 
@@ -142,16 +156,11 @@
                                         </p>
                                     @endif
 
-                                    @if (!empty($experience['experience_file']) && file_exists(public_path($experience['experience_file'])))
+                                    @if (isset($experience['experience_file']) &&
+                                            !empty($experience['experience_file']) &&
+                                            file_exists(public_path($experience['experience_file'])))
                                         <div class="pdf-viewer" id="experience-viewer-{{ $index }}"
                                             style="display: none;">
-                                            @php
-                                                $fileExtension = pathinfo(
-                                                    $experience['experience_file'],
-                                                    PATHINFO_EXTENSION,
-                                                );
-                                            @endphp
-
                                             @if (strtolower($fileExtension) === 'pdf')
                                                 <embed src="{{ asset($experience['experience_file']) }}"
                                                     type="application/pdf" width="100%" height="600px" />
@@ -164,20 +173,19 @@
                                 </li>
                             @endif
                         @endforeach
-
                     </ul>
                 @else
                     <p>No professional experiences available.</p>
                 @endif
 
-                <h4 style="margin-top: 30px;">Education</h4>
 
+                <h4 style="margin-top: 30px;">Education</h4>
                 @php
                     $educations = json_decode($item->educations, true);
 
                     if (json_last_error() !== JSON_ERROR_NONE || !is_array($educations)) {
                         // Handle JSON decoding error or unexpected data type
-                        // For example, log the error or set $experiences to an empty array
+                        // For example, log the error or set $educations to an empty array
                         $educations = [];
                     }
                 @endphp
@@ -192,14 +200,24 @@
                                             {{ $edu['education_name_of_title'] }}
                                         </p>
 
-                                        @if (!empty($edu['education_file']) && file_exists(public_path($edu['education_file'])))
-                                            <!-- Style the view button as a link -->
-                                            <a href="javascript:void(0)" class="view-btn"
-                                                data-target="education-viewer-{{ $index }}"
-                                                style="color: #007bff;">View</a>
+                                        @php
+                                            // Check if the file key exists before accessing it
+                                            $fileExtension = isset($edu['education_file'])
+                                                ? pathinfo($edu['education_file'], PATHINFO_EXTENSION)
+                                                : '';
+                                            $downloadFileName = isset($edu['education_file'])
+                                                ? $item->name . '_Education_File.' . strtolower($fileExtension)
+                                                : '';
+                                        @endphp
+
+                                        @if (isset($edu['education_file']) && !empty($edu['education_file']) && file_exists(public_path($edu['education_file'])))
+                                            @if (strtolower($fileExtension) !== 'docx')
+                                                <a href="javascript:void(0)" class="view-btn"
+                                                    data-target="education-viewer-{{ $index }}"
+                                                    style="color: #007bff;">View</a>
+                                            @endif
                                             <a href="{{ asset($edu['education_file']) }}"
-                                                download="{{ $item->name }}_Education_Files.pdf"
-                                                style="color: #007bff;">Download</a>
+                                                download="{{ $downloadFileName }}" style="color: #007bff;">Download</a>
                                         @endif
                                     </div>
 
@@ -211,14 +229,10 @@
                                         </p>
                                     @endif
 
-                                    @if (!empty($edu['education_file']) && file_exists(public_path($edu['education_file'])))
+                                    @if (isset($edu['education_file']) && !empty($edu['education_file']) && file_exists(public_path($edu['education_file'])))
                                         <div class="pdf-viewer" id="education-viewer-{{ $index }}"
                                             style="display: none;">
-                                            @php
-                                                $fileExtension = pathinfo($edu['education_file'], PATHINFO_EXTENSION);
-                                            @endphp
-
-                                            @if (in_array(strtolower($fileExtension), ['pdf']))
+                                            @if ($fileExtension === 'pdf')
                                                 <embed src="{{ asset($edu['education_file']) }}" type="application/pdf"
                                                     width="100%" height="600px" />
                                             @elseif (in_array(strtolower($fileExtension), ['png', 'jpg', 'jpeg', 'heif', 'heic']))
@@ -230,38 +244,44 @@
                                 </li>
                             @endif
                         @endforeach
-
                     </ul>
                 @else
                     <p>No education available.</p>
                 @endif
+
 
                 @if (!empty($item->cv) && file_exists(public_path($item->cv)))
                     <h4 style="margin-top: 30px;">Curriculum Vitae</h4>
                     <ul>
                         <li>
                             <span>CV:</span>
-                            <a href="javascript:void(0)" class="view-btn" data-target="cv-viewer"
-                                style="color: #007bff;">View</a>
-                            <a href="{{ asset($item->cv) }}" download="{{ $item->name }}_Curriculum_Vitae.pdf"
+                            @php
+                                // Ensure the file exists before proceeding
+                                $fileExtension = pathinfo($item->cv, PATHINFO_EXTENSION);
+                                $downloadFileName = $item->name . '_Curriculum_Vitae.' . strtolower($fileExtension);
+                            @endphp
+
+                            @if (strtolower($fileExtension) !== 'docx')
+                                <a href="javascript:void(0)" class="view-btn" data-target="cv-viewer"
+                                    style="color: #007bff;">View</a>
+                            @endif
+
+                            <a href="{{ asset($item->cv) }}" download="{{ $downloadFileName }}"
                                 style="color: #007bff; margin-left: 10px;">Download</a>
 
                             <div class="pdf-viewer" id="cv-viewer" style="display: none;">
-                                @php
-                                    $fileExtension = pathinfo($item->cv, PATHINFO_EXTENSION);
-                                @endphp
-
-                                @if (in_array(strtolower($fileExtension), ['pdf']))
+                                @if ($fileExtension === 'pdf')
                                     <embed src="{{ asset($item->cv) }}" type="application/pdf" width="100%"
                                         height="600px" />
                                 @elseif (in_array(strtolower($fileExtension), ['png', 'jpg', 'jpeg', 'heif', 'heic']))
                                     <img src="{{ asset($item->cv) }}" style="max-height: 300px; width: auto;" />
+                                @else
+                                    <p>Cannot preview this file type.</p>
                                 @endif
                             </div>
                         </li>
                     </ul>
                 @endif
-
 
                 <h4 style="margin-top: 30px;">Additional File</h4>
 
@@ -285,27 +305,35 @@
                                             {{ $adCertificates['additional_name_of_title'] }}
                                         </p>
 
-                                        @if (!empty($adCertificates['additional_file']) && file_exists(public_path($adCertificates['additional_file'])))
-                                            <a href="javascript:void(0)" class="view-btn"
-                                                data-target="additional-files-viewer-{{ $index }}"
-                                                style="color: #007bff;">View</a>
+                                        @php
+                                            // Check if the file key exists before accessing it
+                                            $fileExtension = isset($adCertificates['additional_file'])
+                                                ? pathinfo($adCertificates['additional_file'], PATHINFO_EXTENSION)
+                                                : '';
+                                            $downloadFileName = isset($adCertificates['additional_file'])
+                                                ? $item->name . '_Additional_File.' . strtolower($fileExtension)
+                                                : '';
+                                        @endphp
+
+                                        @if (isset($adCertificates['additional_file']) &&
+                                                !empty($adCertificates['additional_file']) &&
+                                                file_exists(public_path($adCertificates['additional_file'])))
+                                            @if (strtolower($fileExtension) !== 'docx')
+                                                <a href="javascript:void(0)" class="view-btn"
+                                                    data-target="additional-files-viewer-{{ $index }}"
+                                                    style="color: #007bff;">View</a>
+                                            @endif
                                             <a href="{{ asset($adCertificates['additional_file']) }}"
-                                                download="{{ $item->name }}_Additional_Files.pdf"
-                                                style="color: #007bff;">Download</a>
+                                                download="{{ $downloadFileName }}" style="color: #007bff;">Download</a>
                                         @endif
                                     </div>
 
-                                    @if (!empty($adCertificates['additional_file']) && file_exists(public_path($adCertificates['additional_file'])))
+                                    @if (isset($adCertificates['additional_file']) &&
+                                            !empty($adCertificates['additional_file']) &&
+                                            file_exists(public_path($adCertificates['additional_file'])))
                                         <div class="pdf-viewer" id="additional-files-viewer-{{ $index }}"
                                             style="display: none;">
-                                            @php
-                                                $fileExtension = pathinfo(
-                                                    $adCertificates['additional_file'],
-                                                    PATHINFO_EXTENSION,
-                                                );
-                                            @endphp
-
-                                            @if (in_array(strtolower($fileExtension), ['pdf']))
+                                            @if ($fileExtension === 'pdf')
                                                 <embed src="{{ asset($adCertificates['additional_file']) }}"
                                                     type="application/pdf" width="100%" height="600px" />
                                             @elseif (in_array(strtolower($fileExtension), ['png', 'jpg', 'jpeg', 'heif', 'heic']))
@@ -317,14 +345,11 @@
                                 </li>
                             @endif
                         @endforeach
-
                     </ul>
-
                 @endif
 
             </div>
     </section>
-
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script>
         $(document).ready(function() {
