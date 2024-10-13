@@ -44,8 +44,6 @@
             $button_state = 1; //Already applied
         }
 
-        // dd($recuitment_info);
-
     @endphp
 
     @if ($button_state == 1)
@@ -55,11 +53,13 @@
     @elseif ($button_state == 20)
         <button type="button" class="btn alreadyApplied" disabled>Expired</button>
     @else
-        @if ($recuitment_info == 0)
+        <a href="{{ route('recruitment.create', $job->uuid) }}" class="btn applynow">Apply Now</a>
+
+        {{-- @if ($recuitment_info == 0)
             <a href="{{ route('recruitment.create', $job->uuid) }}" class="btn applynow">Apply Now</a>
         @else
             <button class="btn applynow" data-toggle="modal" data-target="#myModal">Apply Now</button>
-        @endif
+        @endif --}}
     @endif
 
 </div>
