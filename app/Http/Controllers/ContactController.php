@@ -676,7 +676,7 @@ class ContactController extends Controller
             
             if ($request->contact_persons && is_array($request->contact_persons)) {
                 foreach ($request->contact_persons as $cp) {
-                    $cp['crm_contact_id '] = $output['data']['id'];
+                    $cp['crm_contact_id'] = $output['data']['id'];
                     if ($cp['first_name'] && $cp['email'] || $cp['last_name'] && $cp['email']) {
                         $this->crmUtil->creatContactPerson($cp);
                     }
