@@ -200,12 +200,6 @@ class RecruitmentController extends Controller
                 if ($request->file('cv')) {
                     $requestedData['cv']     = $this->fileUpload($request->file('cv'), 'uploads/recruitments/');
                 }
-                // if ($request->file('dbs_check')) {
-                //     $requestedData['dbs_check']     = $this->fileUpload($request->file('dbs_check'), 'uploads/recruitments/');
-                // }
-                // if ($request->file('care_certificates')) {
-                //     $requestedData['care_certificates']     = $this->fileUpload($request->file('care_certificates'), 'uploads/recruitments/');
-                // }
 
                 // from create page
                 if ($request->create_page == 1) {

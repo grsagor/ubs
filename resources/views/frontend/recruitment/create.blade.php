@@ -252,11 +252,12 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="education_file">Upload File</label>
+                        <label for="end_date">Upload File <span style="color: #878787; font-size: 13px;">Supported file
+                                types: pdf, docx,
+                                jpeg, jpg, png, heic</span></label>
                         <input type="file" name="education_file[]" class="form-control"
-                            accept=".pdf,.docx,.png,.jpg,.jpeg,.heif,.heic" />
+                            accept=".pdf,.docx,.jpeg,.jpg,.png,.heic">
                     </div>
-
 
                     <div class="form-group">
                         <button type="button" class="btn btn-danger delete-button" onclick="removeEducation(this)">
@@ -292,10 +293,12 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="experience_file">Upload File</label>
+                        <label for="experience_file">Upload File <span style="color: #878787; font-size: 13px;">Supported
+                                file types: pdf, docx, jpeg, jpg, png, heic</span></label>
                         <input type="file" name="experience_file[]" class="form-control"
-                            accept=".pdf,.docx,.png,.jpg,.jpeg,.heif,.heic" />
+                            accept=".pdf,.docx,.jpeg,.jpg,.png,.heic">
                     </div>
+
 
                     <button type="button" class="btn btn-danger delete-button" onclick="removeExperience(this)"
                         style="display: none;">
@@ -316,11 +319,11 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="additional_file">Upload File</label>
+                        <label for="additional_file">Upload File <span style="color: #878787; font-size: 13px;">Supported
+                                file types: pdf, docx, jpeg, jpg, png, heic</span></label>
                         <input type="file" name="additional_file[]" class="form-control"
-                            accept=".pdf,.docx,.png,.jpg,.jpeg,.heif,.heic" />
+                            accept=".pdf,.docx,.jpeg,.jpg,.png,.heic">
                     </div>
-
 
                     <button type="button" class="btn btn-danger delete-button" onclick="removeAdditonal(this)"
                         style="display: none;">
@@ -354,12 +357,12 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="cv">CV <span class="text-danger">*</span></label>
-                    <input type="file" name="cv" class="form-control"
-                        accept=".pdf,.docx,.png,.jpg,.jpeg,.heif,.heic" required>
+                    <label for="cv">CV <span class="text-danger">*</span> <span
+                            style="color: #878787; font-size: 13px;">Supported file types: pdf, docx, jpeg, jpg, png,
+                            heic</span></label>
+                    <input type="file" name="cv" class="form-control" accept=".pdf,.docx,.jpeg,.jpg,.png,.heic"
+                        required>
                 </div>
-
-
 
                 <div class="form-group">
                     <label for="cover_letter">Cover letter <span class="text-danger">*</span></label>

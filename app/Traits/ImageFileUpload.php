@@ -35,15 +35,7 @@ trait ImageFileUpload
         return;
     }
 
-    // public function fileUpload($file, $path)
-    // {
-    //     if (!empty($file)) {
-    //         $fileName = substr(md5(time()), 0, 20) . '.' . $file->getClientOriginalExtension();
-    //         $file->move($path, $fileName);
-    //         return $path . $fileName;
-    //     }
-    //     return null;
-    // }
+
     public function fileUpload($file, $path)
     {
         if (!empty($file)) {
