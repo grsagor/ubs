@@ -260,7 +260,7 @@ Route::middleware(['setData'])->group(function () {
     Route::get('/shop/{id}', [ShopController::class, 'ShopService'])->name('shop.service');
 
     Route::get('/shop/business/service/{id}', [ShopController::class, 'BusinessShopService'])->name('business.shop.service');
-    
+
 
 
     //Product
@@ -414,7 +414,7 @@ Route::middleware(['checkAdmin', 'SetSessionData'])->group(function () {
     /* Route created by GR SAGOR to here */
 
     Route::get('/home', [HomeController::class, 'index'])->name('home');
-    Route::get('/business/order', [BusinessOrderController::class,'index'])->name('index');
+    Route::get('/business/order', [BusinessOrderController::class, 'index'])->name('index');
     Route::get('/home/get-totals', [HomeController::class, 'getTotals']);
     Route::get('/home/product-stock-alert', [HomeController::class, 'getProductStockAlert']);
     Route::get('/home/purchase-payment-dues', [HomeController::class, 'getPurchasePaymentDues']);
@@ -453,6 +453,7 @@ Route::middleware(['checkAdmin', 'SetSessionData'])->group(function () {
     Route::post('/contacts/check-contacts-id', [ContactController::class, 'checkContactId']);
     Route::get('/contacts/customers', [ContactController::class, 'getCustomers']);
     Route::resource('contacts', ContactController::class);
+    Route::get('customer-add-from-existing-user', [ContactController::class, 'customeraddfromexistinguser'])->name('customer.add.from.existing.user');
 
     Route::get('taxonomies-ajax-index-page', [TaxonomyController::class, 'getTaxonomyIndexPage']);
     Route::resource('taxonomies', TaxonomyController::class);

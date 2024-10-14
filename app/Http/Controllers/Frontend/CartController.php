@@ -288,17 +288,22 @@ class CartController extends Controller
             if (!$contact) {
                 $contact_input = [
                     'type' => 'customer',
+                    'user_id' => $user->id,
                     'business_id' => $business_id,
                     'prefix' => $user->surname,
                     'first_name' => $user->first_name,
                     'last_name' => $user->last_name,
                     'mobile' => $user->contact_no,
                     'opening_balance' => 0,
+                    'contact_status' => 'active',
+                    'created_by' => $user->id,
+                    'converted_by' => null,
+                    'supplier_business_name' => null,
                 ];
                 $output = $this->contactUtil->createNewContact($contact_input);
-                $input['contact_id'] = $output['data']['contact_id'];
+                $input['contact_id'] = $output['data']['id'];
             } else {
-                $input['contact_id'] = $contact->contact_id;
+                $input['contact_id'] = $contact->id;
             }
 
             $input['transaction_date'] = Carbon::now();

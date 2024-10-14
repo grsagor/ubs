@@ -7,16 +7,26 @@ use App\BusinessLocation;
 use App\Job;
 use App\Country;
 use App\AppliedJob;
+use App\Contact;
 use App\JobCategory;
 use App\Recruitment;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Traits\ImageFileUpload;
+use App\Utils\ContactUtil;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
 class RecruitmentController extends Controller
 {
+    protected $contactUtil;
+
+    public function __construct(
+        ContactUtil $contactUtil
+    ) {
+        $this->contactUtil      = $contactUtil;
+    }
+
     use ImageFileUpload;
 
     public function list(Request $request)
@@ -177,16 +187,26 @@ class RecruitmentController extends Controller
 
                 $job = Job::find($request->job_id);
                 $business_location = BusinessLocation::find($job->business_location_id);
+                $user = Auth::user();
 
-                $business_customer = BusinessCustomer::where([['business_id', $business_location->business_id], ['customer_id', Auth::user()->id]])->first();
-                if (!$business_customer) {
-                    $business_customer = new BusinessCustomer();
+                $contact = Contact::where([['business_id', $business_location->business_id], ['user_id', $user->id]])->first();
+                if (!$contact) {
+                    $contact_input = [
+                        'type' => 'customer',
+                        'user_id' => $user->id,
+                        'business_id' => $business_location->business_id,
+                        'prefix' => $user->surname,
+                        'first_name' => $user->first_name,
+                        'last_name' => $user->last_name,
+                        'mobile' => $user->contact_no,
+                        'opening_balance' => 0,
+                        'contact_status' => 'active',
+                        'created_by' => $user->id,
+                        'converted_by' => null,
+                        'supplier_business_name' => null,
+                    ];
+                    $output = $this->contactUtil->createNewContact($contact_input);
                 }
-
-                $business_customer->business_id = $business_location->business_id;
-                $business_customer->business_location_id = $business_location->id;
-                $business_customer->customer_id = Auth::user()->id;
-                $business_customer->save();
 
                 $output = [
                     'success' => true,
