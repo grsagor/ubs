@@ -99,7 +99,7 @@ class CartController extends Controller
         }
         $products = Product::whereIn('id', $current_carts)->get();
         foreach ($products as $product) {
-            $product->contact_id = Contact::where('business_id', $product->business_id)->first()->id;
+            // $product->contact_id = Contact::where('business_id', $product->business_id)->first()->id;
             $price               = 0;
             $price_excluding_tax = 0;
             $vat                 = 0;
@@ -182,7 +182,7 @@ class CartController extends Controller
             }
             $products = Product::whereIn('id', $current_carts)->get();
             foreach ($products as $product) {
-                $product->contact_id = Contact::where('business_id', $product->business_id)->first()->id;
+                // $product->contact_id = Contact::where('business_id', $product->business_id)->first()->id;
                 $price               = 0;
                 $price_excluding_tax = 0;
                 $vat                 = 0;
@@ -275,6 +275,7 @@ class CartController extends Controller
 
             $business_id   = $input['business_id'];
             $user_id       = Auth::user()->id;
+            $user       = Auth::user();
             $discount      = [
                 'discount_type'   => $input['discount_type'],
                 'discount_amount' => $input['discount_amount'],
@@ -283,7 +284,24 @@ class CartController extends Controller
 
             DB::beginTransaction();
 
-            $input['transaction_date'] = \Carbon::now();
+            $contact = Contact::where([['business_id', $business_id], ['user_id', $user_id]])->first();
+            if (!$contact) {
+                $contact_input = [
+                    'type' => 'customer',
+                    'business_id' => $business_id,
+                    'prefix' => $user->surname,
+                    'first_name' => $user->first_name,
+                    'last_name' => $user->last_name,
+                    'mobile' => $user->contact_no,
+                    'opening_balance' => 0,
+                ];
+                $output = $this->contactUtil->createNewContact($contact_input);
+                $input['contact_id'] = $output['data']['contact_id'];
+            } else {
+                $input['contact_id'] = $contact->contact_id;
+            }
+
+            $input['transaction_date'] = Carbon::now();
             if ($is_direct_sale) {
                 $input['is_direct_sale'] = 1;
             }
