@@ -570,8 +570,13 @@ class ContactController extends Controller
         //Added check because $users is of no use if enable_contact_assign if false
         $users = config('constants.enable_contact_assign') ? User::forDropdown($business_id, false, false, false, true) : [];
 
-        return view('contact.create')
-            ->with(compact('types', 'customer_groups', 'selected_type', 'module_form_parts', 'users'));
+        if ($selected_type == 'customer') {
+            return view('contact.create_customer')
+                ->with(compact('types', 'customer_groups', 'selected_type', 'module_form_parts', 'users'));
+        } else {
+            return view('contact.create')
+                ->with(compact('types', 'customer_groups', 'selected_type', 'module_form_parts', 'users'));
+        }
     }
 
     /**
