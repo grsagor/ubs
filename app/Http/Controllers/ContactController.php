@@ -17,9 +17,9 @@ use App\Utils\ModuleUtil;
 use App\Utils\NotificationUtil;
 use App\Utils\TransactionUtil;
 use App\Utils\Util;
-use DB;
 use Excel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB as FacadesDB;
 use Modules\Crm\Utils\CrmUtil;
 use Spatie\Activitylog\Models\Activity;
 use Yajra\DataTables\Facades\DataTables;
@@ -570,8 +570,16 @@ class ContactController extends Controller
         //Added check because $users is of no use if enable_contact_assign if false
         $users = config('constants.enable_contact_assign') ? User::forDropdown($business_id, false, false, false, true) : [];
 
-        return view('contact.create')
-            ->with(compact('types', 'customer_groups', 'selected_type', 'module_form_parts', 'users'));
+        $customers = Contact::where('business_id', $business_id)->pluck('user_id');
+        $no_customers = User::whereNotIn('id', $customers)->where('user_type', 'user_customer')->get();
+
+        if ($selected_type == 'customer') {
+            return view('contact.create_customer')
+                ->with(compact('types', 'customer_groups', 'selected_type', 'module_form_parts', 'users', 'no_customers'));
+        } else {
+            return view('contact.create')
+                ->with(compact('types', 'customer_groups', 'selected_type', 'module_form_parts', 'users'));
+        }
     }
 
     /**
@@ -685,6 +693,13 @@ class ContactController extends Controller
 
             $this->contactUtil->activityLog($output['data'], 'added');
 
+            $user = User::where('crm_contact_id', $output['data']['id'])->first();
+            if ($user) {
+                $contact = Contact::find($output['data']['id']);
+                $contact->user_id = $user->id;
+                $contact->save();
+            }
+
             DB::commit();
         } catch (\Exception $e) {
             DB::rollBack();
@@ -697,6 +712,51 @@ class ContactController extends Controller
         }
 
         return $output;
+    }
+
+    public function customeraddfromexistinguser(Request $request)
+    {
+        $user = User::find($request->user_id);
+        $business_id = $request->session()->get('user.business_id');
+        try {
+            $contact = Contact::where([['business_id', $business_id], ['user_id', $user->ID]])->first();
+            if (!$contact) {
+                $contact_input = [
+                    'type' => 'customer',
+                    'user_id' => $user->id,
+                    'business_id' => $business_id,
+                    'prefix' => $user->surname,
+                    'first_name' => $user->first_name,
+                    'last_name' => $user->last_name,
+                    'mobile' => $user->contact_no,
+                    'opening_balance' => 0,
+                    'contact_status' => 'active',
+                    'created_by' => $user->id,
+                    'converted_by' => null,
+                    'supplier_business_name' => null,
+                ];
+                $output = $this->contactUtil->createNewContact($contact_input);
+
+                $response = [
+                    'success' => true,
+                    'msg' => __('contact.added_success')
+                ];
+            } else {
+                $response = [
+                    'success' => false,
+                    'msg' => 'Already a customer.'
+                ];
+            }
+        } catch (\Throwable $th) {
+            $response = [
+                'success' => false,
+                'msg' => 'Something went wrong',
+                'error' => $th->getTrace(),
+                'error' => $th->getMessage(),
+            ];
+        }
+
+        return response()->json($response);
     }
 
     /**
