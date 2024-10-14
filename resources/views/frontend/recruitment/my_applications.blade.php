@@ -18,6 +18,8 @@
                             <th>Location</th>
                             <th>Salary</th>
                             <th>Applied Date</th>
+                            <th>Sponsorship</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -38,6 +40,17 @@
                                     @endif
                                 </td>
                                 <td>{{ $item->created_at->format('d F Y') ?? '' }}</td>
+                                <td>{{ $item->recuimentId->sponsorship == 1 ? 'Need' : 'No Need' }}</td>
+                                <td>
+                                    <a href="{{ route('recruitment.show', $item->recruitment_id) }}"
+                                        class="btn btn-xs btn-primary">
+                                        <i class="fas fa-eye"></i> Show
+                                    </a>
+                                    <a href="#" class="btn btn-xs btn-success copy-link"
+                                        data-link="{{ route('recruitment.show', $item->recruitment_id) }}">
+                                        <i class="fas fa-copy"></i> Copy
+                                    </a>
+                                </td>
                             </tr>
                         @empty
                             <tr>
@@ -49,4 +62,34 @@
             </div>
         </div>
     </section>
+@endsection
+
+@section('script')
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var copyLinkButtons = document.querySelectorAll('.copy-link');
+
+            copyLinkButtons.forEach(function(button) {
+                button.addEventListener('click', function(event) {
+                    event.preventDefault();
+
+                    // Get the link from the data-link attribute
+                    var linkToCopy = button.getAttribute('data-link');
+
+                    // Create a temporary input element
+                    var tempInput = document.createElement('input');
+                    tempInput.value = linkToCopy;
+                    document.body.appendChild(tempInput);
+
+                    // Select and copy the text in the input element
+                    tempInput.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(tempInput);
+
+                    // Show Toastr success message
+                    toastr.success('Link copied');
+                });
+            });
+        });
+    </script>
 @endsection

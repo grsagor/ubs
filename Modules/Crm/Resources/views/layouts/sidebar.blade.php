@@ -31,27 +31,27 @@
                 $uuid = optional(myInformation())->uuid;
             @endphp
 
-            @if ($uuid)
-                <li>
-                    <a href="{{ route('recruitment.edit', ['id' => $uuid]) }}">
-                        <i class="fa fa-calendar"></i>
-                        <span>My Information</span>
-                    </a>
-                </li>
 
-                <li>
-                    <a href="{{ route('recruitment.appliedJobsCustomer', ['id' => $uuid]) }}">
-                        <i class="fa fa-calendar"></i>
-                        <span>Applied Jobs</span>
-                    </a>
-                </li>
-            @endif
-
-            {{-- <li><a href="{{ url('/contact/service_wanted') }}"><i class="fas fa fa-calendar-check"></i>
-                    <span>Service Wanted</span></a></li> --}}
-
-            {{-- <li><a href="{{ url('/contact/education') }}"><i class="fa fas fa-arrow-circle-up"></i>
-                    <span>Education</span></a></li> --}}
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fas fa-users"></i> <span>Jobs</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    {{-- @if (isset($uuid))
+                        <li>
+                            <a href="{{ route('customer.recruitment.showCustomer', ['id' => $uuid]) }}">
+                                <i class="fa fas fa-briefcase"></i>
+                                <span>My Information</span>
+                            </a>
+                        </li>
+                    @endif --}}
+                    <li><a href="{{ route('recruitment.appliedJobsCustomer') }}"><i class="fa fas fa-user"></i> <span>My
+                                Applications</span></a></li>
+                </ul>
+            </li>
 
         </ul>
         <!-- /.sidebar-menu -->

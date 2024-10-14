@@ -52,16 +52,13 @@ class ShopController extends Controller
             ])->first();
         $vendor = Business::where('id', $shop->business_id)->first();
 
-        // return $shop;
         return view('frontend.pages.shop.service_shop', compact('shop', 'vendor'));
     }
 
     public function BusinessShopService($id)
     {
-        // dd($id);
         $shop = BusinessLocation::where('business_id', $id)->get();
         $vendor = Business::where('id', $id)->first();
-        // return $shop;
         return view('frontend.pages.shop.business_service_shop', compact('shop', 'vendor'));
     }
 }

@@ -30,7 +30,7 @@
                             @if ($item->job_category_id)
                                 <div class="category-wrapper">
                                     <div class="category-badge">
-                                        <h6>{{ Str::limit($item->job_category->name, 50, '...') }}</h6>
+                                        <h6>{{ Str::limit($item->job_category->name ?? null, 50, '...') }}</h6>
                                     </div>
                                 </div>
                             @endif

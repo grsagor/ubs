@@ -35,6 +35,7 @@ class Recruitment extends Model
         'care_certificates',
         'additional_files',
         'cover_letter',
+        'sponsorship',
         'status',
     ];
 

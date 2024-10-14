@@ -23,12 +23,6 @@
                     <button type="submit" class="btn applynow" onclick="setConfirmationValue('Yes')">Yes</button>
                 </form>
             </div>
-
-            <!-- Modal Footer -->
-            {{-- <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div> --}}
-
         </div>
     </div>
 </div>
@@ -37,12 +31,17 @@
 
     @php
         $button_state = 0;
-        if ($job->status == 0 || $closing_date == false) {
-            $button_state = 10;
+
+        if ($job->status == 0) {
+            $button_state = 10; //Paused
+        }
+
+        if ($closing_date == false) {
+            $button_state = 20; //Expired
         }
 
         if ($applied_jobs == 1) {
-            $button_state = 1;
+            $button_state = 1; //Already applied
         }
 
     @endphp
@@ -50,15 +49,17 @@
     @if ($button_state == 1)
         <button type="button" class="btn alreadyApplied" disabled>Already applied</button>
     @elseif ($button_state == 10)
+        <button type="button" class="btn alreadyApplied" disabled>Paused</button>
+    @elseif ($button_state == 20)
         <button type="button" class="btn alreadyApplied" disabled>Expired</button>
     @else
-        @if ($recuitment_info == 0)
-            <a href="{{ route('recruitment.create', $job->uuid) }}" class="btn applynow">Apply Now</a>
-        @endif
+        <a href="{{ route('recruitment.create', $job->uuid) }}" class="btn applynow">Apply Now</a>
 
-        @if ($recuitment_info == 1)
+        {{-- @if ($recuitment_info == 0)
+            <a href="{{ route('recruitment.create', $job->uuid) }}" class="btn applynow">Apply Now</a>
+        @else
             <button class="btn applynow" data-toggle="modal" data-target="#myModal">Apply Now</button>
-        @endif
+        @endif --}}
     @endif
 
 </div>

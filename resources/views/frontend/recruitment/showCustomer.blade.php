@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('crm::layouts.app')
 @section('title', 'Recruitment')
 @section('css')
     <style>
@@ -52,12 +52,6 @@
         .view-btn {
             display: inline-block;
         }
-
-        @media (max-width: 767px) {
-            #email {
-                color: black;
-            }
-        }
     </style>
 @endsection
 
@@ -75,10 +69,10 @@
             <div class="right">
                 <div style="display: flex; justify-content: space-between; align-items: center;">
                     <h4 style="margin-top: 0;">Personal Information:</h4>
-                    <button id="copyButton" class="btn btn-success">
+                    {{-- <button id="copyButton" class="btn btn-success">
                         <i class="fa fa-copy" aria-hidden="true"></i>
                         Copy Link
-                    </button>
+                    </button> --}}
                 </div>
 
                 <p class="font-size">
@@ -350,6 +344,8 @@
 
             </div>
     </section>
+
+
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script>
         $(document).ready(function() {
@@ -357,21 +353,6 @@
                 var targetId = $(this).data('target');
                 $('#' + targetId).toggle();
             });
-        });
-    </script>
-
-    <script>
-        document.getElementById('copyButton').addEventListener('click', function() {
-            var textToCopy = '{{ route('recruitment.show', $item->uuid) }}';
-            var tempInput = document.createElement('input');
-            tempInput.value = textToCopy;
-            document.body.appendChild(tempInput);
-            tempInput.select();
-            document.execCommand('copy');
-            document.body.removeChild(tempInput);
-
-            // Show a popup message
-            toastr.success('Link copied: ');
         });
     </script>
 @endsection
