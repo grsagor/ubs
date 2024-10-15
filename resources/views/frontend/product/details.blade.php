@@ -328,7 +328,7 @@
                                     }
                                 @endphp
 
-                                <div class="price mt-2 mb-2"> &pound; {{ number_format($service_price, 2) }}</div>
+                                <div class="price mt-2 mb-2">£{{ number_format($service_price, 2) }}</div>
                                 <div class="refund">
                                     <a href="{{ route('product.refund.policy', $info->slug) }}" target="__blank"
                                         style="font-size: 18px;">Refund Policy

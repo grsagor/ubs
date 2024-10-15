@@ -476,7 +476,7 @@ class SellController extends Controller
                     function ($row) {
                         $total_paid = $row->total_paid ?? 0;
                         $remaining = $row->payment_status == 'due' ? '0.00' : number_format($total_paid, 2);
-                        return '<span class="total-paid" data-orig-value="' . $total_paid . '">£ ' . $remaining . '</span>';
+                        return '<span class="total-paid" data-orig-value="' . $total_paid . '">£' . $remaining . '</span>';
                     }
                 )
 
@@ -515,7 +515,7 @@ class SellController extends Controller
                     $total_remaining_html = '<span class="payment_due" data-orig-value="' . $total_remaining . '">' . $this->transactionUtil->num_f($total_remaining, true) . '</span>';
                     $due = number_format($row->final_total, 2);
 
-                    return $row->payment_status == 'due' ? "£ $due" : $total_remaining_html;
+                    return $row->payment_status == 'due' ? "£$due" : $total_remaining_html;
                 })
                 ->addColumn('return_due', function ($row) {
                     $return_due_html = '';

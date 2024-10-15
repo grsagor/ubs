@@ -34,7 +34,7 @@
                              <th class="product-price">Price</th>
                              <th class="product-quantity">Quantity</th>
                              <th class="product-subtotal">Subtotal</th>
-                             <th class="product-remove">&nbsp;</th>
+                             <th class="product-remove">Action</th>
                          </tr>
 
                          @foreach ($products as $product)
@@ -56,7 +56,7 @@
                                      @endif
                                  </td>
                                  <td class="product-price">
-                                     <span>£ {{ $product->price }}</span>
+                                     <span>£{{ $product->price }}</span>
                                  </td>
 
 
@@ -97,7 +97,7 @@
                                  <td class="product-subtotal">
                                      <p class="d-inline-block"
                                          id="prc{{ $product->id . $product['size'] . $product['color'] . str_replace(str_split(' ,'), '', $product['values']) }}">
-                                         £ {{ $product->price }}
+                                         £{{ $product->price }}
                                      </p>
                                      @if ($product['discount'] != 0)
                                          <strong>{{ $product['discount'] }} %{{ __('off') }}</strong>
@@ -124,14 +124,14 @@
                              <tr>
                                  <th>Subtotal</th>
                                  <td>
-                                     <span><b class="cart-total">£ {{ $total_price_excluding_tax }}</b>
+                                     <span><b class="cart-total">£{{ $total_price_excluding_tax }}</b>
                                      </span>
                                  </td>
                              </tr>
                              <tr>
                                  <th>Vat</th>
                                  <td>
-                                     <span><b class="cart-total">£ {{ $total_vat }}</b>
+                                     <span><b class="cart-total">£{{ $total_vat }}</b>
                                      </span>
                                  </td>
                              </tr>
@@ -149,8 +149,7 @@
 
                              <tr class="order-total">
                                  <th>Total</th>
-                                 <td><strong><span >£
-                                             {{ $total_price }}</span></strong>
+                                 <td><strong><span >£{{ $total_price }}</span></strong>
                                  </td>
                              </tr>
                          </table>

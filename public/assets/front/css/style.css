@@ -7230,7 +7230,7 @@ table.shop_table.cart td.product-quantity .quantity {
     font-size: 15px;
     color: var(--theme-dark-color);
     text-transform: uppercase;
-    padding: 12px 20px;
+    padding: 12px;
     background: var(--theme-light-color);
     margin: 0;
     border: 1px solid var(--theme-gray-color);

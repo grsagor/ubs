@@ -1954,9 +1954,9 @@ class CartController extends Controller
             $symbol                    = !empty($business_details) ? $business_details->currency_symbol : session('currency')['symbol'];
 
             if ($currency_symbol_placement == 'after') {
-                $formatted = $formatted . ' ' . '$';
+                $formatted = $formatted . '$';
             } else {
-                $formatted = '$' . ' ' . $formatted;
+                $formatted = '$' . $formatted;
             }
         }
 

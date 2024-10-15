@@ -364,7 +364,7 @@
                             @if ($total_monthly_income_before_tax > 0)
                                 <p>
                                     <strong>Combined Income Before Tax: </strong>
-                                    £{{ $total_monthly_income_before_tax }} Per month
+                                    £{{ $total_monthly_income_before_tax }}Per month
                                 </p>
                             @endif
 

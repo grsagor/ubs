@@ -126,7 +126,7 @@
                     combined monthly income of you and your co-tenants
                     (before tax)?</label>
                 <div class="input-group">
-                    <div class="input-group-addon"> £ </div>
+                    <div class="input-group-addon"> £</div>
                     <input class="form-control" name="" type="number" value="">
                 </div>
             </div>
