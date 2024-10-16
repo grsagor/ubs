@@ -33,6 +33,7 @@
                             'placeholder' => __('messages.please_select'),
                             'class' => 'form-control select2',
                             'required',
+                            'id' => 'type',
                         ]) !!}
                     </div>
                 </div>
@@ -1149,6 +1150,63 @@
                 </div>
             @endcomponent
 
+            @php
+                $product->info_from_customer = json_decode($product->info_from_customer, true);
+            @endphp
+
+            <div id="service-component" style="display:none;">
+                @component('components.widget', ['class' => 'box-primary'])
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <label style="margin-bottom: 10px;">Select the information you need from customer:</label>
+                            <div class="form-group">
+                                <div style="margin-bottom: 10px;">
+                                    <input type="checkbox" class="input-icheck" name="checkbox_name"
+                                        {{ isset($product->info_from_customer['checkbox_name']) && $product->info_from_customer['checkbox_name'] == '1' ? 'checked' : '' }}>
+                                    <label style="margin-right: 20px;">Name</label>
+
+                                    <input type="checkbox" class="input-icheck" name="checkbox_phone"
+                                        {{ isset($product->info_from_customer['checkbox_phone']) && $product->info_from_customer['checkbox_phone'] == '1' ? 'checked' : '' }}>
+                                    <label style="margin-right: 20px;">Phone</label>
+
+                                    <input type="checkbox" class="input-icheck" name="checkbox_email"
+                                        {{ isset($product->info_from_customer['checkbox_email']) && $product->info_from_customer['checkbox_email'] == '1' ? 'checked' : '' }}>
+                                    <label style="margin-right: 20px;">Email</label>
+
+                                    <input type="checkbox" class="input-icheck" name="checkbox_current_address"
+                                        {{ isset($product->info_from_customer['checkbox_current_address']) && $product->info_from_customer['checkbox_current_address'] == '1' ? 'checked' : '' }}>
+                                    <label style="margin-right: 20px;">Current address</label>
+
+                                    <input type="checkbox" class="input-icheck" name="checkbox_country_of_residence"
+                                        {{ isset($product->info_from_customer['checkbox_country_of_residence']) && $product->info_from_customer['checkbox_country_of_residence'] == '1' ? 'checked' : '' }}>
+                                    <label style="margin-right: 20px;">Country of residence</label>
+
+                                    <input type="checkbox" class="input-icheck" name="checkbox_birth_country"
+                                        {{ isset($product->info_from_customer['checkbox_birth_country']) && $product->info_from_customer['checkbox_birth_country'] == '1' ? 'checked' : '' }}>
+                                    <label style="margin-right: 20px;">Birth country</label>
+
+                                    <input type="checkbox" class="input-icheck" name="checkbox_education"
+                                        {{ isset($product->info_from_customer['checkbox_education']) && $product->info_from_customer['checkbox_education'] == '1' ? 'checked' : '' }}>
+                                    <label style="margin-right: 20px;">Education</label>
+
+                                    <input type="checkbox" class="input-icheck" name="checkbox_experience"
+                                        {{ isset($product->info_from_customer['checkbox_experience']) && $product->info_from_customer['checkbox_experience'] == '1' ? 'checked' : '' }}>
+                                    <label style="margin-right: 20px;">Experience</label>
+
+                                    <input type="checkbox" class="input-icheck" name="checkbox_additional_files"
+                                        {{ isset($product->info_from_customer['checkbox_additional_files']) && $product->info_from_customer['checkbox_additional_files'] == '1' ? 'checked' : '' }}>
+                                    <label style="margin-right: 20px;">Additional Files</label>
+
+                                    <input type="checkbox" class="input-icheck" name="checkbox_cv"
+                                        {{ isset($product->info_from_customer['checkbox_cv']) && $product->info_from_customer['checkbox_cv'] == '1' ? 'checked' : '' }}>
+                                    <label>CV</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endcomponent
+            </div>
+
             @component('components.widget', ['class' => 'box-primary'])
                 <div class="row">
                     <div class="col-sm-12">
@@ -1221,6 +1279,24 @@
         $(document).ready(function() {
             __page_leave_confirmation('#product_add_form');
 
+            var currentType = $('#type').val();
+
+            // Show service component if type is 'service' on page load
+            if (currentType === 'service') {
+                $('#service-component').show();
+            }
+
+            $('#type').on('change', function() {
+                var selectedType = $(this).val();
+
+                if (selectedType === 'service') {
+                    $('#service-component').show(); // Show component if 'service' is selected
+                } else {
+                    $('#service-component').find('input[type="checkbox"]').prop('checked', false);
+                    $('#service-component').hide(); // Hide component if anything else is selected
+                }
+            });
+
 
             $(document).on('change', '#categoryy_id', function() {
                 var category_id = $(this).val();
@@ -1234,10 +1310,12 @@
                     success: function(html) {
                         $('#sub_category_id').html(html);
                         $('#child_category_id').html(
-                            '<option selected="selected" value="">Please Select</option>');
+                            '<option selected="selected" value="">Please Select</option>'
+                        );
                     }
                 })
-            })
+            });
+
             $(document).on('change', '#sub_category_id', function() {
                 var sub_category_id = $(this).val();
                 $.ajax({
