@@ -589,7 +589,18 @@ class ProductController extends Controller
                 'youtube_link',
                 'define_this_item',
                 'course_module',
-                'course_module_description'
+                'course_module_description',
+
+                'checkbox_name',
+                'checkbox_phone',
+                'checkbox_email',
+                'checkbox_current_address',
+                'checkbox_country_of_residence',
+                'checkbox_birth_country',
+                'checkbox_education',
+                'checkbox_experience',
+                'checkbox_additional_files',
+                'checkbox_cv'
             ];
 
             $module_form_fields = $this->moduleUtil->getModuleFormField('product_form_fields');
@@ -600,7 +611,6 @@ class ProductController extends Controller
             $product_details['selected_years'] = 'Years';
             $product_details['selected_months'] = 'Months';
 
-            // dd($product_details);
             $product_details = $request->only($form_fields);
             $product_details['business_id'] = $business_id;
             $product_details['created_by'] = $request->session()->get('user.id');
@@ -673,6 +683,23 @@ class ProductController extends Controller
             $product_details['warranty_id'] = !empty($request->input('warranty_id')) ? $request->input('warranty_id') : null;
             $product_details['is_discount'] = $request->is_discount;
             $product_details['discount_amount'] = $request->discount_amount;
+
+
+            $product_details['info_from_customer'] = json_encode([
+                "checkbox_name" => $request->input('checkbox_name') === 'on' ? "1" : null,
+                "checkbox_phone" => $request->input('checkbox_phone') === 'on' ? "1" : null,
+                "checkbox_email" => $request->input('checkbox_email') === 'on' ? "1" : null,
+                "checkbox_current_address" => $request->input('checkbox_current_address') === 'on' ? "1" : null,
+                "checkbox_country_of_residence" => $request->input('checkbox_country_of_residence') === 'on' ? "1" : null,
+                "checkbox_birth_country" => $request->input('checkbox_birth_country') === 'on' ? "1" : null,
+                "checkbox_education" => $request->input('checkbox_education') === 'on' ? "1" : null,
+                "checkbox_experience" => $request->input('checkbox_experience') === 'on' ? "1" : null,
+                "checkbox_additional_files" => $request->input('checkbox_additional_files') === 'on' ? "1" : null,
+                "checkbox_cv" => $request->input('checkbox_cv') === 'on' ? "1" : null,
+            ]);
+
+
+            // dd($request->toArray(),  $product_details['info_from_customer'],  $product_details);
 
             DB::beginTransaction();
 
@@ -962,7 +989,18 @@ class ProductController extends Controller
                 'define_this_item',
                 'image',
                 'thumbnail',
-                'product_brochure'
+                'product_brochure',
+
+                'checkbox_name',
+                'checkbox_phone',
+                'checkbox_email',
+                'checkbox_current_address',
+                'checkbox_country_of_residence',
+                'checkbox_birth_country',
+                'checkbox_education',
+                'checkbox_experience',
+                'checkbox_additional_files',
+                'checkbox_cv'
             ]);
 
             DB::beginTransaction();
@@ -1143,6 +1181,19 @@ class ProductController extends Controller
                 //     $product->woocommerce_media_id = null;
                 // }
             }
+
+            $product['info_from_customer'] = json_encode([
+                "checkbox_name" => $request->input('checkbox_name') === 'on' ? "1" : null,
+                "checkbox_phone" => $request->input('checkbox_phone') === 'on' ? "1" : null,
+                "checkbox_email" => $request->input('checkbox_email') === 'on' ? "1" : null,
+                "checkbox_current_address" => $request->input('checkbox_current_address') === 'on' ? "1" : null,
+                "checkbox_country_of_residence" => $request->input('checkbox_country_of_residence') === 'on' ? "1" : null,
+                "checkbox_birth_country" => $request->input('checkbox_birth_country') === 'on' ? "1" : null,
+                "checkbox_education" => $request->input('checkbox_education') === 'on' ? "1" : null,
+                "checkbox_experience" => $request->input('checkbox_experience') === 'on' ? "1" : null,
+                "checkbox_additional_files" => $request->input('checkbox_additional_files') === 'on' ? "1" : null,
+                "checkbox_cv" => $request->input('checkbox_cv') === 'on' ? "1" : null,
+            ]);
 
             $product->save();
             $product->touch();
