@@ -572,15 +572,19 @@ class SellController extends Controller
                         ->first();
 
                     if ($user) {
+                        $fullName = trim($user->surname . ' ' . $user->first_name . ' ' . $user->last_name);
+                        if (!empty($fullName)) {
+                            return $fullName;
+                        }
+
                         if (!empty($user->username)) {
                             return $user->username;
-                        } else {
-                            return trim($user->surname . ' ' . $user->first_name . ' ' . $user->last_name);
                         }
                     }
 
                     return "";
                 })
+
 
                 ->addColumn('contact_no', function ($row) {
                     $user = User::where('id', $row->created_by)->select('contact_no')->first();
