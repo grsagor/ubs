@@ -1613,19 +1613,6 @@ class ProductUtil extends Util
                     if (in_array('lot', $search_fields)) {
                         $query->orWhere('pl.lot_number', 'like', '%' . $search_term . '%');
                     }
-
-                    if (in_array('product_custom_field1', $search_fields)) {
-                        $query->orWhere('product_custom_field1', 'like', '%' . $search_term . '%');
-                    }
-                    if (in_array('product_custom_field2', $search_fields)) {
-                        $query->orWhere('product_custom_field2', 'like', '%' . $search_term . '%');
-                    }
-                    if (in_array('product_custom_field3', $search_fields)) {
-                        $query->orWhere('product_custom_field3', 'like', '%' . $search_term . '%');
-                    }
-                    if (in_array('product_custom_field4', $search_fields)) {
-                        $query->orWhere('product_custom_field4', 'like', '%' . $search_term . '%');
-                    }
                 });
             }
 
@@ -1801,11 +1788,7 @@ class ProductUtil extends Util
             'l.name as location_name',
             'l.id as location_id',
             'variations.id as variation_id',
-            'c.name as category_name',
-            'p.product_custom_field1',
-            'p.product_custom_field2',
-            'p.product_custom_field3',
-            'p.product_custom_field4'
+            'c.name as category_name'
         )->groupBy('variations.id', 'vld.location_id');
 
         if (isset($filters['show_manufacturing_data']) && $filters['show_manufacturing_data']) {

@@ -91,7 +91,6 @@ $(document).ready(function () {
             $('#resellingCommissionAmount').removeAttr('min');
             $('#resellingCommissionAmount').attr('type', 'number');
             $('#resellingCommissionAmountFixed').attr('min', 0);
-
             $('#resellingCommissionAmountFixedSection').removeClass('hide');
             $('#resellingCommissionAmountPercentageSection').addClass('hide');
         }
@@ -153,9 +152,9 @@ $(document).ready(function () {
 
     function toggleWorkPlacementDescriptionVisibility() {
         if ($('#work_placement_edit').val() === 'Available') {
-            $('#work-placement-description-section').show();
+            $('#work-placement-description-section').removeClass('hide');
         } else {
-            $('#work-placement-description-section').hide();
+            $('#work-placement-description-section').addClass('hide');
         }
     }
 

@@ -1087,66 +1087,6 @@
                         ]) !!}
                     </div>
                 </div>
-                @php
-                    $custom_labels = json_decode(session('business.custom_labels'), true);
-                    $product_custom_field1 = !empty($custom_labels['product']['custom_field_1'])
-                        ? $custom_labels['product']['custom_field_1']
-                        : __('lang_v1.product_custom_field1');
-                    $product_custom_field2 = !empty($custom_labels['product']['custom_field_2'])
-                        ? $custom_labels['product']['custom_field_2']
-                        : __('lang_v1.product_custom_field2');
-                    $product_custom_field3 = !empty($custom_labels['product']['custom_field_3'])
-                        ? $custom_labels['product']['custom_field_3']
-                        : __('lang_v1.product_custom_field3');
-                    $product_custom_field4 = !empty($custom_labels['product']['custom_field_4'])
-                        ? $custom_labels['product']['custom_field_4']
-                        : __('lang_v1.product_custom_field4');
-                @endphp
-                <!--custom fields-->
-                <div class="clearfix"></div>
-                <div class="col-sm-3">
-                    <div class="form-group">
-                        {!! Form::label('product_custom_field1', $product_custom_field1 . ':') !!}
-                        {!! Form::text(
-                            'product_custom_field1',
-                            !empty($duplicate_product->product_custom_field1) ? $duplicate_product->product_custom_field1 : null,
-                            ['class' => 'form-control', 'placeholder' => $product_custom_field1],
-                        ) !!}
-                    </div>
-                </div>
-
-                <div class="col-sm-3">
-                    <div class="form-group">
-                        {!! Form::label('product_custom_field2', $product_custom_field2 . ':') !!}
-                        {!! Form::text(
-                            'product_custom_field2',
-                            !empty($duplicate_product->product_custom_field2) ? $duplicate_product->product_custom_field2 : null,
-                            ['class' => 'form-control', 'placeholder' => $product_custom_field2],
-                        ) !!}
-                    </div>
-                </div>
-
-                <div class="col-sm-3">
-                    <div class="form-group">
-                        {!! Form::label('product_custom_field3', $product_custom_field3 . ':') !!}
-                        {!! Form::text(
-                            'product_custom_field3',
-                            !empty($duplicate_product->product_custom_field3) ? $duplicate_product->product_custom_field3 : null,
-                            ['class' => 'form-control', 'placeholder' => $product_custom_field3],
-                        ) !!}
-                    </div>
-                </div>
-
-                <div class="col-sm-3">
-                    <div class="form-group">
-                        {!! Form::label('product_custom_field4', $product_custom_field4 . ':') !!}
-                        {!! Form::text(
-                            'product_custom_field4',
-                            !empty($duplicate_product->product_custom_field4) ? $duplicate_product->product_custom_field4 : null,
-                            ['class' => 'form-control', 'placeholder' => $product_custom_field4],
-                        ) !!}
-                    </div>
-                </div>
 
                 <div class="col-sm-3">
                     <div class="form-group">
@@ -1203,11 +1143,8 @@
                                 <input type="checkbox" class="input-icheck" name="checkbox_current_address">
                                 <label style="margin-right: 20px;">Current address</label>
 
-                                <input type="checkbox" class="input-icheck" name="checkbox_country_of_residence">
-                                <label style="margin-right: 20px;">Country of residence</label>
-
-                                <input type="checkbox" class="input-icheck" name="checkbox_birth_country">
-                                <label style="margin-right: 20px;">Birth country</label>
+                                <input type="checkbox" class="input-icheck" name="checkbox_origin">
+                                <label style="margin-right: 20px;">Origin</label>
 
                                 <input type="checkbox" class="input-icheck" name="checkbox_education">
                                 <label style="margin-right: 20px;">Education</label>
