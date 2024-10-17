@@ -130,7 +130,7 @@ class CartController extends Controller
             'total_vat' => $total_vat,
         ];
 
-        return $data;
+        // return $data;
 
         return view('frontend.cart.cart', $data);
     }
