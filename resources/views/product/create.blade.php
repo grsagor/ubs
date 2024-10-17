@@ -405,7 +405,6 @@
                         ) !!}
                     </div>
                 </div>
-                {{-- <div class="clearfix hide" id="fee-installment-description-clearfix"></div> --}}
 
                 <div class="clearfix"></div>
                 <div class="col-sm-4">
@@ -424,7 +423,7 @@
                     </div>
                 </div>
 
-                <div class="col-sm-8 hide" id="course-description-section">
+                <div class="col-sm-8 " id="course-description-section">
                     <div class="form-group">
                         {!! Form::label('course_module_description', __('Course Module Description') . ':') !!}
                         {!! Form::textarea(

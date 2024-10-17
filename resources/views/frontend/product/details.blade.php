@@ -194,16 +194,16 @@
 
         #imageSlider .carousel-item img {
             /* max-width: 350px;
-                                                                                                                                                                                                                    max-height: 300px; */
+                                                                                                                                                                                                                                            max-height: 300px; */
             width: auto;
             height: auto;
             margin: auto;
         }
 
         /* .carousel-control-next,
-                                                                                                                                                                                        .carousel-control-prev {
-                                                                                                                                                                                            filter: invert(100%);
-                                                                                                                                                                                        } */
+                                                                                                                                                                                                                .carousel-control-prev {
+                                                                                                                                                                                                                    filter: invert(100%);
+                                                                                                                                                                                                                } */
 
         .carousel-control-prev-icon {
             background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='%23000' width='8' height='8' viewBox='0 0 8 8'%3e%3cpath d='M5.25 0l-4 4 4 4 1.5-1.5L4.25 4l2.5-2.5L5.25 0z'/%3e%3c/svg%3e");
@@ -323,12 +323,22 @@
                                     // For service
                                     $service_price = null;
                                     foreach ($info->variations as $key => $value) {
-                                        $service_price = $value->default_sell_price;
+                                        // $service_price = $value->default_sell_price;
+                                        $service_price =
+                                            $value->default_purchase_price +
+                                            ($value->default_purchase_price * $value->profit_percent) / 100;
+
+                                        $percentage =
+                                            (($value->dpp_inc_tax - $value->default_purchase_price) * 100) /
+                                            $value->default_purchase_price;
+                                        $vat = ($service_price * $percentage) / 100;
                                         break;
                                     }
                                 @endphp
 
-                                <div class="price mt-2 mb-2"> &pound; {{ number_format($service_price, 2) }}</div>
+                                <div class="price mt-2 mb-2"> &pound; {{ number_format($service_price, 2) }} +
+                                    {{ $vat }}(VAT)</div>
+
                                 <div class="refund">
                                     <a href="{{ route('product.refund.policy', $info->slug) }}" target="__blank"
                                         style="font-size: 18px;">Refund Policy
