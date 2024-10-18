@@ -263,6 +263,12 @@ Route::middleware(['setData'])->group(function () {
 // Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 'AdminSidebarMenu', 'CheckUserLogin'])->group(function () {
 Route::middleware(['checkAdmin', 'SetSessionData'])->group(function () {
 
+
+    Route::get('/service-booking-details-of-customer', function () {
+        return view('backend.service_booking_details_of_customer');
+    })->name('service_booking_details_of_customer');
+
+
     Route::get('/footer', [FooterController::class, 'index'])->name('footer.index');
     Route::get('/footer/create', [FooterController::class, 'create'])->name('footer.create');
     Route::post('/footer', [FooterController::class, 'store'])->name('footer.store');
