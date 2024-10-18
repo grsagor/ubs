@@ -130,10 +130,7 @@ class ProductController extends Controller
                 'products.enable_stock',
                 'products.is_inactive',
                 'products.not_for_selling',
-                'products.product_custom_field1',
-                'products.product_custom_field2',
-                'products.product_custom_field3',
-                'products.product_custom_field4',
+
                 'products.alert_quantity',
                 DB::raw('SUM(vld.qty_available) as current_stock'),
                 DB::raw('MAX(v.sell_price_inc_tax) as max_price'),
@@ -554,10 +551,6 @@ class ProductController extends Controller
                 'tax',
                 'tax_type',
                 'weight',
-                'product_custom_field1',
-                'product_custom_field2',
-                'product_custom_field3',
-                'product_custom_field4',
                 'product_description',
                 'sub_unit_ids',
                 'preparation_time_in_minutes',
@@ -595,8 +588,7 @@ class ProductController extends Controller
                 'checkbox_phone',
                 'checkbox_email',
                 'checkbox_current_address',
-                'checkbox_country_of_residence',
-                'checkbox_birth_country',
+                'checkbox_origin',
                 'checkbox_education',
                 'checkbox_experience',
                 'checkbox_additional_files',
@@ -690,8 +682,7 @@ class ProductController extends Controller
                 "checkbox_phone" => $request->input('checkbox_phone') === 'on' ? "1" : null,
                 "checkbox_email" => $request->input('checkbox_email') === 'on' ? "1" : null,
                 "checkbox_current_address" => $request->input('checkbox_current_address') === 'on' ? "1" : null,
-                "checkbox_country_of_residence" => $request->input('checkbox_country_of_residence') === 'on' ? "1" : null,
-                "checkbox_birth_country" => $request->input('checkbox_birth_country') === 'on' ? "1" : null,
+                "checkbox_origin" => $request->input('checkbox_origin') === 'on' ? "1" : null,
                 "checkbox_education" => $request->input('checkbox_education') === 'on' ? "1" : null,
                 "checkbox_experience" => $request->input('checkbox_experience') === 'on' ? "1" : null,
                 "checkbox_additional_files" => $request->input('checkbox_additional_files') === 'on' ? "1" : null,
@@ -947,14 +938,9 @@ class ProductController extends Controller
                 'alert_quantity',
                 'tax_type',
                 'weight',
-                'product_custom_field1',
-                'product_custom_field2',
-                'product_custom_field3',
-                'product_custom_field4',
                 'product_description',
                 'sub_unit_ids',
                 'preparation_time_in_minutes',
-
                 'study_time',
                 'name_of_institution',
                 'duration_year',
@@ -995,8 +981,7 @@ class ProductController extends Controller
                 'checkbox_phone',
                 'checkbox_email',
                 'checkbox_current_address',
-                'checkbox_country_of_residence',
-                'checkbox_birth_country',
+                'checkbox_origin',
                 'checkbox_education',
                 'checkbox_experience',
                 'checkbox_additional_files',
@@ -1028,10 +1013,6 @@ class ProductController extends Controller
             $product->alert_quantity = !empty($product_details['alert_quantity']) ? $this->productUtil->num_uf($product_details['alert_quantity']) : $product_details['alert_quantity'];
             $product->tax_type = 'inclusive';
             $product->weight = $product_details['weight'];
-            $product->product_custom_field1 = $product_details['product_custom_field1'];
-            $product->product_custom_field2 = $product_details['product_custom_field2'];
-            $product->product_custom_field3 = $product_details['product_custom_field3'];
-            $product->product_custom_field4 = $product_details['product_custom_field4'];
             $product->product_description = $product_details['product_description'];
             $product->sub_unit_ids = !empty($product_details['sub_unit_ids']) ? $product_details['sub_unit_ids'] : null;
             $product->preparation_time_in_minutes = $product_details['preparation_time_in_minutes'];
@@ -1187,8 +1168,7 @@ class ProductController extends Controller
                 "checkbox_phone" => $request->input('checkbox_phone') === 'on' ? "1" : null,
                 "checkbox_email" => $request->input('checkbox_email') === 'on' ? "1" : null,
                 "checkbox_current_address" => $request->input('checkbox_current_address') === 'on' ? "1" : null,
-                "checkbox_country_of_residence" => $request->input('checkbox_country_of_residence') === 'on' ? "1" : null,
-                "checkbox_birth_country" => $request->input('checkbox_birth_country') === 'on' ? "1" : null,
+                "checkbox_origin" => $request->input('checkbox_origin') === 'on' ? "1" : null,
                 "checkbox_education" => $request->input('checkbox_education') === 'on' ? "1" : null,
                 "checkbox_experience" => $request->input('checkbox_experience') === 'on' ? "1" : null,
                 "checkbox_additional_files" => $request->input('checkbox_additional_files') === 'on' ? "1" : null,
@@ -1877,12 +1857,7 @@ class ProductController extends Controller
                 'type',
                 'sub_unit_ids',
                 'sub_category_id',
-                'weight',
-                'product_custom_field1',
-                'product_custom_field2',
-                'product_custom_field3',
-                'product_custom_field4',
-                'product_description',
+                'weight'
             ];
 
             $module_form_fields = $this->moduleUtil->getModuleData('product_form_fields');

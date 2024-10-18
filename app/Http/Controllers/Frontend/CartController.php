@@ -94,7 +94,7 @@ class CartController extends Controller
     public function cart(Request $request)
     {
         $current_carts = Session::get('current_carts');
-        if(!$current_carts) {
+        if (!$current_carts) {
             return redirect(route('service.list'))->with('error', "No product/service selected.");
         }
         $products = Product::whereIn('id', $current_carts)->get();
@@ -106,7 +106,7 @@ class CartController extends Controller
             $mrp = 0;
             foreach ($product->variations as $variation) {
                 $mrp += $variation->default_purchase_price + (($variation->default_purchase_price * $variation->profit_percent) / 100);
-                $percentage = (($variation->dpp_inc_tax - $variation->default_purchase_price) * 100 ) / $variation->default_purchase_price;
+                $percentage = (($variation->dpp_inc_tax - $variation->default_purchase_price) * 100) / $variation->default_purchase_price;
                 $vat = ($mrp * $percentage) / 100;
                 $price += $mrp + $vat;
             }
@@ -129,6 +129,8 @@ class CartController extends Controller
             'total_price_excluding_tax' => $total_price_excluding_tax,
             'total_vat' => $total_vat,
         ];
+
+        // return $data;
 
         return view('frontend.cart.cart', $data);
     }
@@ -157,10 +159,11 @@ class CartController extends Controller
 
         return response()->json($response);
     }
-    public function removecart(Request $request) {
+    public function removecart(Request $request)
+    {
         $current_carts = Session::get('current_carts', []);
         $item_to_remove = $request->input('id');
-        $current_carts = array_filter($current_carts, function($item) use ($item_to_remove) {
+        $current_carts = array_filter($current_carts, function ($item) use ($item_to_remove) {
             return $item != $item_to_remove;
         });
         $current_carts = array_values($current_carts);
@@ -176,7 +179,7 @@ class CartController extends Controller
                 return redirect(url('login'));
             }
             $current_carts = Session::get('current_carts');
-            if(!$current_carts) {
+            if (!$current_carts) {
                 return redirect(route('service.list'))->with('error', "No product/service selected.");
             }
             $products = Product::whereIn('id', $current_carts)->get();
@@ -188,7 +191,7 @@ class CartController extends Controller
                 $mrp = 0;
                 foreach ($product->variations as $variation) {
                     $mrp += $variation->default_purchase_price + (($variation->default_purchase_price * $variation->profit_percent) / 100);
-                    $percentage = (($variation->dpp_inc_tax - $variation->default_purchase_price) * 100 ) / $variation->default_purchase_price;
+                    $percentage = (($variation->dpp_inc_tax - $variation->default_purchase_price) * 100) / $variation->default_purchase_price;
                     $vat = ($mrp * $percentage) / 100;
                     $price += $mrp + $vat;
                 }
@@ -223,23 +226,24 @@ class CartController extends Controller
             return back()->with('error', $e->getMessage());
         }
     }
-    public function getClientSecret(Request $request) {
+    public function getClientSecret(Request $request)
+    {
         try {
             \Stripe\Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
-  
+
             $intent = \Stripe\PaymentIntent::create([
-                  'amount' => ($request->amount)*100,
-                  'currency' => 'GBP',
-                  'metadata' => ['integration_check'=>'accept_a_payment']
+                'amount' => ($request->amount) * 100,
+                'currency' => 'GBP',
+                'metadata' => ['integration_check' => 'accept_a_payment']
             ]);
 
             $user = Auth::user();
             $name = ($user->surname ? $user->surname . ' ' : '') . ($user->first_name ? $user->first_name . ' ' : '') . ($user->last_name ? $user->last_name : '');
             $data = [
-                 'name'=> $name,
-                 'email'=> $user->email,
-                 'amount'=> $request->amount,
-                 'client_secret'=> $intent->client_secret,
+                'name' => $name,
+                'email' => $user->email,
+                'amount' => $request->amount,
+                'client_secret' => $intent->client_secret,
             ];
 
             return response()->json($data);
@@ -921,21 +925,21 @@ class CartController extends Controller
         // }
 
         // if ($is_delivery_note) {
-            $output['html_content'] = view('sale_pos.receipts.checkout_receipt', compact('receipt_details', 'payment_method'))->render();
+        $output['html_content'] = view('sale_pos.receipts.checkout_receipt', compact('receipt_details', 'payment_method'))->render();
 
-            return $output;
+        return $output;
         // }
 
         $output['print_title'] = $receipt_details->invoice_no;
         //If print type browser - return the content, printer - return printer config data, and invoice format config
         // if ($receipt_printer_type == 'printer') {
-            $output['print_type'] = 'printer';
-            $output['printer_config'] = $this->businessUtil->printerConfig($business_id, $location_details->printer_id);
-            $output['data'] = $receipt_details;
+        $output['print_type'] = 'printer';
+        $output['printer_config'] = $this->businessUtil->printerConfig($business_id, $location_details->printer_id);
+        $output['data'] = $receipt_details;
         // } else {
         //     $layout = !empty($receipt_details->design) ? 'sale_pos.receipts.' . $receipt_details->design : 'sale_pos.receipts.classic';
 
-            // $output['html_content'] = view($layout, compact('receipt_details'))->render();
+        // $output['html_content'] = view($layout, compact('receipt_details'))->render();
         // }
 
         return $output;
@@ -1007,12 +1011,12 @@ class CartController extends Controller
 
         if ($il->show_letter_head == 1) {
             $output['letter_head'] = ! empty($il->letter_head) &&
-            file_exists(public_path('uploads/invoice_logos/'.$il->letter_head)) ?
-            asset('uploads/invoice_logos/'.$il->letter_head) : null;
+                file_exists(public_path('uploads/invoice_logos/' . $il->letter_head)) ?
+                asset('uploads/invoice_logos/' . $il->letter_head) : null;
         }
 
         //Logo
-        $output['logo'] = $il->show_logo != 0 && ! empty($il->logo) && file_exists(public_path('uploads/invoice_logos/'.$il->logo)) ? asset('uploads/invoice_logos/'.$il->logo) : false;
+        $output['logo'] = $il->show_logo != 0 && ! empty($il->logo) && file_exists(public_path('uploads/invoice_logos/' . $il->logo)) ? asset('uploads/invoice_logos/' . $il->logo) : false;
 
         //Address
         $output['address'] = '';
@@ -1058,7 +1062,7 @@ class CartController extends Controller
 
         //Tax Info
         if ($il->show_tax_1 == 1 && ! empty($business_details->tax_number_1)) {
-            $output['tax_label1'] = ! empty($business_details->tax_label_1) ? $business_details->tax_label_1.': ' : '';
+            $output['tax_label1'] = ! empty($business_details->tax_label_1) ? $business_details->tax_label_1 . ': ' : '';
 
             $output['tax_info1'] = $business_details->tax_number_1;
         }
@@ -1067,7 +1071,7 @@ class CartController extends Controller
                 $output['tax_info1'] .= ', ';
             }
 
-            $output['tax_label2'] = ! empty($business_details->tax_label_2) ? $business_details->tax_label_2.': ' : '';
+            $output['tax_label2'] = ! empty($business_details->tax_label_2) ? $business_details->tax_label_2 . ': ' : '';
 
             $output['tax_info2'] = $business_details->tax_number_2;
         }
@@ -1075,20 +1079,20 @@ class CartController extends Controller
         //Shop Contact Info
         $output['contact'] = '';
         if ($il->show_mobile_number == 1 && ! empty($location_details->mobile)) {
-            $output['contact'] .= '<b>'.__('contact.mobile').':</b> '.$location_details->mobile;
+            $output['contact'] .= '<b>' . __('contact.mobile') . ':</b> ' . $location_details->mobile;
         }
         if ($il->show_alternate_number == 1 && ! empty($location_details->alternate_number)) {
             if (empty($output['contact'])) {
-                $output['contact'] .= __('contact.mobile').': '.$location_details->alternate_number;
+                $output['contact'] .= __('contact.mobile') . ': ' . $location_details->alternate_number;
             } else {
-                $output['contact'] .= ', '.$location_details->alternate_number;
+                $output['contact'] .= ', ' . $location_details->alternate_number;
             }
         }
         if ($il->show_email == 1 && ! empty($location_details->email)) {
             if (! empty($output['contact'])) {
                 $output['contact'] .= "\n";
             }
-            $output['contact'] .= '<br>'.__('business.email').': '.$location_details->email;
+            $output['contact'] .= '<br>' . __('business.email') . ': ' . $location_details->email;
         }
 
         //Customer show_customer
@@ -1108,9 +1112,9 @@ class CartController extends Controller
                 if (! empty($customer->contact_address)) {
                     $output['customer_info'] .= '<br>';
                 }
-                $output['customer_info'] .= '<b>'.__('contact.mobile').'</b>: '.$customer->mobile;
+                $output['customer_info'] .= '<b>' . __('contact.mobile') . '</b>: ' . $customer->mobile;
                 if (! empty($customer->landline)) {
-                    $output['customer_info'] .= ', '.$customer->landline;
+                    $output['customer_info'] .= ', ' . $customer->landline;
                 }
             }
 
@@ -1122,28 +1126,28 @@ class CartController extends Controller
             $contact_custom_labels = $this->transactionUtil->getCustomLabels($business_details, 'contact');
             if (! empty($customer->custom_field1) && in_array('custom_field1', $customer_custom_fields_settings)) {
                 if (! empty($contact_custom_labels['custom_field_1'])) {
-                    $temp[] = $contact_custom_labels['custom_field_1'].': '.$customer->custom_field1;
+                    $temp[] = $contact_custom_labels['custom_field_1'] . ': ' . $customer->custom_field1;
                 } else {
                     $temp[] = $customer->custom_field1;
                 }
             }
             if (! empty($customer->custom_field2) && in_array('custom_field2', $customer_custom_fields_settings)) {
                 if (! empty($contact_custom_labels['custom_field_2'])) {
-                    $temp[] = $contact_custom_labels['custom_field_2'].': '.$customer->custom_field2;
+                    $temp[] = $contact_custom_labels['custom_field_2'] . ': ' . $customer->custom_field2;
                 } else {
                     $temp[] = $customer->custom_field2;
                 }
             }
             if (! empty($customer->custom_field3) && in_array('custom_field3', $customer_custom_fields_settings)) {
                 if (! empty($contact_custom_labels['custom_field_3'])) {
-                    $temp[] = $contact_custom_labels['custom_field_3'].': '.$customer->custom_field3;
+                    $temp[] = $contact_custom_labels['custom_field_3'] . ': ' . $customer->custom_field3;
                 } else {
                     $temp[] = $customer->custom_field3;
                 }
             }
             if (! empty($customer->custom_field4) && in_array('custom_field4', $customer_custom_fields_settings)) {
                 if (! empty($contact_custom_labels['custom_field_4'])) {
-                    $temp[] = $contact_custom_labels['custom_field_4'].': '.$customer->custom_field4;
+                    $temp[] = $contact_custom_labels['custom_field_4'] . ': ' . $customer->custom_field4;
                 } else {
                     $temp[] = $customer->custom_field1;
                 }
@@ -1158,13 +1162,13 @@ class CartController extends Controller
                 $customer_address[] = $customer->supplier_business_name;
             }
             if (! empty($customer->address_line_1)) {
-                $customer_address[] = '<br>'.$customer->address_line_1;
+                $customer_address[] = '<br>' . $customer->address_line_1;
             }
             if (! empty($customer->address_line_2)) {
-                $customer_address[] = '<br>'.$customer->address_line_2;
+                $customer_address[] = '<br>' . $customer->address_line_2;
             }
             if (! empty($customer->city)) {
-                $customer_address[] = '<br>'.$customer->city;
+                $customer_address[] = '<br>' . $customer->city;
             }
             if (! empty($customer->state)) {
                 $customer_address[] = $customer->state;
@@ -1173,13 +1177,13 @@ class CartController extends Controller
                 $customer_address[] = $customer->country;
             }
             if (! empty($customer->zip_code)) {
-                $customer_address[] = '<br>'.$customer->zip_code;
+                $customer_address[] = '<br>' . $customer->zip_code;
             }
             if (! empty(trim($customer->name))) {
-                $customer_address[] = '<br>'.$customer->name;
+                $customer_address[] = '<br>' . $customer->name;
             }
             if (! empty($customer->mobile)) {
-                $customer_address[] = '<br>'.$customer->mobile;
+                $customer_address[] = '<br>' . $customer->mobile;
             }
             if (! empty($customer->landline)) {
                 $customer_address[] = $customer->landline;
@@ -1243,9 +1247,9 @@ class CartController extends Controller
         } else {
             $output['invoice_heading'] = $il->invoice_heading;
             if ($transaction->payment_status == 'paid' && ! empty($il->invoice_heading_paid)) {
-                $output['invoice_heading'] .= ' '.$il->invoice_heading_paid;
+                $output['invoice_heading'] .= ' ' . $il->invoice_heading_paid;
             } elseif (in_array($transaction->payment_status, ['due', 'partial']) && ! empty($il->invoice_heading_not_paid)) {
-                $output['invoice_heading'] .= ' '.$il->invoice_heading_not_paid;
+                $output['invoice_heading'] .= ' ' . $il->invoice_heading_not_paid;
             }
         }
 
@@ -1391,12 +1395,12 @@ class CartController extends Controller
         $output['cat_code_label'] = $il->cat_code_label;
 
         //Subtotal
-        $output['subtotal_label'] = $il->sub_total_label.':';
+        $output['subtotal_label'] = $il->sub_total_label . ':';
         $output['subtotal'] = ($transaction->total_before_tax != 0) ? $this->num_f($transaction->total_before_tax, $show_currency, $business_details) : 0;
         $output['subtotal_unformatted'] = ($transaction->total_before_tax != 0) ? $transaction->total_before_tax : 0;
 
         //round off
-        $output['round_off_label'] = ! empty($il->round_off_label) ? $il->round_off_label.':' : __('lang_v1.round_off').':';
+        $output['round_off_label'] = ! empty($il->round_off_label) ? $il->round_off_label . ':' : __('lang_v1.round_off') . ':';
         $output['round_off'] = $this->num_f($transaction->round_off_amount, $show_currency, $business_details);
         $output['round_off_amount'] = $transaction->round_off_amount;
         $output['total_exempt'] = $this->num_f($total_exempt, $show_currency, $business_details);
@@ -1409,7 +1413,7 @@ class CartController extends Controller
         $discount_amount = $this->num_f($transaction->discount_amount, $show_currency, $business_details);
         $output['line_discount_label'] = $invoice_layout->discount_label;
         $output['discount_label'] = $invoice_layout->discount_label;
-        $output['discount_label'] .= ($transaction->discount_type == 'percentage') ? ' <small>('.$this->num_f($transaction->discount_amount, false, $business_details).'%)</small> :' : '';
+        $output['discount_label'] .= ($transaction->discount_type == 'percentage') ? ' <small>(' . $this->num_f($transaction->discount_amount, false, $business_details) . '%)</small> :' : '';
 
         if ($transaction->discount_type == 'percentage') {
             $discount = ($transaction->discount_amount / 100) * $transaction->total_before_tax;
@@ -1441,7 +1445,7 @@ class CartController extends Controller
         $output['tax_label'] = $invoice_layout->tax_label;
         $output['line_tax_label'] = $invoice_layout->tax_label;
         if (! empty($tax) && ! empty($tax->name)) {
-            $output['tax_label'] .= ' ('.$tax->name.')';
+            $output['tax_label'] .= ' (' . $tax->name . ')';
         }
         $output['tax_label'] .= ':';
         $output['tax'] = ($transaction->tax_amount != 0) ? $this->num_f($transaction->tax_amount, $show_currency, $business_details) : 0;
@@ -1467,10 +1471,10 @@ class CartController extends Controller
 
         //Total
         if ($transaction_type == 'sell_return') {
-            $output['total_label'] = $invoice_layout->cn_amount_label.':';
+            $output['total_label'] = $invoice_layout->cn_amount_label . ':';
             $output['total'] = $this->num_f($transaction->final_total, $show_currency, $business_details);
         } else {
-            $output['total_label'] = $invoice_layout->total_label.':';
+            $output['total_label'] = $invoice_layout->total_label . ':';
             $output['total'] = $this->num_f($transaction->final_total, $show_currency, $business_details);
         }
         if (! empty($il->common_settings['show_total_in_words'])) {
@@ -1508,7 +1512,8 @@ class CartController extends Controller
                         $method = ! empty($payment_types[$value['method']]) ? $payment_types[$value['method']] : '';
                         if ($value['method'] == 'cash') {
                             $output['payments'][] =
-                                ['method' => $method.($value['is_return'] == 1 ? ' ('.$il->change_return_label.')(-)' : ''),
+                                [
+                                    'method' => $method . ($value['is_return'] == 1 ? ' (' . $il->change_return_label . ')(-)' : ''),
                                     'amount' => $this->num_f($value['amount'], $show_currency, $business_details),
                                     'date' => $this->transactionUtil->format_date($value['paid_on'], false, $business_details),
                                 ];
@@ -1516,31 +1521,36 @@ class CartController extends Controller
                             }
                         } elseif ($value['method'] == 'card') {
                             $output['payments'][] =
-                                ['method' => $method.(! empty($value['card_transaction_number']) ? (', Transaction Number:'.$value['card_transaction_number']) : ''),
+                                [
+                                    'method' => $method . (! empty($value['card_transaction_number']) ? (', Transaction Number:' . $value['card_transaction_number']) : ''),
                                     'amount' => $this->num_f($value['amount'], $show_currency, $business_details),
                                     'date' => $this->transactionUtil->format_date($value['paid_on'], false, $business_details),
                                 ];
                         } elseif ($value['method'] == 'cheque') {
                             $output['payments'][] =
-                                ['method' => $method.(! empty($value['cheque_number']) ? (', Cheque Number:'.$value['cheque_number']) : ''),
+                                [
+                                    'method' => $method . (! empty($value['cheque_number']) ? (', Cheque Number:' . $value['cheque_number']) : ''),
                                     'amount' => $this->num_f($value['amount'], $show_currency, $business_details),
                                     'date' => $this->transactionUtil->format_date($value['paid_on'], false, $business_details),
                                 ];
                         } elseif ($value['method'] == 'bank_transfer') {
                             $output['payments'][] =
-                                ['method' => $method.(! empty($value['bank_account_number']) ? (', Account Number:'.$value['bank_account_number']) : ''),
+                                [
+                                    'method' => $method . (! empty($value['bank_account_number']) ? (', Account Number:' . $value['bank_account_number']) : ''),
                                     'amount' => $this->num_f($value['amount'], $show_currency, $business_details),
                                     'date' => $this->transactionUtil->format_date($value['paid_on'], false, $business_details),
                                 ];
                         } elseif ($value['method'] == 'advance') {
                             $output['payments'][] =
-                                ['method' => $method,
+                                [
+                                    'method' => $method,
                                     'amount' => $this->num_f($value['amount'], $show_currency, $business_details),
                                     'date' => $this->transactionUtil->format_date($value['paid_on'], false, $business_details),
                                 ];
                         } elseif ($value['method'] == 'other') {
                             $output['payments'][] =
-                                ['method' => $method,
+                                [
+                                    'method' => $method,
                                     'amount' => $this->num_f($value['amount'], $show_currency, $business_details),
                                     'date' => $this->transactionUtil->format_date($value['paid_on'], false, $business_details),
                                 ];
@@ -1549,7 +1559,8 @@ class CartController extends Controller
                         for ($i = 1; $i < 8; $i++) {
                             if ($value['method'] == "custom_pay_{$i}") {
                                 $output['payments'][] =
-                                    ['method' => $method.(! empty($value['transaction_no']) ? (', '.trans('lang_v1.transaction_no').':'.$value['transaction_no']) : ''),
+                                    [
+                                        'method' => $method . (! empty($value['transaction_no']) ? (', ' . trans('lang_v1.transaction_no') . ':' . $value['transaction_no']) : ''),
                                         'amount' => $this->num_f($value['amount'], $show_currency, $business_details),
                                         'date' => $this->transactionUtil->format_date($value['paid_on'], false, $business_details),
                                     ];
@@ -1600,37 +1611,37 @@ class CartController extends Controller
                 $qr_code_fields = ! empty($il->qr_code_fields) ? $il->qr_code_fields : [];
 
                 if (in_array('business_name', $qr_code_fields)) {
-                    $qr_code_details[] = $is_label_enabled ? __('business.business').': '.$business_details->name : $business_details->name;
+                    $qr_code_details[] = $is_label_enabled ? __('business.business') . ': ' . $business_details->name : $business_details->name;
                 }
                 if (in_array('address', $qr_code_fields)) {
-                    $qr_code_details[] = $is_label_enabled ? __('business.address').': '.$location_details->name.', '.$output['address'] : $location_details->name.' '.str_replace(',', '', $output['address']);
+                    $qr_code_details[] = $is_label_enabled ? __('business.address') . ': ' . $location_details->name . ', ' . $output['address'] : $location_details->name . ' ' . str_replace(',', '', $output['address']);
                 }
                 if (in_array('tax_1', $qr_code_fields)) {
-                    $qr_code_details[] = $is_label_enabled ? $business_details->tax_label_1.': '.$business_details->tax_number_1 : $business_details->tax_number_1;
+                    $qr_code_details[] = $is_label_enabled ? $business_details->tax_label_1 . ': ' . $business_details->tax_number_1 : $business_details->tax_number_1;
                 }
                 if (in_array('tax_2', $qr_code_fields)) {
-                    $qr_code_details[] = $is_label_enabled ? $business_details->tax_label_2.' '.$business_details->tax_number_2 : $business_details->tax_number_2;
+                    $qr_code_details[] = $is_label_enabled ? $business_details->tax_label_2 . ' ' . $business_details->tax_number_2 : $business_details->tax_number_2;
                 }
                 if (in_array('invoice_no', $qr_code_fields)) {
-                    $qr_code_details[] = $is_label_enabled ? $il->invoice_no_prefix.': '.$transaction->invoice_no : $transaction->invoice_no;
+                    $qr_code_details[] = $is_label_enabled ? $il->invoice_no_prefix . ': ' . $transaction->invoice_no : $transaction->invoice_no;
                 }
                 if (in_array('invoice_datetime', $qr_code_fields)) {
-                    $qr_code_details[] = $is_label_enabled ? $output['date_label'].': '.$output['invoice_date'] : $output['invoice_date'];
+                    $qr_code_details[] = $is_label_enabled ? $output['date_label'] . ': ' . $output['invoice_date'] : $output['invoice_date'];
                 }
                 if (in_array('subtotal', $qr_code_fields)) {
-                    $qr_code_details[] = $is_label_enabled ? $output['subtotal_label'].' '.$output['subtotal'] : $output['subtotal'];
+                    $qr_code_details[] = $is_label_enabled ? $output['subtotal_label'] . ' ' . $output['subtotal'] : $output['subtotal'];
                 }
                 if (in_array('total_amount', $qr_code_fields)) {
-                    $qr_code_details[] = $is_label_enabled ? $output['total_label'].' '.$output['total'] : $output['total'];
+                    $qr_code_details[] = $is_label_enabled ? $output['total_label'] . ' ' . $output['total'] : $output['total'];
                 }
                 if (in_array('total_tax', $qr_code_fields)) {
                     $total_order_tax = $transaction->tax_amount + $total_line_taxes;
                     $total_order_tax_formatted = $this->num_f($total_order_tax, $show_currency, $business_details);
-                    $qr_code_details[] = $is_label_enabled ? __('sale.tax').': '.$total_order_tax_formatted : $total_order_tax_formatted;
+                    $qr_code_details[] = $is_label_enabled ? __('sale.tax') . ': ' . $total_order_tax_formatted : $total_order_tax_formatted;
                 }
                 if (in_array('customer_name', $qr_code_fields)) {
                     $cust_label = $il->customer_label ?? __('contact.customer');
-                    $qr_code_details[] = $is_label_enabled ? $cust_label.': '.$customer->full_name : $customer->full_name;
+                    $qr_code_details[] = $is_label_enabled ? $cust_label . ': ' . $customer->full_name : $customer->full_name;
                 }
                 if (in_array('invoice_url', $qr_code_fields)) {
                     $qr_code_details[] = $this->transactionUtil->getInvoiceUrl($transaction->id, $business_details->id);
@@ -1872,7 +1883,7 @@ class CartController extends Controller
         //Used in pdfs
         if (! empty($transaction->sales_order_ids)) {
             $sale_orders = Transaction::where('type', 'sales_order')
-                            ->find($transaction->sales_order_ids);
+                ->find($transaction->sales_order_ids);
 
             $output['sale_orders_invoice_no'] = implode(', ', $sale_orders->pluck('invoice_no')->toArray());
             $sale_orders_invoice_date = [];
@@ -1940,7 +1951,8 @@ class CartController extends Controller
         return $formatted;
     }
 
-    public function paymentSuccessful() {
+    public function paymentSuccessful()
+    {
         $receipt = Session::get('receipt');
         // return $receipt['html_content'];
         return view('frontend.cart.payment_successful', compact('receipt'));

@@ -1061,61 +1061,8 @@
                         </div>
                     </div>
                     <div class="clearfix"></div>
-                    @php
-                        $custom_labels = json_decode(session('business.custom_labels'), true);
-                        $product_custom_field1 = !empty($custom_labels['product']['custom_field_1'])
-                            ? $custom_labels['product']['custom_field_1']
-                            : __('lang_v1.product_custom_field1');
-                        $product_custom_field2 = !empty($custom_labels['product']['custom_field_2'])
-                            ? $custom_labels['product']['custom_field_2']
-                            : __('lang_v1.product_custom_field2');
-                        $product_custom_field3 = !empty($custom_labels['product']['custom_field_3'])
-                            ? $custom_labels['product']['custom_field_3']
-                            : __('lang_v1.product_custom_field3');
-                        $product_custom_field4 = !empty($custom_labels['product']['custom_field_4'])
-                            ? $custom_labels['product']['custom_field_4']
-                            : __('lang_v1.product_custom_field4');
-                    @endphp
-                    <!--custom fields-->
-                    <div class="col-sm-3">
-                        <div class="form-group">
-                            {!! Form::label('product_custom_field1', $product_custom_field1 . ':') !!}
-                            {!! Form::text('product_custom_field1', $product->product_custom_field1, [
-                                'class' => 'form-control',
-                                'placeholder' => $product_custom_field1,
-                            ]) !!}
-                        </div>
-                    </div>
 
-                    <div class="col-sm-3">
-                        <div class="form-group">
-                            {!! Form::label('product_custom_field2', $product_custom_field2 . ':') !!}
-                            {!! Form::text('product_custom_field2', $product->product_custom_field2, [
-                                'class' => 'form-control',
-                                'placeholder' => $product_custom_field2,
-                            ]) !!}
-                        </div>
-                    </div>
 
-                    <div class="col-sm-3">
-                        <div class="form-group">
-                            {!! Form::label('product_custom_field3', $product_custom_field3 . ':') !!}
-                            {!! Form::text('product_custom_field3', $product->product_custom_field3, [
-                                'class' => 'form-control',
-                                'placeholder' => $product_custom_field3,
-                            ]) !!}
-                        </div>
-                    </div>
-
-                    <div class="col-sm-3">
-                        <div class="form-group">
-                            {!! Form::label('product_custom_field4', $product_custom_field4 . ':') !!}
-                            {!! Form::text('product_custom_field4', $product->product_custom_field4, [
-                                'class' => 'form-control',
-                                'placeholder' => $product_custom_field4,
-                            ]) !!}
-                        </div>
-                    </div>
                     <div class="col-sm-3">
                         <div class="form-group">
                             {!! Form::label('preparation_time_in_minutes', __('lang_v1.preparation_time_in_minutes') . ':') !!}
@@ -1177,12 +1124,8 @@
                                         {{ isset($product->info_from_customer['checkbox_current_address']) && $product->info_from_customer['checkbox_current_address'] == '1' ? 'checked' : '' }}>
                                     <label style="margin-right: 20px;">Current address</label>
 
-                                    <input type="checkbox" class="input-icheck" name="checkbox_country_of_residence"
-                                        {{ isset($product->info_from_customer['checkbox_country_of_residence']) && $product->info_from_customer['checkbox_country_of_residence'] == '1' ? 'checked' : '' }}>
-                                    <label style="margin-right: 20px;">Country of residence</label>
-
-                                    <input type="checkbox" class="input-icheck" name="checkbox_birth_country"
-                                        {{ isset($product->info_from_customer['checkbox_birth_country']) && $product->info_from_customer['checkbox_birth_country'] == '1' ? 'checked' : '' }}>
+                                    <input type="checkbox" class="input-icheck" name="checkbox_origin"
+                                        {{ isset($product->info_from_customer['checkbox_origin']) && $product->info_from_customer['checkbox_origin'] == '1' ? 'checked' : '' }}>
                                     <label style="margin-right: 20px;">Birth country</label>
 
                                     <input type="checkbox" class="input-icheck" name="checkbox_education"
