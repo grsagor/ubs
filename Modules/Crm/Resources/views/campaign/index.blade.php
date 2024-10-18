@@ -40,8 +40,8 @@
                                 <th>No</th>
                                 <th>Campaign Name</th>
                                 <th>Campaign Type</th>
-                                <th>Created By</th>
                                 <th>Created at</th>
+                                <th>Created By</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -56,7 +56,15 @@
                                         @endif
                                     </td>
 
-                                    <td>{{ $item->campaign_type }}</td>
+                                    <td>
+                                        @if ($item->campaign_type == 'sms')
+                                            SMS
+                                        @elseif($item->campaign_type == 'email')
+                                            Email
+                                        @elseif($item->campaign_type == 'lead_generation')
+                                            Lead Generation
+                                        @endif
+                                    </td>
                                     <td>{{ $item->created_at->format('d F Y h:i A') }}</td>
                                     <td>
                                         {{ $item->createdBy->surname }} {{ $item->createdBy->first_name }}
@@ -86,13 +94,16 @@
                                                     </a>
                                                 </li>
 
-                                                <li>
-                                                    @if (is_null($item->sent_on))
+                                                @if (in_array($item->campaign_type, ['sms', 'email']) && is_null($item->sent_on))
+                                                    <li>
                                                         <a href="{{ route('sendNotification', $item->id) }}">
-                                                            <i class="fa fa-envelope-square"></i> Send Notification
+                                                            <i class="fa fa-envelope-square"></i>
+                                                            @lang('Send Notification')
                                                         </a>
-                                                    @endif
-                                                </li>
+                                                    </li>
+                                                @endif
+
+
 
                                                 <li>
                                                     <a class="text-danger" href="#"
