@@ -34,7 +34,7 @@
                 </div>
 
                 <div class="box-body" style="overflow-x: scroll;">
-                    <table id="jobs_Table" class="table table-bordered table-striped table-hover">
+                    <table id="crm_campaign_Table" class="table table-bordered table-striped table-hover">
                         <thead>
                             <tr>
                                 <th>No</th>
@@ -113,18 +113,6 @@
                                                     </form>
                                                 </li>
 
-
-                                                {{-- <li>
-                                                    <a href="{{ route('jobs.show', $item->uuid) }}" class=" btn-view-job">
-                                                        <i class="glyphicon glyphicon-eye-open"></i> Note
-                                                    </a>
-                                                </li>
-
-                                                <li>
-                                                    <a href="{{ route('jobs.applicantList', $item->uuid) }}">
-                                                        <i class="fas fa-list"></i> Applicants
-                                                    </a>
-                                                </li> --}}
                                             </ul>
                                         </div>
                                     </td>
@@ -140,38 +128,13 @@
             </div>
         </section>
 
-        {{--     
-	@component('components.widget', ['class' => 'box-primary', 'title' => __('crm::lang.all_campaigns')])
-        @slot('tool')
-        	<div class="box-tools">
-                <a class="btn btn-sm btn-primary pull-right m-5" href="{{action('\Modules\Crm\Http\Controllers\CampaignController@create')}}">
-                    <i class="fa fa-plus"></i> @lang('messages.add')
-                </a>
-            </div>
-        @endslot
-        <div class="table-responsive">
-        	<table class="table table-bordered table-striped" id="campaigns_table">
-		        <thead>
-		            <tr>
-		                <th> @lang('messages.action')</th>
-		                <th>@lang('crm::lang.campaign_name')</th>
-		                <th>@lang('crm::lang.campaign_type')</th>
-		                <th>@lang('business.created_by')</th>
-                        <th>@lang('lang_v1.created_at')</th>
-		            </tr>
-		        </thead>
-		    </table>
-        </div>
-    @endcomponent
-    <div class="modal fade campaign_modal" tabindex="-1" role="dialog"></div>
-    <div class="modal fade campaign_view_modal" tabindex="-1" role="dialog"></div> --}}
     </section>
 @endsection
 @section('javascript')
     <script src="{{ asset('modules/crm/js/crm.js?v=' . $asset_v) }}"></script>
     <script type="text/javascript">
         $(document).ready(function() {
-            initializeCampaignDatatable();
+
         });
     </script>
 @endsection

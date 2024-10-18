@@ -3,6 +3,24 @@ $(document).ready(function () {
      * CRM MODULE
      * contact login related code
      */
+
+    $('#crm_campaign_Table').DataTable({
+        paging: true,
+        lengthChange: true,
+        searching: true,
+        ordering: true,
+        info: true,
+        autoWidth: false,
+        responsive: false,
+        pageLength: 10, // Set the initial page length to 10
+        columnDefs: [
+            {
+                orderable: false,
+                targets: 5, // Disable ordering on the Action column
+            },
+        ],
+    });
+
     all_contact_login_datatable = $('#all_contact_login_table').DataTable({
         processing: true,
         serverSide: true,
@@ -1116,38 +1134,6 @@ function initializeLeadScheduleDatatable() {
         });
     } else {
         lead_schedule_datatable.ajax.reload();
-    }
-}
-
-function initializeCampaignDatatable() {
-    if (typeof campaigns_datatable == 'undefined') {
-        campaigns_datatable = $('#campaigns_table').DataTable({
-            processing: true,
-            serverSide: true,
-            ajax: {
-                url: '/crm/campaigns',
-                data: function (d) {
-                    d.campaign_type = $('#campaign_type_filter').val();
-                },
-            },
-            columnDefs: [
-                {
-                    targets: [0, 3],
-                    orderable: false,
-                    searchable: false,
-                },
-            ],
-            aaSorting: [[4, 'desc']],
-            columns: [
-                { data: 'action', name: 'action' },
-                { data: 'name', name: 'name' },
-                { data: 'campaign_type', name: 'campaign_type' },
-                { data: 'createdBy', name: 'createdBy' },
-                { data: 'created_at', name: 'created_at' },
-            ],
-        });
-    } else {
-        campaigns_datatable.ajax.reload();
     }
 }
 
