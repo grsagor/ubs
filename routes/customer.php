@@ -81,7 +81,7 @@ Route::group(['middleware' => ['web', 'authh', 'auth', 'SetSessionData', 'langua
     Route::get('lead/{id}/convert', 'LeadController@convertToCustomer');
     Route::get('lead/{id}/post-life-stage', 'LeadController@postLifeStage');
 
-    Route::get('{id}/send-campaign-notification', 'CampaignController@sendNotification');
+    Route::get('{id}/send-campaign-notification', 'CampaignController@sendNotification')->name('sendNotification');
     Route::resource('campaigns', 'CampaignController');
     Route::post('/validate-email', [CampaignController::class, 'validateEmail'])->name('validateEmail');
 

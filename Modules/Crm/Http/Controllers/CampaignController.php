@@ -50,77 +50,21 @@ class CampaignController extends Controller
             abort(403, 'Unauthorized action.');
         }
 
-        if (request()->ajax()) {
-            $campaigns = Campaign::with('createdBy')
-                ->where('business_id', $business_id)
-                ->select('*');
+        $data['campaigns'] = Campaign::with('createdBy')
+            ->where('business_id', $business_id)
+            ->select('*')
+            ->latest()
+            ->get();
 
-            if (!$can_access_all_campaigns && $can_access_own_campaigns) {
-                $campaigns->where('created_by', auth()->user()->id);
-            }
-
-            if (!empty(request()->get('campaign_type'))) {
-                $campaigns->where('campaign_type', request()->get('campaign_type'));
-            }
-
-            return Datatables::of($campaigns)
-                ->addColumn('action', function ($row) {
-                    $html = '<a data-href="' . action('\Modules\Crm\Http\Controllers\CampaignController@show', ['campaign' => $row->id]) . '" class="cursor-pointer view_a_campaign btn btn-xs btn-info m-2">
-                            <i class="fa fa-eye"></i>
-                            ' . __("messages.view") . '
-                            </a>';
-
-                    if (empty($row->sent_on)) {
-                        $html .= '
-                            <a href="' . action('\Modules\Crm\Http\Controllers\CampaignController@edit', ['campaign' => $row->id]) . '"class="cursor-pointer btn btn-xs btn-primary m-2">
-                                <i class="fa fa-edit"></i>
-                                ' . __("messages.edit") . '
-                            </a>';
-                    }
-
-                    $html .= '<a data-href="' . action('\Modules\Crm\Http\Controllers\CampaignController@destroy', ['campaign' => $row->id]) . '" class="cursor-pointer delete_a_campaign btn btn-xs btn-danger m-2">
-                            <i class="fas fa-trash"></i>
-                            ' . __("messages.delete") . '
-                            </a>';
-
-                    if (empty($row->sent_on)) {
-                        $html .= '<a data-href="' . action('\Modules\Crm\Http\Controllers\CampaignController@sendNotification', ['id' => $row->id]) . '" class="cursor-pointer send_campaign_notification btn btn-xs btn-warning m-2">
-                                <i class="fas fa-envelope-square"></i>
-                                ' . __("crm::lang.send_notification") . '
-                            </a>';
-                    }
-
-                    return $html;
-                })
-                ->editColumn('campaign_type', '
-                        @if($campaign_type == "sms")
-                            {{__("crm::lang.sms")}}
-                        @elseif($campaign_type == "email")
-                            {{__("business.email")}}
-                        @endif
-                    ')
-                ->editColumn('created_at', '
-                        {{@format_date($created_at)}}
-                    ')
-                ->editColumn('name', function ($row) {
-                    $is_notified = '';
-                    if (!empty($row->sent_on)) {
-                        $is_notified = '<br> <span class="label label-success">' .
-                            __('crm::lang.sent') .
-                            '</span>';
-                    }
-
-                    return $row->name . $is_notified;
-                })
-                ->editColumn('createdBy', function ($row) {
-                    return optional($row->createdBy)->user_full_name;
-                })
-                ->removeColumn('id')
-                ->rawColumns(['action', 'name', 'campaign_type', 'createdBy', 'created_at'])
-                ->make(true);
+        if (!$can_access_all_campaigns && $can_access_own_campaigns) {
+            $data['campaigns']->where('created_by', auth()->user()->id);
         }
 
-        return view('crm::campaign.index');
+        if (!empty(request()->get('campaign_type'))) {
+            $data['campaigns']->where('campaign_type', request()->get('campaign_type'));
+        }
+
+        return view('crm::campaign.index', $data);
     }
 
     /**
@@ -430,30 +374,29 @@ class CampaignController extends Controller
             abort(403, 'Unauthorized action.');
         }
 
-        if (request()->ajax()) {
-            try {
-                $query = Campaign::where('business_id', $business_id);
+        try {
+            $query = Campaign::where('business_id', $business_id);
 
-                if (!$can_access_all_campaigns && $can_access_own_campaigns) {
-                    $query->where('created_by', auth()->user()->id);
-                }
-
-                $query->where('id', $id)
-                    ->delete();
-
-                $output = [
-                    'success' => true,
-                    'msg' => __('lang_v1.success'),
-                ];
-            } catch (Exception $e) {
-                \Log::emergency("File:" . $e->getFile() . "Line:" . $e->getLine() . "Message:" . $e->getMessage());
-
-                $output = [
-                    'success' => false,
-                    'msg' => __('messages.something_went_wrong')
-                ];
+            if (!$can_access_all_campaigns && $can_access_own_campaigns) {
+                $query->where('created_by', auth()->user()->id);
             }
-            return $output;
+
+            $query->where('id', $id)
+                ->delete();
+
+            $output = [
+                'success' => true,
+                'msg' => __('lang_v1.success'),
+            ];
+
+            return redirect()->back()->with('status', $output);
+        } catch (Exception $e) {
+            \Log::emergency("File:" . $e->getFile() . "Line:" . $e->getLine() . "Message:" . $e->getMessage());
+
+            $output = [
+                'success' => false,
+                'msg' => __('messages.something_went_wrong')
+            ];
         }
     }
 
@@ -464,12 +407,10 @@ class CampaignController extends Controller
             abort(403, 'Unauthorized action.');
         }
 
-        if (request()->ajax()) {
 
-            $output = $this->__sendCampaignNotification($id, $business_id);
+        $output = $this->__sendCampaignNotification($id, $business_id);
 
-            return $output;
-        }
+        return redirect()->back()->with('status', $output);
     }
 
     public function __sendCampaignNotification($campaign_id, $business_id)
