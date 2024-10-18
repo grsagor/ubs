@@ -10,8 +10,10 @@ use Carbon\Carbon;
 use App\Transaction;
 use App\Utils\ModuleUtil;
 use Illuminate\Http\Request;
+use App\Services\SlugService;
 use Illuminate\Http\Response;
 use App\Utils\NotificationUtil;
+use App\Services\UniqueIDService;
 use Illuminate\Routing\Controller;
 use Modules\Crm\Entities\Campaign;
 use Modules\Crm\Entities\CrmContact;
@@ -22,16 +24,21 @@ class CampaignController extends Controller
 {
     protected $notificationUtil;
     protected $moduleUtil;
+    protected $unique_id_service;
+    protected $slug_service;
+
     /**
      * Constructor
      *
      * @param NotificationUtil $notificationUtil
      * @return void
      */
-    public function __construct(NotificationUtil $notificationUtil, ModuleUtil $moduleUtil)
+    public function __construct(NotificationUtil $notificationUtil, ModuleUtil $moduleUtil, UniqueIDService $unique_id_service, SlugService $slug_service)
     {
         $this->notificationUtil = $notificationUtil;
         $this->moduleUtil = $moduleUtil;
+        $this->unique_id_service          = $unique_id_service;
+        $this->slug_service               = $slug_service;
     }
 
 
@@ -164,11 +171,25 @@ class CampaignController extends Controller
 
             $input['business_id'] = $business_id;
             $input['created_by'] = $request->user()->id;
+
             $customers = $request->input('contact_id', []);
             $leads = $request->input('lead_id', []);
-            $contacts = $request->input('contact', []); //birthday_wishes
+            $contacts = $request->input('contact', []);
 
-            $input['contact_ids'] = array_merge($customers, $leads, $contacts);
+            // Merge arrays and filter out null values
+            $merged_contacts = array_filter(array_merge($customers, $leads, $contacts), function ($value) {
+                return !is_null($value); // Remove null values
+            });
+
+            // Now, create an associative array with the original keys retained
+            $contact_ids = [];
+            foreach ($merged_contacts as $key => $value) {
+                $contact_ids[$key] = $value;
+            }
+
+            // Save $contact_ids
+            $input['contact_ids'] = $contact_ids;
+
 
             $input['additional_info'] = [
                 'to' => $request->input('to'),
@@ -188,7 +209,14 @@ class CampaignController extends Controller
                 "checkbox_cv" => $request->input('checkbox_cv') === 'on' ? "1" : null,
             ]);
 
-            // dd($input);
+
+            $campaign = new Campaign();
+
+            // Assign the unique slug to the requested data
+            $input['slug'] = $this->slug_service->slug_create($input['name'], $campaign);
+
+            // Generate a unique id
+            $input['short_id'] = $this->unique_id_service->generateUniqueId($campaign, 'short_id');
 
             DB::beginTransaction();
 

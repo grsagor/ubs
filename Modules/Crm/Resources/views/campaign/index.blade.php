@@ -88,6 +88,14 @@
                                                     </li>
                                                 @endif
 
+                                                @if ($item->campaign_type == 'lead_generation')
+                                                    <li>
+                                                        <a href="{{ route('campaigns.show', $item->id) }}">
+                                                            <i class="fa fa-eye"></i> View
+                                                        </a>
+                                                    </li>
+                                                @endif
+
                                                 <li>
                                                     <a href="{{ route('campaigns.edit', $item->id) }}">
                                                         <i class="fa fa-edit"></i> Edit
