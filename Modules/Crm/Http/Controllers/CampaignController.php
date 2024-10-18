@@ -2,20 +2,21 @@
 
 namespace Modules\Crm\Http\Controllers;
 
-use App\Business;
-use App\Utils\ModuleUtil;
-use App\Utils\NotificationUtil;
-use Carbon\Carbon;
 use DB;
+use App\User;
+use App\Business;
+use Notification;
+use Carbon\Carbon;
+use App\Transaction;
+use App\Utils\ModuleUtil;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use App\Utils\NotificationUtil;
 use Illuminate\Routing\Controller;
 use Modules\Crm\Entities\Campaign;
 use Modules\Crm\Entities\CrmContact;
-use Modules\Crm\Notifications\SendCampaignNotification;
-use Notification;
 use Yajra\DataTables\Facades\DataTables;
-use App\Transaction;
+use Modules\Crm\Notifications\SendCampaignNotification;
 
 class CampaignController extends Controller
 {
@@ -45,14 +46,14 @@ class CampaignController extends Controller
         $can_access_all_campaigns = auth()->user()->can('crm.access_all_campaigns');
         $can_access_own_campaigns = auth()->user()->can('crm.access_own_campaigns');
 
-        if (!(auth()->user()->can('superadmin') || $this->moduleUtil->hasThePermissionInSubscription($business_id, 'crm_module')) || !($can_access_all_campaigns || $can_access_own_campaigns) ) {
+        if (!(auth()->user()->can('superadmin') || $this->moduleUtil->hasThePermissionInSubscription($business_id, 'crm_module')) || !($can_access_all_campaigns || $can_access_own_campaigns)) {
             abort(403, 'Unauthorized action.');
         }
 
         if (request()->ajax()) {
             $campaigns = Campaign::with('createdBy')
-                        ->where('business_id', $business_id)
-                        ->select('*');
+                ->where('business_id', $business_id)
+                ->select('*');
 
             if (!$can_access_all_campaigns && $can_access_own_campaigns) {
                 $campaigns->where('created_by', auth()->user()->id);
@@ -63,60 +64,60 @@ class CampaignController extends Controller
             }
 
             return Datatables::of($campaigns)
-                    ->addColumn('action', function ($row) {
-                        $html = '<a data-href="' . action('\Modules\Crm\Http\Controllers\CampaignController@show', ['campaign' => $row->id]) . '" class="cursor-pointer view_a_campaign btn btn-xs btn-info m-2">
+                ->addColumn('action', function ($row) {
+                    $html = '<a data-href="' . action('\Modules\Crm\Http\Controllers\CampaignController@show', ['campaign' => $row->id]) . '" class="cursor-pointer view_a_campaign btn btn-xs btn-info m-2">
                             <i class="fa fa-eye"></i>
-                            '.__("messages.view").'
+                            ' . __("messages.view") . '
                             </a>';
 
-                        if (empty($row->sent_on)) {
-                            $html .= '
+                    if (empty($row->sent_on)) {
+                        $html .= '
                             <a href="' . action('\Modules\Crm\Http\Controllers\CampaignController@edit', ['campaign' => $row->id]) . '"class="cursor-pointer btn btn-xs btn-primary m-2">
                                 <i class="fa fa-edit"></i>
-                                '.__("messages.edit").'
+                                ' . __("messages.edit") . '
                             </a>';
-                        }
+                    }
 
-                        $html .= '<a data-href="' . action('\Modules\Crm\Http\Controllers\CampaignController@destroy', ['campaign' => $row->id]) . '" class="cursor-pointer delete_a_campaign btn btn-xs btn-danger m-2">
+                    $html .= '<a data-href="' . action('\Modules\Crm\Http\Controllers\CampaignController@destroy', ['campaign' => $row->id]) . '" class="cursor-pointer delete_a_campaign btn btn-xs btn-danger m-2">
                             <i class="fas fa-trash"></i>
-                            '.__("messages.delete").'
+                            ' . __("messages.delete") . '
                             </a>';
 
-                        if (empty($row->sent_on)) {
-                            $html .= '<a data-href="' . action('\Modules\Crm\Http\Controllers\CampaignController@sendNotification', ['id' => $row->id]) . '" class="cursor-pointer send_campaign_notification btn btn-xs btn-warning m-2">
+                    if (empty($row->sent_on)) {
+                        $html .= '<a data-href="' . action('\Modules\Crm\Http\Controllers\CampaignController@sendNotification', ['id' => $row->id]) . '" class="cursor-pointer send_campaign_notification btn btn-xs btn-warning m-2">
                                 <i class="fas fa-envelope-square"></i>
-                                '.__("crm::lang.send_notification").'
+                                ' . __("crm::lang.send_notification") . '
                             </a>';
-                        }
+                    }
 
-                        return $html;
-                    })
-                    ->editColumn('campaign_type', '
+                    return $html;
+                })
+                ->editColumn('campaign_type', '
                         @if($campaign_type == "sms")
                             {{__("crm::lang.sms")}}
                         @elseif($campaign_type == "email")
                             {{__("business.email")}}
                         @endif
                     ')
-                    ->editColumn('created_at', '
+                ->editColumn('created_at', '
                         {{@format_date($created_at)}}
                     ')
-                    ->editColumn('name', function ($row) {
-                        $is_notified = '';
-                        if (!empty($row->sent_on)) {
-                            $is_notified = '<br> <span class="label label-success">'.
-                                                __('crm::lang.sent') .
-                                            '</span>';
-                        }
+                ->editColumn('name', function ($row) {
+                    $is_notified = '';
+                    if (!empty($row->sent_on)) {
+                        $is_notified = '<br> <span class="label label-success">' .
+                            __('crm::lang.sent') .
+                            '</span>';
+                    }
 
-                        return $row->name . $is_notified;
-                    })
-                    ->editColumn('createdBy', function ($row) {
-                        return optional($row->createdBy)->user_full_name;
-                    })
-                    ->removeColumn('id')
-                    ->rawColumns(['action', 'name', 'campaign_type', 'createdBy', 'created_at'])
-                    ->make(true);
+                    return $row->name . $is_notified;
+                })
+                ->editColumn('createdBy', function ($row) {
+                    return optional($row->createdBy)->user_full_name;
+                })
+                ->removeColumn('id')
+                ->rawColumns(['action', 'name', 'campaign_type', 'createdBy', 'created_at'])
+                ->make(true);
         }
 
         return view('crm::campaign.index');
@@ -132,7 +133,7 @@ class CampaignController extends Controller
         $can_access_all_campaigns = auth()->user()->can('crm.access_all_campaigns');
         $can_access_own_campaigns = auth()->user()->can('crm.access_own_campaigns');
 
-        if (!(auth()->user()->can('superadmin') || $this->moduleUtil->hasThePermissionInSubscription($business_id, 'crm_module')) || !($can_access_all_campaigns || $can_access_own_campaigns) ) {
+        if (!(auth()->user()->can('superadmin') || $this->moduleUtil->hasThePermissionInSubscription($business_id, 'crm_module')) || !($can_access_all_campaigns || $can_access_own_campaigns)) {
             abort(403, 'Unauthorized action.');
         }
 
@@ -141,6 +142,9 @@ class CampaignController extends Controller
         $customers = CrmContact::customersDropdown($business_id, false);
         $contact_ids = $request->get('contact_ids', '');
 
+        $promoters = User::select('id', 'user_type', 'surname', 'first_name', 'last_name', 'username', 'email', 'language', 'contact_no')->get();
+
+        // return $promoters;   
         $contacts = [];
         foreach ($leads as $key => $lead) {
             $contacts[$key] = $lead;
@@ -151,8 +155,35 @@ class CampaignController extends Controller
         }
 
         return view('crm::campaign.create')
-            ->with(compact('tags', 'leads', 'customers', 'contact_ids', 'contacts'));
+            ->with(compact('tags', 'leads', 'customers', 'contact_ids', 'contacts', 'promoters'));
     }
+
+
+    public function validateEmail(Request $request)
+    {
+        $email = $request->email;
+
+        // Find the user by email
+        $user = User::where('email', $email)->first();
+        // dd($user);
+        if ($user) {
+
+            // Email matches 100%
+            return response()->json([
+                'success' => true,
+                'user' => [
+                    'id' => $user->id,
+                    'name' => $user->surname . ' ' . $user->first_name . ' ' . $user->last_name
+                ]
+            ]);
+        } else {
+            // No exact match
+            return response()->json([
+                'success' => false
+            ]);
+        }
+    }
+
 
     /**
      * Store a newly created resource in storage.
@@ -166,9 +197,27 @@ class CampaignController extends Controller
             abort(403, 'Unauthorized action.');
         }
 
+        // dd($request->toArray());
+
         try {
-            $input = $request->only('name', 'campaign_type', 'subject', 'email_body', 'sms_body');
-            
+            $input = $request->only(
+                'name',
+                'campaign_type',
+                'subject',
+                'email_body',
+                'sms_body',
+
+                'promoted_id',
+                'checkbox_name',
+                'checkbox_phone',
+                'checkbox_email',
+                'checkbox_current_address',
+                'checkbox_origin',
+                'checkbox_education',
+                'checkbox_experience',
+                'checkbox_cv'
+            );
+
             $input['business_id'] = $business_id;
             $input['created_by'] = $request->user()->id;
             $customers = $request->input('contact_id', []);
@@ -183,8 +232,22 @@ class CampaignController extends Controller
                 'in_days' => $request->input('in_days')
             ];
 
+            $input['info_from_customer'] = json_encode([
+                "checkbox_name" => $request->input('checkbox_name') === 'on' ? "1" : null,
+                "checkbox_phone" => $request->input('checkbox_phone') === 'on' ? "1" : null,
+                "checkbox_email" => $request->input('checkbox_email') === 'on' ? "1" : null,
+                "checkbox_current_address" => $request->input('checkbox_current_address') === 'on' ? "1" : null,
+                "checkbox_origin" => $request->input('checkbox_origin') === 'on' ? "1" : null,
+                "checkbox_education" => $request->input('checkbox_education') === 'on' ? "1" : null,
+                "checkbox_experience" => $request->input('checkbox_experience') === 'on' ? "1" : null,
+                "checkbox_additional_files" => $request->input('checkbox_additional_files') === 'on' ? "1" : null,
+                "checkbox_cv" => $request->input('checkbox_cv') === 'on' ? "1" : null,
+            ]);
+
+            // dd($input);
+
             DB::beginTransaction();
-            
+
             $campaign = Campaign::create($input);
 
             DB::commit();
@@ -200,7 +263,7 @@ class CampaignController extends Controller
         } catch (Exception $e) {
             DB::rollBack();
 
-            \Log::emergency("File:" . $e->getFile(). "Line:" . $e->getLine(). "Message:" . $e->getMessage());
+            \Log::emergency("File:" . $e->getFile() . "Line:" . $e->getLine() . "Message:" . $e->getMessage());
 
             $output = [
                 'success' => false,
@@ -224,12 +287,12 @@ class CampaignController extends Controller
         $can_access_all_campaigns = auth()->user()->can('crm.access_all_campaigns');
         $can_access_own_campaigns = auth()->user()->can('crm.access_own_campaigns');
 
-        if (!(auth()->user()->can('superadmin') || $this->moduleUtil->hasThePermissionInSubscription($business_id, 'crm_module')) || !($can_access_all_campaigns || $can_access_own_campaigns) ) {
+        if (!(auth()->user()->can('superadmin') || $this->moduleUtil->hasThePermissionInSubscription($business_id, 'crm_module')) || !($can_access_all_campaigns || $can_access_own_campaigns)) {
             abort(403, 'Unauthorized action.');
         }
 
         $query = Campaign::with('createdBy')
-                    ->where('business_id', $business_id);
+            ->where('business_id', $business_id);
 
         if (!$can_access_all_campaigns && $can_access_own_campaigns) {
             $query->where('created_by', auth()->user()->id);
@@ -238,7 +301,7 @@ class CampaignController extends Controller
         $campaign = $query->findOrFail($id);
 
         $notifiable_users = CrmContact::find($campaign->contact_ids);
-        
+
         return view('crm::campaign.show')
             ->with(compact('campaign', 'notifiable_users'));
     }
@@ -254,7 +317,7 @@ class CampaignController extends Controller
         $can_access_all_campaigns = auth()->user()->can('crm.access_all_campaigns');
         $can_access_own_campaigns = auth()->user()->can('crm.access_own_campaigns');
 
-        if (!(auth()->user()->can('superadmin') || $this->moduleUtil->hasThePermissionInSubscription($business_id, 'crm_module')) || !($can_access_all_campaigns || $can_access_own_campaigns) ) {
+        if (!(auth()->user()->can('superadmin') || $this->moduleUtil->hasThePermissionInSubscription($business_id, 'crm_module')) || !($can_access_all_campaigns || $can_access_own_campaigns)) {
             abort(403, 'Unauthorized action.');
         }
 
@@ -295,13 +358,13 @@ class CampaignController extends Controller
         $can_access_all_campaigns = auth()->user()->can('crm.access_all_campaigns');
         $can_access_own_campaigns = auth()->user()->can('crm.access_own_campaigns');
 
-        if (!(auth()->user()->can('superadmin') || $this->moduleUtil->hasThePermissionInSubscription($business_id, 'crm_module')) || !($can_access_all_campaigns || $can_access_own_campaigns) ) {
+        if (!(auth()->user()->can('superadmin') || $this->moduleUtil->hasThePermissionInSubscription($business_id, 'crm_module')) || !($can_access_all_campaigns || $can_access_own_campaigns)) {
             abort(403, 'Unauthorized action.');
         }
 
         try {
             $input = $request->only('name', 'campaign_type', 'subject', 'email_body', 'sms_body');
-            
+
             $customers = $request->input('contact_id', []);
             $leads = $request->input('lead_id', []);
             $contacts = $request->input('contact', []); //birthday_wishes
@@ -313,7 +376,7 @@ class CampaignController extends Controller
                 'trans_activity' => $request->input('trans_activity'),
                 'in_days' => $request->input('in_days')
             ];
-            
+
             $query = Campaign::where('business_id', $business_id);
 
             if (!$can_access_all_campaigns && $can_access_own_campaigns) {
@@ -339,7 +402,7 @@ class CampaignController extends Controller
         } catch (Exception $e) {
             DB::rollBack();
 
-            \Log::emergency("File:" . $e->getFile(). "Line:" . $e->getLine(). "Message:" . $e->getMessage());
+            \Log::emergency("File:" . $e->getFile() . "Line:" . $e->getLine() . "Message:" . $e->getMessage());
 
             $output = [
                 'success' => false,
@@ -363,7 +426,7 @@ class CampaignController extends Controller
         $can_access_all_campaigns = auth()->user()->can('crm.access_all_campaigns');
         $can_access_own_campaigns = auth()->user()->can('crm.access_own_campaigns');
 
-        if (!(auth()->user()->can('superadmin') || $this->moduleUtil->hasThePermissionInSubscription($business_id, 'crm_module')) || !($can_access_all_campaigns || $can_access_own_campaigns) ) {
+        if (!(auth()->user()->can('superadmin') || $this->moduleUtil->hasThePermissionInSubscription($business_id, 'crm_module')) || !($can_access_all_campaigns || $can_access_own_campaigns)) {
             abort(403, 'Unauthorized action.');
         }
 
@@ -383,7 +446,7 @@ class CampaignController extends Controller
                     'msg' => __('lang_v1.success'),
                 ];
             } catch (Exception $e) {
-                \Log::emergency("File:" . $e->getFile(). "Line:" . $e->getLine(). "Message:" . $e->getMessage());
+                \Log::emergency("File:" . $e->getFile() . "Line:" . $e->getLine() . "Message:" . $e->getMessage());
 
                 $output = [
                     'success' => false,
@@ -404,26 +467,27 @@ class CampaignController extends Controller
         if (request()->ajax()) {
 
             $output = $this->__sendCampaignNotification($id, $business_id);
-            
+
             return $output;
         }
     }
 
     public function __sendCampaignNotification($campaign_id, $business_id)
-    {   
+    {
         try {
             $campaign = Campaign::where('business_id', $business_id)
-                            ->findOrFail($campaign_id);
+                ->findOrFail($campaign_id);
 
             $business = Business::findOrFail($business_id);
 
             if ((!empty($campaign->additional_info['to']) && in_array($campaign->additional_info['to'], ['lead', 'customer', 'contact']))
-                || (!isset($campaign->additional_info['to']) && !empty($campaign->contact_ids))) {
+                || (!isset($campaign->additional_info['to']) && !empty($campaign->contact_ids))
+            ) {
                 $contact_ids = $campaign->contact_ids;
             } elseif (!empty($campaign->additional_info['to']) && in_array($campaign->additional_info['to'], ['transaction_activity'])) {
                 $day = Carbon::now()->subDays($campaign->additional_info['in_days'])->toDateTimeString();
                 $query = Transaction::where('business_id', $business_id)
-                                ->select('contact_id', DB::raw('MAX(transaction_date) as last_shoped'));
+                    ->select('contact_id', DB::raw('MAX(transaction_date) as last_shoped'));
 
                 if ($campaign->additional_info['trans_activity'] == 'has_transactions') {
                     $query->having('last_shoped', '>=', $day);
@@ -432,14 +496,14 @@ class CampaignController extends Controller
                 }
 
                 $transactions = $query
-                                ->groupBy('contact_id')
-                                ->get();
-                                
+                    ->groupBy('contact_id')
+                    ->get();
+
                 $contact_ids = $transactions->pluck('contact_id')->toArray();
             }
 
             $notifiable_users = CrmContact::find($contact_ids);
-            
+
             if (!empty($notifiable_users) && $campaign->campaign_type == 'sms') {
                 $notification_data['sms_settings'] = request()->session()->get('business.sms_settings');
                 foreach ($notifiable_users as $user) {
@@ -466,7 +530,7 @@ class CampaignController extends Controller
         } catch (Exception $e) {
             DB::rollBack();
 
-            \Log::emergency("File:" . $e->getFile(). "Line:" . $e->getLine(). "Message:" . $e->getMessage());
+            \Log::emergency("File:" . $e->getFile() . "Line:" . $e->getLine() . "Message:" . $e->getMessage());
 
             $output = [
                 'success' => false,

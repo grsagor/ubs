@@ -1,11 +1,12 @@
 <?php
 
-use App\Http\Controllers\CustomerProductController;
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RoomToRentController;
 use App\Http\Controllers\RecruitmentController;
+use App\Http\Controllers\CustomerProductController;
+use Modules\Crm\Http\Controllers\CampaignController;
 use App\Http\Controllers\ServiceWantedCustomerController;
 use App\Http\Controllers\PropertyWantedCustomerController;
-use Illuminate\Support\Facades\Route;
 
 // Customer route
 
@@ -82,6 +83,8 @@ Route::group(['middleware' => ['web', 'authh', 'auth', 'SetSessionData', 'langua
 
     Route::get('{id}/send-campaign-notification', 'CampaignController@sendNotification');
     Route::resource('campaigns', 'CampaignController');
+    Route::post('/validate-email', [CampaignController::class, 'validateEmail'])->name('validateEmail');
+
     Route::get('dashboard', 'CrmDashboardController@index');
 
     Route::get('reports', 'ReportController@index');
