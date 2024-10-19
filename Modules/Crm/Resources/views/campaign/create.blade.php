@@ -55,6 +55,20 @@
                     @endphp
                 @endif
                 <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="selling_price_group_id">Business location <span class="text-danger">*</span></label>
+                            <select class="form-control select2" name="business_location_id" required>
+                                <option value="">Select</option>
+                                @foreach ($business_locations as $item)
+                                    <option value="{{ $item->id }}"
+                                        {{ old('business_location_id') == $item->id ? 'selected' : '' }}>
+                                        {{ $item->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
                     <div class="col-md-4 to_div">
                         <div class="form-group">
                             {!! Form::label('to', __('crm::lang.to') . ':*') !!}
@@ -88,16 +102,15 @@
                     <div class="col-md-4 promoter_div" style="display: none;">
                         <div class="form-group" id="user_name_container">
                             {!! Form::label('user_name', __('Name') . ':*') !!}
-                            <input type="text" id="user_name" class="form-control" value="" readonly>
+                            {{-- <input type="text" id="user_name" class="form-control" value="" readonly required> --}}
+
+                            {!! Form::text('user_name', null, ['class' => 'form-control', 'id' => 'user_name', 'readonly', 'required']) !!}
+
+
                             <input type="hidden" id="user_id" name="contact_id[]" value="">
                             <!-- Hidden user ID field -->
                         </div>
                     </div>
-
-
-
-
-
 
                     <div class="col-md-8 customer_div" style="display: none;">
                         <div class="form-group">
@@ -216,13 +229,13 @@
                             <label style="margin-bottom: 10px;">Select the information you need from leads:</label>
                             <div class="form-group">
                                 <div style="margin-bottom: 10px;">
-                                    <input type="checkbox" class="input-icheck" name="checkbox_name">
+                                    <input type="checkbox" class="input-icheck" name="checkbox_name" checked>
                                     <label style="margin-right: 20px;">Name</label>
 
-                                    <input type="checkbox" class="input-icheck" name="checkbox_phone">
+                                    <input type="checkbox" class="input-icheck" name="checkbox_phone" checked>
                                     <label style="margin-right: 20px;">Phone</label>
 
-                                    <input type="checkbox" class="input-icheck" name="checkbox_email">
+                                    <input type="checkbox" class="input-icheck" name="checkbox_email" checked>
                                     <label style="margin-right: 20px;">Email</label>
 
                                     <input type="checkbox" class="input-icheck" name="checkbox_current_address">
@@ -330,7 +343,7 @@
                                         .id); // Set the matched user's ID in the hidden field
                                 } else {
                                     // Hide the user name input if no exact match
-                                    $('#user_name_container').hide();
+                                    // $('#user_name_container').hide();
                                     $('#user_name').val(''); // Clear the user name field
                                     $('#user_id').val(''); // Clear the user ID field
                                 }
@@ -338,12 +351,12 @@
                         });
                     } else if (email.length === 0) {
                         // If input is empty, hide the user name input
-                        $('#user_name_container').hide();
+                        // $('#user_name_container').hide();
                         $('#user_name').val(''); // Clear the user name field
                         $('#user_id').val(''); // Clear the user ID field
                     } else {
                         // If the input does not meet the criteria, you can hide the container
-                        $('#user_name_container').hide();
+                        // $('#user_name_container').hide();    
                         $('#user_name').val(''); // Clear the user name field
                         $('#user_id').val(''); // Clear the user ID field
                     }

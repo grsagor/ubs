@@ -68,6 +68,7 @@ use App\Http\Controllers\BusinessLocationController;
 use App\Http\Controllers\Frontend\CatalogController;
 use App\Http\Controllers\Frontend\ServiceController;
 use App\Http\Controllers\LocationSettingsController;
+use Modules\Crm\Http\Controllers\CampaignController;
 use App\Http\Controllers\Frontend\FrontendController;
 use App\Http\Controllers\Frontend\HomePageController;
 use App\Http\Controllers\Frontend\PropertyController;
@@ -221,6 +222,10 @@ Route::middleware(['setData'])->group(function () {
     Route::get('/shop/{id}', [ShopController::class, 'ShopService'])->name('shop.service');
 
     Route::get('/shop/business/service/{id}', [ShopController::class, 'BusinessShopService'])->name('business.shop.service');
+
+    // Campaign Details for lead generation    
+    Route::get('/campaign-details/{slug}', [CampaignController::class, 'details'])->name('campaign.details');
+
 
     //Product
     Route::get('/product/list', [ProductController::class, 'productList'])->name('product.list');

@@ -4,10 +4,12 @@ namespace Modules\Crm\Http\Controllers;
 
 use DB;
 use App\User;
+use App\Footer;
 use App\Business;
 use Notification;
 use Carbon\Carbon;
 use App\Transaction;
+use App\BusinessLocation;
 use App\Utils\ModuleUtil;
 use Illuminate\Http\Request;
 use App\Services\SlugService;
@@ -58,6 +60,7 @@ class CampaignController extends Controller
         }
 
         $data['campaigns'] = Campaign::with('createdBy')
+            ->with('businessLocation')
             ->where('business_id', $business_id)
             ->select('*')
             ->latest()
@@ -95,7 +98,12 @@ class CampaignController extends Controller
 
         $promoters = User::select('id', 'user_type', 'surname', 'first_name', 'last_name', 'username', 'email', 'language', 'contact_no')->get();
 
-        // return $promoters;   
+        $business_locations = BusinessLocation::where('business_id', $business_id)
+            ->where('is_active', 1)
+            ->orderByNameAsc()
+            ->get();
+
+        // return $business_locations;
         $contacts = [];
         foreach ($leads as $key => $lead) {
             $contacts[$key] = $lead;
@@ -106,7 +114,7 @@ class CampaignController extends Controller
         }
 
         return view('crm::campaign.create')
-            ->with(compact('tags', 'leads', 'customers', 'contact_ids', 'contacts', 'promoters'));
+            ->with(compact('tags', 'leads', 'customers', 'contact_ids', 'contacts', 'promoters', 'business_locations'));
     }
 
 
@@ -148,8 +156,6 @@ class CampaignController extends Controller
             abort(403, 'Unauthorized action.');
         }
 
-        // dd($request->toArray());
-
         try {
             $input = $request->only(
                 'name',
@@ -158,6 +164,7 @@ class CampaignController extends Controller
                 'email_body',
                 'sms_body',
 
+                'business_location_id',
                 'promoted_id',
                 'checkbox_name',
                 'checkbox_phone',
@@ -170,6 +177,7 @@ class CampaignController extends Controller
             );
 
             $input['business_id'] = $business_id;
+            $input['business_location_id'] = $input['business_location_id'];
             $input['created_by'] = $request->user()->id;
 
             $customers = $request->input('contact_id', []);
@@ -190,25 +198,25 @@ class CampaignController extends Controller
             // Save $contact_ids
             $input['contact_ids'] = $contact_ids;
 
-
             $input['additional_info'] = [
                 'to' => $request->input('to'),
                 'trans_activity' => $request->input('trans_activity'),
                 'in_days' => $request->input('in_days')
             ];
 
-            $input['info_from_customer'] = json_encode([
-                "checkbox_name" => $request->input('checkbox_name') === 'on' ? "1" : null,
-                "checkbox_phone" => $request->input('checkbox_phone') === 'on' ? "1" : null,
-                "checkbox_email" => $request->input('checkbox_email') === 'on' ? "1" : null,
-                "checkbox_current_address" => $request->input('checkbox_current_address') === 'on' ? "1" : null,
-                "checkbox_origin" => $request->input('checkbox_origin') === 'on' ? "1" : null,
-                "checkbox_education" => $request->input('checkbox_education') === 'on' ? "1" : null,
-                "checkbox_experience" => $request->input('checkbox_experience') === 'on' ? "1" : null,
-                "checkbox_additional_files" => $request->input('checkbox_additional_files') === 'on' ? "1" : null,
-                "checkbox_cv" => $request->input('checkbox_cv') === 'on' ? "1" : null,
-            ]);
-
+            if ($input['campaign_type'] == 'lead_generation') {
+                $input['info_from_customer'] = json_encode([
+                    "checkbox_name" => $request->input('checkbox_name') === 'on' ? "1" : null,
+                    "checkbox_phone" => $request->input('checkbox_phone') === 'on' ? "1" : null,
+                    "checkbox_email" => $request->input('checkbox_email') === 'on' ? "1" : null,
+                    "checkbox_current_address" => $request->input('checkbox_current_address') === 'on' ? "1" : null,
+                    "checkbox_origin" => $request->input('checkbox_origin') === 'on' ? "1" : null,
+                    "checkbox_education" => $request->input('checkbox_education') === 'on' ? "1" : null,
+                    "checkbox_experience" => $request->input('checkbox_experience') === 'on' ? "1" : null,
+                    "checkbox_additional_files" => $request->input('checkbox_additional_files') === 'on' ? "1" : null,
+                    "checkbox_cv" => $request->input('checkbox_cv') === 'on' ? "1" : null,
+                ]);
+            }
 
             $campaign = new Campaign();
 
@@ -217,6 +225,8 @@ class CampaignController extends Controller
 
             // Generate a unique id
             $input['short_id'] = $this->unique_id_service->generateUniqueId($campaign, 'short_id');
+
+            // dd($input);
 
             DB::beginTransaction();
 
@@ -276,6 +286,29 @@ class CampaignController extends Controller
 
         return view('crm::campaign.show')
             ->with(compact('campaign', 'notifiable_users'));
+    }
+
+    // details only for campaign type lead_generation
+    public function details($slug)
+    {
+        $data['campaign'] = Campaign::with('businessLocation')
+            ->where('campaign_type', 'lead_generation')
+            ->where('slug', $slug)
+            ->first();
+
+
+        $contact_info = implode(' | ', [
+            $data['campaign']->businessLocation->landmark,
+            $data['campaign']->businessLocation->city,
+            $data['campaign']->businessLocation->state,
+            $data['campaign']->businessLocation->zip_code,
+            $data['campaign']->businessLocation->country
+        ]);
+
+        // Pass this to the view
+        $data['address'] = $contact_info;
+
+        return view('frontend.campaign.details', $data);
     }
 
     /**

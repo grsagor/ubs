@@ -40,6 +40,7 @@
                                 <th>No</th>
                                 <th>Campaign Name</th>
                                 <th>Campaign Type</th>
+                                <th>Business Location</th>
                                 <th>Created at</th>
                                 <th>Created By</th>
                                 <th>Action</th>
@@ -65,6 +66,7 @@
                                             Lead Generation
                                         @endif
                                     </td>
+                                    <td>{{ $item->businessLocation->name ?? '' }}</td>
                                     <td>{{ $item->created_at->format('d F Y h:i A') }}</td>
                                     <td>
                                         {{ $item->createdBy->surname }} {{ $item->createdBy->first_name }}
@@ -88,10 +90,12 @@
                                                     </li>
                                                 @endif
 
+                                                <!-- For lead genaration only it shows in frontend -->
                                                 @if ($item->campaign_type == 'lead_generation')
                                                     <li>
-                                                        <a href="{{ route('campaigns.show', $item->id) }}">
-                                                            <i class="fa fa-eye"></i> View
+                                                        <a href="{{ route('campaign.details', $item->slug) }}"
+                                                            target="__blank">
+                                                            <i class="fa fa-info-circle"></i> Details
                                                         </a>
                                                     </li>
                                                 @endif
@@ -110,8 +114,6 @@
                                                         </a>
                                                     </li>
                                                 @endif
-
-
 
                                                 <li>
                                                     <a class="text-danger" href="#"
