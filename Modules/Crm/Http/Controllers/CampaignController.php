@@ -5,6 +5,7 @@ namespace Modules\Crm\Http\Controllers;
 use DB;
 use App\User;
 use App\Footer;
+use App\Country;
 use App\Business;
 use Notification;
 use Carbon\Carbon;
@@ -213,7 +214,6 @@ class CampaignController extends Controller
                     "checkbox_origin" => $request->input('checkbox_origin') === 'on' ? "1" : null,
                     "checkbox_education" => $request->input('checkbox_education') === 'on' ? "1" : null,
                     "checkbox_experience" => $request->input('checkbox_experience') === 'on' ? "1" : null,
-                    "checkbox_additional_files" => $request->input('checkbox_additional_files') === 'on' ? "1" : null,
                     "checkbox_cv" => $request->input('checkbox_cv') === 'on' ? "1" : null,
                 ]);
             }
@@ -307,6 +307,8 @@ class CampaignController extends Controller
 
         // Pass this to the view
         $data['address'] = $contact_info;
+
+        $data['country'] = Country::get();
 
         return view('frontend.campaign.details', $data);
     }
@@ -541,5 +543,48 @@ class CampaignController extends Controller
         }
 
         return $output;
+    }
+
+    public function campaignDataStore(Request $request)
+    {
+
+        try {
+            $requestedData['name'] = $request->name ?? NULL;
+            $requestedData['phone'] = $request->phone ?? NULL;
+            $requestedData['email'] = $request->email ?? NULL;
+            $requestedData['current_address'] = $request->current_address ?? NULL;
+            $requestedData['birth_country'] = $request->birth_country ?? NULL;
+
+            dd($requestedData, $request->toArray());
+
+
+            // Assign the unique slug to the requested data
+            $requestedData['slug'] = $this->slug_service->slug_create($requestedData['title'], $job);
+
+            // Generate a unique id
+            $requestedData['short_id'] = $this->unique_id_service->generateUniqueId($job, 'short_id');
+
+            $requestedData['reference'] = $this->generateNewReference($job);
+
+            // Handle multiple select fields
+            $requestedData['hour_type'] = $request->input('hour_type', []);
+            $requestedData['job_type'] = $request->input('job_type', []);
+
+
+            // DB::beginTransaction();
+
+            // $contact = Contact::create($contact_data);
+
+            // $job->fill($requestedData)->save();
+
+            $output = [
+                'success' => true,
+                'msg' => ('Created Successfully!!!'),
+            ];
+
+            return redirect()->route('jobs.index')->with('status', $output);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return redirect()->back()->withErrors($e->errors())->withInput();
+        }
     }
 }

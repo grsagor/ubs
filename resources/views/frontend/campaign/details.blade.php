@@ -70,6 +70,104 @@
             width: 800px;
             margin: 20px auto;
         }
+
+        .contact-form {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            f
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            font-weight: bold;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="date"],
+        input[type="number"],
+        input[type="file"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            margin-bottom: 10px;
+        }
+
+        .btn {
+            background-color: #333;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .btn:hover {
+            background-color: #555;
+        }
+
+        .add-button {
+            display: inline-block;
+            color: white;
+            padding: 10px 10px;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        .add-button:hover {}
+
+        .delete-button {
+            background-color: #dc3545;
+            color: white;
+            padding: 10px 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-bottom: 5px;
+        }
+
+        .delete-button:hover {
+            background-color: #c82333;
+        }
+
+        .text-danger {
+            color: red;
+            font-size: 14px;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .row {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .col-6 {
+            width: 48%;
+        }
+
+        h4 {
+            text-align: center;
+            font-size: 20px;
+            margin: 20px 0;
+        }
+
+        .mt-50 {
+            margin-top: 50px;
+        }
     </style>
 </head>
 
@@ -88,9 +186,308 @@
         <p class="body_text"> {!! $campaign->email_body ?? '' !!} </p>
 
         <div class="contact-section">
-            <a href="#contact" class="contact-button">Contact</a>
+            <a href="#contact" class="contact-button" id="contactButton">Contact</a>
         </div>
     </div>
+
+    {{-- User information form --}}
+    <div class="contact-form" id="contactForm" style="display: none;">
+        <form action="{{ route('campaign.details.store') }}" method="POST" enctype="multipart/form-data">
+            @csrf
+
+            @php
+                // Assuming $campaign->info_from_customer is a JSON string
+                $checkbox_data = json_decode($campaign->info_from_customer, true); // Decode JSON to array
+                // Debugging output (optional)
+                // dd($checkbox_data);
+            @endphp
+
+            @if (isset($checkbox_data['checkbox_name']) && $checkbox_data['checkbox_name'] == 1)
+                <div class="form-group">
+                    <label for="name">Name <span class="text-danger">*</span></label>
+                    <input type="text" name="name" class="form-control" placeholder="">
+                    <span id="name-error" class="text-danger"></span>
+                </div>
+            @endif
+
+            @if (isset($checkbox_data['checkbox_name']) && $checkbox_data['checkbox_name'] == 1)
+                <div class="form-group">
+                    <label for="name">Name <span class="text-danger">*</span></label>
+                    <input type="text" name="name" class="form-control" placeholder="" required>
+                    <span id="name-error" class="text-danger"></span>
+                </div>
+            @endif
+
+            @if (isset($checkbox_data['checkbox_phone']) && $checkbox_data['checkbox_phone'] == 1)
+                <div class="form-group">
+                    <label for="phone">Phone <span class="text-danger">*</span></label>
+                    <input type="number" name="phone" class="form-control" placeholder="" required>
+                    <span id="phone-error" class="text-danger"></span>
+                </div>
+            @endif
+
+            @if (isset($checkbox_data['checkbox_email']) && $checkbox_data['checkbox_email'] == 1)
+                <div class="form-group">
+                    <label for="email">Email <span class="text-danger">*</span></label>
+                    <input type="email" name="email" class="form-control" placeholder="" required>
+                    <span id="email-error" class="text-danger"></span>
+                </div>
+            @endif
+
+            @if (isset($checkbox_data['checkbox_current_address']) && $checkbox_data['checkbox_current_address'] == 1)
+                <div class="form-group">
+                    <label for="current_address">Current Address <span class="text-danger">*</span></label>
+                    <input type="text" name="current_address" class="form-control" placeholder="" required>
+                    <span id="current_address-error" class="text-danger"></span>
+                </div>
+            @endif
+
+            @if (isset($checkbox_data['checkbox_origin']) && $checkbox_data['checkbox_origin'] == 1)
+                <div class="row">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label for="birth_country">Birth Country <span class="text-danger">*</span></label>
+                            <select class="form-control" name="birth_country" required>
+                                <option selected="" value="">Select...</option>
+                                @foreach ($country as $item)
+                                    <option value="{{ $item->id }}">{{ $item->country_name }}</option>
+                                @endforeach
+                            </select>
+                            <span id="birth_country-error" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            @endif
+
+
+            {{-- Education section --}}
+            @if (isset($checkbox_data['checkbox_education']) && $checkbox_data['checkbox_education'] == 1)
+                <h4 class="text-center mt-50"><u>Education</u></h4>
+                <div class="education-group mt-2">
+                    <div class="form-group">
+                        <label>Name of education <span class="text-danger">*</span></label>
+                        <input type="text" name="education_name_of_title[]" class="form-control" placeholder=""
+                            required>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="start_date">Start date</label>
+                                <input type="date" name="education_start_date[]" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="end_date">End date</label>
+                                <input type="date" name="education_end_date[]" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="end_date">Upload File <span class="text-danger">*</span></label>
+                        <input type="file" name="education_file[]" class="form-control"
+                            accept=".pdf,.docx,.jpeg,.jpg,.png,.heic" required>
+                        <span style="color: #878787; font-size: 13px;">Supported file
+                            types: pdf, docx,
+                            jpeg, jpg, png, heic</span>
+                    </div>
+
+                    <button type="button" style="display: none;" class="btn btn-danger delete-button"
+                        onclick="removeEducation(this)">
+                        Delete
+                    </button>
+                </div>
+
+                <button type="button" class="btn btn-dark add-button" onclick="addEducation()">
+                    Add More
+                </button>
+            @endif
+
+            {{-- Experience section --}}
+            @if (isset($checkbox_data['checkbox_experience']) && $checkbox_data['checkbox_experience'] == 1)
+                <h4 class="text-center mt-50"><u>Experience</u></h4>
+                <div class="experience-group" style="margin-top: 20px;">
+                    <div class="form-group">
+                        <label for="name_of_company">Title of experience <span class="text-danger">*</span></label>
+                        <input type="text" name="experience_name_of_company[]" class="form-control"
+                            placeholder="" required />
+                    </div>
+
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="start_date">Start date <span class="text-danger">*</span></label>
+                                <input type="date" name="experience_start_date[]" class="form-control" required />
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="end_date">End date <span class="text-danger">*</span></label>
+                                <input type="date" name="experience_end_date[]" class="form-control" required />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="experience_file">Upload File </label>
+                        <input type="file" name="experience_file[]" class="form-control"
+                            accept=".pdf,.docx,.jpeg,.jpg,.png,.heic">
+                        <span style="color: #878787; font-size: 13px;">Supported
+                            file types: pdf, docx, jpeg, jpg, png, heic</span>
+                    </div>
+
+                    <button type="button" class="btn btn-danger delete-button" onclick="removeExperience(this)"
+                        style="display: none;">
+                        Delete
+                    </button>
+                </div>
+
+                <button type="button" class="btn btn-dark add-button" onclick="addExperience()">
+                    Add More
+                </button>
+            @endif
+
+            {{-- This is default, do not use any condition --}}
+            <h4 class="text-center mt-50"><u>Add Files</u></h4>
+            <div class="additional-group mt-2">
+                <div class="form-group">
+                    <label>Title of file</label>
+                    <input type="text" name="additional_name_of_title[]" class="form-control" placeholder="">
+                </div>
+
+                <div class="form-group">
+                    <label for="additional_file">Upload File </label>
+                    <input type="file" name="additional_file[]" class="form-control"
+                        accept=".pdf,.docx,.jpeg,.jpg,.png,.heic">
+                    <span style="color: #878787; font-size: 13px;">Supported
+                        file types: pdf, docx, jpeg, jpg, png, heic</span>
+                </div>
+
+                <button type="button" class="btn btn-danger delete-button" onclick="removeAdditonal(this)"
+                    style="display: none;">
+                    Delete
+                </button>
+            </div>
+
+            <button type="button" class="btn btn-dark add-button" onclick="addAdditonal()">
+                Add More
+            </button>
+
+            {{-- CV section --}}
+            @if (isset($checkbox_data['checkbox_cv']) && $checkbox_data['checkbox_cv'] == 1)
+                <h4 class="text-center mt-50"><u>CV</u></h4>
+                <div class="form-group">
+                    <input type="file" name="cv" class="form-control"
+                        accept=".pdf,.docx,.jpeg,.jpg,.png,.heic" required>
+                    <span style="color: #878787; font-size: 13px;">Supported file types:
+                        pdf, docx, jpeg, jpg, png,
+                        heic</span>
+                </div>
+            @endif
+
+            {{-- This is default, do not use any condition --}}
+            {{-- Note section --}}
+            <h4 class="text-center mt-50"><u>Note</u></h4>
+            <div class="form-group">
+                <textarea name="note" rows="8" cols="79" placeholder=""></textarea>
+            </div>
+
+
+
+            <div class="text-center">
+                <button type="submit" class="btn btn-dark">Submit</button>
+            </div>
+        </form>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+    <script>
+        document.getElementById('contactButton').addEventListener('click', function(event) {
+            event.preventDefault(); // Prevent the default link behavior
+            document.getElementById('contactForm').style.display = 'block'; // Show the form
+            this.style.display = 'none'; // Hide the contact button
+        });
+    </script>
+
+    <script>
+        function addCertificatesSection() {
+            var certificatesSection = $('#certificatesSection');
+            var certificateSectionHtml =
+                '<div class="certificate-section">' +
+                '<input type="text" name="additional_certificate_titles[]" class="form-control">' +
+                '<input type="file" name="additional_certificate_files[]" class="form-control">' +
+                '<button type="button" class="btn btn-danger delete-button" onclick="removeCertificateSection(this)">Delete</button>' +
+                '</div>';
+
+            certificatesSection.append(certificateSectionHtml);
+        }
+
+        function removeCertificateSection(button) {
+            $(button).closest('.certificate-section').remove();
+        }
+    </script>
+
+    <script>
+        function addAdditonal() {
+            var newAdditional = $(".additional-group:first").clone();
+            newAdditional.find("input").val("");
+            $(".additional-group:last").after(newAdditional);
+            $(".additional-group .delete-button").show();
+        }
+
+        function removeAdditonal(button) {
+            var additionalGroup = $(button).closest(".additional-group");
+            if ($(".additional-group").length > 1) {
+                additionalGroup.remove();
+            }
+            if ($(".additional-group").length === 1) {
+                $(".additional-group .delete-button").hide(); // Hide delete button if there is only one section
+            }
+        }
+    </script>
+
+    <script>
+        function addEducation() {
+            var newEducation = $(".education-group:first").clone();
+            newEducation.find("input").val("");
+            $(".education-group:last").after(newEducation);
+            $(".education-group .delete-button").show();
+        }
+
+        function removeEducation(button) {
+            var educationGroup = $(button).closest(".education-group");
+            if ($(".education-group").length > 1) {
+                educationGroup.remove();
+            }
+            if ($(".education-group").length === 1) {
+                $(".education-group .delete-button").hide(); // Hide delete button if there is only one section
+            }
+        }
+    </script>
+
+
+    <script>
+        function addExperience() {
+            var newExperience = $(".experience-group:first").clone();
+            newExperience.find("input").val("");
+            $(".experience-group:last").after(newExperience); // Use after to place the new experience below the last one
+            $(".experience-group .delete-button").show(); // Show delete button for all sections
+        }
+
+        function removeExperience(button) {
+            var experienceGroup = $(button).closest(".experience-group");
+            if ($(".experience-group").length > 1) {
+                experienceGroup.remove();
+            }
+            if ($(".experience-group").length === 1) {
+                $(".experience-group .delete-button").hide(); // Hide delete button if there is only one section
+            }
+        }
+    </script>
+
 </body>
 
 </html>
