@@ -2,6 +2,7 @@
 
 namespace Modules\Crm\Entities;
 
+use App\BusinessLocation;
 use Illuminate\Database\Eloquent\Model;
 
 class Campaign extends Model
@@ -21,10 +22,10 @@ class Campaign extends Model
     protected $guarded = ['id'];
 
     /**
-    * The attributes that should be cast to native types.
-    *
-    * @var array
-    */
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
     protected $casts = [
         'contact_ids' => 'array',
         'additional_info' => 'array'
@@ -41,5 +42,11 @@ class Campaign extends Model
     public static function getTags()
     {
         return ['{contact_name}', '{campaign_name}', '{business_name}'];
+    }
+
+    public function businessLocation()
+    {
+        return $this->belongsTo(BusinessLocation::class, 'business_location_id')
+            ->select('id', 'name', 'logo', 'landmark', 'country', 'city', 'state', 'zip_code');
     }
 }

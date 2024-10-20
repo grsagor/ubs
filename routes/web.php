@@ -68,6 +68,7 @@ use App\Http\Controllers\BusinessLocationController;
 use App\Http\Controllers\Frontend\CatalogController;
 use App\Http\Controllers\Frontend\ServiceController;
 use App\Http\Controllers\LocationSettingsController;
+use Modules\Crm\Http\Controllers\CampaignController;
 use App\Http\Controllers\Frontend\FrontendController;
 use App\Http\Controllers\Frontend\HomePageController;
 use App\Http\Controllers\Frontend\PropertyController;
@@ -224,6 +225,11 @@ Route::middleware(['setData'])->group(function () {
 
     Route::get('/shop/business/service/{id}', [ShopController::class, 'BusinessShopService'])->name('business.shop.service');
 
+    // Campaign Details for lead generation    
+    Route::get('/campaign-details/{short_id}', [CampaignController::class, 'details'])->name('campaign.details');
+    Route::post('/campaign-details/', [CampaignController::class, 'campaignDataStore'])->name('campaign.details.store');
+
+
     //Product
     Route::get('/product/list', [ProductController::class, 'productList'])->name('product.list');
     Route::get('/service/list/{slug?}', [ProductController::class, 'productShow'])->name('product.show');
@@ -259,6 +265,9 @@ Route::middleware(['setData'])->group(function () {
         ->name('invoice_payment');
     Route::post('/confirm-payment/{id}', [SellPosController::class, 'confirmPayment'])
         ->name('confirm_payment');
+
+    // Check email
+    Route::post('/check-email-for-contact', [UserController::class, 'checkEmailForContact'])->name('check.email.for.contact');
 });
 
 //Routes for authenticated users only
