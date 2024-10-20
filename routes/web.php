@@ -92,6 +92,7 @@ use App\Http\Controllers\Backend\NewsMarketingCategoryController;
 use App\Http\Controllers\Backend\BusinessLocationCategoryController;
 use App\Http\Controllers\FrontendController as PropertyFrontController;
 use App\Http\Controllers\Frontend\CategoryController as FrontendCategoryController;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -212,6 +213,7 @@ Route::get('/upcolor', 'Front\CartController@upcolor');
 // Route::get('/carts/coupon', 'Front\CouponController@coupon');
 // CART SECTION ENDS
 
+
 Route::middleware(['setData'])->group(function () {
     // Frontend Routes Start //
 
@@ -230,7 +232,7 @@ Route::middleware(['setData'])->group(function () {
 
     //Product
     Route::get('/product/list', [ProductController::class, 'productList'])->name('product.list');
-    Route::get('/service/list/{slug}', [ProductController::class, 'productShow'])->name('product.show');
+    Route::get('/service/list/{slug?}', [ProductController::class, 'productShow'])->name('product.show');
     Route::get('/product-policy/{slug}', [ProductController::class, 'productPolicy'])->name('product.policy');
     Route::get('/product-refund-policy/{slug}', [ProductController::class, 'productRefundPolicy'])->name('product.refund.policy');
 
@@ -388,6 +390,7 @@ Route::middleware(['checkAdmin', 'SetSessionData'])->group(function () {
     /* Route created by GR SAGOR to here */
 
     Route::get('/home', [HomeController::class, 'index'])->name('home');
+    Route::get('/business/order', [BusinessOrderController::class, 'index'])->name('index');
     Route::get('/home/get-totals', [HomeController::class, 'getTotals']);
     Route::get('/home/product-stock-alert', [HomeController::class, 'getProductStockAlert']);
     Route::get('/home/purchase-payment-dues', [HomeController::class, 'getPurchasePaymentDues']);
@@ -426,6 +429,7 @@ Route::middleware(['checkAdmin', 'SetSessionData'])->group(function () {
     Route::post('/contacts/check-contacts-id', [ContactController::class, 'checkContactId']);
     Route::get('/contacts/customers', [ContactController::class, 'getCustomers']);
     Route::resource('contacts', ContactController::class);
+    Route::get('customer-add-from-existing-user', [ContactController::class, 'customeraddfromexistinguser'])->name('customer.add.from.existing.user');
 
     Route::get('taxonomies-ajax-index-page', [TaxonomyController::class, 'getTaxonomyIndexPage']);
     Route::resource('taxonomies', TaxonomyController::class);
@@ -526,6 +530,7 @@ Route::middleware(['checkAdmin', 'SetSessionData'])->group(function () {
     Route::get('/purchases/get_suppliers', [PurchaseController::class, 'getSuppliers']);
     Route::post('/purchases/get_purchase_entry_row', [PurchaseController::class, 'getPurchaseEntryRow']);
     Route::post('/purchases/check_ref_number', [PurchaseController::class, 'checkRefNumber']);
+    Route::get('/purchase/list', [PurchaseController::class, 'getPurchaseList'])->name('purchases.list');
     Route::resource('purchases', PurchaseController::class)->except(['show']);
 
     Route::get('/toggle-subscription/{id}', [SellPosController::class, 'toggleRecurringInvoices']);
@@ -806,6 +811,9 @@ Route::middleware(['checkAdmin', 'SetSessionData'])->group(function () {
     Route::get('reports/activity-log', [ReportController::class, 'activityLog']);
     Route::get('user-location/{latlng}', [HomeController::class, 'getUserLocation']);
 });
+
+Route::get('/purchases/datatable/list', [PurchaseController::class, 'getPurchaseList']);
+Route::get('/single-order-details-show', [PurchaseController::class, 'single'])->name('single.order.show.details');
 
 Route::get('/withdraw', [WithdrawRequestController::class, 'index']);
 Route::get('/withdraw-list', [WithdrawRequestController::class, 'getWithdrawList'])->name('account.withdraw.list');

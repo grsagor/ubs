@@ -5,6 +5,7 @@
         .print_section {
             display: none;
         }
+
         .invoice {
             position: relative;
             background: #fff;
@@ -14,6 +15,7 @@
         }
 
         @media print {
+
             #payment_thanks_container,
             .ecommerce-header,
             .loader,
@@ -84,16 +86,20 @@
     <script>
         $(document).ready(function() {
             $(document).on('click', '#create_invoice_btn', async function() {
-                $('#create_invoice_btn_text').hide();
-                $('#create_invoice_btn_loader').show();
-                const receipt = @json($receipt);
-                const response = await pos_print(receipt);
-                if (response) {
+                // $('#create_invoice_btn_text').hide();
+                // $('#create_invoice_btn_loader').show();
+                // const receipt = @json($receipt);
+                // const response = await pos_print(receipt);
+                const invoice_token = @json($invoice_token);
+                console.log(invoice_token, "token")
+                // if (response) {
                     setTimeout(function() {
-                        $('#create_invoice_btn_text').show();
-                        $('#create_invoice_btn_loader').hide();
+                        // $('#create_invoice_btn_text').show();
+                        // $('#create_invoice_btn_loader').hide();
+                        location.href = '{{ route('show_invoice', ':token') }}'.replace(
+                            ':token', invoice_token);
                     }, 3000);
-                }
+                // }
             })
         })
 

@@ -26,7 +26,9 @@ Route::group(['middleware' => ['checkCustomer'], 'prefix' => 'contact',], functi
     Route::post('/update-property-wanted', [PropertyWantedCustomerController::class, 'updatePropertyWanted']);
     Route::post('/property-wanted/upgrade', [PropertyWantedCustomerController::class, 'propertyWantedUpgradePage']);
 
-    Route::get('/products', [CustomerProductController::class, 'index']);
+    Route::get('/products', [CustomerProductController::class, 'getPurchaseList']);
+    Route::get('/single-order-details-show', [CustomerProductController::class, 'single'])->name('customer.order.show.details');
+    Route::get('/single-order-details-print', [CustomerProductController::class, 'printInvoice'])->name('customer.order.print.details');
 
     Route::get('/my-information/{id}', [RecruitmentController::class, 'showCustomer'])->name('customer.recruitment.showCustomer');
     Route::get('/my-applications', [RecruitmentController::class, 'appliedJobsCustomer'])->name('recruitment.appliedJobsCustomer');

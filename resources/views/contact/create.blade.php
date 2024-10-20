@@ -2,6 +2,7 @@
   <div class="modal-content">
   @php
     $form_id = 'contact_add_form';
+    
     if(isset($quick_add)){
       $form_id = 'quick_add_contact';
     }

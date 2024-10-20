@@ -425,7 +425,7 @@
 
         <div class="flex-box">
             <p class="width-50 text-right sub-headings">Payment Method</p>
-            <p class="width-50 text-right sub-headings">{{ $payment_method == 'stripe' ? 'Card' : 'Cash' }}</p>
+            <p class="width-50 text-right sub-headings">{{ $payment_method == 'stripe' ? 'Card' : 'Pay Later' }}</p>
         </div>
         <div class="flex-box">
             <p class="width-50 text-right sub-headings">Paid</p>
