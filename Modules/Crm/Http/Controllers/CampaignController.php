@@ -169,7 +169,6 @@ class CampaignController extends Controller
                 'sms_body',
 
                 'business_location_id',
-                'promoted_id',
                 'checkbox_education',
                 'checkbox_experience',
                 'checkbox_cv'

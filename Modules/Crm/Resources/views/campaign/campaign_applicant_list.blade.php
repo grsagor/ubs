@@ -23,6 +23,7 @@
                                 <th>Email</th>
                                 <th>Source</th>
                                 <th>Address</th>
+                                <th>Promoter</th>
                                 <th>Added On</th>
                                 <th>Action</th>
                             </tr>
@@ -39,6 +40,21 @@
                                     <td> {{ $item->user->email }} </td>
                                     <td> {{ $item->source }} </td>
                                     <td> {{ $item->user->current_address ?? '' }} </td>
+                                    <td>
+                                        @php
+                                            // Get promoter details contact_ids is array of user ids
+                                            $promoter = DB::table('users')
+                                                ->whereIn('id', $item->crmCampaign->contact_ids)
+                                                ->select('surname', 'first_name', 'last_name')
+                                                ->first();
+                                        @endphp
+
+                                        @if ($promoter)
+                                            {{ $promoter->surname }} {{ $promoter->first_name }}
+                                            {{ $promoter->last_name }}
+                                        @endif
+                                    </td>
+
 
                                     <td>{{ $item->created_at->format('d F Y h:i A') }}</td>
 

@@ -106,9 +106,8 @@
 
                             {!! Form::text('user_name', null, ['class' => 'form-control', 'id' => 'user_name', 'readonly', 'required']) !!}
 
-
+                            <!-- Hidden promoter ID field -->
                             <input type="hidden" id="user_id" name="contact_id[]" value="">
-                            <!-- Hidden user ID field -->
                         </div>
                     </div>
 
