@@ -684,10 +684,10 @@ $(document).ready(function () {
     $('.contact_modal').on('shown.bs.modal', function (e) {
         $('input[type=radio][name="contact_type_radio"]').on('change', function () {
             if (this.value == 'individual') {
-                $('div.individual').show();
+                // $('div.individual').show();
                 $('div.business').hide();
             } else if (this.value == 'business') {
-                $('div.individual').hide();
+                // $('div.individual').hide();
                 $('div.business').show();
             }
         });

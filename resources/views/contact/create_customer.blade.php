@@ -147,7 +147,7 @@
                     </div>
                     <div class="clearfix"></div>
 
-                    <div class="col-md-3">
+                    <div class="col-md-3" style="display: none;">
                         <div class="form-group">
                             {!! Form::label('mobile', __('contact.mobile') . ':*') !!}
                             <div class="input-group">
@@ -159,7 +159,7 @@
                         </div>
                     </div>
 
-                    <div class="col-md-3">
+                    <div class="col-md-3" style="display: none;">
                         <div class="form-group">
                             {!! Form::label('alternate_number', __('contact.alternate_contact_number') . ':') !!}
                             <div class="input-group">
@@ -173,7 +173,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-3" style="display: none;">
                         <div class="form-group">
                             {!! Form::label('landline', __('contact.landline') . ':') !!}
                             <div class="input-group">
@@ -184,7 +184,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-3" style="display: none;">
                         <div class="form-group">
                             {!! Form::label('email', __('business.email') . ':') !!}
                             <div class="input-group">
@@ -729,5 +729,31 @@
                 });
             });
         });
+
+        $(document).on('input', '#surname0', function() {
+            const val = $(this).val();
+            $('#prefix').val(val);
+        })
+
+        $(document).on('input', '#first_name0', function() {
+            const val = $(this).val();
+            $('#first_name').val(val);
+        })
+        $(document).on('input', '#last_name0', function() {
+            const val = $(this).val();
+            $('#last_name').val(val);
+        })
+        $(document).on('input', '#email0', function() {
+            const val = $(this).val();
+            $('#email').val(val);
+        })
+        $(document).on('input', '#contact_number0', function() {
+            const val = $(this).val();
+            $('#mobile').val(val);
+        })
+        $(document).on('input', '#alt_number0', function() {
+            const val = $(this).val();
+            $('#alternate_number').val(val);
+        })
     });
 </script>

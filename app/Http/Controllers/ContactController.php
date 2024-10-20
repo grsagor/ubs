@@ -19,7 +19,7 @@ use App\Utils\TransactionUtil;
 use App\Utils\Util;
 use Excel;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB as FacadesDB;
+use Illuminate\Support\Facades\DB;
 use Modules\Crm\Utils\CrmUtil;
 use Spatie\Activitylog\Models\Activity;
 use Yajra\DataTables\Facades\DataTables;
@@ -679,14 +679,14 @@ class ContactController extends Controller
 
             DB::beginTransaction();
             $output = $this->contactUtil->createNewContact($input);
-            if ($request->contact_persons && is_array($request->contact_persons)) {
-                foreach ($request->contact_persons as $cp) {
-                    $cp['crm_contact_id '] = $output['data']['id'];
-                    if ($cp['first_name'] && $cp['email'] || $cp['last_name'] && $cp['email']) {
-                        $this->crmUtil->creatContactPerson($cp);
-                    }
-                }
-            }
+            // if ($request->contact_persons && is_array($request->contact_persons)) {
+            //     foreach ($request->contact_persons as $cp) {
+            //         $cp['crm_contact_id '] = $output['data']['id'];
+            //         if ($cp['first_name'] && $cp['email'] || $cp['last_name'] && $cp['email']) {
+            //             $this->crmUtil->creatContactPerson($cp);
+            //         }
+            //     }
+            // }
 
 
             $this->moduleUtil->getModuleData('after_contact_saved', ['contact' => $output['data'], 'input' => $request->input()]);
@@ -708,6 +708,8 @@ class ContactController extends Controller
             $output = [
                 'success' => false,
                 'msg' => __('messages.something_went_wrong'),
+                'error' => $e->getMessage(),
+                'trace' => $e->getTrace(),
             ];
         }
 
