@@ -93,9 +93,15 @@
                                                 <!-- For lead genaration only it shows in frontend -->
                                                 @if ($item->campaign_type == 'lead_generation')
                                                     <li>
-                                                        <a href="{{ route('campaign.details', $item->slug) }}"
+                                                        <a href="{{ route('campaign.details', $item->short_id) }}"
                                                             target="__blank">
                                                             <i class="fa fa-info-circle"></i> Details
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#" class="copy-link"
+                                                            data-link="{{ route('campaign.details', $item->short_id) }}">
+                                                            <i class="fas fa-copy"></i> Copy
                                                         </a>
                                                     </li>
                                                 @endif
@@ -115,7 +121,7 @@
                                                     </li>
                                                 @endif
 
-                                                <li>
+                                                {{-- <li>
                                                     <a class="text-danger" href="#"
                                                         onclick="if(confirm('Are You Sure To Delete?')){
                                                                     event.preventDefault();
@@ -132,7 +138,7 @@
                                                         @csrf
                                                         @method('DELETE')
                                                     </form>
-                                                </li>
+                                                </li> --}}
 
                                             </ul>
                                         </div>
@@ -153,9 +159,32 @@
 @endsection
 @section('javascript')
     <script src="{{ asset('modules/crm/js/crm.js?v=' . $asset_v) }}"></script>
-    <script type="text/javascript">
-        $(document).ready(function() {
 
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var copyLinkButtons = document.querySelectorAll('.copy-link');
+
+            copyLinkButtons.forEach(function(button) {
+                button.addEventListener('click', function(event) {
+                    event.preventDefault();
+
+                    // Get the link from the data-link attribute
+                    var linkToCopy = button.getAttribute('data-link');
+
+                    // Create a temporary input element
+                    var tempInput = document.createElement('input');
+                    tempInput.value = linkToCopy;
+                    document.body.appendChild(tempInput);
+
+                    // Select and copy the text in the input element
+                    tempInput.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(tempInput);
+
+                    // Show Toastr success message
+                    toastr.success('Link copied');
+                });
+            });
         });
     </script>
 @endsection

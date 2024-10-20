@@ -4,7 +4,7 @@ namespace Modules\Crm\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Campaign extends Model
+class LeadCampaignDetails extends Model
 {
     /**
      * The table associated with the model.

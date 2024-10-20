@@ -224,7 +224,7 @@ Route::middleware(['setData'])->group(function () {
     Route::get('/shop/business/service/{id}', [ShopController::class, 'BusinessShopService'])->name('business.shop.service');
 
     // Campaign Details for lead generation    
-    Route::get('/campaign-details/{slug}', [CampaignController::class, 'details'])->name('campaign.details');
+    Route::get('/campaign-details/{short_id}', [CampaignController::class, 'details'])->name('campaign.details');
     Route::post('/campaign-details/', [CampaignController::class, 'campaignDataStore'])->name('campaign.details.store');
 
 
@@ -263,6 +263,9 @@ Route::middleware(['setData'])->group(function () {
         ->name('invoice_payment');
     Route::post('/confirm-payment/{id}', [SellPosController::class, 'confirmPayment'])
         ->name('confirm_payment');
+
+    // Check email
+    Route::post('/check-email', [UserController::class, 'checkEmail'])->name('check.email');
 });
 
 //Routes for authenticated users only

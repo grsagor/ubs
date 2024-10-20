@@ -9,6 +9,9 @@
 
     <!-- Title logo -->
     <link rel="icon" type="image/x-icon" href="{{ asset('assets/images/title_fav.png') }}" />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -195,6 +198,8 @@
         <form action="{{ route('campaign.details.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
 
+            <input type="hidden" name="crm_campaign_id" value="{{ $campaign->id }}">
+
             @php
                 // Assuming $campaign->info_from_customer is a JSON string
                 $checkbox_data = json_decode($campaign->info_from_customer, true); // Decode JSON to array
@@ -210,14 +215,6 @@
                 </div>
             @endif
 
-            @if (isset($checkbox_data['checkbox_name']) && $checkbox_data['checkbox_name'] == 1)
-                <div class="form-group">
-                    <label for="name">Name <span class="text-danger">*</span></label>
-                    <input type="text" name="name" class="form-control" placeholder="" required>
-                    <span id="name-error" class="text-danger"></span>
-                </div>
-            @endif
-
             @if (isset($checkbox_data['checkbox_phone']) && $checkbox_data['checkbox_phone'] == 1)
                 <div class="form-group">
                     <label for="phone">Phone <span class="text-danger">*</span></label>
@@ -229,10 +226,11 @@
             @if (isset($checkbox_data['checkbox_email']) && $checkbox_data['checkbox_email'] == 1)
                 <div class="form-group">
                     <label for="email">Email <span class="text-danger">*</span></label>
-                    <input type="email" name="email" class="form-control" placeholder="" required>
+                    <input type="email" name="email" id="email" class="form-control" placeholder="" required>
                     <span id="email-error" class="text-danger"></span>
                 </div>
             @endif
+
 
             @if (isset($checkbox_data['checkbox_current_address']) && $checkbox_data['checkbox_current_address'] == 1)
                 <div class="form-group">
@@ -243,19 +241,15 @@
             @endif
 
             @if (isset($checkbox_data['checkbox_origin']) && $checkbox_data['checkbox_origin'] == 1)
-                <div class="row">
-                    <div class="col-6">
-                        <div class="form-group">
-                            <label for="birth_country">Birth Country <span class="text-danger">*</span></label>
-                            <select class="form-control" name="birth_country" required>
-                                <option selected="" value="">Select...</option>
-                                @foreach ($country as $item)
-                                    <option value="{{ $item->id }}">{{ $item->country_name }}</option>
-                                @endforeach
-                            </select>
-                            <span id="birth_country-error" class="text-danger"></span>
-                        </div>
-                    </div>
+                <div class="form-group">
+                    <label for="birth_country">Birth Country <span class="text-danger">*</span></label>
+                    <select class="form-control" name="birth_country" required>
+                        <option selected="" value="">Select...</option>
+                        @foreach ($country as $item)
+                            <option value="{{ $item->id }}">{{ $item->country_name }}</option>
+                        @endforeach
+                    </select>
+                    <span id="birth_country-error" class="text-danger"></span>
                 </div>
             @endif
 
@@ -395,7 +389,6 @@
             </div>
 
 
-
             <div class="text-center">
                 <button type="submit" class="btn btn-dark">Submit</button>
             </div>
@@ -403,6 +396,60 @@
     </div>
 
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            @if (session('status'))
+                toastr.success("{{ session('status')['msg'] }}");
+            @endif
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            var emailExists = false; // A flag to track if the email exists
+
+            $('#email').on('blur', function() {
+                var email = $(this).val();
+
+                // Clear previous error message
+                $('#email-error').text('');
+
+                if (email) {
+                    $.ajax({
+                        url: "{{ route('check.email') }}", // Correct route to check email
+                        method: 'POST',
+                        data: {
+                            _token: '{{ csrf_token() }}',
+                            email: email
+                        },
+                        success: function(response) {
+                            if (response.exists) {
+                                // Display error message if email exists
+                                $('#email-error').text(response.message);
+                                emailExists = true; // Set flag to true since email exists
+                            } else {
+                                emailExists = false; // Reset flag if email doesn't exist
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            console.error(xhr.responseText); // Log any unexpected errors
+                        }
+                    });
+                }
+            });
+
+            // Prevent form submission if the email exists
+            $('form').on('submit', function(e) {
+                if (emailExists) {
+                    e.preventDefault(); // Stop form submission
+                    $('#email-error').text('This email is already taken. Please choose a different one.');
+                }
+            });
+        });
+    </script>
+
+
 
     <script>
         document.getElementById('contactButton').addEventListener('click', function(event) {
@@ -487,6 +534,8 @@
             }
         }
     </script>
+
+
 
 </body>
 

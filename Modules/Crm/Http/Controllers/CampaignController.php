@@ -15,13 +15,16 @@ use App\Utils\ModuleUtil;
 use Illuminate\Http\Request;
 use App\Services\SlugService;
 use Illuminate\Http\Response;
+use App\Traits\ImageFileUpload;
 use App\Utils\NotificationUtil;
 use App\Services\UniqueIDService;
 use Illuminate\Routing\Controller;
 use Modules\Crm\Entities\Campaign;
+use Illuminate\Support\Facades\Hash;
 use Modules\Crm\Entities\CrmContact;
-use Yajra\DataTables\Facades\DataTables;
+use Modules\Crm\Entities\LeadCampaignDetails;
 use Modules\Crm\Notifications\SendCampaignNotification;
+use Illuminate\Support\Str;
 
 class CampaignController extends Controller
 {
@@ -289,13 +292,16 @@ class CampaignController extends Controller
     }
 
     // details only for campaign type lead_generation
-    public function details($slug)
+    public function details($short_id)
     {
         $data['campaign'] = Campaign::with('businessLocation')
             ->where('campaign_type', 'lead_generation')
-            ->where('slug', $slug)
+            ->where('short_id', $short_id)
             ->first();
 
+        if (!$data['campaign']) {
+            return view('error.404_withoutheader');
+        }
 
         $contact_info = implode(' | ', [
             $data['campaign']->businessLocation->landmark,
@@ -429,38 +435,38 @@ class CampaignController extends Controller
      */
     public function destroy($id)
     {
-        $business_id = request()->session()->get('user.business_id');
-        $can_access_all_campaigns = auth()->user()->can('crm.access_all_campaigns');
-        $can_access_own_campaigns = auth()->user()->can('crm.access_own_campaigns');
+        // $business_id = request()->session()->get('user.business_id');
+        // $can_access_all_campaigns = auth()->user()->can('crm.access_all_campaigns');
+        // $can_access_own_campaigns = auth()->user()->can('crm.access_own_campaigns');
 
-        if (!(auth()->user()->can('superadmin') || $this->moduleUtil->hasThePermissionInSubscription($business_id, 'crm_module')) || !($can_access_all_campaigns || $can_access_own_campaigns)) {
-            abort(403, 'Unauthorized action.');
-        }
+        // if (!(auth()->user()->can('superadmin') || $this->moduleUtil->hasThePermissionInSubscription($business_id, 'crm_module')) || !($can_access_all_campaigns || $can_access_own_campaigns)) {
+        //     abort(403, 'Unauthorized action.');
+        // }
 
-        try {
-            $query = Campaign::where('business_id', $business_id);
+        // try {
+        //     $query = Campaign::where('business_id', $business_id);
 
-            if (!$can_access_all_campaigns && $can_access_own_campaigns) {
-                $query->where('created_by', auth()->user()->id);
-            }
+        //     if (!$can_access_all_campaigns && $can_access_own_campaigns) {
+        //         $query->where('created_by', auth()->user()->id);
+        //     }
 
-            $query->where('id', $id)
-                ->delete();
+        //     $query->where('id', $id)
+        //         ->delete();
 
-            $output = [
-                'success' => true,
-                'msg' => __('lang_v1.success'),
-            ];
+        //     $output = [
+        //         'success' => true,
+        //         'msg' => __('lang_v1.success'),
+        //     ];
 
-            return redirect()->back()->with('status', $output);
-        } catch (Exception $e) {
-            \Log::emergency("File:" . $e->getFile() . "Line:" . $e->getLine() . "Message:" . $e->getMessage());
+        //     return redirect()->back()->with('status', $output);
+        // } catch (Exception $e) {
+        //     \Log::emergency("File:" . $e->getFile() . "Line:" . $e->getLine() . "Message:" . $e->getMessage());
 
-            $output = [
-                'success' => false,
-                'msg' => __('messages.something_went_wrong')
-            ];
-        }
+        //     $output = [
+        //         'success' => false,
+        //         'msg' => __('messages.something_went_wrong')
+        //     ];
+        // }
     }
 
     public function sendNotification($id)
@@ -547,44 +553,214 @@ class CampaignController extends Controller
 
     public function campaignDataStore(Request $request)
     {
-
         try {
-            $requestedData['name'] = $request->name ?? NULL;
-            $requestedData['phone'] = $request->phone ?? NULL;
-            $requestedData['email'] = $request->email ?? NULL;
-            $requestedData['current_address'] = $request->current_address ?? NULL;
-            $requestedData['birth_country'] = $request->birth_country ?? NULL;
 
-            dd($requestedData, $request->toArray());
-
-
-            // Assign the unique slug to the requested data
-            $requestedData['slug'] = $this->slug_service->slug_create($requestedData['title'], $job);
-
-            // Generate a unique id
-            $requestedData['short_id'] = $this->unique_id_service->generateUniqueId($job, 'short_id');
-
-            $requestedData['reference'] = $this->generateNewReference($job);
-
-            // Handle multiple select fields
-            $requestedData['hour_type'] = $request->input('hour_type', []);
-            $requestedData['job_type'] = $request->input('job_type', []);
-
-
-            // DB::beginTransaction();
-
-            // $contact = Contact::create($contact_data);
-
-            // $job->fill($requestedData)->save();
-
-            $output = [
-                'success' => true,
-                'msg' => ('Created Successfully!!!'),
+            $requestedData = [
+                'crm_campaign_id' => $request->crm_campaign_id ?? null,
+                'name' => $request->name ?? null,
+                'phone' => $request->phone ?? null,
+                'email' => $request->email ?? null,
+                'current_address' => $request->current_address ?? null,
+                'birth_country' => $request->birth_country ?? null,
+                'note' => $request->note ?? null,
             ];
 
-            return redirect()->route('jobs.index')->with('status', $output);
+            // Education store
+            if ($request->has('education_name_of_title')) {
+                $educationData = [];
+                foreach ($request->input('education_name_of_title') as $key => $education) {
+                    // Check if the education title exists
+                    if ($education) {
+                        $edu = [
+                            'education_name_of_title' => $education,
+                            'education_start_date' => $request->input('education_start_date')[$key] ?? null,
+                            'education_end_date' => $request->input('education_end_date')[$key] ?? null,
+                            'education_file' => null, // Default to null
+                            'education_original_file_name' => null, // Default to null
+                        ];
+                        if ($request->hasFile('education_file') && isset($request->file('education_file')[$key])) {
+                            $uploadData = $this->fileUpload($request->file('education_file')[$key], 'uploads/lead_campaign_details/');
+                            if (isset($uploadData['path']) && isset($uploadData['original_name'])) { // Check if keys exist
+                                $edu['education_file'] = $uploadData['path']; // Store the uploaded file path
+                                $edu['education_original_file_name'] = $uploadData['original_name']; // Store the original file name
+                            }
+                        }
+                        $educationData[] = $edu;
+                    }
+                }
+                // Store the educations as JSON; if no valid entries, set to null
+                $requestedData['educations'] = !empty($educationData) ? json_encode($educationData, JSON_PRETTY_PRINT) : null;
+            }
+
+            // Experience store
+            if ($request->has('experience_name_of_company')) {
+                $experienceData = [];
+                foreach ($request->input('experience_name_of_company') as $key => $company) {
+                    // Check if the experience title exists
+                    if ($company) {
+                        $experience = [
+                            'experience_name_of_company' => $company,
+                            'experience_start_date' => $request->input('experience_start_date')[$key] ?? null,
+                            'experience_end_date' => $request->input('experience_end_date')[$key] ?? null,
+                            'experience_file' => null, // Default to null
+                            'experience_original_file_name' => null, // Default to null
+                        ];
+                        if ($request->hasFile('experience_file') && isset($request->file('experience_file')[$key])) {
+                            $uploadData = $this->fileUpload($request->file('experience_file')[$key], 'uploads/lead_campaign_details/');
+                            if (isset($uploadData['path']) && isset($uploadData['original_name'])) { // Check if keys exist
+                                $experience['experience_file'] = $uploadData['path']; // Store the uploaded file path
+                                $experience['experience_original_file_name'] = $uploadData['original_name']; // Store the original file name
+                            }
+                        }
+                        $experienceData[] = $experience;
+                    }
+                }
+                // Store the experiences as JSON; if no valid entries, set to null
+                $requestedData['experiences'] = !empty($experienceData) ? json_encode($experienceData, JSON_PRETTY_PRINT) : null;
+            }
+
+            // Additional file store
+            if ($request->has('additional_name_of_title')) {
+                $additionalFilesData = [];
+                foreach ($request->input('additional_name_of_title') as $key => $ad_file) {
+                    // Check if the title exists
+                    if ($ad_file) {
+                        // Create an array to hold the additional file data only if the title exists
+                        $addData = [
+                            'additional_name_of_title' => $ad_file,
+                            'additional_file' => null, // Default to null
+                            'additional_original_file_name' => null, // Default to null
+                        ];
+
+                        // Check if a file is uploaded for this additional title
+                        if ($request->hasFile('additional_file') && isset($request->file('additional_file')[$key])) {
+                            $uploadData = $this->fileUpload($request->file('additional_file')[$key], 'uploads/lead_campaign_details/');
+                            if (isset($uploadData['path']) && isset($uploadData['original_name'])) { // Check if keys exist
+                                $addData['additional_file'] = $uploadData['path']; // Store the uploaded file path
+                                $addData['additional_original_file_name'] = $uploadData['original_name']; // Store the original file name
+                            }
+                        }
+
+                        // Add to the additional files data array
+                        $additionalFilesData[] = $addData;
+                    }
+                }
+
+                // If there are no titles, set additional_files to null
+                $requestedData['additional_files'] = !empty($additionalFilesData) ? json_encode($additionalFilesData, JSON_PRETTY_PRINT) : null;
+            }
+
+
+
+
+            // CV upload
+            if ($request->has('cv')) {
+                $uploadData = $this->fileUpload($request->file('cv'), 'uploads/lead_campaign_details/');
+
+                // Create an array to hold the CV information
+                $cvData = [];
+
+                if (isset($uploadData['path']) && isset($uploadData['original_name'])) { // Check if keys exist
+                    $cvData['cv_path'] = $uploadData['path']; // Store the uploaded file path
+                    $cvData['cv_original_file_name'] = $uploadData['original_name']; // Store the original file name
+                } else {
+                    // Handle the case where the upload fails (optional)
+                    $cvData['cv_path'] = null; // Or handle the error as needed
+                    $cvData['cv_original_file_name'] = null; // Or handle the error as needed
+                }
+
+                // Store the CV data as a JSON-encoded string
+                $requestedData['cv'] = json_encode($cvData, JSON_PRETTY_PRINT);
+            }
+
+            DB::beginTransaction();
+
+            $campaign = Campaign::find($request->crm_campaign_id);
+
+            // Generate contact id start
+            $commonUtil = new \App\Utils\Util;
+            $ref_count = $commonUtil->setAndGetReferenceCount('contacts', $campaign->business_id);
+
+            $contact_id = $commonUtil->generateReferenceNumber('contacts', $ref_count, $campaign->business_id);
+            // Generate contact id end
+
+            // Insert user and return the created instance
+            $user = User::create([
+                'user_type' => 'user_customer',
+                'first_name' => $request->name ?? null,
+                'username' => $request->email ?? null,
+                'email' => $request->email ?? null,
+                'password' => Hash::make($request->email ?? null),
+                'contact_no' => $request->phone ?? null,
+                'contact_number' => $request->phone ?? null,
+                'current_address' => $request->current_address ?? null,
+                'business_id' => $campaign->business_id,
+                'allow_login' => 1,
+                'status' => 'active',
+            ]);
+
+            // Insert contact using the created user's ID
+            $contact = CrmContact::create([
+                'business_id' => $campaign->business_id,
+                'user_id' => $user->id, // Access user ID here
+                'type' => 'lead',
+                'name' => $request->name ?? null,
+                'mobile' => $request->phone ?? null,
+                'email' => $request->email ?? null,
+                'contact_id' => $contact_id,
+                'contact_status' => 'active',
+                'created_by' => auth()->user()->id ?? $user->id,
+                'country' => $request->birth_country ?? null,
+                'address_line_1' => $request->current_address ?? null,
+            ]);
+
+            // Update the 'crm_contact_id' in the user table with the created contact's ID
+            $user->update([
+                'crm_contact_id' => $contact->id, // Update with the contact's ID
+            ]);
+
+            // Add the user and contact IDs to the requested data
+            $requestedData['user_id'] = $user->id;
+            $requestedData['contacts_id'] = $contact->id;
+
+            // dd($requestedData);
+            // Create the LeadCampaignDetails record with the additional data
+            LeadCampaignDetails::create($requestedData);
+
+            DB::commit();
+            $output = [
+                'success' => true,
+                'msg' => ('Inserted Successfully!!!'),
+            ];
+
+            return redirect()->back()->with('status', $output);
         } catch (\Illuminate\Validation\ValidationException $e) {
+            DB::rollBack();
             return redirect()->back()->withErrors($e->errors())->withInput();
         }
+    }
+
+    public function fileUpload($file, $path)
+    {
+        if (!empty($file)) {
+            // Get the original name and extension
+            $originalName = $file->getClientOriginalName();
+            $fileName = Str::uuid()->toString() . '.' . $file->getClientOriginalExtension();
+
+            // Move the file to the specified path
+            $file->move(public_path($path), $fileName);
+
+            // Return both the path and original name
+            return [
+                'path' => $path . $fileName,
+                'original_name' => $originalName,
+            ];
+        }
+
+        // Return a structure with nulls if no file is uploaded
+        return [
+            'path' => null,
+            'original_name' => null,
+        ];
     }
 }
