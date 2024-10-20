@@ -36,7 +36,6 @@
                         <tr>
                             <th>No.</th>
                             <th class="job-title-column">Job Title</th>
-
                             <th>Name</th>
                             <th>Phone</th>
                             <th>Email</th>
@@ -44,6 +43,7 @@
                             <th>Current Address</th>
                             <th>Country of Residence</th>
                             <th>Origin</th>
+                            <th>Sponsorship</th>
                             <th>Created By</th>
                             <th>Action</th>
                         </tr>
@@ -54,7 +54,9 @@
                                 <td>{{ $loop->iteration }}</td>
                                 <td>
                                     <a
-                                        href="{{ route('recruitment.details', $item->JobId->uuid) }}">{{ $item->JobId->title }}</a>
+                                        href="{{ route('recruitment.details', ['id' => $item->JobId->short_id, 'slug' => $item->JobId->slug]) }}">{{ $item->JobId->title }}
+                                    </a>
+
                                 </td>
                                 <td>{{ $item->recuimentId->name ?? '' }}</td>
                                 <td>{{ $item->recuimentId->phone ?? '' }}</td>
@@ -63,6 +65,7 @@
                                 <td>{{ $item->recuimentId->current_address ?? '' }}</td>
                                 <td>{{ $item->recuimentId->countryResidence->country_name ?? '' }}</td>
                                 <td>{{ $item->recuimentId->birthCountry->country_name ?? '' }}</td>
+                                <td>{{ $item->recuimentId->sponsorship == 1 ? 'Need' : 'No Need' }}</td>
                                 <td>
                                     {{ $item->createdBy->surname ?? '' }}
                                     {{ $item->createdBy->first_name ?? '' }}
@@ -90,7 +93,9 @@
             </div>
         </div>
     </section>
+@endsection
 
+@section('script')
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             var copyLinkButtons = document.querySelectorAll('.copy-link');

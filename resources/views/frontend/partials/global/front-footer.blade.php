@@ -77,7 +77,7 @@
 </style>
 <footer>
     <div class="footer-top d-flex flex-column align-items-center">
-        <img class="footer-logo" src="{{ asset('assets/images/1688251988finallogowhitepng.png') }}" alt="">
+        <img class="footer-logo" src="{{ asset('assets/images/header_logo.png') }}" alt="">
         <div class="d-flex gap-5">
             <span>United Kindom</span>
             <span>Bangladesh</span>

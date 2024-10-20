@@ -72,8 +72,12 @@
                                 <a class="nav-link" href="{{ route('shop.list') }}">Shop</a>
                             </li>
 
-                            <li class="nav-item {{ request()->routeIs('itSolutions') ? 'active' : '' }}">
+                            {{-- <li class="nav-item {{ request()->routeIs('itSolutions') ? 'active' : '' }}">
                                 <a class="nav-link" href="{{ route('itSolutions') }}">IT Solutions</a>
+                            </li> --}}
+
+                            <li class="nav-item {{ request()->routeIs('news') ? 'active' : '' }}">
+                                <a class="nav-link" href="{{ route('news') }}">News</a>
                             </li>
 
                             <li class="nav-item {{ request()->routeIs('businessSolutions') ? 'active' : '' }}">
@@ -96,8 +100,6 @@
                             <li class="nav-item {{ request()->routeIs('recruitment.list') ? 'active' : '' }}">
                                 <a class="nav-link" href="{{ route('recruitment.list') }}">Jobs</a>
                             </li>
-
-
 
                             {{-- <li class="nav-item">
                                 <a class="nav-link" href="{{ route('service.list') }}">Service</a>
@@ -183,7 +185,6 @@
                                                         <a class="nav-link" href="{{ url('/') }}">Home</a>
                                                     </li>
 
-
                                                     <li class="nav-item dropdown">
                                                         <a class="nav-link dropdown-toggle"
                                                             href="#">Property</a>
@@ -206,8 +207,6 @@
                                                         </ul>
                                                     </li>
 
-
-
                                                     <li class="nav-item dropdown">
                                                         <a class="nav-link"
                                                             href="{{ route('service.list') }}">Service</a>
@@ -216,9 +215,12 @@
                                                     <li class="nav-item">
                                                         <a class="nav-link" href="{{ url('/shop/list') }}">Shop</a>
                                                     </li>
-                                                    <li class="nav-item">
+                                                    {{-- <li class="nav-item">
                                                         <a class="nav-link" href="{{ url('/it-solutions') }}">It
                                                             Solutions</a>
+                                                    </li> --}}
+                                                    <li class="nav-item">
+                                                        <a class="nav-link" href="{{ route('news') }}">News</a>
                                                     </li>
                                                     <li class="nav-item">
                                                         <a class="nav-link"
@@ -244,10 +246,7 @@
                                                         <a class="nav-link"
                                                             href="{{ url('/recruitment/list') }}">Jobs</a>
                                                     </li>
-                                                    {{-- <li class="nav-item">
-                                                        <a class="nav-link"
-                                                            href="{{ url('/education-list') }}">Education</a>
-                                                    </li> --}}
+
                                                 </ul>
 
                                             </div>
@@ -277,8 +276,8 @@
                     <a class="navbar-brand p-0" style="margin-right: -41px !important;"
                         href="{{ url('/') }}"><img class="nav-logo lazy"
                             data-src="{{ asset('assets/images/header_logo.png') }}" alt="Image not found !"
-                            style="width: 225px !important;
-                            height: 63px !important;"></a>
+                            style="width: 200px !important;
+                            height: 75px !important;"></a>
                 </div>
             </div>
             <div class="col-xxl-3 col-xl-2 col-lg-2 col-0 order-lg-3">

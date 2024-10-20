@@ -2,14 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Job;
+use App\User;
+use App\Country;
+use App\Category;
+use App\AppliedJob;
+use App\Recruitment;
 use App\BusinessCustomer;
 use App\BusinessLocation;
-use App\Job;
-use App\Country;
-use App\AppliedJob;
 use App\Contact;
 use App\JobCategory;
-use App\Recruitment;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Traits\ImageFileUpload;
@@ -33,36 +35,55 @@ class RecruitmentController extends Controller
     {
         $data['jobs'] = Job::searchAndFilter($request)
             ->active()
+            ->where('closing_date', '>=', now())
+            ->searchAndFilter($request)
             ->with('job_category')
             ->latest()
             ->paginate(10);
 
-        $data['jobsCategory'] = JobCategory::query()
+        $data['jobsCategory'] = Category::query()
             ->active()
-            ->latest()
+            ->where('category_type', 'jobs')
+            ->onlyParent()
+            ->orderByNameAsc()
             ->get();
 
         return view('frontend.recruitment.list', $data);
     }
 
-    public function details($id)
+    public function details($id, $slug)
     {
+        $data['job'] =  Job::with('business_location')->where('short_id', $id)->first();
+
+        if (!$data['job'] || $id != $data['job']->short_id || $slug != $data['job']->slug) {
+            return view('error.404');
+        }
+
+        if ($data['job']) {
+            $closing_date = \Carbon\Carbon::parse($data['job']->closing_date);
+            $data['closing_date'] = $closing_date->greaterThanOrEqualTo(now()->startOfDay());
+        } else {
+            $data['closing_date'] = false;
+        }
+
+        // dd($data);
         $data['recuitment_info'] = 0;
         $data['applied_jobs'] = 0;
         $authUserId = Auth::id();
 
-        $recruitment = Recruitment::where('created_by', $authUserId)->first();
+        $recruitment = Recruitment::where('created_by', $authUserId)->get();
 
-        if ($recruitment !== null) {
-            $appliedJob = AppliedJob::where('recruitment_id', $recruitment->uuid)
-                ->where('job_id', $id)
+        if ($recruitment->isNotEmpty()) { // Check if the collection is not empty
+            $recruitmentIds = $recruitment->pluck('uuid')->toArray();
+
+            $appliedJob = AppliedJob::whereIn('recruitment_id', $recruitmentIds)
+                ->where('job_id', $data['job']->uuid)
                 ->first();
 
             $data['recuitment_info'] = 1;
             $data['applied_jobs'] = ($appliedJob !== null) ? 1 : 0;
         }
 
-        $data['job'] =  Job::active()->with('business_location')->findOrFail($id);
         return view('frontend.recruitment.details', $data);
     }
 
@@ -108,6 +129,29 @@ class RecruitmentController extends Controller
 
     public function store(Request $request, Recruitment $recruitment)
     {
+        $user = Auth::user();
+        $job_id = $request->job_id;
+
+        $existingRecord = $recruitment->where('created_by', $user->id)
+            ->where('job_id', $job_id)
+            ->first();
+
+        if ($existingRecord) {
+            // Define a default route
+            $route = 'recruitment.list'; // Default route in case the user type doesn't match
+
+            // Set route based on user type
+            if ($user->user_type == 'user_customer') {
+                $route = 'recruitment.appliedJobsCustomer';
+            } elseif ($user->user_type == 'user') {
+                $route = 'recruitment.index';
+            }
+
+            $msg = 'already submitted';
+
+            return view('frontend.recruitment.after_submit', compact('msg', 'route'));
+        }
+
         if (Auth::check()) {
             DB::beginTransaction();
             try {
@@ -166,12 +210,6 @@ class RecruitmentController extends Controller
                 if ($request->file('cv')) {
                     $requestedData['cv']     = $this->fileUpload($request->file('cv'), 'uploads/recruitments/');
                 }
-                // if ($request->file('dbs_check')) {
-                //     $requestedData['dbs_check']     = $this->fileUpload($request->file('dbs_check'), 'uploads/recruitments/');
-                // }
-                // if ($request->file('care_certificates')) {
-                //     $requestedData['care_certificates']     = $this->fileUpload($request->file('care_certificates'), 'uploads/recruitments/');
-                // }
 
                 // from create page
                 if ($request->create_page == 1) {
@@ -231,42 +269,100 @@ class RecruitmentController extends Controller
         return view('frontend.recruitment.show', $data);
     }
 
-    public function edit($id)
+    // this is customer show
+    public function showCustomer($id)
     {
-        // dd($id);
         $data['item'] = Recruitment::with('countryResidence', 'birthCountry')->find($id);
-        return view('frontend.recruitment.edit', $data);
+        return view('frontend.recruitment.showCustomer', $data);
     }
 
     public function success()
     {
-        return view('frontend.recruitment.after_submit');
+        $user = Auth::user();
+
+        // Define a default route
+        $route = 'recruitment.list'; // Default route in case the user type doesn't match
+
+        // Set route based on user type
+        if ($user->user_type == 'user_customer') {
+            $route = 'recruitment.appliedJobsCustomer';
+        } elseif ($user->user_type == 'user') {
+            $route = 'recruitment.index';
+        }
+
+        $msg = 'submitted';
+
+        return view('frontend.recruitment.after_submit', compact('msg', 'route'));
     }
+
 
     public function applyJob(Request $request, $jobID)
     {
+        $authUserId = Auth::id();
+
+        // Fist recruitment id save in applied table
+        $recruitmentFirst = Recruitment::where('created_by', $authUserId)->first();
+
+        // Retrieve the user's recruitment info
+        $recruitment = Recruitment::where('created_by', $authUserId)->get();
+        $recruitmentIds = $recruitment->pluck('uuid')->toArray();
+
+        // Prepare applied job data
+        $appliedJobData = [
+            'job_id' => $jobID,
+            'recruitment_id' => $recruitmentFirst->uuid,
+            'recruitment_ids' => $recruitmentIds,
+        ];
+
+        // Check if the job has already been applied for by this user
+        $existingApplication = AppliedJob::where('job_id', $appliedJobData['job_id'])
+            ->whereIn('recruitment_id', $appliedJobData['recruitment_ids'])
+            ->first();
+
+        // dd($existingApplication, $appliedJobData);
+
+        // Determine the message and next step
+        $msg = !$existingApplication ? 'submitted' : 'already submitted';
+
+        // Redirect based on user type
+        $user = Auth::user();
+        $route = 'recruitment.list'; // Default route in case the user type doesn't match
+
+        if ($user->user_type == 'user_customer') {
+            $route = 'recruitment.appliedJobsCustomer';
+        } elseif ($user->user_type == 'user') {
+            $route = 'recruitment.index';
+        }
+
+        // If the user confirms the application
         if ($request->confirmation == 'Yes') {
-            $authUserId = Auth::id();
+            // If no existing application, create one
+            if (!$existingApplication) {
+                AppliedJob::create($appliedJobData);
+            }
 
-            $recruitment = Recruitment::where('created_by', $authUserId)->first();
+            // Show success message with redirect to appropriate route
+            return view('frontend.recruitment.after_submit', compact('msg', 'route'));
+        }
+        // If the user does not confirm, show recruitment creation form
+        else {
+            // If no existing application, redirect to the recruitment creation form
+            if (!$existingApplication) {
+                $data['country'] = Country::get();
+                $data['jobID'] = $jobID;
 
-            $appliedJob['job_id'] = $jobID;
-            $appliedJob['recruitment_id'] = $recruitment->uuid;
+                return view('frontend.recruitment.create', $data);
+            }
 
-            AppliedJob::create($appliedJob);
-
-            return view('frontend.recruitment.after_submit');
-        } else {
-            $data['country'] = Country::get();
-            $data['jobID'] = $jobID;
-            return view('frontend.recruitment.create', $data);
+            // Otherwise, return the after submit view with message
+            return view('frontend.recruitment.after_submit', compact('msg', 'route'));
         }
     }
+
 
     public function userCheck($jobID)
     {
         $data['userId'] = Recruitment::where('created_by', auth()->id())
-            // ->where('job_id', $jobID)
             ->get();
         $count          = $data['userId']->count();
 

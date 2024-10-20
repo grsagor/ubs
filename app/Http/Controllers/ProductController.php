@@ -14,7 +14,6 @@ use App\Business;
 use App\Category;
 use App\Warranty;
 use App\Variation;
-use App\SubCategory;
 use App\PurchaseLine;
 use App\ChildCategory;
 use App\BusinessLocation;
@@ -28,11 +27,12 @@ use App\VariationTemplate;
 use Illuminate\Support\Str;
 use App\VariationGroupPrice;
 use Illuminate\Http\Request;
+use App\Services\SlugService;
 use App\Exports\ProductsExport;
+use App\Services\UniqueIDService;
 use App\VariationLocationDetails;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Pagination\LengthAwarePaginator;
 
@@ -47,19 +47,19 @@ class ProductController extends Controller
 
     private $barcode_types;
 
-    /**
-     * Constructor
-     *
-     * @param  ProductUtils  $product
-     * @return void
-     */
-    public function __construct(ProductUtil $productUtil, ModuleUtil $moduleUtil)
+    protected $unique_id_service;
+    protected $slug_service;
+
+    public function __construct(ProductUtil $productUtil, ModuleUtil $moduleUtil, UniqueIDService $unique_id_service, SlugService $slug_service)
     {
         $this->productUtil = $productUtil;
         $this->moduleUtil = $moduleUtil;
 
         //barcode types
         $this->barcode_types = $this->productUtil->barcode_types();
+
+        $this->unique_id_service          = $unique_id_service;
+        $this->slug_service               = $slug_service;
     }
 
     /**
@@ -130,10 +130,7 @@ class ProductController extends Controller
                 'products.enable_stock',
                 'products.is_inactive',
                 'products.not_for_selling',
-                'products.product_custom_field1',
-                'products.product_custom_field2',
-                'products.product_custom_field3',
-                'products.product_custom_field4',
+
                 'products.alert_quantity',
                 DB::raw('SUM(vld.qty_available) as current_stock'),
                 DB::raw('MAX(v.sell_price_inc_tax) as max_price'),
@@ -454,27 +451,76 @@ class ProductController extends Controller
         $type = $request->type;
         $categories = [];
 
-        // for product
-        if ($type == 'product') {
-            $categories = Category::where([['parent_id', 0], ['category_type', 'product']])->get();
+        $categoryTypes = ['product', 'service', 'news', 'marketing'];
+
+        if (in_array($type, $categoryTypes)) {
+            $categories = Category::where([['parent_id', 0], ['category_type', $type]])
+                ->active()
+                ->orderByNameAsc()
+                ->onlyParent()
+                ->get();
         }
 
-        // for service
-        if ($type == 'service') {
-            $categories = Category::where([['parent_id', 0], ['category_type', 'service'], ['created_by', 5]])->get();
-        }
+
+        // for product
+        // if ($type == 'product') {
+        //     $categories = Category::where([['parent_id', 0], ['category_type', 'product']])
+        //         ->where('business_id', $business_id)
+        //         ->active()
+        //         ->orderByNameAsc()
+        //         ->onlyParent()
+        //         ->get();
+        // }
+
+        // // for service
+        // if ($type == 'service') {
+        //     $categories = Category::where([['parent_id', 0], ['category_type', 'service']])
+        //         ->where('business_id', $business_id)
+        //         ->active()
+        //         ->orderByNameAsc()
+        //         ->onlyParent()
+        //         ->get();
+        // }
+
+        // // for news
+        // if ($type == 'news') {
+        //     $categories = Category::where([['parent_id', 0], ['category_type', 'news']])
+        //         ->where('business_id', $business_id)
+        //         ->active()
+        //         ->orderByNameAsc()
+        //         ->onlyParent()
+        //         ->get();
+        // }
+        // // for marketing
+        // if ($type == 'marketing') {
+        //     $categories = Category::where([['parent_id', 0], ['category_type', 'marketing']])
+        //         ->where('business_id', $business_id)
+        //         ->active()
+        //         ->orderByNameAsc()
+        //         ->onlyParent()
+        //         ->get();
+        // }
+
         return view('product.categories_options', compact('categories'));
     }
 
     public function productCategoryChange(Request $request)
     {
-        $categories = Category::where([['parent_id', $request->category_id]])->get();
+        $categories = Category::where([['parent_id', $request->category_id]])
+            ->active()
+            ->orderByNameAsc()
+            ->get();
+
         return view('product.categories_options', compact('categories'));
     }
 
     public function productSubcategoryChange(Request $request)
     {
-        $categories = Category::where([['parent_id', $request->sub_category_id]])->get();
+        $categories = Category::where([['parent_id', $request->sub_category_id]])
+            ->active()
+            ->orderByNameAsc()
+            ->get();
+
         return view('product.categories_options', compact('categories'));
     }
 
@@ -505,10 +551,6 @@ class ProductController extends Controller
                 'tax',
                 'tax_type',
                 'weight',
-                'product_custom_field1',
-                'product_custom_field2',
-                'product_custom_field3',
-                'product_custom_field4',
                 'product_description',
                 'sub_unit_ids',
                 'preparation_time_in_minutes',
@@ -540,7 +582,17 @@ class ProductController extends Controller
                 'youtube_link',
                 'define_this_item',
                 'course_module',
-                'course_module_description'
+                'course_module_description',
+
+                'checkbox_name',
+                'checkbox_phone',
+                'checkbox_email',
+                'checkbox_current_address',
+                'checkbox_origin',
+                'checkbox_education',
+                'checkbox_experience',
+                'checkbox_additional_files',
+                'checkbox_cv'
             ];
 
             $module_form_fields = $this->moduleUtil->getModuleFormField('product_form_fields');
@@ -551,7 +603,6 @@ class ProductController extends Controller
             $product_details['selected_years'] = 'Years';
             $product_details['selected_months'] = 'Months';
 
-            // dd($product_details);
             $product_details = $request->only($form_fields);
             $product_details['business_id'] = $business_id;
             $product_details['created_by'] = $request->session()->get('user.id');
@@ -625,6 +676,22 @@ class ProductController extends Controller
             $product_details['is_discount'] = $request->is_discount;
             $product_details['discount_amount'] = $request->discount_amount;
 
+
+            $product_details['info_from_customer'] = json_encode([
+                "checkbox_name" => $request->input('checkbox_name') === 'on' ? "1" : null,
+                "checkbox_phone" => $request->input('checkbox_phone') === 'on' ? "1" : null,
+                "checkbox_email" => $request->input('checkbox_email') === 'on' ? "1" : null,
+                "checkbox_current_address" => $request->input('checkbox_current_address') === 'on' ? "1" : null,
+                "checkbox_origin" => $request->input('checkbox_origin') === 'on' ? "1" : null,
+                "checkbox_education" => $request->input('checkbox_education') === 'on' ? "1" : null,
+                "checkbox_experience" => $request->input('checkbox_experience') === 'on' ? "1" : null,
+                "checkbox_additional_files" => $request->input('checkbox_additional_files') === 'on' ? "1" : null,
+                "checkbox_cv" => $request->input('checkbox_cv') === 'on' ? "1" : null,
+            ]);
+
+
+            // dd($request->toArray(),  $product_details['info_from_customer'],  $product_details);
+
             DB::beginTransaction();
 
             $product = Product::create($product_details);
@@ -636,6 +703,14 @@ class ProductController extends Controller
             if (!empty($request->input('selected_months'))) {
                 $product->selected_months = $request->selected_months ? $request->selected_months : null;
             }
+
+            // Assign the unique slug to the requested data
+            $product->slug = $this->slug_service->slug_create($request->name, $product);
+
+            // Generate a unique id
+            $product->short_id = $this->unique_id_service->generateUniqueId($product, 'short_id');
+
+            // dd($product_details['slug'], $product_details['short_id'], $request->toArray());
 
             $product->save();
 
@@ -851,25 +926,66 @@ class ProductController extends Controller
         try {
             $business_id = $request->session()->get('user.business_id');
             $product_details = $request->only([
-                'name', 'brand_id', 'sub_category_id',
+                'name',
+                'brand_id',
+                'sub_category_id',
                 'child_category_id',
-                'unit_id', 'category_id', 'tax', 'barcode_type', 'sku',
-                'alert_quantity', 'tax_type', 'weight', 'product_custom_field1',
-                'product_custom_field2', 'product_custom_field3', 'product_custom_field4',
-                'product_description', 'sub_unit_ids', 'preparation_time_in_minutes',
+                'unit_id',
+                'category_id',
+                'tax',
+                'barcode_type',
+                'sku',
+                'alert_quantity',
+                'tax_type',
+                'weight',
+                'product_description',
+                'sub_unit_ids',
+                'preparation_time_in_minutes',
+                'study_time',
+                'name_of_institution',
+                'duration_year',
+                'duration_month',
+                'home_students_fees',
+                'int_students_fees',
+                'tuition_fee_installment',
+                'fee_installment_description',
+                'course_module',
+                'course_module_description',
+                'selected_years',
+                'selected_months',
+                'name',
+                'youtube_link',
 
-                'study_time', 'name_of_institution', 'duration_year', 'duration_month', 'home_students_fees', 'int_students_fees', 'tuition_fee_installment', 'fee_installment_description', 'course_module', 'course_module_description', 'selected_years', 'selected_months',
-                'name', 'youtube_link',
+                'work_placement',
+                'work_placement_description',
+                'service_features',
+                'general_facilities',
+                'experiences',
+                'specializations',
+                'policy',
+                'refund_policy',
+                'unipuller_data_policy',
 
-                'work_placement', 'work_placement_description',
-                'service_features', 'general_facilities',
-                'experiences', 'specializations',
-                'policy', 'refund_policy', 'unipuller_data_policy',
-
-                'disable_reselling', 'price_changeable', 'reselling_price',
-                'reselling_commission_amount', 'reselling_commission_amount_percentage', 'extra_commission',
+                'disable_reselling',
+                'price_changeable',
+                'reselling_price',
+                'reselling_commission_amount',
+                'reselling_commission_amount_percentage',
+                'extra_commission',
                 'define_this_item',
-                'image', 'thumbnail', 'product_brochure'
+                'image',
+                'thumbnail',
+                'product_brochure',
+
+                'checkbox_name',
+                'checkbox_phone',
+                'checkbox_email',
+                'checkbox_current_address',
+                'checkbox_origin',
+                'checkbox_education',
+                'checkbox_experience',
+                'checkbox_additional_files',
+                'checkbox_cv'
             ]);
 
             DB::beginTransaction();
@@ -897,10 +1013,6 @@ class ProductController extends Controller
             $product->alert_quantity = !empty($product_details['alert_quantity']) ? $this->productUtil->num_uf($product_details['alert_quantity']) : $product_details['alert_quantity'];
             $product->tax_type = 'inclusive';
             $product->weight = $product_details['weight'];
-            $product->product_custom_field1 = $product_details['product_custom_field1'];
-            $product->product_custom_field2 = $product_details['product_custom_field2'];
-            $product->product_custom_field3 = $product_details['product_custom_field3'];
-            $product->product_custom_field4 = $product_details['product_custom_field4'];
             $product->product_description = $product_details['product_description'];
             $product->sub_unit_ids = !empty($product_details['sub_unit_ids']) ? $product_details['sub_unit_ids'] : null;
             $product->preparation_time_in_minutes = $product_details['preparation_time_in_minutes'];
@@ -1050,6 +1162,18 @@ class ProductController extends Controller
                 //     $product->woocommerce_media_id = null;
                 // }
             }
+
+            $product['info_from_customer'] = json_encode([
+                "checkbox_name" => $request->input('checkbox_name') === 'on' ? "1" : null,
+                "checkbox_phone" => $request->input('checkbox_phone') === 'on' ? "1" : null,
+                "checkbox_email" => $request->input('checkbox_email') === 'on' ? "1" : null,
+                "checkbox_current_address" => $request->input('checkbox_current_address') === 'on' ? "1" : null,
+                "checkbox_origin" => $request->input('checkbox_origin') === 'on' ? "1" : null,
+                "checkbox_education" => $request->input('checkbox_education') === 'on' ? "1" : null,
+                "checkbox_experience" => $request->input('checkbox_experience') === 'on' ? "1" : null,
+                "checkbox_additional_files" => $request->input('checkbox_additional_files') === 'on' ? "1" : null,
+                "checkbox_cv" => $request->input('checkbox_cv') === 'on' ? "1" : null,
+            ]);
 
             $product->save();
             $product->touch();
@@ -1733,12 +1857,7 @@ class ProductController extends Controller
                 'type',
                 'sub_unit_ids',
                 'sub_category_id',
-                'weight',
-                'product_custom_field1',
-                'product_custom_field2',
-                'product_custom_field3',
-                'product_custom_field4',
-                'product_description',
+                'weight'
             ];
 
             $module_form_fields = $this->moduleUtil->getModuleData('product_form_fields');
@@ -2692,8 +2811,6 @@ class ProductController extends Controller
     }
 
 
-
-
     public function productList(Request $request)
     {
         $data['per_page'] = 10;
@@ -2744,50 +2861,13 @@ class ProductController extends Controller
         return view('frontend.product.product_list', $data);
     }
 
-
-    // public function productShow($id)
-    // {
-    //     $user = Auth::user();
-    //     $product = Product::with('unit', 'brand', 'business_location')->findOrFail($id);
-    //     $data['info'] = $product;
-    //     $data['user_info'] = Media::where('uploaded_by', $data['info']->user_id)
-    //         ->where('model_type', 'App\\User')->first();
-    //     $data['first_image'] = 'https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg';
-    //     if ($user) {
-    //         $data['cart'] = Cart::where([['user_id', Auth::user()->id], ['product_id', $product->id]])->first();
-    //         $data['bought'] = ProductBuyingInfo::where([['user_id', Auth::user()->id], ['product_id', $product->id]])->first();
-    //         $data['user'] = $user;
-    //     }
-
-    //     $location_id = DB::table('product_locations')->where('product_id', $id)->value('location_id');
-
-    //     if ($location_id) {
-    //         $data['business_data'] = BusinessLocation::findOrFail($location_id);
-    //     }
-
-    //     $slugs = ['contact-us-phone', 'contact-us-email-complain'];
-
-    //     $data['othersInfo'] = Footer::whereIn('slug', $slugs)
-    //         ->pluck('description', 'slug')
-    //         ->toArray();
-
-    //     return view('frontend.product.details2', $data);
-    // }
-
-    public function productShow($id, $name = null)
+    public function productShow($slug)
     {
         $user = Auth::user();
-        $product = Product::with('unit', 'brand', 'business_location')->findOrFail($id);
+        $product = Product::with('unit', 'brand', 'business_location')->Where('slug', $slug)->first();
 
-        // URL encode the product name using rawurlencode
-        $productNameUrlEncoded = rawurlencode($product->name);
-
-        // URL decode the name parameter from the URL
-        $nameFromUrlDecoded = urldecode($name);
-
-        // If the name is missing or incorrect, redirect to the correct URL
-        if ($nameFromUrlDecoded !== $product->name) {
-            return redirect()->route('product.show', ['id' => $id, 'name' => $productNameUrlEncoded]);
+        if (!$product) {
+            return view('error.404');
         }
 
         $data['info'] = $product;
@@ -2801,7 +2881,7 @@ class ProductController extends Controller
             $data['user'] = $user;
         }
 
-        $location_id = DB::table('product_locations')->where('product_id', $id)->value('location_id');
+        $location_id = DB::table('product_locations')->where('product_id', $product->id)->value('location_id');
 
         if ($location_id) {
             $data['business_data'] = BusinessLocation::findOrFail($location_id);
@@ -2813,20 +2893,15 @@ class ProductController extends Controller
         return view('frontend.product.details', $data);
     }
 
-
-
-
-
-
-    public function productPolicy($id)
+    public function productPolicy($slug)
     {
-        $data['info'] = Product::findOrFail($id);
+        $data['info'] = Product::where('slug', $slug)->first();
         return view('frontend.product.policy', $data);
     }
 
-    public function productRefundPolicy($id)
+    public function productRefundPolicy($slug)
     {
-        $data['info'] = Product::findOrFail($id);
+        $data['info'] = Product::where('slug', $slug)->first();
         return view('frontend.product.refund_policy', $data);
     }
 }

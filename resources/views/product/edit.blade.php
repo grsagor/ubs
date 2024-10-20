@@ -33,6 +33,7 @@
                             'placeholder' => __('messages.please_select'),
                             'class' => 'form-control select2',
                             'required',
+                            'id' => 'type',
                         ]) !!}
                     </div>
                 </div>
@@ -1060,61 +1061,8 @@
                         </div>
                     </div>
                     <div class="clearfix"></div>
-                    @php
-                        $custom_labels = json_decode(session('business.custom_labels'), true);
-                        $product_custom_field1 = !empty($custom_labels['product']['custom_field_1'])
-                            ? $custom_labels['product']['custom_field_1']
-                            : __('lang_v1.product_custom_field1');
-                        $product_custom_field2 = !empty($custom_labels['product']['custom_field_2'])
-                            ? $custom_labels['product']['custom_field_2']
-                            : __('lang_v1.product_custom_field2');
-                        $product_custom_field3 = !empty($custom_labels['product']['custom_field_3'])
-                            ? $custom_labels['product']['custom_field_3']
-                            : __('lang_v1.product_custom_field3');
-                        $product_custom_field4 = !empty($custom_labels['product']['custom_field_4'])
-                            ? $custom_labels['product']['custom_field_4']
-                            : __('lang_v1.product_custom_field4');
-                    @endphp
-                    <!--custom fields-->
-                    <div class="col-sm-3">
-                        <div class="form-group">
-                            {!! Form::label('product_custom_field1', $product_custom_field1 . ':') !!}
-                            {!! Form::text('product_custom_field1', $product->product_custom_field1, [
-                                'class' => 'form-control',
-                                'placeholder' => $product_custom_field1,
-                            ]) !!}
-                        </div>
-                    </div>
 
-                    <div class="col-sm-3">
-                        <div class="form-group">
-                            {!! Form::label('product_custom_field2', $product_custom_field2 . ':') !!}
-                            {!! Form::text('product_custom_field2', $product->product_custom_field2, [
-                                'class' => 'form-control',
-                                'placeholder' => $product_custom_field2,
-                            ]) !!}
-                        </div>
-                    </div>
 
-                    <div class="col-sm-3">
-                        <div class="form-group">
-                            {!! Form::label('product_custom_field3', $product_custom_field3 . ':') !!}
-                            {!! Form::text('product_custom_field3', $product->product_custom_field3, [
-                                'class' => 'form-control',
-                                'placeholder' => $product_custom_field3,
-                            ]) !!}
-                        </div>
-                    </div>
-
-                    <div class="col-sm-3">
-                        <div class="form-group">
-                            {!! Form::label('product_custom_field4', $product_custom_field4 . ':') !!}
-                            {!! Form::text('product_custom_field4', $product->product_custom_field4, [
-                                'class' => 'form-control',
-                                'placeholder' => $product_custom_field4,
-                            ]) !!}
-                        </div>
-                    </div>
                     <div class="col-sm-3">
                         <div class="form-group">
                             {!! Form::label('preparation_time_in_minutes', __('lang_v1.preparation_time_in_minutes') . ':') !!}
@@ -1148,6 +1096,59 @@
                     </div>
                 </div>
             @endcomponent
+
+            @php
+                $product->info_from_customer = json_decode($product->info_from_customer, true);
+            @endphp
+
+            <div id="service-component" style="display:none;">
+                @component('components.widget', ['class' => 'box-primary'])
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <label style="margin-bottom: 10px;">Select the information you need from customer:</label>
+                            <div class="form-group">
+                                <div style="margin-bottom: 10px;">
+                                    <input type="checkbox" class="input-icheck" name="checkbox_name"
+                                        {{ isset($product->info_from_customer['checkbox_name']) && $product->info_from_customer['checkbox_name'] == '1' ? 'checked' : '' }}>
+                                    <label style="margin-right: 20px;">Name</label>
+
+                                    <input type="checkbox" class="input-icheck" name="checkbox_phone"
+                                        {{ isset($product->info_from_customer['checkbox_phone']) && $product->info_from_customer['checkbox_phone'] == '1' ? 'checked' : '' }}>
+                                    <label style="margin-right: 20px;">Phone</label>
+
+                                    <input type="checkbox" class="input-icheck" name="checkbox_email"
+                                        {{ isset($product->info_from_customer['checkbox_email']) && $product->info_from_customer['checkbox_email'] == '1' ? 'checked' : '' }}>
+                                    <label style="margin-right: 20px;">Email</label>
+
+                                    <input type="checkbox" class="input-icheck" name="checkbox_current_address"
+                                        {{ isset($product->info_from_customer['checkbox_current_address']) && $product->info_from_customer['checkbox_current_address'] == '1' ? 'checked' : '' }}>
+                                    <label style="margin-right: 20px;">Current address</label>
+
+                                    <input type="checkbox" class="input-icheck" name="checkbox_origin"
+                                        {{ isset($product->info_from_customer['checkbox_origin']) && $product->info_from_customer['checkbox_origin'] == '1' ? 'checked' : '' }}>
+                                    <label style="margin-right: 20px;">Birth country</label>
+
+                                    <input type="checkbox" class="input-icheck" name="checkbox_education"
+                                        {{ isset($product->info_from_customer['checkbox_education']) && $product->info_from_customer['checkbox_education'] == '1' ? 'checked' : '' }}>
+                                    <label style="margin-right: 20px;">Education</label>
+
+                                    <input type="checkbox" class="input-icheck" name="checkbox_experience"
+                                        {{ isset($product->info_from_customer['checkbox_experience']) && $product->info_from_customer['checkbox_experience'] == '1' ? 'checked' : '' }}>
+                                    <label style="margin-right: 20px;">Experience</label>
+
+                                    <input type="checkbox" class="input-icheck" name="checkbox_additional_files"
+                                        {{ isset($product->info_from_customer['checkbox_additional_files']) && $product->info_from_customer['checkbox_additional_files'] == '1' ? 'checked' : '' }}>
+                                    <label style="margin-right: 20px;">Additional Files</label>
+
+                                    <input type="checkbox" class="input-icheck" name="checkbox_cv"
+                                        {{ isset($product->info_from_customer['checkbox_cv']) && $product->info_from_customer['checkbox_cv'] == '1' ? 'checked' : '' }}>
+                                    <label>CV</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endcomponent
+            </div>
 
             @component('components.widget', ['class' => 'box-primary'])
                 <div class="row">
@@ -1221,6 +1222,24 @@
         $(document).ready(function() {
             __page_leave_confirmation('#product_add_form');
 
+            var currentType = $('#type').val();
+
+            // Show service component if type is 'service' on page load
+            if (currentType === 'service') {
+                $('#service-component').show();
+            }
+
+            $('#type').on('change', function() {
+                var selectedType = $(this).val();
+
+                if (selectedType === 'service') {
+                    $('#service-component').show(); // Show component if 'service' is selected
+                } else {
+                    $('#service-component').find('input[type="checkbox"]').prop('checked', false);
+                    $('#service-component').hide(); // Hide component if anything else is selected
+                }
+            });
+
 
             $(document).on('change', '#categoryy_id', function() {
                 var category_id = $(this).val();
@@ -1234,10 +1253,12 @@
                     success: function(html) {
                         $('#sub_category_id').html(html);
                         $('#child_category_id').html(
-                            '<option selected="selected" value="">Please Select</option>');
+                            '<option selected="selected" value="">Please Select</option>'
+                        );
                     }
                 })
-            })
+            });
+
             $(document).on('change', '#sub_category_id', function() {
                 var sub_category_id = $(this).val();
                 $.ajax({

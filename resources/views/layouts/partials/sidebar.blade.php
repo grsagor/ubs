@@ -21,13 +21,13 @@
             </li>
             <li class="treeview">
                 <a href="#">
-                    <i class="fa fas fa-users"></i> <span>User Management</span>
+                    <i class="fa fas fa-users"></i> <span>Staff Management</span>
                     <span class="pull-right-container">
                         <i class="fa fa-angle-left pull-right"></i>
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="{{ route('users.index') }}"><i class="fa fas fa-user"></i> <span>Users</span></a></li>
+                    <li><a href="{{ route('users.index') }}"><i class="fa fas fa-user"></i> <span>Staffs</span></a></li>
                     <li><a href="{{ route('roles.index') }}"><i class="fa fas fa-briefcase"></i> <span>Roles</span></a>
                     </li>
                     <li><a href="{{ route('sales-commission-agents.index') }}"><i class="fa fas fa-handshake"></i>
@@ -69,7 +69,7 @@
                     @if (auth()->user()->id == 5)
                         <li><a href="{{ route('business_location_category_index') }}"><i
                                     class="fa fas fa-map-marker"></i>
-                                <span>Category of business location</span></a></li>
+                                <span>Category</span></a></li>
                     @endif
                 </ul>
             </li>
@@ -101,7 +101,7 @@
                             <span>Units</span></a></li>
 
                     @if (auth()->user()->id == 5)
-                        <li><a href="{{ url('taxonomies?type=product') }}"><i class="fa fas fa-tags"></i>
+                        <li><a href="{{ route('product_service_category_index') }}"><i class="fa fas fa-tags"></i>
                                 <span>Categories</span></a></li>
                     @endif
 
@@ -316,8 +316,92 @@
                     <span>Kitchen</span></a></li>
             <li><a href="{{ url('modules/orders') }}"><i class="fa fas fa-list-alt"></i>
                     <span>Orders</span></a></li>
+
+
+            <li><a href="{{ url('crm/dashboard') }}"><i class="fas fa fa-broadcast-tower"></i>
+                    <span>CRM</span></a></li>
+            <li><a href="{{ url('project/project?project_view=list_view') }}" style=""><i
+                        class="fa fa-project-diagram"></i>
+                    <span>Project</span></a></li>
+            <li><a href="{{ url('hrm/dashboard') }}" style=""><i class="fa fas fa-users"></i>
+                    <span>HRM</span></a></li>
+            <li>
+                <a href="{{ url('essentials/todo') }}" style="">
+                    <i class="fa fa-building"></i>
+                    <span>Office</span>
+                </a>
+            </li>
+
+            {{-- <li><a href="{{ url('woocommerce') }}"><i class="fab fa-wordpress"></i>
+                    <span style="margin-left: 10px;">Woocommerce</span></a></li> --}}
+
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fas fa-cog"></i> <span>Jobs</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="{{ route('recruitment.myApplications') }}">
+                            <i class="fa fas fa-cogs"></i>
+                            <span>My Applications</span></a>
+                    </li>
+                    <li><a href="{{ route('recruitment.index') }}"><i class="fa fas fa-cogs"></i>
+                            <span>All Applicants</span></a></li>
+                    <li><a href="{{ route('jobs.index') }}"><i class="fa fas fa-cogs"></i>
+                            <span>Jobs</span></a></li>
+                    @if (auth()->user()->id == 5)
+                        <li><a href="{{ route('job-category.index') }}"><i class="fa fas fa-cogs"></i>
+                                <span>Category</span></a></li>
+                    @endif
+                </ul>
+            </li>
+
+            @if (auth()->user()->id == 5)
+                <li><a href="{{ route('footer.index') }}"><i class="fa fa-asterisk"></i>
+                        <span>Footer/Menu</span></a>
+                </li>
+            @endif
+
+            <li
+                class="treeview {{ request()->routeIs('shop-news.index') || request()->routeIs('shop_news_category_index') ? 'active' : '' }}">
+                <a href="#">
+                    <i class="fa fa-newspaper"></i> <span>News & Marketing</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li class="{{ request()->routeIs('shop-news.index') ? 'active' : '' }}">
+                        <a href="{{ route('shop-news.index') }}">
+                            <i class="fa fa-newspaper"></i> <span>News</span>
+                        </a>
+                    </li>
+                    {{-- <li class="{{ request()->routeIs('shop-marketing.index') ? 'active' : '' }}">
+                        <a href="{{ route('shop-marketing.index') }}">
+                            <i class="fa fa-newspaper"></i> <span>Marketing</span>
+                        </a>
+                    </li> --}}
+                    @if (auth()->user()->id == 5)
+                        <li class="{{ request()->routeIs('shop_news_category_index') ? 'active' : '' }}">
+                            <a href="{{ route('shop_news_category_index') }}">
+                                <i class="fa fa-list-alt"></i> <span>Category</span>
+                            </a>
+                        </li>
+                        <li><a href="{{ route('region.index') }}"><i class="fa fas fa-cogs"></i>
+                                <span>Region</span></a></li>
+                        <li><a href="{{ route('language.index') }}"><i class="fa fas fa-cogs"></i>
+                                <span>Language</span></a></li>
+                        <li><a href="{{ route('special.index') }}"><i class="fa fas fa-cogs"></i>
+                                <span>Special</span></a></li>
+                    @endif
+                </ul>
+            </li>
+
             <li><a href="{{ url('notification-templates') }}"><i class="fa fas fa-envelope"></i>
                     <span>Notification Templates</span></a></li>
+
             <li class="treeview" id="tour_step3">
                 <a href="#">
                     <i class="fa fas fa-cog"></i> <span>Settings</span>
@@ -352,59 +436,7 @@
                                 Subscription</span></a></li>
                 </ul>
             </li>
-            <li><a href="{{ url('crm/dashboard') }}"><i class="fas fa fa-broadcast-tower"></i>
-                    <span>CRM</span></a></li>
-            <li><a href="{{ url('project/project?project_view=list_view') }}" style=""><i
-                        class="fa fa-project-diagram"></i>
-                    <span>Project</span></a></li>
-            <li><a href="{{ url('hrm/dashboard') }}" style=""><i class="fa fas fa-users"></i>
-                    <span>HRM</span></a></li>
-            <li><a href="{{ url('essentials/todo') }}" style=""><i class="fa fas fa-check-circle"></i>
-                    <span>Essentials</span></a></li>
-            <li><a href="{{ url('woocommerce') }}"><i class="fab fa-wordpress"></i>
-                    <span style="margin-left: 10px;">Woocommerce</span></a></li>
 
-            <li class="treeview">
-                <a href="#">
-                    <i class="fa fas fa-cog"></i> <span>Jobs</span>
-                    <span class="pull-right-container">
-                        <i class="fa fa-angle-left pull-right"></i>
-                    </span>
-                </a>
-                <ul class="treeview-menu">
-                    <li><a href="{{ route('recruitment.myApplications') }}">
-                            <i class="fa fas fa-cogs"></i>
-                            <span>My Applications</span></a>
-                    </li>
-                    <li><a href="{{ route('recruitment.index') }}"><i class="fa fas fa-cogs"></i>
-                            <span>All Applicants</span></a></li>
-                    <li><a href="{{ route('jobs.index') }}"><i class="fa fas fa-cogs"></i>
-                            <span>Jobs</span></a></li>
-                    @if (auth()->user()->id == 5)
-                        <li><a href="{{ route('job-category.index') }}"><i class="fa fas fa-cogs"></i>
-                                <span>Job Categories</span></a></li>
-                    @endif
-                </ul>
-            </li>
-
-            @if (auth()->user()->id == 5)
-                <li><a href="{{ route('footer.index') }}"><i class="fa fa-asterisk"></i>
-                        <span>Footer/Menu</span></a>
-                </li>
-            @endif
-
-            {{-- <li><a href="{{ route('shop-news.index') }}"><i class="fa fa-newspaper"></i>
-                    <span>News</span></a>
-            </li>
-            <li><a href="{{ route('shop-news-category.index') }}"><i class="fa fa-list-alt"></i>
-                    <span>Category For News</span></a>
-            </li>
-            <li><a href="{{ route('shop-marketing.index') }}"><i class="fa fa-bullhorn"></i>
-                    <span>Marketing</span></a>
-            </li>
-            <li><a href="{{ route('shop-marketing-category.index') }}"><i class="fa fa-list-alt"></i>
-                    <span>Category For Marketing</span></a>
-            </li> --}}
         </ul>
         <!-- /.sidebar-menu -->
     </section>

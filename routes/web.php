@@ -1,16 +1,12 @@
 <?php
 include 'customer.php';
 
-use App\Http\Controllers\Backend\WithdrawController;
-use App\Http\Controllers\BusinessOrderController;
 use App\Http\Controllers\Install;
 use App\Http\Controllers\Restaurant;
-use App\Http\Controllers\WithdrawRequestController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\JobController;
 use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\NewsController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SellController;
 use App\Http\Controllers\UnitController;
@@ -27,16 +23,13 @@ use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\PrinterController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SellPosController;
-// use App\Http\Controllers\Auth;
 use App\Http\Controllers\TaxRateController;
 use App\Http\Controllers\BusinessController;
-use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DiscountController;
 use App\Http\Controllers\GroupTaxController;
 use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\TaxonomyController;
 use App\Http\Controllers\WarrantyController;
-use App\Http\Controllers\MarketingController;
 use App\Http\Controllers\ShopShareController;
 use App\Http\Controllers\ManageUserController;
 use App\Http\Controllers\RoomToRentController;
@@ -46,8 +39,8 @@ use App\Http\Controllers\AccountTypeController;
 use App\Http\Controllers\ImportSalesController;
 use App\Http\Controllers\JobCategoryController;
 use App\Http\Controllers\RecruitmentController;
+use App\Http\Controllers\Backend\NewsController;
 use App\Http\Controllers\CashRegisterController;
-use App\Http\Controllers\NewsCategoryController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\OpeningStockController;
 use App\Http\Controllers\CustomerGroupController;
@@ -55,21 +48,22 @@ use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Frontend\ShopController;
 use App\Http\Controllers\InvoiceLayoutController;
 use App\Http\Controllers\InvoiceSchemeController;
-use App\Http\Controllers\NewsMarketingController;
-// use App\Http\Controllers\Auth;
 use App\Http\Controllers\PurchaseOrderController;
 use App\Http\Controllers\StockTransferController;
-// use App\Http\Controllers\Auth;
 use App\Http\Controllers\StripePaymentController;
 use App\Http\Controllers\AccountReportsController;
 use App\Http\Controllers\Backend\FooterController;
+use App\Http\Controllers\Backend\RegionController;
 use App\Http\Controllers\ImportProductsController;
 use App\Http\Controllers\LedgerDiscountController;
 use App\Http\Controllers\PurchaseReturnController;
 use App\Http\Controllers\TypesOfServiceController;
+use App\Http\Controllers\Backend\MessageController;
+use App\Http\Controllers\Backend\SpecialController;
 use App\Http\Controllers\DocumentAndNoteController;
 use App\Http\Controllers\ExpenseCategoryController;
 use App\Http\Controllers\StockAdjustmentController;
+use App\Http\Controllers\WithdrawRequestController;
 use App\Http\Controllers\BusinessLocationController;
 use App\Http\Controllers\Frontend\CatalogController;
 use App\Http\Controllers\Frontend\ServiceController;
@@ -78,34 +72,26 @@ use App\Http\Controllers\Frontend\FrontendController;
 use App\Http\Controllers\Frontend\HomePageController;
 use App\Http\Controllers\Frontend\PropertyController;
 use App\Http\Controllers\Frontend\RoomListController;
-use App\Http\Controllers\MarketingCategoryController;
-
-// use App\Http\Controllers\DashboardConfiguratorController;    
-
 use App\Http\Controllers\SellingPriceGroupController;
-
-// use App\Http\Controllers\CombinedPurchaseReturnController;
-
 use App\Http\Controllers\VariationTemplateController;
 use App\Http\Controllers\Frontend\EducationController;
 use App\Http\Controllers\ImportOpeningStockController;
-
-// use App\Http\Controllers\DashboardConfiguratorController;    
-// use App\Http\Controllers\CombinedPurchaseReturnController;
-
 use App\Http\Controllers\TransactionPaymentController;
-use App\Http\Controllers\Frontend\RoomWantedController;
 use App\Http\Controllers\PurchaseRequisitionController;
 use App\Http\Controllers\NotificationTemplateController;
 use App\Http\Controllers\SalesCommissionAgentController;
 use App\Http\Controllers\DashboardConfiguratorController;
-use App\Http\Controllers\Backend\PropertyWantedController;
+use App\Http\Controllers\Frontend\NewsFrontendController;
+use App\Http\Controllers\Backend\LanguageSpeechController;
 use App\Http\Controllers\CombinedPurchaseReturnController;
 use App\Http\Controllers\Frontend\OtherServicesController;
 use App\Http\Controllers\Backend\ServiceEducationController;
 use App\Http\Controllers\Backend\ServiceAdvertiseRoomController;
+use App\Http\Controllers\Backend\NewsMarketingCategoryController;
+use App\Http\Controllers\Backend\BusinessLocationCategoryController;
 use App\Http\Controllers\FrontendController as PropertyFrontController;
 use App\Http\Controllers\Frontend\CategoryController as FrontendCategoryController;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -126,31 +112,12 @@ Route::get('/route-optimize-clear', function () {
     return '<h2>Events, views, cache, route, config, compiled clear</h2>';
 });
 
-
-Route::get('send-mail', function () {
-
-    $details = [
-        'title' => 'Mail from ItSolutionStuff.com',
-        'body' => 'This is for testing email using smtp'
-    ];
-
-    \Mail::to('test@gmail.com')->send(new \App\Mail\MyTestMail($details));
-
-    dd("Email is Sent.");
-});
-
 // Stripe payment gateway
 Route::controller(StripePaymentController::class)->group(function () {
     Route::get('stripe', 'stripe');
     Route::post('stripe', 'stripePost')->name('stripe.post');
 });
 
-// Digital Marketing, Partner Boarding, Business Solution, IT solution
-// Route::get('/digital-marketing',                                    [OtherServicesController::class, 'digitalMarketing'])->name('digitalMarketing');
-// Route::get('/partner-boarding',                                     [OtherServicesController::class, 'partnerBoarding'])->name('partnerBoarding');
-// Route::get('/business-solutions',                                   [OtherServicesController::class, 'businessSolutions'])->name('businessSolutions');
-// Route::get('/it-solutions',                                         [OtherServicesController::class, 'itSolutions'])->name('itSolutions');
-// Route::get('/landlord-service',                                     [OtherServicesController::class, 'landlordeService'])->name('landlordeService');
 Route::get('/property-finding-service', [OtherServicesController::class, 'propertyFindingService'])->name('propertyFindingService');
 Route::get('/property-finding-service-charge/{id}', [OtherServicesController::class, 'propertyFindingServiceCharge'])->name('propertyFindingServiceCharge');
 Route::get('/property-finding-service-add-click-handler', [OtherServicesController::class, 'addClilckHandler']);
@@ -165,8 +132,8 @@ Route::get('/it-solutions', [FrontendController::class, 'it_solutions'])->name('
 Route::get('/partner-boarding', [FrontendController::class, 'partner_boarding'])->name('partnerBoarding');
 
 Route::get('/recruitment/list', [RecruitmentController::class, 'list'])->name('recruitment.list');
-Route::get('/recruitment/{id}', [RecruitmentController::class, 'details'])->name('recruitment.details');
-Route::get('/recruitment/create/{id}', [RecruitmentController::class, 'create'])->name('recruitment.create');
+Route::get('/recruitment/{id}/{slug}', [RecruitmentController::class, 'details'])->name('recruitment.details')->where('title', '.*');
+Route::get('/recruitment-create/{id}', [RecruitmentController::class, 'create'])->name('recruitment.create');
 Route::post('/recruitment', [RecruitmentController::class, 'store'])->name('recruitment.store');
 Route::get('/recruitment-success', [RecruitmentController::class, 'success'])->name('recruitment.success');
 Route::get('/recruitment-userCheck/{jobID}', [RecruitmentController::class, 'userCheck'])->name('recruitment.userCheck');
@@ -194,22 +161,22 @@ Route::get('/get-subcategories/{category_id}', [ServiceController::class, 'getSu
 Route::get('/get-child-subcategories/{category_id}', [ServiceController::class, 'getChildSubcategories'])->name('service.childSubCategory');
 Route::get('/get-service-items/{category_id}', [ServiceController::class, 'getServiceItems']);
 
+
+Route::get('/news', [NewsFrontendController::class, 'index'])->name('news');
+Route::get('/news/{slug}', [NewsFrontendController::class, 'show'])->name('news.show');
+
 // FOOTER LINKS DETAIL SECTION
-// Route::get('/about',                                    [FrontendController::class, 'footerDetails'])->name('footer.details.about');
 Route::get('/about-us', [FrontendController::class, 'about_us'])->name('footer.details.about_us');
 Route::get('/slavery-and-human-trafficking-statement', [FrontendController::class, 'slavery_and_human_trafficking_statement'])->name('footer.details.slavery_and_human_trafficking_statement');
 Route::get('/statement', [FrontendController::class, 'statement'])->name('footer.details.statement');
 Route::get('/sustainability', [FrontendController::class, 'sustainability'])->name('footer.details.sustainability');
 Route::get('/unipuller-service', [FrontendController::class, 'unipuller_service'])->name('footer.details.unipuller_service');
 
-// Route::get('/make-money',                               [FrontendController::class, 'footerDetails'])->name('footer.details.make.money');
 Route::get('/sell-on-unipuller', [FrontendController::class, 'sell_on_unipuller'])->name('footer.details.sell_on_unipuller');
 Route::get('/sell-on-unipuller-technology', [FrontendController::class, 'sell_on_technology'])->name('footer.details.sell_on_technology');
 Route::get('/associate-program', [FrontendController::class, 'associate_program'])->name('footer.details.associate_program');
 Route::get('/service-delivery-partnership', [FrontendController::class, 'delivery_partner'])->name('footer.details.delivery_partner');
 
-
-// Route::get('/our-services',                             [FrontendController::class, 'footerDetails'])->name('footer.details.our.services');
 Route::get('/advertising', [FrontendController::class, 'advertising'])->name('footer.details.our.advertising');
 Route::get('/marketing', [FrontendController::class, 'marketing'])->name('footer.details.our.marketing');
 Route::get('/website-devlopment', [FrontendController::class, 'website_devlopment'])->name('footer.details.our.website_devlopment');
@@ -217,9 +184,6 @@ Route::get('/software-devlopment', [FrontendController::class, 'software_devlopm
 Route::get('/seo', [FrontendController::class, 'seo'])->name('footer.details.our.seo');
 Route::get('/video-production', [FrontendController::class, 'video_production'])->name('footer.details.our.video_production');
 
-// Route::get('/quick-links',                              [FrontendController::class, 'footerDetails'])->name('footer.details.quick.links');
-
-// Route::get('/policies',                                 [FrontendController::class, 'footerDetails'])->name('footer.details.policies');
 Route::get('/privacy-cookies', [FrontendController::class, 'privacy_cookies'])->name('footer.details.policies.privacy_cookies');
 Route::get('/condition-of-use-and-sale', [FrontendController::class, 'condition_of_use_sale'])->name('footer.details.policies.condition_of_use_sale');
 Route::get('/return-and-return-policies', [FrontendController::class, 'return_refund_policies'])->name('footer.details.policies.return_refund_policies');
@@ -250,7 +214,6 @@ Route::get('/upcolor', 'Front\CartController@upcolor');
 
 
 Route::middleware(['setData'])->group(function () {
-
     // Frontend Routes Start //
 
     Route::get('/', [HomePageController::class, 'index'])->name('homePage');
@@ -261,14 +224,11 @@ Route::middleware(['setData'])->group(function () {
 
     Route::get('/shop/business/service/{id}', [ShopController::class, 'BusinessShopService'])->name('business.shop.service');
 
-
-
     //Product
     Route::get('/product/list', [ProductController::class, 'productList'])->name('product.list');
-    // Route::get('/service/service/list/{id}', [ProductController::class, 'productShow'])->name('product.show');
-    Route::get('/service/service/list/{id}/{name?}', [ProductController::class, 'productShow'])->name('product.show');
-    Route::get('/product-policy/{id}', [ProductController::class, 'productPolicy'])->name('product.policy');
-    Route::get('/product-refund-policy/{id}', [ProductController::class, 'productRefundPolicy'])->name('product.refund.policy');
+    Route::get('/service/list/{slug}', [ProductController::class, 'productShow'])->name('product.show');
+    Route::get('/product-policy/{slug}', [ProductController::class, 'productPolicy'])->name('product.policy');
+    Route::get('/product-refund-policy/{slug}', [ProductController::class, 'productRefundPolicy'])->name('product.refund.policy');
 
     // CATEGORY SECTION
 
@@ -281,6 +241,8 @@ Route::middleware(['setData'])->group(function () {
 
     Route::get('/business/register', [BusinessController::class, 'getRegister'])->name('business.getRegister');
     Route::post('/business/register', [BusinessController::class, 'postRegister'])->name('business.postRegister');
+
+    Route::get('/business/register/sub-category/{id}', [BusinessController::class, 'getSubCategory'])->name('business.getSubCategory');
 
     Route::get('/customer/register/{business_id?}', [CustomerGroupController::class, 'getRegister'])->name('customer.getRegister');
     Route::post('/customer/register', [CustomerGroupController::class, 'postRegister'])->name('customer.postRegister');
@@ -303,57 +265,57 @@ Route::middleware(['setData'])->group(function () {
 // Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 'AdminSidebarMenu', 'CheckUserLogin'])->group(function () {
 Route::middleware(['checkAdmin', 'SetSessionData'])->group(function () {
 
+
+    Route::get('/service-booking-details-of-customer', function () {
+        return view('backend.service_booking_details_of_customer');
+    })->name('service_booking_details_of_customer');
+
+
     Route::get('/footer', [FooterController::class, 'index'])->name('footer.index');
     Route::get('/footer/create', [FooterController::class, 'create'])->name('footer.create');
     Route::post('/footer', [FooterController::class, 'store'])->name('footer.store');
     Route::get('/footer/{id}/edit', [FooterController::class, 'edit'])->name('footer.edit');
     Route::put('/footer/{id}', [FooterController::class, 'update'])->name('footer.update');
 
-    // Shop news category
-    Route::get('shop-news-category', [NewsCategoryController::class, 'index'])->name('shop-news-category.index');
-    Route::get('shop-news-category/create', [NewsCategoryController::class, 'create'])->name('shop-news-category.create');
-    Route::post('shop-news-category', [NewsCategoryController::class, 'store'])->name('shop-news-category.store');
-    Route::get('shop-news-category/{id}', [NewsCategoryController::class, 'show'])->name('shop-news-category.show');
-    Route::get('shop-news-category/{id}/edit', [NewsCategoryController::class, 'edit'])->name('shop-news-category.edit');
-    Route::put('shop-news-category/{id}', [NewsCategoryController::class, 'update'])->name('shop-news-category.update');
-    Route::delete('shop-news-category/{id}', [NewsCategoryController::class, 'destroy'])->name('shop-news-category.destroy');
-    Route::get('shop-news-cactegory/status-change/{id}', [NewsCategoryController::class, 'statusChange'])->name('shop-news-category.statusChange');
 
-    // Shop marketing category
-    Route::get('shop-marketing-category', [MarketingCategoryController::class, 'index'])->name('shop-marketing-category.index');
-    Route::get('shop-marketing-category/create', [MarketingCategoryController::class, 'create'])->name('shop-marketing-category.create');
-    Route::post('shop-marketing-category', [MarketingCategoryController::class, 'store'])->name('shop-marketing-category.store');
-    Route::get('shop-marketing-category/{id}', [MarketingCategoryController::class, 'show'])->name('shop-news-category.show');
-    Route::get('shop-marketing-category/{id}/edit', [MarketingCategoryController::class, 'edit'])->name('shop-marketing-category.edit');
-    Route::put('shop-nemarketingws-category/{id}', [MarketingCategoryController::class, 'update'])->name('shop-marketing-category.update');
-    Route::delete('shop-marketing-category/{id}', [MarketingCategoryController::class, 'destroy'])->name('shop-marketing-category.destroy');
-    Route::get('shop-marketing-cactegory/status-change/{id}', [MarketingCategoryController::class, 'statusChange'])->name('shop-marketing-category.statusChange');
+    //Message controller
+    // Message controller routes
+    Route::get('get-new-messages', [MessageController::class, 'getNewMessages']);
+    Route::resource('messages', MessageController::class)->only(['index', 'store', 'destroy']);
+
 
     // News
-    Route::get('shop-news', [NewsController::class, 'index'])->name('shop-news.index');
-    Route::get('shop-news/create', [NewsController::class, 'create'])->name('shop-news.create');
-    Route::post('shop-news', [NewsController::class, 'store'])->name('shop-news.store');
-    Route::get('shop-news/{id}', [NewsController::class, 'show'])->name('shop-news.show');
-    Route::get('shop-news/{id}/edit', [NewsController::class, 'edit'])->name('shop-news.edit');
-    Route::put('shop-news/{id}', [NewsController::class, 'update'])->name('shop-news.update');
-    Route::delete('shop-news/{id}', [NewsController::class, 'destroy'])->name('shop-news.destroy');
-    Route::get('shop-news/status-change/{id}', [NewsController::class, 'statusChange'])->name('shop-news.statusChange');
+    Route::get('shop-news',                         [NewsController::class, 'index'])->name('shop-news.index');
+    Route::get('shop-news/create',                  [NewsController::class, 'create'])->name('shop-news.create');
+    Route::post('shop-news',                        [NewsController::class, 'store'])->name('shop-news.store');
+    Route::get('shop-news/{id}',                    [NewsController::class, 'show'])->name('shop-news.show');
+    Route::get('shop-news/{id}/edit',               [NewsController::class, 'edit'])->name('shop-news.edit');
+    Route::put('shop-news/{id}',                    [NewsController::class, 'update'])->name('shop-news.update');
+    Route::delete('shop-news/{id}',                 [NewsController::class, 'destroy'])->name('shop-news.destroy');
+    Route::get('shop-news/status-change/{id}',      [NewsController::class, 'statusChange'])->name('shop-news.statusChange');
 
-    Route::resource('shop-marketing', MarketingController::class);
+    Route::get('shop-news/get-sub-categories/{id}',      [NewsController::class, 'get_sub_category'])->name('shop-news.get_sub_category');
 
-    Route::get('/applicant/index', [RecruitmentController::class, 'index'])->name('recruitment.index');
-    Route::get('/my-applications', [RecruitmentController::class, 'myApplications'])->name('recruitment.myApplications');
-    Route::get('/recruitment/show/{id}', [RecruitmentController::class, 'show'])->name('recruitment.show');
+    // News_marketing catetory
+    Route::get('/shop-news-marketing/category/index',                     [NewsMarketingCategoryController::class, 'shop_news_category_index'])->name('shop_news_category_index');
+    Route::get('/shop-news-marketing/category/create',                    [NewsMarketingCategoryController::class, 'shop_news_category_create'])->name('shop_news_category_create');
+    Route::post('/shop-news-marketing/category/store',                    [NewsMarketingCategoryController::class, 'shop_news_category_store'])->name('shop_news_category_store');
+    Route::get('/shop-news-marketing/category/edit/{id}',                 [NewsMarketingCategoryController::class, 'shop_news_category_edit'])->name('shop_news_category_edit');
+    Route::put('/shop-news-marketing/category/update/{id}',               [NewsMarketingCategoryController::class, 'shop_news_category_update'])->name('shop_news_category_update');
+    Route::get('shop-news-marketing/category/status-change/{id}',         [NewsMarketingCategoryController::class, 'shop_news_category_statusChange'])->name('shop_news_category.statusChange');
+
+    // News_marketing sub catetory
+    Route::get('/shop-news-marketing/sub-category/create',                [NewsMarketingCategoryController::class, 'shop_news_sub_category_create'])->name('shop_news_sub_category_create');
+    Route::get('/shop-news-marketing/sub-category/edit/{id}',             [NewsMarketingCategoryController::class, 'shop_news_sub_category_edit'])->name('shop_news_sub_category_edit');
+    Route::get('shop-news-marketing/sub-category/status-change/{id}',     [NewsMarketingCategoryController::class, 'shop_news_sub_category_statusChange'])->name('shop_news_sub_category.statusChange');
+
+    Route::get('/applicant/index',                                        [RecruitmentController::class, 'index'])->name('recruitment.index');
+    Route::get('/my-applications',                                        [RecruitmentController::class, 'myApplications'])->name('recruitment.myApplications');
+    Route::get('/recruitment-show/{id}',                                  [RecruitmentController::class, 'show'])->name('recruitment.show');
 
     // Job
     Route::resource('jobs', JobController::class);
-
-    // Route::get('/jobs', [JobController::class, 'index'])->name('jobs.index');
-    // Route::get('/jobs/create', [JobController::class, 'create'])->name('jobs.create');
-    // Route::post('/jobs', [JobController::class, 'store'])->name('jobs.store');
-    // Route::get('/jobs/{id}/edit', [JobController::class, 'edit'])->name('jobs.edit');
-    // Route::put('/jobs/{id}', [JobController::class, 'update'])->name('jobs.update');
-    // Route::delete('jobs/{id}', [JobController::class, 'destroy'])->name('jobs.destroy');
+    Route::get('/jobs/status-change/{id}', [JobController::class, 'status_change'])->name('jobs.status_change');
 
     Route::get('jobs/{id}/applicant-list', [JobController::class, 'applicantList'])->name('jobs.applicantList');
 
@@ -364,8 +326,19 @@ Route::middleware(['checkAdmin', 'SetSessionData'])->group(function () {
     Route::get('job-category/{id}', [JobCategoryController::class, 'show'])->name('job-category.show');
     Route::get('job-category/{id}/edit', [JobCategoryController::class, 'edit'])->name('job-category.edit');
     Route::put('job-category/{id}', [JobCategoryController::class, 'update'])->name('job-category.update');
-    // Route::delete('job-category/{id}',                      [JobCategoryController::class, 'destroy'])->name('job-category.destroy');
     Route::get('job-cactegory/status-change/{id}', [JobCategoryController::class, 'statusChange'])->name('job-category.statusChange');
+
+    // Region
+    Route::resource('region', RegionController::class);
+    Route::get('region/status-change/{id}', [RegionController::class, 'statusChange'])->name('region.statusChange');
+
+    // Language
+    Route::resource('language', LanguageSpeechController::class);
+    Route::get('language/status-change/{id}', [LanguageSpeechController::class, 'statusChange'])->name('language.statusChange');
+
+    // Speical
+    Route::resource('special', SpecialController::class);
+    Route::get('special/status-change/{id}', [SpecialController::class, 'statusChange'])->name('special.statusChange');
 
     // Services
     Route::resource('service-advertise', ServiceAdvertiseRoomController::class);
@@ -384,12 +357,6 @@ Route::middleware(['checkAdmin', 'SetSessionData'])->group(function () {
     Route::resource('/room-to-rent', RoomToRentController::class);
 
     Route::resource('service-education', ServiceEducationController::class);
-
-
-
-
-
-
 
     Route::get('pos/payment/{id}', [SellPosController::class, 'edit'])->name('edit-pos-payment');
     Route::get('service-staff-availability', [SellPosController::class, 'showServiceStaffAvailibility']);
@@ -465,10 +432,37 @@ Route::middleware(['checkAdmin', 'SetSessionData'])->group(function () {
     Route::post('/business-location/category/store',            [TaxonomyController::class, 'business_location_category_store'])->name('business_location_category_store');
     Route::get('/business-location/category/edit/{id}',         [TaxonomyController::class, 'business_location_category_edit'])->name('business_location_category_edit');
     Route::put('/business-location/category/update/{id}',       [TaxonomyController::class, 'business_location_category_update'])->name('business_location_category_update');
-    Route::delete('/business-location/category/destroy/{id}',   [TaxonomyController::class, 'business_location_category_destroy'])->name('business_location_category_destroy');
+    Route::get('/business-location/category/status-change/{id}', [TaxonomyController::class, 'business_location_category_statusChange'])->name('business_location_category.statusChange');
 
     Route::get('/business-location/sub-category/create',        [TaxonomyController::class, 'business_location_sub_category_create'])->name('business_location_sub_category_create');
     Route::get('/business-location/sub-category/edit/{id}',     [TaxonomyController::class, 'business_location_sub_category_edit'])->name('business_location_sub_category_edit');
+    Route::get('/business-location/sub-category/status-change/{id}', [TaxonomyController::class, 'business_location_sub_category_statusChange'])->name('business_location_sub_category.statusChange');
+
+    Route::get('/business-location/category',                           [BusinessLocationCategoryController::class, 'business_location_category_index'])->name('business_location_category_index');
+    Route::get('/business-location/category/create',                    [BusinessLocationCategoryController::class, 'business_location_category_create'])->name('business_location_category_create');
+    Route::post('/business-location/category/store',                    [BusinessLocationCategoryController::class, 'business_location_category_store'])->name('business_location_category_store');
+    Route::get('/business-location/category/edit/{id}',                 [BusinessLocationCategoryController::class, 'business_location_category_edit'])->name('business_location_category_edit');
+    Route::put('/business-location/category/update/{id}',               [BusinessLocationCategoryController::class, 'business_location_category_update'])->name('business_location_category_update');
+    Route::get('/business-location/category/status-change/{id}',        [BusinessLocationCategoryController::class, 'business_location_category_statusChange'])->name('business_location_category.statusChange');
+
+    Route::get('/business-location/sub-category/create',                [BusinessLocationCategoryController::class, 'business_location_sub_category_create'])->name('business_location_sub_category_create');
+    Route::get('/business-location/sub-category/edit/{id}',             [BusinessLocationCategoryController::class, 'business_location_sub_category_edit'])->name('business_location_sub_category_edit');
+    Route::get('/business-location/sub-category/status-change/{id}',    [BusinessLocationCategoryController::class, 'business_location_sub_category_statusChange'])->name('business_location_sub_category.statusChange');
+
+    Route::get('/product-service/category/index',               [TaxonomyController::class, 'product_service_category_index'])->name('product_service_category_index');
+    Route::get('/product-service/category/create',              [TaxonomyController::class, 'product_service_category_create'])->name('product_service_category_create');
+    Route::post('/product-service/category/store',              [TaxonomyController::class, 'product_service_category_store'])->name('product_service_category_store');
+    Route::get('/product-service/category/edit/{id}',           [TaxonomyController::class, 'product_service_category_edit'])->name('product_service_category_edit');
+    Route::put('/product-service/category/update/{id}',         [TaxonomyController::class, 'product_service_category_update'])->name('product_service_category_update');
+    Route::get('/product-service/category/status-change/{id}',  [TaxonomyController::class, 'product_service_category_statusChange'])->name('product_service_category.statusChange');
+
+    Route::get('/product-service/sub-category/create',          [TaxonomyController::class, 'product_service_sub_category_create'])->name('product_service_sub_category_create');
+    Route::get('/product-service/sub-category/edit/{id}',       [TaxonomyController::class, 'product_service_sub_category_edit'])->name('product_service_sub_category_edit');
+    Route::get('/product-service/sub-category/status-change/{id}',  [TaxonomyController::class, 'product_service_sub_category_statusChange'])->name('product_service_sub_category.statusChange');
+
+    Route::get('/product-service/child-category/create',        [TaxonomyController::class, 'product_service_child_category_create'])->name('product_service_child_category_create');
+    Route::get('/product-service/child-category/edit/{id}',     [TaxonomyController::class, 'product_service_child_category_edit'])->name('product_service_child_category_edit');
+    Route::get('/product-service/child-category/status-change/{id}',  [TaxonomyController::class, 'product_service_child_category_statusChange'])->name('product_service_child_category.statusChange');
 
     Route::resource('variation-templates', VariationTemplateController::class);
 

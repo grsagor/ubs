@@ -55,17 +55,8 @@
             </div>
         </div>
     </section>
+@endsection
 
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    <script src="https://cdn.tiny.cloud/1/YOUR_API_KEY/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
-    <script>
-        $(document).ready(function() {
-            if ($("textarea#footer_details").length > 0) {
-                tinymce.init({
-                    selector: "textarea#footer_details",
-                    height: 550,
-                });
-            }
-        });
-    </script>
+@section('javascript')
+    @include('backend.footer.partial.js')
 @endsection

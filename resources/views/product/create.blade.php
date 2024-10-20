@@ -218,7 +218,7 @@
             <div class="row">
                 <div class="col-sm-6">
                     <div class="form-group">
-                        {!! Form::label('name', __('product.study_time') . ':') !!}
+                        {!! Form::label('Study Time:') !!}
                         {!! Form::select(
                             'study_time',
                             ['Part Time' => 'Part Time', 'Full Time' => 'Full Time'],
@@ -405,7 +405,6 @@
                         ) !!}
                     </div>
                 </div>
-                {{-- <div class="clearfix hide" id="fee-installment-description-clearfix"></div> --}}
 
                 <div class="clearfix"></div>
                 <div class="col-sm-4">
@@ -424,7 +423,7 @@
                     </div>
                 </div>
 
-                <div class="col-sm-8 hide" id="course-description-section">
+                <div class="col-sm-8 " id="course-description-section">
                     <div class="form-group">
                         {!! Form::label('course_module_description', __('Course Module Description') . ':') !!}
                         {!! Form::textarea(
@@ -1088,66 +1087,6 @@
                         ]) !!}
                     </div>
                 </div>
-                @php
-                    $custom_labels = json_decode(session('business.custom_labels'), true);
-                    $product_custom_field1 = !empty($custom_labels['product']['custom_field_1'])
-                        ? $custom_labels['product']['custom_field_1']
-                        : __('lang_v1.product_custom_field1');
-                    $product_custom_field2 = !empty($custom_labels['product']['custom_field_2'])
-                        ? $custom_labels['product']['custom_field_2']
-                        : __('lang_v1.product_custom_field2');
-                    $product_custom_field3 = !empty($custom_labels['product']['custom_field_3'])
-                        ? $custom_labels['product']['custom_field_3']
-                        : __('lang_v1.product_custom_field3');
-                    $product_custom_field4 = !empty($custom_labels['product']['custom_field_4'])
-                        ? $custom_labels['product']['custom_field_4']
-                        : __('lang_v1.product_custom_field4');
-                @endphp
-                <!--custom fields-->
-                <div class="clearfix"></div>
-                <div class="col-sm-3">
-                    <div class="form-group">
-                        {!! Form::label('product_custom_field1', $product_custom_field1 . ':') !!}
-                        {!! Form::text(
-                            'product_custom_field1',
-                            !empty($duplicate_product->product_custom_field1) ? $duplicate_product->product_custom_field1 : null,
-                            ['class' => 'form-control', 'placeholder' => $product_custom_field1],
-                        ) !!}
-                    </div>
-                </div>
-
-                <div class="col-sm-3">
-                    <div class="form-group">
-                        {!! Form::label('product_custom_field2', $product_custom_field2 . ':') !!}
-                        {!! Form::text(
-                            'product_custom_field2',
-                            !empty($duplicate_product->product_custom_field2) ? $duplicate_product->product_custom_field2 : null,
-                            ['class' => 'form-control', 'placeholder' => $product_custom_field2],
-                        ) !!}
-                    </div>
-                </div>
-
-                <div class="col-sm-3">
-                    <div class="form-group">
-                        {!! Form::label('product_custom_field3', $product_custom_field3 . ':') !!}
-                        {!! Form::text(
-                            'product_custom_field3',
-                            !empty($duplicate_product->product_custom_field3) ? $duplicate_product->product_custom_field3 : null,
-                            ['class' => 'form-control', 'placeholder' => $product_custom_field3],
-                        ) !!}
-                    </div>
-                </div>
-
-                <div class="col-sm-3">
-                    <div class="form-group">
-                        {!! Form::label('product_custom_field4', $product_custom_field4 . ':') !!}
-                        {!! Form::text(
-                            'product_custom_field4',
-                            !empty($duplicate_product->product_custom_field4) ? $duplicate_product->product_custom_field4 : null,
-                            ['class' => 'form-control', 'placeholder' => $product_custom_field4],
-                        ) !!}
-                    </div>
-                </div>
 
                 <div class="col-sm-3">
                     <div class="form-group">
@@ -1184,6 +1123,46 @@
                 </div>
             </div>
         @endcomponent
+
+        <div id="service-component" style="display:none;">
+            @component('components.widget', ['class' => 'box-primary'])
+                <div class="row">
+                    <div class="col-sm-12">
+                        <label style="margin-bottom: 10px;">Select the information you need from customer:</label>
+                        <div class="form-group">
+                            <div style="margin-bottom: 10px;">
+                                <input type="checkbox" class="input-icheck" name="checkbox_name">
+                                <label style="margin-right: 20px;">Name</label>
+
+                                <input type="checkbox" class="input-icheck" name="checkbox_phone">
+                                <label style="margin-right: 20px;">Phone</label>
+
+                                <input type="checkbox" class="input-icheck" name="checkbox_email">
+                                <label style="margin-right: 20px;">Email</label>
+
+                                <input type="checkbox" class="input-icheck" name="checkbox_current_address">
+                                <label style="margin-right: 20px;">Current address</label>
+
+                                <input type="checkbox" class="input-icheck" name="checkbox_origin">
+                                <label style="margin-right: 20px;">Origin</label>
+
+                                <input type="checkbox" class="input-icheck" name="checkbox_education">
+                                <label style="margin-right: 20px;">Education</label>
+
+                                <input type="checkbox" class="input-icheck" name="checkbox_experience">
+                                <label style="margin-right: 20px;">Experience</label>
+
+                                <input type="checkbox" class="input-icheck" name="checkbox_additional_files">
+                                <label style="margin-right: 20px;">Additional Files</label>
+
+                                <input type="checkbox" class="input-icheck" name="checkbox_cv">
+                                <label>CV</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endcomponent
+        </div>
 
         @component('components.widget', ['class' => 'box-primary'])
             <div class="row">
@@ -1225,7 +1204,6 @@
                 </div>
             </div>
         @endcomponent
-
 
 
 
@@ -1308,6 +1286,14 @@
             $(document).on('change', '#type', function() {
                 var type = $(this).val();
                 console.log('Type id ' + type);
+
+                if (type === 'service') {
+                    $('#service-component').show(); // Show component if type is 'service'
+                } else {
+                    $('#service-component').find('input[type="checkbox"]').prop('checked', false);
+                    $('#service-component').hide(); // Hide component for any other type
+                }
+
                 $('#opening_stock_button').hide();
                 $('#submit_n_add_selling_prices').hide();
                 $('#save').hide();

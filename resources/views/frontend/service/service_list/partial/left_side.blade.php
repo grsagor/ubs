@@ -1,7 +1,8 @@
-<div class="col-12 col-xl-3 col-lg-3">
+<div class="col-lg-3 col-md-3 col-sm-12">
     <div id="sidebar" class="widget-title-bordered-full">
 
-        <div id="woocommerce_product_categories-4" class="widget woocommerce widget_product_categories widget-toggle">
+        <div id="woocommerce_product_categories-4"
+            class="widget woocommerce widget_product_categories widget-toggle categories">
             <h2 class="widget-title">Categories</h2>
             <ul class="product-categories">
                 @foreach ($nestedDataSets as $category)

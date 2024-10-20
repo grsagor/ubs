@@ -140,9 +140,7 @@
 
             @if ($product->types == 'service')
                 <div class="col-sm-12 col-md-12" style="margin-bottom: 15px;">
-                    <a class="btn btn-primary"
-                        href="{{ route('product.show', ['id' => $item->id, 'name' => rawurlencode($item->name)]) }}"
-                        target="_blank">
+                    <a class="btn btn-primary" href="{{ route('product.show', $item->slug) }}" target="_blank">
                         More Details
                     </a>
                 </div>

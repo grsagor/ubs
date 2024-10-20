@@ -29,8 +29,7 @@ Route::group(['middleware' => ['checkCustomer'], 'prefix' => 'contact',], functi
     Route::get('/single-order-details-show', [CustomerProductController::class, 'single'])->name('customer.order.show.details');
     Route::get('/single-order-details-print', [CustomerProductController::class, 'printInvoice'])->name('customer.order.print.details');
 
-    Route::get('/my-information/{id}/edit', [RecruitmentController::class, 'edit'])->name('recruitment.edit');
-    Route::put('/my-information/{id}', [RecruitmentController::class, 'update'])->name('recruitment.update');
+    Route::get('/my-information/{id}', [RecruitmentController::class, 'showCustomer'])->name('customer.recruitment.showCustomer');
     Route::get('/my-applications', [RecruitmentController::class, 'appliedJobsCustomer'])->name('recruitment.appliedJobsCustomer');
 
     Route::get('/show-student-info-container-edit', [PropertyWantedCustomerController::class, 'showStudentInfoContainerEdit']);

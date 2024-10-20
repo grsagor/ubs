@@ -34,10 +34,11 @@ class DashboardController extends Controller
      * @param  ModuleUtil  $moduleUtil
      * @return void
      */
-    public function __construct(ModuleUtil $moduleUtil,
+    public function __construct(
+        ModuleUtil $moduleUtil,
         EssentialsUtil $essentialsUtil,
-        TransactionUtil $transactionUtil)
-    {
+        TransactionUtil $transactionUtil
+    ) {
         $this->moduleUtil = $moduleUtil;
         $this->essentialsUtil = $essentialsUtil;
         $this->transactionUtil = $transactionUtil;
@@ -52,29 +53,33 @@ class DashboardController extends Controller
     {
         $business_id = request()->session()->get('user.business_id');
 
+        if (! $this->moduleUtil->hasThePermissionInSubscription($business_id, 'essentials_module')) {
+            return view('error.subscription_expired');
+        }
+
         $is_admin = $this->moduleUtil->is_admin(auth()->user(), $business_id);
 
         $user_id = auth()->user()->id;
 
         $users = User::where('business_id', $business_id)
-                    ->user()
-                    ->get();
+            ->user()
+            ->get();
 
         $departments = Category::where('business_id', $business_id)
-                            ->where('category_type', 'hrm_department')
-                            ->get();
+            ->where('category_type', 'hrm_department')
+            ->get();
         $users_by_dept = $users->groupBy('essentials_department_id');
 
         $today = new \Carbon('today');
 
         $one_month_from_today = \Carbon::now()->addMonth();
         $leaves = EssentialsLeave::where('business_id', $business_id)
-                            ->where('status', 'approved')
-                            ->whereDate('end_date', '>=', $today->format('Y-m-d'))
-                            ->whereDate('start_date', '<=', $one_month_from_today->format('Y-m-d'))
-                            ->with(['user', 'leave_type'])
-                            ->orderBy('start_date', 'asc')
-                            ->get();
+            ->where('status', 'approved')
+            ->whereDate('end_date', '>=', $today->format('Y-m-d'))
+            ->whereDate('start_date', '<=', $one_month_from_today->format('Y-m-d'))
+            ->with(['user', 'leave_type'])
+            ->orderBy('start_date', 'asc')
+            ->get();
 
         $todays_leaves = [];
         $upcoming_leaves = [];
@@ -99,12 +104,14 @@ class DashboardController extends Controller
             }
         }
 
-        $holidays_query = EssentialsHoliday::where('essentials_holidays.business_id',
-                                $business_id)
-                                ->whereDate('end_date', '>=', $today->format('Y-m-d'))
-                                ->whereDate('start_date', '<=', $one_month_from_today->format('Y-m-d'))
-                                ->orderBy('start_date', 'asc')
-                                ->with(['location']);
+        $holidays_query = EssentialsHoliday::where(
+            'essentials_holidays.business_id',
+            $business_id
+        )
+            ->whereDate('end_date', '>=', $today->format('Y-m-d'))
+            ->whereDate('start_date', '<=', $one_month_from_today->format('Y-m-d'))
+            ->orderBy('start_date', 'asc')
+            ->with(['location']);
 
         $permitted_locations = auth()->user()->permitted_locations();
         if ($permitted_locations != 'all') {
@@ -132,16 +139,16 @@ class DashboardController extends Controller
         $todays_attendances = [];
         if ($is_admin) {
             $todays_attendances = EssentialsAttendance::where('business_id', $business_id)
-                                ->whereDate('clock_in_time', \Carbon::now()->format('Y-m-d'))
-                                ->with(['employee'])
-                                ->orderBy('clock_in_time', 'asc')
-                                ->get();
+                ->whereDate('clock_in_time', \Carbon::now()->format('Y-m-d'))
+                ->with(['employee'])
+                ->orderBy('clock_in_time', 'asc')
+                ->get();
         }
 
         $settings = $this->essentialsUtil->getEssentialsSettings();
 
         $sales_targets = EssentialsUserSalesTarget::where('user_id', $user_id)
-                                            ->get();
+            ->get();
 
         $start_date = \Carbon::today()->startOfMonth()->format('Y-m-d');
         $end_date = \Carbon::today()->endOfMonth()->format('Y-m-d');
@@ -158,7 +165,7 @@ class DashboardController extends Controller
         $target_achieved_last_month = ! empty($settings['calculate_sales_target_commission_without_tax']) && $settings['calculate_sales_target_commission_without_tax'] == 1 ? $sale_totals['total_sales_without_tax'] : $sale_totals['total_sales'];
 
         return view('essentials::dashboard.hrm_dashboard')
-                ->with(compact('users', 'departments', 'users_by_dept', 'todays_holidays', 'todays_leaves', 'upcoming_leaves', 'is_admin', 'users_leaves', 'upcoming_holidays', 'todays_attendances', 'sales_targets', 'target_achieved_this_month', 'target_achieved_last_month'));
+            ->with(compact('users', 'departments', 'users_by_dept', 'todays_holidays', 'todays_leaves', 'upcoming_leaves', 'is_admin', 'users_leaves', 'upcoming_holidays', 'todays_attendances', 'sales_targets', 'target_achieved_this_month', 'target_achieved_last_month'));
     }
 
     public function getUserSalesTargets()
@@ -181,10 +188,10 @@ class DashboardController extends Controller
         $settings = $this->essentialsUtil->getEssentialsSettings();
 
         $query = User::where('users.business_id', $business_id)
-                    ->join('transactions as t', 't.commission_agent', '=', 'users.id')
-                    ->where('t.type', 'sell')
-                    ->whereDate('transaction_date', '>=', $last_month_start_date)
-                    ->where('t.status', 'final');
+            ->join('transactions as t', 't.commission_agent', '=', 'users.id')
+            ->where('t.type', 'sell')
+            ->whereDate('transaction_date', '>=', $last_month_start_date)
+            ->where('t.status', 'final');
 
         if (! empty($settings['calculate_sales_target_commission_without_tax']) && $settings['calculate_sales_target_commission_without_tax'] == 1) {
             $query->select(
@@ -194,22 +201,22 @@ class DashboardController extends Controller
             );
         } else {
             $query->select(
-                    DB::raw("CONCAT(COALESCE(surname, ''), ' ', COALESCE(first_name, ''), ' ', COALESCE(last_name, '')) as full_name"),
-                    DB::raw("SUM(IF(DATE(transaction_date) BETWEEN '{$last_month_start_date}' AND '{$last_month_end_date}', final_total, 0)) as total_sales_last_month"),
-                    DB::raw("SUM(IF(DATE(transaction_date) BETWEEN '{$this_month_start_date}' AND '{$this_month_end_date}', final_total, 0)) as total_sales_this_month")
-                );
+                DB::raw("CONCAT(COALESCE(surname, ''), ' ', COALESCE(first_name, ''), ' ', COALESCE(last_name, '')) as full_name"),
+                DB::raw("SUM(IF(DATE(transaction_date) BETWEEN '{$last_month_start_date}' AND '{$last_month_end_date}', final_total, 0)) as total_sales_last_month"),
+                DB::raw("SUM(IF(DATE(transaction_date) BETWEEN '{$this_month_start_date}' AND '{$this_month_end_date}', final_total, 0)) as total_sales_this_month")
+            );
         }
 
         $query->groupBy('users.id');
 
         return Datatables::of($query)
-                ->editColumn('total_sales_this_month', function ($row) {
-                    return $this->transactionUtil->num_f($row->total_sales_this_month, true);
-                })
-                ->editColumn('total_sales_last_month', function ($row) {
-                    return $this->transactionUtil->num_f($row->total_sales_last_month, true);
-                })
-                ->make(false);
+            ->editColumn('total_sales_this_month', function ($row) {
+                return $this->transactionUtil->num_f($row->total_sales_this_month, true);
+            })
+            ->editColumn('total_sales_last_month', function ($row) {
+                return $this->transactionUtil->num_f($row->total_sales_last_month, true);
+            })
+            ->make(false);
     }
 
     /**

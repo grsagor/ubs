@@ -16,10 +16,7 @@
         <h1>@lang('sale.products')
             <small>@lang('lang_v1.manage_products')</small>
         </h1>
-        <!-- <ol class="breadcrumb">
-                    <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
-                    <li class="active">Here</li>
-                </ol> -->
+
     </section>
 
     <!-- Main content -->
@@ -223,7 +220,7 @@
                     [3, 'asc']
                 ],
                 scrollY: "75vh",
-                scrollX: true,
+                // scrollX: true,
                 scrollCollapse: true,
                 "ajax": {
                     "url": "/products",
@@ -309,23 +306,8 @@
                     {
                         data: 'sku',
                         name: 'products.sku'
-                    },
-                    {
-                        data: 'product_custom_field1',
-                        name: 'products.product_custom_field1'
-                    },
-                    {
-                        data: 'product_custom_field2',
-                        name: 'products.product_custom_field2'
-                    },
-                    {
-                        data: 'product_custom_field3',
-                        name: 'products.product_custom_field3'
-                    },
-                    {
-                        data: 'product_custom_field4',
-                        name: 'products.product_custom_field4'
                     }
+
 
                 ],
                 createdRow: function(row, data, dataIndex) {
@@ -658,22 +640,7 @@
                         name: 'total_adjusted',
                         searchable: false
                     });
-                    stock_report_cols.push({
-                        data: 'product_custom_field1',
-                        name: 'p.product_custom_field1'
-                    });
-                    stock_report_cols.push({
-                        data: 'product_custom_field2',
-                        name: 'p.product_custom_field2'
-                    });
-                    stock_report_cols.push({
-                        data: 'product_custom_field3',
-                        name: 'p.product_custom_field3'
-                    });
-                    stock_report_cols.push({
-                        data: 'product_custom_field4',
-                        name: 'p.product_custom_field4'
-                    });
+
 
                     if ($('th.current_stock_mfg').length) {
                         stock_report_cols.push({

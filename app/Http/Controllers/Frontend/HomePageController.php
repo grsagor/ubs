@@ -9,7 +9,6 @@ use App\Product;
 use App\Category;
 use App\ArrivalSection;
 use App\BusinessLocation;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 class HomePageController extends Controller

@@ -231,6 +231,11 @@ class BusinessLocation extends Model
         return $address;
     }
 
+    public function scopeOrderByNameAsc($query)
+    {
+        return $query->orderBy('name', 'asc');
+    }
+
     public function business()
     {
         return $this->belongsTo(Business::class, 'business_id');

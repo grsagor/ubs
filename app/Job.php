@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Category;
 use App\Traits\HasUuid;
 use App\Traits\CreatedUpdatedBy;
 use Illuminate\Database\Eloquent\Model;
@@ -23,6 +24,7 @@ class Job extends Model
     protected $fillable = [
         'uuid',
         'short_id',
+        'slug',
         'business_location_id',
         'reference',
         'title',
@@ -32,7 +34,7 @@ class Job extends Model
         'closing_date',
         'company_name',
         'company_information',
-        'salary',
+        'salary_variation',
         'salary_type',
         'fixed_salary',
         'from_salary',
@@ -40,10 +42,10 @@ class Job extends Model
         'vacancies',
         'location',
         'description',
+        'note',
+        'sponsorship',
         'status',
     ];
-
-
 
     public function scopeActive($query)
     {
@@ -57,20 +59,20 @@ class Job extends Model
             ->orWhere('location', 'LIKE', '%' . $request->search . '%');
     }
 
-
     public function scopeSearchAndFilter($query, $request)
     {
-        if ($request->filled('selectCategory')) {
-            $query->where('job_category_id', $request->input('selectCategory'));
+        if ($request->filled('category_id')) {
+            $query->where('job_category_id', $request->input('category_id'));
         }
 
         if ($request->filled('search')) {
-            $query->where('title', 'like', '%' . $request->input('search') . '%');
+            $query->where('title', 'like', '%' . $request->input('search') . '%')
+                ->orWhere('description', 'LIKE', '%' . $request->search . '%')
+                ->orWhere('company_information', 'LIKE', '%' . $request->search . '%');
         }
 
         return $query;
     }
-
 
     public function createdBy()
     {
@@ -89,6 +91,6 @@ class Job extends Model
 
     public function job_category()
     {
-        return $this->belongsTo(JobCategory::class, 'job_category_id');
+        return $this->belongsTo(Category::class, 'job_category_id');
     }
 }

@@ -129,22 +129,43 @@ class BusinessLocationController extends Controller
             }
 
             $input = $request->only([
-                'name', 'category', 'subcategory',
-                'location_id', 'landmark', 'city', 'zip_code', 'state', 'country',
-                'mobile', 'alternate_number', 'email', 'website',
-                'facebook', 'instagram', 'linkedin', 'youtube', 'twitter',
-                'logo', 'about_info',
-                'invoice_scheme_id', 'invoice_layout_id',
-                'sale_invoice_layout_id', 'selling_price_group_id',
-                'custom_field1', 'custom_field2', 'custom_field3', 'custom_field4',
-                'default_payment_accounts', 'featured_products',
+                'name',
+                'category',
+                'subcategory',
+                'location_id',
+                'landmark',
+                'city',
+                'zip_code',
+                'state',
+                'country',
+                'mobile',
+                'alternate_number',
+                'email',
+                'website',
+                'facebook',
+                'instagram',
+                'linkedin',
+                'youtube',
+                'twitter',
+                'logo',
+                'about_info',
+                'invoice_scheme_id',
+                'invoice_layout_id',
+                'sale_invoice_layout_id',
+                'selling_price_group_id',
+                'custom_field1',
+                'custom_field2',
+                'custom_field3',
+                'custom_field4',
+                'default_payment_accounts',
+                'featured_products',
             ]);
 
             $logo_name = null;
             if ($request->logo) {
                 $image = $request->file('logo');
                 $image_name = rand(123456, 999999) . '.' . $image->getClientOriginalExtension();
-                $image_path = public_path('uploads/business_location');
+                $image_path = public_path('uploads/business_location/');
                 $image->move($image_path, $image_name);
                 $logo_name =  'uploads/business_location/' . $image_name;
             }
@@ -207,6 +228,7 @@ class BusinessLocationController extends Controller
         }
 
         $business_id = request()->session()->get('user.business_id');
+
         $location = BusinessLocation::where('business_id', $business_id)
             ->find($id);
         $invoice_layouts = InvoiceLayout::where('business_id', $business_id)
@@ -263,15 +285,36 @@ class BusinessLocationController extends Controller
 
         try {
             $input = $request->only([
-                'name', 'category', 'subcategory',
-                'location_id', 'landmark', 'city', 'zip_code', 'state', 'country',
-                'mobile', 'alternate_number', 'email', 'website',
-                'facebook', 'instagram', 'linkedin', 'youtube', 'twitter',
-                'logo', 'about_info',
-                'invoice_scheme_id', 'invoice_layout_id',
-                'sale_invoice_layout_id', 'selling_price_group_id',
-                'custom_field1', 'custom_field2', 'custom_field3', 'custom_field4',
-                'default_payment_accounts', 'featured_products',
+                'name',
+                'category',
+                'subcategory',
+                'location_id',
+                'landmark',
+                'city',
+                'zip_code',
+                'state',
+                'country',
+                'mobile',
+                'alternate_number',
+                'email',
+                'website',
+                'facebook',
+                'instagram',
+                'linkedin',
+                'youtube',
+                'twitter',
+                'logo',
+                'about_info',
+                'invoice_scheme_id',
+                'invoice_layout_id',
+                'sale_invoice_layout_id',
+                'selling_price_group_id',
+                'custom_field1',
+                'custom_field2',
+                'custom_field3',
+                'custom_field4',
+                'default_payment_accounts',
+                'featured_products',
             ]);
 
             $business_id = $request->session()->get('user.business_id');
@@ -291,9 +334,9 @@ class BusinessLocationController extends Controller
                 // Upload the new image
                 $image = $request->file('logo');
                 $image_name = rand(123456, 999999) . '.' . $image->getClientOriginalExtension();
-                $image_path = public_path('uploads/business_location');
+                $image_path = public_path('uploads/business_location/');
                 $image->move($image_path, $image_name);
-                $input['logo'] = 'uploads/business_location' . $image_name;
+                $input['logo'] = 'uploads/business_location/' . $image_name;
             } else {
                 // Keep the old logo if a new one is not uploaded
                 $input['logo'] = $location->logo;

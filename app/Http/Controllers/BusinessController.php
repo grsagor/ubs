@@ -2,22 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use App\Business;
-use App\Currency;
-use App\Notifications\TestEmailNotification;
-use App\System;
-use App\TaxRate;
 use App\Unit;
 use App\User;
-use App\Utils\BusinessUtil;
-use App\Utils\ModuleUtil;
-use App\Utils\RestaurantUtil;
-use Carbon\Carbon;
+use App\System;
+use App\TaxRate;
+use App\Business;
+use App\Category;
+use App\Currency;
 use DateTimeZone;
+use Carbon\Carbon;
+use App\Utils\ModuleUtil;
+use App\Utils\BusinessUtil;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use App\Utils\RestaurantUtil;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Permission;
+use App\Notifications\TestEmailNotification;
 
 class BusinessController extends Controller
 {
@@ -102,8 +103,15 @@ class BusinessController extends Controller
 
         $system_settings = System::getProperties(['superadmin_enable_register_tc', 'superadmin_register_tc'], true);
 
+        $categories = Category::query()
+            ->where('category_type', 'business_location')
+            ->where('parent_id', 0)
+            ->orderby('name')
+            ->pluck('name', 'id');  // Pluck name as value and id as key
+
         return view('business.register', compact(
             'currencies',
+            'categories',
             'timezone_list',
             'months',
             'accounting_methods',
@@ -174,14 +182,37 @@ class BusinessController extends Controller
         $user = User::create_user($owner_details);
 
         $business_details = $request->only([
-            'name', 'category', 'subcategory', 'start_date', 'currency_id', 'time_zone', 'about_info',
-            'fy_start_month', 'accounting_method', 'tax_label_1', 'tax_number_1', 'facebook', 'instagram', 'linkedin', 'youtube', 'twitter',
-            'tax_label_2', 'tax_number_2',
+            'name',
+            'category',
+            'subcategory',
+            'start_date',
+            'currency_id',
+            'time_zone',
+            'about_info',
+            'fy_start_month',
+            'accounting_method',
+            'tax_label_1',
+            'tax_number_1',
+            'facebook',
+            'instagram',
+            'linkedin',
+            'youtube',
+            'twitter',
+            'tax_label_2',
+            'tax_number_2',
         ]);
 
         $business_location = $request->only([
-            'name', 'country', 'state', 'city', 'zip_code', 'landmark', 'address',
-            'website', 'mobile', 'alternate_number',
+            'name',
+            'country',
+            'state',
+            'city',
+            'zip_code',
+            'landmark',
+            'address',
+            'website',
+            'mobile',
+            'alternate_number',
         ]);
 
         //Create the business
@@ -362,15 +393,53 @@ class BusinessController extends Controller
             }
 
             $business_details = $request->only([
-                'name', 'start_date', 'currency_id', 'tax_label_1', 'tax_number_1', 'tax_label_2', 'tax_number_2', 'default_profit_percent', 'default_sales_tax', 'default_sales_discount', 'sell_price_tax', 'sku_prefix', 'time_zone', 'fy_start_month', 'accounting_method', 'transaction_edit_days', 'sales_cmsn_agnt', 'item_addition_method', 'currency_symbol_placement', 'on_product_expiry',
-                'stop_selling_before', 'default_unit', 'expiry_type', 'date_format',
-                'time_format', 'ref_no_prefixes', 'theme_color', 'email_settings',
-                'sms_settings', 'rp_name', 'amount_for_unit_rp',
-                'min_order_total_for_rp', 'max_rp_per_order',
-                'redeem_amount_per_unit_rp', 'min_order_total_for_redeem',
-                'min_redeem_point', 'max_redeem_point', 'rp_expiry_period',
-                'rp_expiry_type', 'custom_labels', 'weighing_scale_setting',
-                'code_label_1', 'code_1', 'code_label_2', 'code_2', 'currency_precision', 'quantity_precision',
+                'name',
+                'start_date',
+                'currency_id',
+                'tax_label_1',
+                'tax_number_1',
+                'tax_label_2',
+                'tax_number_2',
+                'default_profit_percent',
+                'default_sales_tax',
+                'default_sales_discount',
+                'sell_price_tax',
+                'sku_prefix',
+                'time_zone',
+                'fy_start_month',
+                'accounting_method',
+                'transaction_edit_days',
+                'sales_cmsn_agnt',
+                'item_addition_method',
+                'currency_symbol_placement',
+                'on_product_expiry',
+                'stop_selling_before',
+                'default_unit',
+                'expiry_type',
+                'date_format',
+                'time_format',
+                'ref_no_prefixes',
+                'theme_color',
+                'email_settings',
+                'sms_settings',
+                'rp_name',
+                'amount_for_unit_rp',
+                'min_order_total_for_rp',
+                'max_rp_per_order',
+                'redeem_amount_per_unit_rp',
+                'min_order_total_for_redeem',
+                'min_redeem_point',
+                'max_redeem_point',
+                'rp_expiry_period',
+                'rp_expiry_type',
+                'custom_labels',
+                'weighing_scale_setting',
+                'code_label_1',
+                'code_1',
+                'code_label_2',
+                'code_2',
+                'currency_precision',
+                'quantity_precision',
             ]);
 
             if (!empty($request->input('enable_rp')) && $request->input('enable_rp') == 1) {
@@ -425,8 +494,16 @@ class BusinessController extends Controller
             $checkboxes = [
                 'enable_editing_product_from_purchase',
                 'enable_inline_tax',
-                'enable_brand', 'enable_category', 'enable_sub_category', 'enable_price_tax', 'enable_purchase_status',
-                'enable_lot_number', 'enable_racks', 'enable_row', 'enable_position', 'enable_sub_units',
+                'enable_brand',
+                'enable_category',
+                'enable_sub_category',
+                'enable_price_tax',
+                'enable_purchase_status',
+                'enable_lot_number',
+                'enable_racks',
+                'enable_row',
+                'enable_position',
+                'enable_sub_units',
             ];
             foreach ($checkboxes as $value) {
                 $business_details[$value] = !empty($request->input($value)) && $request->input($value) == 1 ? 1 : 0;
@@ -613,5 +690,19 @@ class BusinessController extends Controller
         }
 
         return $output;
+    }
+
+    public function getSubCategory($id)
+    {
+        // Fetch subcategories based on the category ID
+        $subcategories = Category::where('parent_id', $id)->pluck('name', 'id');
+
+        // Check if there are subcategories
+        if ($subcategories->isEmpty()) {
+            return response()->json([], 200);  // Return an empty array if no subcategories found
+        }
+
+        // Return the subcategories in JSON format
+        return response()->json($subcategories);
     }
 }

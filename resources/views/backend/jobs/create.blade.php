@@ -13,20 +13,20 @@
     </section>
 
     <section class="content">
-        <div class="form-container box box-primary">
 
-            <div class="box-header">
-                <h3 class="box-title">Fill Job details </h3>
-                <div class="box-tools">
-                    <a href="{{ route('jobs.index') }}" class="btn btn-block btn-primary">
-                        <i class="fa fa-list"></i> List</a>
-                </div>
+        <div class="box-header">
+            <h3 class="box-title">Fill Job details </h3>
+            <div class="box-tools">
+                <a href="{{ route('jobs.index') }}" class="btn btn-block btn-primary">
+                    <i class="fa fa-list"></i> List</a>
             </div>
+        </div>
 
-            <div class="box-body">
-                <form action="{{ route('jobs.store') }}" method="POST" enctype="multipart/form-data">
-                    @csrf
+        <div class="box-body">
+            <form action="{{ route('jobs.store') }}" method="POST" enctype="multipart/form-data">
+                @csrf
 
+                @component('components.widget', ['class' => 'box-primary'])
                     <div class="row">
 
                         <div class="col-sm-12">
@@ -42,7 +42,7 @@
                             <div class="form-group">
                                 <label for="selling_price_group_id">Category <span class="text-danger">*</span></label>
                                 <select class="form-control select2" name="job_category_id" required>
-                                    <option value="">Select</option>
+                                    <option value="" disabled selected>Select</option>
                                     @foreach ($job_categories as $cat)
                                         <option value="{{ $cat->id }}"
                                             {{ old('job_category_id') == $cat->id ? 'selected' : '' }}>
@@ -91,7 +91,6 @@
                             </div>
                         </div>
 
-
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label class="form-label">Closing date <span class="text-danger">*</span></label>
@@ -105,6 +104,22 @@
                         <div class="clearfix"></div>
 
                         {{-- Salary start --}}
+
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="form-label">Salary <span class="text-danger">*</span></label>
+                                <select class="form-control select2" name="salary_variation" required>
+                                    <option value="" selected disabled>Select type</option>
+                                    <option value="Hourly" {{ old('salary_variation') == 'Hourly' ? 'selected' : '' }}>
+                                        Hourly
+                                    </option>
+                                    <option value="Monthly" {{ old('salary_variation ') == 'Monthly' ? 'selected' : '' }}>
+                                        Monthly </option>
+                                    <option value="Yearly" {{ old('salary_variation ') == 'Yearly' ? 'selected' : '' }}>
+                                        Yearly </option>
+                                </select>
+                            </div>
+                        </div>
 
                         <div class="col-sm-6">
                             <div class="form-group">
@@ -141,9 +156,8 @@
                                         </div>
                                         <div class="col-sm-6">
                                             <div class="form-group">
-                                                <input class="form-control" type="number" step="0.01"
-                                                    name="to_salary" placeholder="To" value="{{ old('to_salary') }}"
-                                                    id="to_amountField">
+                                                <input class="form-control" type="number" step="0.01" name="to_salary"
+                                                    placeholder="To" value="{{ old('to_salary') }}" id="to_amountField">
                                             </div>
                                         </div>
                                     </div>
@@ -156,9 +170,6 @@
 
                         {{-- Salary end --}}
 
-
-                        <div class="clearfix"></div>
-
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label class="form-label">Number of vacancies <span class="text-danger">*</span></label>
@@ -168,8 +179,7 @@
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label for="selling_price_group_id">Shop location <span
-                                        class="text-danger">*</span></label>
+                                <label for="selling_price_group_id">Shop location <span class="text-danger">*</span></label>
                                 <select class="form-control select2" name="business_location_id" required>
                                     <option value="">Select</option>
                                     @foreach ($business_locations as $item)
@@ -200,6 +210,13 @@
                             </div>
                         </div>
 
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <input type="checkbox" class="input-icheck" name="sponsorship" value=1>
+                                <label for="">Sponsorship available? </label>
+                            </div>
+                        </div>
+
                         <div class="col-sm-12">
                             <div class="form-group">
                                 <label for="custom_field1">Description <span class="text-danger">*</span></label>
@@ -213,111 +230,62 @@
                             </div>
                         </div>
                     </div>
+                @endcomponent
 
-                    <hr style="margin-top: 30px; margin-bottom: 20px; border-top: 3px solid #3e8541;">
-
+                @component('components.widget', ['class' => 'box-primary'])
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label class="form-label">Company Name <span class="text-danger">*</span></label>
+                                <label class="form-label">Employer Name <span class="text-danger">*</span></label>
                                 <input class="form-control" type="text" name="company_name" required
-                                    placeholder="Name of the company" value="{{ old('company_name') }}">
+                                    placeholder="Name of the employer" value="{{ old('company_name') }}">
                             </div>
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label class="form-label">Job location <span class="text-danger">*</span></label>
-                                <input class="form-control" type="text" name="location" required
-                                    placeholder="Location" value="{{ old('location') }}">
+                                <input class="form-control" type="text" name="location" required placeholder="Location"
+                                    value="{{ old('location') }}">
                             </div>
                         </div>
 
                         <div class="col-sm-12">
                             <div class="form-group">
-                                <label for="custom_field1">Company Information <span class="text-danger">*</span></label>
+                                <label for="custom_field1">Employee Information <span class="text-danger">*</span></label>
                                 <textarea rows="5" type="text" class="form-control" name="company_information" id="company-information"
-                                    class="input-field" placeholder="Company information">{{ old('company_information') }}</textarea>
+                                    class="input-field" placeholder="Employee information">{{ old('company_information') }}</textarea>
                                 @error('company_information')
                                     <span class="error text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
                         </div>
 
-                        <!-- Add Submit Button -->
-                        <div class="col-sm-12">
-                            <div class="form-group">
-                                <button type="submit" class="btn btn-primary">Submit</button>
-                            </div>
-                        </div>
-
                     </div>
-                </form>
-            </div>
+                @endcomponent
+
+                @component('components.widget', ['class' => 'box-primary'])
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label for="note">Note: @show_tooltip(__(''))</label>
+                            <textarea rows="5" type="text" class="form-control" name="note" id="note" class="input-field"
+                                placeholder="Note">{{ old('note') }}</textarea>
+                        </div>
+                    </div>
+                @endcomponent
+
+                <!-- Add Submit Button -->
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </div>
+
+            </form>
         </div>
+
     </section>
+@endsection
 
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    <script src="https://cdn.tiny.cloud/1/YOUR_API_KEY/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
-    <script>
-        $(document).ready(function() {
-            function toggleSalaryFields() {
-                const salaryType = $('#salary_type').val();
-
-                if (salaryType === 'Fixed') {
-                    $('#fixed_amount_group').show().find('input').attr('required', true);
-                    $('#salary_range_group').hide().find('input').removeAttr('required').val(null);
-                } else if (salaryType === 'Negotiable') {
-                    $('#fixed_amount_group').hide().find('input').removeAttr('required').val(null);
-                    $('#salary_range_group').show().find('input').attr('required', true);
-                } else {
-                    $('#fixed_amount_group, #salary_range_group').hide().find('input').removeAttr('required').val(
-                        null);
-                }
-            }
-
-            function validateRange() {
-                const fromAmount = parseFloat($('#from_amountField').val());
-                const toAmount = parseFloat($('#to_amountField').val());
-
-                if (toAmount && fromAmount && toAmount <= fromAmount) {
-                    $('#range-error').show();
-                    $('#to_amountField').val(null);
-                } else {
-                    $('#range-error').hide();
-                }
-            }
-
-            $('#salary_type').change(function() {
-                toggleSalaryFields();
-            });
-
-            $('#to_amountField').on('change', function() {
-                validateRange();
-            });
-
-            $('#from_amountField').on('change', function() {
-                validateRange();
-            });
-
-            // Initial call to set the correct fields based on the old value if available
-            toggleSalaryFields();
-        });
-
-
-        $(document).ready(function() {
-            if ($("textarea#footer_details").length > 0) {
-                tinymce.init({
-                    selector: "textarea#footer_details",
-                    height: 450,
-                });
-            }
-
-            if ($("textarea#company-information").length > 0) {
-                tinymce.init({
-                    selector: "textarea#company-information",
-                    height: 350,
-                });
-            }
-        });
-    </script>
+@section('javascript')
+    @include('backend.jobs.partial.js')
 @endsection

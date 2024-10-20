@@ -1,244 +1,169 @@
-@extends('frontend.layouts.master_layout')
-@section('title', 'Jobs')
+@extends('frontend.recruitment.partial.app')
+@section('title', 'Jobs-list')
 @section('css')
-    <style>
-        .color-black {
-            color: black !important;
-        }
-
-        .para-font {
-            font-size: 14px !important;
-        }
-
-        .custom-card {
-            border: none;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease-in-out;
-        }
-
-        .card-body {
-            padding: 20px;
-        }
-
-        .card-design {
-            background-color: #dedede;
-            color: #212529;
-        }
-
-        .card-title {
-            color: #007bff;
-            font-size: 18px;
-        }
-
-        .card-subtitle {
-            color: #6c757d;
-        }
-
-        .card-text {
-            color: #495057;
-        }
-
-        .mobile-view {
-            display: none;
-        }
-
-        .laptop-view {
-            display: block;
-        }
-
-        .type_select {
-            width: 180px !important;
-        }
-
-        .product-search-one {
-            padding: 9px;
-        }
-
-        @media (max-width: 767px) {
-            .mobile-view {
-                display: block;
-            }
-
-            .laptop-view {
-                display: none;
-            }
-
-            .card-title {
-                color: #007bff;
-                font-size: 18px;
-            }
-
-            .select-appearance-none {
-                display: block !important;
-            }
-
-            .type_select {
-                width: 130px !important;
-            }
-        }
-    </style>
+    @include('frontend.recruitment.partial.css')
 @endsection
-@section('content')
-    @includeIf('frontend.partials.global.common-header')
 
-    <div class="container">
-        <div class="row">
-            <div class="col-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 all_list mb-0">
+@section('property_list_content')
+    <div class="product-search-one mb-3">
+        <form id="searchForm" class="search-form form-inline search-pill-shape bg-white"
+            action="{{ route('recruitment.list', array_merge(request()->except('page'), ['search' => strtolower(request()->input('search'))])) }}"
+            method="GET">
+            <input type="text" id="shop_name" class="col form-control search-field" name="search" placeholder="Search job"
+                value="{{ request()->input('search') }}">
+            <input type="hidden" name="category_id" value="{{ request()->input('category_id') }}">
+            <button type="submit" class="search-submit"><i class="flaticon-search flat-mini text-white"></i></button>
+        </form>
+    </div>
 
-                <div class="col-xxl-12 col-xl-12 col-lg-12 col-12 order-lg-2">
-                    <div class="product-search-one">
-                        <form id="searchForm" class="search-form form-inline search-pill-shape"
-                            action="{{ route('recruitment.list') }}" method="GET">
-                            <div class="select-appearance-none categori-container mx-2" id="typeSelectFormSticky">
-                                <select name="selectCategory" id="selectTypeSticky" class="form-control type_select">
-                                    <option value="">Select Category</option>
-                                    @foreach ($jobsCategory as $jobCat)
-                                        <option value="{{ $jobCat->id }}"
-                                            {{ $jobCat->id == request('selectCategory') ? 'selected' : '' }}>
-                                            {{ $jobCat->name }}
-                                        </option>
-                                    @endforeach
-                                </select>
+    @foreach ($jobs as $item)
+        <div class="col mb-4 custom-card">
+            <a href="{{ route('recruitment.details', ['id' => $item->short_id, 'slug' => $item->slug]) }}"
+                class="text-decoration-none text-dark">
+                <div class="product type-product rounded">
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-12 d-flex mobile-view-center"
+                            style="padding-right: 0px; height: 193px;">
+                            <img class="lazy img-fluid w-100 mobile-view-image"
+                                src="{{ $item->business_location && $item->business_location->logo ? asset($item->business_location->logo) : 'https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg' }}"
+                                alt="Product Image">
+                            @if ($item->job_category_id)
+                                <div class="category-wrapper">
+                                    <div class="category-badge">
+                                        <h6>{{ Str::limit($item->job_category->name ?? null, 50, '...') }}</h6>
+                                    </div>
+                                </div>
+                            @endif
+                        </div>
+
+                        <div class="col-lg-8 col-md-8 col-sm-12 d-flex flex-column mobile_view_card_descripition"
+                            style="padding-right: 15px !important; padding-left: 4px;">
+                            <div class="p-1 flex-grow-1">
+                                <h5 class="product-title" style="padding: 0; margin: 0;">
+                                    <span style="font-weight: 600;">{{ Str::limit($item->title, 45, '...') }}</span>
+                                </h5>
+                                <p class="card-text mb-0 company-name color-black para-font" style="margin-top: 7px;">
+                                    Employer: {{ $item->company_name }}
+                                </p>
+                                <p class="card-text mb-0 color-black para-font">Employee Status:
+                                    {{ implode(', ', $item->hour_type) }}</p>
+                                <p class="card-text mb-0 color-black para-font">Job Type:
+                                    {{ implode(', ', $item->job_type) }}</p>
+                                <p class="card-text mb-0 color-black para-font">Vacancies: {{ $item->vacancies }}</p>
+                                <p class="card-text mb-0 color-black para-font">Location: {{ $item->location }}</p>
+                                <p class="card-text mb-0 color-black para-font">Closing Date:
+                                    {{ Carbon::parse($item->closing_date)->format('d F Y') }}</p>
                             </div>
-                            <input type="text" id="prod_name2" class="col form-control search-field" name="search"
-                                placeholder="Search For" value="{{ request('search') }}">
-                            <button type="submit" class="search-submit"><i
-                                    class="flaticon-search flat-mini text-white"></i></button>
-                        </form>
-
+                        </div>
                     </div>
                 </div>
-
-                {{-- Job List --}}
-                @if (count($jobs) > 0)
-                    @foreach ($jobs as $item)
-                        <div class="col-md-12 mt-2 p-2">
-                            <a href="{{ route('recruitment.details', ['id' => $item->uuid]) }}" target="_blank"
-                                class="card-link">
-
-                                {{-- Laptop view --}}
-                                <div class="card custom-card card-design laptop-view">
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <div class="col-md-9">
-                                                <h4 class="card-title mb-0">{{ $item->title }}</h4>
-                                                <p class="card-text mb-1 company-name color-black para-font">
-                                                    {{ $item->company_name }}
-                                                </p>
-                                                <span>{{ $item->job_category->name ?? '' }}</span>
-
-                                                <p class="card-text mb-0 color-black para-font">Employee Status:
-                                                    {{ implode(', ', $item->hour_type) }}
-                                                </p>
-                                                <p class="card-text mb-0 color-black para-font">Job Type:
-                                                    {{ implode(', ', $item->job_type) }}
-                                                </p>
-
-
-                                                <p class="card-text color-black para-font">
-                                                    @if ($item->salary)
-                                                        Salary:
-                                                        {{ $item->salary }}/{{ $item->salary_type }}
-                                                    @else
-                                                        Salary: {{ $item->salary_type }}
-                                                    @endif
-                                                </p>
-                                            </div>
-
-                                            <div class="col-md-3 text-center m-auto">
-                                                @if ($item->businessLocation && $item->businessLocation->logo)
-                                                    <img src="{{ asset($item->businessLocation->logo) }}" alt=""
-                                                        style="height: 90px">
-                                                @else
-                                                    <img src="https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg"
-                                                        alt="" style="height: 90px">
-                                                @endif
-                                            </div>
-                                        </div>
-
-                                        <div class="row mt-1">
-                                            <div class="col-md-9">
-                                                <p class="card-text color-black para-font">Location:
-                                                    {{ $item->location }}</p>
-                                            </div>
-                                            <div class="col-md-3 text-center">
-                                                <p class="card-text deadline color-black para-font">
-                                                    Deadline:
-                                                    {{ date('d.m.Y', strtotime($item->closing_date)) }}
-                                                </p>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-
-                                {{-- Mobile view --}}
-                                <div class="card custom-card card-design mobile-view">
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <div class="col-md-12 text-center m-auto">
-                                                @if ($item->businessLocation && $item->businessLocation->logo)
-                                                    <img src="{{ asset($item->businessLocation->logo) }}" alt=""
-                                                        style="height: 110px">
-                                                @else
-                                                    <img src="https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg"
-                                                        alt="" style="width: 45% !important;">
-                                                @endif
-                                            </div>
-
-                                            <div class="col-md-12 mt-2">
-                                                <h4 class="card-title mb-0 para-font">{{ $item->title }}
-                                                </h4>
-                                                <p class="card-text company-name color-black para-font">
-                                                    {{ $item->company_name }}
-                                                </p>
-
-                                                <p class="card-text mb-0 color-black para-font">Employee Status:
-                                                    {{ implode(', ', $item->hour_type) }}
-                                                </p>
-                                                <p class="card-text mb-0 color-black para-font">Job Type:
-                                                    {{ implode(', ', $item->job_type) }}
-                                                </p>
-
-                                                <p class="card-text color-black para-font">
-                                                    @if ($item->salary)
-                                                        Salary:
-                                                        {{ $item->salary }}/{{ $item->salary_type }}
-                                                    @else
-                                                        Salary: {{ $item->salary_type }}
-                                                    @endif
-                                                </p>
-                                                <p class="card-text mb-0 color-black para-font">Location:
-                                                    {{ $item->location }}
-                                                </p>
-                                                <p class="card-text deadline color-black para-font">
-                                                    Deadline:
-                                                    {{ date('d.m.Y', strtotime($item->closing_date)) }}
-                                                </p>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                    @endforeach
-
-                    {{-- Pagination --}}
-                    @include('frontend.pagination.pagination', ['paginator' => $jobs])
-                @else
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="page-center">
-                                <h4 class="text-center">{{ 'No Jobs Found.' }}</h4>
-                            </div>
-                        </div>
-                    </div>
-                @endif
-            </div>
+            </a>
         </div>
-    </div>
+    @endforeach
+
+
+    {{-- Pagination --}}
+    @include('frontend.pagination.pagination', ['paginator' => $jobs])
+
 @endsection
+
 @section('script')
+    <script>
+        function handleMinWidth992px() {
+            if (window.innerWidth <= 992) {
+                $('.widget-toggle').addClass('closed')
+            } else {
+                $('.widget-toggle').removeClass('closed')
+            }
+        }
+
+        // Attach the event listener to the window's resize event
+        window.addEventListener('resize', handleMinWidth992px);
+
+        // Call the function initially to check the condition
+        handleMinWidth992px();
+    </script>
+    <script>
+        setTimeout(function() {
+            if ($(window).width() < 1350) {
+                $(".large_screen").css("display", "none");
+                $(".small_screen").css("display", "block");
+            } else {
+                console.log("small");
+                $(".large_screen").css("display", "block");
+                $(".small_screen").css("display", "none");
+            }
+        }, 1000);
+
+
+        document.addEventListener("DOMContentLoaded", function() {
+            function adjustCompanyName() {
+                var companyNames = document.getElementsByClassName('company-name');
+                var maxLengths = [60, 30, 25, 40, 20]; // Maximum lengths for different screen widths
+
+                for (var i = 0; i < companyNames.length; i++) {
+                    var paragraph = companyNames[i];
+                    var maxWidth = window.innerWidth;
+                    var maxLength;
+
+                    // Determine the maximum length based on the screen width
+                    if (maxWidth < 768) {
+                        maxLength = maxLengths[0];
+                    } else if (maxWidth >= 768 && maxWidth < 992) {
+                        maxLength = maxLengths[2];
+                    } else if (maxWidth >= 992 && maxWidth < 1024) {
+                        maxLength = maxLengths[1];
+                    } else if (maxWidth >= 1024 && maxWidth < 1240) {
+                        maxLength = maxLengths[4];
+                    } else {
+                        maxLength = maxLengths[0];
+                    }
+
+                    var text = paragraph.innerText; // Use innerText to retrieve the visible text
+                    var truncatedText = text.length > maxLength ? text.substring(0, maxLength) + "..." : text;
+                    paragraph.innerText = truncatedText; // Update the content of the paragraph
+                }
+            }
+
+            function adjustCompanyDetail() {
+                var details = document.getElementsByClassName('about_line');
+                var maxLen = [90, 60, 80, 110, 50]; // Maximum lengths for different screen widths
+
+                for (var i = 0; i < details.length; i++) {
+                    var detail = details[i];
+                    var maxWidth = window.innerWidth;
+                    var max;
+
+                    // Determine the maximum length based on the screen width
+                    if (maxWidth < 768) {
+                        max = maxLen[0];
+                    } else if (maxWidth >= 768 && maxWidth < 992) {
+                        max = maxLen[1];
+                    } else if (maxWidth > 992 && maxWidth < 1024) {
+                        max = maxLen[2];
+                    } else if (maxWidth >= 1024 && maxWidth < 1240) {
+                        max = maxLen[4];
+                    } else if (maxWidth >= 1240 && maxWidth < 1440) {
+                        max = maxLen[3];
+                    } else {
+                        max = maxLen[0];
+                    }
+
+                    var text = detail.innerText; // Use innerText to retrieve the visible text
+                    var truncatedText = text.length > max ? text.substring(0, max) + "..." : text;
+                    detail.innerText = truncatedText; // Update the content of the paragraph
+                }
+            }
+            adjustCompanyName(); // Initial adjustment
+            adjustCompanyDetail(); // Initial adjustment
+
+            function resizeEventHandler() {
+                adjustCompanyDetail();
+                adjustCompanyName();
+            }
+
+            window.addEventListener('resize', resizeEventHandler);
+
+        });
+    </script>
 @endsection

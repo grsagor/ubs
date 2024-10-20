@@ -3,20 +3,23 @@
 namespace App\Http\Controllers;
 
 use App\Job;
+use App\Category;
 use App\AppliedJob;
-use App\JobCategory;
 use App\BusinessLocation;
 use Illuminate\Http\Request;
+use App\Services\SlugService;
 use App\Services\UniqueIDService;
 use Illuminate\Support\Facades\Auth;
 
 class JobController extends Controller
 {
     protected $unique_id_service;
+    protected $slug_service;
 
-    public function __construct(UniqueIDService $unique_id_service)
+    public function __construct(UniqueIDService $unique_id_service, SlugService $slug_service)
     {
         $this->unique_id_service          = $unique_id_service;
+        $this->slug_service               = $slug_service;
     }
 
     public function index(Request $request)
@@ -55,8 +58,11 @@ class JobController extends Controller
         $data['business_locations'] = BusinessLocation::where('business_id', $business_id)
             ->get();
 
-        $data['job_categories'] = JobCategory::query()
+        $data['job_categories'] = Category::query()
             ->active()
+            ->where('category_type', 'jobs')
+            ->onlyParent()
+            ->orderByNameAsc()
             ->get();
 
         return view('backend.jobs.create', $data);
@@ -67,31 +73,15 @@ class JobController extends Controller
         try {
             $requestedData = $request->all();
 
-            // dd($requestedData);
+            $this->validateJobRequest($request);
 
-            $request->validate([
-                'company_information' => 'required',
-                'description' => 'required',
-                'closing_date' => 'required|date|after_or_equal:today',
-            ], [
-                'company_information.required' => 'The company information field is required.',
-                'description.required' => 'The description field is required.',
-                'closing_date.after_or_equal' => 'The closing date must be today or a later date.',
-            ]);
-
-            $latestReference = $job->orderBy('created_at', 'desc')->value('reference');
-
-            // Parse the number part of the reference
-            $latestNumber = (int)substr($latestReference, -6); // Assuming reference format like 'Unijob000001'
-
-            $newNumber = $latestNumber + 1;
-
-            $newReference = 'Unijob' . sprintf('%06d', $newNumber);
-
-            $requestedData['reference'] = $newReference;
+            // Assign the unique slug to the requested data
+            $requestedData['slug'] = $this->slug_service->slug_create($requestedData['title'], $job);
 
             // Generate a unique id
             $requestedData['short_id'] = $this->unique_id_service->generateUniqueId($job, 'short_id');
+
+            $requestedData['reference'] = $this->generateNewReference($job);
 
             // Handle multiple select fields
             $requestedData['hour_type'] = $request->input('hour_type', []);
@@ -110,6 +100,19 @@ class JobController extends Controller
         }
     }
 
+    public function show($id)
+    {
+        $job = Job::find($id);
+        if ($job) {
+            return response()->json([
+                'title' => $job->title,
+                'note' => $job->note
+            ]);
+        } else {
+            return response()->json(['error' => 'Job not found'], 404);
+        }
+    }
+
     public function edit($id)
     {
         $data['job'] = Job::find($id);
@@ -119,8 +122,11 @@ class JobController extends Controller
         $data['business_locations'] = BusinessLocation::where('business_id', $business_id)
             ->get();
 
-        $data['job_categories'] = JobCategory::query()
+        $data['job_categories'] = Category::query()
             ->active()
+            ->where('category_type', 'jobs')
+            ->onlyParent()
+            ->orderByNameAsc()
             ->get();
 
         return view('backend.jobs.edit', $data);
@@ -129,22 +135,19 @@ class JobController extends Controller
     public function update(Request $request, $id)
     {
         try {
-            $request->validate([
-                'description' => 'required',
-                'closing_date' => 'required|date|after_or_equal:today',
-            ], [
-                'description.required' => 'The description field is required.',
-                'closing_date.after_or_equal' => 'The closing date must be today or a later date.',
-            ]);
+            $this->validateJobRequest($request);
 
             $job = Job::findOrFail($id);
 
             $requestedData = $request->all();
 
+            // dd($requestedData);
+
+            $requestedData['sponsorship'] = $request->has('sponsorship') ? 1 : NULL;
+
             // Handle multiple select fields
             $requestedData['hour_type'] = $request->input('hour_type', []);
             $requestedData['job_type'] = $request->input('job_type', []);
-
 
             $job->fill($requestedData)->save();
 
@@ -156,5 +159,68 @@ class JobController extends Controller
         } catch (\Illuminate\Validation\ValidationException $e) {
             return redirect()->back()->withErrors($e->errors())->withInput();
         }
+    }
+
+    public function status_change($id)
+    {
+        // Retrieve the job by its ID
+        $job = Job::find($id);
+
+        // Check if the job exists
+        if ($job) {
+            // Toggle the status: if 0, set to 1; if 1, set to 0
+            $job->status = $job->status == 0 ? 1 : 0;
+
+            // Save the updated job
+            $job->save();
+
+            // Prepare the output message
+            $output = [
+                'success' => true,
+                'msg' => 'Status changed successfully!!!',
+            ];
+        } else {
+            // Prepare the output message if the job does not exist
+            $output = [
+                'success' => false,
+                'msg' => 'Job not found.',
+            ];
+        }
+
+        // Redirect to the jobs index route with the status message
+        return redirect()->route('jobs.index')->with('status', $output);
+    }
+
+    protected function validateJobRequest(Request $request)
+    {
+        $request->validate([
+            'company_information' => 'required',
+            'description' => 'required',
+            'closing_date' => 'required|date|after_or_equal:today',
+        ], [
+            'company_information.required' => 'The company information field is required.',
+            'description.required' => 'The description field is required.',
+            'closing_date.after_or_equal' => 'The closing date must be today or a later date.',
+        ]);
+    }
+
+    protected function generateNewReference($job)
+    {
+        do {
+            // Generate a random 8-digit number
+            $newNumber = mt_rand(1, 99999999);
+
+            // Format the number to be 8 digits long (e.g., '00000001')
+            $formattedNumber = sprintf('%08d', $newNumber);
+
+            // Create the new reference
+            $newReference = 'Uni' . $formattedNumber;
+
+            // Check if the new reference already exists in the jobs table
+            $exists = $job->where('reference', $newReference)->exists();
+        } while ($exists); // Repeat the process if the reference exists
+
+        // Return the new unique reference
+        return $newReference;
     }
 }
