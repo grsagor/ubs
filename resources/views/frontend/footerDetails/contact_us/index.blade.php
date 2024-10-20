@@ -65,9 +65,6 @@
 @section('content')
     @includeIf('frontend.partials.global.common-header')
 
-
-
-
     <div class="container main m-auto">
         <div class="contact-us">
             <h1 class="text-center">Contact Us</h1>

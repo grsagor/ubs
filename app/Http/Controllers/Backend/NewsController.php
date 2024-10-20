@@ -77,6 +77,7 @@ class NewsController extends Controller
         $business_id = request()->session()->get('user.business_id');
 
         $data['business_locations'] = BusinessLocation::where('business_id', $business_id)
+            ->where('is_active', 1)
             ->orderByNameAsc()
             ->get();
 

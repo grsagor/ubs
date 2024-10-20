@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Media;
 use App\User;
+use App\Media;
+use App\Contact;
 use App\Utils\ModuleUtil;
 use Illuminate\Http\Request;
+use Modules\Crm\Entities\Campaign;
 use Illuminate\Support\Facades\Hash;
+use Modules\Crm\Entities\CrmContact;
+use Modules\Crm\Entities\LeadCampaignDetails;
 
 class UserController extends Controller
 {
@@ -68,11 +72,32 @@ class UserController extends Controller
 
         try {
             $user_id = $request->session()->get('user.id');
-            $input = $request->only(['surname', 'first_name', 'last_name', 'email', 'language', 'marital_status',
-                'blood_group', 'contact_number', 'fb_link', 'twitter_link', 'social_media_1',
-                'social_media_2', 'permanent_address', 'current_address',
-                'guardian_name', 'custom_field_1', 'custom_field_2',
-                'custom_field_3', 'custom_field_4', 'id_proof_name', 'id_proof_number', 'gender', 'family_number', 'alt_number', ]);
+            $input = $request->only([
+                'surname',
+                'first_name',
+                'last_name',
+                'email',
+                'language',
+                'marital_status',
+                'blood_group',
+                'contact_number',
+                'fb_link',
+                'twitter_link',
+                'social_media_1',
+                'social_media_2',
+                'permanent_address',
+                'current_address',
+                'guardian_name',
+                'custom_field_1',
+                'custom_field_2',
+                'custom_field_3',
+                'custom_field_4',
+                'id_proof_name',
+                'id_proof_number',
+                'gender',
+                'family_number',
+                'alt_number',
+            ]);
 
             if (! empty($request->input('dob'))) {
                 $input['dob'] = $this->moduleUtil->uf_date($request->input('dob'));
@@ -92,13 +117,15 @@ class UserController extends Controller
             $input['business_id'] = $business_id;
             session()->put('user', $input);
 
-            $output = ['success' => 1,
+            $output = [
+                'success' => 1,
                 'msg' => __('lang_v1.profile_updated_successfully'),
             ];
         } catch (\Exception $e) {
-            \Log::emergency('File:'.$e->getFile().'Line:'.$e->getLine().'Message:'.$e->getMessage());
+            \Log::emergency('File:' . $e->getFile() . 'Line:' . $e->getLine() . 'Message:' . $e->getMessage());
 
-            $output = ['success' => 0,
+            $output = [
+                'success' => 0,
                 'msg' => __('messages.something_went_wrong'),
             ];
         }
@@ -126,22 +153,42 @@ class UserController extends Controller
             if (Hash::check($request->input('current_password'), $user->password)) {
                 $user->password = Hash::make($request->input('new_password'));
                 $user->save();
-                $output = ['success' => 1,
+                $output = [
+                    'success' => 1,
                     'msg' => __('lang_v1.password_updated_successfully'),
                 ];
             } else {
-                $output = ['success' => 0,
+                $output = [
+                    'success' => 0,
                     'msg' => __('lang_v1.u_have_entered_wrong_password'),
                 ];
             }
         } catch (\Exception $e) {
-            \Log::emergency('File:'.$e->getFile().'Line:'.$e->getLine().'Message:'.$e->getMessage());
+            \Log::emergency('File:' . $e->getFile() . 'Line:' . $e->getLine() . 'Message:' . $e->getMessage());
 
-            $output = ['success' => 0,
+            $output = [
+                'success' => 0,
                 'msg' => __('messages.something_went_wrong'),
             ];
         }
 
         return redirect('user/profile')->with('status', $output);
+    }
+
+    public function checkEmailForContact(Request $request)
+    {
+        $campaign_business_id = Campaign::where('id', $request->crm_campaign_id)->value('business_id'); // Get only the business_id
+
+        $exists_campaign_details = LeadCampaignDetails::where('crm_campaign_id', $request->crm_campaign_id)
+            ->where('email', $request->email)
+            ->where('business_id', $campaign_business_id)
+            ->exists();
+
+        if ($exists_campaign_details) {
+            return response()->json([
+                'exists' => true,
+                'message' => 'You have already submitted this form.',
+            ]);
+        }
     }
 }

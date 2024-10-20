@@ -2,35 +2,49 @@
 
 namespace Modules\Crm\Http\Controllers;
 
-use App\Business;
-use App\Utils\ModuleUtil;
-use App\Utils\NotificationUtil;
-use Carbon\Carbon;
 use DB;
+use App\User;
+use App\Footer;
+use App\Country;
+use App\Business;
+use Notification;
+use Carbon\Carbon;
+use App\Transaction;
+use App\BusinessLocation;
+use App\Utils\ModuleUtil;
 use Illuminate\Http\Request;
+use App\Services\SlugService;
 use Illuminate\Http\Response;
+use App\Traits\ImageFileUpload;
+use App\Utils\NotificationUtil;
+use App\Services\UniqueIDService;
 use Illuminate\Routing\Controller;
 use Modules\Crm\Entities\Campaign;
+use Illuminate\Support\Facades\Hash;
 use Modules\Crm\Entities\CrmContact;
+use Modules\Crm\Entities\LeadCampaignDetails;
 use Modules\Crm\Notifications\SendCampaignNotification;
-use Notification;
-use Yajra\DataTables\Facades\DataTables;
-use App\Transaction;
+use Illuminate\Support\Str;
 
 class CampaignController extends Controller
 {
     protected $notificationUtil;
     protected $moduleUtil;
+    protected $unique_id_service;
+    protected $slug_service;
+
     /**
      * Constructor
      *
      * @param NotificationUtil $notificationUtil
      * @return void
      */
-    public function __construct(NotificationUtil $notificationUtil, ModuleUtil $moduleUtil)
+    public function __construct(NotificationUtil $notificationUtil, ModuleUtil $moduleUtil, UniqueIDService $unique_id_service, SlugService $slug_service)
     {
         $this->notificationUtil = $notificationUtil;
         $this->moduleUtil = $moduleUtil;
+        $this->unique_id_service          = $unique_id_service;
+        $this->slug_service               = $slug_service;
     }
 
 
@@ -45,81 +59,26 @@ class CampaignController extends Controller
         $can_access_all_campaigns = auth()->user()->can('crm.access_all_campaigns');
         $can_access_own_campaigns = auth()->user()->can('crm.access_own_campaigns');
 
-        if (!(auth()->user()->can('superadmin') || $this->moduleUtil->hasThePermissionInSubscription($business_id, 'crm_module')) || !($can_access_all_campaigns || $can_access_own_campaigns) ) {
+        if (!(auth()->user()->can('superadmin') || $this->moduleUtil->hasThePermissionInSubscription($business_id, 'crm_module')) || !($can_access_all_campaigns || $can_access_own_campaigns)) {
             abort(403, 'Unauthorized action.');
         }
 
-        if (request()->ajax()) {
-            $campaigns = Campaign::with('createdBy')
-                        ->where('business_id', $business_id)
-                        ->select('*');
+        $data['campaigns'] = Campaign::with('createdBy')
+            ->with('businessLocation')
+            ->where('business_id', $business_id)
+            ->select('*')
+            ->latest()
+            ->get();
 
-            if (!$can_access_all_campaigns && $can_access_own_campaigns) {
-                $campaigns->where('created_by', auth()->user()->id);
-            }
-
-            if (!empty(request()->get('campaign_type'))) {
-                $campaigns->where('campaign_type', request()->get('campaign_type'));
-            }
-
-            return Datatables::of($campaigns)
-                    ->addColumn('action', function ($row) {
-                        $html = '<a data-href="' . action('\Modules\Crm\Http\Controllers\CampaignController@show', ['campaign' => $row->id]) . '" class="cursor-pointer view_a_campaign btn btn-xs btn-info m-2">
-                            <i class="fa fa-eye"></i>
-                            '.__("messages.view").'
-                            </a>';
-
-                        if (empty($row->sent_on)) {
-                            $html .= '
-                            <a href="' . action('\Modules\Crm\Http\Controllers\CampaignController@edit', ['campaign' => $row->id]) . '"class="cursor-pointer btn btn-xs btn-primary m-2">
-                                <i class="fa fa-edit"></i>
-                                '.__("messages.edit").'
-                            </a>';
-                        }
-
-                        $html .= '<a data-href="' . action('\Modules\Crm\Http\Controllers\CampaignController@destroy', ['campaign' => $row->id]) . '" class="cursor-pointer delete_a_campaign btn btn-xs btn-danger m-2">
-                            <i class="fas fa-trash"></i>
-                            '.__("messages.delete").'
-                            </a>';
-
-                        if (empty($row->sent_on)) {
-                            $html .= '<a data-href="' . action('\Modules\Crm\Http\Controllers\CampaignController@sendNotification', ['id' => $row->id]) . '" class="cursor-pointer send_campaign_notification btn btn-xs btn-warning m-2">
-                                <i class="fas fa-envelope-square"></i>
-                                '.__("crm::lang.send_notification").'
-                            </a>';
-                        }
-
-                        return $html;
-                    })
-                    ->editColumn('campaign_type', '
-                        @if($campaign_type == "sms")
-                            {{__("crm::lang.sms")}}
-                        @elseif($campaign_type == "email")
-                            {{__("business.email")}}
-                        @endif
-                    ')
-                    ->editColumn('created_at', '
-                        {{@format_date($created_at)}}
-                    ')
-                    ->editColumn('name', function ($row) {
-                        $is_notified = '';
-                        if (!empty($row->sent_on)) {
-                            $is_notified = '<br> <span class="label label-success">'.
-                                                __('crm::lang.sent') .
-                                            '</span>';
-                        }
-
-                        return $row->name . $is_notified;
-                    })
-                    ->editColumn('createdBy', function ($row) {
-                        return optional($row->createdBy)->user_full_name;
-                    })
-                    ->removeColumn('id')
-                    ->rawColumns(['action', 'name', 'campaign_type', 'createdBy', 'created_at'])
-                    ->make(true);
+        if (!$can_access_all_campaigns && $can_access_own_campaigns) {
+            $data['campaigns']->where('created_by', auth()->user()->id);
         }
 
-        return view('crm::campaign.index');
+        if (!empty(request()->get('campaign_type'))) {
+            $data['campaigns']->where('campaign_type', request()->get('campaign_type'));
+        }
+
+        return view('crm::campaign.index', $data);
     }
 
     /**
@@ -132,7 +91,7 @@ class CampaignController extends Controller
         $can_access_all_campaigns = auth()->user()->can('crm.access_all_campaigns');
         $can_access_own_campaigns = auth()->user()->can('crm.access_own_campaigns');
 
-        if (!(auth()->user()->can('superadmin') || $this->moduleUtil->hasThePermissionInSubscription($business_id, 'crm_module')) || !($can_access_all_campaigns || $can_access_own_campaigns) ) {
+        if (!(auth()->user()->can('superadmin') || $this->moduleUtil->hasThePermissionInSubscription($business_id, 'crm_module')) || !($can_access_all_campaigns || $can_access_own_campaigns)) {
             abort(403, 'Unauthorized action.');
         }
 
@@ -141,6 +100,14 @@ class CampaignController extends Controller
         $customers = CrmContact::customersDropdown($business_id, false);
         $contact_ids = $request->get('contact_ids', '');
 
+        $promoters = User::select('id', 'user_type', 'surname', 'first_name', 'last_name', 'username', 'email', 'language', 'contact_no')->get();
+
+        $business_locations = BusinessLocation::where('business_id', $business_id)
+            ->where('is_active', 1)
+            ->orderByNameAsc()
+            ->get();
+
+        // return $business_locations;
         $contacts = [];
         foreach ($leads as $key => $lead) {
             $contacts[$key] = $lead;
@@ -151,8 +118,35 @@ class CampaignController extends Controller
         }
 
         return view('crm::campaign.create')
-            ->with(compact('tags', 'leads', 'customers', 'contact_ids', 'contacts'));
+            ->with(compact('tags', 'leads', 'customers', 'contact_ids', 'contacts', 'promoters', 'business_locations'));
     }
+
+
+    public function validateEmail(Request $request)
+    {
+        $email = $request->email;
+
+        // Find the user by email
+        $user = User::where('email', $email)->first();
+        // dd($user);
+        if ($user) {
+
+            // Email matches 100%
+            return response()->json([
+                'success' => true,
+                'user' => [
+                    'id' => $user->id,
+                    'name' => $user->surname . ' ' . $user->first_name . ' ' . $user->last_name
+                ]
+            ]);
+        } else {
+            // No exact match
+            return response()->json([
+                'success' => false
+            ]);
+        }
+    }
+
 
     /**
      * Store a newly created resource in storage.
@@ -167,15 +161,41 @@ class CampaignController extends Controller
         }
 
         try {
-            $input = $request->only('name', 'campaign_type', 'subject', 'email_body', 'sms_body');
-            
+            $input = $request->only(
+                'name',
+                'campaign_type',
+                'subject',
+                'email_body',
+                'sms_body',
+
+                'business_location_id',
+                'promoted_id',
+                'checkbox_education',
+                'checkbox_experience',
+                'checkbox_cv'
+            );
+
             $input['business_id'] = $business_id;
+            $input['business_location_id'] = $input['business_location_id'];
             $input['created_by'] = $request->user()->id;
+
             $customers = $request->input('contact_id', []);
             $leads = $request->input('lead_id', []);
-            $contacts = $request->input('contact', []); //birthday_wishes
+            $contacts = $request->input('contact', []);
 
-            $input['contact_ids'] = array_merge($customers, $leads, $contacts);
+            // Merge arrays and filter out null values
+            $merged_contacts = array_filter(array_merge($customers, $leads, $contacts), function ($value) {
+                return !is_null($value); // Remove null values
+            });
+
+            // Now, create an associative array with the original keys retained
+            $contact_ids = [];
+            foreach ($merged_contacts as $key => $value) {
+                $contact_ids[$key] = $value;
+            }
+
+            // Save $contact_ids
+            $input['contact_ids'] = $contact_ids;
 
             $input['additional_info'] = [
                 'to' => $request->input('to'),
@@ -183,8 +203,26 @@ class CampaignController extends Controller
                 'in_days' => $request->input('in_days')
             ];
 
+            if ($input['campaign_type'] == 'lead_generation') {
+                $input['info_from_customer'] = json_encode([
+                    "checkbox_education" => $request->input('checkbox_education') === 'on' ? "1" : null,
+                    "checkbox_experience" => $request->input('checkbox_experience') === 'on' ? "1" : null,
+                    "checkbox_cv" => $request->input('checkbox_cv') === 'on' ? "1" : null,
+                ]);
+            }
+
+            $campaign = new Campaign();
+
+            // Assign the unique slug to the requested data
+            $input['slug'] = $this->slug_service->slug_create($input['name'], $campaign);
+
+            // Generate a unique id
+            $input['short_id'] = $this->unique_id_service->generateUniqueId($campaign, 'short_id');
+
+            // dd($input);
+
             DB::beginTransaction();
-            
+
             $campaign = Campaign::create($input);
 
             DB::commit();
@@ -200,7 +238,7 @@ class CampaignController extends Controller
         } catch (Exception $e) {
             DB::rollBack();
 
-            \Log::emergency("File:" . $e->getFile(). "Line:" . $e->getLine(). "Message:" . $e->getMessage());
+            \Log::emergency("File:" . $e->getFile() . "Line:" . $e->getLine() . "Message:" . $e->getMessage());
 
             $output = [
                 'success' => false,
@@ -224,12 +262,12 @@ class CampaignController extends Controller
         $can_access_all_campaigns = auth()->user()->can('crm.access_all_campaigns');
         $can_access_own_campaigns = auth()->user()->can('crm.access_own_campaigns');
 
-        if (!(auth()->user()->can('superadmin') || $this->moduleUtil->hasThePermissionInSubscription($business_id, 'crm_module')) || !($can_access_all_campaigns || $can_access_own_campaigns) ) {
+        if (!(auth()->user()->can('superadmin') || $this->moduleUtil->hasThePermissionInSubscription($business_id, 'crm_module')) || !($can_access_all_campaigns || $can_access_own_campaigns)) {
             abort(403, 'Unauthorized action.');
         }
 
         $query = Campaign::with('createdBy')
-                    ->where('business_id', $business_id);
+            ->where('business_id', $business_id);
 
         if (!$can_access_all_campaigns && $can_access_own_campaigns) {
             $query->where('created_by', auth()->user()->id);
@@ -238,9 +276,37 @@ class CampaignController extends Controller
         $campaign = $query->findOrFail($id);
 
         $notifiable_users = CrmContact::find($campaign->contact_ids);
-        
+
         return view('crm::campaign.show')
             ->with(compact('campaign', 'notifiable_users'));
+    }
+
+    // details only for campaign type lead_generation
+    public function details($short_id)
+    {
+        $data['campaign'] = Campaign::with('businessLocation')
+            ->where('campaign_type', 'lead_generation')
+            ->where('short_id', $short_id)
+            ->first();
+
+        if (!$data['campaign']) {
+            return view('error.404_withoutheader');
+        }
+
+        $contact_info = implode(' | ', [
+            $data['campaign']->businessLocation->landmark,
+            $data['campaign']->businessLocation->city,
+            $data['campaign']->businessLocation->state,
+            $data['campaign']->businessLocation->zip_code,
+            $data['campaign']->businessLocation->country
+        ]);
+
+        // Pass this to the view
+        $data['address'] = $contact_info;
+
+        $data['country'] = Country::get();
+
+        return view('frontend.campaign.details', $data);
     }
 
     /**
@@ -254,7 +320,7 @@ class CampaignController extends Controller
         $can_access_all_campaigns = auth()->user()->can('crm.access_all_campaigns');
         $can_access_own_campaigns = auth()->user()->can('crm.access_own_campaigns');
 
-        if (!(auth()->user()->can('superadmin') || $this->moduleUtil->hasThePermissionInSubscription($business_id, 'crm_module')) || !($can_access_all_campaigns || $can_access_own_campaigns) ) {
+        if (!(auth()->user()->can('superadmin') || $this->moduleUtil->hasThePermissionInSubscription($business_id, 'crm_module')) || !($can_access_all_campaigns || $can_access_own_campaigns)) {
             abort(403, 'Unauthorized action.');
         }
 
@@ -295,13 +361,13 @@ class CampaignController extends Controller
         $can_access_all_campaigns = auth()->user()->can('crm.access_all_campaigns');
         $can_access_own_campaigns = auth()->user()->can('crm.access_own_campaigns');
 
-        if (!(auth()->user()->can('superadmin') || $this->moduleUtil->hasThePermissionInSubscription($business_id, 'crm_module')) || !($can_access_all_campaigns || $can_access_own_campaigns) ) {
+        if (!(auth()->user()->can('superadmin') || $this->moduleUtil->hasThePermissionInSubscription($business_id, 'crm_module')) || !($can_access_all_campaigns || $can_access_own_campaigns)) {
             abort(403, 'Unauthorized action.');
         }
 
         try {
             $input = $request->only('name', 'campaign_type', 'subject', 'email_body', 'sms_body');
-            
+
             $customers = $request->input('contact_id', []);
             $leads = $request->input('lead_id', []);
             $contacts = $request->input('contact', []); //birthday_wishes
@@ -313,7 +379,7 @@ class CampaignController extends Controller
                 'trans_activity' => $request->input('trans_activity'),
                 'in_days' => $request->input('in_days')
             ];
-            
+
             $query = Campaign::where('business_id', $business_id);
 
             if (!$can_access_all_campaigns && $can_access_own_campaigns) {
@@ -339,7 +405,7 @@ class CampaignController extends Controller
         } catch (Exception $e) {
             DB::rollBack();
 
-            \Log::emergency("File:" . $e->getFile(). "Line:" . $e->getLine(). "Message:" . $e->getMessage());
+            \Log::emergency("File:" . $e->getFile() . "Line:" . $e->getLine() . "Message:" . $e->getMessage());
 
             $output = [
                 'success' => false,
@@ -359,39 +425,38 @@ class CampaignController extends Controller
      */
     public function destroy($id)
     {
-        $business_id = request()->session()->get('user.business_id');
-        $can_access_all_campaigns = auth()->user()->can('crm.access_all_campaigns');
-        $can_access_own_campaigns = auth()->user()->can('crm.access_own_campaigns');
+        // $business_id = request()->session()->get('user.business_id');
+        // $can_access_all_campaigns = auth()->user()->can('crm.access_all_campaigns');
+        // $can_access_own_campaigns = auth()->user()->can('crm.access_own_campaigns');
 
-        if (!(auth()->user()->can('superadmin') || $this->moduleUtil->hasThePermissionInSubscription($business_id, 'crm_module')) || !($can_access_all_campaigns || $can_access_own_campaigns) ) {
-            abort(403, 'Unauthorized action.');
-        }
+        // if (!(auth()->user()->can('superadmin') || $this->moduleUtil->hasThePermissionInSubscription($business_id, 'crm_module')) || !($can_access_all_campaigns || $can_access_own_campaigns)) {
+        //     abort(403, 'Unauthorized action.');
+        // }
 
-        if (request()->ajax()) {
-            try {
-                $query = Campaign::where('business_id', $business_id);
+        // try {
+        //     $query = Campaign::where('business_id', $business_id);
 
-                if (!$can_access_all_campaigns && $can_access_own_campaigns) {
-                    $query->where('created_by', auth()->user()->id);
-                }
+        //     if (!$can_access_all_campaigns && $can_access_own_campaigns) {
+        //         $query->where('created_by', auth()->user()->id);
+        //     }
 
-                $query->where('id', $id)
-                    ->delete();
+        //     $query->where('id', $id)
+        //         ->delete();
 
-                $output = [
-                    'success' => true,
-                    'msg' => __('lang_v1.success'),
-                ];
-            } catch (Exception $e) {
-                \Log::emergency("File:" . $e->getFile(). "Line:" . $e->getLine(). "Message:" . $e->getMessage());
+        //     $output = [
+        //         'success' => true,
+        //         'msg' => __('lang_v1.success'),
+        //     ];
 
-                $output = [
-                    'success' => false,
-                    'msg' => __('messages.something_went_wrong')
-                ];
-            }
-            return $output;
-        }
+        //     return redirect()->back()->with('status', $output);
+        // } catch (Exception $e) {
+        //     \Log::emergency("File:" . $e->getFile() . "Line:" . $e->getLine() . "Message:" . $e->getMessage());
+
+        //     $output = [
+        //         'success' => false,
+        //         'msg' => __('messages.something_went_wrong')
+        //     ];
+        // }
     }
 
     public function sendNotification($id)
@@ -401,29 +466,28 @@ class CampaignController extends Controller
             abort(403, 'Unauthorized action.');
         }
 
-        if (request()->ajax()) {
 
-            $output = $this->__sendCampaignNotification($id, $business_id);
-            
-            return $output;
-        }
+        $output = $this->__sendCampaignNotification($id, $business_id);
+
+        return redirect()->back()->with('status', $output);
     }
 
     public function __sendCampaignNotification($campaign_id, $business_id)
-    {   
+    {
         try {
             $campaign = Campaign::where('business_id', $business_id)
-                            ->findOrFail($campaign_id);
+                ->findOrFail($campaign_id);
 
             $business = Business::findOrFail($business_id);
 
             if ((!empty($campaign->additional_info['to']) && in_array($campaign->additional_info['to'], ['lead', 'customer', 'contact']))
-                || (!isset($campaign->additional_info['to']) && !empty($campaign->contact_ids))) {
+                || (!isset($campaign->additional_info['to']) && !empty($campaign->contact_ids))
+            ) {
                 $contact_ids = $campaign->contact_ids;
             } elseif (!empty($campaign->additional_info['to']) && in_array($campaign->additional_info['to'], ['transaction_activity'])) {
                 $day = Carbon::now()->subDays($campaign->additional_info['in_days'])->toDateTimeString();
                 $query = Transaction::where('business_id', $business_id)
-                                ->select('contact_id', DB::raw('MAX(transaction_date) as last_shoped'));
+                    ->select('contact_id', DB::raw('MAX(transaction_date) as last_shoped'));
 
                 if ($campaign->additional_info['trans_activity'] == 'has_transactions') {
                     $query->having('last_shoped', '>=', $day);
@@ -432,14 +496,14 @@ class CampaignController extends Controller
                 }
 
                 $transactions = $query
-                                ->groupBy('contact_id')
-                                ->get();
-                                
+                    ->groupBy('contact_id')
+                    ->get();
+
                 $contact_ids = $transactions->pluck('contact_id')->toArray();
             }
 
             $notifiable_users = CrmContact::find($contact_ids);
-            
+
             if (!empty($notifiable_users) && $campaign->campaign_type == 'sms') {
                 $notification_data['sms_settings'] = request()->session()->get('business.sms_settings');
                 foreach ($notifiable_users as $user) {
@@ -466,7 +530,7 @@ class CampaignController extends Controller
         } catch (Exception $e) {
             DB::rollBack();
 
-            \Log::emergency("File:" . $e->getFile(). "Line:" . $e->getLine(). "Message:" . $e->getMessage());
+            \Log::emergency("File:" . $e->getFile() . "Line:" . $e->getLine() . "Message:" . $e->getMessage());
 
             $output = [
                 'success' => false,
@@ -475,5 +539,223 @@ class CampaignController extends Controller
         }
 
         return $output;
+    }
+
+    public function campaignDataStore(Request $request)
+    {
+        try {
+
+            $requestedData = [
+                'crm_campaign_id' => $request->crm_campaign_id ?? null,
+                'name' => $request->name ?? null,
+                'phone' => $request->phone ?? null,
+                'email' => $request->email ?? null,
+                'current_address' => $request->current_address ?? null,
+                'birth_country' => $request->birth_country ?? null,
+                'note' => $request->note ?? null,
+            ];
+
+            // Education store
+            if ($request->has('education_name_of_title')) {
+                $educationData = [];
+                foreach ($request->input('education_name_of_title') as $key => $education) {
+                    // Check if the education title exists
+                    if ($education) {
+                        $edu = [
+                            'education_name_of_title' => $education,
+                            'education_start_date' => $request->input('education_start_date')[$key] ?? null,
+                            'education_end_date' => $request->input('education_end_date')[$key] ?? null,
+                            'education_file' => null, // Default to null
+                            'education_original_file_name' => null, // Default to null
+                        ];
+                        if ($request->hasFile('education_file') && isset($request->file('education_file')[$key])) {
+                            $uploadData = $this->fileUpload($request->file('education_file')[$key], 'uploads/lead_campaign_details/');
+                            if (isset($uploadData['path']) && isset($uploadData['original_name'])) { // Check if keys exist
+                                $edu['education_file'] = $uploadData['path']; // Store the uploaded file path
+                                $edu['education_original_file_name'] = $uploadData['original_name']; // Store the original file name
+                            }
+                        }
+                        $educationData[] = $edu;
+                    }
+                }
+                // Store the educations as JSON; if no valid entries, set to null
+                $requestedData['educations'] = !empty($educationData) ? json_encode($educationData, JSON_PRETTY_PRINT) : null;
+            }
+
+            // Experience store
+            if ($request->has('experience_name_of_company')) {
+                $experienceData = [];
+                foreach ($request->input('experience_name_of_company') as $key => $company) {
+                    // Check if the experience title exists
+                    if ($company) {
+                        $experience = [
+                            'experience_name_of_company' => $company,
+                            'experience_start_date' => $request->input('experience_start_date')[$key] ?? null,
+                            'experience_end_date' => $request->input('experience_end_date')[$key] ?? null,
+                            'experience_file' => null, // Default to null
+                            'experience_original_file_name' => null, // Default to null
+                        ];
+                        if ($request->hasFile('experience_file') && isset($request->file('experience_file')[$key])) {
+                            $uploadData = $this->fileUpload($request->file('experience_file')[$key], 'uploads/lead_campaign_details/');
+                            if (isset($uploadData['path']) && isset($uploadData['original_name'])) { // Check if keys exist
+                                $experience['experience_file'] = $uploadData['path']; // Store the uploaded file path
+                                $experience['experience_original_file_name'] = $uploadData['original_name']; // Store the original file name
+                            }
+                        }
+                        $experienceData[] = $experience;
+                    }
+                }
+                // Store the experiences as JSON; if no valid entries, set to null
+                $requestedData['experiences'] = !empty($experienceData) ? json_encode($experienceData, JSON_PRETTY_PRINT) : null;
+            }
+
+            // Additional file store
+            if ($request->has('additional_name_of_title')) {
+                $additionalFilesData = [];
+                foreach ($request->input('additional_name_of_title') as $key => $ad_file) {
+                    // Check if the title exists
+                    if ($ad_file) {
+                        // Create an array to hold the additional file data only if the title exists
+                        $addData = [
+                            'additional_name_of_title' => $ad_file,
+                            'additional_file' => null, // Default to null
+                            'additional_original_file_name' => null, // Default to null
+                        ];
+
+                        // Check if a file is uploaded for this additional title
+                        if ($request->hasFile('additional_file') && isset($request->file('additional_file')[$key])) {
+                            $uploadData = $this->fileUpload($request->file('additional_file')[$key], 'uploads/lead_campaign_details/');
+                            if (isset($uploadData['path']) && isset($uploadData['original_name'])) { // Check if keys exist
+                                $addData['additional_file'] = $uploadData['path']; // Store the uploaded file path
+                                $addData['additional_original_file_name'] = $uploadData['original_name']; // Store the original file name
+                            }
+                        }
+
+                        // Add to the additional files data array
+                        $additionalFilesData[] = $addData;
+                    }
+                }
+
+                // If there are no titles, set additional_files to null
+                $requestedData['additional_files'] = !empty($additionalFilesData) ? json_encode($additionalFilesData, JSON_PRETTY_PRINT) : null;
+            }
+
+            // CV upload
+            if ($request->has('cv')) {
+                $uploadData = $this->fileUpload($request->file('cv'), 'uploads/lead_campaign_details/');
+
+                // Create an array to hold the CV information
+                $cvData = [];
+
+                if (isset($uploadData['path']) && isset($uploadData['original_name'])) { // Check if keys exist
+                    $cvData['cv_path'] = $uploadData['path']; // Store the uploaded file path
+                    $cvData['cv_original_file_name'] = $uploadData['original_name']; // Store the original file name
+                } else {
+                    // Handle the case where the upload fails (optional)
+                    $cvData['cv_path'] = null; // Or handle the error as needed
+                    $cvData['cv_original_file_name'] = null; // Or handle the error as needed
+                }
+
+                // Store the CV data as a JSON-encoded string
+                $requestedData['cv'] = json_encode($cvData, JSON_PRETTY_PRINT);
+            }
+
+            DB::beginTransaction();
+
+            $campaign = Campaign::find($request->crm_campaign_id);
+
+            // Generate contact id start
+            $commonUtil = new \App\Utils\Util;
+            $ref_count = $commonUtil->setAndGetReferenceCount('contacts', $campaign->business_id);
+
+            $contact_id = $commonUtil->generateReferenceNumber('contacts', $ref_count, $campaign->business_id);
+            // Generate contact id end
+
+
+            $existing_user = User::where('email', $request->email)->first();
+
+            if (!$existing_user) {
+                // Insert user and return the created instance
+                $user = User::create([
+                    'user_type' => 'user_customer',
+                    'first_name' => $request->name ?? null,
+                    'username' => $request->email ?? null,
+                    'email' => $request->email ?? null,
+                    'password' => Hash::make($request->email ?? null),
+                    'contact_no' => $request->phone ?? null,
+                    'contact_number' => $request->phone ?? null,
+                    'current_address' => $request->current_address ?? null,
+                    'business_id' => $campaign->business_id,
+                    'allow_login' => 1,
+                    'status' => 'active',
+                ]);
+            }
+
+            // Insert contact using the created user's ID
+            $contact = CrmContact::create([
+                'business_id' => $campaign->business_id,
+                'user_id' => $existing_user->id ?? $user->id, // Access user ID here
+                'type' => 'lead',
+                'name' => $request->name ?? null,
+                'mobile' => $request->phone ?? null,
+                'email' => $request->email ?? null,
+                'contact_id' => $contact_id,
+                'contact_status' => 'active',
+                'created_by' => auth()->check() ? auth()->user()->id : ($user->id ?? $existing_user->id),
+                'country' => $request->birth_country ?? null,
+                'address_line_1' => $request->current_address ?? null,
+            ]);
+
+            // Update the 'crm_contact_id' in the user table with the created contact's ID
+            if (!$existing_user) {
+                $user->update([
+                    'crm_contact_id' => $contact->id, // Update with the contact's ID
+                ]);
+            }
+
+            // Add the user and contact IDs to the requested data
+            $requestedData['user_id'] = $existing_user->id ?? $user->id;
+            $requestedData['contacts_id'] = $contact->id;
+            $requestedData['business_id'] = $campaign->business_id;
+
+            // dd($requestedData);
+            // Create the LeadCampaignDetails record with the additional data
+            LeadCampaignDetails::create($requestedData);
+
+            DB::commit();
+            $output = [
+                'success' => true,
+                'msg' => ('Inserted Successfully!!!'),
+            ];
+
+            return redirect()->back()->with('status', $output);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            DB::rollBack();
+            return redirect()->back()->withErrors($e->errors())->withInput();
+        }
+    }
+
+    public function fileUpload($file, $path)
+    {
+        if (!empty($file)) {
+            // Get the original name and extension
+            $originalName = $file->getClientOriginalName();
+            $fileName = Str::uuid()->toString() . '.' . $file->getClientOriginalExtension();
+
+            // Move the file to the specified path
+            $file->move(public_path($path), $fileName);
+
+            // Return both the path and original name
+            return [
+                'path' => $path . $fileName,
+                'original_name' => $originalName,
+            ];
+        }
+
+        // Return a structure with nulls if no file is uploaded
+        return [
+            'path' => null,
+            'original_name' => null,
+        ];
     }
 }

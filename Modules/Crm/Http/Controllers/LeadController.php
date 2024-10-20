@@ -51,7 +51,7 @@ class LeadController extends Controller
 
         $life_stages = Category::forDropdown($business_id, 'life_stage');
 
-                
+
         if (is_null(request()->get('lead_view'))) {
             $lead_view = 'list_view';
         } else {
@@ -59,12 +59,12 @@ class LeadController extends Controller
         }
 
         if (request()->ajax()) {
-            
+
             $leads = $this->crmUtil->getLeadsListQuery($business_id);
 
             if (!$can_access_all_leads && $can_access_own_leads) {
-                $leads->where( function($query) {
-                    $query->whereHas('leadUsers', function($q){
+                $leads->where(function ($query) {
+                    $query->whereHas('leadUsers', function ($q) {
                         $q->where('user_id', auth()->user()->id);
                     });
                 });
@@ -80,48 +80,48 @@ class LeadController extends Controller
 
             if (!empty(request()->get('user_id'))) {
                 $user_id = request()->get('user_id');
-                $leads->where( function($query) use ($user_id) {
-                    $query->whereHas('leadUsers', function($q) use ($user_id){
+                $leads->where(function ($query) use ($user_id) {
+                    $query->whereHas('leadUsers', function ($q) use ($user_id) {
                         $q->where('user_id', $user_id);
                     });
                 });
             }
-            
+
             if ($lead_view == 'list_view') {
                 return Datatables::of($leads)
                     ->addColumn('address', '{{implode(", ", array_filter([$address_line_1, $address_line_2, $city, $state, $country, $zip_code]))}}')
                     ->addColumn('action', function ($row) {
                         $html = '<div class="btn-group">
                                     <button class="btn btn-info dropdown-toggle btn-xs" type="button"  data-toggle="dropdown" aria-expanded="false">
-                                        '. __("messages.action").'
+                                        ' . __("messages.action") . '
                                         <span class="caret"></span>
                                         <span class="sr-only">'
-                                           . __("messages.action").'
+                            . __("messages.action") . '
                                         </span>
                                     </button>
                                       <ul class="dropdown-menu dropdown-menu-left" role="menu">
                                        <li>
                                             <a href="' . action('\Modules\Crm\Http\Controllers\LeadController@show', ['lead' => $row->id]) . '" class="cursor-pointer view_lead">
                                                 <i class="fa fa-eye"></i>
-                                                '.__("messages.view").'
+                                                ' . __("messages.view") . '
                                             </a>
                                         </li>
                                         <li>
                                             <a data-href="' . action('\Modules\Crm\Http\Controllers\LeadController@edit', ['lead' => $row->id]) . '"class="cursor-pointer edit_lead">
                                                 <i class="fa fa-edit"></i>
-                                                '.__("messages.edit").'
+                                                ' . __("messages.edit") . '
                                             </a>
                                         </li>
                                         <li>
                                             <a data-href="' . action('\Modules\Crm\Http\Controllers\LeadController@convertToCustomer', ['id' => $row->id]) . '" class="cursor-pointer convert_to_customer">
                                                 <i class="fas fa-redo"></i>
-                                                '.__("crm::lang.convert_to_customer").'
+                                                ' . __("crm::lang.convert_to_customer") . '
                                             </a>
                                         </li>
                                         <li>
                                             <a data-href="' . action('\Modules\Crm\Http\Controllers\LeadController@destroy', ['lead' => $row->id]) . '" class="cursor-pointer delete_a_lead">
                                                 <i class="fas fa-trash"></i>
-                                                '.__("messages.delete").'
+                                                ' . __("messages.delete") . '
                                             </a>
                                         </li>';
 
@@ -130,53 +130,53 @@ class LeadController extends Controller
 
                         return $html;
                     })
-                    ->addColumn('last_follow_up', function($row) {
+                    ->addColumn('last_follow_up', function ($row) {
                         $html = '';
 
                         if (!empty($row->last_follow_up)) {
                             $html .= $this->commonUtil->format_date($row->last_follow_up, true);
-                            $html .= '<br><a href="'.action('\Modules\Crm\Http\Controllers\ScheduleController@show', ['follow_up' => $row->last_follow_up_id]).'" target="_blank" title="'.__("crm::lang.view_follow_up").'" data-toggle="tooltip">
+                            $html .= '<br><a href="' . action('\Modules\Crm\Http\Controllers\ScheduleController@show', ['follow_up' => $row->last_follow_up_id]) . '" target="_blank" title="' . __("crm::lang.view_follow_up") . '" data-toggle="tooltip">
                                 <i class="fas fa-external-link-alt"></i>
                             </a><br>';
                         }
 
                         $infos = json_decode($row->last_follow_up_additional_info, true);
-                        
+
                         if (!empty($infos)) {
                             foreach ($infos as $key => $value) {
-                                $html .= $key .' : '.$value.'<br>';
+                                $html .= $key . ' : ' . $value . '<br>';
                             }
                         }
 
-                      return $html ;  
+                        return $html;
                     })
                     ->orderColumn('last_follow_up', function ($query, $order) {
                         $query->orderBy('last_follow_up', $order);
                     })
-                    ->addColumn('upcoming_follow_up', function($row) {
+                    ->addColumn('upcoming_follow_up', function ($row) {
                         $html = '';
 
                         if (!empty($row->upcoming_follow_up)) {
                             $html .= $this->commonUtil->format_date($row->upcoming_follow_up, true);
-                            $html .= '<br><a href="'.action('\Modules\Crm\Http\Controllers\ScheduleController@show', ['follow_up' => $row->upcoming_follow_up_id]).'" target="_blank" title="'.__("crm::lang.view_follow_up").'" data-toggle="tooltip">
+                            $html .= '<br><a href="' . action('\Modules\Crm\Http\Controllers\ScheduleController@show', ['follow_up' => $row->upcoming_follow_up_id]) . '" target="_blank" title="' . __("crm::lang.view_follow_up") . '" data-toggle="tooltip">
                                 <i class="fas fa-external-link-alt"></i>
                             </a><br>';
                         }
 
-                        $html .= '<a href="#" data-href="'.action('\Modules\Crm\Http\Controllers\ScheduleController@create', ["schedule_for"=>"lead", "contact_id"=>$row->id]).'" class="btn-modal btn btn-xs btn-primary" data-container=".schedule">
-                            <i class="fas fa-plus"></i>'.
-                            __("crm::lang.add_schedule").'
+                        $html .= '<a href="#" data-href="' . action('\Modules\Crm\Http\Controllers\ScheduleController@create', ["schedule_for" => "lead", "contact_id" => $row->id]) . '" class="btn-modal btn btn-xs btn-primary" data-container=".schedule">
+                            <i class="fas fa-plus"></i>' .
+                            __("crm::lang.add_schedule") . '
                         </a><br>';
 
                         $infos = json_decode($row->upcoming_follow_up_additional_info, true);
-                        
+
                         if (!empty($infos)) {
                             foreach ($infos as $key => $value) {
-                                $html .= $key .' : '.$value.'<br>';
+                                $html .= $key . ' : ' . $value . '<br>';
                             }
                         }
 
-                      return $html ;  
+                        return $html;
                     })
                     ->orderColumn('upcoming_follow_up', function ($query, $order) {
                         $query->orderBy('upcoming_follow_up', $order);
@@ -195,9 +195,9 @@ class LeadController extends Controller
                         $html = '&nbsp;';
                         foreach ($row->leadUsers as $leadUser) {
                             if (isset($leadUser->media->display_url)) {
-                                $html .= '<img class="user_avatar" src="'.$leadUser->media->display_url.'" data-toggle="tooltip" title="'.$leadUser->user_full_name.'">';
+                                $html .= '<img class="user_avatar" src="' . $leadUser->media->display_url . '" data-toggle="tooltip" title="' . $leadUser->user_full_name . '">';
                             } else {
-                                $html .= '<img class="user_avatar" src="https://ui-avatars.com/api/?name='.$leadUser->first_name.'" data-toggle="tooltip" title="'.$leadUser->user_full_name.'">';
+                                $html .= '<img class="user_avatar" src="https://ui-avatars.com/api/?name=' . $leadUser->first_name . '" data-toggle="tooltip" title="' . $leadUser->user_full_name . '">';
                             }
                         }
 
@@ -205,14 +205,14 @@ class LeadController extends Controller
                     })
                     ->removeColumn('id')
                     ->filterColumn('address', function ($query, $keyword) {
-                        $query->where( function($q) use ($keyword){
+                        $query->where(function ($q) use ($keyword) {
                             $q->where('address_line_1', 'like', "%{$keyword}%")
-                            ->orWhere('address_line_2', 'like', "%{$keyword}%")
-                            ->orWhere('city', 'like', "%{$keyword}%")
-                            ->orWhere('state', 'like', "%{$keyword}%")
-                            ->orWhere('country', 'like', "%{$keyword}%")
-                            ->orWhere('zip_code', 'like', "%{$keyword}%")
-                            ->orWhereRaw("CONCAT(COALESCE(address_line_1, ''), ', ', COALESCE(address_line_2, ''), ', ', COALESCE(city, ''), ', ', COALESCE(state, ''), ', ', COALESCE(country, '') ) like ?", ["%{$keyword}%"]);
+                                ->orWhere('address_line_2', 'like', "%{$keyword}%")
+                                ->orWhere('city', 'like', "%{$keyword}%")
+                                ->orWhere('state', 'like', "%{$keyword}%")
+                                ->orWhere('country', 'like', "%{$keyword}%")
+                                ->orWhere('zip_code', 'like', "%{$keyword}%")
+                                ->orWhereRaw("CONCAT(COALESCE(address_line_1, ''), ', ', COALESCE(address_line_2, ''), ', ', COALESCE(city, ''), ', ', COALESCE(state, ''), ', ', COALESCE(country, '') ) like ?", ["%{$keyword}%"]);
                         });
                     })
                     ->rawColumns(['action', 'crm_source', 'crm_life_stage', 'leadUsers', 'last_follow_up', 'upcoming_follow_up', 'created_at', 'name'])
@@ -230,14 +230,14 @@ class LeadController extends Controller
                         $crm_leads[strval($key)] = $leads[$key];
                     }
                 }
-                
+
                 $leads_html = [];
                 foreach ($crm_leads as $key => $leads) {
                     //get all the leads for particular board(life stage)
                     $cards = [];
                     foreach ($leads as $lead) {
                         $edit = action('\Modules\Crm\Http\Controllers\LeadController@edit', ['lead' => $lead->id]);
-                        
+
                         $delete = action('\Modules\Crm\Http\Controllers\LeadController@destroy', ['lead' => $lead->id]);
 
                         $view = action('\Modules\Crm\Http\Controllers\LeadController@show', ['lead' => $lead->id]);
@@ -249,24 +249,24 @@ class LeadController extends Controller
                                 if (isset($member->media->display_url)) {
                                     $assigned_to[$member->user_full_name] = $member->media->display_url;
                                 } else {
-                                    $assigned_to[$member->user_full_name] = "https://ui-avatars.com/api/?name=".$member->first_name;
+                                    $assigned_to[$member->user_full_name] = "https://ui-avatars.com/api/?name=" . $member->first_name;
                                 }
                             }
                         }
 
                         $cards[] = [
-                                'id' => $lead->id,
-                                'title' => $lead->name,
-                                'viewUrl' => $view,
-                                'editUrl' => $edit,
-                                'editUrlClass' => 'edit_lead',
-                                'deleteUrl' => $delete,
-                                'deleteUrlClass' => 'delete_a_lead',
-                                'assigned_to' => $assigned_to,
-                                'hasDescription' => false,
-                                'tags' => [$lead->Source->name ?? ''],
-                                'dragTo' => $board_draggable_to
-                            ];
+                            'id' => $lead->id,
+                            'title' => $lead->name,
+                            'viewUrl' => $view,
+                            'editUrl' => $edit,
+                            'editUrlClass' => 'edit_lead',
+                            'deleteUrl' => $delete,
+                            'deleteUrlClass' => 'delete_a_lead',
+                            'assigned_to' => $assigned_to,
+                            'hasDescription' => false,
+                            'tags' => [$lead->Source->name ?? ''],
+                            'dragTo' => $board_draggable_to
+                        ];
                     }
 
 
@@ -333,7 +333,7 @@ class LeadController extends Controller
         }
 
         try {
-            $input = $request->only(['type', 'prefix', 'first_name', 'middle_name', 'last_name','tax_number', 'mobile', 'landline', 'alternate_number', 'city', 'state', 'country', 'landmark', 'contact_id', 'custom_field1', 'custom_field2', 'custom_field3', 'custom_field4', 'custom_field5', 'custom_field6', 'custom_field7', 'custom_field8', 'custom_field9', 'custom_field10', 'email', 'crm_source', 'crm_life_stage', 'dob', 'address_line_1', 'address_line_2', 'zip_code', 'supplier_business_name', 'shipping_custom_field_details']);
+            $input = $request->only(['type', 'prefix', 'first_name', 'middle_name', 'last_name', 'tax_number', 'mobile', 'landline', 'alternate_number', 'city', 'state', 'country', 'landmark', 'contact_id', 'custom_field1', 'custom_field2', 'custom_field3', 'custom_field4', 'custom_field5', 'custom_field6', 'custom_field7', 'custom_field8', 'custom_field9', 'custom_field10', 'email', 'crm_source', 'crm_life_stage', 'dob', 'address_line_1', 'address_line_2', 'zip_code', 'supplier_business_name', 'shipping_custom_field_details']);
 
             $input['name'] = implode(' ', [$input['prefix'], $input['first_name'], $input['middle_name'], $input['last_name']]);
 
@@ -362,16 +362,17 @@ class LeadController extends Controller
                 $this->moduleUtil->getModuleData('after_contact_saved', ['contact' => $contact, 'input' => $request->input()]);
             }
 
-            $output = ['success' => true,
-                      'msg' => __("contact.added_success")
-                  ];
-
+            $output = [
+                'success' => true,
+                'msg' => __("contact.added_success")
+            ];
         } catch (\Exception $e) {
-            \Log::emergency("File:" . $e->getFile(). "Line:" . $e->getLine(). "Message:" . $e->getMessage());
-            
-            $output = ['success' => false,
-                            'msg' =>__("messages.something_went_wrong")
-                        ];
+            \Log::emergency("File:" . $e->getFile() . "Line:" . $e->getLine() . "Message:" . $e->getMessage());
+
+            $output = [
+                'success' => false,
+                'msg' => __("messages.something_went_wrong")
+            ];
         }
 
         return $output;
@@ -393,11 +394,11 @@ class LeadController extends Controller
         }
 
         $query = CrmContact::with('leadUsers', 'Source', 'lifeStage')
-                    ->where('business_id', $business_id);
+            ->where('business_id', $business_id);
 
         if (!$can_access_all_leads && $can_access_own_leads) {
-            $query->where( function($qry) {
-                $qry->whereHas('leadUsers', function($q){
+            $query->where(function ($qry) {
+                $qry->whereHas('leadUsers', function ($q) {
                     $q->where('user_id', auth()->user()->id);
                 })->orWhere('created_by', auth()->user()->id);
             });
@@ -427,13 +428,13 @@ class LeadController extends Controller
             abort(403, 'Unauthorized action.');
         }
 
-        
+
         $query = CrmContact::with('leadUsers')
-                    ->where('business_id', $business_id);
+            ->where('business_id', $business_id);
 
         if (!$can_access_all_leads && $can_access_own_leads) {
-            $query->where( function($qry) {
-                $qry->whereHas('leadUsers', function($q){
+            $query->where(function ($qry) {
+                $qry->whereHas('leadUsers', function ($q) {
                     $q->where('user_id', auth()->user()->id);
                 })->orWhere('created_by', auth()->user()->id);
             });
@@ -446,7 +447,7 @@ class LeadController extends Controller
 
         $types['lead'] = __('crm::lang.lead');
         $update_action = action('\Modules\Crm\Http\Controllers\LeadController@update', ['lead' => $id]);
-        
+
         return view('contact.edit')
             ->with(compact('contact', 'types', 'update_action', 'sources', 'life_stages', 'users'));
     }
@@ -468,8 +469,8 @@ class LeadController extends Controller
         }
 
         try {
-            
-            $input = $request->only(['type', 'prefix','first_name', 'middle_name', 'last_name','tax_number', 'mobile', 'landline', 'alternate_number', 'city', 'state', 'country', 'landmark', 'contact_id', 'custom_field1', 'custom_field2', 'custom_field3', 'custom_field4', 'custom_field5', 'custom_field6', 'custom_field7', 'custom_field8', 'custom_field9', 'custom_field10', 'email', 'crm_source', 'crm_life_stage', 'dob', 'address_line_1', 'address_line_2', 'zip_code', 'supplier_business_name', 'shipping_custom_field_details', 'export_custom_field_1', 'export_custom_field_2', 'export_custom_field_3', 'export_custom_field_4', 'export_custom_field_5', 'export_custom_field_6']);
+
+            $input = $request->only(['type', 'prefix', 'first_name', 'middle_name', 'last_name', 'tax_number', 'mobile', 'landline', 'alternate_number', 'city', 'state', 'country', 'landmark', 'contact_id', 'custom_field1', 'custom_field2', 'custom_field3', 'custom_field4', 'custom_field5', 'custom_field6', 'custom_field7', 'custom_field8', 'custom_field9', 'custom_field10', 'email', 'crm_source', 'crm_life_stage', 'dob', 'address_line_1', 'address_line_2', 'zip_code', 'supplier_business_name', 'shipping_custom_field_details', 'export_custom_field_1', 'export_custom_field_2', 'export_custom_field_3', 'export_custom_field_4', 'export_custom_field_5', 'export_custom_field_6']);
 
             $input['name'] = implode(' ', [$input['prefix'], $input['first_name'], $input['middle_name'], $input['last_name']]);
 
@@ -491,13 +492,13 @@ class LeadController extends Controller
                 'success' => true,
                 'msg' => __('lang_v1.success')
             ];
-            
         } catch (\Exception $e) {
-            \Log::emergency("File:" . $e->getFile(). "Line:" . $e->getLine(). "Message:" . $e->getMessage());
-            
-            $output = ['success' => false,
-                            'msg' =>__("messages.something_went_wrong")
-                        ];
+            \Log::emergency("File:" . $e->getFile() . "Line:" . $e->getLine() . "Message:" . $e->getMessage());
+
+            $output = [
+                'success' => false,
+                'msg' => __("messages.something_went_wrong")
+            ];
         }
 
         return $output;
@@ -523,8 +524,8 @@ class LeadController extends Controller
                 $query = CrmContact::where('business_id', $business_id);
 
                 if (!$can_access_all_leads && $can_access_own_leads) {
-                    $query->where( function($qry) {
-                        $qry->whereHas('leadUsers', function($q){
+                    $query->where(function ($qry) {
+                        $qry->whereHas('leadUsers', function ($q) {
                             $q->where('user_id', auth()->user()->id);
                         })->orWhere('created_by', auth()->user()->id);
                     });
@@ -532,17 +533,18 @@ class LeadController extends Controller
                 $contact = $query->findOrFail($id);
 
                 $contact->delete();
-                
+
                 $output = [
                     'success' => true,
                     'msg' => __('lang_v1.success')
                 ];
             } catch (\Exception $e) {
-                \Log::emergency("File:" . $e->getFile(). "Line:" . $e->getLine(). "Message:" . $e->getMessage());
-            
-                $output = ['success' => false,
-                            'msg' => __("messages.something_went_wrong")
-                        ];
+                \Log::emergency("File:" . $e->getFile() . "Line:" . $e->getLine() . "Message:" . $e->getMessage());
+
+                $output = [
+                    'success' => false,
+                    'msg' => __("messages.something_went_wrong")
+                ];
             }
 
             return $output;
@@ -559,7 +561,7 @@ class LeadController extends Controller
         if (request()->ajax()) {
             try {
                 $contact = CrmContact::where('business_id', $business_id)->findOrFail($id);
-                
+
                 $contact->type = 'customer';
                 $contact->converted_by = auth()->user()->id;
                 $contact->converted_on = \Carbon::now();
@@ -568,17 +570,18 @@ class LeadController extends Controller
                 $customer = Contact::find($contact->id);
 
                 $this->commonUtil->activityLog($customer, 'converted', null, ['update_note' => __('crm::lang.converted_from_leads')]);
-                
+
                 $output = [
                     'success' => true,
                     'msg' => __('lang_v1.success')
                 ];
             } catch (\Exception $e) {
-                \Log::emergency("File:" . $e->getFile(). "Line:" . $e->getLine(). "Message:" . $e->getMessage());
-            
-                $output = ['success' => false,
-                            'msg' => __("messages.something_went_wrong")
-                        ];
+                \Log::emergency("File:" . $e->getFile() . "Line:" . $e->getLine() . "Message:" . $e->getMessage());
+
+                $output = [
+                    'success' => false,
+                    'msg' => __("messages.something_went_wrong")
+                ];
             }
 
             return $output;
@@ -595,20 +598,21 @@ class LeadController extends Controller
         if (request()->ajax()) {
             try {
                 $contact = CrmContact::where('business_id', $business_id)->findOrFail($id);
-                
+
                 $contact->crm_life_stage = request()->input('crm_life_stage');
                 $contact->save();
-                
+
                 $output = [
                     'success' => true,
                     'msg' => __('lang_v1.success')
                 ];
             } catch (\Exception $e) {
-                \Log::emergency("File:" . $e->getFile(). "Line:" . $e->getLine(). "Message:" . $e->getMessage());
-            
-                $output = ['success' => false,
-                            'msg' => __("messages.something_went_wrong")
-                        ];
+                \Log::emergency("File:" . $e->getFile() . "Line:" . $e->getLine() . "Message:" . $e->getMessage());
+
+                $output = [
+                    'success' => false,
+                    'msg' => __("messages.something_went_wrong")
+                ];
             }
 
             return $output;
