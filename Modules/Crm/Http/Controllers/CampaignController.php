@@ -735,6 +735,32 @@ class CampaignController extends Controller
         }
     }
 
+    public function campaignApplicantList($id)
+    {
+        $business_id = request()->session()->get('user.business_id');
+        $data['campaign_applicant_lists'] = LeadCampaignDetails::where('business_id', $business_id)
+            ->where('crm_campaign_id', $id)
+            ->with('user')
+            ->get();
+
+        $data['campaign_name'] = Campaign::find($id)->name;
+
+        return view('crm::campaign.campaign_applicant_list', $data);
+    }
+
+    public function campaignApplicantDetails($id)
+    {
+        $business_id = request()->session()->get('user.business_id');
+
+        $data['campaign_applicant_details'] = LeadCampaignDetails::where('business_id', $business_id)
+            ->where('id', $id)
+            ->with('user')
+            ->first();
+
+        return $data;
+        return view('crm::campaign.campaign_applicant_details', $data);
+    }
+
     public function fileUpload($file, $path)
     {
         if (!empty($file)) {

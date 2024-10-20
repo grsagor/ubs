@@ -104,6 +104,12 @@
                                                             <i class="fas fa-copy"></i> Copy
                                                         </a>
                                                     </li>
+
+                                                    <li>
+                                                        <a href="{{ route('campaignApplicantList', $item->id) }}">
+                                                            <i class="fas fa-list"></i> Leads
+                                                        </a>
+                                                    </li>
                                                 @endif
 
                                                 <li>
@@ -120,6 +126,7 @@
                                                         </a>
                                                     </li>
                                                 @endif
+
 
                                                 {{-- <li>
                                                     <a class="text-danger" href="#"
