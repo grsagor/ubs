@@ -229,21 +229,6 @@
                             <label style="margin-bottom: 10px;">Select the information you need from leads:</label>
                             <div class="form-group">
                                 <div style="margin-bottom: 10px;">
-                                    <input type="checkbox" class="input-icheck" name="checkbox_name" checked>
-                                    <label style="margin-right: 20px;">Name</label>
-
-                                    <input type="checkbox" class="input-icheck" name="checkbox_phone" checked>
-                                    <label style="margin-right: 20px;">Phone</label>
-
-                                    <input type="checkbox" class="input-icheck" name="checkbox_email" checked>
-                                    <label style="margin-right: 20px;">Email</label>
-
-                                    <input type="checkbox" class="input-icheck" name="checkbox_current_address">
-                                    <label style="margin-right: 20px;">Current address</label>
-
-                                    <input type="checkbox" class="input-icheck" name="checkbox_origin">
-                                    <label style="margin-right: 20px;">Origin</label>
-
                                     <input type="checkbox" class="input-icheck" name="checkbox_education">
                                     <label style="margin-right: 20px;">Education</label>
 

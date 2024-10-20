@@ -170,11 +170,6 @@ class CampaignController extends Controller
 
                 'business_location_id',
                 'promoted_id',
-                'checkbox_name',
-                'checkbox_phone',
-                'checkbox_email',
-                'checkbox_current_address',
-                'checkbox_origin',
                 'checkbox_education',
                 'checkbox_experience',
                 'checkbox_cv'
@@ -210,11 +205,6 @@ class CampaignController extends Controller
 
             if ($input['campaign_type'] == 'lead_generation') {
                 $input['info_from_customer'] = json_encode([
-                    "checkbox_name" => $request->input('checkbox_name') === 'on' ? "1" : null,
-                    "checkbox_phone" => $request->input('checkbox_phone') === 'on' ? "1" : null,
-                    "checkbox_email" => $request->input('checkbox_email') === 'on' ? "1" : null,
-                    "checkbox_current_address" => $request->input('checkbox_current_address') === 'on' ? "1" : null,
-                    "checkbox_origin" => $request->input('checkbox_origin') === 'on' ? "1" : null,
                     "checkbox_education" => $request->input('checkbox_education') === 'on' ? "1" : null,
                     "checkbox_experience" => $request->input('checkbox_experience') === 'on' ? "1" : null,
                     "checkbox_cv" => $request->input('checkbox_cv') === 'on' ? "1" : null,
@@ -650,9 +640,6 @@ class CampaignController extends Controller
                 $requestedData['additional_files'] = !empty($additionalFilesData) ? json_encode($additionalFilesData, JSON_PRETTY_PRINT) : null;
             }
 
-
-
-
             // CV upload
             if ($request->has('cv')) {
                 $uploadData = $this->fileUpload($request->file('cv'), 'uploads/lead_campaign_details/');
@@ -684,44 +671,52 @@ class CampaignController extends Controller
             $contact_id = $commonUtil->generateReferenceNumber('contacts', $ref_count, $campaign->business_id);
             // Generate contact id end
 
-            // Insert user and return the created instance
-            $user = User::create([
-                'user_type' => 'user_customer',
-                'first_name' => $request->name ?? null,
-                'username' => $request->email ?? null,
-                'email' => $request->email ?? null,
-                'password' => Hash::make($request->email ?? null),
-                'contact_no' => $request->phone ?? null,
-                'contact_number' => $request->phone ?? null,
-                'current_address' => $request->current_address ?? null,
-                'business_id' => $campaign->business_id,
-                'allow_login' => 1,
-                'status' => 'active',
-            ]);
+
+            $existing_user = User::where('email', $request->email)->first();
+
+            if (!$existing_user) {
+                // Insert user and return the created instance
+                $user = User::create([
+                    'user_type' => 'user_customer',
+                    'first_name' => $request->name ?? null,
+                    'username' => $request->email ?? null,
+                    'email' => $request->email ?? null,
+                    'password' => Hash::make($request->email ?? null),
+                    'contact_no' => $request->phone ?? null,
+                    'contact_number' => $request->phone ?? null,
+                    'current_address' => $request->current_address ?? null,
+                    'business_id' => $campaign->business_id,
+                    'allow_login' => 1,
+                    'status' => 'active',
+                ]);
+            }
 
             // Insert contact using the created user's ID
             $contact = CrmContact::create([
                 'business_id' => $campaign->business_id,
-                'user_id' => $user->id, // Access user ID here
+                'user_id' => $existing_user->id ?? $user->id, // Access user ID here
                 'type' => 'lead',
                 'name' => $request->name ?? null,
                 'mobile' => $request->phone ?? null,
                 'email' => $request->email ?? null,
                 'contact_id' => $contact_id,
                 'contact_status' => 'active',
-                'created_by' => auth()->user()->id ?? $user->id,
+                'created_by' => auth()->check() ? auth()->user()->id : ($user->id ?? $existing_user->id),
                 'country' => $request->birth_country ?? null,
                 'address_line_1' => $request->current_address ?? null,
             ]);
 
             // Update the 'crm_contact_id' in the user table with the created contact's ID
-            $user->update([
-                'crm_contact_id' => $contact->id, // Update with the contact's ID
-            ]);
+            if (!$existing_user) {
+                $user->update([
+                    'crm_contact_id' => $contact->id, // Update with the contact's ID
+                ]);
+            }
 
             // Add the user and contact IDs to the requested data
-            $requestedData['user_id'] = $user->id;
+            $requestedData['user_id'] = $existing_user->id ?? $user->id;
             $requestedData['contacts_id'] = $contact->id;
+            $requestedData['business_id'] = $campaign->business_id;
 
             // dd($requestedData);
             // Create the LeadCampaignDetails record with the additional data

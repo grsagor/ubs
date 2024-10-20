@@ -265,7 +265,7 @@ Route::middleware(['setData'])->group(function () {
         ->name('confirm_payment');
 
     // Check email
-    Route::post('/check-email', [UserController::class, 'checkEmail'])->name('check.email');
+    Route::post('/check-email-for-contact', [UserController::class, 'checkEmailForContact'])->name('check.email.for.contact');
 });
 
 //Routes for authenticated users only

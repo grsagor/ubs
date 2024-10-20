@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Media;
 use App\User;
+use App\Media;
+use App\Contact;
 use App\Utils\ModuleUtil;
 use Illuminate\Http\Request;
+use Modules\Crm\Entities\Campaign;
 use Illuminate\Support\Facades\Hash;
+use Modules\Crm\Entities\CrmContact;
+use Modules\Crm\Entities\LeadCampaignDetails;
 
 class UserController extends Controller
 {
@@ -171,17 +175,20 @@ class UserController extends Controller
         return redirect('user/profile')->with('status', $output);
     }
 
-    public function checkEmail(Request $request)
+    public function checkEmailForContact(Request $request)
     {
-        $exists = User::where('email', $request->email)->exists();
+        $campaign_business_id = Campaign::where('id', $request->crm_campaign_id)->value('business_id'); // Get only the business_id
 
-        if ($exists) {
+        $exists_campaign_details = LeadCampaignDetails::where('crm_campaign_id', $request->crm_campaign_id)
+            ->where('email', $request->email)
+            ->where('business_id', $campaign_business_id)
+            ->exists();
+
+        if ($exists_campaign_details) {
             return response()->json([
                 'exists' => true,
-                'message' => 'This email is already taken. Please choose a different one.',
+                'message' => 'You have already submitted this form.',
             ]);
         }
-
-        return response()->json(['exists' => false]);
     }
 }
