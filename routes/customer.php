@@ -84,6 +84,8 @@ Route::group(['middleware' => ['web', 'authh', 'auth', 'SetSessionData', 'langua
     Route::get('{id}/send-campaign-notification', 'CampaignController@sendNotification')->name('sendNotification');
     Route::resource('campaigns', 'CampaignController');
     Route::post('/validate-email', [CampaignController::class, 'validateEmail'])->name('validateEmail');
+    Route::get('/campaign-applicant-list/{id}', [CampaignController::class, 'campaignApplicantList'])->name('campaignApplicantList');
+    Route::get('/campaign-applicant-details/{id}', [CampaignController::class, 'campaignApplicantDetails'])->name('campaignApplicantDetails');
 
     Route::get('dashboard', 'CrmDashboardController@index');
 
