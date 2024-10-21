@@ -192,7 +192,7 @@
         <p class="title_header" style="text-align: center">{{ $campaign->subject }}</p>
         <p class="body_text"> {!! $campaign->email_body ?? '' !!} </p>
 
-        <div class="contact-section">
+        <div class="contact-section" style="text-align: center">
             <a href="#contact" class="contact-button" id="contactButton">Contact</a>
         </div>
     </div>
