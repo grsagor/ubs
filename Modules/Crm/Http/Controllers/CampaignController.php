@@ -751,12 +751,12 @@ class CampaignController extends Controller
     {
         $business_id = request()->session()->get('user.business_id');
 
-        $data['campaign_applicant_details'] = LeadCampaignDetails::where('business_id', $business_id)
+        $data['details'] = LeadCampaignDetails::where('business_id', $business_id)
             ->where('id', $id)
-            ->with('user')
+            ->with(['user', 'contact.country'])
             ->first();
 
-        return $data;
+        // return $data;
         return view('crm::campaign.campaign_applicant_details', $data);
     }
 
