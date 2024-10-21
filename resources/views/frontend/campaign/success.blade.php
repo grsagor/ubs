@@ -42,7 +42,7 @@
     <div class="success-container">
         <h3>Thanks!</h3>
         <h2>Form Submitted Successfully!</h2>
-        <p>A copy of the details has been sent to your email.</p>
+        {{-- <p>A copy of the details has been sent to your email.</p> --}}
     </div>
 
 </body>
