@@ -2863,33 +2863,34 @@ class ProductController extends Controller
 
     public function productShow($slug)
     {
+        // Retrieve authenticated user
         $user = Auth::user();
-        $product = Product::with('unit', 'brand', 'business_location')->Where('slug', $slug)->first();
 
+        // Fetch the product along with its relationships
+        $product = Product::with(['unit', 'brand', 'product_locations'])->where('slug', $slug)->first();
+
+        // If product is not found, return 404 error view
         if (!$product) {
             return view('error.404');
         }
 
-        $data['info'] = $product;
-        $data['user_info'] = Media::where('uploaded_by', $data['info']->user_id)
-            ->where('model_type', 'App\\User')->first();
-        $data['first_image'] = 'https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg';
+        // Prepare data for the view
+        $data = [
+            'info' => $product,
+            'first_image' => 'https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg',
+            'business_location' => $product->product_locations->first(),
+            'othersInfo' => Footer::whereIn('slug', ['contact-us-phone', 'contact-us-email-complain'])
+                ->pluck('description', 'slug')->toArray()
+        ];
 
+        // If user is authenticated, add cart and buying information
         if ($user) {
             $data['cart'] = Cart::where([['user_id', $user->id], ['product_id', $product->id]])->first();
             $data['bought'] = ProductBuyingInfo::where([['user_id', $user->id], ['product_id', $product->id]])->first();
             $data['user'] = $user;
         }
 
-        $location_id = DB::table('product_locations')->where('product_id', $product->id)->value('location_id');
-
-        if ($location_id) {
-            $data['business_data'] = BusinessLocation::findOrFail($location_id);
-        }
-
-        $slugs = ['contact-us-phone', 'contact-us-email-complain'];
-        $data['othersInfo'] = Footer::whereIn('slug', $slugs)->pluck('description', 'slug')->toArray();
-
+        // Return the product details view with the prepared data
         return view('frontend.product.details', $data);
     }
 

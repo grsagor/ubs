@@ -104,7 +104,7 @@
                 @includeIf('repair::layouts.partials.header')
             @endif
 
-            <button type="button" class="btn btn-success btn-flat pull-left btn-sm"
+            <button type="button" class="btn btn-success btn-flat pull-left btn-sm mobile_chat_btn"
                 data-href="{{ route('messages.index') }}"
                 onclick="window.location.href=this.getAttribute('data-href');">
                 <i class="fab fa-facebook-messenger"></i>

@@ -34,13 +34,15 @@
                 </div>
 
                 <div class="box-body" style="overflow-x: scroll;">
-                    <table id="crm_campaign_Table" class="table table-bordered table-striped table-hover">
+                    <table id="crm_campaign_Table" class="table table-bordered table-striped table-hover"
+                        style="min-height: 500px;">
                         <thead>
                             <tr>
                                 <th>No</th>
                                 <th>Campaign Name</th>
                                 <th>Campaign Type</th>
                                 <th>Business Location</th>
+                                <th>Promoter Name</th>
                                 <th>Created at</th>
                                 <th>Created By</th>
                                 <th>Action</th>
@@ -67,6 +69,22 @@
                                         @endif
                                     </td>
                                     <td>{{ $item->businessLocation->name ?? '' }}</td>
+                                    <td>
+                                        @php
+                                            // Get promoter details contact_ids is array of user ids
+                                            $promoter = DB::table('users')
+                                                ->whereIn('id', $item->contact_ids)
+                                                ->select('surname', 'first_name', 'last_name')
+                                                ->first();
+                                        @endphp
+
+                                        @if ($promoter)
+                                            {{ $promoter->surname }} {{ $promoter->first_name }}
+                                            {{ $promoter->last_name }}
+                                        @else
+                                            N/A
+                                        @endif
+                                    </td>
                                     <td>{{ $item->created_at->format('d F Y h:i A') }}</td>
                                     <td>
                                         {{ $item->createdBy->surname }} {{ $item->createdBy->first_name }}

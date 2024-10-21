@@ -88,6 +88,25 @@
     .gap-1 {
         gap: 10px;
     }
+
+    @media (max-width: 768px) {
+        .mobile_chat_btn {
+            margin-top: 10px;
+            margin-right: 8px;
+        }
+
+        .navbar {
+            height: 0px !important;
+        }
+
+        .sidebar-toggle {
+            height: 54px !important;
+        }
+
+        .mobile_info_icon {
+            margin-top: 18px !important;
+        }
+    }
 </style>
 @if (!empty($__system_settings['additional_css']))
     {!! $__system_settings['additional_css'] !!}

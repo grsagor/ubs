@@ -91,20 +91,17 @@
                         </div>
                     </div>
 
-
                     <div class="col-md-4 promoter_div" style="display: none;">
                         <div class="form-group">
-                            {!! Form::label('user_email', __('User Email') . ':*') !!}
+                            {!! Form::label('user_email', __('User Email')) !!}
                             <input type="email" id="user_email" class="form-control" placeholder="Type user email">
                         </div>
                     </div>
 
                     <div class="col-md-4 promoter_div" style="display: none;">
                         <div class="form-group" id="user_name_container">
-                            {!! Form::label('user_name', __('Name') . ':*') !!}
-                            {{-- <input type="text" id="user_name" class="form-control" value="" readonly required> --}}
-
-                            {!! Form::text('user_name', null, ['class' => 'form-control', 'id' => 'user_name', 'readonly', 'required']) !!}
+                            {!! Form::label('user_name', __('Name')) !!}
+                            {!! Form::text('user_name', null, ['class' => 'form-control', 'id' => 'user_name', 'readonly']) !!}
 
                             <!-- Hidden promoter ID field -->
                             <input type="hidden" id="user_id" name="contact_id[]" value="">

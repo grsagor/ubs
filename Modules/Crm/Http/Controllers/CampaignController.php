@@ -543,7 +543,6 @@ class CampaignController extends Controller
     public function campaignDataStore(Request $request)
     {
         try {
-
             $requestedData = [
                 'crm_campaign_id' => $request->crm_campaign_id ?? null,
                 'name' => $request->name ?? null,
@@ -722,12 +721,21 @@ class CampaignController extends Controller
             LeadCampaignDetails::create($requestedData);
 
             DB::commit();
+
+            // Generate a unique token for this submission
+            $token = bin2hex(random_bytes(16)); // Generates a 32-character unique token
+
+            // Store the token in the session (or database if preferred)
+            session(['campaign_success_token' => $token]);
+
+            // Prepare success message output
             $output = [
                 'success' => true,
-                'msg' => ('Inserted Successfully!!!'),
+                'msg' => 'Inserted Successfully!!!',
             ];
 
-            return redirect()->back()->with('status', $output);
+            // Redirect to the success route with the token
+            return redirect()->route('campaign.details.success', ['token' => $token])->with('status', $output);
         } catch (\Illuminate\Validation\ValidationException $e) {
             DB::rollBack();
             return redirect()->back()->withErrors($e->errors())->withInput();
@@ -760,10 +768,24 @@ class CampaignController extends Controller
         return view('crm::campaign.campaign_applicant_details', $data);
     }
 
-    public function success()
+    public function success($token)
     {
-        return view('frontend.campaign.success');
+        // Get the token from the session
+        $storedToken = session('campaign_success_token');
+
+        // Check if the token matches and exists
+        if ($storedToken && $storedToken === $token) {
+            // Invalidate the token after use to prevent reuse
+            session()->forget('campaign_success_token');
+
+            // Display the success page
+            return view('frontend.campaign.success');
+        } else {
+            // If token doesn't match, redirect to an error page 
+            return view('error.404_withoutheader');
+        }
     }
+
 
     public function fileUpload($file, $path)
     {
