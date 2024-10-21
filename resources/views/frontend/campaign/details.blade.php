@@ -180,7 +180,7 @@
 
 <body>
 
-    <header>
+    <header class="mt-20">
         <img src="{{ asset($campaign->businessLocation->logo) }}" alt="Company Logo">
 
         <p class="details" style="font-weight: bold; margin: 10px;">{{ $campaign->businessLocation->name }}</p>
