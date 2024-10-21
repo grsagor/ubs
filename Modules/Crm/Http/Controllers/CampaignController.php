@@ -760,6 +760,11 @@ class CampaignController extends Controller
         return view('crm::campaign.campaign_applicant_details', $data);
     }
 
+    public function success()
+    {
+        return view('frontend.campaign.success');
+    }
+
     public function fileUpload($file, $path)
     {
         if (!empty($file)) {

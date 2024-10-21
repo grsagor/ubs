@@ -217,10 +217,12 @@
                     </div>
                 </div>
 
-                <strong>@lang('lang_v1.available_tags'):</strong>
-                <p class="help-block">
-                    {{ implode(', ', $tags) }}
-                </p>
+                <div class="" id="available_tags">
+                    <strong>@lang('lang_v1.available_tags'):</strong>
+                    <p class="help-block">
+                        {{ implode(', ', $tags) }}
+                    </p>
+                </div>
 
                 <div id="service-component" style="display: none; margin-top: 10px;">
                     <div class="row">
@@ -261,92 +263,96 @@
                 {!! Form::close() !!}
             </div>
         </div>
-    @stop
-    @section('javascript')
-        <script src="{{ asset('modules/crm/js/crm.js?v=' . $asset_v) }}"></script>
-        <script type="text/javascript">
-            $(function() {
+    </section>
+@endsection
+@section('javascript')
+    {{-- This is working in production --}}
+    <script src="{{ asset('modules/crm/js/crm.js?v=' . time()) }}"></script>
+    {{-- This is working in local --}}
+    {{-- <script src="{{ asset('modules/crm/js/crm.js?v=' . $asset_v) }}"></script> --}}
+    <script type="text/javascript">
+        $(function() {
 
-                $('select#to').change(function() {
-                    toggleFieldBasedOnTo($(this).val());
-                });
+            $('select#to').change(function() {
+                toggleFieldBasedOnTo($(this).val());
+            });
 
-                function toggleFieldBasedOnTo(to) {
-                    if (to == 'customer') {
-                        $('div.customer_div').show();
-                        $('div.lead_div').hide();
-                        $('div.transaction_activity_div').hide();
-                        $('div.contact_div').hide();
-                    } else if (to == 'lead') {
-                        $('div.lead_div').show();
-                        $('div.customer_div').hide();
-                        $('div.transaction_activity_div').hide();
-                        $('div.contact_div').hide();
-                    } else if (to == 'transaction_activity') {
-                        $('div.transaction_activity_div').show();
-                        $('div.customer_div').hide();
-                        $('div.lead_div').hide();
-                        $('div.contact_div').hide();
-                    } else if (to == 'contact') {
-                        $('div.contact_div').show();
-                        $('div.transaction_activity_div').hide();
-                        $('div.customer_div').hide();
-                        $('div.lead_div').hide();
-                    } else {
-                        $('div.transaction_activity_div, div.customer_div, div.lead_div, div.contact_div').hide();
-                    }
+            function toggleFieldBasedOnTo(to) {
+                if (to == 'customer') {
+                    $('div.customer_div').show();
+                    $('div.lead_div').hide();
+                    $('div.transaction_activity_div').hide();
+                    $('div.contact_div').hide();
+                } else if (to == 'lead') {
+                    $('div.lead_div').show();
+                    $('div.customer_div').hide();
+                    $('div.transaction_activity_div').hide();
+                    $('div.contact_div').hide();
+                } else if (to == 'transaction_activity') {
+                    $('div.transaction_activity_div').show();
+                    $('div.customer_div').hide();
+                    $('div.lead_div').hide();
+                    $('div.contact_div').hide();
+                } else if (to == 'contact') {
+                    $('div.contact_div').show();
+                    $('div.transaction_activity_div').hide();
+                    $('div.customer_div').hide();
+                    $('div.lead_div').hide();
+                } else {
+                    $('div.transaction_activity_div, div.customer_div, div.lead_div, div.contact_div').hide();
                 }
+            }
 
-                toggleFieldBasedOnTo($('select#to').val());
-            });
-        </script>
+            toggleFieldBasedOnTo($('select#to').val());
+        });
+    </script>
 
-        <script>
-            $(document).ready(function() {
-                $('#user_email').on('input', function(e) {
-                    var email = $(this).val().trim();
+    <script>
+        $(document).ready(function() {
+            $('#user_email').on('input', function(e) {
+                var email = $(this).val().trim();
 
-                    // Check if the input includes a dot and at least one character after it
-                    if (email.includes('.') && email.split('.').pop().length > 0) {
-                        // Proceed with AJAX call
-                        console.log('Input contains a dot, executing AJAX');
-                        $.ajax({
-                            url: '{{ route('validateEmail') }}', // Route to your email validation
-                            method: 'POST',
-                            data: {
-                                email: email,
-                                _token: '{{ csrf_token() }}' // CSRF token for security
-                            },
-                            success: function(response) {
-                                if (response.success) {
-                                    // Email matches exactly, set the user name and user ID
-                                    var user = response.user;
-                                    $('#user_name_container').show();
-                                    $('#user_name').val(user.name); // Set the matched user's name
-                                    $('#user_id').val(user
-                                        .id); // Set the matched user's ID in the hidden field
-                                } else {
-                                    // Hide the user name input if no exact match
-                                    // $('#user_name_container').hide();
-                                    $('#user_name').val(''); // Clear the user name field
-                                    $('#user_id').val(''); // Clear the user ID field
-                                }
+                // Check if the input includes a dot and at least one character after it
+                if (email.includes('.') && email.split('.').pop().length > 0) {
+                    // Proceed with AJAX call
+                    console.log('Input contains a dot, executing AJAX');
+                    $.ajax({
+                        url: '{{ route('validateEmail') }}', // Route to your email validation
+                        method: 'POST',
+                        data: {
+                            email: email,
+                            _token: '{{ csrf_token() }}' // CSRF token for security
+                        },
+                        success: function(response) {
+                            if (response.success) {
+                                // Email matches exactly, set the user name and user ID
+                                var user = response.user;
+                                $('#user_name_container').show();
+                                $('#user_name').val(user.name); // Set the matched user's name
+                                $('#user_id').val(user
+                                    .id); // Set the matched user's ID in the hidden field
+                            } else {
+                                // Hide the user name input if no exact match
+                                // $('#user_name_container').hide();
+                                $('#user_name').val(''); // Clear the user name field
+                                $('#user_id').val(''); // Clear the user ID field
                             }
-                        });
-                    } else if (email.length === 0) {
-                        // If input is empty, hide the user name input
-                        // $('#user_name_container').hide();
-                        $('#user_name').val(''); // Clear the user name field
-                        $('#user_id').val(''); // Clear the user ID field
-                    } else {
-                        // If the input does not meet the criteria, you can hide the container
-                        // $('#user_name_container').hide();    
-                        $('#user_name').val(''); // Clear the user name field
-                        $('#user_id').val(''); // Clear the user ID field
-                    }
-                });
+                        }
+                    });
+                } else if (email.length === 0) {
+                    // If input is empty, hide the user name input
+                    // $('#user_name_container').hide();
+                    $('#user_name').val(''); // Clear the user name field
+                    $('#user_id').val(''); // Clear the user ID field
+                } else {
+                    // If the input does not meet the criteria, you can hide the container
+                    // $('#user_name_container').hide();    
+                    $('#user_name').val(''); // Clear the user name field
+                    $('#user_id').val(''); // Clear the user ID field
+                }
             });
-        </script>
+        });
+    </script>
 
 
-    @endsection
+@endsection

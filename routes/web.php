@@ -228,7 +228,7 @@ Route::middleware(['setData'])->group(function () {
     // Campaign Details for lead generation    
     Route::get('/campaign-details/{short_id}', [CampaignController::class, 'details'])->name('campaign.details');
     Route::post('/campaign-details/', [CampaignController::class, 'campaignDataStore'])->name('campaign.details.store');
-
+    Route::get('/campaign-details-success', [CampaignController::class, 'success'])->name('campaign.details.success');
 
     //Product
     Route::get('/product/list', [ProductController::class, 'productList'])->name('product.list');
