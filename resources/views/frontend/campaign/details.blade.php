@@ -143,7 +143,6 @@
             border-radius: 5px;
         }
 
-        .add-button:hover {}
 
         .delete-button {
             background-color: #dc3545;
@@ -173,9 +172,6 @@
             justify-content: space-between;
         }
 
-        .col-6 {
-            width: 48%;
-        }
 
         h4 {
             text-align: center;
@@ -196,7 +192,7 @@
 <body>
 
     <div class="row justify-content-center mt-20">
-        <div class="col-md-6">
+        <div class="col-md-5">
             <img src="{{ asset($campaign->businessLocation->logo) }}" alt="Company Logo">
 
             <p class="details" style="font-weight: bold; margin: 10px;">{{ $campaign->businessLocation->name }}</p>
@@ -205,15 +201,15 @@
         </div>
     </div>
 
-    <div class="description">
-        <div class="row justify-content-center">
-            <div class="col-md-6">
+    <div class="row justify-content-center">
+        <div class="col-md-5">
+            <div class="description">
                 <p class="title_header" style="text-align: center">{{ $campaign->subject }}</p>
                 <div class="body_text"> {!! $campaign->email_body ?? '' !!} </div>
 
-                <hr style="margin-top: 50px;">
+                <hr class="mt-50">
 
-                <div class="contact-section" style="text-align: center">
+                <div class="contact-section mt-50" style="text-align: center;">
                     <a href="#contact" class="contact-button" id="contactButton">Contact</a>
                 </div>
             </div>
@@ -221,8 +217,8 @@
     </div>
 
     {{-- User information form --}}
-    <div class="row justify-content-center">
-        <div class="col-md-6">
+    <div class="row justify-content-center mt-50">
+        <div class="col-md-5">
             <div class="contact-form" id="contactForm" style="display: none;">
                 <form action="{{ route('campaign.details.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
@@ -234,7 +230,6 @@
                         $checkbox_data = json_decode($campaign->info_from_customer, true); // Decode JSON to array
                         // Debugging output (optional)
                     @endphp
-
 
                     <div class="form-group">
                         <label for="name">Name <span class="text-danger">*</span></label>
@@ -276,7 +271,6 @@
                         </select>
                         <span id="birth_country-error" class="text-danger"></span>
                     </div>
-
 
                     {{-- Education section --}}
                     @if (isset($checkbox_data['checkbox_education']) && $checkbox_data['checkbox_education'] == 1)
@@ -415,7 +409,6 @@
                     <div class="form-group">
                         <textarea name="note" class="form-control" rows="8" placeholder="" style="min-height: 100px;"></textarea>
                     </div>
-
 
                     <div class="text-center">
                         <button type="submit" class="contact-button">Submit</button>
