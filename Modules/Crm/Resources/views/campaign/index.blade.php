@@ -144,8 +144,7 @@
                                                     </li>
                                                 @endif
 
-
-                                                {{-- <li>
+                                                <li>
                                                     <a class="text-danger" href="#"
                                                         onclick="if(confirm('Are You Sure To Delete?')){
                                                                     event.preventDefault();
@@ -162,8 +161,7 @@
                                                         @csrf
                                                         @method('DELETE')
                                                     </form>
-                                                </li> --}}
-
+                                                </li>
                                             </ul>
                                         </div>
                                     </td>
