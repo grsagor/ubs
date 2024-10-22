@@ -54,6 +54,8 @@
         .body_text {
             font-size: 17px;
             line-height: 1.6;
+            margin: 10px;
+            text-align: justify;
         }
 
         .body_text p,
@@ -186,6 +188,12 @@
         .mt-20 {
             margin-top: 20px;
         }
+
+        @media (max-width: 768px) {
+            .contact-button {
+                margin-top: 0px;
+            }
+        }
     </style>
 </head>
 
@@ -197,7 +205,9 @@
 
             <p class="details" style="font-weight: bold; margin: 10px;">{{ $campaign->businessLocation->name }}</p>
             <p class="details">{{ $address }}</p>
-            <hr>
+            <div class="description">
+                <hr>
+            </div>
         </div>
     </div>
 
