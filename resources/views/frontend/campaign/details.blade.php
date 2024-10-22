@@ -19,9 +19,8 @@
         body {
             font-family: Arial, sans-serif;
             margin: 0;
-            padding: 0;
             background-color: #fff;
-            overflow-x: hidden;
+            overflow-x: hidden !important;
         }
 
         img {
@@ -36,11 +35,11 @@
             font-size: 16px;
             margin: 0;
             color: #000;
+            padding: 10px;
             text-align: center;
         }
 
         .description {
-            margin: 10px auto;
             padding: 10px;
         }
 
@@ -74,7 +73,7 @@
             display: inline-block;
             background-color: #333;
             color: white;
-            padding: 2px 7px;
+            padding: 5px 10px;
             text-decoration: none;
             font-size: 18px;
             border-radius: 5px;
@@ -87,7 +86,7 @@
         }
 
         hr {
-            margin: 20px auto;
+            margin: 10px auto;
         }
 
         .contact-form {
@@ -140,7 +139,7 @@
         .add-button {
             display: inline-block;
             color: white;
-            padding: 2px 7px;
+            padding: 5px 10px;
             text-decoration: none;
             border-radius: 5px;
         }
@@ -149,7 +148,7 @@
         .delete-button {
             background-color: #dc3545;
             color: white;
-            padding: 2px 7px;
+            padding: 5px 10px;
             border: none;
             border-radius: 5px;
             cursor: pointer;
@@ -159,21 +158,6 @@
         .delete-button:hover {
             background-color: #c82333;
         }
-
-        .text-danger {
-            color: red;
-            font-size: 14px;
-        }
-
-        .text-center {
-            text-align: center;
-        }
-
-        .row {
-            display: flex;
-            justify-content: space-between;
-        }
-
 
         h4 {
             text-align: center;
@@ -200,7 +184,7 @@
 <body>
 
     <div class="row justify-content-center mt-20">
-        <div class="col-md-5">
+        <div class="col-md-6" style="padding-right: 0px;">
             <img src="{{ asset($campaign->businessLocation->logo) }}" alt="Company Logo">
 
             <p class="details" style="font-weight: bold; margin: 10px;">{{ $campaign->businessLocation->name }}</p>
@@ -208,27 +192,25 @@
             <div class="description">
                 <hr>
             </div>
-        </div>
-    </div>
 
-    <div class="row justify-content-center">
-        <div class="col-md-5">
             <div class="description">
                 <p class="title_header" style="text-align: center">{{ $campaign->subject }}</p>
                 <div class="body_text"> {!! $campaign->email_body ?? '' !!} </div>
 
-                <hr class="mt-50">
+                <hr class="mt-20">
 
                 <div class="contact-section mt-50" style="text-align: center;">
-                    <a href="#contact" class="contact-button" id="contactButton">Contact</a>
+                    <a href="#contact" class="contact-button" id="contactButton"
+                        style="margin-bottom: 100px;">Contact</a>
                 </div>
             </div>
         </div>
     </div>
 
+
     {{-- User information form --}}
     <div class="row justify-content-center mt-50">
-        <div class="col-md-5">
+        <div class="col-md-6" style="padding-right: 0px;">
             <div class="contact-form" id="contactForm" style="display: none;">
                 <form action="{{ route('campaign.details.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
@@ -420,13 +402,15 @@
                         <textarea name="note" class="form-control" rows="8" placeholder="" style="min-height: 100px;"></textarea>
                     </div>
 
-                    <div class="text-center">
+                    <div class="text-center" style="margin-bottom: 80px;">
                         <button type="submit" class="contact-button">Submit</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
+
+
 
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
