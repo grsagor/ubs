@@ -344,8 +344,16 @@ class CampaignController extends Controller
             $contacts[$key] = $customer;
         }
 
+        $business_locations = BusinessLocation::where('business_id', $business_id)
+            ->where('is_active', 1)
+            ->orderByNameAsc()
+            ->get();
+
+        $promoter = User::where('id', $campaign->contact_ids)->first();
+        // return $promoter->email;
+
         return view('crm::campaign.edit')
-            ->with(compact('tags', 'campaign', 'leads', 'customers', 'contacts'));
+            ->with(compact('tags', 'campaign', 'leads', 'customers', 'contacts', 'business_locations', 'promoter'));
     }
 
     /**
@@ -365,13 +373,33 @@ class CampaignController extends Controller
         }
 
         try {
-            $input = $request->only('name', 'campaign_type', 'subject', 'email_body', 'sms_body');
+            $input = $request->only(
+                'name',
+                'campaign_type',
+                'subject',
+                'email_body',
+                'sms_body',
+                'checkbox_education',
+                'checkbox_experience',
+                'checkbox_cv'
+            );
 
             $customers = $request->input('contact_id', []);
             $leads = $request->input('lead_id', []);
             $contacts = $request->input('contact', []); //birthday_wishes
 
             $input['contact_ids'] = array_merge($customers, $leads, $contacts);
+
+            if ($input['campaign_type'] == 'lead_generation') {
+
+                $input['contact_ids'] = [$request['contact_id'][0]];
+
+                $input['info_from_customer'] = json_encode([
+                    "checkbox_education" => $request->input('checkbox_education') === 'on' ? "1" : null,
+                    "checkbox_experience" => $request->input('checkbox_experience') === 'on' ? "1" : null,
+                    "checkbox_cv" => $request->input('checkbox_cv') === 'on' ? "1" : null,
+                ]);
+            }
 
             $input['additional_info'] = [
                 'to' => $request->input('to'),
