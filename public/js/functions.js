@@ -431,6 +431,7 @@ function __print_receipt(section_id = null) {
 
     [].forEach.call(imgs, function (img) {
       img.addEventListener("load", incrementImageCounter, false);
+      img.addEventListener("error", incrementImageCounter, false);
     });
   } else {
     setTimeout(function () {

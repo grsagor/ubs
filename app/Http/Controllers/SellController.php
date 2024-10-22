@@ -539,6 +539,35 @@ class SellController extends Controller
                         ->orWhere('contacts.supplier_business_name', 'like', "%{$keyword}%");
                     });
                 })
+                ->addColumn('customer_name', function ($row) {
+                    $user = User::where('id', $row->created_by)
+                        ->select('username', 'surname', 'first_name', 'last_name')
+                        ->first();
+
+                    if ($user) {
+                        $fullName = trim($user->surname . ' ' . $user->first_name . ' ' . $user->last_name);
+                        if (!empty($fullName)) {
+                            return $fullName;
+                        }
+
+                        if (!empty($user->username)) {
+                            return $user->username;
+                        }
+                    }
+
+                    return "";
+                })
+
+
+                ->addColumn('contact_no', function ($row) {
+                    $user = User::where('id', $row->created_by)->select('contact_no')->first();
+
+                    if (!empty($user->contact_no)) {
+                        return $user->contact_no;
+                    }
+
+                    return "";
+                })
                 ->addColumn('payment_methods', function ($row) use ($payment_types) {
                     $methods = array_unique($row->payment_lines->pluck('method')->toArray());
                     $count = count($methods);
