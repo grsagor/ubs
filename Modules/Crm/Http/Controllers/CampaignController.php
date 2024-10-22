@@ -452,38 +452,38 @@ class CampaignController extends Controller
      */
     public function destroy($id)
     {
-        // $business_id = request()->session()->get('user.business_id');
-        // $can_access_all_campaigns = auth()->user()->can('crm.access_all_campaigns');
-        // $can_access_own_campaigns = auth()->user()->can('crm.access_own_campaigns');
+        $business_id = request()->session()->get('user.business_id');
+        $can_access_all_campaigns = auth()->user()->can('crm.access_all_campaigns');
+        $can_access_own_campaigns = auth()->user()->can('crm.access_own_campaigns');
 
-        // if (!(auth()->user()->can('superadmin') || $this->moduleUtil->hasThePermissionInSubscription($business_id, 'crm_module')) || !($can_access_all_campaigns || $can_access_own_campaigns)) {
-        //     abort(403, 'Unauthorized action.');
-        // }
+        if (!(auth()->user()->can('superadmin') || $this->moduleUtil->hasThePermissionInSubscription($business_id, 'crm_module')) || !($can_access_all_campaigns || $can_access_own_campaigns)) {
+            abort(403, 'Unauthorized action.');
+        }
 
-        // try {
-        //     $query = Campaign::where('business_id', $business_id);
+        try {
+            $query = Campaign::where('business_id', $business_id);
 
-        //     if (!$can_access_all_campaigns && $can_access_own_campaigns) {
-        //         $query->where('created_by', auth()->user()->id);
-        //     }
+            if (!$can_access_all_campaigns && $can_access_own_campaigns) {
+                $query->where('created_by', auth()->user()->id);
+            }
 
-        //     $query->where('id', $id)
-        //         ->delete();
+            $query->where('id', $id)
+                ->delete();
 
-        //     $output = [
-        //         'success' => true,
-        //         'msg' => __('lang_v1.success'),
-        //     ];
+            $output = [
+                'success' => true,
+                'msg' => __('lang_v1.success'),
+            ];
 
-        //     return redirect()->back()->with('status', $output);
-        // } catch (Exception $e) {
-        //     \Log::emergency("File:" . $e->getFile() . "Line:" . $e->getLine() . "Message:" . $e->getMessage());
+            return redirect()->back()->with('status', $output);
+        } catch (Exception $e) {
+            \Log::emergency("File:" . $e->getFile() . "Line:" . $e->getLine() . "Message:" . $e->getMessage());
 
-        //     $output = [
-        //         'success' => false,
-        //         'msg' => __('messages.something_went_wrong')
-        //     ];
-        // }
+            $output = [
+                'success' => false,
+                'msg' => __('messages.something_went_wrong')
+            ];
+        }
     }
 
     public function sendNotification($id)
