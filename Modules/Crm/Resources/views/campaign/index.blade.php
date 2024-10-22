@@ -34,8 +34,7 @@
                 </div>
 
                 <div class="box-body" style="overflow-x: scroll;">
-                    <table id="crm_campaign_Table" class="table table-bordered table-striped table-hover"
-                        style="min-height: 500px;">
+                    <table id="crm_campaign_Table" class="table table-bordered table-striped table-hover">
                         <thead>
                             <tr>
                                 <th>No</th>

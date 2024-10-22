@@ -95,7 +95,7 @@
             margin-right: 8px;
         }
 
-        .navbar {
+        .mobile_navbar_top {
             height: 0px !important;
         }
 

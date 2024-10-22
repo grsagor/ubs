@@ -10,7 +10,8 @@
     </a>
 
     <!-- Header Navbar -->
-    <nav class="navbar navbar-static-top" role="navigation" style="background-color: #0e2c55;background-image:unset;">
+    <nav class="navbar navbar-static-top mobile_navbar_top" role="navigation"
+        style="background-color: #0e2c55;background-image:unset;">
         <!-- Sidebar toggle button-->
         <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
             &#9776;
