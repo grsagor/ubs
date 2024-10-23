@@ -108,6 +108,19 @@
                         </div>
                     </div>
 
+                    <div class="col-md-12" id="video_link_div" style="{{ $campaign->video_link ? '' : 'display: none;' }}">
+                        <div class="form-group">
+                            <label for="">Video Link
+                                <span class="text-secondary" style="color: rgba(139, 139, 139, 0.762)">
+                                    [Supports Youtube and Vimeo]
+                                </span>
+                            </label>
+                            <input type="text" class="form-control" name="video_link" placeholder="Enter video link"
+                                value="{{ old('video_link', $campaign->video_link) }}">
+                        </div>
+                    </div>
+
+
                     <div class="col-md-8 customer_div" style="display: none;">
                         <div class="form-group">
                             {!! Form::label('contact_id', __('lang_v1.customers') . ':*') !!}
