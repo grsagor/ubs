@@ -336,7 +336,7 @@
                                     }
                                 @endphp
 
-                                <div class="price mt-2 mb-2"> &pound; {{ number_format($service_price, 2) }} +
+                                <div class="price mt-2 mb-2"> &pound;{{ number_format($service_price, 2) }} +
                                     {{ $vat }}(VAT)</div>
 
                                 <div class="refund">

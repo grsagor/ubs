@@ -2595,7 +2595,7 @@
                                                                         target="_blank">{{ $product->name }}</a></p>
                                                                 <div class="unit-price d-flex">
                                                                     <h5 class="label mr-2">Price : </h5>
-                                                                    <p>£ {{ $product->price }}</p>
+                                                                    <p>£{{ $product->price }}</p>
                                                                 </div>
                                                                 {{-- <div class="quantity d-flex">
                                                                 <h5 class="label mr-2">Quantity : </h5>
@@ -2645,7 +2645,7 @@
                                                             <a href="javascript:;" data-go="2" data-hide="3"
                                                                 class="mybtn1 mr-3 mb-0 last_back_btn">Back</a>
                                                             <button type="button" id="final-btn"
-                                                                class="btn btn-primary">Cash</button>
+                                                                class="btn btn-primary">Pay Latter</button>
                                                             <button type="button" class="btn btn-primary"
                                                                 id="open_stripe_modal--btn" data-bs-toggle="modal"
                                                                 data-bs-target="#stripeModal">Card</button>
@@ -2776,13 +2776,13 @@
                                             Total MRP
                                         </p>
                                         <p>
-                                            <b class="cart-total">£ {{ $total_price_excluding_tax }}</b>
+                                            <b class="cart-total">£{{ $total_price_excluding_tax }}</b>
                                         </p>
                                     </li>
                                     <li>
                                         <p> Vat </p>
                                         <p>
-                                            <b class="cart-total">£ {{ $total_vat }}</b>
+                                            <b class="cart-total">£{{ $total_vat }}</b>
                                         </p>
                                     </li>
                                     <li class="tax_show  d-none">
@@ -2802,7 +2802,7 @@
                                 <div class="total-price">
                                     <p> Total </p>
                                     <p class="total-cost-dum">
-                                        <span id="total-cost">£ {{ $total_price }}</span>
+                                        <span id="total-cost">£{{ $total_price }}</span>
                                     </p>
                                 </div>
                                 {{-- <div class="cupon-box">
@@ -2864,7 +2864,7 @@
                                 </div> --}}
                                 <div class="final-price">
                                     <span>Final Price :</span>
-                                    <span id="final-cost">£ {{ $total_price }}</span>
+                                    <span id="final-cost">£{{ $total_price }}</span>
                                 </div>
                                 <div class="wallet-price d-none">
                                     <span>Wallet Amount:</span>

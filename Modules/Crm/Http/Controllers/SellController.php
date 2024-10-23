@@ -65,7 +65,7 @@ class SellController extends Controller
                     return $transaction_sell_line->product->name;
                 })
                 ->addColumn('unit_price', function($transaction_sell_line) {
-                    return '£ ' . $transaction_sell_line->product->variations[0]->sell_price_inc_tax;
+                    return '£' . $transaction_sell_line->product->variations[0]->sell_price_inc_tax;
                 })
                 ->addColumn('payment_method', function($transaction_sell_line) {
                     return $transaction_sell_line->transaction->payment_lines[0]->method;
