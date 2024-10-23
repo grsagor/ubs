@@ -35,7 +35,7 @@
             font-size: 16px;
             margin: 0;
             color: #000;
-            padding: 10px;
+            padding: 2px;
             text-align: center;
         }
 
@@ -110,7 +110,6 @@
         input[type="email"],
         input[type="date"],
         input[type="number"],
-        input[type="file"],
         select,
         textarea {
             width: 100%;
@@ -173,6 +172,12 @@
             margin-top: 20px;
         }
 
+
+        .border-1 {
+            border: 1px solid #ccc;
+            padding: 15px 15px 0 15px;
+        }
+
         @media (max-width: 768px) {
             .contact-button {
                 margin-top: 0px;
@@ -187,7 +192,7 @@
         <div class="col-md-6" style="padding-right: 0px;">
             <img src="{{ asset($campaign->businessLocation->logo) }}" alt="Company Logo">
 
-            <p class="details" style="font-weight: bold; margin: 10px;">{{ $campaign->businessLocation->name }}</p>
+            <p class="details" style="font-weight: bold;">{{ $campaign->businessLocation->name }}</p>
             <p class="details">{{ $address }}</p>
             <div class="description">
                 <hr>
@@ -267,7 +272,7 @@
                     {{-- Education section --}}
                     @if (isset($checkbox_data['checkbox_education']) && $checkbox_data['checkbox_education'] == 1)
                         <h4 class="text-center mt-50"><u>Education</u></h4>
-                        <div class="education-group mt-20" style="border: 1px solid #ccc; padding: 15px;">
+                        <div class="education-group mt-20 border-1">
                             <div class="form-group">
                                 <label>Name of education <span class="text-danger">*</span></label>
                                 <input type="text" name="education_name_of_title[]" class="form-control"
@@ -289,10 +294,12 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group" style="margin-bottom: 5px;">
                                 <label for="end_date">Upload File <span class="text-danger">*</span></label>
-                                <input type="file" name="education_file[]" class="form-control"
-                                    accept=".pdf,.docx,.jpeg,.jpg,.png,.heic" required style="margin-bottom: unset;">
+                                <input type="file" name="education_file[]"
+                                    class="form-control form-control-file mb-0"
+                                    accept=".pdf,.docx,.jpeg,.jpg,.png,.heic" required>
+
                                 <span style="color: #878787; font-size: 13px;">Supported file
                                     types: pdf, docx,
                                     jpeg, jpg, png, heic</span>
@@ -312,7 +319,7 @@
                     {{-- Experience section --}}
                     @if (isset($checkbox_data['checkbox_experience']) && $checkbox_data['checkbox_experience'] == 1)
                         <h4 class="text-center mt-50"><u>Experience</u></h4>
-                        <div class="experience-group mt-20" style="border: 1px solid #ccc; padding: 15px;">
+                        <div class="experience-group mt-20 border-1">
                             <div class="form-group">
                                 <label for="name_of_company">Title of experience <span
                                         class="text-danger">*</span></label>
@@ -337,7 +344,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group" style="margin-bottom: 5px;">
                                 <label for="experience_file">Upload File </label>
                                 <input type="file" name="experience_file[]" class="form-control"
                                     accept=".pdf,.docx,.jpeg,.jpg,.png,.heic" style="margin-bottom: unset;">
@@ -358,14 +365,14 @@
 
                     {{-- This is default, do not use any condition --}}
                     <h4 class="text-center mt-50"><u>Add Files</u></h4>
-                    <div class="additional-group mt-20" style="border: 1px solid #ccc; padding: 15px;">
+                    <div class="additional-group mt-20 border-1">
                         <div class="form-group">
                             <label>Title of file</label>
                             <input type="text" name="additional_name_of_title[]" class="form-control"
                                 placeholder="">
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group" style="margin-bottom: 5px;">
                             <label for="additional_file">Upload File </label>
                             <input type="file" name="additional_file[]" class="form-control"
                                 accept=".pdf,.docx,.jpeg,.jpg,.png,.heic" style="margin-bottom: unset;">
