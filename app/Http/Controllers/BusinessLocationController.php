@@ -26,6 +26,7 @@ class BusinessLocationController extends Controller
     protected $businessUtil;
     protected $slug_service;
 
+
     /**
      * Constructor
      *
@@ -185,11 +186,15 @@ class BusinessLocationController extends Controller
                 $input['location_id'] = $this->moduleUtil->generateReferenceNumber('business_location', $ref_count);
             }
 
+
             $location = new BusinessLocation();
 
+            // Create unique slug
             $input['slug'] = $this->slug_service->slug_create($request->name, $location);
 
-            $location->create($input);
+            $location = $location->create($input);
+
+            // $location = BusinessLocation::create($input);
 
             //Create a new permission related to the created location
             Permission::create(['name' => 'location.' . $location->id]);
