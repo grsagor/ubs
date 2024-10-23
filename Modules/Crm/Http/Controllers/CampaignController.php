@@ -70,6 +70,8 @@ class CampaignController extends Controller
             ->latest()
             ->get();
 
+        // return $data['campaigns'];
+
         if (!$can_access_all_campaigns && $can_access_own_campaigns) {
             $data['campaigns']->where('created_by', auth()->user()->id);
         }
@@ -281,8 +283,11 @@ class CampaignController extends Controller
     }
 
     // details only for campaign type lead_generation
-    public function details($short_id)
+    public function details($business_location_slug, $short_id)
     {
+        // $business_location_slug
+        // This parameter is use only for the frontend url
+
         $data['campaign'] = Campaign::with('businessLocation')
             ->where('campaign_type', 'lead_generation')
             ->where('short_id', $short_id)

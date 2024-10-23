@@ -108,24 +108,20 @@
 
                                                 <!-- For lead genaration only it shows in frontend -->
                                                 @if ($item->campaign_type == 'lead_generation')
-                                                    <li>
-                                                        <a href="{{ route('campaign.details', $item->short_id) }}"
-                                                            target="__blank">
-                                                            <i class="fa fa-info-circle"></i> Details
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#" class="copy-link"
-                                                            data-link="{{ route('campaign.details', $item->short_id) }}">
-                                                            <i class="fas fa-copy"></i> Copy
-                                                        </a>
-                                                    </li>
-
-                                                    <li>
-                                                        <a href="{{ route('campaignApplicantList', $item->id) }}">
-                                                            <i class="fas fa-list"></i> Leads
-                                                        </a>
-                                                    </li>
+                                                    @if ($item->businessLocation)
+                                                        <li>
+                                                            <a href="{{ route('campaign.details', [$item->businessLocation->slug, $item->short_id]) }}"
+                                                                target="__blank">
+                                                                <i class="fa fa-info-circle"></i> Details
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#" class="copy-link"
+                                                                data-link="{{ route('campaign.details', [$item->businessLocation->slug, $item->short_id]) }}">
+                                                                <i class="fas fa-copy"></i> Copy
+                                                            </a>
+                                                        </li>
+                                                    @endif
                                                 @endif
 
                                                 <li>
