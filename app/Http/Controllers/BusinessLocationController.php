@@ -12,6 +12,7 @@ use App\Utils\ModuleUtil;
 use App\SellingPriceGroup;
 use App\Utils\BusinessUtil;
 use Illuminate\Http\Request;
+use App\Services\SlugService;
 use GrahamCampbell\ResultType\Success;
 use Spatie\Permission\Models\Permission;
 use Yajra\DataTables\Facades\DataTables;
@@ -23,7 +24,7 @@ class BusinessLocationController extends Controller
     protected $commonUtil;
 
     protected $businessUtil;
-
+    protected $slug_service;
 
     /**
      * Constructor
@@ -31,11 +32,12 @@ class BusinessLocationController extends Controller
      * @param  ModuleUtil  $moduleUtil
      * @return void
      */
-    public function __construct(BusinessUtil $businessUtil, ModuleUtil $moduleUtil, Util $commonUtil)
+    public function __construct(BusinessUtil $businessUtil, ModuleUtil $moduleUtil, Util $commonUtil, SlugService $slug_service)
     {
         $this->moduleUtil = $moduleUtil;
         $this->commonUtil = $commonUtil;
         $this->businessUtil = $businessUtil;
+        $this->slug_service = $slug_service;
     }
 
     /**
@@ -183,7 +185,11 @@ class BusinessLocationController extends Controller
                 $input['location_id'] = $this->moduleUtil->generateReferenceNumber('business_location', $ref_count);
             }
 
-            $location = BusinessLocation::create($input);
+            $location = new BusinessLocation();
+
+            $input['slug'] = $this->slug_service->slug_create($request->name, $location);
+
+            $location->create($input);
 
             //Create a new permission related to the created location
             Permission::create(['name' => 'location.' . $location->id]);
