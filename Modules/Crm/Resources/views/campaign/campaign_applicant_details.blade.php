@@ -238,38 +238,46 @@
                 @endif
 
 
-                @if (!empty($details->cv) && file_exists(public_path($details->cv)))
-                    <h4 style="margin-top: 30px;">Curriculum Vitae</h4>
-                    <ul>
-                        <li>
-                            <span>CV:</span>
-                            @php
-                                // Ensure the file exists before proceeding
-                                $fileExtension = pathinfo($details->cv, PATHINFO_EXTENSION);
-                                $downloadFileName = $details->name . '_Curriculum_Vitae.' . strtolower($fileExtension);
-                            @endphp
 
-                            @if (in_array(strtolower($fileExtension), ['pdf', 'png', 'jpg', 'jpeg', 'heif', 'heic']))
-                                <a href="javascript:void(0)" class="view-btn" data-target="cv-viewer"
-                                    style="color: #007bff;">View</a>
-                            @endif
+                @if (!empty($details->cv))
+                    @php
+                        // Decode the JSON to get the path and original file name
+                        $cvDetails = json_decode($details->cv, true);
+                        $cvPath = $cvDetails['cv_path'] ?? null; // Get the 'cv_path' from the JSON
+                        $cvOriginalFileName = $cvDetails['cv_original_file_name'] ?? 'CV';
+                        $fileExtension = $cvPath ? pathinfo($cvPath, PATHINFO_EXTENSION) : null;
+                        $downloadFileName = $details->name . '_Curriculum_Vitae.' . strtolower($fileExtension);
+                    @endphp
 
-                            <a href="{{ asset($details->cv) }}" download="{{ $downloadFileName }}"
-                                style="color: #007bff; margin-left: 10px;">Download</a>
+                    @if (!empty($cvPath))
+                        <h4 style="margin-top: 30px;">Curriculum Vitae</h4>
+                        <ul>
+                            <li>
+                                <span>CV:</span>
 
-                            <div class="pdf-viewer" id="cv-viewer" style="display: none; margin-top: 10px;">
-                                @if ($fileExtension === 'pdf')
-                                    <embed src="{{ asset($details->cv) }}" type="application/pdf" width="100%"
-                                        height="600px" />
-                                @elseif (in_array(strtolower($fileExtension), ['png', 'jpg', 'jpeg', 'heif', 'heic']))
-                                    <img src="{{ asset($details->cv) }}" style="max-height: 300px; width: auto;" />
-                                @else
-                                    <p>Cannot preview this file type.</p>
+                                @if (in_array(strtolower($fileExtension), ['pdf', 'png', 'jpg', 'jpeg', 'heif', 'heic']))
+                                    <a href="javascript:void(0)" class="view-btn" data-target="cv-viewer"
+                                        style="color: #007bff;">View</a>
                                 @endif
-                            </div>
-                        </li>
-                    </ul>
+
+                                <a href="{{ asset($cvPath) }}" download="{{ $downloadFileName }}"
+                                    style="color: #007bff; margin-left: 10px;">Download</a>
+
+                                <div class="pdf-viewer" id="cv-viewer" style="display: none; margin-top: 10px;">
+                                    @if ($fileExtension === 'pdf')
+                                        <embed src="{{ asset($cvPath) }}" type="application/pdf" width="100%"
+                                            height="600px" />
+                                    @elseif (in_array(strtolower($fileExtension), ['png', 'jpg', 'jpeg', 'heif', 'heic']))
+                                        <img src="{{ asset($cvPath) }}" style="max-height: 300px; width: auto;" />
+                                    @else
+                                        <p>Cannot preview this file type.</p>
+                                    @endif
+                                </div>
+                            </li>
+                        </ul>
+                    @endif
                 @endif
+
 
 
                 @php
