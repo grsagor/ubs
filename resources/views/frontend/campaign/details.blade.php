@@ -140,7 +140,10 @@
             color: white;
             padding: 5px 10px;
             text-decoration: none;
-            border-radius: 5px;
+            border-top-left-radius: unset;
+            border-top-right-radius: unset;
+            border-bottom-left-radius: 5px;
+            border-bottom-right-radius: 5px;
         }
 
 
@@ -178,9 +181,57 @@
             padding: 15px 15px 0 15px;
         }
 
+
+        .video-container {
+            display: flex;
+            justify-content: center;
+            /* Center horizontally */
+            align-items: center;
+            /* Center vertically */
+            flex-direction: column;
+            /* Stack children vertically */
+            margin: 20px 0;
+            /* Add margin for spacing */
+        }
+
+        .video-container iframe {
+            width: 100%;
+            /* Full width for responsiveness */
+            max-width: 560px;
+            /* Maximum width to maintain aspect ratio */
+            height: 315px;
+            /* Fixed height for the iframe */
+        }
+
+
+        .youtube-iframe {
+            width: 100%;
+            /* Full width for responsiveness */
+            max-width: 560px;
+            /* Maximum width to maintain aspect ratio */
+            height: 315px;
+            /* Fixed height for the iframe */
+        }
+
         @media (max-width: 768px) {
             .contact-button {
                 margin-top: 0px;
+            }
+
+            .video-container iframe {
+                height: 200px;
+                /* Adjust height for smaller screens */
+            }
+
+            .youtube-iframe {
+                height: 200px;
+                /* Adjust height for smaller screens */
+                padding: 10px;
+                /* Add padding around the iframe */
+                margin: 0 10px;
+                /* Add margin for better spacing */
+                box-sizing: border-box;
+                /* Include padding and margin in total width */
             }
         }
     </style>
@@ -189,7 +240,7 @@
 <body>
 
     <div class="row justify-content-center mt-20">
-        <div class="col-md-6" style="padding-right: 0px;">
+        <div class="col-md-6">
             <img src="{{ asset($campaign->businessLocation->logo) }}" alt="Company Logo">
 
             <p class="details" style="font-weight: bold;">{{ $campaign->businessLocation->name }}</p>
@@ -198,7 +249,44 @@
                 <hr>
             </div>
 
+            <div class="video-container">
+                @php
+                    // Check if the link is from YouTube
+                    if (
+                        strpos($campaign->video_link, 'youtube') !== false ||
+                        strpos($campaign->video_link, 'youtu.be') !== false
+                    ) {
+                        // Extract YouTube video ID
+                        preg_match('/[?&]v=([^&]+)/', $campaign->video_link, $matches);
+                        $videoId = $matches[1] ?? '';
+                    }
+                    // Check if the link is from Vimeo
+                    elseif (strpos($campaign->video_link, 'vimeo') !== false) {
+                        // Extract Vimeo video ID
+                        preg_match('/vimeo\.com\/(\d+)/', $campaign->video_link, $matches);
+                        $videoId = $matches[1] ?? '';
+                    } else {
+                        $videoId = '';
+                    }
+                @endphp
+
+                @if (strpos($campaign->video_link, 'youtube') !== false && $videoId)
+                    <!-- YouTube Embed -->
+                    <iframe class="youtube-iframe" width="560" height="315"
+                        src="https://www.youtube.com/embed/{{ $videoId }}?modestbranding=1" frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen>
+                    </iframe>
+                @elseif (strpos($campaign->video_link, 'vimeo') !== false && $videoId)
+                    <!-- Vimeo Embed -->
+                    <iframe width="560" height="315" src="https://player.vimeo.com/video/{{ $videoId }}"
+                        frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen>
+                    </iframe>
+                @endif
+            </div>
+
             <div class="description">
+
                 <p class="title_header" style="text-align: center">{{ $campaign->subject }}</p>
                 <div class="body_text"> {!! $campaign->email_body ?? '' !!} </div>
 
@@ -215,7 +303,7 @@
 
     {{-- User information form --}}
     <div class="row justify-content-center mt-50">
-        <div class="col-md-6" style="padding-right: 0px;">
+        <div class="col-md-6">
             <div class="contact-form" id="contactForm" style="display: none;">
                 <form action="{{ route('campaign.details.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf

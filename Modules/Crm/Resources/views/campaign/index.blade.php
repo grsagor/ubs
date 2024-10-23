@@ -122,6 +122,12 @@
                                                             </a>
                                                         </li>
                                                     @endif
+
+                                                    <li>
+                                                        <a href="{{ route('campaignApplicantList', $item->id) }}">
+                                                            <i class="fas fa-list"></i> Leads
+                                                        </a>
+                                                    </li>
                                                 @endif
 
                                                 <li>

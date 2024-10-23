@@ -173,7 +173,8 @@ class CampaignController extends Controller
                 'business_location_id',
                 'checkbox_education',
                 'checkbox_experience',
-                'checkbox_cv'
+                'checkbox_cv',
+                'video_link'
             );
 
             $input['business_id'] = $business_id;
@@ -210,6 +211,8 @@ class CampaignController extends Controller
                     "checkbox_experience" => $request->input('checkbox_experience') === 'on' ? "1" : null,
                     "checkbox_cv" => $request->input('checkbox_cv') === 'on' ? "1" : null,
                 ]);
+
+                $input['video_link'] = $request->input('video_link') ?? NULL;
             }
 
             $campaign = new Campaign();
@@ -386,7 +389,8 @@ class CampaignController extends Controller
                 'sms_body',
                 'checkbox_education',
                 'checkbox_experience',
-                'checkbox_cv'
+                'checkbox_cv',
+                'video_link'
             );
 
             $customers = $request->input('contact_id', []);
@@ -404,6 +408,8 @@ class CampaignController extends Controller
                     "checkbox_experience" => $request->input('checkbox_experience') === 'on' ? "1" : null,
                     "checkbox_cv" => $request->input('checkbox_cv') === 'on' ? "1" : null,
                 ]);
+
+                $input['video_link'] = $request->input('video_link') ?? NULL;
             }
 
             $input['additional_info'] = [
