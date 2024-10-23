@@ -140,7 +140,10 @@
             color: white;
             padding: 5px 10px;
             text-decoration: none;
-            border-radius: 5px;
+            border-top-left-radius: unset;
+            border-top-right-radius: unset;
+            border-bottom-left-radius: 5px;
+            border-bottom-right-radius: 5px;
         }
 
 
