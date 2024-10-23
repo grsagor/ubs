@@ -49,6 +49,6 @@ class Campaign extends Model
     public function businessLocation()
     {
         return $this->belongsTo(BusinessLocation::class, 'business_location_id')
-            ->select('id', 'name', 'logo', 'landmark', 'country', 'city', 'state', 'zip_code');
+            ->select('id', 'name', 'slug', 'logo', 'landmark', 'country', 'city', 'state', 'zip_code');
     }
 }
