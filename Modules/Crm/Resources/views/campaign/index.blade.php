@@ -89,7 +89,6 @@
                                         {{ $item->createdBy->surname }} {{ $item->createdBy->first_name }}
                                         {{ $item->createdBy->last_name }}
                                     </td>
-
                                     <td>
                                         <div class="btn-group">
                                             <button type="button" class="btn btn-info dropdown-toggle btn-xs"

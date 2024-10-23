@@ -86,7 +86,7 @@
                         <div class="form-group">
                             {!! Form::label('user_email', __('User Email')) !!}
                             <input type="email" id="user_email" class="form-control" placeholder="Type user email"
-                                value="{{ $promoter->email ?? null }}">
+                                value="{{ $promoter->email ?? null }}" readonly>
                         </div>
                     </div>
 
