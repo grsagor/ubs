@@ -14,8 +14,7 @@
 
                 <div class="box-body" style="overflow-x: scroll;">
                     <h3 style="margin-bottom: 30px; text-align: center;"> {{ $campaign_name }} </h3>
-                    <table id="crm_campaign_Table" class="table table-bordered table-striped table-hover"
-                        style="min-height: 500px;">
+                    <table id="crm_campaign_Table" class="table table-bordered table-striped table-hover">
                         <thead>
                             <tr>
                                 <th>Form Details</th>
