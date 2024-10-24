@@ -17,7 +17,7 @@
             </div>
 
             <p class="message_area" style="text-align: left;">
-                {!! preg_replace('!https?://\S+!', '<a href="$0" target="_blank">$0</a>', strip_tags($message->message)) !!}
+                {!! nl2br(preg_replace('!https?://\S+!', '<a href="$0" target="_blank">$0</a>', strip_tags($message->message))) !!}
             </p>
 
             @if (!empty($message->image_file))

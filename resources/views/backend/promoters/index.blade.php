@@ -22,23 +22,22 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {{-- @forelse ($news as $item) --}}
-                        {{-- <tr>
-                                <td>{{ $loop->iteration }}</td>
-                                <td>{!! Str::limit($item->title, 80, ' ...') !!}</td>
-                                <td>{{ $item->category->name ?? '' }}</td>
-                                <td>{{ $item->region->name ?? null }}</td>
-                                <td>{{ $item->language->name ?? null }}</td>
+                        @forelse ($users as $item)
+                            <tr>
+                                <td>{{ $item->surname }} {{ $item->first_name }} {{ $item->last_name }}</td>
                                 <td>
-                                    @if (isset($earliestSources[$item->source_url]) && $item->created_at->eq($earliestSources[$item->source_url]))
-                                        Yes
-                                    @else
-                                        No
-                                    @endif
+                                    <a href="{{ route('promoter.campaigns', $item->id) }}">
+                                        {{ $item->campaign_count }}
+                                    </a>
                                 </td>
-                                <td>{{ $item->user->surname }} {{ $item->user->first_name }} {{ $item->user->last_name }}
+                                <td>
+                                    <a href="{{ route('promoter.leads', $item->id) }}">
+                                        {{ $item->lead_campaign_details_count }}
+                                    </a>
                                 </td>
-                                <td>{{ $item->created_at->format('d M Y h:i A') }}</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
                                 <td>
                                     <div class="btn-group">
                                         <button type="button" class="btn btn-info dropdown-toggle btn-xs"
@@ -48,54 +47,68 @@
                                             <span class="sr-only">Toggle Dropdown</span>
                                         </button>
                                         <ul class="dropdown-menu dropdown-menu-right" role="menu">
-                                            @if ($item->status == 2)
-                                                <li>
-                                                    <a href="{{ route('news.show', $item->slug) }}">
-                                                        <i class="glyphicon glyphicon-eye-open"></i> View
-                                                    </a>
-                                                </li>
-                                            @endif
+                                            <li>
+                                                <a href="">
+                                                    <i class="glyphicon glyphicon-eye-open"></i> View
+                                                </a>
+                                            </li>
 
                                             <li>
-                                                <a href="{{ route('shop-news.edit', $item->id) }}">
-                                                    <i class="glyphicon glyphicon-edit"></i> Edit
+                                                <a href="#">
+                                                    <i class="glyphicon glyphicon-edit"></i> Campaigns
                                                 </a>
                                             </li>
                                             <li>
-                                                <a href="{{ route('shop-news.statusChange', $item->id) }}">
-                                                    <i
-                                                        class="fa fa-power-off {{ $item->status == 1 ? 'text-danger' : 'text-success' }}"></i>
-                                                    <span
-                                                        class="{{ $item->status == 1 ? 'text-danger' : 'text-success' }}">
-                                                        {{ $item->status == 1 ? 'Only me' : 'Public' }}
-                                                    </span>
+                                                <a href="#">
+                                                    <i class="glyphicon glyphicon-edit"></i> Leads
                                                 </a>
                                             </li>
                                             <li>
-                                                <form action="{{ route('shop-news.destroy', $item->id) }}" method="post"
-                                                    style="display: none;" id="delete-form-{{ $item->id }}">
-                                                    @csrf
-                                                    @method('Delete')
-                                                </form>
-                                                <a href="#"
-                                                    onclick="if(confirm('Are You Sure To Delete?')) {
-                                                       event.preventDefault();
-                                                       document.getElementById('delete-form-{{ $item->id }}').submit();
-                                                   } else {
-                                                       event.preventDefault();
-                                                   }">
-                                                    <i class="glyphicon glyphicon-trash"></i> Delete
+                                                <a href="#">
+                                                    <i class="glyphicon glyphicon-edit"></i> Earning Details
                                                 </a>
                                             </li>
+                                            <li>
+                                                <a href="#">
+                                                    <i class="glyphicon glyphicon-edit"></i> Pay
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#">
+                                                    <i class="glyphicon glyphicon-edit"></i> Email
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#">
+                                                    <i class="glyphicon glyphicon-edit"></i> Add Lead/Convert to
+                                                    customer/Convert to supplier
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#">
+                                                    <i class="glyphicon glyphicon-edit"></i> Documents
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#">
+                                                    <i class="glyphicon glyphicon-edit"></i> Contracts
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#">
+                                                    <i class="glyphicon glyphicon-edit"></i> Active/Inactive
+                                                </a>
+                                            </li>
+
                                         </ul>
                                     </div>
                                 </td>
-                            </tr> --}}
-                        {{-- @empty
+                            </tr>
+                        @empty
                             <tr>
                                 <td colspan="7" class="text-center">No data available</td>
                             </tr>
-                        @endforelse --}}
+                        @endforelse
 
                     </tbody>
                 </table>

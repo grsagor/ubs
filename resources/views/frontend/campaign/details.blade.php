@@ -241,7 +241,10 @@
 
     <div class="row justify-content-center mt-20">
         <div class="col-md-6">
-            <img src="{{ asset($campaign->businessLocation->logo) }}" alt="Company Logo">
+            <a href="{{ route('shop.service', $campaign->business_location_id) }}" target="_blank">
+                <img src="{{ asset($campaign->businessLocation->logo) }}" alt="Company Logo"
+                    onerror="this.onerror=null; this.src='{{ asset('assets/images/noimage.png') }}';">
+            </a>
 
             <p class="details" style="font-weight: bold;">{{ $campaign->businessLocation->name }}</p>
             <p class="details">{{ $address }}</p>
