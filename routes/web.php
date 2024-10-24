@@ -3,6 +3,7 @@ include 'customer.php';
 
 use App\Http\Controllers\Install;
 use App\Http\Controllers\Restaurant;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\JobController;
 use Illuminate\Support\Facades\Artisan;
@@ -64,6 +65,7 @@ use App\Http\Controllers\DocumentAndNoteController;
 use App\Http\Controllers\ExpenseCategoryController;
 use App\Http\Controllers\StockAdjustmentController;
 use App\Http\Controllers\WithdrawRequestController;
+use App\Http\Controllers\Backend\PromoterController;
 use App\Http\Controllers\BusinessLocationController;
 use App\Http\Controllers\Frontend\CatalogController;
 use App\Http\Controllers\Frontend\ServiceController;
@@ -92,7 +94,6 @@ use App\Http\Controllers\Backend\NewsMarketingCategoryController;
 use App\Http\Controllers\Backend\BusinessLocationCategoryController;
 use App\Http\Controllers\FrontendController as PropertyFrontController;
 use App\Http\Controllers\Frontend\CategoryController as FrontendCategoryController;
-use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -269,6 +270,8 @@ Route::middleware(['setData'])->group(function () {
 //Routes for authenticated users only
 // Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 'AdminSidebarMenu', 'CheckUserLogin'])->group(function () {
 Route::middleware(['checkAdmin', 'SetSessionData'])->group(function () {
+
+    Route::get('/promoters', [PromoterController::class, 'index'])->name('promoters.index');
 
     Route::get('/footer', [FooterController::class, 'index'])->name('footer.index');
     Route::get('/footer/create', [FooterController::class, 'create'])->name('footer.create');

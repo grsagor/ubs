@@ -2,6 +2,7 @@
 
 namespace Modules\Crm\Entities;
 
+use App\User;
 use App\BusinessLocation;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
