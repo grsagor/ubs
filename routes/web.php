@@ -840,8 +840,9 @@ Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone'])
     Route::get('/show-notification/{id}', [HomeController::class, 'showNotification']);
 });
 
-
 // Campaign Details for lead generation    
+// The {business_location_slug} is the slug of the business location and {short_id} is the short id of the campaign
+// Always use this campaign details route at the end of the route otherwise it will conflict with other routes
 Route::get('/{business_location_slug}/{short_id}', [CampaignController::class, 'details'])->name('campaign.details');
 Route::post('/campaign-details/', [CampaignController::class, 'campaignDataStore'])->name('campaign.details.store');
 Route::get('/campaign-details-success/{token}', [CampaignController::class, 'success'])->name('campaign.details.success');
