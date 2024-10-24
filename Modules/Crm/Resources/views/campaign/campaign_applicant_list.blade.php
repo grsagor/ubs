@@ -13,7 +13,12 @@
             <div class="form-container box box-primary">
 
                 <div class="box-body" style="overflow-x: scroll;">
-                    <h3 style="margin-bottom: 30px; text-align: center;"> {{ $campaign_name }} </h3>
+                    <h3 style="margin-bottom: 30px; text-align: center;">
+                        <a href="{{ route('campaign.details', [$campaign->businessLocation->slug, $campaign->short_id]) }}"
+                            target="_blank">
+                            {{ $campaign->subject }}
+                        </a>
+                    </h3>
                     <table id="crm_campaign_Table" class="table table-bordered table-striped table-hover">
                         <thead>
                             <tr>

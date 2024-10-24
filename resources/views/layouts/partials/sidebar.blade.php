@@ -28,8 +28,8 @@
                 </a>
                 <ul class="treeview-menu">
                     <li><a href="{{ route('users.index') }}"><i class="fa fas fa-user"></i> <span>Staffs</span></a></li>
-                    {{-- <li><a href="{{ route('promoters.index') }}"><i class="fa fas fa-user"></i>
-                            <span>Promoters</span></a></li> --}}
+                    <li><a href="{{ route('promoters.index') }}"><i class="fa fas fa-user"></i>
+                            <span>Promoters</span></a></li>
                     <li><a href="{{ route('roles.index') }}"><i class="fa fas fa-briefcase"></i> <span>Roles</span></a>
                     </li>
                     <li><a href="{{ route('sales-commission-agents.index') }}"><i class="fa fas fa-handshake"></i>

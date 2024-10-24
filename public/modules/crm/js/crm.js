@@ -21,6 +21,23 @@ $(document).ready(function () {
         ],
     });
 
+    $('#promoter_campaign_Table').DataTable({
+        paging: true,
+        lengthChange: true,
+        searching: true,
+        ordering: true,
+        info: true,
+        autoWidth: false,
+        responsive: false,
+        pageLength: 10, // Set the initial page length to 10
+        columnDefs: [
+            {
+                orderable: false,
+                targets: 4, // Disable ordering on the Action column
+            },
+        ],
+    });
+
     all_contact_login_datatable = $('#all_contact_login_table').DataTable({
         processing: true,
         serverSide: true,

@@ -38,8 +38,9 @@
                         <thead>
                             <tr>
                                 <th>No</th>
-                                <th>Campaign Name</th>
-                                <th>Campaign Type</th>
+                                <th>Name</th>
+                                <th>Subject</th>
+                                <th>Type</th>
                                 <th>Business Location</th>
                                 <th>Promoter Name</th>
                                 <th>Created at</th>
@@ -57,7 +58,7 @@
                                             <span class="label label-success">Sent</span>
                                         @endif
                                     </td>
-
+                                    <td>{{ $item->subject }}</td>
                                     <td>
                                         @if ($item->campaign_type == 'sms')
                                             SMS
@@ -111,21 +112,21 @@
                                                     @if ($item->businessLocation)
                                                         <li>
                                                             <a href="{{ route('campaign.details', [$item->businessLocation->slug, $item->short_id]) }}"
-                                                                target="__blank">
+                                                                target="_blank">
                                                                 <i class="fa fa-info-circle"></i> Details
                                                             </a>
                                                         </li>
                                                         <li>
                                                             <a href="#" class="copy-link"
                                                                 data-link="{{ route('campaign.details', [$item->businessLocation->slug, $item->short_id]) }}">
-                                                                <i class="fas fa-copy"></i> Copy
+                                                                <i class="fa fa-copy"></i> Copy Link
                                                             </a>
                                                         </li>
                                                     @endif
 
                                                     <li>
                                                         <a href="{{ route('campaignApplicantList', $item->id) }}">
-                                                            <i class="fas fa-list"></i> Leads
+                                                            <i class="fa fa-list"></i> Leads
                                                         </a>
                                                     </li>
                                                 @endif

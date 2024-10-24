@@ -2,7 +2,6 @@
 
 namespace Modules\Crm\Entities;
 
-use App\User;
 use App\BusinessLocation;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -51,5 +50,10 @@ class Campaign extends Model
     {
         return $this->belongsTo(BusinessLocation::class, 'business_location_id')
             ->select('id', 'name', 'slug', 'logo', 'landmark', 'country', 'city', 'state', 'zip_code');
+    }
+
+    public function leadCampaignDetails()
+    {
+        return $this->hasMany(LeadCampaignDetails::class, 'crm_campaign_id');
     }
 }

@@ -787,10 +787,12 @@ class CampaignController extends Controller
         $data['campaign_applicant_lists'] = LeadCampaignDetails::where('business_id', $business_id)
             ->where('crm_campaign_id', $id)
             ->with('user')
+            ->latest()
             ->get();
 
-        $data['campaign_name'] = Campaign::find($id)->name;
+        $data['campaign'] = Campaign::find($id);
 
+        // return $data;
         return view('crm::campaign.campaign_applicant_list', $data);
     }
 

@@ -100,6 +100,7 @@
                                 <input type="file" name="image_file[]" id="file-upload" class="form-control" multiple
                                     accept="image/*,.doc,.docx,.txt,.rtf,.odt,.pdf,.ppt,.pptx,.xls,.xlsx,.csv,.heic,.html,.css,.js,.py,.json"
                                     style="opacity: 0; position: absolute; z-index: -1; width: 0; height: 0;">
+
                                 <label for="file-upload"
                                     style="cursor: pointer; display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; background-color: #007bff; border-radius: 50%;">
                                     <i class="fas fa-paperclip" style="color: #fff; font-size: 18px;"></i>
