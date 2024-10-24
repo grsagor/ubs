@@ -3,6 +3,7 @@ include 'customer.php';
 
 use App\Http\Controllers\Install;
 use App\Http\Controllers\Restaurant;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\JobController;
 use Illuminate\Support\Facades\Artisan;
@@ -64,6 +65,7 @@ use App\Http\Controllers\DocumentAndNoteController;
 use App\Http\Controllers\ExpenseCategoryController;
 use App\Http\Controllers\StockAdjustmentController;
 use App\Http\Controllers\WithdrawRequestController;
+use App\Http\Controllers\Backend\PromoterController;
 use App\Http\Controllers\BusinessLocationController;
 use App\Http\Controllers\Frontend\CatalogController;
 use App\Http\Controllers\Frontend\ServiceController;
@@ -92,7 +94,6 @@ use App\Http\Controllers\Backend\NewsMarketingCategoryController;
 use App\Http\Controllers\Backend\BusinessLocationCategoryController;
 use App\Http\Controllers\FrontendController as PropertyFrontController;
 use App\Http\Controllers\Frontend\CategoryController as FrontendCategoryController;
-use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -225,10 +226,6 @@ Route::middleware(['setData'])->group(function () {
 
     Route::get('/shop/business/service/{id}', [ShopController::class, 'BusinessShopService'])->name('business.shop.service');
 
-    // Campaign Details for lead generation    
-    Route::get('/{business_location_slug}/{short_id}', [CampaignController::class, 'details'])->name('campaign.details');
-    Route::post('/campaign-details/', [CampaignController::class, 'campaignDataStore'])->name('campaign.details.store');
-    Route::get('/campaign-details-success/{token}', [CampaignController::class, 'success'])->name('campaign.details.success');
 
     //Product
     Route::get('/product/list', [ProductController::class, 'productList'])->name('product.list');
@@ -273,6 +270,8 @@ Route::middleware(['setData'])->group(function () {
 //Routes for authenticated users only
 // Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 'AdminSidebarMenu', 'CheckUserLogin'])->group(function () {
 Route::middleware(['checkAdmin', 'SetSessionData'])->group(function () {
+
+    Route::get('/promoters', [PromoterController::class, 'index'])->name('promoters.index');
 
     Route::get('/footer', [FooterController::class, 'index'])->name('footer.index');
     Route::get('/footer/create', [FooterController::class, 'create'])->name('footer.create');
@@ -843,3 +842,10 @@ Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone'])
     Route::get('/sells/invoice-url/{id}', [SellPosController::class, 'showInvoiceUrl']);
     Route::get('/show-notification/{id}', [HomeController::class, 'showNotification']);
 });
+
+// Campaign Details for lead generation    
+// The {business_location_slug} is the slug of the business location and {short_id} is the short id of the campaign
+// Always use this campaign details route at the end of the route otherwise it will conflict with other routes
+Route::get('/{business_location_slug}/{short_id}', [CampaignController::class, 'details'])->name('campaign.details');
+Route::post('/campaign-details/', [CampaignController::class, 'campaignDataStore'])->name('campaign.details.store');
+Route::get('/campaign-details-success/{token}', [CampaignController::class, 'success'])->name('campaign.details.success');
