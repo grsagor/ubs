@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Campaign</title>
 
@@ -14,6 +14,16 @@
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+
+    <meta property="og:title" content="{{ $campaign->subject }}" />
+    <meta property="og:description" content="{{ $campaign->businessLocation->name }}" />
+    <meta property="og:image" content="{{ asset($campaign->businessLocation->logo) }}" />
+    <meta property="og:url"
+        content="{{ route('campaign.details', [$campaign->businessLocation->slug, $campaign->short_id]) }}" />
+    <meta property="og:type" content="website" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <style>
         body {
@@ -239,6 +249,8 @@
 
 <body>
 
+    {{-- {{ dd($campaign->subject, $campaign->businessLocation->name, $campaign->businessLocation->logo) }} --}}
+
     <div class="row justify-content-center mt-20">
         <div class="col-md-6">
             <a href="{{ route('shop.service', $campaign->business_location_id) }}" target="_blank">
@@ -336,8 +348,8 @@
                         <div class="col-md-6 col-sm-12">
                             <div class="form-group">
                                 <label for="email">Email <span class="text-danger">*</span></label>
-                                <input type="email" name="email" id="email" class="form-control" placeholder=""
-                                    required>
+                                <input type="email" name="email" id="email" class="form-control"
+                                    placeholder="" required>
                                 <span id="email-error" class="text-danger"></span>
                             </div>
                         </div>
