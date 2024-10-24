@@ -35,6 +35,8 @@
     <!-- Title logo -->
     <link rel="icon" type="image/x-icon" href="{{ asset('assets/images/title_fav.png') }}" />
 
+    @yield('meta')
+
     @include('layouts.partials.css')
 
     @yield('css')
